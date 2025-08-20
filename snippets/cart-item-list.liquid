@@ -81,7 +81,14 @@ endif
               <div class="{{ class_prefix }}__item-actions">
                 <div class="{{ class_prefix }}__quantity-selector">
                   <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="minus" aria-label="Decrease quantity">－</button>
-                  <span class="{{ class_prefix }}__quantity-value" aria-live="polite">{{ item.quantity }}</span>
+                  <input
+                    type="number"
+                    class="{{ class_prefix }}__quantity-value"
+                    value="{{ item.quantity }}"
+                    min="0"
+                    inputmode="numeric"
+                    aria-label="Quantity"
+                  >
                   <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="plus" aria-label="Increase quantity">＋</button>
                 </div>
               </div>
