@@ -1056,7 +1056,26 @@ ol.product-grid {
 }
 .integrated-quantity__button:hover { background-color: rgba(0, 0, 0, 0.1) !important; }
 .integrated-quantity__text { font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important; font-weight: 700 !important; pointer-events: none !important; flex-grow: 1; text-align: center; font-size: 1rem !important; }
-.integrated-quantity__input { position: absolute !important; opacity: 0 !important; pointer-events: none !important; }
+.integrated-quantity__input {
+  position: absolute !important;
+  top: 0;
+  left: 42px;
+  width: calc(100% - 84px);
+  height: 100%;
+  opacity: 0 !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+  border: none !important;
+  color: inherit !important;
+  font: inherit !important;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+.integrated-quantity__input::-webkit-outer-spin-button,
+.integrated-quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
 
 /* ---- Unchanged Helper and Fallback Styles ---- */
 .product-form--quick-add.is-loading .product-card__add-btn { color: transparent !important; }
