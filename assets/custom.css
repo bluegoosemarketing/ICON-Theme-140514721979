@@ -3171,3 +3171,25 @@ body.quick-view-open {
   }
 }
 
+/* Constrain qty input width in cart sidebar/drawer */
+.cart-drawer__quantity-selector,
+.cart-sidebar__quantity-selector {
+  flex: 0 0 auto !important; /* don't stretch the whole control */
+}
+
+.cart-drawer__quantity-value,
+.cart-sidebar__quantity-value {
+  /* make the input behave like a fixed-size inline block, not a flex item */
+  flex: none !important;
+  display: block !important;
+
+  /* fixed width so the control stays tight */
+  width: 40px !important;
+  min-width: 40px !important;
+  max-width: 40px !important;
+
+  height: 34px !important;     /* match selector height */
+  line-height: 34px !important; /* keeps numbers vertically centered on some browsers */
+  padding: 0 !important;        /* borders already provide separation */
+  box-sizing: border-box !important;
+}
