@@ -39,6 +39,8 @@ class ProductForm extends HTMLElement {
     this.addButton.addEventListener('click', this.onPlusClick.bind(this));
     this.plusButton.addEventListener('click', this.onPlusClick.bind(this));
     this.minusButton.addEventListener('click', this.onMinusClick.bind(this));
+    this.quantityInput.addEventListener('input', this.onQuantityInput.bind(this));
+    this.quantityInput.addEventListener('change', this.onQuantityChange.bind(this));
   }
 
   renderState() {
@@ -72,6 +74,15 @@ class ProductForm extends HTMLElement {
 
     const newQuantity = currentQuantity - 1;
     this.quantityInput.value = newQuantity;
+    this.setLoading(true);
+    this.debouncedUpdateCart();
+  }
+
+  onQuantityInput() {
+    this.renderState();
+  }
+
+  onQuantityChange() {
     this.setLoading(true);
     this.debouncedUpdateCart();
   }
