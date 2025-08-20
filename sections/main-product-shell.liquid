@@ -1,0 +1,25 @@
+{% comment %}
+  Layout shell for product pages to mimic the collection two-column layout.
+  Renders product content in the left column and keeps the cart sidebar on the right.
+{% endcomment %}
+
+<div class="container--collection-page">
+  <div class="collection-page__layout">
+    <main class="collection-page__main">
+      {% section 'product-main-content' %}
+    </main>
+    <aside class="collection-page__sidebar">
+      {% render 'cart-preview-sidebar' %}
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Main product shell",
+  "settings": [],
+  "presets": [
+    {"name": "Main product shell"}
+  ]
+}
+{% endschema %}

@@ -1,0 +1,62 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "d82d5bb8-fbdf-446e-91f0-8285dcf01806": {
+      "type": "image--image-with-text-block",
+      "disabled": true,
+      "settings": {
+        "background_image": "shopify://shop_images/start40banner.webp",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "Try us out!",
+        "title": "Use code: 'START40'",
+        "text": "<p>Use the code at checkout to get 40% off your first order! </p><p><em>*Limit 1 user per customer.</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop Now"
+      }
+    },
+    "1f1cf555-967d-4844-bfb1-9368bb890327": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/start40banner.webp",
+        "layout": "left",
+        "subheading": "Try Us Out!",
+        "title": "Use Code: 'start40'",
+        "text_block": "<p>Use the code at checkout to get 40% off your first order!</p><p><em>*Limit 1 user per customer.</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop Now"
+      }
+    }
+  },
+  "order": [
+    "1649069563be558dae",
+    "main",
+    "d82d5bb8-fbdf-446e-91f0-8285dcf01806",
+    "1f1cf555-967d-4844-bfb1-9368bb890327"
+  ]
+}

@@ -1,0 +1,44 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "ship_safety_HxaP67": {
+      "type": "ship-safety",
+      "name": "Ship & Safety Guide",
+      "settings": {
+        "image_1": "shopify://shop_images/P_Dry-Ice_5.png",
+        "caption_1": "",
+        "image_2": "shopify://shop_images/P_Dry-Ice_3.png",
+        "caption_2": "",
+        "image_3": "shopify://shop_images/P_Dry-Ice_1.png",
+        "caption_3": ""
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "1649069563be558dae",
+    "ship_safety_HxaP67",
+    "main"
+  ]
+}

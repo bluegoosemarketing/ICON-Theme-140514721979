@@ -1,0 +1,261 @@
+{% comment %}
+  Section: The ICON Standard
+  Version: 4.0 (Hero-Aligned Redesign)
+  Purpose: A photo-driven section using the brand's established design language.
+  Fixes: Corrects Liquid error, adopts hero fonts/colors, and standardizes name.
+{% endcomment %}
+
+<div class="standard-section">
+  <div class="page-width">
+    <div class="standard-header">
+      <h2 class="standard-main-title">{{ section.settings.main_title }}</h2>
+    </div>
+
+    <div class="standard-rows">
+      {%- for i in (1..3) -%}
+        {%- assign row_kicker = 'kicker_' | append: i -%}
+        {%- assign row_title = 'title_' | append: i -%}
+        {%- assign row_description = 'description_' | append: i -%}
+        {%- assign row_image = 'image_' | append: i -%}
+
+        <div class="standard-row {% cycle 'standard-row--normal', 'standard-row--reverse' %}">
+          <div class="standard-image">
+            {%- if section.settings[row_image] != blank -%}
+              <img src="{{ section.settings[row_image] | image_url: width: 1200 }}" 
+                   alt="{{ section.settings[row_title] | escape }}" 
+                   loading="lazy" 
+                   width="{{ section.settings[row_image].width }}" 
+                   height="{{ section.settings[row_image].height }}">
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+          </div>
+          <div class="standard-content">
+            <span class="standard-kicker">{{ section.settings[row_kicker] }}</span>
+            <h3 class="standard-title">{{ section.settings[row_title] }}</h3>
+            <div class="standard-description">{{ section.settings[row_description] }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --standard-font: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    --standard-text-dark: #1a202c;
+    --standard-text-medium: #4a5568;
+    --standard-brand-red: #E63946;
+  }
+
+  .standard-section {
+    background-color: #F9FAFB !important;
+    padding: 100px 20px !important;
+    font-family: var(--standard-font) !important;
+  }
+
+  .standard-header {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+
+  .standard-main-title {
+    font-family: var(--standard-font) !important;
+    font-size: 38px !important;
+    font-weight: 800 !important;
+    color: var(--standard-text-dark) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -1px !important;
+    margin: 0 !important;
+  }
+
+  .standard-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 100px;
+  }
+
+  .standard-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+
+  .standard-image img,
+  .standard-image .placeholder-svg {
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+    width: 100%;
+    height: auto;
+    display: block;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+  }
+
+  .standard-kicker {
+    display: block !important;
+    font-family: var(--standard-font) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--standard-brand-red) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    margin-bottom: 16px !important;
+  }
+
+  .standard-title {
+    font-family: var(--standard-font) !important;
+    font-size: 32px !important;
+    font-weight: 700 !important;
+    color: var(--standard-text-dark) !important;
+    margin: 0 0 20px 0 !important;
+    line-height: 1.3 !important;
+  }
+
+  .standard-description {
+    font-family: var(--standard-font) !important;
+    font-size: 17px !important;
+    font-weight: 500 !important; /* Upped from 400 to match hero props */
+    color: var(--standard-text-medium) !important;
+    line-height: 1.7 !important;
+  }
+  .standard-description p {
+    margin: 0 !important;
+  }
+
+  /* Zig-zag layout for the reversed row */
+  .standard-row--reverse .standard-image {
+    order: 2;
+  }
+  .standard-row--reverse .standard-content {
+    order: 1;
+  }
+
+  /* --- Responsive Design --- */
+  @media (max-width: 990px) {
+    .standard-section {
+      padding: 80px 20px !important;
+    }
+    
+    .standard-row {
+      grid-template-columns: 1fr;
+      gap: 40px;
+    }
+    
+    .standard-row--reverse .standard-image,
+    .standard-row--reverse .standard-content {
+      order: 0; /* Reset order for mobile stacking */
+    }
+
+    .standard-content {
+      text-align: center;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .standard-main-title {
+      font-size: 30px !important;
+    }
+    .standard-title {
+      font-size: 26px !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "The ICON Standard",
+  "class": "icon-standard-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Headline",
+      "default": "The ICON Standard of Quality"
+    },
+    {
+      "type": "header",
+      "content": "Story 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "kicker_1",
+      "label": "Kicker 1",
+      "default": "01. Safety & Control"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "Prepared in Our USDA-Certified Kitchen"
+    },
+    {
+      "type": "richtext",
+      "id": "description_1",
+      "label": "Description 1",
+      "default": "<p>We own and operate our own state-of-the-art facility, giving us complete control over every step. This ensures the highest standards of food safety and quality, from sourcing to sealing.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Story 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "kicker_2",
+      "label": "Kicker 2",
+      "default": "02. Precision & Expertise"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "Chef-Crafted and Macro-Balanced"
+    },
+    {
+      "type": "richtext",
+      "id": "description_2",
+      "label": "Description 2",
+      "default": "<p>Our professional chefs create delicious, performance-focused recipes. Every ingredient is precisely weighed and tracked to deliver consistent, reliable nutrition that fuels your goals.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Story 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "kicker_3",
+      "label": "Kicker 3",
+      "default": "03. Freshness & Flavor"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "Vacuum-Sealed to Lock in Nutrients"
+    },
+    {
+      "type": "richtext",
+      "id": "description_3",
+      "label": "Description 3",
+      "default": "<p>Taste the difference freshness makes. We immediately vacuum-seal every meal to lock in flavor and nutrients at their peak, eliminating the need for unnecessary artificial preservatives.</p>"
+    }
+  ]
+}
+{% endschema %}

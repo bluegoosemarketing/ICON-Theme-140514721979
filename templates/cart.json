@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--cart",
+        "custom_css": [
+          "input#cart_submit,button#purchase{width:100%!important;background:var(--brand-text)!important;border-color:var(--brand-text)!important;color:#fff!important;font-weight:600;font-size:1rem;text-transform:uppercase;padding:.8rem 1rem;border-radius:8px}input#cart_submit:hover,button#purchase:hover{background:#2c2f33!important;border-color:#2c2f33!important;color:#fff!important;transform:scale(1.02);box-shadow:0 4px 12px rgba(0,0,0,.15)}.main-heading{margin-bottom:50px}"
+        ],
+      "settings": {}
+    },
+    "1689614888bab9734b": {
+      "type": "apps",
+      "blocks": {
+        "33c1cefe-cd4b-4502-a493-81c4e90040d9": {
+          "type": "shopify://apps/prevent-checkout-threshold/blocks/checkout-threshold/1c03c194-d927-4817-9315-639fec3eba7f",
+          "disabled": true,
+          "settings": {
+            "tooltip_text": "Please add a minimum of eight (8) meals to your cart to complete your order!",
+            "tooltip_hover_text": "We are unable to process orders with less than eight (8) meals.",
+            "tooltip_completed_text": "Your order is eligible for checkout!",
+            "tooltip_completed_hover_text": "If you are ordering meals, you must have at least eight (8) meals in your cart.",
+            "progress_color": "#ec4242",
+            "progress_bg_color": "#d6d6d6",
+            "checkout_button": "#",
+            "checkout_button_selector": "cart_submit",
+            "cart_progress": "#",
+            "cart_progress_selector": "cartform"
+          }
+        }
+      },
+      "block_order": [
+        "33c1cefe-cd4b-4502-a493-81c4e90040d9"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "main",
+    "1689614888bab9734b"
+  ]
+}

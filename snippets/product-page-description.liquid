@@ -1,0 +1,54 @@
+{% comment %} This is the content from sections/template--product-description.liquid, now as a snippet {% endcomment %}
+<div class="col-md-12" data-details-col>
+  <details class="product-description-wrapper mt-3" {% if section.settings.content_display != "collapse_all" %} open{% endif %}>
+    <summary class="description-block__header accordion__header" role="button" aria-expanded="{% if section.settings.content_display != "collapse_all" %}true{% else %}false{% endif %}" tabindex="0">
+      <h2>{{ 'products.product.description_title' | t }}</h2>
+      <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+    </summary>
+
+    <div class="description-block__content">
+      {%- assign product_description_section = product.sections['product-description'] -%}
+      {% if product_description_section.settings.show_tags and product.tags != blank %}
+        <div class="product__tags">
+          <span class="description--title">{{ 'blogs.article.tags' | t }}:</span>
+          {% for tag in product.tags %}
+          <span>{{ tag }}</span>{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if product_description_section.settings.show_collections and product.collections != blank %}
+        <div class="product__collections">
+          <span class="description--title">{{ 'general.search.collections' | t }}:</span>
+          {% for collection in product.collections %}
+            {{ collection.title }}{% unless forloop.last %}, {% endunless %}
+          {% endfor %}
+        </div>
+      {% endif %}
+
+      {% if product_description_section.settings.show_type and product.type != blank %}
+        <div class="product__type">
+          <span class="description--title">{{ 'products.product.product_type_title' | t }}:</span>
+          <span>{{ product.type }}</span>
+        </div>
+      {% endif %}
+
+      {{ product.description }}
+    </div>
+  </details>
+
+  {% for block in product_description_section.blocks %}
+    {%- assign current_page = pages[block.settings.pages] -%}
+    {% if block.settings.pages != blank %}
+      <details class="product-description-wrapper" data-block-id="{{ block.id }}" {% if product_description_section.settings.content_display == "expand_all" %} open{% endif %}>
+        <summary class="description-block__header accordion__header" role="button" aria-expanded="{% if product_description_section.settings.content_display == "expand_all" %}true{% else %}false{% endif %}" tabindex="0">
+          <h2>{{ current_page.title }}</h2>
+          <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>
+        </summary>
+        <div class="description-block__content">
+          {{ current_page.content }}
+        </div>
+      </details>
+    {% endif %}
+  {% endfor %}
+</div>

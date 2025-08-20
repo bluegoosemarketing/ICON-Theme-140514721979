@@ -1,0 +1,829 @@
+{% comment %}
+
+Shopify Section: Flash-Drop Lander
+Version: 16.7.0 (Feature Update)
+Author: AI Lead Developer
+
+V16.7.0 Revisions & Rationale (by Professional UX/UI Developer):
+
+1. Added Editable Headline: A new text field "Headline Override" has been added to the section settings. If populated, it will display as the main H1 headline, otherwise, it will default to the selected product's title. This provides content flexibility without disconnecting the product.
+2. Implemented Rigid Cart Quantity Limit: The add-to-cart script now fetches the current cart status before adding new items. It prevents a customer from adding a quantity that would result in their cart's total for this specific item exceeding the maximum limit (4), even across multiple sessions or page refreshes.
+3. Added Configurable Countdown Timer: A new text field "Countdown End Time" has been added to the section settings. This allows a specific end date and time (e.g., "2024-12-31T23:59:00") to be set for the offer. If left blank, the timer will default to the end of the current day.
+4. Preserved all previous functionality and design from V16.6.1.
+=====================================================================================
+{% endcomment %}
+
+<!-- Fonts for Headline & Timer -->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+
+
+{%- liquid
+  assign product = section.settings.featured_product
+  if product == blank
+    assign show_placeholder = true
+    assign original_price = 0
+  else
+    assign show_placeholder = false
+    assign original_price = product.price
+  endif
+
+  assign sale_price_fixed = 850
+
+  # Allow headline to be overridden by a section setting.
+  assign headline_title = product.title
+  if section.settings.headline_override != blank
+    assign headline_title = section.settings.headline_override
+  endif
+
+  # Swap the images: The static URL is now the primary, and the featured image is secondary.
+  assign primary_image_url = 'https://cdn.shopify.com/s/files/1/1957/2713/files/Titan-Burrito_9x16_v2.jpg?v=1750946435'
+  assign secondary_image_object = product.featured_image
+
+  # Manually create a thumbnail URL for the primary static image
+  assign primary_image_parts = primary_image_url | split: '?'
+  assign primary_thumb_url = primary_image_parts.first | replace: '.jpg', '_120x120_crop_center.jpg'
+  if primary_image_parts.last != primary_image_parts.first
+    assign primary_thumb_url = primary_thumb_url | append: '?' | append: primary_image_parts.last
+  endif
+-%}
+
+<div
+  class="flash-drop"
+  data-section-id="{{ section.id }}"
+  data-sale-price="{{ sale_price_fixed }}"
+  data-countdown-end="{{ section.settings.countdown_end_time | escape }}"
+>
+
+  <!-- =======================
+  1. HERO SECTION
+  ======================== -->
+
+  <header class="flash-drop__hero">
+    <div class="flash-drop__container">
+      <div class="flash-drop__hero-grid">
+
+        <!-- Right Column Container (Image + Details on Desktop) -->
+        <div class="flash-drop__hero-right-col">
+          <div class="flash-drop__hero-image-gallery">
+            <div class="flash-drop__hero-image-wrapper">
+              {%- if show_placeholder -%}
+                {{ 'product-2' | placeholder_svg_tag: 'flash-drop__hero-image flash-drop__hero-image--placeholder' }}
+              {%- else -%}
+                <img
+                  src="{{ primary_image_url }}"
+                  alt="Interior shot of {{ product.title | default: 'The Titan Breakfast Burrito' }}"
+                  class="flash-drop__hero-image"
+                  loading="eager"
+                  width="600"
+                  height="600"
+                  style="max-width: 100%; height: auto;"
+                  data-main-image
+                >
+              {%- endif -%}
+              <div class="flash-drop__hero-authority-badge">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" class="flash-drop__authority-icon"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                Top Seller
+              </div>
+            </div>
+
+            {%- if show_placeholder == false -%}
+            <div class="flash-drop__image-thumbnails" data-thumbnail-container>
+              <button type="button" class="flash-drop__image-thumbnail is-active" data-image-url="{{ primary_image_url }}" aria-label="View first image">
+                <img src="{{ primary_thumb_url }}" alt="Thumbnail of the inside of {{ product.title }}" width="48" height="48">
+              </button>
+              <button type="button" class="flash-drop__image-thumbnail" data-image-url="{{ secondary_image_object | image_url: width: 1200 }}" aria-label="View second image">
+                <img src="{{ secondary_image_object | image_url: width: 120, height: 120, crop: 'center' }}" alt="Thumbnail of {{ product.title }}" width="48" height="48">
+              </button>
+            </div>
+            {%- endif -%}
+          </div>
+
+
+          <!-- Product Details for DESKTOP View -->
+          <div class="flash-drop__product-details--desktop">
+            {%- if show_placeholder == false -%}
+              <div class="flash-drop__macros">
+                <div class="flash-drop__macros-grid">
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '640' }}</span>
+                    <span class="flash-drop__macro-label">Calories</span>
+                  </div>
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '53g' }}</span>
+                    <span class="flash-drop__macro-label">Protein</span>
+                  </div>
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '45g' }}</span>
+                    <span class="flash-drop__macro-label">Carbs</span>
+                  </div>
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '28g' }}</span>
+                    <span class="flash-drop__macro-label">Fats</span>
+                  </div>
+                </div>
+              </div>
+              <p class="flash-drop__ingredients">
+                <strong>The Titan Breakfast Burrito:</strong> {{ product.metafields.custom.main_ingredients | default: 'Pulled Chicken Breast, Thick Sliced Bacon, Roasted Red Potatoes, Scrambled Eggs, Cheddar Cheese, Black Beans.' }}
+              </p>
+              <button type="button" class="flash-drop__modal-trigger" data-modal-trigger="ingredients-modal">See Full Ingredients</button>
+            {%- endif -%}
+          </div>
+        </div>
+
+        <!-- Left Column Container (Content) -->
+        <div class="flash-drop__hero-content">
+          {%- if show_placeholder -%}
+            <h1 class="flash-drop__h1">Select a Product</h1>
+            <div class="flash-drop__h1-suboffer-wrapper">
+              <p class="flash-drop__h1-suboffer">To See The Live Offer</p>
+            </div>
+          {%- else -%}
+            <h1 class="flash-drop__h1">{{ headline_title | default: 'The Titan Breakfast Burrito' }}</h1>
+            <div class="flash-drop__h1-suboffer-wrapper">
+              <p class="flash-drop__h1-suboffer">$8.50 Today Only</p>
+            </div>
+          {%- endif -%}
+
+          <p class="flash-drop__subhead">{{ section.settings.hero_subhead }}</p>
+
+          <!-- Product Details for MOBILE View -->
+          <div class="flash-drop__product-details--mobile">
+            {%- if show_placeholder == false -%}
+              <div class="flash-drop__macros">
+                <div class="flash-drop__macros-grid">
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '640' }}</span>
+                    <span class="flash-drop__macro-label">Calories</span>
+                  </div>
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '53g' }}</span>
+                    <span class="flash-drop__macro-label">Protein</span>
+                  </div>
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '45g' }}</span>
+                    <span class="flash-drop__macro-label">Carbs</span>
+                  </div>
+                  <div class="flash-drop__macro-item">
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '28g' }}</span>
+                    <span class="flash-drop__macro-label">Fats</span>
+                  </div>
+                </div>
+              </div>
+              <p class="flash-drop__ingredients">
+                <strong>The Titan Breakfast Burrito:</strong> {{ product.metafields.custom.main_ingredients | default: 'Pulled Chicken Breast, Thick Sliced Bacon, Roasted Red Potatoes, Scrambled Eggs, Cheddar Cheese, Black Beans.' }}
+              </p>
+              <button type="button" class="flash-drop__modal-trigger" data-modal-trigger="ingredients-modal">See Full Ingredients</button>
+            {%- endif -%}
+          </div>
+
+          <div class="flash-drop__price-block">
+            {%- if show_placeholder -%}
+              <span class="flash-drop__price-strikethrough">$XX.XX</span>
+              <span class="flash-drop__price-sale">$8.50</span>
+            {%- else -%}
+               <span class="flash-drop__price-strikethrough">{{ original_price | money }}</span>
+               <span class="flash-drop__price-sale">{{ sale_price_fixed | money }}</span>
+            {%- endif -%}
+          </div>
+
+          <form class="flash-drop__purchase-form" data-purchase-form novalidate>
+            <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <div class="flash-drop__hero-purchase-wrapper">
+              <div class="flash-drop__timer">
+                <p class="flash-drop__timer-label">Offer ends in:</p>
+                <div class="flash-drop__timer-countdown" data-timer-container>
+                  <span data-hours>00</span>:<span data-minutes>00</span>:<span data-seconds>00</span>
+                </div>
+              </div>
+
+              <div class="flash-drop__hero-quantity">
+                <p class="flash-drop__quantity-label">QTY (Limit 4)</p>
+                <div class="flash-drop__quantity-selector">
+                  <button type="button" class="flash-drop__quantity-btn" data-quantity-minus aria-label="Decrease quantity">-</button>
+                  <input
+                    class="flash-drop__quantity-input"
+                    type="number"
+                    name="quantity"
+                    value="1"
+                    min="1"
+                    max="4"
+                    aria-label="Quantity"
+                    data-quantity-input
+                  >
+                  <button type="button" class="flash-drop__quantity-btn" data-quantity-plus aria-label="Increase quantity">+</button>
+                </div>
+              </div>
+            </div>
+
+            <div class="flash-drop__cta-wrapper">
+              <button type="submit" class="flash-drop__cta flash-drop__cta--submit" data-add-to-cart-button>
+                Add to Cart
+              </button>
+              <a href="{{ collections['signature-menu'].url | default: routes.all_products_collection_url }}" class="flash-drop__cta flash-drop__cta--continue" data-continue-shopping-button>
+                Continue to Signature Menu
+              </a>
+            </div>
+            <div class="flash-drop__form-feedback" data-form-feedback aria-live="polite"></div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </header>
+
+  <main class="flash-drop__main-content">
+    <!-- =======================
+    VIDEO PROOF SECTION
+    ======================== -->
+    {%- if section.settings.youtube_video_url != blank -%}
+      {%- assign video_id = section.settings.youtube_video_url | split: '/' | last -%}
+      <section class="flash-drop__section">
+        <div class="flash-drop__container flash-drop__container--narrow">
+          <h2 class="flash-drop__section-title">Air Fryer Approved</h2>
+          <div class="flash-drop__video-wrapper">
+            <iframe
+              src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ video_id }}&rel=0&modestbranding=1"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowfullscreen
+              title="Product Video"
+              class="flash-drop__video-iframe"
+            ></iframe>
+          </div>
+        </div>
+      </section>
+    {%- endif -%}
+
+    <!-- =======================
+    NEXT STEPS / CATEGORY GRID (NEW)
+    ======================== -->
+    <section class="flash-drop__section flash-drop__section--categories">
+      <div class="flash-drop__container">
+        <h2 class="flash-drop__section-title">Your Deal is Secured. What's Next?</h2>
+        <div class="fd-category-grid">
+          
+          <!-- Category Card 1: Signature Meals -->
+          <a href="/collections/signature-menu" class="category-card">
+            <div class="category-card__image-wrapper">
+              <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_v1.jpg?v=1750349495" loading="lazy" alt="A delicious, healthy plated signature meal from ICON Meals.">
+            </div>
+            <div class="category-card__content">
+              <h3>Signature Meals</h3>
+              <p>30+ chef-curated recipes ready in 90 seconds. Maximum flavor, perfect macros, zero guesswork.</p>
+              <span class="category-card__button">Shop Signature →</span>
+            </div>
+          </a>
+    
+          <!-- Category Card 2: Custom Meals -->
+          <a href="/pages/custom-meals" class="category-card">
+            <div class="category-card__image-wrapper">
+              <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_v1.jpg?v=1750349495" loading="lazy" alt="An overhead view of healthy ingredients like salmon, chicken, broccoli, and rice for custom meals.">
+            </div>
+            <div class="category-card__content">
+              <h3>Custom Meals</h3>
+              <p>You are in complete control. Choose your proteins, carbs, and veggies to build the exact meal you need.</p>
+              <span class="category-card__button">Build Your Own →</span>
+            </div>
+          </a>
+    
+          <!-- Category Card 3: Meal Boxes -->
+          <a href="/collections/meal-boxes" class="category-card">
+            <div class="category-card__image-wrapper">
+              <img src="https://iconmeals.com/cdn/shop/files/build-your-box_900x.jpg?v=1654193516" loading="lazy" alt="An open ICON Meals box for building your own variety pack of meals.">
+            </div>
+            <div class="category-card__content">
+              <h3>Meal Boxes</h3>
+              <p>The best value and variety. Curated boxes packed with our most popular meals to fuel your week.</p>
+              <span class="category-card__button">Shop Boxes →</span>
+            </div>
+          </a>
+    
+          <!-- Category Card 4: Bulk Items -->
+          <a href="/collections/by-the-pound" class="category-card">
+            <div class="category-card__image-wrapper">
+              <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Meals_v1.jpg?v=1750349495" loading="lazy" alt="Perfectly cooked and sliced steak, a bulk item from ICON Meals.">
+            </div>
+            <div class="category-card__content">
+              <h3>Bulk Items</h3>
+              <p>Perfectly cooked proteins and sides by the pound. The ultimate meal-prep shortcut for athletes.</p>
+              <span class="category-card__button">Shop Bulk →</span>
+            </div>
+          </a>
+    
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- =======================
+  FULL INGREDIENTS MODAL
+  ======================== -->
+
+  <div class="flash-drop__modal" id="ingredients-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="flash-drop__modal-overlay" data-modal-close></div>
+    <div class="flash-drop__modal-content">
+      <button class="flash-drop__modal-close-btn" data-modal-close aria-label="Close modal">×</button>
+      <h2 class="flash-drop__modal-title" id="modal-title">Full Ingredients</h2>
+      {%- if product.metafields.custom.full_ingredients_html != blank -%}
+        <div class="flash-drop__modal-body">
+          {{ product.metafields.custom.full_ingredients_html }}
+        </div>
+      {%- else -%}
+        <div class="flash-drop__modal-body">
+          <h3>Main Ingredients</h3>
+          <ul>
+            <li>Chicken Breast (boneless, skinless, with rib meat)</li>
+            <li>Thick-Sliced Bacon (applewood smoked)</li>
+            <li>Red Potatoes (roasted)</li>
+            <li>
+              Eggs
+              <div class="flash-drop__sub-ingredients">
+                Whole liquid eggs (with citric acid)<br>
+                Liquid egg whites (with whipping aids)
+              </div>
+            </li>
+            <li>Black Beans (low sodium)</li>
+            <li>Cheddar Cheese (mild, shredded)</li>
+            <li>
+              Flour Tortilla
+              <div class="flash-drop__sub-ingredients">
+                Enriched unbleached flour (wheat flour, niacin, reduced iron, thiamine mononitrate, riboflavin, folic acid)<br>
+                Water, vegetable shortening (palm and/or corn oil)<br>
+                Leavening agents, wheat protein, preservatives, dough conditioners
+              </div>
+            </li>
+          </ul>
+          <h3>🧂 Supporting Ingredients</h3>
+          <ul>
+            <li>Extra virgin olive oil</li>
+            <li>Onion powder</li>
+            <li>Granulated garlic</li>
+            <li>Paprika (with anti-caking agent)</li>
+            <li>Ground black pepper</li>
+            <li>Light chili powder</li>
+            <li>Kosher salt (with yellow prussiate of soda)</li>
+            <li>Italian seasoning (marjoram, thyme, rosemary, savory, sage, oregano, basil)</li>
+          </ul>
+        </div>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+<style>
+:root {
+  --fd-color-text: #2d3748;
+  --fd-color-text-light: #4a5568;
+  --fd-color-heading: #1a202c;
+  --fd-color-background: #ffffff;
+  --fd-color-background-alt: #f7fafc;
+  --fd-color-border: #e2e8f0;
+  --fd-color-primary: {{ settings.color_accent | default: '#CD1C26' }};
+  --fd-color-accent: {{ settings.color_button | default: '#FFD000' }};
+  --fd-font-hero: 'Archivo Black', sans-serif;
+  --fd-font-body: {{ settings.body_font.family | default: 'sans-serif' }};
+  --fd-font-timer: 'Roboto Mono', monospace;
+  --fd-shadow-md: 0 4px 6px -1px rgba(0,0,0,0.07), 0 2px 4px -2px rgba(0,0,0,0.07);
+  --fd-shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -4px rgba(0,0,0,0.1);
+  --fd-radius: 8px;
+  --fd-radius-lg: 0.75rem;
+}
+@keyframes fd-shimmer {
+  0% { transform: translateX(-150%) skewX(-25deg); }
+  50% { transform: translateX(150%) skewX(-25deg); }
+  100% { transform: translateX(150%) skewX(-25deg); }
+}
+
+.flash-drop { font-family: var(--fd-font-body); color: var(--fd-color-text); background-color: var(--fd-color-background); }
+.flash-drop__container { max-width: 1100px; width: 90%; margin: 0 auto; }
+.flash-drop__container--narrow { max-width: 720px; }
+
+/* --- 1. Hero Section --- */
+.flash-drop__hero { background: var(--fd-color-background-alt); padding: 2rem 0 4rem; overflow: hidden; }
+.flash-drop__hero-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
+.flash-drop__hero-content { text-align: center; }
+.flash-drop__h1 { font-family: var(--fd-font-hero); font-size: clamp(2.5rem, 9vw, 4rem); line-height: 1.1; color: var(--fd-color-heading); text-transform: uppercase; margin: 0; text-wrap: balance; }
+.flash-drop__h1-suboffer-wrapper { display: inline-block; background-color: var(--fd-color-accent); padding: 0.25rem 1rem; border-radius: var(--fd-radius); margin: 0.75rem 0 1.5rem; }
+.flash-drop__h1-suboffer {
+  font-family: var(--fd-font-hero);
+  font-size: clamp(1.75rem, 6vw, 2.75rem);
+  line-height: 1.1;
+  color: var(--fd-color-heading);
+  text-transform: uppercase;
+  margin: 0;
+  text-wrap: balance;
+}
+.flash-drop__subhead { font-size: clamp(1rem, 2.5vw, 1.15rem); margin: 0 auto 1.5rem; max-width: 50ch; }
+.flash-drop__macros { margin: 0 auto 2rem; max-width: 500px; }
+.flash-drop__macros-grid { display: flex; flex-wrap: wrap; justify-content: center; border: 1px solid var(--fd-color-border); border-radius: var(--fd-radius); overflow: hidden; background-color: white; }
+.flash-drop__macro-item { flex: 1; min-width: 70px; padding: 0.75rem 0.5rem; text-align: center; }
+.flash-drop__macro-item:not(:last-child) { border-right: 1px solid var(--fd-color-border); }
+.flash-drop__macro-value { display: block; font-weight: 700; font-size: 1.25rem; line-height: 1.2; color: var(--fd-color-heading); }
+.flash-drop__macro-label { font-size: 0.75rem; opacity: 0.8; }
+.flash-drop__ingredients { font-size: 0.9rem; margin: 1rem 0 0; line-height: 1.5; color: var(--fd-color-text); }
+.flash-drop__modal-trigger { background: none; border: none; padding: 0; font-size: 0.9rem; text-decoration: underline; cursor: pointer; color: var(--fd-color-heading); margin-top: 0.5rem; }
+.flash-drop__price-block { margin: 2rem auto; display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; }
+.flash-drop__price-strikethrough { font-size: 1.5rem; text-decoration: line-through; opacity: 0.7; }
+.flash-drop__price-sale { font-size: 2.5rem; font-weight: 700; color: var(--fd-color-primary); }
+.flash-drop__hero-purchase-wrapper { display: flex; flex-wrap: nowrap; gap: 1rem; align-items: stretch; justify-content: center; margin: 0 auto 1.5rem; max-width: 400px; }
+.flash-drop__timer, .flash-drop__hero-quantity { background-color: var(--fd-color-background); border: 1px solid var(--fd-color-border); padding: 0.75rem 1rem; border-radius: var(--fd-radius); flex-grow: 1; display: flex; flex-direction: column; justify-content: center; }
+.flash-drop__timer-label, .flash-drop__quantity-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 0.25rem; text-align: center; }
+.flash-drop__timer-countdown { font-family: var(--fd-font-timer); font-size: 2rem; font-weight: 700; color: var(--fd-color-heading); text-align: center; }
+.flash-drop__timer-ended { font-family: var(--fd-font-timer); font-size: 1.5rem; color: var(--fd-color-primary); text-align: center;}
+.flash-drop__quantity-selector { display: flex; justify-content: center; align-items: center; }
+.flash-drop__quantity-btn { width: 36px; height: 36px; border: 1px solid var(--fd-color-border); background-color: #fff; font-size: 1.25rem; cursor: pointer; line-height: 1; transition: background-color 0.2s; border-radius: 0; }
+.flash-drop__quantity-btn:hover:not(:disabled) { background-color: var(--fd-color-background-alt); }
+.flash-drop__quantity-btn:first-child { border-radius: var(--fd-radius) 0 0 var(--fd-radius); }
+.flash-drop__quantity-btn:last-child { border-radius: 0 var(--fd-radius) var(--fd-radius) 0; }
+.flash-drop__quantity-input { width: 40px; height: 36px; text-align: center; font-size: 1.25rem; font-weight: 700; border: 1px solid var(--fd-color-border); border-left: none; border-right: none; -moz-appearance: textfield; }
+.flash-drop__quantity-input::-webkit-outer-spin-button, .flash-drop__quantity-input::-webkit-inner-spin-button { margin: 0; }
+.flash-drop__quantity-btn:disabled { background-color: #f9f9f9; cursor: not-allowed; opacity: 0.5; }
+.flash-drop__cta-wrapper { position: relative; max-width: 400px; margin: 0 auto; }
+.flash-drop__cta { position: relative; overflow: hidden; display: block; width: 100%; background-color: var(--fd-color-primary) !important; color: white !important; padding: 1rem 2rem; border-radius: var(--fd-radius); font-weight: 700; font-size: 1.1rem; text-decoration: none !important; text-align: center; border: 2px solid transparent; transition: all 0.3s ease-in-out, opacity 0.3s ease; }
+.flash-drop__cta::after { content: ''; position: absolute; top: 0; left: 0; width: 40%; height: 100%; background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%); pointer-events: none; }
+.flash-drop__cta--submit:not(.is-adding):not(.is-added)::after { animation: fd-shimmer 4s ease-in-out infinite; }
+.flash-drop__cta:hover { transform: scale(1.05); }
+.flash-drop__cta--submit:hover { background-color: var(--fd-color-accent) !important; color: var(--fd-color-heading) !important; }
+.flash-drop__cta--submit.is-added { background-color: #28a745 !important; color: white !important; cursor: default; }
+.flash-drop__cta--submit.is-added:hover { transform: none; }
+.flash-drop__cta--continue { margin-top: 1rem; background-color: var(--fd-color-heading) !important; position: absolute; top: 0; left: 0; opacity: 0; visibility: hidden; }
+.flash-drop__cta-wrapper.is-swapped .flash-drop__cta--submit { opacity: 0; visibility: hidden; }
+.flash-drop__cta-wrapper.is-swapped .flash-drop__cta--continue { position: static; opacity: 1; visibility: visible; }
+.flash-drop__form-feedback { min-height: 1.2em; font-size: 0.8rem; font-weight: bold; margin-top: 0.75rem; text-align: center; }
+
+/* Image Gallery Styles */
+.flash-drop__hero-image-gallery { position: relative; }
+.flash-drop__hero-image-wrapper { position: relative; overflow: hidden; border-radius: var(--fd-radius); }
+.flash-drop__hero-image { width: 100%; height: auto; max-width: 100%; object-fit: contain; display: block; }
+
+/* Enhanced authority badge styling */
+.flash-drop__hero-authority-badge {
+  position: absolute; top: 0.75rem; left: 0.75rem; z-index: 3;
+  display: inline-flex; align-items: center; gap: 0.3rem;
+  background: linear-gradient(145deg, #ffffff, #f0f0f0);
+  color: var(--fd-color-heading);
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.7rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1), 0 1px 2px rgba(0,0,0,0.05);
+  border: 1px solid rgba(0,0,0,0.05);
+  overflow: hidden;
+}
+.flash-drop__authority-icon { width: 0.8em; height: 0.8em; fill: currentColor; }
+.flash-drop__hero-authority-badge::after {
+  content: ''; position: absolute; top: 0; left: 0;
+  width: 50%; height: 100%;
+  background: linear-gradient(to right, rgba(255,255,255,0) 0%, rgba(255,255,255,0.7) 50%, rgba(255,255,255,0) 100%);
+  animation: fd-shimmer 5s ease-in-out infinite;
+  pointer-events: none;
+}
+.flash-drop__image-thumbnails { display: flex; gap: 0.5rem; margin-top: 1rem; justify-content: center; }
+.flash-drop__image-thumbnail { border: 2px solid transparent; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; padding: 2px; background: none; line-height: 0; }
+.flash-drop__image-thumbnail:hover { border-color: rgba(255,255,255,0.7); }
+.flash-drop__image-thumbnail.is-active { border-color: var(--fd-color-background); box-shadow: 0 0 0 1px var(--fd-color-background); }
+.flash-drop__image-thumbnail img { display: block; width: 48px; height: 48px; object-fit: cover; border-radius: 4px; }
+
+.flash-drop__product-details--desktop { display: none; }
+
+/* Mobile-specific gallery layout */
+@media (max-width: 991px) {
+  .flash-drop__image-thumbnails {
+    position: absolute;
+    bottom: 0.75rem;
+    right: 0.75rem;
+    left: auto;
+    transform: none;
+    margin-top: 0;
+    padding: 0.4rem;
+    background-color: rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: var(--fd-radius);
+    z-index: 2;
+  }
+}
+
+@media (min-width: 992px) {
+  .flash-drop__hero { padding: 5rem 0; }
+  .flash-drop__hero-grid { grid-template-columns: 1fr 1fr; align-items: start; gap: 4rem; }
+  .flash-drop__hero-right-col { position: relative; }
+  .flash-drop__hero-right-col::before { content: ''; position: absolute; left: -2rem; top: 0; width: 1px; height: 100%; background-color: var(--fd-color-border); }
+  .flash-drop__hero-content { order: -1; text-align: left; }
+  .flash-drop__subhead { margin-left: 0; margin-right: 0; text-align: left; }
+  .flash-drop__h1-suboffer-wrapper { margin-left: 0; margin-right: 0; }
+  .flash-drop__price-block { margin-left: 0; margin-right: 0; justify-content: flex-start; }
+  .flash-drop__hero-purchase-wrapper { justify-content: flex-start; max-width: none; }
+  .flash-drop__cta-wrapper { margin-left: 0; margin-right: 0; }
+  .flash-drop__form-feedback { text-align: left; }
+  .flash-drop__image-thumbnails { justify-content: flex-start; }
+  .flash-drop__image-thumbnail:hover { border-color: var(--fd-color-text-light); }
+  .flash-drop__image-thumbnail.is-active { border-color: var(--fd-color-primary); box-shadow: 0 0 0 1px var(--fd-color-primary); }
+  
+  .flash-drop__product-details--mobile { display: none; }
+  .flash-drop__product-details--desktop { display: block; margin-top: 2rem; text-align: left; }
+  .flash-drop__product-details--desktop .flash-drop__macros { margin: 0 0 1.5rem 0; }
+  .flash-drop__product-details--desktop .flash-drop__macros-grid { justify-content: flex-start; }
+  .flash-drop__product-details--desktop .flash-drop__ingredients { margin-top: 0; }
+}
+
+/* --- Shared Section Styles --- */
+.flash-drop__section { padding: 4rem 0; }
+.flash-drop__section:not(.flash-drop__section--categories) { border-top: 1px solid var(--fd-color-border); }
+.flash-drop__section--categories { background-color: var(--fd-color-background-alt); }
+.flash-drop__section-title { font-family: var(--fd-font-hero); font-size: clamp(2rem, 5vw, 2.75rem); text-align: center; margin: 0 auto 3rem; color: var(--fd-color-heading); line-height: 1.2; text-wrap: balance; }
+
+/* --- Video Section --- */
+.flash-drop__video-wrapper { position: relative; width: 100%; padding-bottom: 177.77%; height: 0; overflow: hidden; border-radius: var(--fd-radius); box-shadow: var(--fd-shadow-md); background-color: #000; }
+.flash-drop__video-iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
+
+/* --- Category Grid (NEW) --- */
+.fd-category-grid { display: grid; grid-template-columns: 1fr; gap: 1.5rem; }
+@media(min-width: 768px) { .fd-category-grid { grid-template-columns: repeat(2, 1fr); gap: 2.5rem; } }
+.category-card { display: flex; flex-direction: column; background-color: var(--fd-color-background); border: 1px solid var(--fd-color-border); border-radius: var(--fd-radius-lg); text-decoration: none !important; overflow: hidden; box-shadow: var(--fd-shadow-md); transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.category-card:hover { transform: translateY(-10px); box-shadow: var(--fd-shadow-lg); }
+.category-card__image-wrapper { width: 100%; aspect-ratio: 16/10; overflow: hidden; }
+.category-card__image-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.category-card:hover .category-card__image-wrapper img { transform: scale(1.05); }
+.category-card__content { padding: 1.5rem; display: flex; flex-direction: column; flex-grow: 1; text-align: left; }
+.category-card h3 { font-family: var(--fd-font-hero); font-size: 1.5rem; color: var(--fd-color-heading) !important; margin: 0 0 0.5rem 0; }
+.category-card p { color: var(--fd-color-text-light); line-height: 1.5; margin: 0; }
+.category-card__button { display: inline-block; background-color: var(--fd-color-primary); color: white !important; padding: 0.75rem 1.5rem; border-radius: var(--fd-radius); text-align: center; font-weight: 700; margin-top: 1.5rem; transition: all 0.25s ease; transform: scale(1); }
+.category-card:hover .category-card__button { background-color: var(--fd-color-accent) !important; color: var(--fd-color-heading) !important; transform: scale(1.05); }
+
+/* --- Ingredients Modal --- */
+.flash-drop__modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 1000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.3s ease, visibility 0s 0.3s; }
+.flash-drop__modal.is-visible { opacity: 1; visibility: visible; transition: opacity 0.3s ease; }
+.flash-drop__modal-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); backdrop-filter: blur(5px); cursor: pointer; }
+.flash-drop__modal-content { position: relative; background: white; padding: 2rem; border-radius: var(--fd-radius); max-width: 90%; width: 600px; max-height: 80vh; overflow-y: auto; transform: scale(0.95); transition: transform 0.3s ease; }
+.flash-drop__modal.is-visible .flash-drop__modal-content { transform: scale(1); }
+.flash-drop__modal-close-btn { position: absolute; top: 0.5rem; right: 0.75rem; background: none; border: none; font-size: 2rem; color: var(--fd-color-text); cursor: pointer; line-height: 1; }
+.flash-drop__modal-title { margin: 0 0 1.5rem; font-family: var(--fd-font-hero); font-size: 1.75rem; }
+.flash-drop__modal-body h3 { font-family: var(--fd-font-hero); margin: 1.5rem 0 0.5rem; font-size: 1.2rem; }
+.flash-drop__modal-body ul { list-style-type: none; padding-left: 0; margin: 0; }
+.flash-drop__modal-body li { padding: 0.25rem 0; line-height: 1.5; }
+.flash-drop__sub-ingredients { font-size: 0.9em; opacity: 0.8; margin: 0.25rem 0 0.5rem 1.25rem; padding: 0; border-left: none !important; background: none !important; font-style: normal !important; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const sectionId = {{ section.id | json }};
+  const flashDrop = document.querySelector(`.flash-drop[data-section-id="${sectionId}"]`);
+  if (!flashDrop) return;
+
+  // --- Image Gallery Logic ---
+  const gallery = flashDrop.querySelector('.flash-drop__hero-image-gallery');
+  if (gallery) {
+    const mainImage = gallery.querySelector('[data-main-image]');
+    const thumbnailContainer = gallery.querySelector('[data-thumbnail-container]');
+    
+    if (mainImage && thumbnailContainer) {
+      const thumbnails = thumbnailContainer.querySelectorAll('.flash-drop__image-thumbnail');
+      
+      thumbnailContainer.addEventListener('click', (e) => {
+        const thumbnail = e.target.closest('.flash-drop__image-thumbnail');
+        if (!thumbnail || thumbnail.classList.contains('is-active')) return;
+
+        const newSrc = thumbnail.dataset.imageUrl;
+        if (!newSrc) return;
+
+        mainImage.src = newSrc;
+        thumbnails.forEach(t => t.classList.remove('is-active'));
+        thumbnail.classList.add('is-active');
+      });
+    }
+  }
+
+  // --- Purchase Logic ---
+  const purchaseForm = flashDrop.querySelector('[data-purchase-form]');
+  if(purchaseForm) {
+    const quantityInput = purchaseForm.querySelector('[data-quantity-input]');
+    const maxQuantityPerAdd = parseInt(quantityInput.max, 10);
+    const maxTotalQuantity = 4; // The rigid total limit for the cart
+    const plusBtn = purchaseForm.querySelector('[data-quantity-plus]');
+    const minusBtn = purchaseForm.querySelector('[data-quantity-minus]');
+    const atcButton = purchaseForm.querySelector('[data-add-to-cart-button]');
+    const ctaWrapper = atcButton.closest('.flash-drop__cta-wrapper');
+    const feedbackEl = purchaseForm.querySelector('[data-form-feedback]');
+
+    function updateButtonState() {
+      const quantity = parseInt(quantityInput.value, 10);
+      minusBtn.disabled = quantity <= 1;
+      plusBtn.disabled = quantity >= maxQuantityPerAdd;
+    }
+
+    plusBtn.addEventListener('click', () => { if (parseInt(quantityInput.value) < maxQuantityPerAdd) { quantityInput.stepUp(); updateButtonState(); }});
+    minusBtn.addEventListener('click', () => { if (parseInt(quantityInput.value) > 1) { quantityInput.stepDown(); updateButtonState(); }});
+    quantityInput.addEventListener('input', () => {
+        if(parseInt(quantityInput.value) > maxQuantityPerAdd) quantityInput.value = maxQuantityPerAdd;
+        if(parseInt(quantityInput.value) < 1 || isNaN(parseInt(quantityInput.value))) quantityInput.value = 1;
+        updateButtonState();
+    });
+    updateButtonState();
+
+    purchaseForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      atcButton.disabled = true;
+      atcButton.classList.add('is-adding');
+      atcButton.textContent = 'Adding...';
+      feedbackEl.textContent = '';
+
+      const formData = new FormData(purchaseForm);
+      const variantId = formData.get('id');
+      const quantityToAdd = parseInt(formData.get('quantity'), 10);
+
+      try {
+        // [NEW] Fetch current cart to enforce rigid limit
+        const cartRes = await fetch(window.Shopify.routes.root + 'cart.js');
+        if (!cartRes.ok) throw new Error('Could not check cart.');
+        const cart = await cartRes.json();
+        
+        // [NEW] Find current quantity of this item in the cart
+        let currentQuantityInCart = 0;
+        const itemInCart = cart.items.find(item => item.variant_id == variantId);
+        if (itemInCart) {
+          currentQuantityInCart = itemInCart.quantity;
+        }
+
+        // [NEW] Check if adding the new quantity exceeds the total limit
+        if (currentQuantityInCart + quantityToAdd > maxTotalQuantity) {
+          const remainingQuantity = maxTotalQuantity - currentQuantityInCart;
+          let errorMessage = `Limit of ${maxTotalQuantity} per customer.`;
+          if (remainingQuantity > 0) {
+            errorMessage += ` You can add ${remainingQuantity} more.`;
+          } else {
+            errorMessage += ` You already have ${currentQuantityInCart} in your cart.`;
+          }
+          throw new Error(errorMessage);
+        }
+
+        // Proceed with adding item to cart if limit is not exceeded
+        const res = await fetch(window.Shopify.routes.root + 'cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: [{ id: variantId, quantity: quantityToAdd }] })
+        });
+        const cartData = await res.json();
+        if (!res.ok) throw new Error(cartData.description || 'Could not add item.');
+
+        atcButton.classList.remove('is-adding');
+        atcButton.textContent = 'Add to Cart';
+        atcButton.classList.add('is-added');
+
+        if (ctaWrapper) {
+          ctaWrapper.classList.add('is-swapped');
+        }
+
+        const cartNotification = document.querySelector('cart-notification');
+        if (cartNotification) cartNotification.renderContents(cartData);
+        const cartDrawer = document.querySelector('cart-drawer');
+        if (cartDrawer) cartDrawer.renderContents(cartData);
+
+      } catch (error) {
+        feedbackEl.textContent = error.message;
+        atcButton.disabled = false;
+        atcButton.classList.remove('is-adding');
+        atcButton.textContent = 'Add to Cart';
+      }
+    });
+  }
+
+  // --- Timer Logic ---
+  const timerContainer = flashDrop.querySelector('[data-timer-container]');
+  const countdownEndTimeSetting = flashDrop.dataset.countdownEnd; // [NEW] Read custom end time from data attribute
+  if(timerContainer) {
+    const hoursEl = timerContainer.querySelector('[data-hours]');
+    const minutesEl = timerContainer.querySelector('[data-minutes]');
+    const secondsEl = timerContainer.querySelector('[data-seconds]');
+
+    const setupCountdown = () => {
+      let endDate;
+      // [NEW] Use the custom end date if it's set and valid, otherwise default to end of day.
+      if (countdownEndTimeSetting && !isNaN(new Date(countdownEndTimeSetting).getTime())) {
+        endDate = new Date(countdownEndTimeSetting);
+      } else {
+        endDate = new Date();
+        endDate.setHours(23, 59, 59, 999);
+      }
+      
+      // [NEW] Immediately end if the date has already passed on page load.
+      if (endDate.getTime() - new Date().getTime() < 0) {
+        timerContainer.innerHTML = '<span class="flash-drop__timer-ended">Offer Ended</span>';
+        if(atcButton) atcButton.disabled = true;
+        return;
+      }
+
+      const interval = setInterval(() => {
+        const now = new Date();
+        const distance = endDate.getTime() - now.getTime();
+
+        if (distance < 0) {
+          clearInterval(interval);
+          timerContainer.innerHTML = '<span class="flash-drop__timer-ended">Offer Ended</span>';
+          if(atcButton) atcButton.disabled = true;
+          return;
+        }
+        const h = String(Math.floor(distance / (1000 * 60 * 60))).padStart(2, '0');
+        const m = String(Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60))).padStart(2, '0');
+        const s = String(Math.floor((distance % (1000 * 60)) / 1000)).padStart(2, '0');
+
+        if(hoursEl) hoursEl.textContent = h;
+        if(minutesEl) minutesEl.textContent = m;
+        if(secondsEl) secondsEl.textContent = s;
+      }, 1000);
+    };
+    setupCountdown();
+  }
+
+  // --- Modal Logic ---
+  const modalTriggers = flashDrop.querySelectorAll('[data-modal-trigger]');
+  modalTriggers.forEach(trigger => {
+    trigger.addEventListener('click', function() {
+      const modalId = this.dataset.modalTrigger;
+      const modal = document.getElementById(modalId);
+      if(modal) {
+        modal.classList.add('is-visible');
+        document.body.style.overflow = 'hidden';
+      }
+    });
+  });
+
+  const closeTriggers = flashDrop.querySelectorAll('[data-modal-close]');
+  closeTriggers.forEach(trigger => {
+    trigger.addEventListener('click', function() {
+      const modal = this.closest('.flash-drop__modal');
+      if(modal) {
+        modal.classList.remove('is-visible');
+        document.body.style.overflow = '';
+      }
+    });
+  });
+
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      const visibleModal = flashDrop.querySelector('.flash-drop__modal.is-visible');
+      if (visibleModal) {
+        visibleModal.classList.remove('is-visible');
+        document.body.style.overflow = '';
+      }
+    }
+  });
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Flash-Drop (TitanBB)",
+  "tag": "section",
+  "class": "shopify-section--flash-drop-lander",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Daily Meal Configuration"
+    },
+    {
+      "type": "product",
+      "id": "featured_product",
+      "label": "Today's Featured Meal"
+    },
+    {
+      "type": "text",
+      "id": "countdown_end_time",
+      "label": "Countdown End Time",
+      "info": "Format: YYYY-MM-DDTHH:mm:ss (e.g., 2024-12-31T23:59:59). If blank, defaults to the end of the current day."
+    },
+    {
+      "type": "url",
+      "id": "youtube_video_url",
+      "label": "YouTube Shorts URL",
+      "info": "Paste the full YouTube Shorts URL here (e.g., https://www.youtube.com/shorts/your_video_id)."
+    },
+    {
+      "type": "header",
+      "content": "Page Content"
+    },
+    {
+      "type": "text",
+      "id": "headline_override",
+      "label": "Headline Override",
+      "info": "Optional. Replaces the product title in the main headline."
+    },
+    {
+      "type": "text",
+      "id": "hero_subhead",
+      "label": "Hero Subheadline",
+      "default": "Only cooking so many. First come, first served."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Flash-Drop (TitanBB)"
+    }
+  ]
+}
+{% endschema %}

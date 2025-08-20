@@ -1,0 +1,38 @@
+{%- comment -%}Bold:PO 2.0 - Hybrid Fix{%- endcomment -%}
+{%- assign bold_options_hybrid_item_count = 0 -%}
+
+    <div class="LOOP_BUNDLE_CONTAINER_CLASS">
+        <input type="hidden" value="rendering loop bundles here as we did not found any table">
+    </div>
+        
+{%- for item in cart.items -%}
+{% comment %}
+    LOOP SUBSCRIPTIONS (https://apps.shopify.com/loop-subscriptions)
+    DO NOT modify this source code because
+    It is automatically generated from LOOP SUBSCRIPTIONS BUNDLE DESIGN
+    If you need to make change, please contact the Loop support team
+    LOOP BUNDLE CODE STARTS
+{% endcomment %}
+    {% assign isBundleItem = false %}
+    {%- for property in item.properties -%}
+        {% if property.first == '_bundleId' %}
+            {% assign isBundleItem = true %}
+            {% break %}
+        {% endif %}
+    {%- endfor -%}
+    {% if isBundleItem == true %}
+        {% continue %}
+    {% endif %}
+{% comment %}
+    LOOP BUNDLE CODE ENDS
+{% endcomment %}
+    {%- unless item.properties._boldBuilderId  and item.properties._boldVariantIds == null -%}
+    {%- assign bold_options_hybrid_item_count = bold_options_hybrid_item_count | plus: item.quantity -%}
+    {%- endunless -%}
+{%- endfor -%}
+{{ bold_options_hybrid_item_count }}
+<script defer="defer">
+  window.Loop = {};
+  window.Loop.bundleCartAllItems = {{ cart.items | json }};
+  initLoopBundle("LOOP_BUNDLE_CONTAINER_CLASS");
+</script>

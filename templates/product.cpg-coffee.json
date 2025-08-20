@@ -1,0 +1,240 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div",
+  "sections": {
+    "1654790072cfe4b335": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "custom_liquid": "{% render 'benefit-badges' %}"
+      }
+    },
+    "main": {
+      "type": "template--product",
+      "settings": {
+        "show_out_of_stock_email": true,
+        "out_of_stock_email_position": "below-details",
+        "hide_out_of_stock": false,
+        "thumbnail_changes_variant": false,
+        "image_display": "thumbnails",
+        "enable_zoom": false,
+        "enable_video_loop": false
+      }
+    },
+    "165178167457715956": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165178167444a09996-0": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_calories.value }} Calories",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-1": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_protein.value }}g Protein",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-2": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_carbs.value }}g Carbs",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "2d9ffce1-1e39-4742-9bf5-be89abfe57a9": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_fats.value }}g Fat",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "165178167444a09996-0",
+        "165178167444a09996-1",
+        "165178167444a09996-2",
+        "2d9ffce1-1e39-4742-9bf5-be89abfe57a9"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "product-description": {
+      "type": "template--product-description",
+      "blocks": {
+        "a1815482-0efd-42fb-ac26-9ae07b760726": {
+          "type": "custom_pages",
+          "settings": {
+            "pages": ""
+          }
+        }
+      },
+      "block_order": [
+        "a1815482-0efd-42fb-ac26-9ae07b760726"
+      ],
+      "settings": {
+        "content_display": "collapse_except_description",
+        "show_tags": false,
+        "show_collections": false,
+        "show_type": false
+      }
+    },
+    "16523744666f90ac40": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165237446601a014c3-0": {
+          "type": "text",
+          "settings": {
+            "icon": "crown",
+            "heading": "150mg caffiene",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165237446601a014c3-2": {
+          "type": "text",
+          "settings": {
+            "icon": "flag",
+            "heading": "Cognizin® Nootropic",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165237446601a014c3-1": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "20G Protein Per Serving",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "165237446601a014c3-0",
+        "165237446601a014c3-2",
+        "165237446601a014c3-1"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1651782024a70736a3": {
+      "type": "accordion",
+      "blocks": {
+        "1651782024e3efd747-0": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Ingredients",
+            "text": "<p>{{ product.metafields.nutrition.ingredients.value }}</p>"
+          }
+        },
+        "1651782024e3efd747-1": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Allergens",
+            "text": "<p>{{ product.metafields.nutrition.allergens.value }}</p>"
+          }
+        },
+        "4cc984ae-db8c-4945-8812-700c8df11015": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Usage Instructions",
+            "text": "<p>Mix well with cold water first (to prevent the protein from clumping), then feel free to heat your coffee up or put it on ice.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1651782024e3efd747-0",
+        "1651782024e3efd747-1",
+        "4cc984ae-db8c-4945-8812-700c8df11015"
+      ],
+      "settings": {
+        "background-color": "#ffffff",
+        "text-color": "#000000",
+        "title": "",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "1657222995f691a0b5": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "{% render 'nutrition-panel.liquid' %}"
+      }
+    },
+    "16572266468cec28b6": {
+      "type": "custom-liquid",
+      "disabled": true,
+      "settings": {
+        "custom_liquid": "{% render 'nutrition-modal.liquid' %}"
+      }
+    },
+    "165177738992fa8fe2": {
+      "type": "apps",
+      "blocks": {
+        "6f0d7bb6-df02-40a8-b58a-454fc367b7ea": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/star-rating/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "6f0d7bb6-df02-40a8-b58a-454fc367b7ea"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "template--product--recommendations",
+      "settings": {
+        "show_product_recommendations": false,
+        "product_recommendations_heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "1654790072cfe4b335",
+    "main",
+    "165178167457715956",
+    "product-description",
+    "16523744666f90ac40",
+    "1651782024a70736a3",
+    "1657222995f691a0b5",
+    "16572266468cec28b6",
+    "165177738992fa8fe2",
+    "product-recommendations"
+  ]
+}

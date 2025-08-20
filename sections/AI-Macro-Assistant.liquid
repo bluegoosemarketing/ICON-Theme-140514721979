@@ -1,0 +1,1151 @@
+{% comment %}
+  Final iMessage-Like Layout (Newest at Bottom), 2-Row Day Stats, Black Bubbles,
+  with old meal plan styling & PDF CTA (hidden on desktop until final step),
+  an intro screen with a redesigned header and benefits section,
+  and with a loading icon shown until the first AI message arrives.
+{% endcomment %}
+
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+
+<!-- INTRO SCREEN -->
+<div id="intro-screen" class="intro-screen">
+  <div class="intro-header">
+    <h1 class="intro-title">Meal Plan Assistant</h1>
+    <p class="intro-subtitle">by ICON Meals</p>
+  </div>
+  <div class="intro-benefits">
+    <div class="benefit-item">
+      <h3>Daily Macros Matched</h3>
+      <p>Customized to your goals.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>7-Day Meal Plan</h3>
+      <p>Built around your preferences.</p>
+    </div>
+    <div class="benefit-item">
+      <h3>ICON Meals + More</h3>
+      <p>Personalized grocery picks.</p>
+    </div>
+  </div>
+  <button id="intro-cta-button" class="intro-cta-button">
+    {{ section.settings.intro_cta }}
+  </button>
+</div>
+
+<!-- Hidden header (old header markup) -->
+<div id="icon-meals-chat-header" class="icon-meals-chat-header" style="display: none;">
+  <h1 class="icon-meals-chat-title">{{ section.settings.assistant_title }}</h1>
+  <p class="icon-meals-chat-subtitle">{{ section.settings.assistant_subtitle }}</p>
+</div>
+
+<section id="icon-meals-chat-section" class="icon-meals-chat-section">
+  <!-- Main content is hidden until "Get Started" is clicked -->
+  <div class="icon-meals-main-content" style="display: none;">
+    <!-- Left Column: Chat -->
+    <div class="icon-meals-chat-container" id="icon-meals-chat-container">
+      <!-- Loading Icon Overlay -->
+      <div id="chat-loading" class="chat-loading" style="display: none;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/3/32/Loader3.gif" alt="Loading..." />
+      </div>
+      
+      <!-- iMessage-like chat window -->
+      <div id="icon-meals-chat-window" class="icon-meals-chat-window"></div>
+
+      <!-- Input area -->
+      <div class="icon-meals-input-area">
+        <textarea
+          id="icon-meals-chat-input"
+          class="icon-meals-chat-input"
+          placeholder="Type your message..."
+        ></textarea>
+        <button
+          id="icon-meals-chat-send-btn"
+          class="icon-meals-chat-send-btn"
+        >
+          <!-- Send Icon -->
+          <svg
+            class="icon-meals-send-icon"
+            fill="#fff"
+            viewBox="0 0 24 24"
+          >
+            <path d="M2 3l20 9-20 9v-6l14-3-14-3z"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Step 9: Dietary Restrictions -->
+      <div id="restrictions-bubble-container" class="icon-meals-bubble-section slide-out">
+        <p class="bubble-description">Choose dietary restrictions or type your own:</p>
+        <div id="restrictions-bubbles" class="bubble-buttons"></div>
+      </div>
+
+      <!-- Step 10: Common Ingredients -->
+      <div id="ingredients-bubble-container" class="icon-meals-bubble-section slide-out">
+        <p class="bubble-description">Pick common ingredients or type your own:</p>
+        <div id="ingredients-bubbles" class="bubble-buttons"></div>
+      </div>
+    </div>
+
+    <!-- Right Column: Meal Plan -->
+    <div class="icon-meals-plan-container" id="icon-meals-plan-container">
+      <!-- Sticky CTA for PDF (old styling & text) -->
+      <div id="icon-meals-pdf-wrapper" class="icon-meals-pdf-wrapper">
+        <h2 class="cta-header">Get Your Meal Plan as a PDF</h2>
+        <p class="cta-description">Enter your email to receive a printable PDF copy:</p>
+        <div class="cta-controls">
+          <input 
+            type="email"
+            id="icon-meals-email-input"
+            placeholder="Enter your email"
+            class="cta-email-input"
+          />
+          <button
+            id="icon-meals-chat-email-btn"
+            class="icon-meals-chat-pdf-btn cta-email-button"
+          >
+            📧 Get PDF
+          </button>
+          <button
+            id="icon-meals-chat-restart-btn"
+            class="icon-meals-chat-pdf-btn cta-restart-button"
+          >
+            ⟲ Restart
+          </button>
+        </div>
+      </div>
+
+      <div id="icon-meals-plan-content" class="icon-meals-plan-content">
+        <div class="meal-plan-placeholder">
+          <p>Your personalized meal plan will appear here once generated!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marked & DOMPurify for safe HTML -->
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/dompurify@2.4.0/dist/purify.min.js"></script>
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+  // ---------- INTRO SCREEN LOGIC -----------
+  const introScreen = document.getElementById("intro-screen");
+  const introButton = document.getElementById("intro-cta-button");
+  const mainContent = document.querySelector(".icon-meals-main-content");
+
+  // On desktop, initially hide meal plan container and center the chat container
+  const mealPlanContainer = document.getElementById("icon-meals-plan-container");
+  if (window.innerWidth >= 992) {
+    mealPlanContainer.style.display = "none";
+    mainContent.style.justifyContent = "center";
+  }
+
+  // When user clicks "Get Started", fade out intro, show main UI, and display the loader
+  introButton.addEventListener("click", () => {
+    introScreen.classList.add("intro-fade-out");
+    setTimeout(() => {
+      introScreen.style.display = "none";
+      mainContent.style.display = "flex";
+      const loader = document.getElementById("chat-loading");
+      loader.style.display = "block";
+      // Kick off conversation (first AI prompt)
+      sendMessage("");
+    }, 500);
+  });
+
+  // ---------- CHAT FUNCTIONALITY ----------
+  const BASE_URL = "https://iconmeals-macro-assistant-72056142257.us-central1.run.app"; // Your live Cloud Run root
+  const ASK_URL = `${BASE_URL}/ask`;
+  const EMAIL_OPTIN_URL = `${BASE_URL}/email_opt_in`;
+  const CHECKOUT_URL = `${BASE_URL}/generate_checkout`;
+
+  // DOM references
+  const chatWindow = document.getElementById("icon-meals-chat-window");
+  const chatInput = document.getElementById("icon-meals-chat-input");
+  const sendButton = document.getElementById("icon-meals-chat-send-btn");
+  const pdfWrapper = document.getElementById("icon-meals-pdf-wrapper");
+  const emailInput = document.getElementById("icon-meals-email-input");
+  const emailButton = document.getElementById("icon-meals-chat-email-btn");
+  const restartBtn = document.getElementById("icon-meals-chat-restart-btn");
+  const mealPlanContent = document.getElementById("icon-meals-plan-content");
+
+  // Bubbles
+  const restrictionsBubbleContainer = document.getElementById("restrictions-bubble-container");
+  const restrictionsBubbles = document.getElementById("restrictions-bubbles");
+  const ingredientsBubbleContainer = document.getElementById("ingredients-bubble-container");
+  const ingredientsBubbles = document.getElementById("ingredients-bubbles");
+
+  // Example bubble data
+  const dietaryRestrictions = [
+    "Gluten-Free", "Dairy-Free", "Nut-Free", "Soy-Free",
+    "Egg-Free", "Fish-Free", "Shellfish-Free",
+    "Vegetarian", "Vegan", "Keto", "Paleo", "Halal", "Kosher"
+  ];
+  const commonIngredients = [
+    "Chicken Breast", "Ground Beef", "Salmon", "Shrimp",
+    "Broccoli", "Spinach", "Eggs", "Cottage Cheese",
+    "Greek Yogurt", "Brown Rice", "Quinoa", "Oats",
+    "Avocado", "Sweet Potato"
+  ];
+
+  let selectedRestrictions = [];
+  let selectedIngredients = [];
+  let convId = localStorage.getItem("iconMealsConvId") || null;
+  let planReady = false;
+
+  // For iMessage style (newest at bottom)
+  chatWindow.style.display = "flex";
+  chatWindow.style.flexDirection = "column-reverse";
+  function scrollToBottom() {
+    chatWindow.scrollTop = 0;
+  }
+
+  // Bubble UI functions
+  function renderBubbles(list, container, arr) {
+    container.innerHTML = "";
+    list.forEach(item => {
+      const btn = document.createElement("button");
+      btn.className = "bubble-button";
+      btn.textContent = item;
+      btn.addEventListener("click", () => {
+        if (arr.includes(item)) {
+          arr = arr.filter(x => x !== item);
+          btn.classList.remove("selected");
+        } else {
+          arr.push(item);
+          btn.classList.add("selected");
+        }
+        chatInput.value = arr.join(", ");
+        scrollToBottom();
+      });
+      container.appendChild(btn);
+    });
+  }
+  function showRestrictions() {
+    restrictionsBubbleContainer.style.display = "block";
+    restrictionsBubbleContainer.classList.remove("slide-out");
+    restrictionsBubbleContainer.classList.add("slide-in");
+    renderBubbles(dietaryRestrictions, restrictionsBubbles, selectedRestrictions);
+    scrollToBottom();
+  }
+  function hideRestrictions() {
+    restrictionsBubbleContainer.classList.remove("slide-in");
+    restrictionsBubbleContainer.classList.add("slide-out");
+    setTimeout(() => { restrictionsBubbleContainer.style.display = "none"; }, 300);
+    scrollToBottom();
+  }
+  function showIngredients() {
+    ingredientsBubbleContainer.style.display = "block";
+    ingredientsBubbleContainer.classList.remove("slide-out");
+    ingredientsBubbleContainer.classList.add("slide-in");
+    renderBubbles(commonIngredients, ingredientsBubbles, selectedIngredients);
+    scrollToBottom();
+  }
+  function hideIngredients() {
+    ingredientsBubbleContainer.classList.remove("slide-in");
+    ingredientsBubbleContainer.classList.add("slide-out");
+    setTimeout(() => { ingredientsBubbleContainer.style.display = "none"; }, 300);
+    scrollToBottom();
+  }
+
+  // Append a message bubble to the chat window
+  function appendMessage(text, className, stepNum = null) {
+    const wrap = document.createElement("div");
+    wrap.className = `message-wrapper ${className === "user-message" ? "user-align" : "ai-align"}`;
+    const bubble = document.createElement("div");
+    bubble.className = `icon-meals-msg-bubble ${className} animate-in`;
+    if (className === "ai-message") {
+      let sanitized = DOMPurify.sanitize(text);
+      sanitized = sanitized.replace(/\(Step \d+ of \d+\)/gi, "").trim();
+      bubble.innerHTML = sanitized;
+    } else {
+      bubble.textContent = text;
+    }
+    wrap.appendChild(bubble);
+    if (className === "ai-message" && stepNum && stepNum <= 12) {
+      const stepDiv = document.createElement("div");
+      stepDiv.className = "step-indicator";
+      stepDiv.textContent = `Step ${stepNum} of 12`;
+      wrap.appendChild(stepDiv);
+    }
+    chatWindow.prepend(wrap);
+    scrollToBottom();
+  }
+
+  // Reformat the day stats in the meal plan display
+  function reformatDayStats() {
+    const parser = new DOMParser();
+    const doc = parser.parseFromString(mealPlanContent.innerHTML, "text/html");
+    doc.querySelectorAll(".day-stats").forEach(statDiv => {
+      const lines = statDiv.querySelectorAll(".macro-line");
+      if (!lines.length) return;
+      let actualLine = "", remainLine = "";
+      lines.forEach(ln => {
+        const t = ln.textContent.trim();
+        if (t.startsWith("✅ Actual:")) {
+          actualLine = t.replace("Actual:", "Daily Macro Breakdown:").trim();
+        }
+        if (t.startsWith("🔹 Remaining:")) {
+          remainLine = t;
+        }
+      });
+      lines.forEach(ln => ln.remove());
+      function buildCol(topVal, bottomVal) {
+        return `
+          <div class="stat-col">
+            <div class="stat-value">${topVal}</div>
+            <div class="stat-label">${bottomVal}</div>
+          </div>`;
+      }
+      function parseStatsLine(txt, rowClass = "") {
+        let mainParts = txt.split(":");
+        if (mainParts.length < 2) return "";
+        let label = mainParts[0].replace("✅", "").replace("🔹", "").trim();
+        let stats = mainParts[1].split("|").map(x => x.trim());
+        let rowHtml = `<div class="stat-row-title">${label}</div>
+          <div class="day-stats-grid ${rowClass}">`;
+        stats.forEach(s => {
+          let pieces = s.split(" ");
+          if (pieces.length < 2) {
+            rowHtml += buildCol(s, "");
+          } else {
+            const top = pieces[0];
+            const bottom = pieces.slice(1).join(" ");
+            rowHtml += buildCol(top, bottom);
+          }
+        });
+        rowHtml += `</div>`;
+        return rowHtml;
+      }
+      let finalHtml = `<div class="stats-container">`;
+      if (actualLine) {
+        finalHtml += parseStatsLine(actualLine);
+      }
+      if (remainLine) {
+        finalHtml += parseStatsLine(remainLine, "remaining-stats-row");
+      }
+      finalHtml += "</div>";
+      const dayTitle = statDiv.querySelector(".day-title");
+      if (dayTitle) {
+        dayTitle.insertAdjacentHTML("afterend", finalHtml);
+      }
+    });
+    mealPlanContent.innerHTML = doc.body.innerHTML;
+  }
+
+  // Send a message to the back-end
+  async function sendMessage(userText, hideUserBubble = false) {
+    const trimmed = userText.trim();
+    if (trimmed && !hideUserBubble) {
+      appendMessage(trimmed, "user-message");
+      chatInput.value = "";
+    }
+    try {
+      const resp = await fetch(ASK_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conv_id: convId, message: trimmed })
+      });
+      if (!resp.ok) {
+        appendMessage("Server error. Try again.", "error-message");
+        return;
+      }
+      const data = await resp.json();
+      // When a meal plan is returned, update the right column:
+      if (data.meal_plan) {
+        planReady = true;
+        const placeholder = mealPlanContent.querySelector(".meal-plan-placeholder");
+        placeholder.innerHTML = DOMPurify.sanitize(data.meal_plan);
+        pdfWrapper.style.display = "block";
+        reformatDayStats();
+        if (window.innerWidth >= 992) {
+          // On desktop, shift the chat container to the left and show the meal plan container.
+          document.querySelector(".icon-meals-main-content").style.justifyContent = "flex-start";
+          mealPlanContainer.style.display = "flex";
+          mealPlanContainer.classList.add("fade-in");
+        } else {
+          pdfWrapper.scrollIntoView({ behavior: "smooth" });
+        }
+      }
+      appendMessage(data.response, "ai-message", data.step);
+      if (data.step === 9) {
+        showRestrictions();
+        hideIngredients();
+      } else if (data.step === 10) {
+        hideRestrictions();
+        showIngredients();
+      } else {
+        hideRestrictions();
+        hideIngredients();
+      }
+      if (data.conv_id) {
+        convId = data.conv_id;
+        localStorage.setItem("iconMealsConvId", convId);
+      }
+      if (window.innerWidth < 992) {
+        chatInput.focus();
+      }
+      // Hide the loader on the first AI message (Step 1)
+      if (data.step === 1) {
+        const loader = document.getElementById("chat-loading");
+        if (loader) {
+          loader.classList.add("fade-out");
+          setTimeout(() => { loader.style.display = "none"; }, 500);
+        }
+      }
+    } catch (err) {
+      appendMessage(`Network error: ${err}`, "error-message");
+    }
+  }
+
+  // Restart the conversation
+  function restartChat() {
+    localStorage.removeItem("iconMealsConvId");
+    convId = null;
+    planReady = false;
+    chatWindow.innerHTML = "";
+    mealPlanContent.innerHTML = `
+      <div class="meal-plan-placeholder">
+        <p>Your personalized meal plan will appear here once generated!</p>
+      </div>
+    `;
+    pdfWrapper.style.display = "none";
+    hideRestrictions();
+    hideIngredients();
+    if (window.innerWidth >= 992) {
+      document.querySelector(".icon-meals-main-content").style.justifyContent = "center";
+      mealPlanContainer.style.display = "none";
+      mealPlanContainer.classList.remove("fade-in");
+    }
+    sendMessage("restart");
+  }
+
+  // Email PDF & compliance
+  const emailComplianceDiv = document.createElement("div");
+  emailComplianceDiv.id = "email-compliance";
+  emailComplianceDiv.style.display = "none";
+  emailComplianceDiv.style.opacity = "0";
+  emailComplianceDiv.style.transition = "opacity 0.3s ease";
+  emailComplianceDiv.innerHTML = `
+    <label style="font-size:14px;color:#333;">
+      <input type="checkbox" id="email-optin-checkbox">
+      I agree to receive marketing emails & accept terms.
+    </label>
+  `;
+  emailInput.parentNode.insertBefore(emailComplianceDiv, emailButton);
+
+  emailInput.addEventListener("input", () => {
+    if (emailInput.value.trim()) {
+      emailComplianceDiv.style.display = "block";
+      setTimeout(() => { emailComplianceDiv.style.opacity = "1"; }, 10);
+    } else {
+      emailComplianceDiv.style.opacity = "0";
+      setTimeout(() => { emailComplianceDiv.style.display = "none"; }, 300);
+    }
+  });
+
+  emailButton.addEventListener("click", () => {
+    const checkbox = document.getElementById("email-optin-checkbox");
+    if (!checkbox.checked) {
+      appendMessage("Please agree to the terms to receive your PDF.", "error-message");
+      return;
+    }
+    emailComplianceDiv.style.opacity = "0";
+    setTimeout(() => { emailComplianceDiv.style.display = "none"; }, 300);
+    getPDFViaEmail();
+  });
+
+  async function getPDFViaEmail() {
+    if (!planReady) {
+      appendMessage("No plan ready yet!", "error-message");
+      return;
+    }
+    if (!convId) {
+      appendMessage("No conversation ID. Please restart.", "error-message");
+      return;
+    }
+    const userEmail = emailInput.value.trim();
+    if (!userEmail) {
+      appendMessage("Enter a valid email!", "error-message");
+      return;
+    }
+    try {
+      const r = await fetch(EMAIL_OPTIN_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ conv_id: convId, email: userEmail })
+      });
+      if (!r.ok) {
+        const txt = await r.text();
+        appendMessage(`Email error: ${txt}`, "error-message");
+        return;
+      }
+      const j = await r.json();
+      if (j.error) {
+        appendMessage(`Error: ${j.error}`, "error-message");
+      } else {
+        appendMessage("PDF link sent to your email!", "ai-message");
+      }
+    } catch (e) {
+      appendMessage(`Email error: ${e}`, "error-message");
+    }
+  }
+
+  // ---------- NEW SHOPIFY CHECKOUT FUNCTION ----------
+  window.orderMeals = async function() {
+    // Gather all meal names currently displayed in the plan
+    let mealNames = document.querySelectorAll(".meal-name-title");
+    let mealList = [];
+    mealNames.forEach(meal => {
+      const nameTxt = meal.innerText.trim();
+      // Avoid empty or placeholders
+      if (nameTxt) mealList.push(nameTxt);
+    });
+
+    try {
+      const response = await fetch(CHECKOUT_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          meal_names: mealList,
+          quantity: 1
+        })
+      });
+      const data = await response.json();
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url;
+      } else {
+        alert(`Error creating checkout: ${data.error || 'Unknown error'}`);
+      }
+    } catch (err) {
+      alert("Network error creating checkout. Please try again.");
+    }
+  }
+
+  // Only refresh for returning users; do not call sendMessage("") for new users.
+  if (convId) {
+    sendMessage("_refresh", true);
+  }
+
+  // Bind send actions (click and Enter key) and restart button.
+  sendButton.addEventListener("click", () => {
+    if (chatInput.value.trim()) sendMessage(chatInput.value);
+  });
+  chatInput.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      if (chatInput.value.trim()) sendMessage(chatInput.value);
+    }
+  });
+  restartBtn.addEventListener("click", restartChat);
+});
+</script>
+
+<style>
+/* INTRO SCREEN */
+.intro-screen {
+  position: relative;
+  width: 100%;
+  min-height: 90vh;
+  background: #f6f7f9;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  transition: opacity 0.5s ease;
+  text-align: center;
+}
+.intro-header {
+  margin-bottom: 20px;
+}
+.intro-title {
+  font-size: 42px;
+  font-weight: 800;
+  margin: 0;
+  color: #333;
+  font-family: "Inter", sans-serif;
+}
+.intro-subtitle {
+  font-size: 18px;
+  margin: 5px 0 20px;
+  color: #666;
+  font-family: "Inter", sans-serif;
+}
+.intro-benefits {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+.benefit-item {
+  background: #fff;
+  border-radius: 8px;
+  padding: 10px 15px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  flex: 1 1 150px;
+  max-width: 200px;
+}
+.benefit-item h3 {
+  font-size: 16px;
+  margin: 0 0 5px;
+  color: #333;
+}
+.benefit-item p {
+  font-size: 14px;
+  margin: 0;
+  color: #555;
+}
+.intro-cta-button {
+  background: #000;
+  color: #fff;
+  padding: 16px 32px;
+  font-size: 20px;
+  font-weight: 600;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-family: "Inter", sans-serif;
+  transition: background 0.3s ease;
+}
+.intro-cta-button:hover {
+  background: #333;
+}
+.intro-fade-out {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Hide old header */
+#icon-meals-chat-header {
+  display: none !important;
+}
+
+/* GLOBAL */
+.icon-meals-chat-section {
+  font-family: "Inter", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0 auto;
+  width: 95%;
+  max-width: 1600px;
+  background: #f6f7f9;
+  color: #333;
+}
+.icon-meals-chat-header {
+  text-align: center;
+  padding: 20px 0;
+}
+.icon-meals-chat-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin: 0;
+}
+.icon-meals-chat-subtitle {
+  font-size: 16px;
+  margin-top: 4px;
+  color: #666;
+}
+.icon-meals-main-content {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  padding: 20px;
+  justify-content: center;
+}
+
+/* LEFT COLUMN: CHAT */
+.icon-meals-chat-container {
+  display: flex;
+  flex-direction: column;
+  width: 45%;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.07);
+  position: relative;
+  height: 650px;
+  overflow: hidden;
+}
+.icon-meals-chat-window {
+  display: flex;
+  flex-direction: column-reverse;
+  overflow-y: auto;
+  background: #fafafa;
+  padding: 16px;
+  border-radius: 6px;
+  margin: 12px;
+  scroll-behavior: smooth;
+  flex: 1;
+}
+.icon-meals-input-area {
+  display: flex;
+  align-items: center;
+  border-top: 1px solid #ddd;
+  background: #f7f7f7;
+  padding: 10px 14px;
+}
+.icon-meals-chat-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  font-size: 16px;
+  padding: 8px;
+  background-color: #fff;
+  border-radius: 6px;
+}
+.icon-meals-chat-send-btn {
+  background: #000 !important;
+  border: none;
+  border-radius: 8px;
+  width: 48px;
+  height: 48px;
+  cursor: pointer;
+  color: #fff !important;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.icon-meals-send-icon {
+  width: 22px;
+  height: 22px;
+}
+
+/* LOADING ICON */
+.chat-loading {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+.chat-loading.fade-out {
+  opacity: 0;
+}
+
+/* MESSAGES */
+.message-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-bottom: 10px;
+}
+.user-align {
+  align-items: flex-end;
+}
+.ai-align {
+  align-items: flex-start;
+}
+.icon-meals-msg-bubble {
+  max-width: 80%;
+  border-radius: 12px;
+  padding: 12px 14px;
+  line-height: 1.5;
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.3s forwards;
+}
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.user-message {
+  background: #000 !important;
+  color: #fff !important;
+  border-top-right-radius: 0;
+}
+.ai-message {
+  background: #e8ecf0 !important;
+  color: #333 !important;
+  border-top-left-radius: 0;
+}
+.error-message {
+  background: #ffe6e6 !important;
+  color: #cc0000 !important;
+  border-top-left-radius: 0;
+}
+.step-indicator {
+  font-size: 12px;
+  color: #666;
+  font-style: italic;
+  margin-top: 4px;
+}
+.user-align .step-indicator {
+  text-align: right;
+}
+
+/* BUBBLE CONTAINERS */
+.icon-meals-bubble-section {
+  background: #fff;
+  border-top: 1px solid #e2e2e2;
+  padding: 12px 16px;
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.3s ease;
+}
+.icon-meals-bubble-section.slide-in {
+  max-height: 250px;
+  opacity: 1;
+}
+.icon-meals-bubble-section.slide-out {
+  max-height: 0;
+  opacity: 0;
+}
+.bubble-description {
+  font-size: 14px;
+  margin-bottom: 8px;
+  color: #444;
+}
+.bubble-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.bubble-button {
+  padding: 4px 8px;
+  border-radius: 8px;
+  background: #f1f3f5;
+  color: #333;
+  border: none;
+  font-size: 14px;
+  cursor: pointer;
+}
+.bubble-button.selected {
+  background: #a8e6cf;
+  color: #006b54;
+}
+
+/* MOBILE */
+@media (max-width: 992px) {
+  .icon-meals-main-content {
+    flex-direction: column;
+    padding: 8px;
+    gap: 12px;
+    justify-content: flex-start;
+  }
+  .icon-meals-chat-container {
+    width: 100%;
+    height: 70vh !important;
+    max-height: 70vh !important;
+    margin-bottom: 0;
+  }
+  .icon-meals-chat-window {
+    margin: 8px;
+  }
+}
+
+/* RIGHT COLUMN: Meal Plan */
+.icon-meals-plan-container {
+  flex: 1;
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.07);
+  overflow: hidden;
+  height: 650px;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+.icon-meals-plan-container.fade-in {
+  opacity: 1;
+}
+#icon-meals-pdf-wrapper {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+  display: none;
+}
+.cta-header {
+  font-size: 16px;
+  margin: 0 0 8px;
+  color: #856404;
+}
+.cta-description {
+  font-size: 14px;
+  color: #856404;
+  margin: 0 0 8px;
+}
+.cta-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.cta-email-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px;
+  font-size: 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.cta-email-button {
+  background: #e0a800 !important;
+  color: #fff !important;
+  font-weight: bold;
+  padding: 8px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.cta-restart-button {
+  background: #6c757d !important;
+  color: #fff !important;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 8px 12px;
+  cursor: pointer;
+}
+.icon-meals-chat-pdf-btn {
+  border: none;
+  font-size: 14px;
+}
+.email-optin-container {
+  display: none;
+  margin-top: 10px;
+}
+.icon-meals-plan-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 8px;
+  padding-left: 8px;
+}
+.meal-plan-placeholder {
+  text-align: center;
+  margin-top: 40px;
+  color: #999;
+  font-size: 15px;
+}
+
+/* DAY STATS */
+.day-stats {
+  background: #fff;
+  border-radius: 4px;
+  border: 1px solid #e2e6ea;
+  padding: 10px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.day-title {
+  font-size: 15px;
+  color: #0275d8;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+.stats-container {
+  margin-top: 6px;
+}
+.stat-row-title {
+  font-size: 13px;
+  color: #333;
+  font-weight: bold;
+  text-align: center;
+  margin: 6px 0 4px;
+}
+.day-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  margin-bottom: 8px;
+}
+.stat-col {
+  background: #eef7ff;
+  color: #0275d8;
+  border-radius: 6px;
+  padding: 6px;
+  font-size: 13px;
+  font-weight: bold;
+  text-align: center;
+}
+.stat-value {
+  font-size: 14px;
+  font-weight: bold;
+}
+.stat-label {
+  font-size: 12px;
+  margin-top: 2px;
+}
+.remaining-stats-row {
+  opacity: 0.8;
+}
+
+/* DAY SECTION + MEALS */
+.day-section {
+  background: #f7fcff;
+  border: 1px solid #d9ebf7;
+  border-radius: 6px;
+  padding: 16px;
+  margin: 12px 0;
+}
+.meal-section-subtitle {
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 10px;
+  margin-bottom: 5px;
+  color: #444;
+  text-transform: uppercase;
+}
+.meal-card {
+  background: #fff;
+  border: 1px solid #efefef;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 10px;
+  position: relative;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+  text-align: left;
+}
+.meal-card:hover {
+  background: #fefefe;
+}
+.meal-name-title {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 0 0 6px;
+}
+.icon-meal {
+  border-left: 5px solid #d9534f !important;
+  background: #fff7f7 !important;
+}
+.icon-meal-label {
+  white-space: nowrap !important;
+  margin-left: 6px;
+  background: #c9302c !important;
+  color: #fff !important;
+  font-size: 11px;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.icon-meal-btn {
+  display: inline-block;
+  background: #c9302c !important;
+  color: #fff !important;
+  padding: 4px 8px;
+  font-size: 12px;
+  text-decoration: none !important;
+  border-radius: 4px;
+  margin-top: 6px;
+  font-weight: bold;
+}
+.icon-meal-btn:hover {
+  background: #b52a27 !important;
+}
+.macro-badges {
+  margin-bottom: 6px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+.macro-badge {
+  display: inline-block;
+  background: #eef7ff;
+  color: #0275d8;
+  font-size: 12px;
+  padding: 2px 6px;
+  border-radius: 12px;
+}
+
+/* EXPLANATION */
+.macro-explanation {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 10px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #444;
+}
+.macro-explanation h2 {
+  font-size: 16px;
+  margin-bottom: 6px;
+}
+.macro-summary-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  padding: 12px;
+  margin-bottom: 12px;
+  text-align: center;
+}
+.macro-summary-card h2 {
+  font-size: 15px;
+  margin-bottom: 8px;
+  color: #0275d8;
+}
+.macro-summary-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 6px;
+  margin-bottom: 10px;
+}
+.macro-summary-item {
+  background: #eef7ff;
+  padding: 8px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #0275d8;
+}
+.checkout-section {
+  margin-top: 20px;
+  text-align: center;
+}
+.checkout-btn {
+  background: #2c7d2e;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 18px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+.checkout-btn:hover {
+  background: #276b29;
+}
+</style>
+
+{% schema %}
+{
+  "name": "AI Macro Assistant",
+  "settings": [
+    {
+      "type": "text",
+      "id": "assistant_title",
+      "label": "Assistant Title",
+      "default": "ICON Meals Macro Assistant"
+    },
+    {
+      "type": "text",
+      "id": "assistant_subtitle",
+      "label": "Subtitle",
+      "default": "Let me help you build a 7-day meal plan!"
+    },
+    {
+      "type": "text",
+      "id": "intro_cta",
+      "label": "Intro Screen CTA Button Text",
+      "default": "Get Started"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Macro Assistant"
+    }
+  ]
+}
+{% endschema %}

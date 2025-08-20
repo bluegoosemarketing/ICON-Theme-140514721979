@@ -1,0 +1,160 @@
+{% comment %}
+  =================================================================================================================
+  PRO DEV REVISION: DYNAMIC PRICING IMPLEMENTATION
+  - DIAGNOSIS: The original snippet only displayed a static base price.
+  - THE FIX (DYNAMIC PRICING):
+    1. DATA SOURCE: A hidden span with the ID `base-price-container` is added. It uses a `data-base-price`
+       attribute to store the variant's base price in cents. This provides a clean, reliable data source for JavaScript.
+    2. DISPLAY ELEMENT: A new visible span with the ID `combined-price-display` is now the primary price element.
+       It's initialized with the base price and will be updated in real-time by `bold-combined-price.js`.
+    3. HIDDEN ORIGINAL: The original price field is now hidden using CSS via the `hidden-base-price` class,
+       preventing the old static price from ever showing.
+  - WHY: This separates the data layer (base price) from the presentation layer (combined price),
+    which is a robust pattern for client-side functionality.
+  =================================================================================================================
+{% endcomment %}
+
+{% assign on_sale = false %}
+{% if current_variant.compare_at_price > current_variant.price %}
+  {% assign on_sale = true %}
+{% endif %}
+
+{% assign sold_out = false %}
+{% unless current_variant.available %}
+  {% assign sold_out = true %}
+{% endunless %}
+
+{% if sold_out %}
+  <li class="product-page--pricing--variant-price">
+    <span class="js" id="price-field">
+      {{ "products.product.sold_out" | t }}
+    </span>
+  </li>
+{% else %}
+  {% comment %} This LI now contains both the hidden base price and the visible combined price {% endcomment %}
+  <li class="product-page--pricing--variant-price">
+    {% comment %} Hidden container for the raw base price data (in cents) {% endcomment %}
+    <span id="base-price-container" class="hidden-base-price" data-base-price="{{ current_variant.price }}"></span>
+
+    {% comment %} The original price field is now hidden via the .hidden-base-price class in custom.css {% endcomment %}
+    <span class="js hidden-base-price" id="price-field">
+      <span class="money">{{ current_variant.price | money }}</span>
+    </span>
+
+    {% comment %} VISIBLE container for the dynamic, combined price. It starts with the base price. {% endcomment %}
+    <span id="combined-price-display" class="money">
+      {{ current_variant.price | money }}
+    </span>
+  </li>
+
+  {% comment %} 'Compare at' price logic remains unchanged. {% endcomment %}
+  <li class="product-page--pricing--variant-compare-at-price">
+    <span class="compare-at-price js{% unless on_sale %} hide{% endunless %}{% if settings.show_sale_price == false %} visually--hidden{% endif %}">
+      <span class="money">{{ current_variant.compare_at_price | money }}</span>
+    </span>
+  </li>
+{% endif %}```
+
+### 2. Revised `assets/bold-combined-price.js`
+
+This script has been completely rewritten for clarity, reliability, and performance. It correctly reads the base price, listens for changes to both Bold Options and the quantity selector, and updates the new `#combined-price-display` element.
+
+```javascript
+/**
+ * =================================================================================================================
+ * PRO DEV REVISION: DYNAMIC & COMBINED PRICE CALCULATOR V2.0
+ *
+ * DIAGNOSIS: The previous script failed to reliably find DOM elements and update the main price display.
+ *
+ * THE FIX (HOLISTIC REWRITE):
+ *  1. ROBUST SELECTORS: Script now targets specific, stable IDs like `#base-price-container`,
+ *     `#combined-price-display`, `input[name="quantity"]`, and `.bold_option_total` for reliability.
+ *  2. CLEAN DATA SOURCE: It reads the base price from the `data-base-price` attribute, avoiding parsing text.
+ *  3. CENTRALIZED UPDATE LOGIC: A single `updateCombinedPrice` function handles all calculations,
+ *     including base price, Bold extras, and quantity multiplication.
+ *  4. RELIABLE EVENT HANDLING:
+ *     - A `MutationObserver` watches the `.bold_option_total` element for any changes from the Bold app.
+ *     - Event listeners on the quantity input handle updates instantly.
+ *     - Bold's native `option_changed` event is also used for redundancy.
+ *  5. ACCURATE CALCULATIONS: All currency math is done in cents to avoid floating-point errors before
+ *     being formatted for display.
+ *
+ * WHY: This approach is modern, efficient, and resilient. It ensures the price displayed to the
+ *      customer is always accurate, reflecting their selections in real time.
+ * =================================================================================================================
+ */
+document.addEventListener('DOMContentLoaded', () => {
+  // --- 1. Element Selection ---
+  const basePriceContainer = document.getElementById('base-price-container');
+  const combinedPriceDisplay = document.getElementById('combined-price-display');
+  const quantityInput = document.querySelector('input[name="quantity"]');
+  const boldOptionsTotalEl = document.querySelector('.bold_option_total');
+
+  // Exit gracefully if any essential element is missing on the page
+  if (!basePriceContainer || !combinedPriceDisplay || !quantityInput || !boldOptionsTotalEl) {
+    return;
+  }
+
+  // --- 2. Data Initialization ---
+  // Get the base price in cents from the data attribute. Default to 0 if not found.
+  const basePriceInCents = parseInt(basePriceContainer.dataset.basePrice, 10) || 0;
+
+  // --- 3. Helper Functions ---
+  const parseMoney = (text) => {
+    if (!text) return 0;
+    // Strip all non-numeric characters except the decimal point
+    const num = text.replace(/[^0-9.]/g, '');
+    const parsed = parseFloat(num);
+    return isNaN(parsed) ? 0 : parsed;
+  };
+
+  const formatMoney = (amountInCents) => {
+    // Use Shopify's built-in formatter if it exists for theme consistency
+    if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
+      return window.Shopify.formatMoney(amountInCents, theme.moneyFormat);
+    }
+    // Provide a reliable fallback
+    const dollars = (amountInCents / 100).toFixed(2);
+    return `$${dollars}`;
+  };
+
+  // --- 4. Core Update Function ---
+  const updateCombinedPrice = () => {
+    // Get current "extras" price from Bold's total element, looking inside a span if it exists
+    const extrasPriceText = boldOptionsTotalEl.querySelector('span')?.textContent || boldOptionsTotalEl.textContent;
+    const extrasPrice = parseMoney(extrasPriceText);
+    const extrasPriceInCents = Math.round(extrasPrice * 100);
+
+    // Get the current quantity
+    const quantity = parseInt(quantityInput.value, 10) || 1;
+
+    // Calculate the final total price
+    const singleItemTotalInCents = basePriceInCents + extrasPriceInCents;
+    const finalTotalInCents = singleItemTotalInCents * quantity;
+
+    // Update the display with the formatted total price
+    combinedPriceDisplay.innerHTML = formatMoney(finalTotalInCents);
+  };
+
+  // --- 5. Event Listeners ---
+  // Use a MutationObserver to reliably watch for changes inside the .bold_option_total element
+  const observer = new MutationObserver(updateCombinedPrice);
+  observer.observe(boldOptionsTotalEl, {
+    childList: true,
+    subtree: true,
+    characterData: true
+  });
+
+  // Listen for changes on the quantity input field
+  quantityInput.addEventListener('change', updateCombinedPrice);
+  quantityInput.addEventListener('keyup', updateCombinedPrice);
+
+  // Hook into Bold's custom event for an extra layer of reliability
+  if (window.BOLD && BOLD.options && BOLD.options.app && typeof BOLD.options.app.on === 'function') {
+    BOLD.options.app.on('option_changed', updateCombinedPrice);
+  }
+
+  // --- 6. Initial Execution ---
+  // Run the calculation once on page load to set the correct initial price.
+  updateCombinedPrice();
+});

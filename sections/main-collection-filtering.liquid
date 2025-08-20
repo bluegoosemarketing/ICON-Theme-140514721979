@@ -1,0 +1,61 @@
+{% comment %}
+  This section now acts as a simple container.
+  All the complex logic is moved into the 'facets.liquid' snippet
+  and the 'facets.js' asset.
+{% endcomment %}
+
+{%- liquid
+  assign sort_by = collection.sort_by | default: collection.default_sort_by
+  assign total_active_values = 0
+  for filter in collection.filters
+    assign total_active_values = total_active_values | plus: filter.active_values.size
+  endfor
+-%}
+
+<div class="collection-filters container" id="main-collection-filters" data-id="{{ section.id }}">
+  {% render 'facets',
+    results: collection,
+    enable_filtering: section.settings.enable_filtering,
+    enable_sorting: section.settings.enable_sorting,
+    sort_by: sort_by,
+    total_active_values: total_active_values
+  %}
+</div>
+
+<script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+
+{% schema %}
+{
+  "name": "Collection filtering",
+  "class": "collection-filtering-section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Filtering and sorting"
+    },
+    {
+      "type": "select",
+      "id": "desktop_position",
+      "options": [
+        { "value": "topbar", "label": "Top bar" },
+        { "value": "sidebar", "label": "Sidebar" }
+      ],
+      "default": "topbar",
+      "label": "Desktop position"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_filtering",
+      "default": true,
+      "label": "Enable filtering",
+      "info": "Manage filters in [Search & Discovery app](/admin/apps/search-and-discovery/filters)."
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_sorting",
+      "default": true,
+      "label": "Enable sorting"
+    }
+  ]
+}
+{% endschema %}

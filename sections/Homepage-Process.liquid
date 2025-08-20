@@ -1,0 +1,399 @@
+{% comment %}
+  Section: How It Works [v26.3 - Final Mobile Divider Fix]
+  Purpose: The definitive, polished version. Fixes the extra divider bug on mobile by explicitly resetting tablet border styles.
+{% endcomment %}
+
+{% comment %} Add Google Fonts for premium typography {% endcomment %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Inter:wght@500;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+
+<div class="process-section-v12">
+  <div class="page-width">
+    <div class="process-container-v12">
+      
+      <div class="process-header-v12">
+        <span class="process-kicker-v12">{{ section.settings.kicker }}</span>
+        <h2 class="process-heading-v12">{{ section.settings.main_title }}</h2>
+      </div>
+
+      <div class="process-grid-v12">
+        
+        <div class="process-step-v12">
+          <div class="step-content-v12">
+            <div class="step-icon-wrapper-v12">
+              <img class="step-icon-v12" src="https://cdn.shopify.com/s/files/1/1957/2713/files/ChooseFavorite4.png?v=1731854219" alt="Choose Your Favorites Icon" loading="lazy">
+            </div>
+            <h3 class="step-title-v12">{{ section.settings.title_1 }}</h3>
+            <p class="step-description-v12">{{ section.settings.description_1 }}</p>
+          </div>
+        </div>
+
+        <div class="process-step-v12">
+          <div class="step-content-v12">
+            <div class="step-icon-wrapper-v12">
+              <img class="step-icon-v12" src="https://cdn.shopify.com/s/files/1/1957/2713/files/CookedFresh4.png?v=1731854219" alt="Prepared Fresh Icon" loading="lazy">
+            </div>
+            <h3 class="step-title-v12">{{ section.settings.title_2 }}</h3>
+            <p class="step-description-v12">{{ section.settings.description_2 }}</p>
+          </div>
+        </div>
+
+        <div class="process-step-v12">
+          <div class="step-content-v12">
+            <div class="step-icon-wrapper-v12">
+              <img class="step-icon-v12" src="https://cdn.shopify.com/s/files/1/1957/2713/files/Calendar4.png?v=1731854219" alt="Select Delivery Date Icon" loading="lazy">
+            </div>
+            <h3 class="step-title-v12">{{ section.settings.title_3 }}</h3>
+            <p class="step-description-v12">{{ section.settings.description_3 }}</p>
+          </div>
+        </div>
+
+        <div class="process-step-v12">
+          <div class="step-content-v12">
+            <div class="step-icon-wrapper-v12">
+              <img class="step-icon-v12" src="https://cdn.shopify.com/s/files/1/1957/2713/files/Microwave4.png?v=1731854219" alt="Heat and Enjoy Icon" loading="lazy">
+            </div>
+            <h3 class="step-title-v12">{{ section.settings.title_4 }}</h3>
+            <p class="step-description-v12">{{ section.settings.description_4 }}</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --font-display-v12: 'Sora', sans-serif !important;
+    --font-body-v12: 'Inter', sans-serif !important;
+    --font-mono-v12: 'Roboto Mono', monospace !important;
+    --color-bg-v12: #F7F8FA !important;
+    --color-panel-bg-v12: #FFFFFF !important;
+    --color-text-primary-v12: #111827 !important;
+    --color-brand-accent-v12: #E63946 !important;
+    --color-text-secondary-v12: #4B5563 !important;
+    --color-border-v12: #E5E7EB !important;
+    --color-arrow-v12: #A0AEC0 !important;
+    --color-fresh-green-v12: #2a9d8f !important;
+  }
+
+  .process-section-v12 {
+    background-color: var(--color-bg-v12) !important;
+    padding: 100px 20px !important;
+    position: relative !important;
+    overflow: hidden !important;
+  }
+  
+  .process-section-v12::before,
+  .process-section-v12::after {
+    content: '' !important;
+    position: absolute !important;
+    z-index: 0 !important;
+    width: 50vw !important;
+    height: 50vw !important;
+    max-width: 700px !important;
+    max-height: 700px !important;
+    border-radius: 50% !important;
+    filter: blur(140px) !important;
+    will-change: transform !important;
+  }
+
+  .process-section-v12::before {
+    top: -20% !important;
+    left: -20% !important;
+    background-color: var(--color-fresh-green-v12) !important;
+    opacity: 0.1 !important;
+    animation: aurora-1-v12 30s infinite alternate ease-in-out !important;
+  }
+
+  .process-section-v12::after {
+    bottom: -20% !important;
+    right: -20% !important;
+    background-color: var(--color-brand-accent-v12) !important;
+    opacity: 0.12 !important;
+    animation: aurora-2-v12 35s infinite alternate ease-in-out -5s !important;
+  }
+
+  @keyframes aurora-1-v12 {
+    from { transform: translate(-10%, -15%) rotate(0deg); }
+    to { transform: translate(15%, 10%) rotate(45deg); }
+  }
+  @keyframes aurora-2-v12 {
+    from { transform: translate(10%, 20%) rotate(0deg); }
+    to { transform: translate(-20%, -15%) rotate(-35deg); }
+  }
+
+  .process-section-v12 > .page-width {
+      position: relative !important;
+      z-index: 1 !important;
+  }
+  
+  .process-container-v12 {
+    background-color: var(--color-panel-bg-v12) !important;
+    border-radius: 24px !important;
+    padding: 50px 30px !important;
+    box-shadow: 0 10px 40px -10px rgba(29, 37, 48, 0.08), inset 0 1px 1px rgba(255, 255, 255, 0.7) !important;
+    border: 1px solid rgba(0, 0, 0, 0.05) !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+  }
+
+  .process-header-v12 {
+    text-align: center !important;
+    margin-bottom: 50px !important;
+  }
+
+  .process-kicker-v12 {
+    display: block !important;
+    font-family: var(--font-mono-v12) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--color-brand-accent-v12) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 12px !important;
+  }
+
+  .process-heading-v12 {
+    font-family: var(--font-display-v12) !important;
+    font-weight: 800 !important; 
+    font-size: clamp(2rem, 5vw, 2.5rem) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.03em !important;
+    color: var(--color-text-primary-v12) !important;
+    margin: 0 auto !important;
+    max-width: 650px !important;
+  }
+  
+  .process-grid-v12 {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 0 !important;
+  }
+
+  .process-step-v12 {
+    position: relative !important;
+    padding: 0 30px !important;
+  }
+
+  .step-content-v12 {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    height: 100% !important;
+  }
+  
+  .step-icon-wrapper-v12 {
+    margin-bottom: 24px !important;
+    flex-shrink: 0 !important;
+  }
+  
+  .step-icon-v12 {
+    max-width: 100px !important;
+    height: auto !important;
+    transition: transform 0.3s ease !important;
+  }
+
+  .process-step-v12:hover .step-icon-v12 {
+    transform: scale(1.05) !important;
+  }
+
+  .step-title-v12 {
+    font-family: var(--font-display-v12) !important;
+    font-size: 18px !important;
+    font-weight: 700 !important;
+    color: var(--color-text-primary-v12) !important;
+    margin: 0 0 10px 0 !important;
+    min-height: 44px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+  }
+
+  .step-description-v12 {
+    font-family: var(--font-body-v12) !important;
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    color: var(--color-text-secondary-v12) !important;
+    line-height: 1.6 !important;
+    margin: 0 !important;
+  }
+  
+  .process-step-v12:not(:last-child)::after {
+    content: '' !important;
+    position: absolute !important;
+    width: 24px !important;
+    height: 48px !important;
+    background-repeat: no-repeat !important;
+    background-position: center !important;
+    background-size: contain !important;
+    opacity: 0.5 !important;
+    transition: opacity 0.3s ease, transform 0.3s ease !important;
+    pointer-events: none !important; 
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 48'%3E%3Cpath d='M9 18L15 24L9 30' stroke='%23A0AEC0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") !important;
+    right: 0 !important;
+    top: 50% !important;
+    transform: translate(50%, -50%) !important;
+  }
+
+  .process-step-v12:hover::after {
+    opacity: 1 !important;
+    transform: translate(50%, -50%) scale(1.1) !important;
+  }
+  
+  @media (max-width: 990px) {
+    .process-grid-v12 {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 50px 0 !important;
+    }
+    .process-step-v12 {
+      padding: 0 25px !important;
+    }
+    .process-step-v12:nth-child(2n)::after {
+      display: none !important;
+    }
+    .process-step-v12:nth-child(3),
+    .process-step-v12:nth-child(4) {
+      padding-top: 50px !important;
+      border-top: 1px solid var(--color-border-v12) !important;
+    }
+  }
+  
+  @media (max-width: 767px) {
+    .process-section-v12 {
+      padding: 60px 20px 40px 20px !important;
+    }
+    .process-container-v12 {
+      padding: 40px 15px !important;
+    }
+    .process-grid-v12 {
+      grid-template-columns: 1fr !important;
+      gap: 0 !important;
+    }
+    .process-step-v12 {
+      padding: 0 10px !important;
+    }
+    /* CRITICAL FIX: Ensure border-top from tablet is removed */
+    .process-step-v12:nth-child(3),
+    .process-step-v12:nth-child(4) {
+      padding-top: 0 !important;
+      border-top: none !important;
+    }
+    .process-step-v12:not(:last-child) {
+      padding-bottom: 40px !important;
+      margin-bottom: 40px !important;
+      border-bottom: 1px solid var(--color-border-v12) !important;
+    }
+    .process-step-v12:not(:last-child)::after {
+      display: block !important;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 24'%3E%3Cpath d='M18 9L24 15L30 9' stroke='%23A0AEC0' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E") !important;
+      width: 48px !important;
+      height: 24px !important;
+      bottom: 0 !important;
+      left: 50% !important;
+      right: auto !important;
+      top: auto !important;
+      transform: translate(-50%, calc(50% + 20px)) !important;
+      opacity: 0.6 !important;
+    }
+    .process-step-v12:hover::after {
+        transform: translate(-50%, calc(50% + 20px)) scale(1.1) !important;
+    }
+    .step-title-v12 {
+      min-height: unset !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "How It Works",
+  "class": "how-it-works-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker (Red Text)",
+      "default": "No Subscription Required"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Headline",
+      "default": "Order On Your Terms."
+    },
+    {
+      "type": "header",
+      "content": "Step 1"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "Choose Your Favorites"
+    },
+    {
+      "type": "text",
+      "id": "description_1",
+      "label": "Description 1",
+      "default": "Select meals from our chef-prepared menu, or build a custom order with your favorite proteins and sides to fit your exact goals."
+    },
+    {
+      "type": "header",
+      "content": "Step 2"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "Prepared Fresh"
+    },
+    {
+      "type": "text",
+      "id": "description_2",
+      "label": "Description 2",
+      "default": "We cook every meal fresh in our USDA-certified kitchen, then vacuum-seal them to lock in flavor and quality."
+    },
+    {
+      "type": "header",
+      "content": "Step 3"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "Select Your Delivery Date"
+    },
+    {
+      "type": "text",
+      "id": "description_3",
+      "label": "Description 3",
+      "default": "Choose the delivery date that fits your schedule. We'll ship your order straight to your door, office, or hotel."
+    },
+    {
+      "type": "header",
+      "content": "Step 4"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Title 4",
+      "default": "Heat & Enjoy"
+    },
+    {
+      "type": "text",
+      "id": "description_4",
+      "label": "Description 4",
+      "default": "There's zero prep work. Simply heat your meal for two minutes and enjoy delicious, performance-focused nutrition."
+    }
+  ],
+  "presets": [
+    {
+      "name": "How It Works"
+    }
+  ]
+}
+{% endschema %}

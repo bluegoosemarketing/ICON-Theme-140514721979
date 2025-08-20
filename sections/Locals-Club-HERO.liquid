@@ -1,0 +1,382 @@
+<!-- Locals Club Hero Section -->
+<section class="locals-hero-section">
+  <div class="locals-hero-content">
+    <!-- Top Label -->
+    <div class="locals-hero-styled-text"
+         style="font-size: {{ section.settings.label_font_size }}px;">
+      <span class="locals-club-label">LOCALS CLUB</span>
+    </div>
+
+    <!-- Main Headline + Limited Time -->
+    <h1 class="locals-hero-heading"
+        style="font-size: {{ section.settings.heading_font_size }}px;">
+      {{ section.settings.heading }}
+      {% if section.settings.limited_time_text != blank %}
+        <span class="locals-limited-time"
+              style="font-size: {{ section.settings.limited_time_font_size }}px;">
+          {{ section.settings.limited_time_text }}
+        </span>
+      {% endif %}
+    </h1>
+
+    <!-- Subheading -->
+    <h2 class="locals-hero-subheading"
+        style="font-size: {{ section.settings.subheading_font_size }}px;">
+      {{ section.settings.subheading }}
+    </h2>
+
+    <!-- Benefits Container -->
+    {% if section.settings.benefits != blank %}
+      <div class="locals-hero-benefits-card">
+        <div class="locals-hero-benefits"
+             style="font-size: {{ section.settings.benefits_font_size }}px;">
+          {{ section.settings.benefits | raw }}
+        </div>
+      </div>
+    {% endif %}
+
+    <!-- SMS Disclaimer / Expectation -->
+    <p class="locals-hero-sms-disclaimer">
+      {{ section.settings.sms_disclaimer }}
+    </p>
+
+    <!-- CTA Button -->
+    <a 
+      href="{{ section.settings.sms_link }}"
+      class="locals-hero-button"
+      style="font-size: {{ section.settings.button_font_size }}px;"
+      title="Join the Locals Club"
+    >
+      {{ section.settings.button_text }}
+      <span class="locals-button-arrow">→</span>
+    </a>
+  </div>
+</section>
+
+<style>
+/* -- Locals Club Hero Section Styles -- */
+
+/* Section Container */
+.locals-hero-section {
+  position: relative;
+  width: 100%;
+  background: linear-gradient(to bottom, #8B0000, #000000);
+  padding: 50px 0 80px;
+}
+
+/* Inner Content Wrapper */
+.locals-hero-content {
+  text-align: center;
+  color: #ffffff;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* LOCALS CLUB Label */
+.locals-hero-styled-text {
+  display: inline-block;
+  background-color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 4px;
+  margin-bottom: 20px;
+}
+.locals-club-label {
+  font-weight: 700;
+  color: #000000;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Main Heading */
+.locals-hero-heading {
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #ffffff;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* "Limited Time!" */
+.locals-limited-time {
+  display: inline-block;
+  color: #ffffff;
+  background-color: #cc0605; /* or whichever accent color */
+  padding: 0 6px;
+  margin-left: 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  vertical-align: middle;
+}
+
+/* Subheading */
+.locals-hero-subheading {
+  font-weight: 400;
+  margin-bottom: 30px;
+  color: #ffffff;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+/* Benefits Card */
+.locals-hero-benefits-card {
+  background-color: rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 20px;
+  margin: 0 auto 35px auto;
+  max-width: 650px;
+}
+
+/* Benefits Text */
+.locals-hero-benefits {
+  color: #ffffff;
+  line-height: 1.5;
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Optional Checkmark List */
+.locals-checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: inline-block;
+  text-align: left;
+}
+.locals-checklist li {
+  position: relative;
+  padding-left: 32px;
+  margin-bottom: 10px;
+}
+.locals-checklist li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  font-weight: bold;
+  color: #000;
+  background-color: #FFD700;
+  width: 22px;
+  height: 22px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 0.85rem;
+}
+
+/* SMS Disclaimer */
+.locals-hero-sms-disclaimer {
+  font-size: 0.9rem;
+  color: #ffffff;
+  opacity: 0.9;
+  max-width: 550px;
+  margin: 0 auto 15px auto;
+  line-height: 1.4;
+}
+
+/* CTA Button */
+.locals-hero-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 16px 36px !important;
+  background-color: #e63946 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: background-color 0.3s ease, transform 0.3s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  letter-spacing: 0;
+  /* font-size controlled inline via theme setting */
+}
+
+.locals-hero-button:hover {
+  background-color: #ed3240 !important;
+  transform: translateY(-2px) !important;
+}
+
+.locals-button-arrow {
+  display: inline-block !important;
+  margin-left: 8px !important;
+  transition: transform 0.3s ease !important;
+}
+
+.locals-hero-button:hover .locals-button-arrow {
+  transform: translateX(5px) !important;
+}
+
+/* Responsive Layout (no fixed font sizes, just spacing) */
+@media (max-width: 767px) {
+  .locals-hero-content {
+    padding: 0 20px;
+  }
+  .locals-hero-heading {
+    margin-bottom: 20px;
+  }
+  .locals-hero-subheading {
+    margin-bottom: 25px;
+  }
+  .locals-hero-button {
+    margin-top: 10px;
+  }
+  /* Bullet list to block on small screens */
+  .locals-checklist {
+    display: block;
+    text-align: left;
+    margin: 0 auto;
+  }
+}
+
+@media (min-width: 768px) {
+  .locals-hero-content {
+    width: 80%;
+    max-width: 900px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .locals-hero-content {
+    width: 70%;
+    padding: 0 30px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Locals Club Hero Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Locals Club Hero Section"
+    },
+
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Hero Heading",
+      "default": "Dallas Locals Get $6.79 Meals"
+    },
+    {
+      "type": "text",
+      "id": "limited_time_text",
+      "label": "Limited Time Text",
+      "default": "Limited Time!"
+    },
+    {
+      "type": "range",
+      "id": "limited_time_font_size",
+      "label": "Limited Time Font Size (px)",
+      "default": 18,
+      "min": 10,
+      "max": 60,
+      "step": 1
+    },
+
+    {
+      "type": "range",
+      "id": "heading_font_size",
+      "label": "Heading Font Size (px)",
+      "default": 36,
+      "min": 10,
+      "max": 72,
+      "step": 1
+    },
+    
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Join our Locals Club to unlock chef-crafted ICON Meals for under $7—no shipping fees or commitments. Pick up in-store—no hassles, no waiting!"
+    },
+    {
+      "type": "range",
+      "id": "subheading_font_size",
+      "label": "Subheading Font Size (px)",
+      "default": 16,
+      "min": 10,
+      "max": 72,
+      "step": 1
+    },
+
+    {
+      "type": "textarea",
+      "id": "benefits",
+      "label": "Key Info / Offer Points (Optional)",
+      "default": "<ul class='locals-checklist'>\n  <li>Future weekly deals & promos</li>\n  <li>No shipping fees — pick up in-store</li>\n  <li>No subscription or commitment</li>\n  <li>Same-day ordering available</li>\n</ul>"
+    },
+    {
+      "type": "range",
+      "id": "benefits_font_size",
+      "label": "Benefits Font Size (px)",
+      "default": 14,
+      "min": 10,
+      "max": 72,
+      "step": 1
+    },
+
+    {
+      "type": "text",
+      "id": "sms_disclaimer",
+      "label": "SMS Disclaimer",
+      "default": "Clicking the button below will open your messaging app with a pre-filled text. Just press send to join!"
+    },
+
+    {
+      "type": "url",
+      "id": "sms_link",
+      "label": "SMS Link"
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button Text",
+      "default": "Join via SMS"
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Button Font Size (px)",
+      "default": 16,
+      "min": 10,
+      "max": 72,
+      "step": 1
+    },
+
+    {
+      "type": "range",
+      "id": "label_font_size",
+      "label": "Locals Club Label Font Size (px)",
+      "default": 14,
+      "min": 10,
+      "max": 60,
+      "step": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Locals Club Hero Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
+
+<!-- Meta Pixel: Track "Lead" event on CTA click -->
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const ctaButton = document.querySelector('.locals-hero-button');
+  if(ctaButton) {
+    ctaButton.addEventListener('click', function() {
+      if(typeof fbq === 'function') {
+        fbq('track', 'Lead'); // Send "Lead" event to Meta Pixel
+      }
+    });
+  }
+});
+</script>

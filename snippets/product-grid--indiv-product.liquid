@@ -1,0 +1,126 @@
+{% comment %}
+  REDESIGN V41.4 (Final Meal Plan Version)
+  - MODIFIED: The price is now completely hidden when `is_informational_only` is true.
+{% endcomment %}
+
+{% assign crop_setting = settings.product-grid %}
+{% assign image_crop = nil %}
+{% if crop_setting == "square" %}
+    {% assign image_crop = "aspect-ratio--square" %}
+{% elsif crop_setting == "tall" %}
+    {% assign image_crop = "aspect-ratio--tall" %}
+{% elsif crop_setting == "wide" %}
+    {% assign image_crop = "aspect-ratio--wide" %}
+{% endif %}
+
+{%- assign bordersClass = '' -%}
+{% if settings.borders_enable == true %}
+  {%- assign bordersClass = ' has-borders' -%}
+{% endif %}
+
+{%- assign current_item_in_cart = cart.items | where: 'variant_id', liquidObject.selected_or_first_available_variant.id | first -%}
+{%- assign qty_in_cart = current_item_in_cart.quantity | default: 0 -%}
+
+<article class="product-card {{ bordersClass }}">
+  <div class="product-card__image-wrapper">
+    {%- if is_informational_only -%}
+      <a href="#" class="product-card__image-link js-quick-view-trigger" data-handle="{{ liquidObject.handle }}" tabindex="-1">
+    {%- else -%}
+      <a href="{{ liquidObject.url | within: collection }}" class="product-card__image-link" tabindex="-1">
+    {%- endif -%}
+      {% if image_crop %}<div class="aspect-ratio {{ image_crop }}">{% endif %}
+        <img
+          src="{{ liquidObject.media[0].preview_image | image_url: width: 600 }}"
+          srcset="{{ liquidObject.media[0].preview_image | image_url: width: 600 }} 1x, {{ liquidObject.media[0].preview_image | image_url: width: 1200 }} 2x"
+          loading="lazy"
+          alt="{{ liquidObject.media[0].alt | escape }}"
+          width="{{ liquidObject.media[0].preview_image.width }}"
+          height="{{ liquidObject.media[0].preview_image.height }}"
+        >
+      {% if image_crop %}</div>{% endif %}
+    </a>
+  </div>
+
+  <div class="product-card__details">
+    <div class="product-card__main-content">
+      {%- if is_informational_only -%}
+        <a href="#" class="product-card__title-link js-quick-view-trigger" data-handle="{{ liquidObject.handle }}">
+      {%- else -%}
+        <a href="{{ liquidObject.url | within: collection }}" class="product-card__title-link">
+      {%- endif -%}
+        <h3 class="product-card__title">{{ liquidObject.title }}</h3>
+      </a>
+      
+      {%- capture diet_tags_html -%}
+        {%- if liquidObject.metafields.diet.keto == true -%}<span class="diet-tag" data-tag="keto">Keto</span>{%- endif -%}
+        {%- if liquidObject.metafields.diet['gluten-free'] == true -%}<span class="diet-tag" data-tag="gluten-free">Gluten-Free</span>{%- endif -%}
+        {%- if liquidObject.metafields.diet['dairy-free'] == true -%}<span class="diet-tag" data-tag="dairy-free">Dairy-Free</span>{%- endif -%}
+        {%- if liquidObject.metafields.diet.vegetarian == true -%}<span class="diet-tag" data-tag="vegetarian">Vegetarian</span>{%- endif -%}
+        {%- if liquidObject.metafields.diet.paleo == true -%}<span class="diet-tag" data-tag="paleo">Paleo</span>{%- endif -%}
+      {%- endcapture -%}
+      
+      {%- if diet_tags_html != blank -%}
+        <div class="product-card__diet-tags">
+          {{ diet_tags_html }}
+        </div>
+      {%- endif -%}
+    </div>
+
+    <div class="product-card__footer">
+      <div class="product-card__actions">
+        {%- unless is_informational_only -%}
+          <div class="product-card__price">
+            {{ liquidObject.price | money }}
+          </div>
+        {%- endunless -%}
+        
+        {%- unless is_informational_only -%}
+          {%- if liquidObject.available -%}
+              <product-form class="product-form--quick-add" data-state="{% if qty_in_cart > 0 %}active{% else %}initial{% endif %}">
+                <input type="hidden" name="id" value="{{ liquidObject.selected_or_first_available_variant.id }}" data-variant-id>
+                
+                <button type="button" class="product-card__add-btn alt-focus">
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span>Add</span>
+                </button>
+
+                <div class="integrated-quantity" data-product-id="{{ liquidObject.id }}">
+                  <button type="button" class="integrated-quantity__button" name="minus" aria-label="Decrease quantity">－</button>
+                  <span class="integrated-quantity__text" aria-live="polite">{{ qty_in_cart | default: 1 }}</span>
+                  <input
+                    is="quantity-input"
+                    class="integrated-quantity__input"
+                    type="number"
+                    name="quantity"
+                    value="{{ qty_in_cart }}"
+                    min="0"
+                    aria-label="Quantity"
+                    data-quantity-input
+                  >
+                  <button type="button" class="integrated-quantity__button" name="plus" aria-label="Increase quantity">＋</button>
+                </div>
+              </product-form>
+          {%- else -%}
+              <button type="button" class="btn btn--sold-out" disabled>{{ 'products.product.sold_out' | t }}</button>
+          {%- endif -%}
+        {%- endunless -%}
+      </div>
+
+      {%- assign macros_exist = false -%}
+      {%- if liquidObject.metafields.macros.macros_calories != blank or liquidObject.metafields.macros.macros_protein != blank or liquidObject.metafields.macros.macros_carbs != blank or liquidObject.metafields.macros.macros_fats != blank -%}
+        {%- assign macros_exist = true -%}
+      {%- endif -%}
+      
+      {% if macros_exist %}
+        <div class="product-card__macros">
+          {%- if liquidObject.metafields.macros.macros_calories != blank -%}<div class="macro-item"><span class="macro-value" data-macro-value>{{ liquidObject.metafields.macros.macros_calories }}</span><span class="macro-label">Cals</span></div>{%- endif -%}
+          {%- if liquidObject.metafields.macros.macros_protein != blank -%}<div class="macro-item"><span class="macro-value" data-macro-value>{{ liquidObject.metafields.macros.macros_protein }}g</span><span class="macro-label">Pro</span></div>{%- endif -%}
+          {%- if liquidObject.metafields.macros.macros_carbs != blank -%}<div class="macro-item"><span class="macro-value" data-macro-value>{{ liquidObject.metafields.macros.macros_carbs }}g</span><span class="macro-label">Carbs</span></div>{%- endif -%}
+          {%- if liquidObject.metafields.macros.macros_fats != blank -%}<div class="macro-item"><span class="macro-value" data-macro-value>{{ liquidObject.metafields.macros.macros_fats }}g</span><span class="macro-label">Fat</span></div>{%- endif -%}
+        </div>
+      {% else %}
+        <div class="product-card__macros--placeholder"></div>
+      {% endif %}
+    </div>
+  </div>
+</article>

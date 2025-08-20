@@ -1,0 +1,34 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "recharge-bundle",
+      "settings": {
+        "rb_theme_color": "#83276b",
+        "rb_theme_text": "#ffffff",
+        "rb_theme_other_text": "#000000",
+        "rb_theme_bg": "#ffffff",
+        "rb_text_size": "16px",
+        "rb_spacing_width": 1220,
+        "rb_spacing_margins": "15px",
+        "rb_buttons_size": "15px",
+        "rb_buttons_corners": "4",
+        "rb_builder_items_per_row_ns": 4,
+        "rb_builder_items_per_row": "1",
+        "rb_builder_aspect_ratio": "100%",
+        "rb_builder_radius": "4"
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

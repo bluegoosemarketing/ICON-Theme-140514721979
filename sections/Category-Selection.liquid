@@ -1,0 +1,420 @@
+<section id="icon-category-selection" class="icon-category-section">
+  <div class="icon-container">
+    <div class="icon-category-grid">
+      
+      <!-- On-Demand Section -->
+      <div class="icon-category-column icon-category-column-ondemand">
+        <h2 class="icon-category-title">On-Demand</h2>
+        <ul class="icon-category-links">
+          <li>
+            <a href="https://iconmeals.com/collections/this-weeks-menu" class="icon-category-button button-signature">
+              <span>Signature Menu</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://iconmeals.com/products/custom-meals" class="icon-category-button button-custom">
+              <span>Custom Meals</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://iconmeals.com/collections/bulk-items" class="icon-category-button button-bulk">
+              <span>Bulk Proteins/Sides</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- One-Click Plans Section -->
+      <div class="icon-category-column icon-category-column-plans">
+        <h2 class="icon-category-title">One-Click Plans</h2>
+
+        <div class="icon-category-toggle open">
+          <h3 role="button" aria-expanded="true" tabindex="0">Customer Favorites <span class="icon-toggle-icon">▼</span></h3>
+          <ul>
+            <li><a href="https://iconmeals.com/products/build-your-own-meal-plan">Build Your Own</a></li>
+            <li><a href="https://iconmeals.com/products/icon-meal-plan">ICON Meal Plan</a></li>
+          </ul>
+        </div>
+
+        <div class="icon-category-toggle open">
+          <h3 role="button" aria-expanded="true" tabindex="0">Fat Loss / Muscle Gain <span class="icon-toggle-icon">▼</span></h3>
+          <ul>
+            <li><a href="https://iconmeals.com/products/lean-lifter-meal-plan">Lean Lifter</a></li>
+            <li><a href="https://iconmeals.com/products/get-lean-meal-plan">Get Lean</a></li>
+            <li><a href="https://iconmeals.com/products/extreme-protein-meal-plan">Extreme Protein</a></li>
+          </ul>
+        </div>
+
+        <div class="icon-category-toggle open">
+          <h3 role="button" aria-expanded="true" tabindex="0">Diet / Speciality <span class="icon-toggle-icon">▼</span></h3>
+          <ul>
+            <li><a href="https://iconmeals.com/products/keto-meal-plan">KETO Meal Plan</a></li>
+            <li><a href="https://iconmeals.com/products/protein-plant-based-meal-plan">High Protein Plant Based</a></li>
+          </ul>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  .icon-category-section {
+    padding: 40px 20px;
+    background-color: #f5f8fa;
+  }
+
+  .icon-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    border-radius: 12px;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    justify-content: space-between;
+    height: auto; /* Ensures container height adjusts based on content */
+  }
+
+  .icon-category-grid {
+    display: flex;
+    flex: 1;
+    gap: 30px;
+  }
+
+  .icon-category-column {
+    flex: 1;
+    padding: 30px;
+    border-right: 1px solid #ddd;
+    display: flex;
+    flex-direction: column;
+    /* Ensures content starts from the top */
+    justify-content: flex-start;
+  }
+
+  .icon-category-column:last-child {
+    border-right: none;
+  }
+
+  .icon-category-title {
+    font-size: 1.8rem;
+    font-weight: 800; /* Increased font weight for more boldness */
+    margin-bottom: 20px;
+    color: #333;
+    padding-left: 15px; /* Align titles with links */
+  }
+
+  .icon-category-links {
+    list-style-type: none; /* Removes bullets */
+    padding: 0;
+    margin: 30px 0 0; /* Increased margin-top to shift buttons down */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Space between buttons */
+  }
+
+  .icon-category-links li {
+    /* Removed margin-bottom since gap is used */
+  }
+
+  /* Button Styles */
+  .icon-category-button {
+    position: relative;
+    display: flex; /* Changed to flex for proper alignment */
+    align-items: center;
+    background-size: cover;
+    background-position: center left; /* Align background to the left */
+    color: black !important; /* Changed text color to black */
+    text-align: left; /* Left-align text */
+    padding: 30px 20px; /* Increased padding by 25% for taller buttons */
+    border-radius: 8px;
+    text-decoration: none !important; /* Force removal of underline */
+    font-weight: 600;
+    transition: transform 0.2s ease, box-shadow 0.3s ease;
+    font-size: 1.2rem; /* Increased font size */
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle drop shadow */
+    cursor: pointer; /* Ensure cursor is pointer */
+  }
+
+  /* Apply the background image to the Signature, Custom, and Bulk buttons */
+  .button-signature {
+    background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Menu_v1.jpg?v=1731424309');
+  }
+
+  .button-custom {
+    background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Menu_v1.jpg?v=1731435672');
+  }
+
+  .button-bulk {
+    background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Menu_v1.jpg?v=1731435672');
+  }
+
+  /* Gradient Overlay */
+  .icon-category-button::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.3), rgba(255,255,255,0.3)); /* Light gradient for black text */
+    z-index: 1;
+    transition: background 0.3s ease;
+  }
+
+  /* Ensure text is above the overlay */
+  .icon-category-button span {
+    position: relative;
+    z-index: 2;
+    padding-left: 15px; /* 15px padding from the left */
+    display: flex;
+    align-items: center;
+  }
+
+  /* Add Arrow After Text in On-Demand Buttons */
+  .icon-category-button span::after {
+    content: '➔'; /* Stylish arrow */
+    margin-left: 10px; /* Spacing between text and arrow */
+    font-size: 1rem; /* Adjust as needed */
+    color: #666; /* More faint than text */
+    transition: color 0.3s ease, transform 0.3s ease; /* Smooth transition for hover effects */
+  }
+
+  /* Hover Effects for On-Demand Buttons */
+  .icon-category-button:hover::before {
+    background: linear-gradient(to bottom, rgba(255,255,255,0.4), rgba(255,255,255,0.4));
+  }
+
+  .icon-category-button:hover {
+    transform: scale(1.02); /* Subtle hover effect */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced drop shadow on hover */
+  }
+
+  /* Hover Effects for Arrow in On-Demand Buttons */
+  .icon-category-button:hover span::after {
+    color: #333; /* Darken arrow on hover */
+    transform: translateX(5px); /* Move arrow slightly to the right */
+  }
+
+  /* Toggle Styles */
+  .icon-category-toggle {
+    margin-top: 20px;
+    /* Removed any top borders to eliminate extra dividers */
+  }
+
+  .icon-category-toggle h3 {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin: 0;
+    padding: 10px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+    color: #333;
+    transition: color 0.3s ease;
+    font-weight: 700; /* Added to make the toggle headers more prominent */
+    padding-left: 15px; /* Align toggle headers with links */
+  }
+
+  .icon-category-toggle h3:hover {
+    color: #007aff;
+  }
+
+  .icon-toggle-icon {
+    font-size: 1rem;
+    transition: transform 0.2s ease;
+  }
+
+  /* Dropdown Visibility Control */
+  .icon-category-toggle ul {
+    display: none; /* Hide dropdowns by default */
+    margin: 10px 0 0;
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .icon-category-toggle.open ul {
+    display: block; /* Show dropdowns when open */
+  }
+
+  .icon-category-toggle.open .icon-toggle-icon {
+    transform: rotate(180deg); /* Rotate icon when open */
+  }
+
+  /* Dropdown Items with Arrows */
+  .icon-category-toggle ul li a {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-right: 10px; /* Space for the arrow */
+    text-decoration: none !important;
+    color: #333333 !important; /* Updated to dark gray */
+    font-weight: 500; /* Adjusted font weight to differentiate from titles */
+    transition: color 0.3s ease, padding-left 0.3s ease;
+    cursor: pointer; /* Indicate clickability */
+    margin-bottom: 10px; /* Added extra vertical spacing */
+    padding-left: 15px; /* Align with On-Demand buttons */
+    max-width: 100%; /* Ensure links don't exceed container width */
+  }
+
+  /* Remove margin-bottom for the last dropdown item and add padding-bottom */
+  .icon-category-toggle ul li a:last-child {
+    margin-bottom: 0;
+    padding-bottom: 10px; /* Added 10px padding at the bottom */
+  }
+
+  /* Add Arrow After Dropdown Text */
+  .icon-category-toggle ul li a::after {
+    content: '➔'; /* Stylish arrow */
+    margin-left: 10px; /* Spacing between text and arrow */
+    font-size: 1rem; /* Adjust as needed */
+    color: #666; /* Updated to dark gray to match link color */
+    opacity: 0; /* Hide arrow by default */
+    transform: translateX(-10px); /* Shift arrow to the left */
+    transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease; /* Smooth transition for hover effects */
+  }
+
+  /* Show Arrow on Hover */
+  .icon-category-toggle ul li a:hover::after {
+    opacity: 1; /* Fade in the arrow */
+    transform: translateX(0); /* Move arrow into place */
+    color: #333333; /* Change arrow color to match new link color */
+  }
+
+  .icon-category-toggle ul li a:hover {
+    color: #333333; /* Darken text on hover to dark gray */
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    .icon-container {
+      flex-direction: column;
+      padding: 10px; /* Reduced padding for more width */
+    }
+
+    .icon-category-grid {
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .icon-category-column {
+      border-right: none;
+      padding: 10px; /* Reduced padding for more width */
+    }
+
+    .icon-category-title {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 15px;
+      font-size: 1.8rem;
+      font-weight: 800; /* Ensure titles remain bold on mobile */
+      padding-left: 15px; /* Align titles with links */
+    }
+
+    /* Add Divider Above One-Click Plans on Mobile */
+    .icon-category-column-plans {
+      border-top: 1px solid #f0f0f0; /* Lighter horizontal divider */
+      padding-top: 20px; /* Additional padding for spacing */
+      margin-top: 20px; /* Additional separation from the above section */
+      margin-left: -10px; /* Extend divider to full width */
+      margin-right: -10px;
+    }
+
+    .icon-category-links {
+      margin-top: 20px; /* Adjusted margin-top for consistency */
+      gap: 15px;
+    }
+
+    .icon-category-button {
+      padding: 20px 15px; /* Reduced horizontal padding for wider buttons */
+      font-size: 1rem; /* Slightly increased font size for better readability */
+      width: 100%; /* Make buttons take full width */
+      box-sizing: border-box; /* Ensure padding doesn't exceed container */
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .icon-category-button span {
+      padding-left: 10px; /* Reduced left padding inside buttons */
+    }
+
+    .icon-category-button span::after {
+      font-size: 0.9rem;
+      margin-left: 8px;
+    }
+
+    /* Hover Effects for Arrow on Mobile */
+    .icon-category-button:hover span::after {
+      transform: translateX(5px);
+    }
+
+    /* Dropdown Items */
+    .icon-category-toggle ul li a {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding-right: 10px; /* Space for the arrow */
+      margin-bottom: 10px; /* Added extra vertical spacing */
+      padding-left: 15px; /* Align with On-Demand buttons */
+      max-width: 100%; /* Ensure links don't exceed container width */
+    }
+
+    .icon-category-toggle ul li a:last-child {
+      margin-bottom: 0;
+      padding-bottom: 10px; /* Added 10px padding at the bottom */
+    }
+
+    .icon-category-toggle ul li a::after {
+      margin-left: 10px; /* Maintain 10px spacing between text and arrow */
+      font-size: 0.9rem;
+      color: #666; /* Updated to dark gray to match link color */
+      opacity: 0; /* Hide arrow by default */
+      transform: translateX(-10px); /* Shift arrow to the left */
+    }
+
+    /* Show Arrow on Hover in Mobile */
+    .icon-category-toggle ul li a:hover::after {
+      opacity: 1; /* Fade in the arrow */
+      transform: translateX(0); /* Move arrow into place */
+      color: #333333; /* Change arrow color to match new link color */
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggles = document.querySelectorAll('.icon-category-toggle h3');
+    toggles.forEach(toggle => {
+      toggle.addEventListener('click', () => {
+        const parent = toggle.parentElement;
+        parent.classList.toggle('open');
+        const isOpen = parent.classList.contains('open');
+        toggle.setAttribute('aria-expanded', isOpen);
+        // The arrow rotation is handled by CSS
+      });
+
+      toggle.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          toggle.click();
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Category Selection",
+  "settings": [],
+  "blocks": [],
+  "presets": [
+    {
+      "name": "Category Selection Section",
+      "category": "Category"
+    }
+  ]
+}
+{% endschema %}

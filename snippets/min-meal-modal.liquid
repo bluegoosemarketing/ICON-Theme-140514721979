@@ -1,0 +1,186 @@
+{% comment %}
+  ==========================================================================
+  ICON MEALS - MINIMUM MEAL REQUIREMENT MODAL (V9 - LEGIBILITY ENHANCEMENT)
+  ==========================================================================
+  This modal BLOCKS checkout if the 8-meal minimum is not met for orders
+  containing meal items.
+
+  - V9 Update: Increased the font-weight of secondary text to improve
+    legibility and readability on all screen types, addressing concerns
+    about thin fonts.
+{% endcomment %}
+
+<div id="min-meal-modal" class="min-meal-modal hidden" role="dialog" aria-modal="true" aria-labelledby="min-meal-modal-message" aria-describedby="min-meal-modal-description">
+  <div class="min-meal-modal__dialog">
+    <div class="min-meal-modal__icon-wrapper">
+      <div class="min-meal-modal__icon">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+          <line x1="12" y1="9" x2="12" y2="13"></line>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+    </div>
+    
+    <div class="min-meal-modal__message-content">
+      <p id="min-meal-modal-message" class="min-meal-modal__message--primary">
+        A minimum of 8 meals or plated items is required for shipment.
+      </p>
+
+      <div id="min-meal-modal-description">
+        <div class="min-meal-modal__details">
+          <p>Orders with fewer items will be held, and our team will contact you. Snacks ship separately and do not count toward the meal total.</p>
+        </div>
+
+        <div class="min-meal-modal__note">
+          <p><strong>Note:</strong> This minimum does not apply to pick-up orders or select local partners.</p>
+        </div>
+      </div>
+    </div>
+    
+    <div class="min-meal-modal__actions">
+      <button type="button" class="min-meal-modal__btn min-meal-modal__btn--primary min-meal-modal__close">Continue Shopping</button>
+      <button
+        type="button"
+        class="min-meal-modal__btn min-meal-modal__btn--primary checkout-anyway-btn"
+        data-checkout-url="{% if template.suffix == 'add-ons' %}/checkout{% else %}/pages/add-ons{% endif %}"
+        data-bypass-min-meal
+      >
+        Checkout Anyway
+      </button>
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    --mm-modal-brand-text: var(--brand-text, #212529);
+    --mm-modal-brand-primary: var(--brand-primary, #007bff); /* Fallback to a standard blue */
+    --mm-modal-text-primary: #212529;
+    --mm-modal-text-secondary: #495057;
+    --mm-modal-border-light: #dee2e6;
+    --mm-modal-border-dark: #ced4da;
+    --mm-modal-background-light: #f8f9fa;
+  }
+  
+  @keyframes min-meal-modal-fade-in { from { opacity: 0; } to { opacity: 1; } }
+  @keyframes min-meal-modal-pop-in { 0% { opacity: 0; transform: scale(0.9); } 100% { opacity: 1; transform: scale(1); } }
+  
+  .min-meal-modal {
+    position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(33, 37, 41, 0.6);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex; align-items: center; justify-content: center;
+    z-index: 10000001; padding: 1rem;
+    animation: min-meal-modal-fade-in 0.3s ease-out;
+    transition: opacity 0.2s ease-out, visibility 0.2s ease-out;
+  }
+  
+  .min-meal-modal.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
+  
+  .min-meal-modal__dialog {
+    background: #ffffff; padding: 2.5rem 2rem 2rem; border-radius: 16px;
+    max-width: 480px; width: 100%; text-align: center;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12), 0 5px 10px rgba(0, 0, 0, 0.08);
+    animation: min-meal-modal-pop-in 0.4s cubic-bezier(0.25, 0.8, 0.25, 1) 0.1s backwards;
+    display: flex; flex-direction: column; align-items: center;
+  }
+  
+  .min-meal-modal__icon-wrapper { margin: 0 auto 1rem; }
+  
+  .min-meal-modal__icon {
+    width: 56px; height: 56px; background-color: #fdf2f2; color: #dc3545;
+    border-radius: 50%; display: inline-flex; align-items: center; justify-content: center;
+    border: 4px solid #fff; box-shadow: 0 0 0 1px #dc3545;
+  }
+  
+  .min-meal-modal__icon svg { width: 28px; height: 28px; }
+
+  .min-meal-modal__message-content { width: 100%; max-width: 400px; margin: 0; }
+  
+  .min-meal-modal__message--primary {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 1.25rem; font-weight: 600; color: var(--mm-modal-text-primary);
+    line-height: 1.5; margin: 0;
+  }
+
+  #min-meal-modal-description { margin-top: 1rem; }
+
+  .min-meal-modal__details {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.95rem; color: var(--mm-modal-text-secondary);
+    line-height: 1.6; margin: 0 auto;
+    font-weight: 500; /* UPDATED: Improved legibility */
+  }
+  .min-meal-modal__details p { margin: 0; }
+
+  .min-meal-modal__note {
+    text-align: left; margin: 1.25rem auto 0; padding: 0.75rem 1rem;
+    background-color: var(--mm-modal-background-light);
+    border-left: 3px solid var(--mm-modal-brand-primary); border-radius: 4px;
+  }
+  .min-meal-modal__note p {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-size: 0.9rem; line-height: 1.5; color: var(--mm-modal-text-secondary);
+    margin: 0;
+    font-weight: 500; /* UPDATED: Improved legibility */
+  }
+  .min-meal-modal__note p strong { color: var(--mm-modal-text-primary); font-weight: 600; }
+  
+  .min-meal-modal__actions {
+    margin-top: 2rem; display: flex; flex-direction: column;
+    align-items: center; gap: 0.75rem; width: 100%;
+  }
+  
+  .min-meal-modal__btn {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    width: 100%; display: inline-flex; align-items: center; justify-content: center;
+    text-decoration: none; white-space: nowrap; font-size: 1rem; font-weight: 600;
+    height: 50px; padding: 0 1.5rem; border-radius: 8px; cursor: pointer;
+    transition: all 0.2s ease; border: 2px solid transparent; -webkit-appearance: none;
+  }
+  
+  .min-meal-modal__btn--primary {
+    background-color: var(--mm-modal-text-primary); border-color: var(--mm-modal-text-primary); color: #ffffff;
+  }
+  
+  .min-meal-modal__btn--primary:hover,
+  .min-meal-modal__btn--primary:focus {
+    background-color: #343a40; border-color: #343a40; transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+
+  .min-meal-modal__btn.checkout-anyway-btn {
+    background-color: #ffffff; color: var(--mm-modal-text-secondary); border-color: var(--mm-modal-border-light);
+  }
+
+  .min-meal-modal__btn.checkout-anyway-btn:hover,
+  .min-meal-modal__btn.checkout-anyway-btn:focus {
+    color: var(--mm-modal-text-primary); border-color: var(--mm-modal-border-dark);
+    background-color: var(--mm-modal-background-light); transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+  }
+
+  @media (min-width: 480px) {
+    .min-meal-modal__actions {
+      flex-direction: row-reverse; justify-content: center; gap: 1rem;
+    }
+    .min-meal-modal__btn {
+      width: auto; min-width: 180px;
+    }
+  }
+
+  .cart-drawer__checkout-btn, .cart-sidebar__checkout-btn, #cart_submit.btn--place-order { position: relative; }
+  .cart-drawer__checkout-btn.is-loading, .cart-sidebar__checkout-btn.is-loading, #cart_submit.btn--place-order.is-loading {
+    color: transparent !important; cursor: wait;
+  }
+  .cart-drawer__checkout-btn.is-loading::after, .cart-sidebar__checkout-btn.is-loading::after, #cart_submit.btn--place-order.is-loading::after {
+    content: ''; position: absolute; top: 50%; left: 50%; width: 24px; height: 24px;
+    transform: translate(-50%, -50%);
+    animation: unified-spinner-spin 0.85s cubic-bezier(0.5, 0.15, 0.5, 0.85) infinite;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3e.spinner_path%7bstroke:%23ffffff;stroke-width:3;stroke-linecap:round;fill:none%7d%3c/style%3e%3ccircle class='spinner_path' cx='12' cy='12' r='10' stroke-dasharray='62.83' stroke-dashoffset='47.12'/%3e%3c/svg%3e") !important;
+    background-size: contain; background-repeat: no-repeat;
+  }
+  @keyframes unified-spinner-spin { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
+</style>

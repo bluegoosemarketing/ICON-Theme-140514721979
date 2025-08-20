@@ -1,0 +1,111 @@
+<section class="partner-logos-section">
+  <div class="partner-logos-container">
+    <h2 class="partner-logos-heading">{{ section.settings.section_heading }}</h2>
+    <div class="partner-logos-wrapper">
+      <div class="partner-logo">
+        <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/logo-ufc_8bab60ad-a7f6-4579-b5c4-4e0aa58a82bd.webp?v=1726851428" alt="UFC" class="partner-logo-image">
+      </div>
+      <div class="partner-logo">
+        <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/absolute-recomp.webp?v=1719937689" alt="Absolute Recomp" class="partner-logo-image">
+      </div>
+    </div>
+  </div>
+
+  <style>
+    .partner-logos-section {
+      background-color: #ffffff;
+      padding: 60px 20px;
+      text-align: center;
+      border-top: 1px solid #e5e5e5;
+      border-bottom: 1px solid #e5e5e5;
+    }
+    .partner-logos-heading {
+      font-family: 'Roboto', sans-serif;
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 40px;
+      color: #222;
+    }
+    .partner-logos-container {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    /* Use flex to center both logos horizontally */
+    .partner-logos-wrapper {
+      display: flex;
+      flex-wrap: wrap; /* Helps if screen is too narrow */
+      justify-content: center;
+      align-items: center;
+      gap: 60px; /* Space around the icons, not between them */
+    }
+    .partner-logo {
+      text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .partner-logo img {
+      max-width: 100%;
+      /* Larger on desktop for better visibility */
+      max-height: 120px;
+      height: auto;
+      border: 0;
+      filter: grayscale(100%);
+      transition: filter 0.3s ease, transform 0.3s ease;
+    }
+    .partner-logo:hover img {
+      filter: grayscale(0);
+      transform: scale(1.05);
+    }
+    /* Reduce size on smaller screens if needed */
+    @media (max-width: 768px) {
+      .partner-logos-heading {
+        font-size: 24px;
+      }
+      .partner-logo img {
+        max-height: 80px;
+      }
+    }
+    @media (max-width: 480px) {
+      .partner-logos-heading {
+        font-size: 20px;
+      }
+    }
+  </style>
+</section>
+
+{% schema %}
+{
+  "name": "Partner Logos Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "section_heading",
+      "label": "Section Heading",
+      "default": "Supporting the Competitor's Journey"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "logo",
+      "name": "Logo",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "logo_image",
+          "label": "Logo Image"
+        },
+        {
+          "type": "text",
+          "id": "logo_alt_text",
+          "label": "Alt Text"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Partner Logos Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,45 @@
+{% comment %}
+  Generic product page layout that mimics the collection page two column grid.
+  All existing product content is rendered in the left scrollable column while
+  the cart preview sidebar is shown on the right.
+{% endcomment %}
+
+<div class="container--collection-page">
+  <div class="collection-page__layout">
+    <main class="collection-page__main">
+      <a href="{{ product.collections.first.url | default: routes.root_url }}" class="inline-back-btn">Back to Menu</a>
+      <div id="CollectionProductGrid">
+        <ol class="product-grid" data-paginate-items="1">
+          <li class="grid__item">
+            {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
+              {% section 'template--product-custom-meals' %}
+            {% else %}
+              {% section 'template--product' %}
+            {% endif %}
+          </li>
+        </ol>
+      </div>
+      <div class="product-page-additional-sections">
+        {% section 'template--product-description' %}
+        {% section 'accordion' %}
+        {% section 'apps' %}
+        {% section 'template--product--recommendations' %}
+      </div>
+    </main>
+    <aside class="collection-page__sidebar">
+      {% render 'cart-preview-sidebar' %}
+    </aside>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Product Layout: Standard",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Product Layout: Standard"
+    }
+  ]
+}
+{% endschema %}

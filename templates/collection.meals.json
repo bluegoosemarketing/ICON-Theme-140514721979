@@ -1,0 +1,90 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div.collection-wrapper",
+  "sections": {
+    "collection_header": {
+      "type": "template--collection-header",
+      "blocks": {
+        "collection_title": {
+          "type": "collection-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collection_title"
+      ],
+      "settings": {
+        "collection_image_enable": false
+      }
+    },
+    "product_filtering": {
+      "type": "main-collection-filtering",
+      "settings": {
+        "desktop_position": "topbar",
+        "enable_filtering": true,
+        "enable_sorting": false
+      }
+    },
+    "main": {
+      "type": "template--collection",
+      "blocks": {
+        "product_title": {
+          "type": "product-card-title",
+          "settings": {}
+        },
+        "3369659d-b7f1-43fb-886e-bbd54103f5d1": {
+          "type": "product-card-macros",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title",
+        "3369659d-b7f1-43fb-886e-bbd54103f5d1"
+      ],
+      "settings": {
+        "grid": 3,
+        "rows": 14,
+        "pagination_type": "paged_navigation"
+      }
+    },
+    "16899640674a553a9b": {
+      "type": "apps",
+      "blocks": {
+        "0317023c-e9cd-4b93-9512-1d4df248152d": {
+          "type": "shopify://apps/prevent-checkout-threshold/blocks/collection-threshold/1c03c194-d927-4817-9315-639fec3eba7f",
+          "disabled": true,
+          "settings": {
+            "tooltip_text": "Please add a minimum of eight (8) meals to your cart to complete your order!",
+            "tooltip_hover_text": "We are unable to process orders with less than eight (8) meals.",
+            "tooltip_completed_text": "Your order is eligible for checkout!",
+            "tooltip_completed_hover_text": "If you are ordering meals, you must have at least eight (8) meals in your cart.",
+            "progress_color": "#ec4242",
+            "progress_bg_color": "#d6d6d6",
+            "collection_progress": ".",
+            "collection_progress_selector": "container--collection-page"
+          }
+        }
+      },
+      "block_order": [
+        "0317023c-e9cd-4b93-9512-1d4df248152d"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "collection_header",
+    "product_filtering",
+    "main",
+    "16899640674a553a9b"
+  ]
+}

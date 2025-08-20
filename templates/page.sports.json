@@ -1,0 +1,536 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "image_image_with_text_block_PipVQK": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/sports-banner_1.png",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "",
+        "title": "Fuel Your Team’s Success with ICON Meals",
+        "text": "<p>Heat & Eat Meals, Protein Snacks, More</p>",
+        "button_link": "#start",
+        "button_label": "Apply Now"
+      }
+    },
+    "image_image_with_text_overlay_kD96CR": {
+      "type": "image--image-with-text-overlay",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Wholesale_Banner_1.webp",
+        "subheading": "HEAT & EAT MEALS | PROTEIN SNACKS | MORE",
+        "title": "Let's Start an Iconic Partnership",
+        "text": "",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "text_rich_text_KFdg67": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "large",
+        "subheading": "Premier Heat-and-Eat Solutions for Sports Teams",
+        "title": "",
+        "text": "<p>Athletes and sports teams demand the highest levels of nutrition and convenience to perform at their peak. ICON Meals is proud to offer specialized heat-and-eat meal solutions tailored for sports teams and athletic programs. Our meals provide the essential nutrition needed to support training, recovery, and performance, ensuring your team stays at the top of their game.</p><h4></h4>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "advanced_layout_custom_html_dWxGPJ": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "html_RDYwQ8": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"start\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "html_RDYwQ8"
+      ],
+      "settings": {}
+    },
+    "172053951781bc35b3": {
+      "type": "apps",
+      "blocks": {
+        "forms_inline_TnMwaF": {
+          "type": "shopify://apps/forms/blocks/inline/8744a304-fcb1-4347-b211-bb6b4759a76a",
+          "settings": {
+            "form_id": "136009",
+            "text_color": "#202020",
+            "button_background_color": "#202020",
+            "button_label_color": "#ffffff",
+            "links_color": "#1878b9",
+            "errors_color": "#e02229",
+            "text_alignment": "center",
+            "form_alignment": "center",
+            "padding_top": 0,
+            "padding_bottom": 0,
+            "padding_right": 0,
+            "padding_left": 0
+          }
+        }
+      },
+      "block_order": [
+        "forms_inline_TnMwaF"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "image_gallery_Gea4fm": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_dnKmY8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/cook-2.svg",
+            "link": "",
+            "title": "Made To Order Meals",
+            "description": "<p>Chef-prepared. High-protein, lean, vegetarian, and keto options available.</p>"
+          }
+        },
+        "image_BXhjTq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/functional-foods.svg",
+            "link": "",
+            "title": "Functional Foods",
+            "description": "<p>From protein-packed popcorn and butters to sauces and seasonings.</p>"
+          }
+        },
+        "image_HaAL43": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/healthy.svg",
+            "link": "",
+            "title": "Health & Fitness Focused",
+            "description": "<p>Our products are made for those looking to improve their daily health</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_dnKmY8",
+        "image_BXhjTq",
+        "image_HaAL43"
+      ],
+      "settings": {}
+    },
+    "text_rich_text_AhTPwg": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Featured Partners",
+        "text": "<p>ICON Meals is <em>The Official Meal Delivery Service</em> for these organizations plus many more:</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_logo_list_7dXAAr": {
+      "type": "image--logo-list",
+      "blocks": {
+        "logo_image_G9EqFX": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/ufc-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_GQcMfj": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/United_States_Olympic_Team.webp",
+            "link": ""
+          }
+        },
+        "logo_image_7awphp": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/dallas-cowboys-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_EYYpG6": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/usn-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_QqEakQ": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/usat-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_PjfDRG": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/absolute-recomp.webp",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_image_G9EqFX",
+        "logo_image_GQcMfj",
+        "logo_image_7awphp",
+        "logo_image_EYYpG6",
+        "logo_image_QqEakQ",
+        "logo_image_PjfDRG"
+      ],
+      "settings": {
+        "width": 150,
+        "subheading": "",
+        "title": ""
+      }
+    },
+    "text_rich_text_nBQKWQ": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Did you know?",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_p4xCVD": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_yrRGJy": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/16.png",
+            "link": "",
+            "title": "95% of athletes report improved performance and quicker recovery with regular, balanced meals.",
+            "description": ""
+          }
+        },
+        "image_qkA7DB": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/17.png",
+            "link": "",
+            "title": "Teams that prioritize nutrition see a 15% increase in performance metrics.",
+            "description": ""
+          }
+        },
+        "image_9Yg3Pa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/18.png",
+            "link": "",
+            "title": "Providing high-quality meals can lead to a 30% improvement in team cohesion and morale.",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_yrRGJy",
+        "image_qkA7DB",
+        "image_9Yg3Pa"
+      ],
+      "settings": {}
+    },
+    "text_rich_text_yzQb9j": {
+      "type": "text--rich-text",
+      "disabled": true,
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Cost-Effective and Flexible Solutions",
+        "text": "<p>Whether you need daily, weekly, or monthly meal plans, ICON Meals offers flexible solutions that can be tailored to meet the specific needs of your organization. Take advantage of our competitive pricing and corporate discounts, ensuring you get the best value for your investment in employee wellness.</p>",
+        "button_link": "#start",
+        "button_label": "Get Started"
+      }
+    },
+    "image_image_with_text_overlay_ij7VLi": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/sports-bg.webp",
+        "subheading": "",
+        "title": "Cost-Effective and Flexible Solutions",
+        "text": "<p>We offer customizable meal plans to fit the specific needs of your team, whether you need meals for daily training, travel, or specific events. Take advantage of our competitive pricing and bulk discounts, ensuring your team gets the best value for its nutritional investment.</p>",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "#start",
+        "button_label": "Get Started"
+      }
+    },
+    "image_gallery_QwQxPb": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_64QUYK": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/8.png",
+            "link": "",
+            "title": "Team Discounts",
+            "description": "<p>Set up a special discount for your team to order on their own at a discounted rate.</p>"
+          }
+        },
+        "image_xm4kMw": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/9.png",
+            "link": "",
+            "title": "Stock Up Your Fridge",
+            "description": "<p>Create recurring or on-demand orders for your team and staff to keep meals stocked at a discount.</p>"
+          }
+        },
+        "image_bB7n6w": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/10.png",
+            "link": "",
+            "title": "Team Meal Programs",
+            "description": "<p>Let us custom build a recurring meal plan for your team and staff to create an efficient wellness program.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_64QUYK",
+        "image_xm4kMw",
+        "image_bB7n6w"
+      ],
+      "settings": {}
+    },
+    "text_rich_text_YyjkTK": {
+      "type": "text--rich-text",
+      "disabled": true,
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Why Choose ICON Meals?",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_image_with_text_overlay_Tf3UG7": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/why-icon-bg.webp",
+        "subheading": "",
+        "title": "Why Choose ICON Meals?",
+        "text": "",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "x-small",
+        "text-over-image-width": "full-width",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_DVqmjp": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_bQitXn": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/5_bd5e59cc-ec7a-4c60-9868-4413876eafee.png",
+            "link": "",
+            "title": "Team Morale & Performance",
+            "description": "<p>Providing nutritious, delicious meals shows athletes that their health and performance are a priority, enhancing team morale and cohesion.</p>"
+          }
+        },
+        "image_kfbCtM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/2_4869d438-da74-4307-85df-ac660e10e6cc.png",
+            "link": "",
+            "title": "Nutritional Powerhouse",
+            "description": "<p>Each meal is crafted by expert chefs and nutritionists to deliver the right balance of proteins, carbs, and healthy fats to fuel training and recovery.</p>"
+          }
+        },
+        "image_7YtLhY": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/6_bfe80653-052f-4829-8daf-8dcb828c7452.png",
+            "link": "",
+            "title": "Convenience & Time-Saving",
+            "description": "<p>Our meals are ready in under 3 minutes, perfect for athletes with busy training and competition schedules.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_bQitXn",
+        "image_kfbCtM",
+        "image_7YtLhY"
+      ],
+      "settings": {}
+    },
+    "text_image_with_text_cMddWq": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/sports_1.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "Elevate Your Team’s Nutrition with ICON Meals",
+        "text_block": "<p>Investing in ICON Meals for your sports team is an investment in their health, performance, and success. Our nutritious, convenient, and delicious meals provide the support your athletes need to excel in training and competition.</p>",
+        "button_link": "#start",
+        "button_label": "Sounds Great! Apply Now"
+      }
+    },
+    "text_rich_text_FdFBXk": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Product Offerings",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_DVMkMd": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_DLrBiq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/offering-meals.webp",
+            "link": "",
+            "title": "Heat & Eat Meals",
+            "description": ""
+          }
+        },
+        "image_makh9W": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/offering-snacks.webp",
+            "link": "",
+            "title": "Protein Snacks",
+            "description": ""
+          }
+        },
+        "image_zzAJhR": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/offering-sauce.webp",
+            "link": "",
+            "title": "Sauces & Seasonings",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_DLrBiq",
+        "image_makh9W",
+        "image_zzAJhR"
+      ],
+      "settings": {}
+    },
+    "image_image_with_text_block_a6RMkQ": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/meal-background-2.webp",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "",
+        "title": "The ICON Meals Difference",
+        "text": "<p>We are a <strong>100% USDA-certified facility </strong>known for our <strong>exceptional food safety</strong>, <strong>inspection</strong>, and <strong>quality standards</strong>. Our in-house meat processing—from cooking our own ground turkey to hand-trimming and preparing our house-made brisket—ensures the highest quality proteins possible. </p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "collection_featured_collection_aGJMAW": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "product_card_vendor_3ekP6R": {
+          "type": "product-card-vendor",
+          "settings": {}
+        },
+        "product_card_title_M8V6qM": {
+          "type": "product-card-title",
+          "settings": {}
+        },
+        "product_card_price_UzHCHr": {
+          "type": "product-card-price",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_card_vendor_3ekP6R",
+        "product_card_title_M8V6qM",
+        "product_card_price_UzHCHr"
+      ],
+      "custom_css": [
+        ".money-styling {display: none;}"
+      ],
+      "settings": {
+        "subheading": "",
+        "title": "Latest Arrivals",
+        "collection": "signature-menu",
+        "grid": 4,
+        "rows": 1,
+        "hide_add_to_cart": true,
+        "show_view_all": false
+      }
+    }
+  },
+  "order": [
+    "1649069563be558dae",
+    "main",
+    "image_image_with_text_block_PipVQK",
+    "image_image_with_text_overlay_kD96CR",
+    "text_rich_text_KFdg67",
+    "advanced_layout_custom_html_dWxGPJ",
+    "172053951781bc35b3",
+    "image_gallery_Gea4fm",
+    "text_rich_text_AhTPwg",
+    "image_logo_list_7dXAAr",
+    "text_rich_text_nBQKWQ",
+    "image_gallery_p4xCVD",
+    "text_rich_text_yzQb9j",
+    "image_image_with_text_overlay_ij7VLi",
+    "image_gallery_QwQxPb",
+    "text_rich_text_YyjkTK",
+    "image_image_with_text_overlay_Tf3UG7",
+    "image_gallery_DVqmjp",
+    "text_image_with_text_cMddWq",
+    "text_rich_text_FdFBXk",
+    "image_gallery_DVMkMd",
+    "image_image_with_text_block_a6RMkQ",
+    "collection_featured_collection_aGJMAW"
+  ]
+}

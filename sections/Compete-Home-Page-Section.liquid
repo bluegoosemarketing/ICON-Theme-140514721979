@@ -1,0 +1,196 @@
+{% comment %}
+  Revamped ICON Competing Section for Shopify
+  - Enhanced design for better homepage integration
+  - Ensures images display correctly
+  - Fixes button transparency issue
+  - Fully responsive for desktop & mobile
+  - Customizable via Shopify schema
+{% endcomment %}
+
+<section class="icon-competing-section">
+  <div class="icon-competing-section__container">
+    {% if section.settings.main_heading != blank %}
+      <h2 class="icon-competing-section__title">{{ section.settings.main_heading }}</h2>
+    {% endif %}
+    
+    {% if section.settings.subheading != blank %}
+      <p class="icon-competing-section__subtitle">{{ section.settings.subheading }}</p>
+    {% endif %}
+    
+    <div class="icon-competing-section__blocks">
+      {% for block in section.blocks %}
+        <div class="icon-competing-section__block">
+          {% if block.settings.block_image %}
+            <div class="icon-competing-section__image-wrapper">
+              <img 
+                src="{{ block.settings.block_image }}" 
+                alt="{{ block.settings.block_heading | escape }}"
+                class="icon-competing-section__image"
+              >
+            </div>
+          {% endif %}
+          
+          <div class="icon-competing-section__content">
+            {% if block.settings.block_heading != blank %}
+              <h3 class="icon-competing-section__block-title">{{ block.settings.block_heading }}</h3>
+            {% endif %}
+            
+            {% if block.settings.block_text != blank %}
+              <p class="icon-competing-section__block-text">{{ block.settings.block_text }}</p>
+            {% endif %}
+            
+            {% if block.settings.block_link != blank and block.settings.block_link_text != blank %}
+              <a href="{{ block.settings.block_link }}" class="icon-competing-section__button">
+                {{ block.settings.block_link_text }}
+              </a>
+            {% endif %}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<style>
+.icon-competing-section {
+  background-color: #fff;
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.icon-competing-section__container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.icon-competing-section__title {
+  font-size: 42px;
+  font-weight: 700;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.icon-competing-section__subtitle {
+  font-size: 18px;
+  color: #666;
+  margin-bottom: 50px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.icon-competing-section__blocks {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+}
+
+.icon-competing-section__block {
+  background-color: #f8f8f8;
+  border-radius: 12px;
+  width: calc(33.333% - 20px);
+  max-width: 400px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.icon-competing-section__block:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.icon-competing-section__image-wrapper {
+  width: 100%;
+  overflow: hidden;
+}
+
+.icon-competing-section__image {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.icon-competing-section__block:hover .icon-competing-section__image {
+  transform: scale(1.05);
+}
+
+.icon-competing-section__content {
+  padding: 25px;
+  text-align: center;
+}
+
+.icon-competing-section__block-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 10px;
+}
+
+.icon-competing-section__block-text {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+.icon-competing-section__button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #d21f04;
+  color: #fff;
+  text-decoration: none;
+  border-radius: 6px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.icon-competing-section__button:hover {
+  background-color: #b71b03;
+}
+
+@media (max-width: 1024px) {
+  .icon-competing-section__block {
+    width: calc(50% - 20px);
+  }
+}
+
+@media (max-width: 767px) {
+  .icon-competing-section__blocks {
+    display: block;
+  }
+  .icon-competing-section__block {
+    width: 100% !important;
+    margin-bottom: 30px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "ICON Competing Section",
+  "max_blocks": 3,
+  "settings": [
+    { "type": "text", "id": "main_heading", "label": "Main Heading", "default": "What Are You Competing For?" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Empower your goals with convenient, nutritious meals tailored to your needs." }
+  ],
+  "blocks": [
+    {
+      "type": "competing_block",
+      "name": "Competing Block",
+      "settings": [
+        { "type": "image_picker", "id": "block_image", "label": "Block Image" },
+        { "type": "text", "id": "block_heading", "label": "Block Heading", "default": "Lose Weight" },
+        { "type": "textarea", "id": "block_text", "label": "Block Text", "default": "Feel fuller, longer with our protein-packed, lower-calorie meals crafted just for you." },
+        { "type": "url", "id": "block_link", "label": "Link URL", "default": "/" },
+        { "type": "text", "id": "block_link_text", "label": "Link Text", "default": "Learn More" }
+      ]
+    }
+  ],
+  "presets": [
+    { "name": "ICON Competing Section", "blocks": [{ "type": "competing_block" }, { "type": "competing_block" }, { "type": "competing_block" }] }
+  ]
+}
+{% endschema %}

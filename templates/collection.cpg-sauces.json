@@ -1,0 +1,120 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div.collection-wrapper",
+  "sections": {
+    "1653587415c5092faf": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/header-icon-sauces.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "ICON Sauces",
+        "text_block": "<p><strong>Are you ready for BBQ Sauces that not only taste great, but are great for you? </strong>ICON Sauces are THE sauces for you! 4 distinct flavors & heat levels bring out the best in BBQ sauce without all the junk! All sauces are 40 Calories or LESS!</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16535884764a76663d": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1653588476ead23d26-0": {
+          "type": "text",
+          "settings": {
+            "icon": "flag",
+            "heading": "Gluten-Free",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1653588476ead23d26-1": {
+          "type": "text",
+          "settings": {
+            "icon": "heart",
+            "heading": "No MSG",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1653588476ead23d26-2": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "40 Cals or Less",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1653588476ead23d26-0",
+        "1653588476ead23d26-1",
+        "1653588476ead23d26-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "collection_header": {
+      "type": "template--collection-header",
+      "blocks": {
+        "collection_title": {
+          "type": "collection-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collection_title"
+      ],
+      "disabled": true,
+      "settings": {
+        "collection_image_enable": false
+      }
+    },
+    "product_filtering": {
+      "type": "main-collection-filtering",
+      "settings": {
+        "desktop_position": "topbar",
+        "enable_filtering": true,
+        "enable_sorting": false
+      }
+    },
+    "main": {
+      "type": "template--collection",
+      "blocks": {
+        "product_title": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title"
+      ],
+      "settings": {
+        "grid": 3,
+        "rows": 8,
+        "pagination_type": "infinite_scrolling"
+      }
+    }
+  },
+  "order": [
+    "1653587415c5092faf",
+    "16535884764a76663d",
+    "collection_header",
+    "product_filtering",
+    "main"
+  ]
+}

@@ -1,0 +1,342 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "16529797536fca85fc": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/partner-seal-icon-meals-lvi2.png",
+        "layout": "left",
+        "subheading": "Official Partner",
+        "title": "Las Vegas Inferno",
+        "text_block": "<p>ICON Meals is proud to partner with Las Vegas Inferno, the official esports team of Las Vegas. LVI's CEO, Jairo \"Glyphics\" Urcuyo, has praised ICON Meals for providing healthy, quick meals & snacks for the team's busy schedule. </p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16523801970682e17c": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/lvi_glyphics_graphic_ce128ccb-e9b9-46ea-a78f-70f253ef935f.png",
+        "layout": "right",
+        "subheading": "Eat like an ICON",
+        "title": "",
+        "text_block": "<p><em><strong>\"ICON Meals helps us with our day to day life. As professional, competitive gamers we don't have all the time in the world to cook, so between making content and business meetings ICON helps defeat our hunger with healthy, quick, and easy meals & snacks.\"<br/>- Jairo \"Glyphics\" Urcuyo, CEO of LVI</strong></em></p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652975635eec01be5": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/lvi_team_cropped.jpg",
+        "subheading": "special LVI partnership code",
+        "title": "Get 10% Off your first order",
+        "text": "",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "shop with CODE: LVI10"
+      }
+    },
+    "16529807514a9b1c1c": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1652980750cc79a4e9-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Chef Prepared",
+            "subheading": "With always-fresh ingredients in our USDA certified kitchen.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-1": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Shipped to you",
+            "subheading": "Delivered to your door. Just heat & eat in minutes.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-2": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Subscribe & Save",
+            "subheading": "Save 5% on all meal boxes when you subscribe.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1652980750cc79a4e9-0",
+        "1652980750cc79a4e9-1",
+        "1652980750cc79a4e9-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1655998593d373f32b": {
+      "type": "product--featured-product",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "featured_product": "ground-bison-cheesy-ravioli",
+        "tax_included": false,
+        "shipping_policy": false,
+        "show_discount": "hide",
+        "show_SKU": false,
+        "show_quantity_selector": true,
+        "show_smart_checkout": false,
+        "show_product_description": true,
+        "hide_out_of_stock": false,
+        "enable_video_loop": false
+      }
+    },
+    "165298179764109efd": {
+      "type": "text--rich-text",
+      "disabled": true,
+      "settings": {
+        "width": "medium",
+        "subheading": "Getting Started With ICON Meals",
+        "title": "We've got options!",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652982505b0a5645d": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/product-custom-meals_1500x_396a17ce-2a18-4cfb-a736-72318e060554.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "We've Got Options!",
+        "text_block": "<p>From \"build your own\" <strong>custom meals</strong> and our chef-prepared <strong>weekly menu</strong> that offers over 30 incredible meals to <strong>bulk items</strong> for your favorite proteins, carbs, and veggies... we've got you covered. <em>(Don't forget your 10% Off Code for first-time orders)</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Use Code LVI for 10% OFF"
+      }
+    },
+    "165599815757f542e6": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://www.youtube.com/watch?v=2sgiosaZa9w",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "1652981122d762eb25": {
+      "type": "image--gallery",
+      "blocks": {
+        "1652981122f9ec0f94-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "link": "shopify://products/custom-meals",
+            "title": "Custom Meals",
+            "description": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your goals.</p><p><a href=\"/products/custom-meals\" title=\"Custom Meal\"><span style=\"text-decoration:underline\">Build Your Meals →</span></a></p>"
+          }
+        },
+        "1652981122f9ec0f94-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "link": "shopify://collections/signature-menu",
+            "title": "Weekly Menu",
+            "description": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p><p><a href=\"/collections/this-weeks-menu\" title=\"This Week's Menu\">See The Menu →</a></p>"
+          }
+        },
+        "1652981122f9ec0f94-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "link": "shopify://collections/bulk-items",
+            "title": "Bulk Items",
+            "description": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p><p><a href=\"/collections/a-la-carte-sides\" title=\"A La Carte\">Shop Bulk Items →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "1652981122f9ec0f94-0",
+        "1652981122f9ec0f94-1",
+        "1652981122f9ec0f94-2"
+      ],
+      "settings": {}
+    },
+    "16559982704a1a8319": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/lvi_glyphics_graphic_ce128ccb-e9b9-46ea-a78f-70f253ef935f.png",
+        "layout": "left",
+        "subheading": "About Las Vegas Inferno",
+        "title": "Lead Valor Ignite",
+        "text_block": "<p>LVI stands for Lead Valor Ignite, or as most know it Las Vegas Inferno! We are the official esports team of Las Vegas. Our mission is to Lead with Valor and Ignite the spark of innovation in ourselves and those around us. We value courage, creativity, and collaboration, and believe in pushing the boundaries of what is possible. Through our courage, we strive to inspire others to take risks, think outside the box, and embrace change as a catalyst for growth. We believe that by leading with passion and conviction, we can ignite a fire of inspiration that will transform the world.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-1"
+      ],
+      "settings": {
+        "subheading": "It's easy to stay on track with our boxes",
+        "title": "One-Click or build your own",
+        "collection": "subscription-boxes",
+        "grid": 3,
+        "rows": 3,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "165599846178b78151": {
+      "type": "image--gallery",
+      "blocks": {
+        "1655998461e331f936-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mike-ohearn-titan.webp",
+            "link": "shopify://blogs/news/stay-at-home-strategies-for-your-best-body",
+            "title": "Stay at home strategies for your best body",
+            "description": "<p>You know that diet and exercise are important when it comes to creating your best body, but you may be overlooking other...</p><p><a href=\"/blogs/news/stay-at-home-strategies-for-your-best-body\" title=\"Stay At Home Strategies For Your Best Body\">Read Article</a></p>"
+          }
+        },
+        "1655998461e331f936-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mike-ohearn-family.webp",
+            "link": "shopify://blogs/news/longevity-with-team-icon-meals-athlete-mike-ohearn",
+            "title": "Longevity with Team ICON Meals Athlete Mike O'Hearn",
+            "description": "<p>If I knew then what I know now…⁣ Today isn't your goal.⁣ It never was…⁣and it never should be.⁣ Your goal is tomorrow.⁣ Let me explain…⁣</p><p><a href=\"/blogs/news/longevity-with-team-icon-meals-athlete-mike-ohearn\" title=\"Longevity with Team ICON Meals Athlete Mike O'Hearn\">Read Article</a></p>"
+          }
+        },
+        "1655998461e331f936-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mike-titan-ohearn-bodybuilder.webp",
+            "link": "",
+            "title": "Don't Mistake Thin For Fit w/ Mike O'Hearn",
+            "description": "<p>Too often thin is mistaken for fit, and that's not what you should strive for. When someone is thin, but has very little muscle tissue, they aren't truly fit.</p><p><a href=\"/blogs/news/don-t-mistake-thin-for-fit\" title=\"Don’t Mistake Thin for Fit\">Read Article</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "1655998461e331f936-0",
+        "1655998461e331f936-1",
+        "1655998461e331f936-2"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"This is as good as it gets. One burrito fills you up. It's loaded with flavor , packed with protein!! Definitely a staple in my diet!\"</p>",
+            "author": "Tony R.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"I really enjoy these burritos, and more than just for breakfast. They are a little higher in calorie count and protein which I need for my personal goals. I usually order bulk packs of 12 to 20 meals, with most meals ordered in pairs of 2. I like these enough that I ordered 4.\"</p>",
+            "author": "Terry R.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"ICON Meals are absolutely amazing. These meals are great for hitting your macros and taste amazing. Quick, easy, and so many different menu items. I highly recommend you order some today!!!\"</p>",
+            "author": "Douglas G.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-2",
+        "1649069606aef06289-1"
+      ],
+      "settings": {
+        "subheading": "Real Reviews From ICON Meals Customers",
+        "title": "What People Are Saying",
+        "stars-color": "#ff9529"
+      }
+    },
+    "165238003066e8a6db": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/bg-meals-popcorn-sweet.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "left",
+        "subheading": "",
+        "title": "We've got snacks & more!",
+        "text": "<p>From protein-packed popcorn, butters, and bread to waygu beef strips, sauces, coffee and seasonings!</p>",
+        "button_link": "shopify://pages/snacks-more",
+        "button_label": "Shop Snacks & More"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "16529797536fca85fc",
+    "16523801970682e17c",
+    "1652975635eec01be5",
+    "16529807514a9b1c1c",
+    "1655998593d373f32b",
+    "165298179764109efd",
+    "1652982505b0a5645d",
+    "165599815757f542e6",
+    "1652981122d762eb25",
+    "16559982704a1a8319",
+    "1649069644f0a79094",
+    "165599846178b78151",
+    "1649069606fc034211",
+    "165238003066e8a6db",
+    "main"
+  ]
+}

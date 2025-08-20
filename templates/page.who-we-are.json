@@ -1,0 +1,450 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "16529863274c469e99": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/header-icon-who-we-are.png",
+        "layout": "left",
+        "subheading": "who we are",
+        "title": "The Relentless Pursuit of greatness",
+        "text_block": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1653598208798ffc17": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "The ICON Order",
+        "text": "<p>The tenets of the ICON Order are our guide.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1653594698ca826056": {
+      "type": "image--gallery",
+      "blocks": {
+        "1653594698f7d73c53-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Gratitude",
+            "description": "<p>Waking up happy to be blessed with another day, and reflecting on the blessings from all your previous days. Making good decisions and inspiring others along the way.</p>"
+          }
+        },
+        "1653594698f7d73c53-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Service",
+            "description": "<p>Selflessly serving others as best you can. Making service to family, friends, and community a responsibility and a duty.</p>"
+          }
+        },
+        "1653594698f7d73c53-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Ownership",
+            "description": "<p>Voluntarily and proactively committing to the responsibilities life throws at us. Owning what we need to do, never hiding from it. Being accountable.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1653594698f7d73c53-0",
+        "1653594698f7d73c53-1",
+        "1653594698f7d73c53-2"
+      ],
+      "settings": {}
+    },
+    "1653596421a929701f": {
+      "type": "image--gallery",
+      "blocks": {
+        "1653596421d5dc2871-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Consistency",
+            "description": "<p>“Slow and steady wins the race.” Focusing on making slower, more permanent progress at a consistent pace instead of sprinting from the starting line.</p>"
+          }
+        },
+        "1653596421d5dc2871-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Enthusiasm",
+            "description": "<p>Standing tall with a smile and a spark of excitement. Recognizing how lucky we are to be here and to pursue our purpose in life, serving others along the way.</p>"
+          }
+        },
+        "1653596421d5dc2871-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Achievement",
+            "description": "<p>Setting realistic, attainable goals to help keep your actions aligned with your priorities. Providing purpose, strength, and happiness to your work.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1653596421d5dc2871-0",
+        "1653596421d5dc2871-1",
+        "1653596421d5dc2871-2"
+      ],
+      "settings": {}
+    },
+    "1653596567f483cc42": {
+      "type": "image--gallery",
+      "blocks": {
+        "1653596567de2b2b67-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Education",
+            "description": "<p>Fueling a healthy mind alongside a healthy body. Being ready to pivot and evolve with new knowledge.</p>"
+          }
+        },
+        "1653596567de2b2b67-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/seal.png",
+            "link": "",
+            "title": "Connection",
+            "description": "<p>Building and growing relationships with those who motivate and inspire you to be the best version of yourself.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1653596567de2b2b67-0",
+        "1653596567de2b2b67-1"
+      ],
+      "settings": {}
+    },
+    "1652986278c5c7c31c": {
+      "type": "video--video",
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://youtu.be/Lm8EcTXE4rs",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "165298633073ef5a0d": {
+      "type": "image--gallery",
+      "blocks": {
+        "16529863301a155418-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/download_5.webp",
+            "link": "",
+            "title": "How We Cook",
+            "description": "<p>All of our meals pass through rigorous food & safety inspection tests daily and are prepared fresh in a <strong>USDA certified kitchen</strong> ensuring you the safest cooking process in the industry.</p>"
+          }
+        },
+        "16529863301a155418-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/download_6.webp",
+            "link": "",
+            "title": "How We Pack",
+            "description": "<p><strong> </strong>ICON is an industry leader in vacuum seal technology. Each meal is plated in a 100% recyclable microwave-safe food container and vacuum-sealed to retain freshness.</p>"
+          }
+        },
+        "16529863301a155418-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/download_7.webp",
+            "link": "",
+            "title": "How We Ship",
+            "description": "<p>All your meals are delivered in a recyclable corrugated box with a special environmentally safe thermal liner and dry ice to make sure your meals are in optimal condition.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "16529863301a155418-0",
+        "16529863301a155418-1",
+        "16529863301a155418-2"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "165299151506f94c13": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "165299151571723bb0-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"offer\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "165299151571723bb0-0"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "1652987618ba097761": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/bg-meals-dark-01_fc9e47ad-243b-4070-b145-f6035d7fa1ee.jpg",
+        "subheading": "",
+        "title": "We Care About The Environment!",
+        "text": "<p>Each meal is plated in a 100% recyclable, microwave-safe food container and delivered in a recyclable corrugated box containing a special environmentally safe thermal liner. We also use dry ice to make sure your meals are in optimal condition. We designed it this way on purpose and are always looking for ways to further reduce our carbon footprint.</p>",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652987036c70b46ba": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Meals, Snacks, & more",
+        "text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop Our Weekly Menu"
+      }
+    },
+    "16529876163994c2a1": {
+      "type": "video--video",
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://youtu.be/9APzitQ1eFc",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--50"
+      }
+    },
+    "1652986737c3485583": {
+      "type": "image--gallery",
+      "blocks": {
+        "165298673729ab82e8-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-meal-boxes_541990e7-4374-40cd-adca-f7eec55e47dc.jpg",
+            "link": "shopify://collections/subscription-boxes",
+            "title": "Meal Boxes",
+            "description": "<p>Pre-made or build-a-box options for different goals. Subscribe & save 5%</p><p><a href=\"/collections/subscription-boxes\" title=\"Subscription Boxes\">Learn More →</a></p>"
+          }
+        },
+        "165298673729ab82e8-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "link": "shopify://collections/signature-menu",
+            "title": "Weekly Menu",
+            "description": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p><p><a href=\"https://icon-meals-dev.myshopify.com/collections/this-weeks-menu\" title=\"This Week's Menu\">See The Menu →</a></p>"
+          }
+        },
+        "165298673729ab82e8-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "link": "shopify://products/custom-meals",
+            "title": "Custom Meals",
+            "description": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your needs.</p><p><a href=\"https://icon-meals-dev.myshopify.com/products/custom-meals\" title=\"Custom Meal\"><span style=\"text-decoration:underline\">Build Your Meals →</span></a></p>"
+          }
+        },
+        "b143b192-020a-4f07-a858-1582bfba433f": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "link": "shopify://collections/bulk-items",
+            "title": "Bulk Items",
+            "description": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p><p><a href=\"https://icon-meals-dev.myshopify.com/collections/a-la-carte-sides\" title=\"A La Carte\">Shop Bulk Items →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "165298673729ab82e8-2",
+        "165298673729ab82e8-1",
+        "165298673729ab82e8-0",
+        "b143b192-020a-4f07-a858-1582bfba433f"
+      ],
+      "settings": {}
+    },
+    "1652992395729f9fbe": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/tile-snacks.jpg",
+        "layout": "left",
+        "subheading": "We've also got snacks and more!",
+        "title": "",
+        "text_block": "<p>From protein-packed popcorn, butters, and bread to waygu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
+        "button_link": "shopify://pages/snacksandmore",
+        "button_label": "Shop Snacks & More"
+      }
+    },
+    "1652988010d7a3f3b5": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165298801024dc0737-0": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Delivery Or Pick Up options",
+            "subheading": "It get's better! We can deliver your order direct to your door or schedule a local pick up if you live in or around the Dallas/Fort Worth, Texas area. (We can feel the excuses fading away...)",
+            "buttonLabel": "Visit Our Store Locator →",
+            "link": "https://iconmeals.com/apps/store-locator"
+          }
+        }
+      },
+      "block_order": [
+        "165298801024dc0737-0"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "1652988234589b9115": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "16529882330b94cdf8-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Heat & Eat In Minutes",
+            "subheading": "Heat up your meals (microwave or oven) for a quick and healthy meal without the fuss of cooking. That's it! In just minutes you can have a delicious, chef prepared meal ready for you to enjoy. Simple, convenient, fresh, and affordable.",
+            "buttonLabel": "See This Week's Menu →",
+            "link": "shopify://collections/signature-menu"
+          }
+        }
+      },
+      "block_order": [
+        "16529882330b94cdf8-0"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1652989506f0bbb567": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/bg-meals-food-safety.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "The Industry Leader in",
+        "title": "Food Safety",
+        "text": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "165299077205cf4452": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/food-safety-washing-hands_4a067655-cfc7-4677-81e6-4ba97e062d3d.jpg",
+        "layout": "left",
+        "subheading": "",
+        "title": "State of the art facility",
+        "text_block": "<p>With nearly 30,000 sqft. of facility space in Texas, we have and continue to make investments in leading edge cook/chill technology and conveyor plating systems. Each and every one of our meals is packed and sealed in a 38 degree cold packaging room to maintain ultimate freshness of our product.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652991029724a2110": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/food-safety-vacuum.jpg",
+        "layout": "right",
+        "subheading": "",
+        "title": "USDA Certified",
+        "text_block": "<p>Not all food-prep companies are created equal! We are inspected daily by the <strong>USDA (U.S. Department of Agriculture)</strong>. All of our label claims and Nutrition Fact statements are <strong>FDA compliant </strong>and have been lab tested by a third party guaranteeing accuracy. We are a <strong>HACCP and USDA compliant facility </strong>(Hazard Analysis & Critical Control Points) following documented and state approved SOP’s and SSOP’s (Standard Operating Procedures and Sanitation Standard Operating Procedures).</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652991161d12c3685": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/food-safety-chopping-food.jpg",
+        "layout": "left",
+        "subheading": "",
+        "title": "Sourcing Top Quality Products",
+        "text_block": "<p><strong>Quality and safety are top priority in our kitchens.</strong> Our food products are carefully sourced and received each day, from the highest quality food purveyors in town, including local farms. Regular quality assurance visits to all suppliers are made by our Culinary Officers and purchasing partners in order to ensure compliance. Always fresh, never frozen, our meals are prepared from scratch every day under the supervision of our Culinary Officers and in-house Dietitian.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "165299188002aaf802": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/team-icon-certifications-training.jpg",
+        "layout": "right",
+        "subheading": "",
+        "title": "TRAINING, CERTIFICATIONS AND INSPECTIONS",
+        "text_block": "<p>We are a licensed food manufacturer and state inspected Texas meat & poultry facility. There are a lot of ready-made meal companies out there, but the majority of these businesses are not legally able to sell meals wholesale; however most of the wholesale accounts aren’t aware of the laws preventing these sales or benefits of doing business with a certified kitchen.<br/><br/>All foods are handled and prepared by trained employees wearing hair protection and gloves. Color-coded food preparation equipment and utensils ensure food ingredients are at minimized risk of cross-contamination. ICON Meals is audited regularly by local, state and national agencies to ensure compliance. We pride ourselves in attaining the highest audit scores. Our Department of Health Inspection results are available upon request. To ensure all meals remain at the optimum temperature during transport and upon delivery, we designed our own thermally-insulated cooler bag, which is packed with dry ice and sealed shut to ensure no tampering and that client’s meals arrive safely.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    }
+  },
+  "order": [
+    "16529863274c469e99",
+    "1653598208798ffc17",
+    "1653594698ca826056",
+    "1653596421a929701f",
+    "1653596567f483cc42",
+    "1652986278c5c7c31c",
+    "165298633073ef5a0d",
+    "165299151506f94c13",
+    "1652987618ba097761",
+    "1652987036c70b46ba",
+    "16529876163994c2a1",
+    "1652986737c3485583",
+    "1652992395729f9fbe",
+    "1652988010d7a3f3b5",
+    "main",
+    "1652988234589b9115",
+    "1652989506f0bbb567",
+    "165299077205cf4452",
+    "1652991029724a2110",
+    "1652991161d12c3685",
+    "165299188002aaf802"
+  ]
+}

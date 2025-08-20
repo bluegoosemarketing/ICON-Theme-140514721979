@@ -1,0 +1,91 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div.collection-wrapper",
+  "sections": {
+    "collection_header": {
+      "type": "template--collection-header",
+      "blocks": {
+        "collection_title": {
+          "type": "collection-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collection_title"
+      ],
+      "settings": {
+        "collection_image_enable": false
+      }
+    },
+    "product_filtering": {
+      "type": "main-collection-filtering",
+      "settings": {
+        "desktop_position": "topbar",
+        "enable_filtering": true,
+        "enable_sorting": false
+      }
+    },
+    "main": {
+      "type": "template--collection",
+      "blocks": {
+        "product_title": {
+          "type": "product-card-title",
+          "settings": {}
+        },
+        "5ee68cf6-9759-4fe9-a473-a3608a4b63c3": {
+          "type": "product-card-price",
+          "disabled": true,
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title",
+        "5ee68cf6-9759-4fe9-a473-a3608a4b63c3"
+      ],
+      "settings": {
+        "grid": 3,
+        "rows": 8,
+        "pagination_type": "infinite_scrolling"
+      }
+    },
+    "16896148121ee15849": {
+      "type": "apps",
+      "blocks": {
+        "7fb62de0-b740-4f2d-82b1-835b8852f314": {
+          "type": "shopify://apps/prevent-checkout-threshold/blocks/collection-threshold/1c03c194-d927-4817-9315-639fec3eba7f",
+          "disabled": true,
+          "settings": {
+            "tooltip_text": "Please add a minimum of eight (8) meals to your cart to complete your order!",
+            "tooltip_hover_text": "We are unable to process orders with less than eight (8) meals.",
+            "tooltip_completed_text": "Please add a minimum of eight (8) meals to your cart to complete your order!",
+            "tooltip_completed_hover_text": "We are unable to process orders with less than eight (8) meals..",
+            "progress_color": "#ec4242",
+            "progress_bg_color": "#d6d6d6",
+            "collection_progress": ".",
+            "collection_progress_selector": "container--collection-page"
+          }
+        }
+      },
+      "block_order": [
+        "7fb62de0-b740-4f2d-82b1-835b8852f314"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    }
+  },
+  "order": [
+    "collection_header",
+    "product_filtering",
+    "main",
+    "16896148121ee15849"
+  ]
+}

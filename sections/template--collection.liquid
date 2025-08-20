@@ -1,0 +1,766 @@
+{% comment %}
+  LEAD DEVELOPER REVISION V30.2 (DESKTOP/MOBILE HARMONIZATION)
+  - DESKTOP FIX: Re-introduced the <H3> sub-panel headers from the original V30.0 markup. This restores the necessary structural element for the desktop mega-menu grid layout.
+  - CSS DEPENDENCY: This change works in conjunction with the updated CSS, which correctly shows these headers on desktop while hiding them on mobile (where they are redundant).
+  - MOBILE PRESERVATION: Retains the V30.1 mobile-first enhancements, including data-title attributes and descriptive subtitles, ensuring no loss of mobile functionality.
+{% endcomment %}
+
+<div data-section-id="{{ section.id }}" data-section-type="collection-template" class="container--collection-page">
+  <div class="collection-page__layout">
+    <main class="collection-page__main">
+      <div class="collection-header">
+        <div class="collection-selector" id="CollectionSelector" aria-expanded="false">
+          {% assign custom_title = collection.title %}
+          {% assign collection_menu = linklists[section.settings.collection_menu] %}
+          {% if collection_menu and collection_menu.links != blank %}
+            {% for l in collection_menu.links %}
+              {% if l.url == collection.url %}
+                {% assign custom_title = l.title %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+          <button class="collection-selector__toggle" type="button" aria-haspopup="true" aria-controls="CollectionMenu">
+            <span class="collection-header__title">{{ custom_title }}</span>
+            <svg class="collection-selector__icon" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+              <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </button>
+          <div class="collection-selector__overlay"></div>
+          <nav id="CollectionMenu" class="collection-selector__menu" role="navigation" aria-label="Product Categories">
+                <div class="collection-selector__menu-content-wrapper">
+                    <div class="collection-selector__menu-main">
+                        <div class="collection-selector__mobile-header">
+                            <span class="collection-selector__mobile-title">Choose a Category</span>
+                            <button class="collection-selector__mobile-close-btn" aria-label="Close menu">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path></svg>
+                            </button>
+                        </div>
+                        <button class="collection-selector__menu-main-trigger" data-target-panel="panel-meals" data-title="Shop Meals">
+                          <span class="trigger-content">
+                            <span class="trigger-title">Shop Meals</span>
+                            <span class="trigger-subtitle">Signature, Custom & Bulk Prep</span>
+                          </span>
+                        </button>
+                        <button class="collection-selector__menu-main-trigger" data-target-panel="panel-meal-plans" data-title="Meal Plans">
+                          <span class="trigger-content">
+                            <span class="trigger-title">Meal Plans</span>
+                            <span class="trigger-subtitle">Goal-Focused • 12 or 24 Meals</span>
+                          </span>
+                        </button>
+                        <button class="collection-selector__menu-main-trigger" data-target-panel="panel-snacks" data-title="Snacks">
+                          <span class="trigger-content">
+                            <span class="trigger-title">Snacks</span>
+                            <span class="trigger-subtitle">Protein Popcorn & More</span>
+                          </span>
+                        </button>
+                        <button class="collection-selector__menu-main-trigger" data-target-panel="panel-extras" data-title="Extras">
+                          <span class="trigger-content">
+                            <span class="trigger-title">Extras</span>
+                            <span class="trigger-subtitle">Upgrade Your Order</span>
+                          </span>
+                        </button>
+                    </div>
+
+                    <div class="collection-selector__menu-sub-panels">
+                        <div class="collection-selector__mobile-header">
+                           <button class="collection-selector__mobile-back-btn" aria-label="Back to main menu">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" /></svg>
+                               <span>Back</span>
+                           </button>
+                           <span class="collection-selector__mobile-title" data-panel-title></span>
+                           <button class="collection-selector__mobile-close-btn" aria-label="Close menu">
+                               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path></svg>
+                           </button>
+                        </div>
+
+                        <div id="panel-meals" class="collection-selector__menu-sub-panel">
+                            <h3 class="collection-selector__menu-header">Meals</h3>
+                            <ul>
+                              <li><a href="/collections/signature-menu" role="menuitem">Signature Meals</a></li>
+                              <li><a href="/products/custom-meals" role="menuitem">Custom Meals</a></li>
+                              <li><a href="/products/custom-breakfast" role="menuitem">Custom Breakfast</a></li>
+                              <li><a href="/collections/bulk-items" role="menuitem">Bulk Items</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="panel-meal-plans" class="collection-selector__menu-sub-panel">
+                            <h3 class="collection-selector__menu-header">Goal-Focused Meal Plans</h3>
+                            <ul>
+                              <li><a href="/products/build-your-own-meal-plan" role="menuitem">Build Your Own</a></li>
+                              <li><a href="/products/icon-meal-plan" role="menuitem">The ICON Plan</a></li>
+                              <li><a href="/products/extreme-protein-meal-plan" role="menuitem">Extreme Protein</a></li>
+                              <li><a href="/products/get-lean-meal-plan" role="menuitem">Get Lean</a></li>
+                              <li><a href="/products/lean-lifter-meal-plan" role="menuitem">Lean Lifter</a></li>
+                              <li><a href="/products/keto-meal-plan" role="menuitem">Keto</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="panel-snacks" class="collection-selector__menu-sub-panel">
+                            <h3 class="collection-selector__menu-header">Snacks</h3>
+                            <ul>
+                              <li><a href="/collections/proteinpopcorn" role="menuitem">Protein Popcorn</a></li>
+                              <li><a href="/collections/butters" role="menuitem">Protein Butters</a></li>
+                            </ul>
+                        </div>
+
+                        <div id="panel-extras" class="collection-selector__menu-sub-panel">
+                            <h3 class="collection-selector__menu-header">Extras</h3>
+                            <ul>
+                              <li><a href="/collections/proteincoffee" role="menuitem">Protein Coffee</a></li>
+                              <li><a href="/collections/seasonings" role="menuitem">Seasonings</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        
+        {% if collection.handle == 'signature-menu' %}
+        <div class="collection-header-controls">
+          <!-- Desktop-only Filter Button -->
+          <button type="button" id="DesktopFilterToggle" class="desktop-filter-toggle filter-toggle-btn-base" aria-expanded="false" aria-controls="DesktopFilterPanel">
+            <svg class="filter-toggle-icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3 7C3 6.44772 3.44772 6 4 6H20C20.5523 6 21 6.44772 21 7C21 7.55228 20.5523 8 20 8H4C3.44772 8 3 7.55228 3 7ZM6 12C6 11.4477 6.44772 11 7 11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H7C6.44772 13 6 12.5523 6 12ZM9 17C9 16.4477 9.44772 16 10 16H14C14.5523 16 15 16.4477 15 17C15 17.5523 14.5523 18 14 18H10C9.44772 18 9 17.5523 9 17Z" fill="currentColor"></path> </g></svg>
+            <span>Filters</span>
+          </button>
+
+          <!-- Mobile-only Unified Controls Popover -->
+          <div class="mobile-controls-popover" id="MobileControlsPopover">
+            <button type="button" id="MobileControlsToggle" class="mobile-controls-toggle" aria-expanded="false" aria-controls="MobileControlsPanel" aria-label="Open view and filter options">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M12 16a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0-6a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 12a2 2 0 1 1 0-4 2 2 0 0 1 0 4z"/></svg>
+            </button>
+            <div class="mobile-controls-panel" id="MobileControlsPanel" aria-hidden="true">
+              <button type="button" class="mobile-controls__action-item" data-action="open-filters">
+                <div class="mobile-controls__label-group">
+                  <svg class="mobile-controls__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M3 7C3 6.44772 3.44772 6 4 6H20C20.5523 6 21 6.44772 21 7C21 7.55228 20.5523 8 20 8H4C3.44772 8 3 7.55228 3 7ZM6 12C6 11.4477 6.44772 11 7 11H17C17.5523 11 18 11.4477 18 12C18 12.5523 17.5523 13 17 13H7C6.44772 13 6 12.5523 6 12ZM9 17C9 16.4477 9.44772 16 10 16H14C14.5523 16 15 16.4477 15 17C15 17.5523 14.5523 18 14 18H10C9.44772 18 9 17.5523 9 17Z" fill="currentColor"></path> </g></svg>
+                  <span>Filters</span>
+                </div>
+                <svg class="mobile-controls__chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" /></svg>
+              </button>
+              <div class="mobile-controls__view-options">
+                <div class="mobile-controls__label-group">
+                  <svg class="mobile-controls__icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg>
+                  <span class="mobile-controls__label">View</span>
+                </div>
+                <div class="grid-view-controls">
+                  <button type="button" class="grid-view-toggle" data-view="1-col" aria-label="Show one column per row" title="Show one column per row" aria-pressed="true">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M21 18H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h18a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zM4 16h16V8H4v8z"/></svg>
+                  </button>
+                  <button type="button" class="grid-view-toggle" data-view="2-col" aria-label="Show two columns per row" title="Show two columns per row" aria-pressed="false">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M10 18H3a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zm-6-2h5V8H4v8zM21 18h-7a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1zm-6-2h5V8h-5v8z"/></svg>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+          <div id="DesktopFilterPanel" class="desktop-filter-panel" aria-hidden="true">
+              <div class="desktop-filter-panel__content">
+                <!-- Desktop filters are dynamically built here -->
+              </div>
+              <div class="desktop-filter-panel__footer">
+                <button type="button" class="desktop-filter-btn-clear">Clear All</button>
+                <button type="button" class="desktop-filter-btn-apply">Apply Filters</button>
+              </div>
+          </div>
+
+          <nav class="collection-filter-nav--source" aria-label="Meal filters data source" style="display: none;">
+            <div class="collection-filter-nav__scroller">
+            <details class="collection-filter-nav__dropdown">
+              <summary class="collection-filter-nav__link">
+                <span>Heat</span>
+              </summary>
+              <ul class="collection-filter-nav__dropdown-menu">
+                <li><a href="#" data-filter="heat-none">None</a></li>
+                <li><a href="#" data-filter="heat-medium">Medium</a></li>
+                <li><a href="#" data-filter="heat-hot">Hot</a></li>
+              </ul>
+            </details>
+            <details class="collection-filter-nav__dropdown">
+              <summary class="collection-filter-nav__link"><span>Diet Type</span></summary>
+              <ul class="collection-filter-nav__dropdown-menu">
+                <li><a href="#" data-filter="keto">Keto</a></li>
+                <li><a href="#" data-filter="paleo">Paleo</a></li>
+                <li><a href="#" data-filter="vegan">Vegan</a></li>
+                <li><a href="#" data-filter="vegetarian">Vegetarian</a></li>
+                <li><hr class="dropdown-divider"></li>
+                <li><a href="#" data-filter="high-protein">High Protein</a></li>
+                <li><a href="#" data-filter="low-calorie">Low Calorie</a></li>
+                <li><a href="#" data-filter="low-fat">Low Fat</a></li>
+              </ul>
+            </details>
+            <details class="collection-filter-nav__dropdown">
+              <summary class="collection-filter-nav__link"><span>Allergens</span></summary>
+              <ul class="collection-filter-nav__dropdown-menu">
+                <li><a href="#" data-filter="dairy-free">Dairy-Free</a></li>
+                <li><a href="#" data-filter="gluten-free">Gluten-Free</a></li>
+                <li><a href="#" data-filter="nut-free">Nut-Free</a></li>
+              </ul>
+            </details>
+            <details class="collection-filter-nav__dropdown">
+              <summary class="collection-filter-nav__link"><span>Meal Time</span></summary>
+              <ul class="collection-filter-nav__dropdown-menu">
+                <li><a href="#" data-filter="breakfast">Breakfast</a></li>
+                <li><a href="#" data-filter="lunch-dinner">Lunch / Dinner</a></li>
+              </ul>
+            </details>
+            <details class="collection-filter-nav__dropdown">
+              <summary class="collection-filter-nav__link"><span>Ingredients</span></summary>
+              <ul class="collection-filter-nav__dropdown-menu">
+                <li><a href="#" data-filter="with-pork">Meals With Pork</a></li>
+                <li><a href="#" data-filter="no-pork">No Pork</a></li>
+              </ul>
+            </details>
+            <details class="collection-filter-nav__dropdown">
+              <summary class="collection-filter-nav__link"><span>Size</span></summary>
+              <ul class="collection-filter-nav__dropdown-menu">
+                <li><a href="#" data-filter="regular">Regular</a></li>
+                <li><a href="#" data-filter="large">Large</a></li>
+              </ul>
+            </details>
+          </div>
+        </nav>
+
+        <div id="FilterDrawer" class="filter-drawer" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="FilterDrawerTitle">
+          <div class="filter-drawer__header">
+            <h2 id="FilterDrawerTitle" class="filter-drawer__title">Menu Filters</h2>
+            <button class="filter-drawer__close-btn" aria-label="Close filters">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" aria-hidden="true">
+              <path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="filter-drawer__scroll-container">
+          <p class="filter-drawer__intro-text">Select your preferences below to find the perfect meals for your lifestyle.</p>
+          <div class="filter-drawer__content">
+            <!-- Mobile filters are dynamically built here -->
+          </div>
+        </div>
+        <div class="filter-drawer__footer">
+          <button type="button" class="filter-drawer__apply-btn">Apply Filters</button>
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+      {%- assign limit = collection.products_count -%}
+      {% paginate collection.products by limit %}
+        <div id="CollectionProductGrid">
+          <div id="AjaxinateContainer">
+            <ol class="product-grid" data-paginate-items="{{ paginate.items }}">
+              {% for product in collection.products %}
+                {%- if product.metafields.inventory.ShappifyHidden == 'true' -%}{%- continue -%}{%- endif -%}
+                <li class="grid__item">
+                  {%- render 'product-grid--indiv-product', liquidObject: product, section: section -%}
+                </li>
+              {% endfor %}
+            </ol>
+            {% if paginate.pages > 1 %}
+              <div class="pagination-wrapper">
+                {% if section.settings.pagination_type == 'paged_navigation' %}
+                  {% render 'pagination', paginate: paginate  %}
+                {% elsif section.settings.pagination_type == 'infinite_scrolling' %}
+                  <div id="AjaxinateInfiniteScrolling">{% if paginate.next %}<a href="{{ paginate.next.url }}">{{ 'collections.paginate.infinite_scrolling' | t }}</a>{% endif %}</div>
+                {% else %}
+                  <div id="AjaxinateLoadMore">{% if paginate.next %}<a class="btn" href="{{ paginate.next.url }}">{{ 'collections.paginate.load_more' | t }}</a>{% endif %}</div>
+                {% endif %}
+              </div>
+            {% endif %}
+          </div>
+        </div>
+      {% endpaginate %}
+
+      {%- comment -%}
+        Move the minimal footer inside the scrollable grid so that it sits
+        flush with the end of the meal list. This keeps the cart sidebar
+        aligned with the viewport and prevents extra space below the layout.
+      {%- endcomment -%}
+      {% render 'footer-minimal-ordering' %}
+    </main>
+
+    <aside class="collection-page__sidebar">
+      {% render 'cart-preview-sidebar' %}
+    </aside>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  
+  // --- World-Class Collection Menu Controller v1.2 (Bug Fix & UX Polish) ---
+  const collectionSelector = document.getElementById('CollectionSelector');
+  if (collectionSelector) {
+    const toggleButton = collectionSelector.querySelector('.collection-selector__toggle');
+    const menu = collectionSelector.querySelector('#CollectionMenu');
+    const mainTriggers = menu.querySelectorAll('.collection-selector__menu-main-trigger');
+    const subPanels = menu.querySelectorAll('.collection-selector__menu-sub-panel');
+    const mobileCloseBtns = menu.querySelectorAll('.collection-selector__mobile-close-btn');
+    const mobileBackBtn = menu.querySelector('.collection-selector__mobile-back-btn');
+    const mobilePanelTitle = menu.querySelector('[data-panel-title]');
+    const overlay = collectionSelector.querySelector('.collection-selector__overlay');
+    let isMobile = window.innerWidth <= 991;
+
+    const openMenu = () => {
+      collectionSelector.setAttribute('aria-expanded', 'true');
+      if (isMobile) {
+        document.body.style.overflow = 'hidden';
+      }
+    };
+
+    const closeMenu = () => {
+      collectionSelector.setAttribute('aria-expanded', 'false');
+      if (isMobile) {
+        document.body.style.overflow = '';
+        menu.classList.remove('is-sub-menu-active');
+        subPanels.forEach(p => p.classList.remove('is-active'));
+        mainTriggers.forEach(t => t.classList.remove('is-active'));
+      }
+    };
+
+    const toggleMenu = () => {
+      const isOpen = collectionSelector.getAttribute('aria-expanded') === 'true';
+      isOpen ? closeMenu() : openMenu();
+    };
+
+    const activatePanel = (panelId, triggerEl) => {
+      mainTriggers.forEach(t => t.classList.remove('is-active'));
+      subPanels.forEach(p => p.classList.remove('is-active'));
+      
+      if(triggerEl) triggerEl.classList.add('is-active');
+      
+      const targetPanel = document.getElementById(panelId);
+      if (targetPanel) {
+        targetPanel.classList.add('is-active');
+      }
+    };
+    
+    toggleButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleMenu();
+    });
+
+    mainTriggers.forEach(trigger => {
+      const panelId = trigger.dataset.targetPanel;
+      
+      if (isMobile) {
+        trigger.addEventListener('click', () => {
+          // *** FIX: Use data-title attribute to prevent passing subtitle text ***
+          const title = trigger.dataset.title || trigger.querySelector('.trigger-title').textContent.trim();
+          if (mobilePanelTitle) mobilePanelTitle.textContent = title;
+          activatePanel(panelId, trigger);
+          menu.classList.add('is-sub-menu-active');
+        });
+      } else {
+        trigger.addEventListener('mouseenter', () => {
+          activatePanel(panelId, trigger);
+        });
+      }
+    });
+
+    if (!isMobile && mainTriggers.length > 0) {
+      activatePanel(mainTriggers[0].dataset.targetPanel, mainTriggers[0]);
+    }
+
+    if(mobileBackBtn) {
+      mobileBackBtn.addEventListener('click', () => {
+        menu.classList.remove('is-sub-menu-active');
+      });
+    }
+    
+    if (mobileCloseBtns.length) {
+      mobileCloseBtns.forEach(btn => btn.addEventListener('click', closeMenu));
+    }
+      
+    document.addEventListener('click', (e) => {
+      if (!collectionSelector.contains(e.target)) {
+        closeMenu();
+      }
+    });
+    if (overlay) {
+      overlay.addEventListener('click', closeMenu);
+    }
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && collectionSelector.getAttribute('aria-expanded') === 'true') {
+        closeMenu();
+      }
+    });
+
+    window.addEventListener('resize', () => {
+      isMobile = window.innerWidth <= 991;
+      if (!isMobile) closeMenu();
+    });
+  }
+
+  // --- World-Class Macro Formatting ---
+  function formatMacroValue(number) {
+    if (number === 0) return '0';
+    if (number % 1 === 0) return number.toFixed(0);
+    return number.toFixed(1);
+  }
+
+  function initializeMacroFormatting() {
+    const macroElements = document.querySelectorAll('[data-macro-value]');
+    macroElements.forEach(el => {
+      if (el.dataset.formatted) return;
+      const originalText = el.textContent.trim();
+      const numberValue = parseFloat(originalText);
+      if (!isNaN(numberValue)) {
+        const formattedValue = formatMacroValue(numberValue);
+        el.textContent = originalText.toLowerCase().includes('g') ? formattedValue + 'g' : formattedValue;
+        el.dataset.formatted = true;
+      }
+    });
+  }
+
+  initializeMacroFormatting();
+  document.addEventListener('ajaxinate:load', initializeMacroFormatting);
+
+  // --- World-Class Grid View Toggler ---
+  const gridViewControls = document.querySelector('.grid-view-controls');
+  if (gridViewControls) {
+    const productGridContainer = document.getElementById('CollectionProductGrid');
+    const toggles = gridViewControls.querySelectorAll('.grid-view-toggle');
+    const storageKey = 'iconMealsGridView';
+
+    const applyView = (view) => {
+      if (!productGridContainer) return;
+      productGridContainer.classList.toggle('grid-view--2-col', view === '2-col');
+      toggles.forEach(btn => {
+        const isActive = btn.dataset.view === view;
+        btn.classList.toggle('is-active', isActive);
+        btn.setAttribute('aria-pressed', isActive.toString());
+      });
+      try { localStorage.setItem(storageKey, view); } catch (e) { console.warn('localStorage not available.', e); }
+    };
+
+    let currentView = '1-col';
+    try {
+      const savedView = localStorage.getItem(storageKey);
+      if (['1-col', '2-col'].includes(savedView)) currentView = savedView;
+    } catch(e) { console.warn('localStorage not available.', e); }
+    
+    applyView(currentView);
+
+    gridViewControls.addEventListener('click', (e) => {
+      const toggleButton = e.target.closest('.grid-view-toggle');
+      if (toggleButton) applyView(toggleButton.dataset.view);
+    });
+  }
+
+  // --- Unified Mobile Controls Popover ---
+  const mobilePopover = document.getElementById('MobileControlsPopover');
+  if (mobilePopover) {
+    const toggleButton = document.getElementById('MobileControlsToggle');
+    const panel = document.getElementById('MobileControlsPanel');
+    const filterTrigger = panel.querySelector('[data-action="open-filters"]');
+
+    const togglePopover = (forceClose = false) => {
+      const isOpen = mobilePopover.classList.contains('is-open');
+      if (forceClose || isOpen) {
+        mobilePopover.classList.remove('is-open');
+        toggleButton.setAttribute('aria-expanded', 'false');
+        panel.setAttribute('aria-hidden', 'true');
+      } else {
+        mobilePopover.classList.add('is-open');
+        toggleButton.setAttribute('aria-expanded', 'true');
+        panel.setAttribute('aria-hidden', 'false');
+      }
+    };
+
+    toggleButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      togglePopover();
+    });
+
+    filterTrigger.addEventListener('click', () => {
+      if (typeof openMobileDrawer === 'function') {
+        openMobileDrawer(); 
+      }
+      togglePopover(true);
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!mobilePopover.contains(e.target)) togglePopover(true);
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && mobilePopover.classList.contains('is-open')) togglePopover(true);
+    });
+  }
+
+  const filterMap = {
+    'heat-none': { key: 'filter.p.m.meal.heat', value: 'None' },
+    'heat-medium': { key: 'filter.p.m.meal.heat', value: 'Medium' },
+    'heat-hot': { key: 'filter.p.m.meal.heat', value: 'Hot' },
+    'keto': { key: 'filter.p.m.diet.keto', value: '1' },
+    'paleo': { key: 'filter.p.m.diet.paleo', value: '1' },
+    'vegan': { key: 'filter.p.m.diet.vegan', value: '1' },
+    'vegetarian': { key: 'filter.p.m.diet.vegetarian', value: '1' },
+    'high-protein': { key: 'filter.p.m.diet.high_protein', value: '1' },
+    'low-calorie': { key: 'filter.p.m.diet.low_calorie', value: '1' },
+    'low-fat': { key: 'filter.p.m.diet.low_fat', value: '1' },
+    'dairy-free': { key: 'filter.p.m.diet.dairy-free', value: '1' },
+    'gluten-free': { key: 'filter.p.m.diet.gluten-free', value: '1' },
+    'nut-free': { key: 'filter.p.m.diet.nutfree', value: '1' },
+    'breakfast': { key: 'filter.p.m.meal.meal', value: 'Breakfast' },
+    'lunch-dinner': { key: 'filter.p.m.meal.meal', value: 'Lunch/Dinner' },
+    'with-pork': { key: 'filter.p.m.diet.pork', value: '1' },
+    'no-pork': { key: 'filter.p.m.diet.pork', value: '0' },
+    'regular': { key: 'filter.p.m.meal.size', value: 'Regular' },
+    'large': { key: 'filter.p.m.meal.size', value: 'Large' }
+  };
+  
+  function applyActiveFilterStateToButtons() {
+    const isActive = window.location.search.includes('filter.');
+    document.querySelectorAll('.filter-toggle-btn-base').forEach(btn => btn.classList.toggle('is-active-filter', isActive));
+    document.querySelectorAll('.mobile-controls__action-item').forEach(btn => btn.classList.toggle('is-active-filter', isActive));
+  }
+  applyActiveFilterStateToButtons();
+
+  // --- Desktop Filter Panel Logic ---
+  const desktopToggle = document.getElementById('DesktopFilterToggle');
+  const desktopPanel = document.getElementById('DesktopFilterPanel');
+  if (desktopToggle && desktopPanel) {
+    const desktopContent = desktopPanel.querySelector('.desktop-filter-panel__content');
+    const desktopApplyBtn = desktopPanel.querySelector('.desktop-filter-btn-apply');
+    const desktopClearBtn = desktopPanel.querySelector('.desktop-filter-btn-clear');
+
+    function buildDesktopFilters() {
+      const sourceNav = document.querySelector('.collection-filter-nav--source');
+      const currentParams = new URLSearchParams(window.location.search);
+      desktopContent.innerHTML = '';
+      sourceNav.querySelectorAll('details').forEach(detail => {
+        const groupContainer = document.createElement('div');
+        groupContainer.className = 'desktop-filter-group';
+        const title = document.createElement('h3');
+        title.className = 'desktop-filter-group__title';
+        title.textContent = detail.querySelector('summary').textContent.trim();
+        const list = detail.querySelector('ul').cloneNode(true);
+        list.querySelectorAll('a[data-filter]').forEach(link => {
+          const id = link.dataset.filter;
+          const filter = filterMap[id];
+          if (filter && currentParams.getAll(filter.key).includes(filter.value)) {
+            link.classList.add('is-active-filter');
+          }
+        });
+        groupContainer.appendChild(title);
+        groupContainer.appendChild(list);
+        desktopContent.appendChild(groupContainer);
+      });
+    }
+
+    function toggleDesktopPanel(forceClose = false) {
+      const isOpen = desktopPanel.classList.contains('is-open');
+      if (forceClose || isOpen) {
+        desktopPanel.classList.remove('is-open');
+        desktopToggle.setAttribute('aria-expanded', 'false');
+      } else {
+        buildDesktopFilters();
+        desktopPanel.classList.add('is-open');
+        desktopToggle.setAttribute('aria-expanded', 'true');
+      }
+    }
+    desktopToggle.addEventListener('click', () => toggleDesktopPanel());
+
+    desktopPanel.addEventListener('click', (event) => {
+      const link = event.target.closest('a[data-filter]');
+      if (!link) return;
+      event.preventDefault();
+      const id = link.dataset.filter;
+      const filter = filterMap[id];
+      if (!filter) return;
+      const { key } = filter;
+      const isSingleSelect = key === 'filter.p.m.diet.pork' || key === 'filter.p.m.meal.heat' || key === 'filter.p.m.meal.size';
+      if (isSingleSelect && !link.classList.contains('is-active-filter')) {
+        const parentMenu = link.closest('ul');
+        parentMenu.querySelectorAll('a[data-filter]').forEach(sibling => {
+          if(filterMap[sibling.dataset.filter]?.key === key) {
+             sibling.classList.remove('is-active-filter');
+          }
+        });
+      }
+      link.classList.toggle('is-active-filter');
+    });
+
+    desktopApplyBtn.addEventListener('click', () => {
+      const newParams = new URLSearchParams();
+      desktopPanel.querySelectorAll('a.is-active-filter').forEach(link => {
+        const id = link.dataset.filter;
+        const filter = filterMap[id];
+        if (filter) newParams.append(filter.key, filter.value);
+      });
+      window.location.href = `${window.location.pathname}?${newParams.toString()}`;
+    });
+
+    desktopClearBtn.addEventListener('click', () => {
+      window.location.href = window.location.pathname;
+    });
+
+    document.addEventListener('click', e => {
+      if (!desktopPanel.classList.contains('is-open')) return;
+      if (!desktopPanel.contains(e.target) && !desktopToggle.contains(e.target)) {
+        toggleDesktopPanel(true);
+      }
+    });
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && desktopPanel.classList.contains('is-open')) {
+        toggleDesktopPanel(true);
+      }
+    });
+  }
+  
+  // --- Mobile Filter Drawer Logic (Global functions needed by popover) ---
+  const mobileDrawer = document.getElementById('FilterDrawer');
+  let openMobileDrawer;
+  if (mobileDrawer) {
+    const mobileDrawerContent = mobileDrawer.querySelector('.filter-drawer__content');
+    const mobileDrawerCloseBtn = mobileDrawer.querySelector('.filter-drawer__close-btn');
+    const mobileDrawerApplyBtn = mobileDrawer.querySelector('.filter-drawer__apply-btn');
+    let previousFocus;
+
+    function buildMobileFilters() {
+      const sourceNav = document.querySelector('.collection-filter-nav--source');
+      const currentParams = new URLSearchParams(window.location.search);
+      mobileDrawerContent.innerHTML = '';
+      sourceNav.querySelectorAll('details').forEach(detail => {
+        const groupContainer = document.createElement('div');
+        groupContainer.className = 'mobile-filter-group';
+        const title = document.createElement('h3');
+        title.className = 'mobile-filter-group__title';
+        title.textContent = detail.querySelector('summary').textContent.trim();
+        const list = detail.querySelector('ul').cloneNode(true);
+        list.querySelectorAll('a[data-filter]').forEach(link => {
+          const id = link.dataset.filter;
+          const filter = filterMap[id];
+          if (filter && currentParams.getAll(filter.key).includes(filter.value)) {
+            link.classList.add('is-active-filter');
+          }
+          if (link.previousElementSibling?.tagName === 'HR') {
+            link.previousElementSibling.remove();
+          }
+        });
+        groupContainer.appendChild(title);
+        groupContainer.appendChild(list);
+        mobileDrawerContent.appendChild(groupContainer);
+      });
+    }
+
+    openMobileDrawer = function() {
+      previousFocus = document.activeElement;
+      buildMobileFilters();
+      mobileDrawer.classList.add('open');
+      document.body.style.overflow = 'hidden';
+      mobileDrawerCloseBtn.focus();
+    }
+    
+    function closeMobileDrawer() {
+      mobileDrawer.classList.remove('open');
+      document.body.style.overflow = '';
+      previousFocus?.focus();
+    }
+    
+    mobileDrawerCloseBtn.addEventListener('click', closeMobileDrawer);
+
+    mobileDrawerApplyBtn.addEventListener('click', () => {
+      const newParams = new URLSearchParams();
+      mobileDrawer.querySelectorAll('a.is-active-filter').forEach(link => {
+        const id = link.dataset.filter;
+        const filter = filterMap[id];
+        if (filter) newParams.append(filter.key, filter.value);
+      });
+      const newUrl = `${window.location.pathname}?${newParams.toString()}`;
+      if (`?${newParams.toString()}` !== window.location.search) {
+        window.location.href = newUrl;
+      } else {
+        closeMobileDrawer();
+      }
+    });
+
+    mobileDrawer.addEventListener('click', function(event) {
+      const link = event.target.closest('a[data-filter]');
+      if (!link) return;
+      event.preventDefault();
+      const id = link.dataset.filter;
+      const filter = filterMap[id];
+      if (!filter) return;
+      const { key } = filter;
+      const isSingleSelect = key === 'filter.p.m.diet.pork' || key === 'filter.p.m.meal.heat' || key === 'filter.p.m.meal.size';
+      if (isSingleSelect && !link.classList.contains('is-active-filter')) {
+        const parentMenu = link.closest('ul');
+        parentMenu.querySelectorAll('a[data-filter]').forEach(sibling => {
+          const siblingFilter = filterMap[sibling.dataset.filter];
+          if (siblingFilter?.key === key) {
+            sibling.classList.remove('is-active-filter');
+          }
+        });
+      }
+      link.classList.toggle('is-active-filter');
+    });
+
+    document.addEventListener('keydown', e => {
+      if (e.key === 'Escape' && mobileDrawer.classList.contains('open')) {
+        closeMobileDrawer();
+      }
+    });
+  }
+
+  const setHeaderOffset = () => {
+    const header =
+      document.querySelector('#shopify-section-header') ||
+      document.querySelector('#shopify-section-header-collections');
+    if (header) {
+      document.documentElement.style.setProperty(
+        '--header-offset',
+        `${header.getBoundingClientRect().height}px`
+      );
+    }
+  };
+  setHeaderOffset();
+  window.addEventListener('resize', setHeaderOffset);
+});
+</script>
+
+{% schema %}
+  {
+    "name": "Collection pages",
+    "settings": [
+      { "type": "range", "id": "grid", "min": 2, "max": 4, "step": 1, "label": "Maximum products per row (Legacy)", "default": 3 },
+      { "type": "range", "id": "rows", "min": 3, "max": 15, "step": 1, "label": "Rows per page", "default": 6 },
+      { "type": "text", "id": "collection_title", "label": "Collection heading", "default": "Signature Menu" },
+      { "type": "link_list", "id": "collection_menu", "label": "Collection selector menu" },
+      { "type": "header", "content": "Pagination" },
+      {
+        "type": "select", "id": "pagination_type", "label": "Pagination type", "default": "paged_navigation",
+        "options": [
+          { "value": "paged_navigation", "label": "Paged navigation" },
+          { "value": "infinite_scrolling", "label": "Infinite scrolling" },
+          { "value": "load_more", "label": "Load more button" }
+        ]
+      }
+    ],
+    "blocks": [
+        {
+            "type": "@app"
+        },
+        {
+            "name": "Product card vendor",
+            "type": "product-card-vendor",
+            "limit": 1
+        },
+        {
+            "name": "Product card macros",
+            "type": "product-card-macros",
+            "limit": 1
+        },
+        {
+            "name": "Product card title",
+            "type": "product-card-title",
+            "limit": 1
+        },
+        {
+            "name": "Product card price",
+            "type": "product-card-price",
+            "limit": 1
+        }
+    ]
+  }
+{% endschema %}

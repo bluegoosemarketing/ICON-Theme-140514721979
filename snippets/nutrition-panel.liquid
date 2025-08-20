@@ -1,0 +1,6 @@
+
+{%- if product.metafields.nutrition.panel != blank -%}
+	<div class="container--product-page nutritionpanel">
+		<img src="{{ product.metafields.nutrition.panel | img_url: '800x800' }}">
+	</div>
+{%- endif -%}

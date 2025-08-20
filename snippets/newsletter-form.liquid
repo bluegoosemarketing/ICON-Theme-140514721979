@@ -1,0 +1,44 @@
+{% form 'customer', id: form_id %}
+    {{ form.errors | default_errors }}
+
+    {% if form.posted_successfully? %}
+        <p class="note form-success success_section">{{ 'general.newsletter_form.thanks' | t }}</p>
+    {% else %}
+        <input type="hidden" name="contact[tags]" value="newsletter">
+
+        <div class="text-center">
+            <div class="lds-dual-ring newsletter-spinner hide"></div>
+
+            <p class="note form-success{% unless form.posted_successfully? %} hide{% endunless %}">
+                <strong>{{ 'general.newsletter_form.thanks' | t }}</strong>
+            </p>
+        </div>
+
+        <div id="newsletter-wrapper{% if section %}-{{ section.id }}{% endif %}" {% if form.posted_successfully? %}class="hide"{% endif %}>
+            <label for="newsletter_text" class="sr-only"></label>
+            <input
+                id="newsletter_text{% if section %}-{{ section.id }}{% endif %}"
+                type="email"
+                value="{% if customer %}{{ customer.email }}{% endif %}"
+                placeholder="{{ 'general.newsletter_form.newsletter_text' | t }}"
+                name="contact[email]"
+                class="input-group-field email"
+                aria-label="{{ 'general.newsletter_form.newsletter_text' | t }}"
+                autocorrect="off"
+                autocomplete="email"
+                autocapitalize="off"
+                required
+            >
+
+            <button
+                type="submit"
+                id="newsletter_submit{% if section %}-{{ section.id }}{% endif %}"
+                name="commit"
+                aria-label="{{ 'general.newsletter_form.submit' | t }}"
+                class="btn"
+            >
+                {{ 'general.newsletter_form.button_label' | t }}
+            </button>
+        </div>
+    {% endif %}
+{% endform %}

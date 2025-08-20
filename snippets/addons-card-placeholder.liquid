@@ -1,0 +1,50 @@
+{%- comment -%}
+  This is a developer-only placeholder card.
+  It renders when a real product cannot be found, ensuring the layout
+  is always visible for styling in local development environments.
+{%- endcomment -%}
+<div class="addons-spotlight-card">
+  <div class="addons-spotlight-card__content">
+    {% if title != blank %}
+      <h2 class="addons-spotlight-card__title">{{ title }}</h2>
+    {% endif %}
+
+    <a href="#" class="addons-spotlight__image-link">
+      <div class="addons-spotlight__image-wrapper">
+        <img
+          src="//cdn.shopify.com/s/files/1/0533/2089/files/placeholder-images-image_large.png?v=1530129081"
+          alt="Placeholder image"
+          width="300"
+          height="300"
+          loading="lazy"
+        >
+      </div>
+    </a>
+
+    <div class="addons-spotlight__info">
+      <h3 class="addons-spotlight__product-title">
+        <a href="#">{{ product_title }}</a>
+      </h3>
+      <div class="addons-spotlight__price">
+        <span class="price-item price-item--regular">$99.99</span>
+      </div>
+    </div>
+
+    <div class="addons-spotlight__action">
+      <div class="addons-spotlight__options">
+        <div class="addons-spotlight__option-group addons-spotlight__option-group--quantity">
+          <label>Quantity</label>
+          <div class="quantity-controls">
+            <button type="button" class="qty-minus" aria-label="Reduce item quantity by one" disabled>-</button>
+            <input class="number quantity-selector" value="1" aria-label="Quantity" type="number" min="1" disabled>
+            <button type="button" class="qty-plus" aria-label="Increase item quantity by one" disabled>+</button>
+          </div>
+        </div>
+      </div>
+
+      <button type="submit" class="btn addons-spotlight__add-btn" disabled>
+        <span>Add</span>
+      </button>
+    </div>
+  </div>
+</div>

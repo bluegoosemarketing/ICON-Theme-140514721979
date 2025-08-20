@@ -1,0 +1,424 @@
+{% comment %}
+  Section: The ICON Standard [v23.0 - Minimalist Authority Badge]
+  Purpose: Final version. Places a minimalist, pure-white USDA logo over the first image for a clean, premium, and authoritative look.
+{% endcomment %}
+
+{% comment %} Add Google Fonts for premium typography {% endcomment %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Inter:wght@500;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+
+<div class="standard-section-v16">
+  <div class="showcase-stamp-v16">
+    <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Only-Black.png?v=1754164241" alt="ICON Meals Stamp" class="stamp-icon-v16">
+  </div>
+  <div class="page-width">
+    <div class="showcase-header-v16">
+      <h2 class="showcase-main-title-v16">{{ section.settings.main_title }}</h2>
+      <p class="showcase-sub-title-v16">{{ section.settings.sub_title }}</p>
+    </div>
+
+    <div class="showcase-grid-v16">
+      {%- for i in (1..3) -%}
+        {%- assign row_kicker = 'kicker_' | append: i -%}
+        {%- assign row_title = 'title_' | append: i -%}
+        {%- assign row_description = 'description_' | append: i -%}
+        {%- assign row_image = 'image_' | append: i -%}
+        {%- assign row_class = '' -%}
+        {%- if i != 1 and i != 3 -%}
+          {% assign row_class = 'feature-row--reverse' %}
+        {%- endif -%}
+
+        <div class="feature-row-v16 {{ row_class }}">
+          <div class="row-image-wrapper-v16">
+            {%- if section.settings[row_image] != blank -%}
+              <img class="row-image-v16" 
+                   src="{{ section.settings[row_image] | image_url: width: 1000 }}" 
+                   alt="{{ section.settings[row_title] | escape }}" 
+                   loading="lazy"
+                   width="{{ section.settings[row_image].width }}" 
+                   height="{{ section.settings[row_image].height }}">
+            {%- else -%}
+              {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
+            {%- endif -%}
+
+            {%- comment %} --- FINAL: White USDA logo over the first image --- {% endcomment -%}
+            {%- if i == 1 -%}
+              <div class="usda-logo-wrapper-v16">
+                <img class="usda-logo-v16"
+                     src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/04/Logo_of_the_United_States_Department_of_Agriculture.svg/128px-Logo_of_the_United_States_Department_of_Agriculture.svg.png" 
+                     alt="USDA Certified Logo"
+                     loading="lazy">
+              </div>
+            {%- endif -%}
+          </div>
+          <div class="row-content-v16">
+            <span class="row-kicker-v16">{{ section.settings[row_kicker] }}</span>
+            <h3 class="row-title-v16">{{ section.settings[row_title] }}</h3>
+            <div class="row-description-v16">{{ section.settings[row_description] }}</div>
+          </div>
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+:root {
+  /* Fonts */
+  --font-display-v16: 'Sora', sans-serif !important;
+  --font-body-v16: 'Inter', sans-serif !important;
+  --font-mono-v16: 'Roboto Mono', monospace !important;
+  
+  /* Refined Light Theme Palette */
+  --color-bg-v16: #f8f8f8ff !important;
+  --color-stamp-bg-v16: #FFFFFF !important;
+  --color-card-bg-v16: #FFFFFF !important;
+  --color-text-primary-v16: #111827 !important;
+  --color-text-secondary-v16: #4B5563 !important;
+  --color-brand-accent-v16: {{ section.settings.kicker_color }} !important;
+  --color-border-v16: #E5E7EB !important;
+  --color-divider-v16: #D1D5DB !important;
+}
+
+  .standard-section-v16 {
+    background-color: var(--color-bg-v16) !important;
+    background-image: 
+      radial-gradient(circle at 80% 0%, rgba(34, 197, 94, 0.04), transparent 35%),
+      radial-gradient(circle at 20% 0%, rgba({{ section.settings.kicker_color.red }}, {{ section.settings.kicker_color.green }}, {{ section.settings.kicker_color.blue }}, 0.05), transparent 35%);
+    background-repeat: no-repeat;
+    padding: 100px 20px !important;
+    position: relative;
+  }
+
+  .showcase-stamp-v16 {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80px;
+    height: 80px;
+    background-color: var(--color-stamp-bg-v16);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
+
+  .stamp-icon-v16 {
+    width: 40px;
+    height: auto;
+  }
+
+  .showcase-header-v16 {
+    text-align: center !important;
+    max-width: 800px !important;
+    margin: 0 auto 80px auto !important;
+  }
+
+  .showcase-main-title-v16, .showcase-sub-title-v16, .showcase-grid-v16 {
+    position: relative;
+    z-index: 1;
+  }
+
+  .showcase-main-title-v16 {
+    font-family: var(--font-display-v16) !important;
+    font-size: clamp(2.5rem, 5vw, 3.25rem) !important;
+    font-weight: 800 !important;
+    color: var(--color-text-primary-v16) !important;
+    line-height: 1.15 !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 0 16px 0 !important;
+  }
+
+  .showcase-sub-title-v16 {
+    font-family: var(--font-body-v16) !important;
+    font-size: 18px !important;
+    font-weight: 500 !important;
+    color: var(--color-text-secondary-v16) !important;
+    line-height: 1.6 !important;
+    max-width: 650px !important;
+    margin: 0 auto !important;
+  }
+
+  .showcase-grid-v16 {
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+  }
+
+  .feature-row-v16 {
+    background-color: var(--color-card-bg-v16);
+    border: 1px solid var(--color-border-v16);
+    border-radius: 24px;
+    overflow: hidden;
+    display: grid;
+    grid-template-columns: 1fr;
+    align-items: center;
+    box-shadow: 0 4px 15px -5px rgba(17, 24, 39, 0.04);
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;
+  }
+
+  .feature-row-v16:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 30px -8px rgba(17, 24, 39, 0.08);
+  }
+
+  .row-image-wrapper-v16 {
+    overflow: hidden;
+    height: 100%;
+    position: relative;
+  }
+
+  .row-image-v16 {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease-out;
+  }
+
+  .feature-row-v16:hover .row-image-v16 {
+    transform: scale(1.05);
+  }
+
+  .row-content-v16 {
+    padding: 40px;
+  }
+
+  /* --- NEW: Wrapper for positioning the logo --- */
+  .usda-logo-wrapper-v16 {
+    position: absolute;
+    bottom: 24px; /* Changed from top */
+    right: 24px;
+    width: 70px;
+    z-index: 1;
+  }
+
+  /* --- NEW: White logo styling --- */
+  .usda-logo-v16 {
+    width: 100%;
+    height: auto;
+    /* This filter turns the logo pure white */
+    filter: brightness(0) invert(1);
+    /* This softens the stark white so it blends better */
+    opacity: 0.8; /* Changed from 0.85 for less opacity */
+  }
+
+  .row-kicker-v16 {
+    display: block !important;
+    font-family: var(--font-mono-v16) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--color-brand-accent-v16) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 16px !important;
+  }
+
+  .row-title-v16 {
+    font-family: var(--font-display-v16) !important;
+    font-size: clamp(1.75rem, 4vw, 2.125rem) !important;
+    font-weight: 700 !important;
+    color: var(--color-text-primary-v16) !important;
+    margin: 0 0 16px 0 !important;
+    line-height: 1.25 !important;
+  }
+
+  .row-description-v16 {
+    font-family: var(--font-body-v16) !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    color: var(--color-text-secondary-v16) !important;
+    line-height: 1.6 !important;
+  }
+
+  .row-description-v16 p {
+    margin: 0 !important;
+  }
+  
+  /* --- DESKTOP STYLES --- */
+  @media (min-width: 991px) {
+    .standard-section-v16::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background-color: var(--color-divider-v16);
+      z-index: 1;
+    }
+    .showcase-stamp-v16 {
+      box-shadow: 
+        0 0 0 1px var(--color-stamp-bg-v16), 
+        0 0 0 2px var(--color-divider-v16);
+    }
+    .showcase-grid-v16 {
+      gap: 60px;
+    }
+    .feature-row-v16 {
+      grid-template-columns: 40% 1fr;
+    }
+    .feature-row--reverse {
+      grid-template-columns: 1fr 40%;
+    }
+    .feature-row--reverse .row-image-wrapper-v16 {
+      order: 2;
+    }
+    .feature-row--reverse .row-content-v16 {
+      order: 1;
+    }
+    .row-image-wrapper-v16 {
+      max-height: 380px;
+    }
+    .row-content-v16 {
+      padding: 60px;
+    }
+  }
+
+  /* --- MOBILE STYLES --- */
+  @media (max-width: 990px) {
+    .showcase-stamp-v16 {
+      top: 60px;
+      transform: translateX(-50%);
+      background-color: transparent;
+      box-shadow: none;
+    }
+    .standard-section-v16 { 
+      padding-top: 140px !important;
+      padding-bottom: 60px !important; 
+    }
+    .showcase-header-v16 { 
+      margin-bottom: 60px; 
+    }
+    .row-content-v16 {
+      padding: 30px;
+    }
+    .row-image-wrapper-v16 {
+      aspect-ratio: 1.5 / 1;
+    }
+    /* Responsive logo position and size */
+    .usda-logo-wrapper-v16 {
+      width: 60px;
+      bottom: 16px;
+      right: 16px;
+      opacity: 0.95;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "The ICON Standard",
+  "class": "icon-standard-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Headline",
+      "default": "The ICON Standard"
+    },
+    {
+      "type": "text",
+      "id": "sub_title",
+      "label": "Sub-Headline",
+      "default": "Chef-cooked meals, sealed fresh, delivered ready to fuel your day."
+    },
+    {
+      "type": "color",
+      "id": "kicker_color",
+      "label": "Accent & Kicker Color",
+      "default": "#E63946"
+    },
+    {
+      "type": "header",
+      "content": "Story 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Image 1"
+    },
+    {
+      "type": "text",
+      "id": "kicker_1",
+      "label": "Kicker 1",
+      "default": "Safety & Control"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "Cooked in Our USDA Certified Kitchen"
+    },
+    {
+      "type": "richtext",
+      "id": "description_1",
+      "label": "Description 1",
+      "default": "<p>We own the facility and run every step. Each meal clears strict USDA checks before it ships. Heat it, eat it, and feel confident.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Story 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Image 2"
+    },
+    {
+      "type": "text",
+      "id": "kicker_2",
+      "label": "Kicker 2",
+      "default": "Balanced Nutrition"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "Chef Crafted for Perfect Macros"
+    },
+    {
+      "type": "richtext",
+      "id": "description_2",
+      "label": "Description 2",
+      "default": "<p>Our chefs build every recipe to hit the right mix of protein, carbs, and fats. You get consistent nutrition that supports fat loss, muscle gain, or steady energy—no measuring needed.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Story 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Image 3"
+    },
+    {
+      "type": "text",
+      "id": "kicker_3",
+      "label": "Kicker 3",
+      "default": "Freshness Locked"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "Freshness Sealed Tight"
+    },
+    {
+      "type": "richtext",
+      "id": "description_3",
+      "label": "Description 3",
+      "default": "<p>Right after cooking, we seal each meal to keep air out and flavor in. No added preservatives, just pure taste whenever you are ready.</p>"
+    }
+  ],
+  "presets": [
+    {
+      "name": "The ICON Standard"
+    }
+  ]
+}
+{% endschema %}

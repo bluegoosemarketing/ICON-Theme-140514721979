@@ -1,0 +1,552 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "bdcdf5bd-a6f6-425e-8f12-a8fc4bcf3ccb": {
+      "type": "video--video-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/LP-Image-Header_V3.jpg",
+        "url": "",
+        "desktopHeight": "550",
+        "mobileHeight": "350",
+        "subheading": "Winter Sale",
+        "title": "Save 40% on Your<br>First Order!",
+        "text": "<p>Use Code <strong>WINTER40</strong> at Checkout</p>",
+        "textAlignment": "center",
+        "textColor": "#ffffff",
+        "textShadow": true,
+        "subheading--text-size": 20,
+        "heading--text-size": 46,
+        "button_link": "https://iconmeals.com/discount/WINTER40SALE?redirect=%2Fcollections%2Fthis-weeks-menu",
+        "button_label": "Shop 40% OFF NOW"
+      }
+    },
+    "16529863274c469e99": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/tile-icon-employee.png",
+        "layout": "left",
+        "subheading": "Our ICONIC Process",
+        "title": "How Does Icon Meals Work?",
+        "text_block": "<p><strong>From our chef-inspired creations to heat-and-eat meals delivered fresh to your door. </strong>ICON Meals is an industry leader in fresh, clean, USDA inspected meals that help you save money, get back precious time, and helps you reach those health goals... or just stop eating junk every day!</p>",
+        "button_link": "https://iconmeals.com/discount/WINTER40SALE?redirect=%2Fcollections%2Fthis-weeks-menu",
+        "button_label": "40% OFF w/Code: WINTER40"
+      }
+    },
+    "1652986278c5c7c31c": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://vimeo.com/721084546",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "1652991260f95f86f9": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "16529912606122ae78-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "",
+            "subheading": "",
+            "buttonLabel": "What We Offer ↓",
+            "link": "#offer"
+          }
+        },
+        "16529912606122ae78-1": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "",
+            "subheading": "",
+            "buttonLabel": "Delivery/Local ↓",
+            "link": "#delivery"
+          }
+        },
+        "16529912606122ae78-2": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "",
+            "subheading": "",
+            "buttonLabel": "Food Safety ↓",
+            "link": "#foodsafety"
+          }
+        },
+        "21315dce-fd0b-4c8e-950f-ad760b8c3ca5": {
+          "type": "text",
+          "settings": {
+            "icon": "gift",
+            "heading": "",
+            "subheading": "",
+            "buttonLabel": "40% OFF",
+            "link": "#faq"
+          }
+        }
+      },
+      "block_order": [
+        "16529912606122ae78-0",
+        "16529912606122ae78-1",
+        "16529912606122ae78-2",
+        "21315dce-fd0b-4c8e-950f-ad760b8c3ca5"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "165298633073ef5a0d": {
+      "type": "image--gallery",
+      "blocks": {
+        "16529863301a155418-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/download_5.webp",
+            "link": "",
+            "title": "How We Cook",
+            "description": "<p>All of our meals pass through rigorous food & safety inspection tests daily and are prepared fresh in a <strong>USDA certified kitchen</strong> ensuring you the safest cooking process in the industry.</p>"
+          }
+        },
+        "16529863301a155418-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/download_6.webp",
+            "link": "",
+            "title": "How We Pack",
+            "description": "<p>ICON is an industry leader utilizing vacuum seal technology. Each meal is plated in a 100% recyclable microwave-safe food container and vacuum-sealed to retain freshness. </p>"
+          }
+        },
+        "16529863301a155418-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/download_7.webp",
+            "link": "",
+            "title": "How We Ship",
+            "description": "<p>All your meals are delivered in a recyclable corrugated box with a special environmentally safe thermal liner and dry ice to make sure your meals are in optimal condition.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "16529863301a155418-0",
+        "16529863301a155418-1",
+        "16529863301a155418-2"
+      ],
+      "settings": {}
+    },
+    "165299151506f94c13": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "165299151571723bb0-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"offer\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "165299151571723bb0-0"
+      ],
+      "settings": {}
+    },
+    "1652987036c70b46ba": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Shop Meals, Snacks, & more",
+        "text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made meal plans, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
+        "button_link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fcollections%2Fthis-weeks-menu",
+        "button_label": "SHOP 40% OFF NOW"
+      }
+    },
+    "16529876163994c2a1": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://youtu.be/9APzitQ1eFc",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--50"
+      }
+    },
+    "1652986737c3485583": {
+      "type": "image--gallery",
+      "blocks": {
+        "165298673729ab82e8-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-meal-boxes_541990e7-4374-40cd-adca-f7eec55e47dc.jpg",
+            "link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fpages%2Fmealplans",
+            "title": "Meal Plans",
+            "description": "<p>Pre-made or build-a-plan options for different goals. Subscribe & save 5%</p><p><a href=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\" title=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\">40% OFF Meal Plans →</a></p>"
+          }
+        },
+        "165298673729ab82e8-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fcollections%2Fthis-weeks-menu",
+            "title": "Weekly Menu",
+            "description": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p><p><a href=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\" title=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\">40% OFF Weekly Menu →</a></p>"
+          }
+        },
+        "165298673729ab82e8-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fproducts%2Fcustom-meals",
+            "title": "Custom Meals",
+            "description": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your needs.</p><p><a href=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\" title=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\"><span style=\"text-decoration:underline\">40% OFF Custom Meals →</span></a></p>"
+          }
+        },
+        "b143b192-020a-4f07-a858-1582bfba433f": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fcollections%2Fbulk-items",
+            "title": "Bulk Items",
+            "description": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p><p><a href=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\" title=\"https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu\">40% OFF Bulk Items →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "165298673729ab82e8-2",
+        "165298673729ab82e8-1",
+        "165298673729ab82e8-0",
+        "b143b192-020a-4f07-a858-1582bfba433f"
+      ],
+      "settings": {}
+    },
+    "1652992395729f9fbe": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/tile-snacks.jpg",
+        "layout": "left",
+        "subheading": "We've also got snacks and more!",
+        "title": "",
+        "text_block": "<p>From protein-packed popcorn, butters, and bread to waygu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
+        "button_link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fpages%2Fsnacks-more",
+        "button_label": "Shop Snacks & More"
+      }
+    },
+    "1652987618ba097761": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/bg-meals-dark-01_fc9e47ad-243b-4070-b145-f6035d7fa1ee.jpg",
+        "subheading": "",
+        "title": "We Care About The Environment!",
+        "text": "<p>Each meal is plated in a 100% recyclable, microwave-safe food container and delivered in a recyclable corrugated box containing a special environmentally safe thermal liner. We also use dry ice to make sure your meals are in optimal condition. We designed it this way on purpose and are always looking for ways to further reduce our carbon footprint.</p>",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>Show off incredible feedback from your customers</p>",
+            "author": "John Doe",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>Show off incredible feedback from your customers</p>",
+            "author": "John Doe",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>Show off incredible feedback from your customers</p>",
+            "author": "John Doe",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-1",
+        "1649069606aef06289-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "Testimonials",
+        "stars-color": "#ff9529"
+      }
+    },
+    "16529915901075a069": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "16529915905da28358-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"delivery\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "16529915905da28358-0"
+      ],
+      "settings": {}
+    },
+    "1652988010d7a3f3b5": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165298801024dc0737-0": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Delivery Or Pick Up options",
+            "subheading": "It get's better! We can deliver your order direct to your door or schedule a local pick up if you live in or around the Dallas/Fort Worth, Texas area. (We can feel the excuses fading away...)",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "165298801024dc0737-0"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "1652988234589b9115": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "16529882330b94cdf8-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Heat & Eat In Minutes",
+            "subheading": "Heat up your meals (microwave or oven) for a quick and healthy meal without the fuss of cooking. That's it! In just minutes you can have a delicious, chef prepared meal ready for you to enjoy. Simple, convenient, fresh, and affordable.",
+            "buttonLabel": "See This Week's Menu →",
+            "link": "https://iconmeals.com/discount/USA40?redirect=%2Fcollections%2Fthis-weeks-menu"
+          }
+        }
+      },
+      "block_order": [
+        "16529882330b94cdf8-0"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "16529915939a24dc9f": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "16529915927e73e0b8-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"foodsafety\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "16529915927e73e0b8-0"
+      ],
+      "settings": {}
+    },
+    "1652989506f0bbb567": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/bg-meals-food-safety.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "The Industry Leader in",
+        "title": "Food Safety",
+        "text": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>",
+        "button_link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fcollections%2Fthis-weeks-menu",
+        "button_label": "Shop 40% OFF NOW"
+      }
+    },
+    "165299077205cf4452": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/food-safety-washing-hands_4a067655-cfc7-4677-81e6-4ba97e062d3d.jpg",
+        "layout": "left",
+        "subheading": "",
+        "title": "State of the art facility",
+        "text_block": "<p>With nearly 30,000 sqft. of facility space in Texas, we have and continue to make investments in leading edge cook/chill technology and conveyor plating systems. Each and every one of our meals is packed and sealed in a 38 degree cold packaging room to maintain ultimate freshness of our product.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652991029724a2110": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/food-safety-vacuum.jpg",
+        "layout": "right",
+        "subheading": "",
+        "title": "USDA Certified",
+        "text_block": "<p>Not all food-prep companies are created equal! We are inspected daily by the <strong>USDA (U.S. Department of Agriculture)</strong>. All of our label claims and Nutrition Fact statements are <strong>FDA compliant </strong>and have been lab tested by a third party guaranteeing accuracy. We are a <strong>HACCP and USDA compliant facility </strong>(Hazard Analysis & Critical Control Points) following documented and state approved SOP’s and SSOP’s (Standard Operating Procedures and Sanitation Standard Operating Procedures).</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652991161d12c3685": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/food-safety-chopping-food.jpg",
+        "layout": "left",
+        "subheading": "",
+        "title": "Sourcing Top Quality Products",
+        "text_block": "<p><strong>Quality and safety are top priority in our kitchens.</strong> Our food products are carefully sourced and received each day, from the highest quality food purveyors in town, including local farms. Regular quality assurance visits to all suppliers are made by our Culinary Officers and purchasing partners in order to ensure compliance. Always fresh, never frozen, our meals are prepared from scratch every day under the supervision of our Culinary Officers and in-house Dietitian.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "165299188002aaf802": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/team-icon-certifications-training.jpg",
+        "layout": "right",
+        "subheading": "",
+        "title": "TRAINING, CERTIFICATIONS AND INSPECTIONS",
+        "text_block": "<p>We are a licensed food manufacturer and state inspected Texas meat & poultry facility. There are a lot of ready-made meal companies out there, but the majority of these businesses are not legally able to sell meals wholesale; however most of the wholesale accounts aren’t aware of the laws preventing these sales or benefits of doing business with a certified kitchen.<br/><br/>All foods are handled and prepared by trained employees wearing hair protection and gloves. Color-coded food preparation equipment and utensils ensure food ingredients are at minimized risk of cross-contamination. ICON Meals is audited regularly by local, state and national agencies to ensure compliance. We pride ourselves in attaining the highest audit scores. Our Department of Health Inspection results are available upon request. To ensure all meals remain at the optimum temperature during transport and upon delivery, we designed our own thermally-insulated cooler bag, which is packed with dry ice and sealed shut to ensure no tampering and that client’s meals arrive safely.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652991883244e8835": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "16529918838e8eeae0-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"faq\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "16529918838e8eeae0-0"
+      ],
+      "settings": {}
+    },
+    "1652988344c3b480e9": {
+      "type": "accordion",
+      "blocks": {
+        "1652988344408605c6-0": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Place your question or heading here",
+            "text": "<p>Here you can place an explanation or answer to the question.</p>"
+          }
+        },
+        "1652988344408605c6-1": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Place your question or heading here",
+            "text": "<p>Here you can place an explanation or answer to the question.</p>"
+          }
+        },
+        "1652988344408605c6-2": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Place your question or heading here",
+            "text": "<p>Here you can place an explanation or answer to the question.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1652988344408605c6-0",
+        "1652988344408605c6-1",
+        "1652988344408605c6-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "background-color": "#333333",
+        "text-color": "#f5f5f5",
+        "title": "Frequently asked questions",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "3f336453-a582-41e7-be40-f8c12bd40968": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/beef-potato-skillet-04_97262487-4fa8-42aa-aa16-12818e6d01d2.jpg",
+        "layout": "left",
+        "subheading": "use code: HARVEST40 at checkout",
+        "title": "Get 40% OFF NOW",
+        "text_block": "<p>Crush your goals hassle-free! 😎 ICON Meals lets you savor a unique meal daily, without the fuss of shopping, cooking, or cleaning. Affordable, Nutritious, and Mouthwatering!</p><p><br/><em>*Limit 1 use per customer. Can't be combined with other deals, discounts, subscriptions, or gift cards.</em></p>",
+        "button_link": "https://iconmeals.com/discount/HARVEST40SALE?redirect=%2Fcollections%2Fthis-weeks-menu",
+        "button_label": "Shop 40% OFF Today"
+      }
+    }
+  },
+  "order": [
+    "bdcdf5bd-a6f6-425e-8f12-a8fc4bcf3ccb",
+    "16529863274c469e99",
+    "1652986278c5c7c31c",
+    "1652991260f95f86f9",
+    "165298633073ef5a0d",
+    "165299151506f94c13",
+    "1652987036c70b46ba",
+    "16529876163994c2a1",
+    "1652986737c3485583",
+    "1652992395729f9fbe",
+    "1652987618ba097761",
+    "1649069606fc034211",
+    "16529915901075a069",
+    "1652988010d7a3f3b5",
+    "main",
+    "1652988234589b9115",
+    "16529915939a24dc9f",
+    "1652989506f0bbb567",
+    "165299077205cf4452",
+    "1652991029724a2110",
+    "1652991161d12c3685",
+    "165299188002aaf802",
+    "1652991883244e8835",
+    "1652988344c3b480e9",
+    "3f336453-a582-41e7-be40-f8c12bd40968"
+  ]
+}

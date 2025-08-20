@@ -1,0 +1,230 @@
+<!-- 
+  Hero Section V16.2 (Bypass Modal Version)
+  Developer: AI Assistant (based on user request)
+  Date: May 21, 2024
+  Summary: The hero section's primary button now links directly to a specified URL, completely bypassing the pop-up modal. All modal-related HTML, CSS, and JavaScript have been removed for a streamlined implementation.
+-->
+<section class="hero16-section">
+  <div class="hero16-background">
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcset="https://cdn.shopify.com/s/files/1/1957/2713/files/New-Cover-Image_MOBILE_v2.2.jpg?v=1751559612"
+      >
+      <source
+        media="(min-width: 768px)"
+        srcset="https://cdn.shopify.com/s/files/1/1957/2713/files/New-Cover-Image_v3.jpg?v=1751559314"
+      >
+      <img
+        src="https://cdn.shopify.com/s/files/1/1957/2713/files/New-Cover-Image_v3.jpg?v=1751559314"
+        alt="A variety of fresh, healthy, ready-to-eat meals"
+        class="hero16-image"
+        width="1920" height="800" loading="eager"
+      >
+    </picture>
+  </div>
+
+  <div class="hero16-content-wrapper">
+    <div class="hero16-content">
+      <p class="hero16-credibility">{{ section.settings.credibility_text }}</p>
+      
+      <h1 class="hero16-heading">
+        <span class="hero16-heading-underline">{{ section.settings.headline_1 }}</span> {{ section.settings.headline_2 }}<br>{{ section.settings.headline_3 }}
+      </h1>
+
+      <ul class="hero16-value-props">
+        <li class="hero16-value-prop">
+          <span class="hero16-value-prop-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+          </span>
+          {{ section.settings.prop_1_text }}
+        </li>
+        <li class="hero16-value-prop">
+          <span class="hero16-value-prop-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+          </span>
+          {{ section.settings.prop_2_text }}
+        </li>
+        <li class="hero16-value-prop">
+          <span class="hero16-value-prop-icon">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"></path></svg>
+          </span>
+          {{ section.settings.prop_3_text }}
+        </li>
+      </ul>
+      
+      <!-- ★★★ REVISED BUTTON: Changed from <button> to <a> tag to link directly ★★★ -->
+      <a href="/collections/signature-menu/" class="hero16-button">
+        {{ section.settings.cta_button_text }} <span class="hero16-button-arrow">→</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ★★★ MODAL and SCRIPT have been REMOVED ★★★ -->
+
+<style>
+/* ─────────────────────────────────────────────
+   HERO SECTION V16.2 (Styles for Hero Section Only)
+   ───────────────────────────────────────────── */
+:root {
+  --heading-font-v16: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --text-dark-v16: #1a202c;
+  --text-medium-v16: #4a5568;
+  --brand-red-v16: #E63946;
+  --brand-red-dark-v16: #C1272D;
+}
+
+.hero16-section { position: relative; width: 100%; background-color: #f9f7f6; overflow: hidden; display: flex; }
+.hero16-background { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
+.hero16-image { width: 100%; height: 100%; display: block; object-fit: cover; }
+.hero16-content-wrapper { position: relative; z-index: 2; width: 100%; display: flex; align-items: center; padding: 80px 20px; }
+.hero16-content { text-align: center; max-width: 600px; margin: 0 auto; }
+
+.hero16-credibility {
+  display: inline-block !important; background: #ffffff !important; color: #718096 !important;
+  padding: 8px 16px !important; font-size: 0.8rem !important; font-weight: 700 !important;
+  border-radius: 20px !important; border: 1px solid #e2e8f0 !important;
+  margin-bottom: 25px !important; text-transform: uppercase !important; letter-spacing: 0.5px !important;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+}
+
+.hero16-heading {
+  font-family: var(--heading-font-v16) !important; font-size: 3rem !important;
+  font-weight: 900 !important; margin-bottom: 30px !important;
+  color: var(--text-dark-v16) !important;
+  line-height: 1.1 !important; letter-spacing: -1.5px !important; text-transform: uppercase !important;
+}
+.hero16-heading-underline { position: relative; display: inline-block; }
+.hero16-heading-underline::after {
+  content: ''; position: absolute; bottom: -8px; left: -5%; right: -5%; height: 12px;
+  background-image: url('data:image/svg+xml;utf8,<svg width="205" height="14" viewBox="0 0 205 14" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M2.202 11.026c60.337-3.83 113.83-6.663 171.24-3.32 17.961 1.043 32.535-1.19 30.685-3.32-4.11-4.733-51.533.332-69.827.664-32.93 1.107-65.526 1.328-98.495 1.992-32.97 1.106-65.882 1.328-95.807-.664" stroke="%23E63946" stroke-width="3" stroke-linecap="round"/></svg>');
+  background-size: 100% 100%; background-repeat: no-repeat; z-index: -1; transform: rotate(-1deg);
+}
+
+.hero16-value-props {
+  list-style: none !important; padding: 0 !important; margin: 0 auto 40px !important;
+  display: flex; flex-direction: column; gap: 12px; max-width: 480px;
+}
+.hero16-value-prop {
+  display: flex !important; align-items: center !important;
+  font-family: var(--heading-font-v16) !important; font-size: 1.1rem !important;
+  font-weight: 500 !important; color: var(--text-medium-v16) !important;
+  line-height: 1.5 !important;
+}
+.hero16-value-prop-icon {
+  display: inline-flex !important; flex-shrink: 0; width: 20px; height: 20px;
+  margin-right: 12px; color: var(--brand-red-v16) !important;
+}
+
+.hero16-button {
+  display: inline-flex !important; align-items: center !important;
+  padding: 18px 40px !important; background: var(--brand-red-v16) !important;
+  color: #ffffff !important; text-decoration: none !important;
+  font-family: var(--heading-font-v16) !important; font-size: 1.1rem !important;
+  font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 1px !important;
+  border-radius: 8px !important; border: 2px solid transparent !important;
+  transition: all 0.3s ease !important; cursor: pointer !important;
+  box-shadow: 0 10px 15px -3px rgba(230, 57, 70, 0.3), 0 4px 6px -2px rgba(230, 57, 70, 0.1) !important;
+}
+.hero16-button-arrow { margin-left: 12px !important; transition: transform 0.3s ease !important; }
+.hero16-button:hover {
+  background: var(--brand-red-dark-v16) !important;
+  box-shadow: 0 20px 25px -5px rgba(230, 57, 70, 0.3), 0 10px 10px -5px rgba(230, 57, 70, 0.1) !important;
+  transform: translateY(-3px) !important;
+}
+.hero16-button:hover .hero16-button-arrow { transform: translateX(5px) !important; }
+
+
+/* ─── RESPONSIVE STYLES ─── */
+@media (max-width: 767px) {
+  .hero16-section { min-height: 95vh; }
+  .hero16-image { object-position: center; }
+  .hero16-content-wrapper { align-items: flex-start; padding: 50px 20px 20px; }
+  .hero16-heading { font-size: 2.5rem !important; }
+  .hero16-value-prop { font-size: 1rem !important; }
+}
+@media (min-width: 768px) {
+  .hero16-image { object-position: left center; }
+  .hero16-content-wrapper { justify-content: flex-start; padding-top: 100px; padding-bottom: 100px; padding-left: 5%; }
+  .hero16-content { text-align: left; margin: 0; max-width: 50%; }
+  .hero16-credibility, .hero16-value-props { margin-left: 0 !important; }
+  .hero16-heading { font-size: 3.5rem !important; }
+}
+@media (min-width: 1024px) {
+  .hero16-content { max-width: 55%; }
+  .hero16-heading { font-size: 4.2rem !important; letter-spacing: -2px !important; }
+  .hero16-heading-underline::after { height: 12px; bottom: -5px; }
+  .hero16-value-props { max-width: 550px; }
+  .hero16-value-prop { font-size: 1.15rem !important; }
+}
+@media (min-width: 1440px) {
+  .hero16-content-wrapper { padding-left: 5%; }
+  .hero16-content { max-width: 680px; }
+  .hero16-heading { font-size: 4.8rem !important; }
+  .hero16-heading-underline::after { height: 14px; }
+  .hero16-value-prop { font-size: 1.25rem !important; }
+}
+</style>
+
+
+{% schema %}
+{
+  "name": "Hero Section V16.2",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Hero Content"
+    },
+    {
+      "type": "text",
+      "id": "credibility_text",
+      "label": "Credibility Tag",
+      "default": "USDA Certified 🇺🇸 Serving the Lower 48"
+    },
+    {
+      "type": "text",
+      "id": "headline_1",
+      "label": "Headline - Part 1 (Underlined)",
+      "default": "Win"
+    },
+    {
+      "type": "text",
+      "id": "headline_2",
+      "label": "Headline - Part 2",
+      "default": "Back"
+    },
+    {
+      "type": "text",
+      "id": "headline_3",
+      "label": "Headline - Part 3",
+      "default": "Your Week."
+    },
+    {
+      "type": "text",
+      "id": "prop_1_text",
+      "label": "Value Prop 1",
+      "default": "Chef-Crafted & Macro-Balanced"
+    },
+    {
+      "type": "text",
+      "id": "prop_2_text",
+      "label": "Value Prop 2",
+      "default": "Ready in 2 Minutes"
+    },
+    {
+      "type": "text",
+      "id": "prop_3_text",
+      "label": "Value Prop 3",
+      "default": "Effortless Results, Delivered"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "CTA Button Text",
+      "default": "View The Menu"
+    }
+  ],
+  "presets": [ { "name": "Hero Section V16.2", "category": "Custom Sections" } ]
+}
+{% endschema %}

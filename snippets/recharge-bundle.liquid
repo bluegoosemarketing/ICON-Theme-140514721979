@@ -1,0 +1,90 @@
+{% comment %}
+<!--
+************************************************************************************
+*
+*  Recharge Bundle Snippet (v1.1 - Final)
+*  --------------------------------------------------------------------------------
+*  - The {% schema %} tag has been COMPLETELY REMOVED to resolve the Liquid error.
+*  - All style variables (e.g., section.settings.rb_theme_color) have been
+*    replaced with their hard-coded default values.
+*  - To customize the appearance of this widget, you must now edit the CSS
+*    variables directly in the <style> block below.
+*
+************************************************************************************
+-->
+{% endcomment %}
+
+{% assign product_handle = product.handle %}
+{% assign box_product = all_products[product_handle] %}
+
+<link rel="stylesheet" href="https://static.rechargecdn.com/assets/bundling-widget/src.css" referrerpolicy="origin">
+
+<style>
+.rb-app {
+  /* Container */
+  --rb-app-bg: #ffffff;
+  --rb-page-width: 1220px;
+
+  /* Colors */
+  --rb-body-color: #c01923;
+  --rb-body-color-10: {{ '#c01923' | color_mix: '#ffffff', 10 }};
+  --rb-body-color-20: {{ '#c01923' | color_mix: '#ffffff', 20 }};
+  --rb-body-color-30: {{ '#c01923' | color_mix: '#ffffff', 30 }};
+  --rb-body-color-40: {{ '#c01923' | color_mix: '#ffffff', 40 }};
+  --rb-body-color-50: {{ '#c01923' | color_mix: '#ffffff', 50 }};
+  --rb-body-color-60: {{ '#c01923' | color_mix: '#ffffff', 60 }};
+  --rb-body-color-70: {{ '#c01923' | color_mix: '#ffffff', 70 }};
+  --rb-body-color-80: {{ '#c01923' | color_mix: '#ffffff', 80 }};
+  --rb-brand-color: #c01923;
+  --rb-brand-color-10: {{ '#c01923' | color_mix: '#ffffff', 10 }};
+  --rb-brand-color-20: {{ '#c01923' | color_mix: '#ffffff', 20 }};
+  --rb-brand-color-30: {{ '#c01923' | color_mix: '#ffffff', 30 }};
+  --rb-brand-color-40: {{ '#c01923' | color_mix: '#ffffff', 40 }};
+  --rb-brand-color-50: {{ '#c01923' | color_mix: '#ffffff', 50 }};
+  --rb-brand-color-60: {{ '#c01923' | color_mix: '#ffffff', 60 }};
+  --rb-brand-color-70: {{ '#c01923' | color_mix: '#ffffff', 70 }};
+  --rb-brand-color-80: {{ '#c01923' | color_mix: '#ffffff', 80 }};
+
+  /* Typography */
+  --font-size-5: 16px;
+
+  /* Spacing */
+  --rb-base-spacing: 15px;
+
+  /* Buttons */
+  --rb-btn-bg: #c01923;
+  --rb-btn-color: #ffffff;
+  --rb-btn-bg-hover: {{ '#c01923' | color_mix: '#c01923', 80 }};
+  --rb-btn-color-hover: #ffffff;
+  --rb-btn-radius: 4px;
+  --rb-btn-pady: calc(15px / 2);
+  --rb-btn-padx: 15px;
+
+  /* Box builder */
+  --rb-item-width: calc(100% / 1);
+  --rb-item-aspect-ratio: 100%;
+  --rb-item-radius: 4px;
+}
+
+@media screen and (min-width: 30em) {
+  .rb-app {
+    --rb-item-width: calc(100% / 4);
+  }
+}
+
+</style>
+
+<div id="recharge-bundle-wrapper">
+  <div id="bundling-app"></div>
+</div>
+
+{% capture product_json %}{% include 'recharge-bundle-product-json', product: box_product %}{% endcapture %}
+<script type="text/javascript">
+  window.BoxConfig = {
+    template: 'product',
+    product: {{ product_json }},
+    customLocale: {{ 'r_html' | t | json }}
+  };
+</script>
+
+<script src="https://static.rechargecdn.com/assets/bundling-widget/src.js" referrerpolicy="origin"></script>

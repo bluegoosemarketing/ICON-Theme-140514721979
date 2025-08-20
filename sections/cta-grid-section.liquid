@@ -1,0 +1,391 @@
+{% comment %}
+  Section: Category Showcase [v1.2 - Enhanced Gradient]
+  Purpose: A visually engaging, action-oriented grid to guide users.
+  - Adds a more pronounced gradient overlay for superior text legibility against any image.
+{% endcomment %}
+
+{% comment %} Add Google Fonts for premium typography {% endcomment %}
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@700;800&family=Inter:wght@500;700&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+
+<div class="category-showcase-v1">
+  <div class="page-width">
+    <div class="category-header-v1">
+      {%- if section.settings.kicker != blank -%}
+        <span class="category-kicker-v1">{{ section.settings.kicker }}</span>
+      {%- endif -%}
+      <h2 class="category-heading-v1">{{ section.settings.main_title }}</h2>
+    </div>
+
+    <div class="category-grid-v1">
+      {%- for i in (1..4) -%}
+        {%- liquid
+          assign card_image = 'image_' | append: i
+          assign card_title = 'title_' | append: i
+          assign card_link = 'link_' | append: i
+          assign card_cta_text = 'cta_text_' | append: i
+
+          assign placeholder_svgs = 'lifestyle-1, lifestyle-2, lifestyle-3, lifestyle-4' | split: ', '
+          assign array_index = i | minus: 1
+          assign current_placeholder = placeholder_svgs[array_index]
+        -%}
+
+        <a href="{{ section.settings[card_link] | default: '#' }}" class="category-card-v1">
+          <div class="card-background-v1" 
+            {% if section.settings[card_image] != blank %}
+              style="background-image: url('{{ section.settings[card_image] | image_url: width: 800 }}');"
+            {% endif %}>
+            {% if section.settings[card_image] == blank %}
+              <div class="card-placeholder-v1">{{ current_placeholder | placeholder_svg_tag }}</div>
+            {% endif %}
+          </div>
+          <div class="card-overlay-v1"></div>
+          <div class="card-content-v1">
+            <h3 class="card-title-v1">{{ section.settings[card_title] }}</h3>
+            <span class="card-cta-v1">
+              {{ section.settings[card_cta_text] }}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </span>
+          </div>
+        </a>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+<style>
+  :root {
+    /* Inheriting from your existing aesthetic for consistency */
+    --font-display-cta-v1: 'Sora', sans-serif !important;
+    --font-body-cta-v1: 'Inter', sans-serif !important;
+    --font-mono-cta-v1: 'Roboto Mono', monospace !important;
+    
+    --color-bg-cta-v1: #f8f8f8ff !important;
+    --color-text-primary-cta-v1: #111827 !important;
+    --color-brand-accent-cta-v1: #E63946 !important;
+    --color-text-light-cta-v1: #FFFFFF !important;
+  }
+
+  .category-showcase-v1 {
+    background-color: var(--color-bg-cta-v1) !important;
+    padding: 100px 20px !important;
+  }
+
+  .category-header-v1 {
+    text-align: center !important;
+    max-width: 800px !important;
+    margin: 0 auto 60px auto !important;
+  }
+
+  .category-kicker-v1 {
+    display: block !important;
+    font-family: var(--font-mono-cta-v1) !important;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    color: var(--color-brand-accent-cta-v1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.1em !important;
+    margin-bottom: 12px !important;
+  }
+
+  .category-heading-v1 {
+    font-family: var(--font-display-cta-v1) !important;
+    font-size: clamp(2.25rem, 5vw, 2.75rem) !important;
+    font-weight: 800 !important;
+    color: var(--color-text-primary-cta-v1) !important;
+    line-height: 1.2 !important;
+    letter-spacing: -0.03em !important;
+    margin: 0 !important;
+  }
+
+  .category-grid-v1 {
+    display: grid !important;
+    grid-template-columns: repeat(4, 1fr) !important;
+    gap: 30px !important;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+  }
+
+  .category-card-v1 {
+    display: block !important;
+    position: relative !important;
+    border-radius: 16px !important;
+    overflow: hidden !important;
+    aspect-ratio: 3 / 4 !important; /* Creates an elegant, tall card shape */
+    text-decoration: none !important;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out !important;
+    box-shadow: 0 8px 25px -8px rgba(17, 24, 39, 0.08);
+  }
+
+  .category-card-v1:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 16px 40px -12px rgba(17, 24, 39, 0.15);
+  }
+
+  .card-background-v1 {
+    position: absolute !important;
+    top: 0;
+    left: 0;
+    width: 100% !important;
+    height: 100% !important;
+    background-size: cover !important;
+    background-position: center !important;
+    transition: transform 0.4s ease-out !important;
+  }
+
+  .category-card-v1:hover .card-background-v1 {
+    transform: scale(1.05) !important;
+  }
+
+  .card-placeholder-v1 {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #e5e7eb;
+  }
+
+  .card-placeholder-v1 svg {
+    width: 30%;
+    height: 30%;
+    max-width: 80px;
+    opacity: 0.5;
+  }
+
+  .card-overlay-v1 {
+    position: absolute !important;
+    inset: 0 !important;
+    z-index: 1 !important;
+    transition: background 0.4s ease !important;
+    
+    /* --- GRADIENT REFINEMENT --- */
+    /* This new gradient is more opaque at the bottom and extends higher, ensuring text is always legible. */
+    background: linear-gradient(
+      to top, 
+      rgba(17, 24, 39, 0.9) 10%,  /* Darker at the bottom */
+      rgba(17, 24, 39, 0.7) 35%, /* Begins to fade */
+      rgba(17, 24, 39, 0) 65%   /* Fully transparent higher up */
+    ) !important;
+  }
+  
+  .category-card-v1:hover .card-overlay-v1 {
+    /* The gradient becomes slightly more pronounced on hover for a subtle, premium effect. */
+    background: linear-gradient(
+      to top, 
+      rgba(17, 24, 39, 0.95) 15%, 
+      rgba(17, 24, 39, 0.75) 40%, 
+      rgba(17, 24, 39, 0) 70%
+    ) !important;
+  }
+
+  .card-content-v1 {
+    position: relative !important;
+    z-index: 2 !important;
+    height: 100% !important;
+    padding: 24px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: flex-end !important;
+    color: var(--color-text-light-cta-v1) !important;
+  }
+
+  .card-title-v1 {
+    font-family: var(--font-display-cta-v1) !important;
+    font-size: clamp(1.25rem, 4vw, 1.5rem) !important;
+    font-weight: 700 !important;
+    line-height: 1.3 !important;
+    margin: 0 0 12px 0 !important;
+    color: inherit !important;
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.2); /* Adds a subtle shadow for even more pop */
+  }
+
+  .card-cta-v1 {
+    font-family: var(--font-body-cta-v1) !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    opacity: 0.85;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    transform-origin: left;
+  }
+
+  .category-card-v1:hover .card-cta-v1 {
+    opacity: 1;
+  }
+
+  .card-cta-v1 svg {
+    transition: transform 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  }
+
+  .category-card-v1:hover .card-cta-v1 svg {
+    transform: translateX(5px) !important;
+  }
+  
+  /* Tablet Styles */
+  @media (max-width: 990px) {
+    .category-showcase-v1 {
+      padding: 80px 20px !important;
+    }
+    .category-grid-v1 {
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 24px !important;
+    }
+    .category-card-v1 {
+      aspect-ratio: 4 / 5 !important;
+    }
+  }
+
+  /* Mobile Styles */
+  @media (max-width: 767px) {
+    .category-showcase-v1 {
+      padding: 60px 20px !important;
+    }
+    .category-header-v1 {
+      margin-bottom: 40px !important;
+    }
+    .category-grid-v1 {
+      grid-template-columns: 1fr !important;
+      gap: 20px !important;
+    }
+    .category-card-v1 {
+      aspect-ratio: 1 / 1 !important; /* Square cards on mobile for better screen use */
+    }
+    .card-title-v1 {
+       font-size: 1.25rem !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Category Showcase",
+  "class": "category-showcase-wrapper",
+  "settings": [
+    {
+      "type": "text",
+      "id": "kicker",
+      "label": "Kicker (Red Text)",
+      "default": "Your Kitchen, Your Choice"
+    },
+    {
+      "type": "text",
+      "id": "main_title",
+      "label": "Main Headline",
+      "default": "What Sounds Good?"
+    },
+    {
+      "type": "header",
+      "content": "Card 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_1",
+      "label": "Background Image 1"
+    },
+    {
+      "type": "text",
+      "id": "title_1",
+      "label": "Title 1",
+      "default": "Chef's Signature Meals"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_1",
+      "label": "CTA Text 1",
+      "default": "View Menu"
+    },
+    {
+      "type": "url",
+      "id": "link_1",
+      "label": "Link 1"
+    },
+    {
+      "type": "header",
+      "content": "Card 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_2",
+      "label": "Background Image 2"
+    },
+    {
+      "type": "text",
+      "id": "title_2",
+      "label": "Title 2",
+      "default": "Create Custom Meals"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_2",
+      "label": "CTA Text 2",
+      "default": "Build Yours"
+    },
+    {
+      "type": "url",
+      "id": "link_2",
+      "label": "Link 2"
+    },
+    {
+      "type": "header",
+      "content": "Card 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_3",
+      "label": "Background Image 3"
+    },
+    {
+      "type": "text",
+      "id": "title_3",
+      "label": "Title 3",
+      "default": "By the Pound"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_3",
+      "label": "CTA Text 3",
+      "default": "Shop Bulk"
+    },
+    {
+      "type": "url",
+      "id": "link_3",
+      "label": "Link 3"
+    },
+    {
+      "type": "header",
+      "content": "Card 4"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_4",
+      "label": "Background Image 4"
+    },
+    {
+      "type": "text",
+      "id": "title_4",
+      "label": "Title 4",
+      "default": "Protein Snacks & More"
+    },
+    {
+      "type": "text",
+      "id": "cta_text_4",
+      "label": "CTA Text 4",
+      "default": "Explore Extras"
+    },
+    {
+      "type": "url",
+      "id": "link_4",
+      "label": "Link 4"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Category Showcase"
+    }
+  ]
+}
+{% endschema %}

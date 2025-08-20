@@ -1,0 +1,170 @@
+/* ==========================================================================
+   Refactored Macro Nutrient Panel V8 - Final Polish
+   ========================================================================== */
+
+/* Main container - sets position and font */
+.nutrition-container-v8 {
+  width: 100%;
+  margin-top: 1.5rem;
+  position: relative;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* The main panel wrapper. This has the border and rounded corners. */
+.nutrition-panel-v8 {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
+}
+
+/* The grid that holds the macro totals. Mimics .product-macros-block */
+.macro-grid--interactive {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+
+/* --- STYLES COPIED/ADAPTED FROM YOUR THEME FOR CONSISTENCY --- */
+.macro-stat {
+  padding: 1rem 0.5rem;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-right: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  border-top-width: 4px;
+  border-top-style: solid;
+}
+.macro-stat:nth-child(3n) {
+  border-right: none;
+}
+.macro-grid--interactive .macro-stat:nth-last-child(-n+3) {
+  border-bottom: none;
+}
+
+.macro-stat--calories { border-top-color: var(--macro-color-calories); }
+.macro-stat--protein { border-top-color: var(--macro-color-protein); }
+.macro-stat--carbs { border-top-color: var(--macro-color-carbs); }
+.macro-stat--fats { border-top-color: var(--macro-color-fats); }
+.macro-stat--fiber { border-top-color: var(--macro-color-fiber); }
+.macro-stat--sodium { border-top-color: var(--macro-color-sodium); }
+
+.macro-stat__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212529;
+  line-height: 1.2;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+.macro-stat__label {
+  font-size: 0.7rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+}
+/* --- END OF COPIED/ADAPTED STYLES --- */
+
+
+/* Footer area for the "More Info" button */
+.panel-footer {
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+
+/* Primary Toggle Button - Definitive Style Override */
+.panel-toggle-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #495057 !important; /* Overrides red link color */
+  background-color: #ffffff !important;
+  border: 1px solid #dee2e6 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important; /* Overrides bold link weight */
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+  text-decoration: none !important; /* Overrides underline */
+}
+.panel-toggle-primary:hover {
+  background-color: #f8f9fa !important;
+  border-color: #ced4da !important;
+  color: #212529 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+  text-decoration: none !important; /* Ensure no underline on hover */
+}
+.toggle-icon {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid currentColor;
+  transition: transform 0.2s ease-in-out;
+}
+.nutrition-panel-v8.is-expanded .toggle-icon {
+  transform: rotate(180deg);
+}
+
+
+/* Panel Body: Polished Ingredient Breakdown */
+.panel-body {
+  border-top: 1px solid #e9ecef;
+  padding: 1rem 1.5rem;
+  background-color: #ffffff;
+}
+.panel-body.is-hidden {
+  display: none;
+}
+.panel-body-title {
+  margin: 0 0 1rem 0;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #212529;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Individual Ingredient Row Styling */
+.ingredient-row {
+  padding: 1rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+.ingredient-row:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+.ingredient-name {
+  font-weight: 600;
+  text-transform: capitalize;
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #343a40;
+}
+.ingredient-details {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  border: 1px solid #e9ecef;
+  padding: 0.75rem 1rem;
+  font-size: 0.8rem;
+  display: flex;
+  gap: 0.5rem 1.25rem;
+  flex-wrap: wrap;
+}
+.ingredient-details span {
+  color: #495057;
+}
+.ingredient-details strong {
+  color: #212529;
+  font-weight: 600;
+}
+
+/* --- Legacy Styles for Bold Swatches (DO NOT REMOVE) --- */
+.bold_option_value_swatch{width:45px;height:45px;text-align:center}.bold_option.bold_option_dropdown{margin-top:20px}span.bold_option_value_swatch span{padding-top:4px}.bold_swatch_selected span{background-color:#EC4242!important;color:#fff}span.bold_option_swatch_title{display:none}.bold_option_swatch .bold_option_value{display:inline-block;clear:left;margin-right:-7px;margin-top:5px}span.bold_help_text{display:none}.bold_option.bold_option_swatch .bold_option_title{display:none}.bold_option_title,.bold_option_value_price{font-weight:700;width:5px}sub.oz{font-size:12px;display:block}

@@ -1,0 +1,235 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div",
+  "sections": {
+    "main": {
+      "type": "template--product",
+      "settings": {
+        "show_out_of_stock_email": true,
+        "out_of_stock_email_position": "below-details",
+        "hide_out_of_stock": false,
+        "thumbnail_changes_variant": false,
+        "image_display": "thumbnails",
+        "enable_zoom": false,
+        "enable_video_loop": false
+      }
+    },
+    "165178167457715956": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "2d9ffce1-1e39-4742-9bf5-be89abfe57a9": {
+          "type": "text",
+          "settings": {
+            "icon": "wallet",
+            "heading": "Budget Friendly",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-0": {
+          "type": "text",
+          "settings": {
+            "icon": "recycle",
+            "heading": "Subscribe & Save 15%",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-1": {
+          "type": "text",
+          "settings": {
+            "icon": "heart",
+            "heading": "macro friendly",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-2": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "High Protein",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "2d9ffce1-1e39-4742-9bf5-be89abfe57a9",
+        "165178167444a09996-0",
+        "165178167444a09996-1",
+        "165178167444a09996-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "product-description": {
+      "type": "template--product-description",
+      "blocks": {
+        "a1815482-0efd-42fb-ac26-9ae07b760726": {
+          "type": "custom_pages",
+          "settings": {
+            "pages": ""
+          }
+        }
+      },
+      "block_order": [
+        "a1815482-0efd-42fb-ac26-9ae07b760726"
+      ],
+      "settings": {
+        "content_display": "collapse_except_description",
+        "show_tags": false,
+        "show_collections": false,
+        "show_type": false
+      }
+    },
+    "e6323ac3-2e8c-4b25-bfc3-298b0916f18d": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "Featuring UFC Champ Uriah Hall",
+        "title": "",
+        "url": "https://www.youtube.com/watch?v=yXE2dqURWM4",
+        "autoplay": false,
+        "loop": true,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "1651782024a70736a3": {
+      "type": "accordion",
+      "blocks": {
+        "1651782024e3efd747-0": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Is This Box A Promotional Deal Only?",
+            "text": "<p>No! We know times are tough for many people and we wanted to create a budget-friendly option that provides great meals at an affordable price. You can save even more when you subscribe! (15%)</p>"
+          }
+        },
+        "1651782024e3efd747-1": {
+          "type": "tab_content",
+          "settings": {
+            "question": "What Meals Are Included?",
+            "text": "<p>This box contains 4 of each of these meals (12 total):</p><ul><li>Pesto Chicken Pasta w/Vegetables</li><li>Teriyaki Chicken</li><li>Fiesta Turkey Bowl</li></ul><p><em>Our plan is to rotate 1 or 2 meals regularly to continuously provide great value and variety with this box.</em></p>"
+          }
+        },
+        "1651782024e3efd747-2": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Why Did We Create The Budget Box?",
+            "text": "<p><strong>The team at ICON understands that people are struggling to eat quality food at relatively low prices. </strong></p><p>They don’t want finances to stop you from eating healthy meals that are full of flavor. This is such a great option when grocery prices have skyrocketed and you need meals that are reliable, top-quality, and delicious!</p><p>The Budget Box is a great way to hit your health goals at a low cost.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1651782024e3efd747-0",
+        "1651782024e3efd747-1",
+        "1651782024e3efd747-2"
+      ],
+      "settings": {
+        "background-color": "#ffffff",
+        "text-color": "#000000",
+        "title": "📦 About The Budget Box",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "85e0e21f-545b-4f11-8a48-9636cbdc8f64": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "template--16111948857531__85e0e21f-545b-4f11-8a48-9636cbdc8f64-1676566738f1e2285c-0": {
+          "type": "product-card-vendor",
+          "settings": {}
+        },
+        "template--16111948857531__85e0e21f-545b-4f11-8a48-9636cbdc8f64-1676566738f1e2285c-1": {
+          "type": "product-card-title",
+          "settings": {}
+        },
+        "template--16111948857531__85e0e21f-545b-4f11-8a48-9636cbdc8f64-1676566738f1e2285c-2": {
+          "type": "product-card-price",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "template--16111948857531__85e0e21f-545b-4f11-8a48-9636cbdc8f64-1676566738f1e2285c-0",
+        "template--16111948857531__85e0e21f-545b-4f11-8a48-9636cbdc8f64-1676566738f1e2285c-1",
+        "template--16111948857531__85e0e21f-545b-4f11-8a48-9636cbdc8f64-1676566738f1e2285c-2"
+      ],
+      "custom_css": [
+        ".bold_option {display: none;}"
+      ],
+      "settings": {
+        "subheading": "12 Meals | 4 of each",
+        "title": "What's In The Budget Box?",
+        "collection": "budget-box-meals",
+        "grid": 4,
+        "rows": 1,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "8079fb16-5632-4e2c-bf09-54235a5b1cd3": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/budget-box-bg.webp",
+        "subheading": "We Know Times Are Tough",
+        "title": "ICON Can Help",
+        "text": "<p>This is such a great option when grocery prices have skyrocketed and you need meals that are reliable, top-quality, and delicious!</p>",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "#",
+        "button_label": "Get The Budget Box Today!"
+      }
+    },
+    "165177738992fa8fe2": {
+      "type": "apps",
+      "blocks": {
+        "4d8e199d-e93c-4310-828b-866ebaedacb9": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "4d8e199d-e93c-4310-828b-866ebaedacb9"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "template--product--recommendations",
+      "settings": {
+        "show_product_recommendations": false,
+        "product_recommendations_heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "165178167457715956",
+    "product-description",
+    "e6323ac3-2e8c-4b25-bfc3-298b0916f18d",
+    "1651782024a70736a3",
+    "85e0e21f-545b-4f11-8a48-9636cbdc8f64",
+    "8079fb16-5632-4e2c-bf09-54235a5b1cd3",
+    "165177738992fa8fe2",
+    "product-recommendations"
+  ]
+}

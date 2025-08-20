@@ -1,0 +1,175 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--product",
+      "blocks": {
+        "title": {
+          "type": "product-title",
+          "settings": {}
+        },
+        "price": {
+          "type": "product-price",
+          "settings": {
+            "show_discount": "hide"
+          }
+        },
+        "product_options": {
+          "type": "product-options",
+          "settings": {}
+        },
+        "quantity_selector": {
+          "type": "quantity-selector",
+          "settings": {}
+        },
+        "payment_buttons": {
+          "type": "payment-buttons",
+          "settings": {
+            "show_smart_checkout": false
+          }
+        },
+        "macros": {
+          "type": "product-card-macros",
+          "settings": {}
+        },
+        "description": {
+          "type": "product-description",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "title",
+        "price",
+        "product_options",
+        "quantity_selector",
+        "payment_buttons",
+        "macros",
+        "description"
+      ],
+      "settings": {
+        "show_out_of_stock_email": true,
+        "out_of_stock_email_position": "below-details",
+        "hide_out_of_stock": false,
+        "thumbnail_changes_variant": false,
+        "image_display": "full-size",
+        "enable_zoom": false,
+        "enable_video_loop": false
+      }
+    },
+    "accordion_ingredients": {
+      "type": "accordion",
+      "blocks": {
+        "ingredients": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Ingredients",
+            "text": "<p>{{ product.metafields.nutrition.ingredients.value }}</p>"
+          }
+        },
+        "allergens": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Allergens",
+            "text": "<p>{{ product.metafields.nutrition.allergens.value }}</p>"
+          }
+        },
+        "heating": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Heating Instructions",
+            "text": "<p>{{ product.metafields.nutrition.instructions.value }}</p>"
+          }
+        }
+      },
+      "block_order": [
+        "ingredients",
+        "allergens",
+        "heating"
+      ],
+      "settings": {
+        "background-color": "#ffffff",
+        "text-color": "#000000",
+        "title": "",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "feature_adverts": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "cooked_fresh": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Cooked Fresh",
+            "subheading": "Chef-prepared in our USDA Certified Kitchen"
+          }
+        },
+        "delivered": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Delivered to you",
+            "subheading": "Vacuum sealed for maximum freshness."
+          }
+        },
+        "no_mess": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "No Mess",
+            "subheading": "Just heat & eat. Ready in 3 minutes or less."
+          }
+        }
+      },
+      "block_order": [
+        "cooked_fresh",
+        "delivered",
+        "no_mess"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "yotpo_reviews_main": {
+      "type": "apps",
+      "blocks": {
+        "yotpo_app": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_app"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "template--product--recommendations",
+      "settings": {
+        "show_product_recommendations": false,
+        "product_recommendations_heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "accordion_ingredients",
+    "feature_adverts",
+    "yotpo_reviews_main",
+    "product-recommendations"
+  ]
+}

@@ -1,0 +1,52 @@
+{%- assign rc_displayed_bundles = "" -%}
+{%- assign rc_bundles = "" -%}
+{%- assign rc_bundles_cart_count = cart.item_count -%}
+{%- assign rc_bundles_count = 0 -%}
+{%- assign rc_bundles_item_count = 0 -%}
+
+
+    <div class="LOOP_BUNDLE_CONTAINER_CLASS">
+        <input type="hidden" value="rendering loop bundles here as we did not found any table">
+    </div>
+        
+{%- for item in cart.items -%}
+{% comment %}
+    LOOP SUBSCRIPTIONS (https://apps.shopify.com/loop-subscriptions)
+    DO NOT modify this source code because
+    It is automatically generated from LOOP SUBSCRIPTIONS BUNDLE DESIGN
+    If you need to make change, please contact the Loop support team
+    LOOP BUNDLE CODE STARTS
+{% endcomment %}
+    {% assign isBundleItem = false %}
+    {%- for property in item.properties -%}
+        {% if property.first == '_bundleId' %}
+            {% assign isBundleItem = true %}
+            {% break %}
+        {% endif %}
+    {%- endfor -%}
+    {% if isBundleItem == true %}
+        {% continue %}
+    {% endif %}
+{% comment %}
+    LOOP BUNDLE CODE ENDS
+{% endcomment %}
+  {%- if item.properties["_rc_bundle"] -%}
+    
+    {%- unless rc_bundles contains item.properties["_rc_bundle"] -%}
+      {%- assign rc_bundles = rc_bundles | append: "," | append:
+item.properties["_rc_bundle"] -%}
+      {%- assign rc_bundles_count = rc_bundles_count | plus: 1 -%}
+    {%- endunless -%}
+
+    {%- assign rc_bundles_item_count = rc_bundles_item_count | plus: item.quantity -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign rc_bundles = rc_bundles | remove_first: "," -%}
+{%- assign rc_bundles_cart_count = rc_bundles_cart_count | minus:
+rc_bundles_item_count | plus: rc_bundles_count -%}
+<script defer="defer">
+  window.Loop = {};
+  window.Loop.bundleCartAllItems = {{ cart.items | json }};
+  initLoopBundle("LOOP_BUNDLE_CONTAINER_CLASS");
+</script>

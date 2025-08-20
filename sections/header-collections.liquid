@@ -1,0 +1,190 @@
+{%- comment -%}
+  =====================================================================================
+  V8.8: DEFINITIVE FUNNEL STYLE FIX
+  - RESTORED: The correct HTML structure for each step in the funnel has been
+    re-implemented, fixing the broken styles for the numbered circles and
+    completed checkmarks.
+  - The 3-step logic is preserved, and the component is now visually perfect again.
+  - V-Next: Added conditional logic to show a "Checkout Arrow" on the add-ons page.
+  =====================================================================================
+  V10.0 (Lead Dev Update): Updated schema defaults to match the "Slate & Green"
+  color scheme. This uses the dark slate header from Option 2 with a new,
+  energetic green accent color for all CTAs.
+  =====================================================================================
+  V10.1 (Lead Dev Update): No changes to this file. All UI polish tweaks from
+  feedback were implemented in custom.css.
+  =====================================================================================
+  V11.0 (Min Meal Check): Converted arrow links to buttons to integrate them
+  with the min-meal-check script, preventing users from bypassing the rule.
+{%- endcomment -%}
+
+<style>
+  .collection-header-section-v8 {
+    --logo-bg-color: {{ section.settings.logo_bg_color }};
+    --gradient-start-color: {{ section.settings.gradient_start_color }};
+    --gradient-end-color: {{ section.settings.gradient_end_color }};
+    --border-color: {{ section.settings.border_color }};
+    --split-position-mobile: {{ section.settings.mobile_split_percentage }}%;
+    --split-position-desktop: {{ section.settings.logo_area_width }}px;
+    --logo-max-height: {{ section.settings.logo_max_height }}px;
+    --header-height-mobile: {{ section.settings.header_height_mobile }}px;
+    --header-height-desktop: {{ section.settings.header_height_desktop }}px;
+  }
+</style>
+
+<header
+  class="collection-header-section-v8"
+  data-wetheme-section-type="header-v8"
+  data-wetheme-section-id="{{ section.id }}"
+>
+  <div class="collection-header-section-v8__inner">
+    <div class="collection-header-section-v8__logo">
+      <a href="{{ routes.root_url }}" class="site-header__logo-image">
+        {%- if section.settings.logo != blank -%}
+          <img
+            src="{{ section.settings.logo | image_url: width: section.settings.logo_max_width }}"
+            alt="{{ section.settings.logo.alt | default: shop.name }}"
+            width="{{ section.settings.logo.width }}"
+            height="{{ section.settings.logo.height }}"
+            loading="eager"
+          >
+        {%- else -%}
+          <span class="h2">{{ shop.name }}</span>
+        {%- endif -%}
+      </a>
+    </div>
+
+    <nav class="funnel-progress" aria-label="Checkout steps">
+      {%- if template.name == 'cart' -%}
+        <a href="/collections/signature-menu" class="funnel-progress__step funnel-progress__step--complete funnel-progress__step--clickable">
+          <div class="funnel-progress__indicator funnel-progress__indicator--complete">
+             <svg class="funnel-progress__icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8.5 6.5 11.5 12.5 5.5"></polyline></svg>
+          </div>
+          <span class="funnel-progress__step-label">Choose Meals</span>
+        </a>
+        <span class="funnel-progress__separator"></span>
+        <div class="funnel-progress__step funnel-progress__step--active">
+          <div class="funnel-progress__indicator">
+            <span class="funnel-progress__number">2</span>
+          </div>
+          <span class="funnel-progress__step-label">Review Cart</span>
+        </div>
+        <span class="funnel-progress__separator"></span>
+        <div class="funnel-progress__step">
+          <div class="funnel-progress__indicator">
+            <span class="funnel-progress__number">3</span>
+          </div>
+          <span class="funnel-progress__step-label">Add-Ons</span>
+        </div>
+
+      {%- elsif template.suffix == 'add-ons' -%}
+        <a href="/collections/signature-menu" class="funnel-progress__step funnel-progress__step--complete funnel-progress__step--clickable">
+          <div class="funnel-progress__indicator funnel-progress__indicator--complete">
+             <svg class="funnel-progress__icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8.5 6.5 11.5 12.5 5.5"></polyline></svg>
+          </div>
+          <span class="funnel-progress__step-label">Choose Meals</span>
+        </a>
+        <span class="funnel-progress__separator"></span>
+        <a href="{{ routes.cart_url }}" class="funnel-progress__step funnel-progress__step--complete funnel-progress__step--clickable">
+          <div class="funnel-progress__indicator funnel-progress__indicator--complete">
+             <svg class="funnel-progress__icon--check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3.5 8.5 6.5 11.5 12.5 5.5"></polyline></svg>
+          </div>
+          <span class="funnel-progress__step-label">Review Cart</span>
+        </a>
+        <span class="funnel-progress__separator"></span>
+        <div class="funnel-progress__step funnel-progress__step--active">
+          <div class="funnel-progress__indicator">
+            <span class="funnel-progress__number">3</span>
+          </div>
+          <span class="funnel-progress__step-label">Add-Ons</span>
+        </div>
+
+      {%- else -%}
+        <div class="funnel-progress__step funnel-progress__step--active">
+          <div class="funnel-progress__indicator">
+            <span class="funnel-progress__number">1</span>
+          </div>
+          <span class="funnel-progress__step-label">Choose Meals</span>
+        </div>
+        <span class="funnel-progress__separator"></span>
+        <a href="{{ routes.cart_url }}" class="funnel-progress__step funnel-progress__step--clickable">
+          <div class="funnel-progress__indicator">
+            <span class="funnel-progress__number">2</span>
+          </div>
+          <span class="funnel-progress__step-label">Review Cart</span>
+        </a>
+      {%- endif -%}
+    </nav>
+    
+    <div class="collection-header-section-v8__actions">
+      {%- comment %} *** THE FIX IS APPLIED HERE *** {% endcomment -%}
+      {%- if template.suffix == 'add-ons' -%}
+        <button type="button" class="collection-header-section-v8__checkout-arrow-link" aria-label="Proceed to Checkout" data-checkout-url="/checkout">
+          <span class="collection-header-section-v8__action-text">Continue</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      {%- elsif template.name == 'cart' -%}
+        <button type="button" class="collection-header-section-v8__checkout-arrow-link" aria-label="Go to Add-Ons" data-checkout-url="/pages/add-ons">
+          <span class="collection-header-section-v8__action-text">Continue</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      {%- else -%}
+        <button
+          type="button"
+          class="collection-header-section-v8__cart-button slide-menu slide-menu-cart"
+          aria-label="{{ 'cart.general.open_cart' | t }}"
+          aria-controls="cartSlideoutAside"
+        >
+        <svg class="collection-header-section-v8__cart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        {% assign visible_count = 0 %}
+        {% for item in cart.items %}
+          {% unless item.product.type == 'OPTIONS_HIDDEN_PRODUCT' %}
+            {% assign item_count = item.quantity %}
+            {% if item.variant.title contains 'Meal' %}
+              {% assign multiplier = item.variant.title | split: ' ' | first | times: 1 %}
+              {% if multiplier > 0 %}
+                {% assign item_count = item_count | times: multiplier %}
+              {% endif %}
+            {% endif %}
+            {% assign visible_count = visible_count | plus: item_count %}
+          {% endunless %}
+        {% endfor %}
+        <span class="collection-header-section-v8__cart-count cart-item-count-header">{{ visible_count }}</span>
+        </button>
+      {%- endif -%}
+    </div>
+
+  </div>
+</header>
+
+{% schema %}
+{
+  "name": "Collection Header (V8.4)",
+  "class": "collection-header-section-v8",
+  "settings": [
+    { "type": "header", "content": "Color Scheme" },
+    { "type": "color", "id": "logo_bg_color", "label": "Logo Area Background", "default": "#FFFFFF" },
+    {
+      "type": "color",
+      "id": "gradient_start_color",
+      "label": "Funnel Area Gradient Start",
+      "default": "#343a40"
+    },
+    {
+      "type": "color",
+      "id": "gradient_end_color",
+      "label": "Funnel Area Gradient End",
+      "default": "#212529"
+    },
+    { "type": "color", "id": "border_color", "label": "Bottom Border Color", "default": "#E0E0E0" },
+    { "type": "header", "content": "Layout & Logo" },
+    { "type": "image_picker", "id": "logo", "label": "Logo image" },
+    { "type": "range", "id": "logo_max_width", "min": 100, "max": 300, "step": 10, "unit": "px", "label": "Max logo width", "default": 220 },
+    { "type": "range", "id": "logo_max_height", "min": 30, "max": 120, "step": 2, "unit": "px", "label": "Max logo height", "default": 38 },
+    { "type": "range", "id": "header_height_mobile", "min": 50, "max": 150, "step": 2, "unit": "px", "label": "Mobile header height", "default": 64 },
+    { "type": "range", "id": "header_height_desktop", "min": 60, "max": 180, "step": 2, "unit": "px", "label": "Desktop header height", "default": 72 },
+    { "type": "range", "id": "logo_area_width", "min": 200, "max": 500, "step": 10, "unit": "px", "label": "Desktop Logo Area Width", "info": "Sets the fixed pixel width of the light background area on desktop screens.", "default": 320 },
+    { "type": "range", "id": "mobile_split_percentage", "min": 50, "max": 90, "step": 1, "unit": "%", "label": "Mobile Logo Area Width", "info": "A higher value makes the red cart area smaller.", "default": 82 }
+  ]
+}
+{% endschema %}

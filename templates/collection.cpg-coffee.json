@@ -1,0 +1,120 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div.collection-wrapper",
+  "sections": {
+    "1653587415c5092faf": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/header-icon-protein-coffee.png",
+        "layout": "left",
+        "subheading": "w/ Cognizin® Nootropic",
+        "title": "ICON Protein Coffee",
+        "text_block": "<p><strong>Protein Coffee ain’t your average cup of joe.</strong> Every cup contains 150mg of caffeine plus patented the nootropic Cognizin® to get your brain moving, and 20g protein for an early energy boost.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16535884764a76663d": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1653588476ead23d26-0": {
+          "type": "text",
+          "settings": {
+            "icon": "crown",
+            "heading": "20g Protein Per Serving",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1653588476ead23d26-1": {
+          "type": "text",
+          "settings": {
+            "icon": "recycle",
+            "heading": "Cognizin® Nootropic",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1653588476ead23d26-2": {
+          "type": "text",
+          "settings": {
+            "icon": "exchange",
+            "heading": "Energy + Focus Ingredients",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1653588476ead23d26-0",
+        "1653588476ead23d26-1",
+        "1653588476ead23d26-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "collection_header": {
+      "type": "template--collection-header",
+      "blocks": {
+        "collection_title": {
+          "type": "collection-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "collection_title"
+      ],
+      "disabled": true,
+      "settings": {
+        "collection_image_enable": false
+      }
+    },
+    "product_filtering": {
+      "type": "main-collection-filtering",
+      "settings": {
+        "desktop_position": "topbar",
+        "enable_filtering": false,
+        "enable_sorting": false
+      }
+    },
+    "main": {
+      "type": "template--collection",
+      "blocks": {
+        "product_title": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_title"
+      ],
+      "settings": {
+        "grid": 3,
+        "rows": 8,
+        "pagination_type": "infinite_scrolling"
+      }
+    }
+  },
+  "order": [
+    "1653587415c5092faf",
+    "16535884764a76663d",
+    "collection_header",
+    "product_filtering",
+    "main"
+  ]
+}

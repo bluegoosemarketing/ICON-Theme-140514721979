@@ -1,0 +1,310 @@
+<!-- Black Friday Promo Bar -->
+<section class="bf-promo-bar-unique">
+  <div class="bf-promo-container-unique">
+    <p class="bf-promo-text-unique">
+      <span class="bf-bold-text">Black Friday</span>
+      <span class="bf-text">Starts in</span>
+      <span id="bf-countdown-timer"></span>
+      <!-- Arrow pointing to CTA -->
+      <span class="bf-arrow">→</span>
+    </p>
+    <button id="bf-open-modal-btn-unique" class="bf-promo-btn-unique">
+      Get Notified
+    </button>
+  </div>
+</section>
+
+<!-- Modal Wrapper -->
+<div id="bf-modal-wrapper-unique" class="bf-modal-wrapper-unique" role="dialog" aria-modal="true">
+  <div class="bf-modal-content-unique">
+    <span class="bf-close-unique" aria-label="Close">&times;</span>
+    <h2 class="bf-modal-heading-unique">Get First Access to Black Friday 2024 Savings</h2>
+    <!-- Form Container -->
+    <div id="bf-form-container-unique"></div>
+  </div>
+</div>
+
+<style>
+/* Promo Bar Styles */
+.bf-promo-bar-unique {
+  width: 100%;
+  padding: 15px 0;
+  text-align: center;
+  background-color: #000000;
+}
+
+.bf-promo-container-unique {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0px;
+  flex-wrap: wrap;
+}
+
+.bf-promo-text-unique {
+  font-size: 1rem;
+  color: #ffffff;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  text-align: center;
+}
+
+.bf-bold-text {
+  font-weight: 900;
+  font-size: 1.1rem;
+  color: #ffffff;
+}
+
+.bf-text {
+  color: #ffffff;
+  margin-left: 5px; /* Reduce space on desktop between text */
+}
+
+#bf-countdown-timer {
+  color: #ffffff; /* Countdown white font on desktop */
+  margin-left: 5px; /* Inline spacing for better desktop alignment */
+}
+
+.bf-arrow {
+  margin-left: 5px;
+  font-size: 1.2rem;
+  color: #ffff34;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(5px);
+  }
+}
+
+.bf-promo-btn-unique {
+  background-color: transparent;
+  color: #ffff34;
+  border: none;
+  font-size: 1rem;
+  cursor: pointer;
+  text-decoration: underline;
+  margin-left: 5px;
+}
+
+.bf-promo-btn-unique:hover {
+  color: #ffff8a;
+  text-decoration: none !important;
+}
+
+.bf-promo-btn-unique:focus {
+  outline: none;
+}
+
+/* Modal Wrapper */
+.bf-modal-wrapper-unique {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 1000;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Modal Content */
+.bf-modal-content-unique {
+  background-color: #ffffff;
+  padding: 30px;
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  border-radius: 8px;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.bf-close-unique {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-size: 24px;
+  cursor: pointer;
+  color: #aaa;
+}
+
+.bf-close-unique:hover {
+  color: #000;
+}
+
+.bf-modal-heading-unique {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+#bf-form-container-unique {
+  width: 100%;
+  margin-top: 20px;
+}
+
+#bf-form-container-unique .cw-custom-control.cw-custom-checkbox {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: flex-start !important;
+  gap: 8px !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 600px) {
+  .bf-promo-container-unique {
+    flex-direction: column;
+    gap: 0px;
+    padding: 10px 10px; /* Increased top and bottom padding */
+  }
+
+  .bf-text {
+  color: #ffffff;
+  margin-left: 0px; /* Reduce space on desktop between text */
+  }
+
+  .bf-promo-row {
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Ensures vertical alignment */
+    gap: 5px;
+    flex-wrap: wrap;
+  }
+
+  #bf-countdown-timer, .bf-arrow, .bf-promo-btn-unique {
+    font-size: 0.9rem; /* Smaller countdown, arrow, and CTA on mobile */
+  }
+
+  .bf-promo-text-unique {
+    justify-content: center;
+    line-height: 1.3; /* Adjusted spacing on mobile */
+    margin-right: -5px;
+  }
+
+  #bf-countdown-timer {
+    color: #ffffff;
+    display: inline-block;
+  }
+
+  .bf-arrow {
+    margin-left: 3px; /* Tighter alignment on mobile */
+  }
+
+  .bf-promo-btn-unique {
+    text-align: center;
+    margin-left: 5px;
+  }
+}
+</style>
+
+{% comment %}
+  Calculate the time difference on the server side using Liquid
+{% endcomment %}
+{% assign current_timestamp = 'now' | date: '%s' %}
+{% assign target_timestamp = '2024-11-23 06:00:00 -0500' | date: '%s' %}
+{% assign time_difference = target_timestamp | minus: current_timestamp %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  const modalWrapper = document.getElementById('bf-modal-wrapper-unique');
+  const openModalBtn = document.getElementById('bf-open-modal-btn-unique');
+  const closeModalBtn = document.querySelector('.bf-close-unique');
+  const formContainer = document.getElementById('bf-form-container-unique');
+  const countdownElement = document.getElementById('bf-countdown-timer');
+  const arrowElement = document.querySelector('.bf-arrow');
+  const boldText = document.querySelector('.bf-bold-text');
+  const bfText = document.querySelector('.bf-text');
+  const promoContainer = document.querySelector('.bf-promo-container-unique');
+  let formLoaded = false;
+
+  function openModal() {
+    modalWrapper.style.display = 'flex';
+    if (!formLoaded) {
+      loadFormScript();
+      formLoaded = true;
+    }
+  }
+
+  function closeModal() {
+    modalWrapper.style.display = 'none';
+  }
+
+  openModalBtn.addEventListener('click', openModal);
+  closeModalBtn.addEventListener('click', closeModal);
+
+  modalWrapper.addEventListener('click', (e) => {
+    if (e.target === modalWrapper) {
+      closeModal();
+    }
+  });
+
+  function loadFormScript() {
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://forms-akamai.smsbump.com/648346/form_340286.js?ver=1731769779';
+    formContainer.appendChild(script);
+  }
+
+  const targetDate = new Date('November 23, 2024 06:00:00 -0500');
+  const countdownFunction = setInterval(function () {
+    const now = new Date().getTime();
+    const distance = targetDate.getTime() - now;
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+    if (distance > 0) {
+      countdownElement.innerHTML = `${days} days ${hours} hours ${minutes} minutes`;
+    } else {
+      clearInterval(countdownFunction);
+      countdownElement.innerHTML = 'Now!';
+    }
+  }, 1000);
+
+  // Adjust layout for mobile
+  function adjustMobileLayout() {
+    if (window.innerWidth <= 600) {
+      const row1 = document.createElement('div');
+      row1.className = 'bf-promo-row';
+      row1.append(boldText.cloneNode(true), bfText.cloneNode(true));
+
+      const row2 = document.createElement('div');
+      row2.className = 'bf-promo-row';
+      row2.append(countdownElement, arrowElement, openModalBtn);
+
+      promoContainer.innerHTML = '';
+      promoContainer.append(row1, row2);
+    } else {
+      promoContainer.innerHTML = '';
+      promoContainer.append(boldText, bfText, countdownElement, arrowElement, openModalBtn);
+    }
+  }
+
+  window.addEventListener('resize', adjustMobileLayout);
+  adjustMobileLayout();
+});
+</script>
+
+
+{% schema %}
+{
+  "name": "Black Friday Promo Bar",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Default",
+      "category": "Promotions"
+    }
+  ]
+}
+{% endschema %}

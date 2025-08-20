@@ -1,0 +1,10 @@
+{%- assign apps_section = product.sections['165177738992fa8fe2'] -%}
+{%- if apps_section and apps_section.disabled == false -%}
+<div class="apps-section-wrapper {% if apps_section.settings.include_margins %}has-theme-margins{% endif %}">
+  {%- for block in apps_section.blocks -%}
+    {%- if block.disabled == false -%}
+      {% render block %}
+    {%- endif -%}
+  {%- endfor -%}
+</div>
+{%- endif -%}

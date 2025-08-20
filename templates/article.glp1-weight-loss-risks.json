@@ -1,0 +1,35 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--article",
+      "disabled": true,
+      "settings": {
+        "show_author_name": false,
+        "show_dates": true,
+        "social_sharing_facebook": true,
+        "social_sharing_twitter": true,
+        "social_sharing_pinterest": true
+      }
+    },
+    "blog_glp1s_weight_loss_risks_ygdJ8c": {
+      "type": "BLOG_GLP1s-Weight-Loss-Risks",
+      "name": "GLP-1 & Bone Health Blog",
+      "settings": {
+        "heading": "Are GLP-1 Weight-Loss Drugs Costing You Muscle & Bone?"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "blog_glp1s_weight_loss_risks_ygdJ8c"
+  ]
+}

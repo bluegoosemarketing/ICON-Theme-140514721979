@@ -1,0 +1,151 @@
+{%- comment -%}
+  Header - Advanced Announcement Bar V6.0 (Definitive Link & Control)
+  - RESTORED: Added a URL setting to the schema, allowing the entire announcement bar to be a clickable link.
+  - REFACTORED: The schema is now self-contained and clear. The bar's visibility and link are
+    controlled here in the section, while the text content is correctly pulled from your
+    global theme settings (`settings_schema.json`). This is best practice.
+  - PRESERVED: The powerful shortcode styling engine ([pulse], [yellow], etc.) is fully functional.
+{%- endcomment -%}
+
+{%- liquid
+  assign logo = section.settings.logo
+  assign top_nav_menu = section.settings.top_nav_menu
+-%}
+
+<style>
+  :root {
+    --header-background: #ffffff;
+    --header-text-color: #000000;
+    --header-border-color: #E5E7EB;
+    --header-icon-color: #000000;
+    --header-nav-link-hover-color: #d42828;
+    --header-height-desktop: 86px;
+    --header-height-mobile: 70px;
+    --font-stack-header: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  }
+  
+  /* --- Announcement Bar Base & Link Wrapper --- */
+  .announcement-bar{background-color:var(--header-nav-link-hover-color);color:#fff;padding:10px 15px;font-family:var(--font-stack-header)}
+  .announcement-bar__link-wrapper{display:block;color:inherit!important;text-decoration:none!important}
+  .announcement-bar__content{margin:0 auto;max-width:95%;text-align:center;font-size:14px;font-weight:600;line-height:1.5;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px}
+
+  /* --- Styling Engine for Announcement Bar --- */
+  @keyframes flash-animation { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
+  
+  .promo-text--pulse {
+    font-weight: 800;
+    animation: flash-animation 1.5s infinite;
+  }
+  .promo-text--yellow {
+    color: #FFF200;
+    font-weight: 700;
+  }
+  .promo-text--bold {
+    font-weight: 800;
+  }
+
+  /* --- Unchanged Header Styles --- */
+  .top-nav{background-color:#f8f9fa;border-bottom:1px solid var(--header-border-color);padding:6px 0;display:none}@media (min-width:992px){.top-nav{display:block}}.top-nav__inner{max-width:1600px;margin:0 auto;padding:0 40px;display:flex;justify-content:flex-end;align-items:center}.top-nav-links__list{display:flex;align-items:center;gap:24px;list-style:none;margin:0;padding:0}.top-nav-links__link{font-family:var(--font-stack-header)!important;font-size:13px!important;color:#495057!important;text-decoration:none!important;transition:color .2s ease}.top-nav-links__link:hover{color:var(--header-nav-link-hover-color)!important}.site-header-wrapper.is-sticky{position:sticky;top:0;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:100}.site-header{background-color:var(--header-background);border-bottom:1px solid var(--header-border-color)}.site-header__inner{display:flex;align-items:center;justify-content:space-between;gap:20px;height:var(--header-height-desktop);padding:0 40px;margin:0 auto;max-width:1600px;position:relative}.site-header__left,.site-header__right{flex:1 1 0;display:flex;align-items:center}.site-header__left{justify-content:flex-start}.site-header__right{justify-content:flex-end;gap:24px}.site-header__center{flex:2 1 auto;display:flex;justify-content:center}.site-header__logo-link img{display:block;max-width:{{ section.settings.logo_max_width }}px;height:auto}.site-header__icon{position:relative;background:0 0;border:none;padding:0;cursor:pointer;color:var(--header-icon-color);line-height:0;transition:color .2s ease}.site-header__icon svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.5}.site-header__icon:hover{color:var(--header-nav-link-hover-color)}.site-header__icon--account:hover{color:var(--header-text-color)!important}.site-header__cart-count{position:absolute;top:-5px;right:-8px;background-color:var(--header-text-color);color:#fff;border-radius:50%;font-size:11px;font-weight:700;line-height:1;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--header-background)}.site-header__mobile-trigger{display:none}.site-header__logo-desktop{display:block}.site-header__logo-mobile{display:none}@media (max-width:991px){.site-header__inner{height:var(--header-height-mobile);padding:0 15px}.site-header__left,.site-header__right{position:relative;z-index:2}.site-header__center{display:none}.site-header__mobile-trigger{display:block;background:0 0;border:none;padding:5px;cursor:pointer;line-height:0;color:var(--header-icon-color)!important}.site-header__mobile-trigger:active,.site-header__mobile-trigger:focus,.site-header__mobile-trigger[aria-expanded=true]{color:var(--header-icon-color)!important}.site-header__mobile-trigger svg{width:30px;height:30px;stroke:currentColor!important}.site-header__logo-desktop{display:none}.site-header__logo-mobile{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}.site-header__logo-mobile img{max-width:calc({{ section.settings.logo_max_width }}px * .75)}.site-header__right{gap:16px}.site-header__icon svg{width:28px;height:28px}.site-header__icon--account{display:none}}@media (max-width:767px){.announcement-bar__content{flex-direction:column;gap:2px 0;font-size:13px}}
+</style>
+
+{%- liquid
+  assign announcement_text_raw = ''
+  assign announcement_display = ''
+
+  if settings.enable_free_delivery_promo
+    if settings.announcement_promo_text != blank
+      assign announcement_text_raw = settings.announcement_promo_text
+    endif
+  elsif settings.announcement_default_text != blank
+    assign announcement_text_raw = settings.announcement_default_text
+  endif
+
+  if announcement_text_raw != blank
+    assign announcement_display = announcement_text_raw | replace: '[pulse]', '<span class="promo-text--pulse">' | replace: '[/pulse]', '</span>' | replace: '[yellow]', '<span class="promo-text--yellow">' | replace: '[/yellow]', '</span>' | replace: '[bold]', '<span class="promo-text--bold">' | replace: '[/bold]', '</span>'
+  endif
+-%}
+
+{% if section.settings.announcement_bar_enabled and announcement_display != blank %}
+  <div class="announcement-bar">
+    {%- if section.settings.announcement_bar_link != blank -%}
+      <a href="{{ section.settings.announcement_bar_link }}" class="announcement-bar__link-wrapper">
+    {%- endif -%}
+
+    <div class="announcement-bar__content" aria-live="polite">
+      {{ announcement_display }}
+    </div>
+
+    {%- if section.settings.announcement_bar_link != blank -%}
+      </a>
+    {%- endif -%}
+  </div>
+{% endif %}
+
+
+<div class="site-header-wrapper {% if section.settings.sticky_header %}is-sticky{% endif %}" data-header-wrapper>
+  <!-- Main Header HTML (Unchanged) -->
+  <div class="top-nav"><div class="top-nav__inner">{% render 'nav--top', linklist_handle: top_nav_menu %}</div></div>
+  <header class="site-header" data-section-id="{{ section.id }}" data-section-type="header"><div class="site-header__inner"><div class="site-header__left"><button class="site-header__mobile-trigger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-nav"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></button><a href="{{ routes.root_url }}" class="site-header__logo-link site-header__logo-desktop">{%- if logo -%}{{ logo | image_url: width: logo.width | image_tag: loading: 'eager', width: logo.width, height: logo.height, alt: logo.alt | default: shop.name }}{%- else -%}<span style="font-size: 24px; font-weight: bold; color: var(--header-text-color);">{{ shop.name }}</span>{%- endif -%}</a></div><div class="site-header__center">{%- render 'nav--main' -%}</div><a href="{{ routes.root_url }}" class="site-header__logo-link site-header__logo-mobile">{%- if logo -%}{{ logo | image_url: width: logo.width | image_tag: loading: 'eager', width: logo.width, height: logo.height, alt: logo.alt | default: shop.name }}{%- else -%}<span style="font-size: 20px; font-weight: bold; color: var(--header-text-color);">{{ shop.name }}</span>{%- endif -%}</a><div class="site-header__right">{% if shop.customer_accounts_enabled %}<a href="{% if customer %}{{ routes.account_url }}{% else %}{{ routes.account_login_url }}{% endif %}" class="site-header__icon site-header__icon--account" aria-label="Account"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg></a>{% endif %}<button type="button" class="site-header__icon slide-menu slide-menu-cart" aria-label="Open cart" aria-controls="cartSlideoutAside"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>{% assign visible_count = 0 %}{% for item in cart.items %}{% unless item.product.type == 'OPTIONS_HIDDEN_PRODUCT' %}{% assign item_count = item.quantity %}{% if item.variant.title contains 'Meal' %}{% assign multiplier = item.variant.title | split: ' ' | first | times: 1 %}{% if multiplier > 0 %}{% assign item_count = item_count | times: multiplier %}{% endif %}{% endif %}{% assign visible_count = visible_count | plus: item_count %}{% endunless %}{% endfor %}<span class="site-header__cart-count cart-item-count-header">{{ visible_count }}</span></button></div></div></header>
+</div>
+
+{%- render 'nav-mobile' -%}
+
+{% schema %}
+{
+  "name": "Header Overhaul",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Logo Settings"
+    },
+    {
+      "type": "image_picker",
+      "id": "logo",
+      "label": "Logo Image"
+    },
+    {
+      "type": "range",
+      "id": "logo_max_width",
+      "min": 50,
+      "max": 300,
+      "step": 10,
+      "unit": "px",
+      "label": "Logo Width (Desktop)",
+      "default": 180
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky_header",
+      "label": "Enable Sticky Header",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Announcement Bar",
+      "info": "The text for the announcement bar is controlled globally under Theme Settings > Free Delivery Promotion. Here you can control the visibility and link for the header."
+    },
+    {
+      "type": "checkbox",
+      "id": "announcement_bar_enabled",
+      "label": "Show Announcement Bar",
+      "default": true
+    },
+    {
+      "type": "url",
+      "id": "announcement_bar_link",
+      "label": "Link",
+      "info": "Optional. Make the entire announcement bar a clickable link."
+    },
+    {
+      "type": "header",
+      "content": "Navigation Menus"
+    },
+    {
+      "type": "link_list",
+      "id": "top_nav_menu",
+      "label": "Top Navigation Menu",
+      "info": "Used for the compact nav bar above the main header."
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,315 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "image_image_with_text_block_PipVQK": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/Wholesale_Banner_1.webp",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "ICON Meals Wholesale Opportunities",
+        "title": "Let's Start an Iconic Partnership",
+        "text": "<p>Heat & Eat Meals, Protein Snacks, More</p>",
+        "button_link": "https://iconmeals.com",
+        "button_label": "Apply Now"
+      }
+    },
+    "image_image_with_text_overlay_kD96CR": {
+      "type": "image--image-with-text-overlay",
+      "disabled": true,
+      "settings": {
+        "image": "shopify://shop_images/Wholesale_Banner_1.webp",
+        "subheading": "HEAT & EAT MEALS | PROTEIN SNACKS | MORE",
+        "title": "Let's Start an Iconic Partnership",
+        "text": "",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "text_rich_text_KFdg67": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Why Choose ICON?",
+        "text": "<h2>ICON Meals is your premier supplier of healthy, flavorful meals tailored for businesses. </h2>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_Gea4fm": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_dnKmY8": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/cook-2.svg",
+            "link": "",
+            "title": "Made To Order Meals",
+            "description": ""
+          }
+        },
+        "image_BXhjTq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/functional-foods.svg",
+            "link": "",
+            "title": "Functional Foods",
+            "description": ""
+          }
+        },
+        "image_HaAL43": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/healthy.svg",
+            "link": "",
+            "title": "Health & Fitness Focused",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_dnKmY8",
+        "image_BXhjTq",
+        "image_HaAL43"
+      ],
+      "settings": {}
+    },
+    "text_rich_text_AhTPwg": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Featured Partners",
+        "text": "<p>ICON Meals is <em>The Official Meal Delivery Service</em> for these brands plus many more:</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_logo_list_7dXAAr": {
+      "type": "image--logo-list",
+      "blocks": {
+        "logo_image_G9EqFX": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/ufc-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_GQcMfj": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/United_States_Olympic_Team.webp",
+            "link": ""
+          }
+        },
+        "logo_image_7awphp": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/dallas-cowboys-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_EYYpG6": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/usn-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_QqEakQ": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/usat-logo.webp",
+            "link": ""
+          }
+        },
+        "logo_image_PjfDRG": {
+          "type": "logo_image",
+          "settings": {
+            "image": "shopify://shop_images/absolute-recomp.webp",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "logo_image_G9EqFX",
+        "logo_image_GQcMfj",
+        "logo_image_7awphp",
+        "logo_image_EYYpG6",
+        "logo_image_QqEakQ",
+        "logo_image_PjfDRG"
+      ],
+      "settings": {
+        "width": 150,
+        "subheading": "",
+        "title": ""
+      }
+    },
+    "text_rich_text_FdFBXk": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Product Offerings",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_DVMkMd": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_DLrBiq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/offering-meals.webp",
+            "link": "",
+            "title": "Heat & Eat Meals",
+            "description": ""
+          }
+        },
+        "image_makh9W": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/offering-snacks.webp",
+            "link": "",
+            "title": "Protein Snacks",
+            "description": ""
+          }
+        },
+        "image_zzAJhR": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/offering-sauce.webp",
+            "link": "",
+            "title": "Sauces & Seasonings",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_DLrBiq",
+        "image_makh9W",
+        "image_zzAJhR"
+      ],
+      "settings": {}
+    },
+    "text_image_with_text_cMddWq": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/corporate-partners_1.webp",
+        "layout": "left",
+        "subheading": "",
+        "title": "Your solution for \"Heat & Eat\" meals and more...",
+        "text_block": "<p>Whether you operate a store, gym, weight loss clinic, training center, office, or include meal services in your company benefits package, ICON Meals can enhance your offerings.</p><p>We've partnered with thousands across the United States, catering to needs as small as a few dozen meals to weekly shipments of thousands.</p><p><strong>No matter the requirement, we've got you covered.</strong></p>",
+        "button_link": "https://iconmeals.com",
+        "button_label": "Sounds Great! Apply Now"
+      }
+    },
+    "image_image_with_text_block_a6RMkQ": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/meal-background-2.webp",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "",
+        "title": "The ICON Meals Difference",
+        "text": "<p>We are a <strong>100% USDA-certified facility </strong>known for our <strong>exceptional food safety</strong>, <strong>inspection</strong>, and <strong>quality standards</strong>. Our in-house meat processing—from cooking our own ground turkey to hand-trimming and preparing our house-made brisket—ensures the highest quality proteins possible. </p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "text_rich_text_yzQb9j": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Diverse and Functional Food Offerings",
+        "text": "<p>Enhance your meal offerings with our variety of functional foods. Our Protein Popcorn, Protein Coffee, and Protein Nut Butters provide a protein boost, while our ICON Sauces and Seasonings elevate meal flavors and are great for grilling. These fast-moving items are top sellers on Amazon and in supplement stores nationwide.</p>",
+        "button_link": "https://iconmeals.com",
+        "button_label": "Get Started - Apply Now"
+      }
+    },
+    "collection_featured_collection_aGJMAW": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "product_card_vendor_3ekP6R": {
+          "type": "product-card-vendor",
+          "settings": {}
+        },
+        "product_card_title_M8V6qM": {
+          "type": "product-card-title",
+          "settings": {}
+        },
+        "product_card_price_UzHCHr": {
+          "type": "product-card-price",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "product_card_vendor_3ekP6R",
+        "product_card_title_M8V6qM",
+        "product_card_price_UzHCHr"
+      ],
+      "custom_css": [
+        ".money-styling {display: none;}"
+      ],
+      "settings": {
+        "subheading": "",
+        "title": "Latest Arrivals",
+        "collection": "signature-menu",
+        "grid": 4,
+        "rows": 1,
+        "hide_add_to_cart": true,
+        "show_view_all": false
+      }
+    }
+  },
+  "order": [
+    "1649069563be558dae",
+    "main",
+    "image_image_with_text_block_PipVQK",
+    "image_image_with_text_overlay_kD96CR",
+    "text_rich_text_KFdg67",
+    "image_gallery_Gea4fm",
+    "text_rich_text_AhTPwg",
+    "image_logo_list_7dXAAr",
+    "text_rich_text_FdFBXk",
+    "image_gallery_DVMkMd",
+    "text_image_with_text_cMddWq",
+    "image_image_with_text_block_a6RMkQ",
+    "text_rich_text_yzQb9j",
+    "collection_featured_collection_aGJMAW"
+  ]
+}

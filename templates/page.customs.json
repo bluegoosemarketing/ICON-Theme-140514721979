@@ -1,0 +1,118 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1649069563be558dae": {
+      "type": "image--image",
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>Show off incredible feedback from your customers</p>",
+            "author": "John Doe",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>Show off incredible feedback from your customers</p>",
+            "author": "John Doe",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>Show off incredible feedback from your customers</p>",
+            "author": "John Doe",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-1",
+        "1649069606aef06289-2"
+      ],
+      "settings": {
+        "subheading": "",
+        "title": "Testimonials",
+        "stars-color": "#ff9529"
+      }
+    },
+    "164906962587174ef2": {
+      "type": "search-block",
+      "settings": {
+        "heading": "Search",
+        "text": "<p>Add a powerful site search directly onto your home page</p>",
+        "text_color": "#000000",
+        "placeholder": "Search our store",
+        "background_color": "#ffffff",
+        "enable_overlay": false
+      }
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-0": {
+          "type": "product-card-vendor",
+          "settings": {}
+        },
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        },
+        "16490696444b6e132a-2": {
+          "type": "product-card-price",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-0",
+        "16490696444b6e132a-1",
+        "16490696444b6e132a-2"
+      ],
+      "settings": {
+        "subheading": "Subheading",
+        "title": "Featured collection",
+        "collection": "",
+        "grid": 4,
+        "rows": 1,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    }
+  },
+  "order": [
+    "1649069563be558dae",
+    "main",
+    "1649069606fc034211",
+    "164906962587174ef2",
+    "1649069644f0a79094"
+  ]
+}

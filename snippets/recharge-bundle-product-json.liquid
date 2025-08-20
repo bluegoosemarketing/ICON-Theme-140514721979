@@ -1,0 +1,195 @@
+{%- assign selected_variant = product.selected_or_first_available_variant -%}
+{%- capture is_bundle -%}
+  {%- if selected_variant.metafields.rebundle.config != blank -%}true{%- else -%}false{%- endif -%}
+{%- endcapture -%}
+{%- assign subscription_data = product.metafields.subscriptions -%}
+{%- assign selling_plans = product.selling_plan_groups -%}
+{%- assign rebundle_settings = product.metafields.rebundle.settings -%}
+{%- assign addons_collection_handle = rebundle_settings.addons.collectionHandle -%}
+{%- assign cross_sells_collection_handle = rebundle_settings.crossSells.collectionHandle -%}
+{%- assign filter_keys = rebundle_settings.filters -%}
+
+{%- comment -%} collection data {%- endcomment -%} 
+{%- assign all_collection_handles = "" | split: "" -%}
+{%- for variant in product.variants -%}
+  {%- assign variant_collection_sources = variant.metafields.rebundle.config.dataSources | where: "type", "collection" -%}
+  {%- assign variant_collection_sources_handles = variant_collection_sources | map: "handle" -%}
+  {%- assign all_collection_handles = all_collection_handles | concat: variant_collection_sources_handles -%}
+{%- endfor -%}
+{%- assign all_collection_handles = all_collection_handles | uniq -%} 
+
+{%- capture collections_data -%}
+{
+  {%- for collection_handle in all_collection_handles -%}
+    {%- assign source_collection = collections[collection_handle] -%}
+    {%- paginate source_collection.products by 100 -%}
+    "{{ source_collection.id }}": {
+      "id": {{ source_collection.id | json }},
+      "title": {{ source_collection.title | json }},
+      "handle": {{ source_collection.handle | json }},
+      "products": {{ source_collection.products | json }}
+    }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endpaginate -%}
+  {%- endfor -%}  
+}
+{%- endcapture -%}
+
+{%- comment -%} variants data {%- endcomment -%}
+{%- capture variants_data -%}
+  [
+    {%- for variant in product.variants -%}
+      {
+        "id": {{ variant.id }},
+        "title": {{ variant.title | json }},
+        "price": "{{ variant.price | money_without_currency }}",
+        "compareAtPrice": "{{ variant.compare_at_price | money_without_currency }}",
+        "image": "{{ variant.image | img_url: '600x' }}",
+        "available": {{ variant.available }},
+        "options": {{ variant.options | json }},
+        "requiresSellingPlan": {{ variant.requires_selling_plan | json }},
+        "sellingPlanAllocation": {{ variant.selling_plan_allocations.size }},
+        "rebundleConfig": {{ variant.metafields.rebundle.config | json }},
+        "sellingPlanAllocations": [
+          {%- for selling_plan_allocation in variant.selling_plan_allocations -%}
+            {
+              "compareAtPrice": {{ selling_plan_allocation.compare_at_price }},
+              "perDeliveryPrice": {{ selling_plan_allocation.per_delivery_price | json }},
+              "price": {{ selling_plan_allocation.price | json }},
+              "unitPrice": {{ selling_plan_allocation.unit_price | json }},
+              "sellingPlan": {{ selling_plan_allocation.selling_plan | json }},
+              "sellingPlanGroupId": {{ selling_plan_allocation.selling_plan_group_id | json }}
+            }{%- unless forloop.last -%},{%- endunless -%}
+          {%- endfor -%}
+        ]
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+{%- endcapture -%}
+
+{%- comment -%} contents by variant. TODO: Deprecate {%- endcomment -%}
+{%- capture contents_by_variant -%}
+  {
+    {%- for variant in product.variants -%}
+      {%- assign data_sources = variant.metafields.rebundle.config.dataSources -%}
+      "{{ variant.id }}": [
+        {%- for source in data_sources -%}
+          {%- if source.type == 'collection' -%}
+            {%- assign collection_handle = source.handle -%}
+            {%- assign source_collection = collections[collection_handle] -%}
+          {%- endif -%}
+          {
+            "id": "{{ source_collection.id }}",
+            "title": {{ source_collection.title | json }},
+            "description": "",
+            "itemsCount": {{ source.itemsCount | json }},
+            "products": {{ source_collection.products | json }}
+          }{%- unless forloop.last -%},{%- endunless -%}
+        {%- endfor -%}
+      ]{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  }
+{%- endcapture -%}
+
+{%- comment -%} addons data {%- endcomment -%}
+{%- if addons_collection_handle != blank -%}
+  {%- assign addons_collection = collections[addons_collection_handle] -%}
+  {%- capture addon_products -%}
+    [
+      {%- for addon_product in addons_collection.products -%}
+        {%- assign addon_subscription_data = addon_product.metafields.subscriptions -%}
+        {%- assign addon_selected_variant = addon_product.selected_or_first_available_variant -%}
+        {%- capture addon_variants_data -%}
+          [
+            {%- for variant in addon_product.variants -%}
+              {
+                "id": {{ variant.id }},
+                "title": {{ variant.title | json }},
+                "image": "{{ variant.image | img_url: '600x' }}",
+                "price": "{{ variant.price | money_without_currency }}",
+                "compareAtPrice": "{{ variant.compare_at_price | money_without_currency }}",
+                "available": {{ variant.available }},
+                "options": {{ variant.options | json }},
+                "sellingPlanAllocations": [
+                  {%- for selling_plan_allocation in variant.selling_plan_allocations -%}
+                    {
+                      "compareAtPrice": {{ selling_plan_allocation.compare_at_price }},
+                      "perDeliveryPrice": {{ selling_plan_allocation.per_delivery_price | json }},
+                      "price": {{ selling_plan_allocation.price | json }},
+                      "unitPrice": {{ selling_plan_allocation.unit_price | json }},
+                      "sellingPlan": {{ selling_plan_allocation.selling_plan | json }},
+                      "sellingPlanGroupId": {{ selling_plan_allocation.selling_plan_group_id | json }}
+                    }{%- unless forloop.last -%},{%- endunless -%}
+                  {%- endfor -%}
+                ]
+              }{%- unless forloop.last -%},{%- endunless -%}
+            {%- endfor -%}
+          ]
+        {%- endcapture -%}
+
+        {
+          "id": "{{ addon_product.id }}",
+          "title": {{ addon_product.title | json }},
+          "description": {{ addon_product.description | json }},
+          "defaultVariantId": "{{ addon_selected_variant.id }}",
+          "variants": {{ addon_variants_data }},
+          "featured_image": "{{ addon_product.featured_image | img_url: '600x' }}",
+          "images": {{ addon_product.images | json }},
+          "price": "{{ addon_product.price | money_without_currency }}",
+          "compareAtPrice": "{{ addon_product.compare_at_price | money_without_currency }}",
+          "available": {{ addon_product.available }},
+          "options": {{ addon_product.options_with_values | json }},
+          "subscriptionData": {{ addon_subscription_data | json }},
+          "requiresSellingPlan": {{ addon_product.requires_selling_plan | json }},
+          "sellingPlanGroups": {{ addon_product.selling_plan_groups | json }}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+  {%- endcapture -%}
+{%- endif -%}
+{%- capture addons -%}
+  {
+    {%- if addon_products -%}
+      "products": {{ addon_products }}
+    {%- endif -%}
+  }
+{%- endcapture -%}
+
+{%- comment -%} filters data {%- endcomment -%}
+{%- capture filters -%}
+[
+  {%- for key in filter_keys -%}
+    {%- if shop.metafields.rb_filter[key] != blank -%}
+      {%- assign filter = shop.metafields.rb_filter[key] -%}
+      {
+        "key": {{ key | json }},
+        "name": {{ filter.name | json }},
+        "source": "tag",
+        "type": {{ filter.type | json }},
+        "match": {{ filter.match | json }},
+        "options": {{ filter.options | json }}
+      }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endif -%}
+  {%- endfor -%}
+]
+{%- endcapture -%}
+
+{
+  "id": "{{ product.id }}",
+  "title": {{ product.title | json }},
+  "isBundle": {{ is_bundle | json }},
+  "options": {{ product.options_with_values | json }},
+  "defaultVariantId": "{{ selected_variant.id }}",
+  "rebundleSettings": {{ rebundle_settings | json }},
+  "available": {{ product.available }},
+  "variants": {{ variants_data }},
+  "subscriptionData": {{ subscription_data | json }},
+  "sellingPlanGroups": {{ selling_plans | json }},
+  "requiresSellingPlan": {{ product.requires_selling_plan | json }},
+  "url": "{{ product.url | url_encode }}",
+  "collections": {{ collections_data }},
+  "contentsByVariant": {{ contents_by_variant }},
+  "addons": {{ addons }},
+  "crossSells": { "products": {{ collections[cross_sells_collection_handle].products | json }} },
+  "filters": {{ filters }},
+  "shopSettings": {% if shop.metafields.rebundle.settings != blank %}{{ shop.metafields.rebundle.settings }}{% else %}{}{% endif %}
+}

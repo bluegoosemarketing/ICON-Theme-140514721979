@@ -1,0 +1,17 @@
+{%- assign recs_section = product.sections['product-recommendations'] -%}
+{%- if recs_section.settings.show_product_recommendations -%}
+    <div class="product-recommendations" data-product-id="{{ product.id }}" data-limit="4" data-section-id="{{ recs_section.id }}" data-recommendations-url="{{ routes.product_recommendations_url }}">
+        {%- if recommendations.products_count > 0 -%}
+            {% unless recs_section.settings.product_recommendations_heading == blank %}
+                <div class="title-bar custom-font"><h2>{{ recs_section.settings.product_recommendations_heading }}</h2><div class="clear"></div></div>
+            {% endunless %}
+            <div class="row">
+                {%- for product in recommendations.products -%}
+                    <div class="grid__item collection-image-anim wow col-md-3 col-6 indiv-product-wrapper{% cycle ' alpha mobile-clear tablet-clear', ' mobile-clear tablet-clear' %}">
+                      {%- render 'product-grid--indiv-product', liquidObject: product, section: recs_section -%}
+                    </div>
+                {%- endfor -%}
+            </div>
+        {%- endif -%}
+    </div>
+{%- endif -%}

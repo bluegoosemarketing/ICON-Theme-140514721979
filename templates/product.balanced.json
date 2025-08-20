@@ -1,0 +1,66 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div",
+  "sections": {
+    "main": {
+      "type": "template--product",
+      "settings": {
+        "show_out_of_stock_email": true,
+        "out_of_stock_email_position": "below-details",
+        "hide_out_of_stock": false,
+        "thumbnail_changes_variant": false,
+        "image_display": "thumbnails",
+        "enable_zoom": false,
+        "enable_video_loop": false
+      }
+    },
+    "product-description": {
+      "type": "template--product-description",
+      "blocks": {
+        "a1815482-0efd-42fb-ac26-9ae07b760726": {
+          "type": "custom_pages",
+          "settings": {
+            "pages": ""
+          }
+        }
+      },
+      "block_order": [
+        "a1815482-0efd-42fb-ac26-9ae07b760726"
+      ],
+      "settings": {
+        "content_display": "collapse_except_description",
+        "show_tags": false,
+        "show_collections": false,
+        "show_type": false
+      }
+    },
+    "165177738992fa8fe2": {
+      "type": "apps",
+      "disabled": true,
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "template--product--recommendations",
+      "settings": {
+        "show_product_recommendations": false,
+        "product_recommendations_heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-description",
+    "165177738992fa8fe2",
+    "product-recommendations"
+  ]
+}

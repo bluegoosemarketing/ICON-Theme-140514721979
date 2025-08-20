@@ -1,0 +1,94 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "ufc_313_contest_VXrFKi": {
+      "type": "UFC-313-Contest",
+      "settings": {
+        "contest_service_url": "https://contest-app-72056142257.us-central1.run.app/contest/submit"
+      }
+    },
+    "ufc_hero_Vdd8L6": {
+      "type": "UFC-Hero",
+      "settings": {}
+    },
+    "image_image_with_text_block_qQcCrY": {
+      "type": "image--image-with-text-block",
+      "custom_css": [
+        "@media (max-width: 767px) {.feature-row__image {background-size: contain; /* Ensures the entire image is visible without cropping */ background-position: center center; /* Aligns the image to the center */ background-repeat: no-repeat; /* Prevents tiling */ height: auto; /* Adjusts height based on the image's aspect ratio */ width: 100%; /* Ensures the image spans the full width */ }}"
+      ],
+      "settings": {
+        "background_image": "shopify://shop_images/313_SMA_ENG_1500x500_64ca3226-af14-48eb-91b5-b73511445e00.jpg",
+        "text-color": "#000000",
+        "background-color": "#f5f5f5",
+        "horizontal-alignment": "center",
+        "subheading": "Official Partner",
+        "title": "",
+        "text": "<p>UFC®, the world’s premier mixed martial arts organization, and ICON Meals, a leading producer of fresh and healthy ready-made meals,  announced an innovative partnership that will grow the existing, industry-leading nutrition program available to UFC athletes through the UFC Performance Institute. </p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16523801970682e17c": {
+      "type": "text--image-with-text",
+      "disabled": true,
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/square-icon-ufc-07-23.jpg",
+        "layout": "right",
+        "subheading": "Eat like an ICON",
+        "title": "",
+        "text_block": "<p>\"It’s about staying ready and being ahead of my meal prep game. ICON Meals takes the headache out of meal prep so I can perform my best in the octagon.\"</p><p><em><strong>- Uriah Hall, UFC® Athlete</strong></em></p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "165298179764109efd": {
+      "type": "text--rich-text",
+      "disabled": true,
+      "settings": {
+        "width": "medium",
+        "subheading": "Getting Started With ICON Meals",
+        "title": "We've got options!",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652982505b0a5645d": {
+      "type": "text--image-with-text",
+      "disabled": true,
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/tile-partner-vshred-team.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "We've Got Options!",
+        "text_block": "<p>From \"build your own\" <strong>custom meals</strong> and our chef-prepared <strong>weekly menu</strong> that offers over 30 incredible meals to <strong>bulk items</strong> for your favorite proteins, carbs, and veggies... we've got you covered. <em>(Don't forget your 10% Off Code for first-time orders)</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Use Code UFC20 for 20% OFF"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "ufc_313_contest_VXrFKi",
+    "ufc_hero_Vdd8L6",
+    "image_image_with_text_block_qQcCrY",
+    "16523801970682e17c",
+    "165298179764109efd",
+    "1652982505b0a5645d",
+    "main"
+  ]
+}

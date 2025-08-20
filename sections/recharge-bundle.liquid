@@ -1,0 +1,390 @@
+{% assign product_handle = product.handle %}
+{% assign box_product = all_products[product_handle] %}
+
+<link rel="stylesheet" href="https://static.rechargecdn.com/assets/bundling-widget/src.css" referrerpolicy="origin">
+
+<style>
+.rb-app {
+  --rb-app-bg: {{ section.settings.rb_theme_bg }};
+  
+  --rb-body-color: {{ section.settings.rb_theme_other_text }};
+  --rb-body-color-10: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 10 }};
+  --rb-body-color-20: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 20 }};
+  --rb-body-color-30: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 30 }};
+  --rb-body-color-40: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 40 }};
+  --rb-body-color-50: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 50 }};
+  --rb-body-color-60: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 60 }};
+  --rb-body-color-70: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 70 }};
+  --rb-body-color-80: {{ section.settings.rb_theme_other_text | color_mix: '#ffffff', 80 }};
+
+  --rb-brand-color: {{ section.settings.rb_theme_color }};
+  --rb-brand-color-10: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 10 }};
+  --rb-brand-color-20: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 20 }};
+  --rb-brand-color-30: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 30 }};
+  --rb-brand-color-40: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 40 }};
+  --rb-brand-color-50: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 50 }};
+  --rb-brand-color-60: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 60 }};
+  --rb-brand-color-70: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 70 }};
+  --rb-brand-color-80: {{ section.settings.rb_theme_color | color_mix: '#ffffff', 80 }};
+
+  /* Container */
+  --rb-page-width: {{ section.settings.rb_spacing_width }}px;
+
+  /* Typography */
+  --font-size-5: {{ section.settings.rb_text_size }};
+
+  /* Spacing */
+  --rb-base-spacing: {{ section.settings.rb_spacing_margins }};
+
+  /* Buttons */
+  --rb-btn-bg: {{ section.settings.rb_theme_color }};
+  --rb-btn-color: "#c01923"{%comment%} }}{{ section.settings.rb_theme_text }} {%endcomment%};
+  --rb-btn-bg-hover: {{ section.settings.rb_theme_color | color_mix: section.settings.rb_theme_other_text, 80 }};
+  --rb-btn-color-hover: {{ section.settings.rb_theme_text }};
+  --rb-btn-radius: {{ section.settings.rb_buttons_corners }}px;
+  --rb-btn-pady: calc({{ section.settings.rb_buttons_size }} / 2);
+  --rb-btn-padx: calc({{ section.settings.rb_buttons_size }});
+
+  /* Box builder */
+  --rb-item-width: calc(100% / {{ section.settings.rb_builder_items_per_row | times: 1 }});
+  --rb-item-aspect-ratio: {{ section.settings.rb_builder_aspect_ratio }};
+  --rb-item-radius: {{ section.settings.rb_builder_radius }}px;
+}
+
+@media screen and (min-width: 30em) {
+  .rb-app {
+    --rb-item-width: calc(100% / {{ section.settings.rb_builder_items_per_row_ns }});
+  }
+}
+
+/* box items display on mobile */ 
+{% if section.settings.rb_builder_items_per_row == '2' %}
+  @media screen and (max-width: 30em) {
+    .rb-item {
+      flex-direction: column;
+    }
+    .rb-item-content {
+      width: 100%;
+      padding: 0;
+    }
+    .rb-item-img {
+      width: 100%;
+    }
+  }
+{% endif %}
+</style>
+
+<section id="recharge-bundle" data-section-id="{{ section.id }}">
+  <div id="bundling-app"></div>
+</section>
+
+{% capture product_json %}{% include 'recharge-bundle-product-json', product: box_product %}{% endcapture %}
+<script type="text/javascript">
+  window.BoxConfig = {
+    template: 'product',
+    product: {{ product_json }},
+    customLocale: {{ 'r_html' | t | json }}
+  };
+</script>
+
+<script src="https://static.rechargecdn.com/assets/bundling-widget/src.js" referrerpolicy="origin"></script>
+
+{% schema %}
+{
+  "name": "Recharge Bundle",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Theme colors"
+    },
+    {
+      "type": "color",
+      "id": "rb_theme_color",
+      "label": "Brand color",
+      "info": "This color is used for buttons, progress bars and navigation.",
+      "default": "#c01923"
+    },
+    {
+      "type": "color",
+      "id": "rb_theme_text",
+      "label": "Text in buttons",
+      "info": "All text that appears in buttons and navigation will use this color.",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "rb_theme_other_text",
+      "label": "Other text",
+      "info": "This color will be used for all text that sits on the main page background.",
+      "default": "#c01923"
+    },
+    {
+      "type": "color",
+      "id": "rb_theme_bg",
+      "label": "Background",
+      "info": "Make sure this has enough contrast with your brand and text colors.",
+      "default": "#ffffff"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "radio",
+      "id": "rb_text_size",
+      "label": "Text size",
+      "options": [
+        {
+          "value": "21px",
+          "label": "Big"
+        },
+        {
+          "value": "16px",
+          "label": "Medium"
+        },
+        {
+          "value": "14px",
+          "label": "Small"
+        }
+      ],
+      "default": "16px"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "rb_spacing_width",
+      "min": 800,
+      "max": 1600,
+      "step": 20,
+      "unit": "px",
+      "label": "Maximum width",
+      "info": "This sets the maximum width of the bundle builder. It only applies to large screens (computers and tablets).",
+      "default": 1220
+    },
+    {
+      "type": "radio",
+      "id": "rb_spacing_margins",
+      "label": "Margins",
+      "info": "This controls spacing between elements.",
+      "options": [
+        {
+          "value": "24px",
+          "label": "Wide"
+        },
+        {
+          "value": "15px",
+          "label": "Medium"
+        },
+        {
+          "value": "10px",
+          "label": "Tight"
+        }
+      ],
+      "default": "15px"
+    },
+    {
+      "type": "header",
+      "content": "Buttons"
+    },
+    {
+      "type": "radio",
+      "id": "rb_buttons_size",
+      "label": "Button size",
+      "options": [
+        {
+          "value": "24px",
+          "label": "Large"
+        },
+        {
+          "value": "15px",
+          "label": "Medium"
+        },
+        {
+          "value": "10px",
+          "label": "Tight"
+        }
+      ],
+      "default": "15px"
+    },
+    {
+      "type": "radio",
+      "id": "rb_buttons_corners",
+      "label": "Button corners",
+      "options": [
+        {
+          "value": "0",
+          "label": "Square"
+        },
+        {
+          "value": "4",
+          "label": "Gently rounded"
+        },
+        {
+          "value": "50",
+          "label": "Fully rounded"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "header",
+      "content": "Box Builder"
+    },
+    {
+      "type": "range",
+      "id": "rb_builder_items_per_row_ns",
+      "min": 1,
+      "max": 5,
+      "step": 1,
+      "label": "Products per row (large screens)",
+      "info": "This controls how many products appear per row for large screens",
+      "default": 4
+    },
+    {
+      "type": "radio",
+      "id": "rb_builder_items_per_row",
+      "label": "Products per row (small screens)",
+      "options": [
+        {
+          "value": "1",
+          "label": "One: product name and amount appears next to image"
+        },
+        {
+          "value": "2",
+          "label": "Two: product name and amount appears beneath image"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "radio",
+      "id": "rb_builder_aspect_ratio",
+      "label": "Product image aspect ratio",
+      "options": [ 
+        {
+          "value": "100%",
+          "label": "Square"
+        },
+        {
+          "value": "133.33%",
+          "label": "Portrait"
+        },  
+        {
+          "value": "75%",
+          "label": "Landscape"
+        }
+      ],
+      "default": "100%"
+    },
+    {
+      "type": "radio",
+      "id": "rb_builder_radius",
+      "label": "Product image corners",
+      "options": [ 
+        {
+          "value": "0",
+          "label": "Square"
+        },
+        {
+          "value": "4",
+          "label": "Rounded"
+        }
+      ],
+      "default": "4"
+    }
+  ],
+  "templates": ["product"],
+  "locales": {
+    "en": {
+      "r_html": {
+        "outOfStock":"Out of Stock",
+        "boxContents":"Contents",
+        "subscriptionPage":{
+          "contentsFor":"Contents for your {nextChargeDate} order",
+          "updateContents":"Update contents",
+          "select":"Select {title} contents",
+          "your":"Your {title}",
+          "save":"Save",
+          "saving":"Saving your changes",
+          "saved":"Your changes have been saved!",
+          "yourNextOrder":"Your next order"
+        },
+        "remainder":{
+          "add":"Choose {remainder}",
+          "remove":"Remove {remainder}"
+        },
+        "boxItem":{
+          "add":"+ Add",
+          "remove":"× Remove"
+        },
+        "alert":{
+          "planChanged":"Plan changed - update your selections to continue",
+          "add":"Choose {remainder} from {collectionTitle} to continue",
+          "remove":"Remove {remainder} from {collectionTitle} to continue",
+          "collectionComplete":"{collectionTitle} selection completed!",
+          "complete":"Bundle completed! You can add to cart now"
+        },
+        "addToCart":{
+          "completed":"Add to cart",
+          "add":"Add {remainder} to continue",
+          "added":"Added",
+          "remove":"Remove {remainder} to continue",
+          "addMore":"Choose more to continue",
+          "removeSome":"Remove some to continue",
+          "soldOut":"Sold out",
+          "error":"Add to cart failed"
+        },
+        "multiStep":{
+          "collectionStep":{
+            "select":"Select {count} {title}"
+          },
+          "summaryStep":{
+            "addons":"Add-ons",
+            "total":"Order total"
+          }
+        },
+        "filters":{
+          "label":"Filters",
+          "clear":"Clear all"
+        },
+        "addOns":{
+          "addOns":"Add-ons",
+          "title":"Feel like a little more?",
+          "description":"Add some delicious extras to your plan. We’ll send these with every delivery, until you tell us not to."
+        },
+        "oneOffExtras":{
+          "extras":"One-off extras",
+          "title":"Your order’s in! Fancy some one-off treats?",
+          "description":"Products you select here will only be added to your first delivery.",
+          "summary":"Summary",
+          "otherItems":"Regular delivery",
+          "total":"Total cost for your first delivery",
+          "addToCart":"Add extras to cart"
+        },
+        "month":"month | months",
+        "week":"week | weeks",
+        "day":"day | days",
+        "frequency":{
+          "label":"Frequency",
+		  "subscriptionLabel": "Subscribe",
+          "oneTimeLabel": "Only once",
+          "option": "Only once|Every {unit}|Every {count} {unit}"
+        },
+        "back":"Go back",
+        "next":"Next",
+        "goToCart":"Proceed to cart",
+        "close":"Close"
+      }
+    }
+  },
+  "presets": [
+    {
+      "name": "Recharge Bundle",
+      "category": "Apps"
+    }
+  ]
+}
+{% endschema %}

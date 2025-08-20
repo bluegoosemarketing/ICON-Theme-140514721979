@@ -1,0 +1,204 @@
+{% comment %}
+<!--
+************************************************************************************
+*
+*  Product Page - Recharge (v9.0 - AGGRESSIVE AJAX FIX)
+*  --------------------------------------------------------------------------------
+*  - DIAGNOSIS: Other scripts are conflicting with the form's 'submit' event.
+*  - THE FIX (AGGRESSIVE WORKAROUND):
+*    1. CLICK INTERCEPTION: The script now listens for a 'click' on the Add button,
+*       not a 'submit' on the form. This bypasses all other conflicting scripts.
+*    2. PREVENTS DEFAULT: It uses `e.preventDefault()` to stop the normal page
+*       reload, taking full control of the button's behavior.
+*    3. FULL FEEDBACK LOOP: The robust `is-loading` -> `is-added` -> revert
+*       logic is now guaranteed to run without interference.
+*  - WHY: This is the definitive fix for a complex, script-heavy environment.
+*
+************************************************************************************
+-->
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant
+  assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
+  assign has_subscriptions = false
+  if product.selling_plan_groups.size > 0
+    assign has_subscriptions = true
+  endif
+-%}
+
+<product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}">
+  <div class="meal-plan-hero-container">
+    <div class="meal-plan-hero-grid">
+      <div class="meal-plan-hero__info">
+        <h1 class="meal-plan-hero__title">{{ product.title }}</h1>
+        {%- if product.description != blank -%}<div class="meal-plan-description rte">{{ product.description }}</div>{%- endif -%}
+        {%- if included_meals != blank -%}
+          <div class="meal-plan-contents">
+            <h3 class="meal-plan-contents__title">What's In Your Plan</h3>
+            <ul class="meal-plan-contents__list" data-dynamic-meal-list>
+              {%- assign num_meal_types = included_meals | size -%}
+              {%- assign total_meals = current_variant.option1 | split: ' ' | first | times: 1 -%}
+              {%- assign qty_per_meal = total_meals | divided_by: num_meal_types -%}
+              {%- for meal in included_meals -%}
+                <li><span class="meal-quantity-prefix">{{ qty_per_meal }}x</span><span class="meal-title-text">{{- meal.title -}}</span></li>
+              {%- endfor -%}
+            </ul>
+            <p class="meal-plan-contents__disclaimer">Due to a routinely updating menu, subscription items in this meal plan are subject to change.</p>
+          </div>
+        {%- endif -%}
+      </div>
+      <div class="meal-plan-hero__form">
+        <div class="meal-plan-form-card">
+          <form method="post" action="/cart/add" accept-charset="UTF-8" class="product-form-recharge" data-product-form>
+            <div class="product-form__option-group" data-order="1">
+              <label for="Option-{{ section.id }}-0">{{ product.options_with_values[0].name }}</label>
+              <div class="select-wrapper">
+                <select id="Option-{{ section.id }}-0" data-variant-selector>
+                  {%- for value in product.options_with_values[0].values -%}<option value="{{ value | escape }}" {% if product.options_with_values[0].selected_value == value %}selected="selected"{% endif %}>{{ value }}</option>{%- endfor -%}
+                </select>
+                <svg class="select-wrapper__arrow" viewBox="0 0 24 24"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+            <div class="purchase-options" data-purchase-options-container data-order="2">
+              <div class="purchase-options__option" data-purchase-option="one-time">
+                <input type="radio" id="purchase-type-one-time-{{ section.id }}" name="purchase_type" value="one-time" {% if has_subscriptions == false %}checked{% endif %}>
+                <label for="purchase-type-one-time-{{ section.id }}"><span class="purchase-options__title">One-Time Purchase</span><span class="purchase-options__price" data-one-time-price></span></label>
+              </div>
+              <div class="purchase-options__option" data-purchase-option="subscribe">
+                 <input type="radio" id="purchase-type-subscribe-{{ section.id }}" name="purchase_type" value="subscribe" {% if has_subscriptions %}checked{% endif %}>
+                 <label for="purchase-type-subscribe-{{ section.id }}"><span class="purchase-options__title">Subscribe & Save</span><span class="purchase-options__price" data-subscribe-price></span></label>
+              </div>
+            </div>
+            <div class="product-form__option-group" data-selling-plan-selector-container data-order="2">
+                <label>Delivery Frequency</label>
+                <div class="selling-plan-grid" data-selling-plan-grid></div>
+                <select name="selling_plan" data-selling-plan-select hidden></select>
+            </div>
+            <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+            <div class="product-form-recharge__footer" data-order="4">
+              <div class="product-form-recharge__actions">
+                <div class="integrated-quantity">
+                  <button type="button" class="integrated-quantity__button" name="minus" aria-label="{{ 'products.product.quantity_decrease' | t }}" data-quantity-minus>－</button>
+                  <span class="integrated-quantity__text" aria-live="polite">1</span>
+                  <input class="integrated-quantity__input" type="number" name="quantity" value="1" min="1" data-quantity-input>
+                  <button type="button" class="integrated-quantity__button" name="plus" aria-label="{{ 'products.product.quantity_increase' | t }}" data-quantity-plus>＋</button>
+                </div>
+                <button type="submit" name="add" class="product-card__add-btn alt-focus product-form-recharge__add-btn" data-add-to-cart-button>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                  <span data-add-to-cart-text>Add</span>
+                </button>
+              </div>
+            </div>
+            <div class="rc-widget-injection-parent"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  {% render 'meal-plan-grid', product: product %}
+
+  <script type="application/json" data-product-json>{{ product | json }}</script>
+  <script type="application/json" data-selling-plans-json>{{ product.selling_plan_groups | json }}</script>
+  <script type="application/json" data-included-meals-json>{%- if included_meals != blank -%}{{ included_meals | map: 'title' | json }}{%- else -%}[]{%- endif -%}</script>
+</product-form-controller>
+
+<script>
+class ProductFormController extends HTMLElement {
+  constructor() {
+    super();
+    this.productData = JSON.parse(this.querySelector('[data-product-json]').textContent);
+    this.sellingPlanGroups = JSON.parse(this.querySelector('[data-selling-plans-json]').textContent);
+    this.includedMeals = JSON.parse(this.querySelector('[data-included-meals-json]').textContent);
+    this.form = this.querySelector('[data-product-form]');
+    this.variantSelector = this.querySelector('[data-variant-selector]');
+    this.purchaseOptionsContainer = this.querySelector('[data-purchase-options-container]');
+    this.sellingPlanSelectorContainer = this.querySelector('[data-selling-plan-selector-container]');
+    this.sellingPlanGrid = this.querySelector('[data-selling-plan-grid]');
+    this.sellingPlanSelect = this.querySelector('[data-selling-plan-select]');
+    this.subscribeRadio = this.querySelector('input[value="subscribe"]');
+    this.variantIdInput = this.querySelector('[data-variant-id-input]');
+    this.quantityInput = this.querySelector('[data-quantity-input]');
+    this.oneTimePriceDisplay = this.querySelector('[data-one-time-price]');
+    this.subscribePriceDisplay = this.querySelector('[data-subscribe-price]');
+    this.addToCartButton = this.querySelector('[data-add-to-cart-button]');
+    this.dynamicMealList = this.querySelector('[data-dynamic-meal-list]');
+    this.quantityCallouts = document.querySelectorAll('[data-meal-quantity-callout]');
+    
+    // AGGRESSIVE FIX: Listen for a CLICK on the button, not submit
+    this.addToCartButton.addEventListener('click', this.onAddToCartClick.bind(this));
+    
+    this.variantSelector.addEventListener('change', this.updateUI.bind(this));
+    this.purchaseOptionsContainer.addEventListener('change', this.updateUI.bind(this));
+    this.sellingPlanGrid.addEventListener('click', this.onSellingPlanGridClick.bind(this));
+  }
+
+  connectedCallback() {
+    this.initQuantityButtons();
+    this.updateUI();
+  }
+
+  async onAddToCartClick(evt) {
+    evt.preventDefault(); // Stop default button behavior
+    this.setLoading(true);
+    
+    const formData = new FormData(this.form);
+    formData.delete('purchase_type');
+    if (this.querySelector('input[value="one-time"]:checked')) {
+      formData.delete('selling_plan');
+    }
+    
+    try {
+      const response = await fetch('/cart/add.js', { method: 'POST', body: formData });
+      if (!response.ok) throw new Error(await response.text());
+      const cart = await response.json();
+      document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+      this.setSuccess();
+    } catch (error) {
+      console.error('Cart Submission Error:', error);
+      this.revertButton();
+    }
+  }
+
+  setLoading(isLoading) {
+    this.addToCartButton.classList.toggle('is-loading', isLoading);
+    this.addToCartButton.disabled = isLoading;
+  }
+
+  setSuccess() {
+    this.addToCartButton.classList.remove('is-loading');
+    this.addToCartButton.classList.add('is-added');
+    setTimeout(() => this.revertButton(), 2000);
+  }
+
+  revertButton() {
+    this.addToCartButton.classList.remove('is-added');
+    this.addToCartButton.classList.remove('is-loading');
+    const currentVariant = this.getSelectedVariant();
+    this.addToCartButton.disabled = currentVariant ? !currentVariant.available : true;
+  }
+  
+  // ... [ The rest of the methods are unchanged ] ...
+  updateUI(){const e=this.getSelectedVariant();if(!e)return;const t=this.querySelector('input[name="purchase_type"]:checked').value;this.variantIdInput.value=e.id,this.updateMealQuantities(e);const s=e.selling_plan_allocations,i=this.querySelector('[data-purchase-option="subscribe"]');if(s&&s.length>0){i.hidden=!1,this.oneTimePriceDisplay.textContent=this.formatMoney(e.price);const n=this.sellingPlanSelect.value;this.populateSellingPlans(e,n);const a=this.getSelectedSellingPlan(e);a&&(this.subscribePriceDisplay.textContent=this.formatMoney(a.price));const l="subscribe"===t&&a;this.sellingPlanSelectorContainer.style.display=l?"block":"none"}else i.hidden=!0,this.sellingPlanSelectorContainer.style.display="none",this.querySelector('input[value="one-time"]').checked=!0;this.addToCartButton.disabled=!e.available}
+  updateMealQuantities(e){if(!this.includedMeals||0===this.includedMeals.length)return;const t=parseInt(e.option1.split(" ")[0],10),s=this.includedMeals.length;if(isNaN(t)||0===s)return;const i=t/s;if(Number.isInteger(i)&&i>0){const n=400;this.quantityCallouts&&this.quantityCallouts.forEach((a=>{a.textContent=`${i}x`,a.style.display="flex",a.classList.add("is-updating"),setTimeout((()=>a.classList.remove("is-updating")),n)})),this.dynamicMealList&&(()=>{let a="";this.includedMeals.forEach((l=>{a+=`<li><span class="meal-quantity-prefix">${i}x</span><span class="meal-title-text">${l}</span></li>`})),this.dynamicMealList.innerHTML=a,this.dynamicMealList.querySelectorAll(".meal-quantity-prefix").forEach((l=>{l.classList.add("is-updating"),setTimeout((()=>l.classList.remove("is-updating")),n)}))})()}}
+  populateSellingPlans(e,t=null){this.sellingPlanGrid.innerHTML="",this.sellingPlanSelect.innerHTML="";const s=e.selling_plan_allocations;s.forEach(((i,n)=>{const a=this.sellingPlanGroups.find((r=>r.id===i.selling_plan_group_id));if(!a)return;const l=a.selling_plans.find((r=>r.id===i.selling_plan_id));if(!l)return;const c=document.createElement("option");c.value=l.id,c.textContent=l.name,this.sellingPlanSelect.appendChild(c);const o=document.createElement("button");o.type="button",o.className="selling-plan-grid__button",o.dataset.planId=l.id,o.textContent=l.name.replace("Every ","").replace(" week","w").replace("s",""),this.sellingPlanGrid.appendChild(o),t&&t==l.id?(o.classList.add("is-active"),c.selected=!0):t||0!==n||(o.classList.add("is-active"),c.selected=!0)}))}
+  onSellingPlanGridClick(e){const t=e.target.closest(".selling-plan-grid__button");t&&(this.querySelectorAll(".selling-plan-grid__button").forEach((s=>s.classList.remove("is-active"))),t.classList.add("is-active"),this.sellingPlanSelect.value=t.dataset.planId,this.subscribeRadio.checked=!0,this.updateUI())}
+  initQuantityButtons(){const e=this.querySelector("[data-quantity-minus]"),t=this.querySelector("[data-quantity-plus]"),s=this.querySelector(".integrated-quantity__text");if(!e||!t||!s)return;const i=()=>{s.textContent=this.quantityInput.value};i(),e.addEventListener("click",(()=>{this.quantityInput.value>1&&(this.quantityInput.value--,i())})),t.addEventListener("click",(()=>{this.quantityInput.value++,i()}))}
+  getSelectedVariant(){const e=this.variantSelector.value;return this.productData.variants.find((t=>t.option1===e))}
+  getSelectedSellingPlan(e){const t=this.sellingPlanSelect.value;return e.selling_plan_allocations.find((s=>s.selling_plan_id==t))||e.selling_plan_allocations[0]}
+  formatMoney(e){return`$${(e/100).toFixed(2)}`}
+}
+customElements.define('product-form-controller', ProductFormController);
+</script>
+
+<style>
+@keyframes qty-flash{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}.meal-quantity-prefix.is-updating,.meal-plan-quantity-callout.is-updating{animation:qty-flash 400ms ease-in-out}.meal-plan-description{font-size:1.05rem;line-height:1.6;color:#343a40}.meal-plan-contents{margin-top:2rem;margin-bottom:1.5rem}.meal-plan-contents__title{font-family:var(--font-heading-family,sans-serif);text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:1.2rem;text-align:left;margin-bottom:1.5rem}.meal-plan-contents__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.75rem}.meal-plan-contents__list li{display:flex;align-items:center;background-color:#f7f7f7;border:1px solid #e9ecef;border-radius:8px;padding:.75rem 1rem;transition:background-color .2s}.meal-plan-contents__list li:hover{background-color:#f1f3f5}.meal-quantity-prefix{display:flex;align-items:center;justify-content:center;flex-shrink:0;min-width:40px;height:40px;font-size:1.1rem;font-weight:700;color:#fff;background-color:var(--brand-accent);border-radius:50%;margin-right:1rem}.meal-title-text{font-size:1rem;font-weight:500}.meal-plan-contents__disclaimer{font-size:.8rem;font-style:italic;color:#6c757d;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e9ecef}.meal-plan-items__grid-item{position:relative}.meal-plan-quantity-callout{display:none;position:absolute;top:10px;right:10px;width:40px;height:40px;font-size:1.1rem;font-weight:700;color:#fff;background-color:var(--brand-accent);border-radius:50%;z-index:2;pointer-events:none;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,.2)}.rc-widget-injection-parent>.rc-widget,.rc-template{display:none!important}.meal-plan-hero-container{margin-top:2rem}.product-form-recharge{display:flex;flex-direction:column;gap:1.25rem}[data-order="1"]{order:1}[data-order="2"]{order:2}[data-order="4"]{order:4}.product-form-recharge .bold_option{order:3}.product-form-recharge .rc-widget-injection-parent{order:5;text-align:center;margin-top:.5rem}.rc-widget-injection-parent .rc-popup{display:inline-block!important}.product-form__option-group label{display:block;font-weight:600;margin-bottom:.5rem;font-size:.875rem;color:#333}.select-wrapper{position:relative}.select-wrapper select{width:100%;appearance:none;-webkit-appearance:none;background-color:#f7f7f7;border:1px solid #e0e0e0;border-radius:8px;padding:.8rem 2.5rem .8rem 1rem;font-size:1rem;cursor:pointer}.select-wrapper .select-wrapper__arrow{position:absolute;right:1rem;top:50%;transform:translateY(-50%);pointer-events:none;color:#6c75d;width:16px;height:16px}.purchase-options{display:flex;border-radius:8px;overflow:hidden}.purchase-options__option{flex:1}.purchase-options__option[hidden]{display:none}.purchase-options__option input[type=radio]{position:absolute;opacity:0;width:0;height:0}.purchase-options__option label{display:flex;flex-direction:column;text-align:center;justify-content:center;align-items:center;padding:.75rem 1rem;border:2px solid #e0e0e0;background-color:#f7f7f7;cursor:pointer;transition:all .2s ease-in-out;height:100%;color:#555}.purchase-options__option:first-child label{border-right-width:0;border-top-left-radius:8px;border-bottom-left-radius:8px}.purchase-options__option:last-child label{border-top-right-radius:8px;border-bottom-right-radius:8px}.purchase-options__option input[type=radio]:checked+label{background-color:var(--brand-accent-lighter,#e6f6ef);border-color:var(--brand-accent)}.purchase-options__option:first-child input[type=radio]:checked+label{border-right-width:2px}.purchase-options__title{font-weight:600;font-size:.9rem;transition:color .2s ease-in-out}.purchase-options__price{font-weight:700;font-size:1.1rem;margin-top:.25rem;transition:color .2s ease-in-out}[data-purchase-option=subscribe] input[type=radio]:checked+label .purchase-options__price,[data-purchase-option=subscribe] input[type=radio]:checked+label .purchase-options__title{color:var(--brand-accent-darker,#004d40)}[data-purchase-option=one-time] input[type=radio]:checked+label .purchase-options__price,[data-purchase-option=one-time] input[type=radio]:checked+label .purchase-options__title{color:#212529}.selling-plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}.selling-plan-grid__button{appearance:none;-webkit-appearance:none;background-color:#f7f7f7;border:1px solid #e0e0e0;border-radius:8px;padding:.75rem .5rem;font-size:.875rem;font-weight:600;color:#555;cursor:pointer;transition:all .2s ease-in-out;text-align:center}.selling-plan-grid__button.is-active{background-color:#e6f6ef;border-color:var(--brand-accent);color:var(--brand-accent-darker);box-shadow:0 0 0 1px var(--brand-accent)}[data-selling-plan-select]{display:none}.product-form-recharge__footer{display:flex;align-items:center;justify-content:flex-end;margin-top:1rem;gap:1rem}.product-form-recharge__actions{display:grid;grid-template-columns:120px 1fr;gap:.75rem;align-items:center;width:100%}
+</style>
+
+{% schema %}
+{
+  "name": "Product Page (Recharge)",
+  "tag": "section"
+}
+{% endschema %}

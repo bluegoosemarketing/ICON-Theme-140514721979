@@ -1,0 +1,164 @@
+/* ==========================================================================
+   Component: Mobile Navigation (V8.2 - Final Alignment)
+   - REFINED: Aligned all submenu text to the left to create perfect
+     visual continuity with the primary navigation items.
+   - All other styles are preserved.
+   ========================================================================== */
+
+#mobile-nav {
+  /* --- THEME VARIABLES --- */
+  --nav-bg: #f8f9fa; /* Light grey background to make boxes pop */
+  --nav-box-bg: #fff; /* White background for each navigation item */
+  --nav-divider-color: #e9ecef;
+  --nav-text-primary: #111;
+  --nav-text-secondary: #555;
+  --nav-text-subtle: #888;
+  --nav-cta-bg: #000;
+  --nav-cta-text: #fff;
+  --nav-header-bg: linear-gradient(to bottom, #fff6eaf7, rgba(253, 248, 242, 0.9) 60%, rgba(253, 248, 242, 0.85) 100%);
+  --nav-brand-red: #D94848;
+  --nav-accent-color: var(--nav-brand-red);
+
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* --- Core Structure --- */
+.mobile-nav {
+  position: fixed; top: 0; left: 0; width: 100%; height: 100dvh;
+  background-color: var(--nav-bg); z-index: 150; transform: translateX(-100%);
+  transition: transform 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  display: flex; flex-direction: column; visibility: hidden;
+}
+.mobile-nav.is-open { transform: translateX(0); visibility: visible; }
+.mobile-nav-overlay {
+  position: fixed; inset: 0; background: rgba(0, 0, 0, 0.5); z-index: 140;
+  opacity: 0; visibility: hidden; transition: opacity 0.3s;
+}
+.mobile-nav-overlay.is-open { opacity: 1; visibility: visible; }
+
+/* --- Top Panel --- */
+#mobile-nav .mobile-nav__top-panel {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1rem 1rem 0.5rem; height: 64px;
+  background: var(--nav-header-bg);
+  border-bottom: 1px solid var(--nav-divider-color);
+  flex-shrink: 0;
+}
+#mobile-nav .mobile-nav__main-title {
+  font-size: 1.125rem; font-weight: 600; color: var(--nav-text-primary);
+  margin: 0; text-transform: uppercase; letter-spacing: 0.05em;
+}
+#mobile-nav .mobile-nav__close {
+  background: none; border: none; padding: 8px; cursor: pointer;
+  line-height: 0; transition: opacity 0.2s ease; color: var(--nav-text-secondary);
+}
+#mobile-nav .mobile-nav__close svg { width: 24px; height: 24px; stroke: currentColor; }
+#mobile-nav .mobile-nav__close:hover { opacity: 0.7; }
+
+/* --- Content & Section Styling --- */
+#mobile-nav .mobile-nav__content {
+  overflow-y: auto; flex-grow: 1; -webkit-overflow-scrolling: touch;
+}
+#mobile-nav .mobile-nav__section-title {
+  font-size: 0.8rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.08em; color: var(--nav-text-secondary);
+  margin: 0; padding: 1.5rem 1rem 0.75rem;
+}
+
+/* --- Primary "Boxed" Layout --- */
+.mobile-nav__list {
+  list-style: none; margin: 0;
+  padding: 0.75rem;
+  display: flex; flex-direction: column;
+  gap: 0.5rem;
+}
+.mobile-nav__list li { margin: 0; padding: 0; }
+.mobile-nav__item {
+  display: flex; justify-content: space-between; align-items: center;
+  width: 100%;
+  background-color: var(--nav-box-bg);
+  padding: 0.875rem 1rem;
+  border: 1px solid var(--nav-divider-color);
+  border-radius: 8px;
+  font-size: 1rem; font-family: var(--font-stack-header); font-weight: 500;
+  text-decoration: none !important;
+  color: var(--nav-text-primary) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.mobile-nav__item:hover {
+  background-color: #fdfdfd; border-color: #ddd;
+}
+.mobile-nav__item span { color: var(--nav-text-primary); }
+.mobile-nav__chevron {
+  width: 20px; height: 20px; stroke: var(--nav-text-subtle);
+  stroke-width: 2.5; flex-shrink: 0; transition: transform 0.3s ease;
+}
+
+/* --- Accordion Structure --- */
+.mobile-nav__accordion summary.mobile-nav__item {
+  cursor: pointer; list-style: none;
+}
+.mobile-nav__accordion summary.mobile-nav__item::-webkit-details-marker { display: none; }
+.mobile-nav__accordion[open] > summary .mobile-nav__chevron {
+  transform: rotate(90deg);
+}
+.mobile-nav__accordion-content {
+  display: grid; grid-template-rows: 0fr;
+  transition: grid-template-rows 0.3s ease-in-out;
+}
+.mobile-nav__accordion[open] > .mobile-nav__accordion-content {
+  grid-template-rows: 1fr;
+}
+.mobile-nav__accordion-content > * { overflow: hidden; }
+
+/* --- Unified Dropdown Styling --- */
+.mobile-nav__accordion-content {
+  padding: 0.5rem 0.75rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.mobile-nav__accordion-main-link {
+  display: block;
+  text-align: left; /* UPDATED: Changed from center to left */
+  background-color: var(--nav-box-bg); padding: 0.875rem 1rem;
+  border: 1px solid var(--nav-divider-color); border-radius: 8px;
+  font-family: var(--font-stack-header); font-weight: 600; font-size: 0.95rem;
+  text-decoration: none !important; color: var(--nav-accent-color) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.mobile-nav__accordion-main-link:hover {
+  background-color: #fdfdfd; border-color: #ddd;
+}
+.mobile-nav__accordion-links {
+  list-style: none; padding: 0; margin: 0;
+  display: flex; flex-direction: column; gap: 0.5rem;
+}
+.mobile-nav__accordion-links a {
+  display: block;
+  text-align: left; /* UPDATED: Changed from center to left */
+  background-color: var(--nav-box-bg); padding: 0.875rem 1rem;
+  border: 1px solid var(--nav-divider-color); border-radius: 8px;
+  font-family: var(--font-stack-header); font-weight: 500; font-size: 0.95rem;
+  text-decoration: none !important; color: var(--nav-text-primary) !important;
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+.mobile-nav__accordion-links a:hover {
+  background-color: #fdfdfd; border-color: #ddd;
+}
+
+/* --- CTA Footer --- */
+#mobile-nav .mobile-nav__footer {
+  padding: 1rem;
+  border-top: 1px solid var(--nav-divider-color);
+  flex-shrink: 0; background-color: #fff;
+}
+#mobile-nav .mobile-nav__account-link {
+  display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  width: 100%; text-align: center; padding: 0.85rem;
+  background-color: var(--nav-cta-bg); color: var(--nav-cta-text);
+  font-weight: 600; text-decoration: none; border-radius: 6px;
+  font-size: 1rem; transition: background-color 0.2s ease;
+}
+#mobile-nav .mobile-nav__account-link:hover { background-color: #222; }

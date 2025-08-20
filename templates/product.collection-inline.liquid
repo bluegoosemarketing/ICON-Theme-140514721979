@@ -1,0 +1,26 @@
+{% comment %}
+  Inline product template loaded within the collection layout.
+  Used for AJAX loading of a product without leaving the menu.
+{% endcomment %}
+
+<div class="container--collection-page">
+  <div class="collection-page__layout">
+    <main class="collection-page__main">
+      <button type="button" id="InlineBackButton" class="inline-back-btn">Back to Menu</button>
+      <div id="CollectionProductGrid">
+        <ol class="product-grid" data-paginate-items="1">
+          <li class="grid__item">
+            {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
+              {% section 'template--product-custom-meals' %}
+            {% else %}
+              {% section 'template--product' %}
+            {% endif %}
+          </li>
+        </ol>
+      </div>
+    </main>
+    <aside class="collection-page__sidebar">
+      {% render 'cart-preview-sidebar' %}
+    </aside>
+  </div>
+</div>

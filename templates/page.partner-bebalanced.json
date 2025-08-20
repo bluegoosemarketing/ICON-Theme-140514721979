@@ -1,0 +1,423 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "16529797536fca85fc": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/partner-seal-icon-meals-bebalanced.png",
+        "layout": "left",
+        "subheading": "official partner",
+        "title": "BeBalanced x ICON Meals",
+        "text_block": "<p><strong>We honor the work you're doing along your wellness journey.  Let us help make it easier for you. </strong>Planning ahead sets the stage for a successful week on the Becoming Balanced program. Self-care includes preparing healthy phase-appropriate meal options that are easy to have ready when it's time to eat - but you don't always have to be the one doing the preparation. Even if you don't have time to grocery shop and cook, BeBalanced can still help you make your wellness a priority through our partnership with ICON Meals.</p>",
+        "button_link": "#start",
+        "button_label": "Get Started"
+      }
+    },
+    "16523801970682e17c": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/bebalanced-iconmeals-partner.webp",
+        "layout": "right",
+        "subheading": "We have you covered with healthy and delicious meals specially selected for Phase II and Phase III of our program.",
+        "title": "",
+        "text_block": "<p> Use them to fill in amongst the food you prepare for yourself, or skip the grocery store and cooking altogether. <strong>With BeBalanced and ICON Meals, you can trust that your food is being prepared following phase-appropriate standards to nourish your body and help you reach your goals.</strong></p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652975635eec01be5": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/download_2.webp",
+        "subheading": "",
+        "title": "",
+        "text": "",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "small",
+        "text-over-image-width": "full-width",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16529807514a9b1c1c": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1652980750cc79a4e9-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Chef Prepared",
+            "subheading": "With always-fresh ingredients in our USDA certified kitchen.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-1": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Shipped to you",
+            "subheading": "Delivered to your door. Just heat & eat in minutes.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-2": {
+          "type": "text",
+          "disabled": true,
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Subscribe & Save",
+            "subheading": "Save 5% on all meal boxes when you subscribe.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1652980750cc79a4e9-0",
+        "1652980750cc79a4e9-1",
+        "1652980750cc79a4e9-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "2789b8f1-38c2-4c0a-bc92-b783e57082a3": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "template--16035182706875__2789b8f1-38c2-4c0a-bc92-b783e57082a3-166870805253cb1934-0": {
+          "type": "html",
+          "settings": {
+            "code": "<div id=\"start\"></div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "template--16035182706875__2789b8f1-38c2-4c0a-bc92-b783e57082a3-166870805253cb1934-0"
+      ],
+      "settings": {}
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "subheading": "Get started with our featured boxes",
+        "title": "Phase II & III Meals",
+        "collection": "subscription-boxes",
+        "grid": 2,
+        "rows": 1,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "1e57bd13-49fd-4d5e-8951-bb4680a2c013": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Click The Phases Below To Get Started!",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "3c3a4760-d133-46c9-8c39-b3ddcd9a3f8b": {
+      "type": "image--gallery",
+      "blocks": {
+        "template--16035182706875__3c3a4760-d133-46c9-8c39-b3ddcd9a3f8b-167008649681db0b78-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/phase-ii_50ba1854-1ebe-4d8b-b336-cae129bc30ea.jpg",
+            "link": "https://iconmeals.com/products/dev-phase-2",
+            "title": "",
+            "description": ""
+          }
+        },
+        "template--16035182706875__3c3a4760-d133-46c9-8c39-b3ddcd9a3f8b-167008649681db0b78-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/phase-iii_b469c9eb-44a0-49f3-83a9-ef1311ff7205.jpg",
+            "link": "https://iconmeals.com/products/dev-phase-3",
+            "title": "",
+            "description": ""
+          }
+        },
+        "3147bff0-57f0-4e26-9f0d-da0677b4688c": {
+          "type": "image",
+          "disabled": true,
+          "settings": {
+            "link": "",
+            "title": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "template--16035182706875__3c3a4760-d133-46c9-8c39-b3ddcd9a3f8b-167008649681db0b78-0",
+        "template--16035182706875__3c3a4760-d133-46c9-8c39-b3ddcd9a3f8b-167008649681db0b78-1",
+        "3147bff0-57f0-4e26-9f0d-da0677b4688c"
+      ],
+      "settings": {}
+    },
+    "e008821b-370d-46a1-9d7e-a96bae186d75": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Phase IV And Beyond",
+        "text": "",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop The Menu"
+      }
+    },
+    "1652982505b0a5645d": {
+      "type": "text--image-with-text",
+      "disabled": true,
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/tile-partner-vshred-team.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "We've Got Options!",
+        "text_block": "<p>From \"build your own\" <strong>custom meals</strong> and our chef-prepared <strong>weekly menu</strong> that offers over 30 incredible meals to <strong>bulk items</strong> for your favorite proteins, carbs, and veggies... we've got you covered. <em>(Don't forget your 10% Off Code for first-time orders)</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Use Code VSHRED for 10% OFF"
+      }
+    },
+    "b01cc19f-fb14-42ac-8072-95542cd36a2f": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://vimeo.com/721084546",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "75b9f02f-98a7-42f9-b2f1-10b00b48644b": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/tile-eat-clean-blank.png",
+        "layout": "left",
+        "subheading": "Our Iconic Process",
+        "title": "HOW DOES ICON MEALS WORK?",
+        "text_block": "<p><strong>From our chef-inspired creations to heat-and-eat meals delivered fresh to your door.</strong>ICON Meals is an industry leader in fresh, clean, USDA inspected meals that help you save money, get back precious time, and helps you reach those health goals... or just stop eating junk every day!</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652981122d762eb25": {
+      "type": "image--gallery",
+      "blocks": {
+        "1652981122f9ec0f94-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "link": "shopify://products/custom-meals",
+            "title": "How We Cook",
+            "description": "<p>All of our meals pass through rigorous food & safety inspection tests daily and are prepared fresh in a<strong>USDA certified kitchen</strong>ensuring you the safest cooking process in the industry.</p>"
+          }
+        },
+        "1652981122f9ec0f94-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "link": "",
+            "title": "How We Pack",
+            "description": "<p>ICON is an industry leader utilizing vacuum seal technology. Each meal is plated in a 100% recyclable microwave-safe food container and vacuum-sealed to retain freshness.</p>"
+          }
+        },
+        "1652981122f9ec0f94-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "link": "",
+            "title": "How We Ship",
+            "description": "<p>All your meals are delivered in a recyclable corrugated box with a special environmentally safe thermal liner and dry ice to make sure your meals are in optimal condition.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1652981122f9ec0f94-0",
+        "1652981122f9ec0f94-1",
+        "1652981122f9ec0f94-2"
+      ],
+      "settings": {}
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>“I feel so much healthier, less stressed, and energetic, and I lost 33 pounds.”</p>",
+            "author": "Susan",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>“Balancing my hormones was missing piece to accomplishing my goals”</p>",
+            "author": "Jackle",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>“After trying everything else, without success, I finally found something that works!”</p>",
+            "author": "Ashini",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-2",
+        "1649069606aef06289-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "subheading": "Real Reviews From Real People",
+        "title": "What People Are Saying",
+        "stars-color": "#ff9529"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "b3aaa346-8de7-40ed-90db-d6c67fb5776e": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/download_2.webp",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "THE INDUSTRY LEADER IN",
+        "title": "FOOD SAFETY",
+        "text": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>",
+        "button_link": "#start",
+        "button_label": "Get Started"
+      }
+    },
+    "958d8c42-3469-4bca-a802-8530e14f3795": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/food-safety-washing-hands_4a067655-cfc7-4677-81e6-4ba97e062d3d.jpg",
+        "layout": "left",
+        "subheading": "",
+        "title": "State of the art Facility",
+        "text_block": "<p>With nearly 30,000 sqft. of facility space in Texas, we have and continue to make investments in leading edge cook/chill technology and conveyor plating systems. Each and every one of our meals is packed and sealed in a 38 degree cold packaging room to maintain ultimate freshness of our product.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "0057af5d-9833-4d8e-b597-d62b74ad65f0": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/food-safety-vacuum.jpg",
+        "layout": "right",
+        "subheading": "",
+        "title": "USDA Certified",
+        "text_block": "<p>Not all food-prep companies are created equal! We are inspected daily by the<strong>USDA (U.S. Department of Agriculture)</strong>. All of our label claims and Nutrition Fact statements are<strong>FDA compliant</strong>and have been lab tested by a third party guaranteeing accuracy. We are a<strong>HACCP and USDA compliant facility</strong>(Hazard Analysis & Critical Control Points) following documented and state approved SOP’s and SSOP’s (Standard Operating Procedures and Sanitation Standard Operating Procedures).</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "42dbae8e-d042-41c8-ae08-d768ce710207": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/food-safety-chopping-food.jpg",
+        "layout": "left",
+        "subheading": "",
+        "title": "Sourcing Top Quality Products",
+        "text_block": "<p><strong>Quality and safety are top priority in our kitchens.</strong>Our food products are carefully sourced and received each day, from the highest quality food purveyors in town, including local farms. Regular quality assurance visits to all suppliers are made by our Culinary Officers and purchasing partners in order to ensure compliance. Always fresh, never frozen, our meals are prepared from scratch every day under the supervision of our Culinary Officers and in-house Dietitian.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "fe6d710f-cf44-4969-8179-1e3ecba82fc4": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/team-icon-certifications-training.jpg",
+        "layout": "right",
+        "subheading": "",
+        "title": "TRAINING, CERTIFICATIONS AND INSPECTIONS",
+        "text_block": "<p>We are a licensed food manufacturer and state inspected Texas meat & poultry facility. There are a lot of ready-made meal companies out there, but the majority of these businesses are not legally able to sell meals wholesale; however most of the wholesale accounts aren’t aware of the laws preventing these sales or benefits of doing business with a certified kitchen.<br/><br/>All foods are handled and prepared by trained employees wearing hair protection and gloves. Color-coded food preparation equipment and utensils ensure food ingredients are at minimized risk of cross-contamination. ICON Meals is audited regularly by local, state and national agencies to ensure compliance. We pride ourselves in attaining the highest audit scores. Our Department of Health Inspection results are available upon request. To ensure all meals remain at the optimum temperature during transport and upon delivery, we designed our own thermally-insulated cooler bag, which is packed with dry ice and sealed shut to ensure no tampering and that client’s meals arrive safely.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "cf9e2405-35ff-451f-9739-1cfb9d869a6a": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Don't Wait!",
+        "text": "",
+        "button_link": "#start",
+        "button_label": "Get Started Today"
+      }
+    }
+  },
+  "order": [
+    "16529797536fca85fc",
+    "16523801970682e17c",
+    "1652975635eec01be5",
+    "16529807514a9b1c1c",
+    "2789b8f1-38c2-4c0a-bc92-b783e57082a3",
+    "1649069644f0a79094",
+    "1e57bd13-49fd-4d5e-8951-bb4680a2c013",
+    "3c3a4760-d133-46c9-8c39-b3ddcd9a3f8b",
+    "e008821b-370d-46a1-9d7e-a96bae186d75",
+    "1652982505b0a5645d",
+    "b01cc19f-fb14-42ac-8072-95542cd36a2f",
+    "75b9f02f-98a7-42f9-b2f1-10b00b48644b",
+    "1652981122d762eb25",
+    "1649069606fc034211",
+    "main",
+    "b3aaa346-8de7-40ed-90db-d6c67fb5776e",
+    "958d8c42-3469-4bca-a802-8530e14f3795",
+    "0057af5d-9833-4d8e-b597-d62b74ad65f0",
+    "42dbae8e-d042-41c8-ae08-d768ce710207",
+    "fe6d710f-cf44-4969-8179-1e3ecba82fc4",
+    "cf9e2405-35ff-451f-9739-1cfb9d869a6a"
+  ]
+}

@@ -1,0 +1,397 @@
+{%- comment -%}
+  ==============================================================================
+  DYNAMIC ADD-ONS SECTION WITH FALLBACKS & A/B SPLIT TESTING
+  - If products are configured in the theme editor, they will be displayed
+    (with A/B testing if multiple are assigned to a slot).
+  - If no products are configured for a slot, it will display a hard-coded
+    fallback product to ensure the page is never empty.
+  - This is a safe approach for deploying to a live theme.
+  ==============================================================================
+{%- endcomment -%}
+
+  {%- liquid
+    # --- DYNAMIC PRODUCT LOGIC ---
+    assign slot1_blocks = section.blocks | where: 'settings.placement', 'slot_1'
+    assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
+    assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
+
+    # Use the 'sample' filter to randomly pick ONE block from each group for A/B testing.
+    # If a group is empty, the result will be blank.
+    assign slot1_block = slot1_blocks | sample
+    assign slot2_block = slot2_blocks | sample
+    assign slot3_block = slot3_blocks | sample
+
+    # --- FALLBACK PRODUCT DEFINITIONS ---
+    # Define the original, hard-coded products that will be used if the
+    # dynamic slots above are not configured.
+    assign fallback_product_1 = all_products['cinnabun-krunch-protein-popcorn']
+    assign fallback_product_2 = all_products['brisket-by-pound']
+    assign fallback_product_3 = all_products['butter-herb']
+    assign free_delivery_target = settings.free_delivery_threshold | default: 21
+    assign remaining_placeholder = '{remaining}'
+  -%}
+
+<div class="addons-page-wrapper" data-free-delivery-target="{{ free_delivery_target }}">
+  <div class="container">
+    {%- comment -%}
+      WORLD-CLASS UX REVISION V15: Final version with color changes removed.
+    {%- endcomment -%}
+{% if settings.enable_free_delivery_promo %}
+      <div class="free-shipping-upsell hidden" data-double-up-upsell data-locked-template="{{ settings.free_delivery_locked_message }}">
+      
+      {%- comment -%} Initial state of the banner (the offer) {%- endcomment -%}
+      <div class="free-shipping-upsell__inner">
+        <div class="upsell__content">
+          <div class="upsell__icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+          </div>
+          <div class="upsell__text-wrapper">
+            <div class="upsell__header">
+                <h3 class="upsell__title" data-upsell-title>{{ settings.free_delivery_locked_message }}</h3>
+            </div>
+            
+            <div class="upsell__progress" aria-hidden="true">
+              <div class="upsell__progress-fill" style="width:0%"></div>
+            </div>
+
+            <p class="upsell__description" data-upsell-description>
+              <span class="upsell-copy--desktop"></span>
+              <span class="upsell-copy--mobile"></span>
+            </p>
+          </div>
+        </div>
+        <div class="upsell__action">
+          <button type="button" class="btn upsell__cta" data-upsell-button>
+            Yes, Add Meals & Save
+          </button>
+          <p class="upsell__clarification">This will automatically update your cart.</p>
+        </div>
+      </div>
+
+      {%- comment -%} Success state of the banner (post-click) {%- endcomment -%}
+      <div class="upsell__success-state">
+          <div class="upsell__success-icon">
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+          </div>
+          <div class="upsell__text-wrapper">
+              <h3 class="upsell__title">{{ settings.free_delivery_unlocked_message }}</h3>
+              <p class="upsell__description">{% if settings.free_delivery_discount_code != blank %}Use code {{ settings.free_delivery_discount_code }} at checkout.{% endif %}</p>
+          </div>
+      </div>
+    </div>
+    {% endif %}
+
+
+    <div class="addons-grid">
+      {%- comment -%} CARD FOR SLOT 1 {%- endcomment -%}
+      {%- if slot1_block and slot1_block.settings.product != blank -%}
+        {% render 'addons-card', product_obj: slot1_block.settings.product, card_id: 'slot-1', collection_handle: slot1_block.settings.collection_handle, card_description_points: slot1_block.settings.card_description_points, slot: 'slot-1' %}
+      {%- elsif fallback_product_1 != blank -%}
+        {% render 'addons-card', product_obj: fallback_product_1, card_id: 'slot-1', collection_handle: 'proteinpopcorn', card_description_points: "10g protein per serving|Sweet cinnamon-roll crunch without the guilt|Resealable bag for easy, on-the-go snacking", slot: 'slot-1' %}
+      {%- endif -%}
+
+      {%- comment -%} CARD FOR SLOT 2 {%- endcomment -%}
+      {%- if slot2_block and slot2_block.settings.product != blank -%}
+        {% render 'addons-card', product_obj: slot2_block.settings.product, card_id: 'slot-2', collection_handle: slot2_block.settings.collection_handle, card_description_points: slot2_block.settings.card_description_points, slot: 'slot-2' %}
+      {%- elsif fallback_product_2 != blank -%}
+        {% render 'addons-card', product_obj: fallback_product_2, card_id: 'slot-2', collection_handle: 'bulk-items', card_description_points: "37g protein per 4oz (16oz total)|Slow smoked 12 hours for real BBQ flavor|Fully cooked, microwave ready in 2 min", slot: 'slot-2' %}
+      {%- endif -%}
+
+      {%- comment -%} CARD FOR SLOT 3 {%- endcomment -%}
+      {%- if slot3_block and slot3_block.settings.product != blank -%}
+        {% render 'addons-card', product_obj: slot3_block.settings.product, card_id: 'slot-3', collection_handle: slot3_block.settings.collection_handle, card_description_points: slot3_block.settings.card_description_points, slot: 'slot-3' %}
+      {%- elsif fallback_product_3 != blank -%}
+        {% render 'addons-card', product_obj: fallback_product_3, card_id: 'slot-3', collection_handle: 'seasonings', card_description_points: "Zero calories and carbs|Rich butter taste with garden herbs|Clean ingredients, low sodium", slot: 'slot-3' %}
+      {%- endif -%}
+    </div>
+
+    <div class="addons-page__actions">
+      <a href="/checkout" class="addons-page__skip-link" data-checkout-url>
+        Continue to checkout
+      </a>
+    </div>
+  </div>
+ </div>
+
+{% if settings.enable_free_delivery_promo %}
+<script src="{{ 'addons-double-up.js' | asset_url }}" defer></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    function updateCheckoutLinks() {
+      try {
+        const discountCode = sessionStorage.getItem('deferred_discount');
+        const checkoutLinks = document.querySelectorAll('[data-checkout-url]');
+        
+        let checkoutUrl = '/checkout';
+        if (discountCode) {
+          checkoutUrl = `/checkout?discount=${discountCode}`;
+        }
+
+        checkoutLinks.forEach(link => {
+          link.href = checkoutUrl;
+        });
+
+      } catch (e) {
+        console.warn('Could not update checkout links:', e);
+      }
+    }
+
+    const addonsGrid = document.querySelector('.addons-grid');
+    if (addonsGrid) {
+      addonsGrid.addEventListener('click', function(event) {
+        const plusButton = event.target.closest('.qty-plus');
+        const minusButton = event.target.closest('.qty-minus');
+        if (!plusButton && !minusButton) return;
+        const controls = event.target.closest('.quantity-controls');
+        const input = controls.querySelector('.quantity-selector');
+        const currentValue = parseInt(input.value, 10);
+        const minValue = parseInt(input.min, 10) || 1;
+        if (plusButton) {
+          input.value = currentValue + 1;
+        }
+        if (minusButton) {
+          if (currentValue > minValue) {
+            input.value = currentValue - 1;
+          }
+        }
+      });
+    }
+
+    const addonForms = document.querySelectorAll('.js-addons-form');
+    window.dataLayer = window.dataLayer || [];
+
+    addonForms.forEach(function(form) {
+      window.dataLayer.push({
+        event: 'addon_product_view',
+        slot: form.dataset.slot,
+        product_handle: form.dataset.productHandle
+      });
+
+      form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const button = form.querySelector('.js-add-to-cart-btn');
+        const buttonTextSpan = button ? button.querySelector('span') : null;
+
+        if (button) {
+          button.disabled = true;
+          button.classList.add('is-loading');
+        }
+
+        try {
+          const fetchResult = await window.fetch('/cart/add.js', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'X-Requested-With': 'XMLHttpRequest' },
+            body: new FormData(form)
+          });
+
+          if (fetchResult.ok) {
+            const cart = await (await fetch('/cart.js')).json();
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+
+            window.dataLayer.push({
+              event: 'addon_product_added',
+              slot: form.dataset.slot,
+              product_handle: form.dataset.productHandle
+            });
+            
+            if (button) {
+              button.classList.remove('is-loading');
+              button.classList.add('is-added');
+              setTimeout(function() {
+                button.classList.remove('is-added');
+                button.disabled = false;
+              }, 1500);
+            }
+          } else {
+            console.error('Add to cart failed');
+            if (button) {
+              button.classList.remove('is-loading');
+              button.disabled = false;
+            }
+          }
+        } catch (error) {
+          console.error('Error adding addon product:', error);
+          if (button) {
+            button.classList.remove('is-loading');
+            button.disabled = false;
+          }
+        }
+      });
+    });
+
+    function ensureCheckoutArrow() {
+        const actions = document.querySelector('.collection-header-section-v8__actions');
+        if (!actions) return;
+        const existingArrow = actions.querySelector('.collection-header-section-v8__checkout-arrow-link');
+        
+        if (existingArrow && !existingArrow.hasAttribute('data-checkout-url')) {
+          existingArrow.setAttribute('data-checkout-url', '');
+        }
+        
+        if (!existingArrow) {
+            const arrow = document.createElement('button');
+            arrow.type = 'button';
+            arrow.className = 'collection-header-section-v8__checkout-arrow-link';
+            arrow.setAttribute('aria-label', 'Proceed to Checkout');
+            arrow.setAttribute('data-checkout-url', '');
+            arrow.innerHTML = '<span class="collection-header-section-v8__action-text">Continue</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+            
+            arrow.addEventListener('click', () => {
+              window.location.href = arrow.href || '/checkout';
+            });
+
+            actions.querySelectorAll('.collection-header-section-v8__cart-button').forEach(btn => btn.remove());
+            actions.appendChild(arrow);
+        }
+        updateCheckoutLinks();
+    }
+
+    ensureCheckoutArrow();
+    
+    document.addEventListener('cart:updated', function() { 
+      setTimeout(() => {
+        ensureCheckoutArrow();
+        updateCheckoutLinks();
+      }, 250); 
+    });
+
+    var headerSection = document.getElementById('shopify-section-header-collections');
+    if (headerSection && window.MutationObserver) {
+        var observer = new MutationObserver(function() { 
+          ensureCheckoutArrow();
+          updateCheckoutLinks();
+        });
+        observer.observe(headerSection, { childList: true, subtree: true });
+    }
+  });
+</script>
+{% endif %}
+
+{% if settings.enable_free_delivery_promo %}
+<script>
+  /**
+   * Free Shipping Upsell Conversion Enhancements V10.0 - Final, No Color Change
+   * - Implements the final, user-approved copy for all text elements.
+   * - Correctly fills the progress bar based on meals IN cart.
+   * - Urgency is now shown only via icon animation, not color changes.
+   * - Uses a safe, timeout-based initialization.
+   */
+  document.addEventListener('DOMContentLoaded', () => {
+    const pageWrapper = document.querySelector('.addons-page-wrapper');
+    const upsellWrapper = document.querySelector('.free-shipping-upsell');
+    
+    if (!pageWrapper || !upsellWrapper) return;
+
+    const titleEl = upsellWrapper.querySelector('[data-upsell-title]');
+    const ctaButton = upsellWrapper.querySelector('[data-upsell-button]');
+    const descriptionEl = upsellWrapper.querySelector('[data-upsell-description]');
+    const clarifierEl = upsellWrapper.querySelector('.upsell__clarification');
+    const progressFill = upsellWrapper.querySelector('.upsell__progress-fill');
+    const iconWrapper = upsellWrapper.querySelector('.upsell__icon');
+    
+    const descDesktopSpan = upsellWrapper.querySelector('.upsell-copy--desktop');
+    const descMobileSpan = upsellWrapper.querySelector('.upsell-copy--mobile');
+
+    if (!titleEl || !ctaButton || !descriptionEl || !progressFill || !iconWrapper || !clarifierEl || !descDesktopSpan || !descMobileSpan) {
+      console.warn('Upsell banner element(s) missing. Enhancements disabled.');
+      return;
+    }
+
+    function enhanceUpsellBanner() {
+      const target = parseInt(pageWrapper.dataset.freeDeliveryTarget, 10) || 21;
+      const digitRegex = /\d+/;
+      let mealsAway = null;
+
+      const descriptionText = descriptionEl.textContent || '';
+      const descriptionMatch = descriptionText.match(digitRegex);
+      if (descriptionMatch) {
+        mealsAway = parseInt(descriptionMatch[0], 10);
+      }
+
+      if (mealsAway === null) {
+        return; 
+      }
+
+      // 1. Correct "Fill-Up" Progress Logic
+      const currentMeals = target - mealsAway;
+      const progressPercentage = Math.max(0, Math.min(100, (currentMeals / target) * 100));
+      progressFill.style.width = `${progressPercentage}%`;
+
+      // 2. Targeted Urgency Animation (No Color Change)
+      iconWrapper.classList.remove('has-animation');
+      if (mealsAway > 0 && mealsAway <= 3) {
+        iconWrapper.classList.add('has-animation');
+      }
+      
+      // 3. Final Dynamic Text Logic
+      const pluralS = mealsAway === 1 ? '' : 's';
+      const commonDescFragment = `we’ll add ${mealsAway} more by evenly increasing your current meal quantities so your total hits ${target}.`;
+
+      const lockedTemplate = upsellWrapper.dataset.lockedTemplate || '';
+      titleEl.textContent = lockedTemplate.replace('{remaining}', mealsAway);
+      descDesktopSpan.textContent = `Click the button and ${commonDescFragment}`;
+      descMobileSpan.textContent = `Click below and ${commonDescFragment}`;
+      ctaButton.textContent = `Yes, Add ${mealsAway} Meal${pluralS}`;
+      clarifierEl.textContent = 'We’ll make the changes for you now.';
+    }
+
+    // SAFE INITIALIZATION
+    document.addEventListener('cart:updated', enhanceUpsellBanner);
+    setTimeout(enhanceUpsellBanner, 100);
+    setTimeout(enhanceUpsellBanner, 300);
+  });
+</script>
+{% endif %}
+
+
+{% schema %}
+{
+  "name": "Add-Ons Page Section",
+  "max_blocks": 50,
+  "blocks": [
+    {
+      "type": "addon_product",
+      "name": "Add-on Product",
+      "settings": [
+        {
+          "type": "product",
+          "id": "product",
+          "label": "Product",
+          "info": "Select the product to display as an add-on."
+        },
+        {
+          "type": "select",
+          "id": "placement",
+          "label": "Placement Slot",
+          "options": [
+            { "value": "slot_1", "label": "Slot 1 (Left)" },
+            { "value": "slot_2", "label": "Slot 2 (Middle)" },
+            { "value": "slot_3", "label": "Slot 3 (Right)" }
+          ],
+          "default": "slot_1",
+          "info": "Assign this product to a slot. You can assign multiple products to the same slot to create an A/B test. If no products are assigned to a slot, a default product will be shown."
+        },
+        {
+          "type": "text",
+          "id": "collection_handle",
+          "label": "Collection Handle (Optional)",
+          "info": "For linking back to the product within its collection. E.g., 'protein-popcorn'. Leave blank if unsure."
+        },
+        {
+          "type": "textarea",
+          "id": "card_description_points",
+          "label": "Benefit Points",
+          "info": "List key benefits, separated by a pipe character (|). Example: Point one|Point two|Point three"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Add-Ons Page Section"
+    }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,184 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "16523801970682e17c": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/tile-lose-weight-blank.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "Trying to lose weight?",
+        "text_block": "<p><strong>Your journey starts here! </strong>Making smart eating choices is a vital step to dropping those unwanted pounds. Let ICON Meals help by doing the hard part for you.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652379895387e4516": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "See Liz's Story & How ICON Meals empowers weight loss",
+        "title": "",
+        "url": "https://vimeo.com/721086513",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-1"
+      ],
+      "settings": {
+        "subheading": "Selected by our nutrition team",
+        "title": "Top Weight-Loss Meals",
+        "collection": "lose-weight",
+        "grid": 4,
+        "rows": 3,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "1652379963617cd13e": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "large",
+        "subheading": "",
+        "title": "Let's make it real easy...",
+        "text": "<p>Our pre-built <strong>Meal Plans</strong> are a great option, featuring our very best meals chosen by our in-house chefs! Available in 12 or 24 meals.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "165238469089f72745": {
+      "type": "product--featured-product",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "featured_product": "get-lean-meal-plan",
+        "tax_included": false,
+        "shipping_policy": false,
+        "show_discount": "hide",
+        "show_SKU": false,
+        "show_quantity_selector": false,
+        "show_smart_checkout": false,
+        "show_product_description": true,
+        "hide_out_of_stock": false,
+        "enable_video_loop": false
+      }
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Having my meals ready to grab and take with me keep me on track with my dietary needs. The hardest part for someone to lose weight is staying consistent with a hectic schedule, ICON helps me to manage that problem.\"</p>",
+            "author": "Erick W.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"As a mom with 4 kids, it saves me a ton of time and allows me more flexibility to spend my hours elsewhere (not having to cook as much). The meals taste great and are a healthy option for my family, which I'm even more appreciative of with all the junk options these days. Thank you Icon.\"</p>",
+            "author": "April I.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"it is really nice to have a meal prep that has variety and taste great! It is easy to stay on program when all I have to do is just eat when it’s time to eat. This really saves me time in my busy lifestyle.\"</p>",
+            "author": "Calvin L.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-2",
+        "1649069606aef06289-1"
+      ],
+      "settings": {
+        "subheading": "losing weight made easier with icon meals",
+        "title": "What People Are Saying",
+        "stars-color": "#ff9529"
+      }
+    },
+    "e9e27cff-0464-4211-b21e-01d0136142fe": {
+      "type": "blog--blog-posts",
+      "blocks": {
+        "b95910ad-93e7-481d-99ac-b63ce84eaf67": {
+          "type": "article",
+          "settings": {
+            "blog_post_1": "news/how-to-lose-weight-without-going-on-a-diet-by-brandan-fokken",
+            "blog_post_2": "news/how-to-exercise-when-youre-short-on-time-a-quick-guide",
+            "blog_post_3": "news/why-youre-not-losing-weight-mike-ohearn-special",
+            "blog_post_4": "news/3-common-dieting-mistakes-by-raymond-querido"
+          }
+        }
+      },
+      "block_order": [
+        "b95910ad-93e7-481d-99ac-b63ce84eaf67"
+      ],
+      "settings": {
+        "subheading": "",
+        "title": "Recent Weight Loss Blog Articles",
+        "show_author_name": false,
+        "show_dates": false,
+        "show_blog_images": true,
+        "imageSize": "landscape"
+      }
+    },
+    "165238003066e8a6db": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/bg-meals-01.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "",
+        "title": "It's Time To Eat Smart.",
+        "text": "<p>Losing weight starts with making great meal choices. Let ICON Meals help do the hard part.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    }
+  },
+  "order": [
+    "16523801970682e17c",
+    "1652379895387e4516",
+    "main",
+    "1649069644f0a79094",
+    "1652379963617cd13e",
+    "165238469089f72745",
+    "1649069606fc034211",
+    "e9e27cff-0464-4211-b21e-01d0136142fe",
+    "165238003066e8a6db"
+  ]
+}

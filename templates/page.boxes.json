@@ -1,0 +1,186 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1654195673dad1d5b5": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/tile-boxes.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "ICON Meal Plans",
+        "text_block": "<p><strong>Eating healthy has never been this easy! </strong>These meals are delicious and will keep you satisfied without all the mess and cleanup of traditional meal prep. We've got something that will fit anyones health goals.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "16541937349afd6702": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1654193733f6b74c3f-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Chef Prepared",
+            "subheading": "Created and cooked by our chefs to save you time and energy.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1654193733f6b74c3f-1": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Packaged Fresh",
+            "subheading": "Delivered to your door. Just heat & eat in minutes.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1654193733f6b74c3f-2": {
+          "type": "text",
+          "settings": {
+            "icon": "recycle",
+            "heading": "Subscribe & Save",
+            "subheading": "You can now save when you subscribe to any ICON Meal Plan.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1654193733f6b74c3f-0",
+        "1654193733f6b74c3f-1",
+        "1654193733f6b74c3f-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "16541932933d48acf3": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/build-your-box.jpg",
+        "layout": "left",
+        "subheading": "Build Your Plan",
+        "title": "Fill Your Box To The Max!",
+        "text_block": "<p>Mix and match between 12 and 24 of our chef-curated meals.<br/> <strong>Save 5% when you subscribe to this plan!</strong></p>",
+        "button_link": "shopify://products/build-your-own-meal-plan",
+        "button_label": "Build My Plan"
+      }
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-1"
+      ],
+      "settings": {
+        "subheading": "The most convenient way to meal prep",
+        "title": "One-Click Meal Plans",
+        "collection": "one-click-meal-boxes",
+        "grid": 3,
+        "rows": 2,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "0188ca33-08ee-4a50-8ec3-2fd1702cc014": {
+      "type": "text--image-with-text",
+      "disabled": true,
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/budget-box-info.webp",
+        "layout": "left",
+        "subheading": "Just launched",
+        "title": "Try The all new budget box!",
+        "text_block": "<p>We understand that people are struggling to eat quality food at relatively low prices and we don’t want finances to stop you from eating healthy meals that are full of flavor. Get 12 reliable, top-quality, and delicious meals now for a great price!</p>",
+        "button_link": "shopify://products/budget-box",
+        "button_label": "Learn More"
+      }
+    },
+    "1654193667bc2b81b3": {
+      "type": "image--image",
+      "settings": {
+        "image": "shopify://shop_images/shrimp-overhead.webp",
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "small",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"The meals in the Get Lean Plan were all delicious! We had the diced chicken, the ground turkey and the beef medallions. My favorite part of the meal was the green beans. Perfection!</p><p>So convenient for work lunches and dinners on those hectic evenings.</p><p>My husband and I are fans!\"</p>",
+            "author": "Kristina C.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Best meal prep service hands down, food tastes better than anything I can cook and how can you beat fresh gourmet healthy perfectly measured meals that are ready after 2mins in the microwave, if you’re reading this do yourself a favor and place an order with icon meals you won’t regret it\"</p>",
+            "author": "Matt I.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"This is my 3rd time ordering this meal plan. I have really enjoyed the meals. My favorite is the Turkey. The quality always seems great and I have not had any problems with my orders. I think the chicken is my least favorite as it could use more seasoning but overall I am satisfied.\"</p>",
+            "author": "Timothy M.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-1",
+        "1649069606aef06289-2"
+      ],
+      "settings": {
+        "subheading": "",
+        "title": "Testimonials",
+        "stars-color": "#ff9529"
+      }
+    }
+  },
+  "order": [
+    "1654195673dad1d5b5",
+    "main",
+    "16541937349afd6702",
+    "16541932933d48acf3",
+    "1649069644f0a79094",
+    "0188ca33-08ee-4a50-8ec3-2fd1702cc014",
+    "1654193667bc2b81b3",
+    "1649069606fc034211"
+  ]
+}

@@ -1,0 +1,40 @@
+{% comment %}
+  SNIPPET: Meal Plan Grid (v2.1 - Dynamic Quantity Callout)
+  - NEW: Adds a `div` with a data-attribute for the quantity callout. This
+    element is targeted by JavaScript on the product page to display the
+    number of each meal included in the selected plan (e.g., "2x").
+  - CONTEXTUAL PRICING: Calculates the per-meal price based on the plan's
+    total price and the number of meals.
+{% endcomment %}
+
+{%- liquid
+  assign meal_plan_metafield = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
+  assign section_title = "What's Included In This Plan"
+
+  assign current_variant = product.selected_or_first_available_variant
+  assign price_per_meal = null
+
+  if current_variant.title contains 'Meals'
+    assign num_meals = current_variant.title | split: ' ' | first | times: 1.0
+    if num_meals > 0
+      assign price_per_meal = current_variant.price | divided_by: num_meals
+    endif
+  endif
+-%}
+
+{%- if meal_plan_metafield != blank -%}
+  <div class="meal-plan-items-section page-width">
+    <h2 class="meal-plan-items__heading">
+      {{ section_title }}
+    </h2>
+
+    <div class="meal-plan-items__grid">
+      {%- for meal_product in meal_plan_metafield -%}
+        <div class="meal-plan-items__grid-item">
+          <div class="meal-plan-quantity-callout" data-meal-quantity-callout></div>
+          {% render 'product-grid--indiv-product', liquidObject: meal_product, is_informational_only: true, override_price: price_per_meal %}
+        </div>
+      {%- endfor -%}
+    </div>
+  </div>
+{%- endif -%}

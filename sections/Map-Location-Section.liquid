@@ -1,0 +1,222 @@
+<!-- Map Location Section -->
+<section class="map-location-section">
+  <div class="map-location-content">
+
+    <!-- Section Heading -->
+    <h1 class="map-location-heading">
+      {{ section.settings.map_heading }}
+    </h1>
+
+    <!-- Section Subheading -->
+    {% if section.settings.map_subheading != blank %}
+      <p class="map-location-subheading">
+        {{ section.settings.map_subheading }}
+      </p>
+    {% endif %}
+
+    <!-- Map Embed Container -->
+    <div class="map-location-embed">
+      {% if section.settings.google_maps_api_key != blank and section.settings.address != blank %}
+        <iframe
+          width="100%"
+          height="450"
+          style="border:0;"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed/v1/place?key={{ section.settings.google_maps_api_key }}&q={{ section.settings.address | url_encode }}&zoom={{ section.settings.map_zoom | default: 14 }}"
+        >
+        </iframe>
+      {% else %}
+        <div class="map-error-message">
+          <p>Please provide both a valid Google Maps API key and an address in the section settings.</p>
+        </div>
+      {% endif %}
+    </div>
+
+    <!-- Address & Button -->
+    <div class="map-location-info">
+      <p class="map-location-address">
+        {{ section.settings.address }}
+      </p>
+
+      <!-- Button to open location in Google Maps directly -->
+      <a 
+        href="https://maps.google.com/?q={{ section.settings.address | url_encode }}" 
+        class="map-location-button" 
+        target="_blank" 
+        rel="noopener noreferrer"
+      >
+        View on Google Maps
+      </a>
+    </div>
+
+  </div>
+</section>
+
+<style>
+/* -- Map Location Section Styles -- */
+.map-location-section {
+  width: 100%;
+  background-color: #f7f7f7;
+  padding: 60px 20px;
+}
+
+.map-location-content {
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+  font-family: 'Poppins', sans-serif;
+  color: #333;
+}
+
+.map-location-heading {
+  font-size: 2rem;
+  margin-bottom: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #000;
+}
+
+.map-location-subheading {
+  font-size: 1.1rem;
+  margin-bottom: 40px;
+  color: #444;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.5;
+}
+
+.map-location-embed {
+  width: 100%;
+  margin: 0 auto 30px auto;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* Fallback message if no API key or address is provided */
+.map-error-message {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 6px;
+  color: #d00;
+}
+
+/* Address & Button Container */
+.map-location-info {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Address Text */
+.map-location-address {
+  font-size: 1.1rem;
+  margin-bottom: 20px;
+  color: #000;
+  font-weight: 600;
+}
+
+/* Button Styles */
+.map-location-button {
+  display: inline-block;
+  background-color: #e63946 !important; /* Ensure the background remains solid */
+  color: #ffffff !important; /* White text color */
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none !important; /* Remove underline */
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  font-size: 1rem;
+}
+
+.map-location-button:hover {
+  background-color: #ed3240 !important; /* Ensure no transparency change on hover */
+  transform: translateY(-2px);
+  color: #ffffff !important; /* White text color on hover */
+  text-decoration: none !important; /* Ensure no underline on hover */
+}
+
+/* -- Responsive -- */
+@media (max-width: 767px) {
+  .map-location-heading {
+    font-size: 1.8rem;
+  }
+  .map-location-subheading {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+  .map-location-address {
+    font-size: 1rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .map-location-heading {
+    font-size: 2.2rem;
+  }
+  .map-location-subheading {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 1200px) {
+  .map-location-heading {
+    font-size: 2.5rem;
+  }
+  .map-location-subheading {
+    font-size: 1.3rem;
+    margin-bottom: 50px;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Map Location Section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Map Location Section"
+    },
+    {
+      "type": "text",
+      "id": "map_heading",
+      "label": "Map Heading",
+      "default": "Where to Find Us"
+    },
+    {
+      "type": "text",
+      "id": "map_subheading",
+      "label": "Map Subheading",
+      "default": "Come visit us and pick up your meals in-store."
+    },
+    {
+      "type": "text",
+      "id": "address",
+      "label": "Location Address",
+      "default": "4312 McEwen Rd, Dallas, TX 75244"
+    },
+    {
+      "type": "text",
+      "id": "google_maps_api_key",
+      "label": "Google Maps API Key"
+    },
+    {
+      "type": "range",
+      "id": "map_zoom",
+      "label": "Map Zoom Level",
+      "default": 14,
+      "min": 1,
+      "max": 20,
+      "step": 1
+    }
+  ],
+  "presets": [
+    {
+      "name": "Map Location Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

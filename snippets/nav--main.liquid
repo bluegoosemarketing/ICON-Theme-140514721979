@@ -1,0 +1,264 @@
+{%- comment -%}
+  Desktop Navigation Overhaul - V1.4 (Link Fix)
+  - CORRECTED: The main "Order Meals" link now correctly points to
+    "/collections/signature-menu" instead of "/collections/all".
+  - All other recent changes remain in place.
+{%- endcomment -%}
+
+<style>
+  /* Main Navigation Container */
+  .desktop-nav {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 40px;
+    height: 100%;
+  }
+  .desktop-nav__item {
+    position: relative;
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
+  .desktop-nav__link {
+    font-family: var(--font-stack-header) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+    color: var(--header-text-color) !important;
+    text-decoration: none !important;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 10px 0;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: color 0.2s ease;
+  }
+  .desktop-nav__link:hover,
+  .desktop-nav__item:hover > .desktop-nav__link {
+    color: var(--header-nav-link-hover-color) !important;
+  }
+  .desktop-nav__link .icon-chevron {
+    width: 16px;
+    height: 16px;
+    stroke-width: 2.5;
+    transition: transform 0.2s ease;
+    margin-top: 2px;
+  }
+  .desktop-nav__item:hover > .desktop-nav__link .icon-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* Base Dropdown Styles */
+  .desktop-nav__dropdown,
+  .mega-menu {
+    background-color: var(--header-background);
+    border: 1px solid var(--header-border-color);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    border-radius: 12px;
+    position: absolute;
+    top: calc(100% - 1px);
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    z-index: 99;
+    transition: opacity 0.25s ease, transform 0.25s ease, visibility 0s 0.25s;
+    margin-top: -1px; /* Overlap border */
+  }
+
+  .desktop-nav__item:hover > .desktop-nav__dropdown,
+  .desktop-nav__item:hover > .mega-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    pointer-events: auto;
+    transition-delay: 0s;
+  }
+  
+  /* Standard Dropdown */
+  .desktop-nav__dropdown {
+    padding: 8px;
+    min-width: 240px;
+  }
+  .desktop-nav__dropdown-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .desktop-nav__dropdown-list .dropdown-link {
+    display: block;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 6px;
+    text-transform: none;
+    font-size: 15px !important;
+    font-family: var(--font-stack-header) !important;
+    letter-spacing: normal;
+    font-weight: 500 !important;
+    color: var(--header-text-color) !important;
+    text-decoration: none !important;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .desktop-nav__dropdown-list .dropdown-link:hover {
+    background-color: #f7f7f7;
+    color: var(--header-nav-link-hover-color) !important;
+  }
+
+  /* Mega Menu for "Order Meals" */
+  .mega-menu {
+    padding: 24px 32px;
+    width: 600px;
+  }
+  .mega-menu__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+  .mega-menu__column {
+    border-left: 1px solid var(--header-border-color);
+    padding-left: 32px;
+  }
+  .mega-menu__column:first-child {
+    border-left: none;
+    padding-left: 0;
+  }
+  .mega-menu__heading {
+    text-transform: uppercase;
+    font-size: 13px !important;
+    font-family: var(--font-stack-header) !important;
+    font-weight: 700 !important;
+    letter-spacing: 0.08em;
+    color: #888 !important;
+    margin: 0 0 16px 0;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--header-border-color);
+  }
+  .mega-menu__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .mega-menu__link {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 6px;
+    text-decoration: none !important;
+    color: var(--header-text-color) !important;
+    font-family: var(--font-stack-header) !important;
+    font-size: 16px !important;
+    font-weight: 500 !important;
+    transition: background-color 0.2s, color 0.2s;
+  }
+  .mega-menu__link:hover {
+    background-color: #f7f7f7 !important;
+    color: var(--header-nav-link-hover-color) !important;
+  }
+  
+  /* --- HIERARCHY FIX --- */
+  .mega-menu__list--sub {
+    margin-top: 8px;
+    padding-left: 24px;
+    position: relative;
+  }
+  .mega-menu__list--sub::before {
+    content: '';
+    position: absolute;
+    left: 8px;
+    top: 4px;
+    bottom: 4px;
+    width: 2px;
+    background-color: #f0f0f0;
+    border-radius: 2px;
+  }
+  .mega-menu__link--sub-link {
+    font-size: 15px !important;
+    font-weight: 500 !important;
+    padding: 8px 12px !important;
+  }
+</style>
+
+<nav class="desktop-nav-container">
+  <ul class="desktop-nav">
+    <li class="desktop-nav__item">
+      <a href="/collections/signature-menu" class="desktop-nav__link">
+        <span>Order Meals</span>
+        <svg class="icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </a>
+      <div class="mega-menu">
+        <div class="mega-menu__grid">
+          <div class="mega-menu__column">
+            <h3 class="mega-menu__heading">Shop By Category</h3>
+            <ul class="mega-menu__list">
+              <li><a href="/collections/signature-menu" class="mega-menu__link">Signature Menu</a></li>
+              <li>
+                <a href="/products/custom-meals" class="mega-menu__link">
+                  <span>Custom Meals</span>
+                </a>
+                <ul class="mega-menu__list mega-menu__list--sub">
+                    <li><a href="/products/custom-breakfast" class="mega-menu__link mega-menu__link--sub-link">Breakfast</a></li>
+                    <li><a href="/products/custom-meals" class="mega-menu__link mega-menu__link--sub-link">Lunch & Dinner</a></li>
+                </ul>
+              </li>
+              <li><a href="/collections/bulk-items" class="mega-menu__link">Bulk Items</a></li>
+            </ul>
+          </div>
+          <div class="mega-menu__column">
+            <h3 class="mega-menu__heading">Shop By Plan</h3>
+            <ul class="mega-menu__list">
+              <li><a href="/products/build-your-own-meal-plan" class="mega-menu__link">Build Your Own</a></li>
+              <li><a href="/products/icon-meal-plan" class="mega-menu__link">The ICON Meal Plan</a></li>
+              <li><a href="/products/extreme-protein-meal-plan" class="mega-menu__link">Extreme Protein</a></li>
+              <li><a href="/products/get-lean-meal-plan" class="mega-menu__link">Get Lean</a></li>
+              <li><a href="/products/lean-lifter-meal-plan" class="mega-menu__link">Lean Lifter</a></li>
+              <li><a href="/products/keto-meal-plan" class="mega-menu__link">Keto</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </li>
+
+    <li class="desktop-nav__item">
+      <a href="/collections/snacks" class="desktop-nav__link">
+        <span>Snacks & More</span>
+        <svg class="icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </a>
+      <div class="desktop-nav__dropdown">
+        <ul class="desktop-nav__dropdown-list">
+          <li><a class="dropdown-link" href="/collections/proteinpopcorn">Protein Popcorn</a></li>
+          <li><a class="dropdown-link" href="/collections/butters">Protein Butters</a></li>
+          <li><a class="dropdown-link" href="/collections/proteincoffee">Protein Coffee</a></li>
+          <li><a class="dropdown-link" href="/collections/seasonings">Seasonings</a></li>
+        </ul>
+      </div>
+    </li>
+
+    <li class="desktop-nav__item">
+      <a href="/pages/howitworks" class="desktop-nav__link">How It Works</a>
+    </li>
+    
+    <li class="desktop-nav__item">
+      <a href="#" class="desktop-nav__link">
+        <span>More</span>
+        <svg class="icon-chevron" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"><polyline points="6 9 12 15 18 9"></polyline></svg>
+      </a>
+      <div class="desktop-nav__dropdown">
+        <ul class="desktop-nav__dropdown-list">
+          <li><a class="dropdown-link" href="/pages/about">About Us</a></li>
+          <li><a class="dropdown-link" href="/blogs/news">Blog</a></li>
+          <li><a class="dropdown-link" href="/apps/help-center">FAQs</a></li>
+          <li><a class="dropdown-link" href="/pages/rewards-program-page">Refer a Friend</a></li>
+        </ul>
+      </div>
+    </li>
+  </ul>
+</nav>

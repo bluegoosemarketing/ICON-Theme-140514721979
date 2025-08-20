@@ -1,0 +1,87 @@
+{%- comment -%}
+  =====================================================================================
+  ADD-ONS PRODUCT CARD SNIPPET
+  - Renders a single product card for the add-ons page.
+  - Passes tracking data to the form element.
+  =====================================================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign product = product_obj
+  assign current_variant = product.selected_or_first_available_variant
+  assign collection_obj = collections[collection_handle]
+-%}
+
+{%- if product != blank -%}
+<div class="addon-card-v2" data-card-id="{{ card_id }}">
+
+  <a href="{{ product.url | within: collection_obj }}" class="addon-card__image-container" data-image-link>
+    <div class="addon-card__image-wrapper">
+      <img
+        src="{{ product.featured_image | image_url: width: 500 }}"
+        alt="{{ product.featured_image.alt | escape }}"
+        width="250"
+        height="250"
+        loading="lazy"
+        data-image
+      >
+    </div>
+  </a>
+
+  <div class="addon-card__body">
+    <h3 class="addon-card__title">
+      <a href="{{ product.url | within: collection_obj }}" data-title-link>{{ product.title }}</a>
+    </h3>
+
+    <div class="addon-card__price" data-price>
+      <span class="price-item price-item--regular">{{ current_variant.price | money }}</span>
+      {%- if current_variant.compare_at_price > current_variant.price -%}
+        <span class="price-item price-item--sale">{{ current_variant.compare_at_price | money }}</span>
+      {%- endif -%}
+    </div>
+
+    {%- if card_description_points != blank -%}
+      <ul class="addon-card__benefits">
+        {%- assign points = card_description_points | split: '|' -%}
+        {%- for point in points -%}
+          <li>{{ point | strip }}</li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+
+  <div class="addon-card__footer">
+    {%- comment -%}
+      The form is updated with data attributes for tracking.
+      'data-slot' tells us which position this product was shown in.
+      'data-product-handle' identifies the product that was shown.
+    {%- endcomment -%}
+    <form method="post" action="/cart/add" class="js-addons-form" data-slot="{{ slot }}" data-product-handle="{{ product.handle }}">
+      <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
+
+      <div class="addon-card__options">
+        <div class="addon-card__option-group addon-card__option-group--quantity">
+          <label for="AddonsQuantity-{{ card_id }}">Quantity</label>
+          <div class="quantity-controls">
+            <button type="button" class="qty-minus" aria-label="Reduce item quantity by one">-</button>
+            <input id="AddonsQuantity-{{ card_id }}" class="number quantity-selector" value="1" aria-label="Quantity" name="quantity" type="number" min="1" data-quantity-input>
+            <button type="button" class="qty-plus" aria-label="Increase item quantity by one">+</button>
+          </div>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        class="btn addon-card__add-btn js-add-to-cart-btn"
+        {% unless current_variant.available %}disabled{% endunless %}
+      >
+        {%- if current_variant.available -%}
+          <span>Add to Cart</span>
+        {%- else -%}
+          <span>Sold Out</span>
+        {%- endif -%}
+      </button>
+    </form>
+  </div>
+</div>
+{%- endif -%}

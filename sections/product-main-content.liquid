@@ -1,0 +1,390 @@
+{% comment %}
+<!--
+************************************************************************************
+*
+*  Product Page - Main Content (v14.0 - FINAL POLISH)
+*  --------------------------------------------------------------------------------
+*  - DIAGNOSIS: The H1 title was singular, and the placeholder icon was not ideal.
+*  - THE FIX (HOLISTIC):
+*    1. PLURALIZED H1 TITLE: The H1 tag now correctly displays "Build Custom Meals"
+*       and "Build Custom Breakfasts" for better branding.
+*    2. DOLLAR ICON: The script now injects a clean, intuitive dollar sign icon
+*       in the price placeholder, directly alluding to price.
+*  - WHY: This is the final version, incorporating all visual and copy refinements
+*    for a world-class user experience.
+*
+************************************************************************************
+-->
+{% endcomment %}
+
+{%- liquid
+  assign current_variant = product.selected_or_first_available_variant | default: product.first_available_variant
+  assign featured_image = current_variant.featured_image | default: product.featured_image
+  assign macros = product.metafields.macros
+  assign nutrition = product.metafields.nutrition
+  assign macros_exist = false
+  if macros.macros_calories != blank or macros.macros_protein != blank or macros.macros_carbs != blank or macros.macros_fats != blank or macros.macros_fiber != blank or macros.macros_sodium != blank
+    assign macros_exist = true
+  endif
+-%}
+
+<style>
+  :root{
+    --macro-color-calories:#6c757d; --macro-color-protein:#2a9d8f; --macro-color-carbs:#e9c46a;
+    --macro-color-fats:#8ab17d; --macro-color-fiber:#b58db6; --macro-color-sodium:#f4a261;
+  }
+
+  /* Layout */
+  .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 0;}
+  .product-main__visuals-wrapper,.product-main__info-column{display:contents;}
+  .product-main__header{order:1;display:flex;flex-direction:column;gap:0.35rem;} /* reduced gap here */
+  .product-main__gallery{order:2;}
+  .product-macros-block{order:3;}
+  .product-description{order:4;}
+  .product-main__form{order:6;}
+  .product-accordion{order:7;}
+  #nutrition-container{order:8;}
+
+  .product-main__title{
+    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;
+    font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;
+    color:#212529!important;letter-spacing:-0.02em;margin:0;
+  }
+
+  /* Price block: stacked below title */
+  .product-main__price{
+    display:flex;flex-direction:row;align-items:center;gap:.5rem;
+    font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;
+  }
+
+  /* Placeholder mode */
+  .product-main__price.price--placeholder{
+    background:#f8f9fa;border:1px solid #e9ecef;border-radius:10px;
+    padding:.75rem 1rem;
+  }
+  .product-main__price.price--placeholder svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px;}
+  .product-main__price .placeholder-main-text{display:block;font-weight:700;color:#1f2937;}
+  .product-main__price .placeholder-sub-text{display:block;font-size:.875rem;color:#6b7280;margin-top:2px;}
+
+  /* Live mode */
+  .product-main__price.price--live{
+    background:transparent;border:0;padding:0;
+    font-weight:800;font-size:1.75rem;color:#111827;
+  }
+  .product-main__price.price--live .price-note{
+    font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;
+  }
+
+  /* Media image */
+  .product-main__gallery-image{
+    width:100%;height:auto;border-radius:12px;border:1px solid #e9ecef;
+    box-shadow:0 4px 12px rgba(0,0,0,.05);
+  }
+
+  /* Macros grid */
+  .product-macros-block{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #e9ecef;border-radius:12px;overflow:hidden;}
+  .macro-stat{padding:1rem .5rem;text-align:center;background-color:#f8f9fa;border-right:1px solid #e9ecef;border-bottom:1px solid #e9ecef;border-top-width:4px;border-top-style:solid;}
+  .macro-stat:nth-child(3n){border-right:none;}
+  .macro-stat:nth-last-child(-n+3),.macro-stat:last-child{border-bottom:none;}
+  .macro-stat--calories{border-top-color:var(--macro-color-calories);}
+  .macro-stat--protein{border-top-color:var(--macro-color-protein);}
+  .macro-stat--carbs{border-top-color:var(--macro-color-carbs);}
+  .macro-stat--fats{border-top-color:var(--macro-color-fats);}
+  .macro-stat--fiber{border-top-color:var(--macro-color-fiber);}
+  .macro-stat--sodium{border-top-color:var(--macro-color-sodium);}
+  .macro-stat__value{font-size:1.1rem;font-weight:700;color:#212529;line-height:1.2;display:block;margin-bottom:.25rem;}
+  .macro-stat__label{font-size:.7rem;color:#6c757d;text-transform:uppercase;letter-spacing:.05em;display:block;}
+
+  /* Actions */
+  .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
+
+  /* Accordion */
+  .product-accordion__item{border-bottom:1px solid #e9ecef;}
+  .product-accordion__item:first-child{border-top:1px solid #dee2e6;padding-top:1.5rem;}
+  .product-accordion__item summary{
+    padding:1rem 0;font-weight:600;font-size:1rem;color:#343a40;cursor:pointer;list-style:none;
+    display:flex;justify-content:space-between;align-items:center;transition:color .2s ease;
+  }
+  .product-accordion__item summary:hover{color:#212529;}
+  .product-accordion__item summary::-webkit-details-marker{display:none;}
+  .product-accordion__toggle-icon{width:16px;height:16px;transition:transform .25s ease;color:#6c757d;}
+  .product-accordion__item[open]>summary .product-accordion__toggle-icon{transform:rotate(180deg);}
+  .product-accordion__content{padding-bottom:1.5rem;color:#495057;line-height:1.6;}
+  .product-accordion__content ul,.product-accordion__content ol{padding-left:1.25rem;}
+
+  /* Desktop refinements */
+  @media (min-width:1024px){
+    .product-main__visuals-wrapper,.product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
+    .product-main__header,.product-main__gallery,.product-macros-block,.product-description,.product-main__form,.product-accordion,#nutrition-container{order:initial;}
+    .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;}
+    .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
+    .product-main__info-column{grid-area:info;}
+    .product-main__title{font-size:2.25rem!important;}
+    .product-main__price.price--live{font-size:1.75rem;}
+    .macro-stat__value{font-size:1.25rem;}
+    .macro-stat__label{font-size:.75rem;}
+  }
+
+  /* Mobile tweak */
+  @media (max-width:1023px){
+    .product-main__price.price--live{font-size:1.5rem;}
+  }
+
+  /* Mobile alignment fix for title + price */
+@media (max-width: 767px) {
+  /* Give the whole header a shared gutter so children align */
+  .product-main__header {
+    padding-inline: 16px;
+    gap: 0.35rem; /* keep the tighter spacing */
+    align-items: stretch; /* let children span the header width */
+  }
+
+  /* Let the price block fill that header width and lose the desktop cap */
+  .product-main__price {
+    width: 100%;
+    max-width: none;    /* override the 380px cap */
+    margin: 0;          /* no accidental centering */
+  }
+
+  /* Keep the placeholder style but make it feel lighter/tighter on mobile */
+  .product-main__price.price--placeholder {
+    padding: 0.75rem 1rem;         /* slightly tighter inner padding */
+    border-radius: 10px;
+  }
+
+  /* Nudge icon/text rhythm so first text line visually aligns with title */
+  .product-main__price.price--placeholder svg {
+    width: 22px;
+    height: 22px;
+    margin-top: 1px;    /* small optical adjustment */
+    flex: 0 0 22px;
+  }
+
+  .placeholder-main-text {
+    line-height: 1.15;
+  }
+}
+
+</style>
+
+<div class="product-main" data-section-id="{{ section.id }}">
+  <div class="product-main__layout">
+    <div class="product-main__visuals-wrapper">
+      <div class="product-main__gallery">
+        {%- if featured_image -%}
+          <img src="{{ featured_image | image_url: width: 800, height: 800, crop: 'center' }}" alt="{{ featured_image.alt | escape }}" class="product-main__gallery-image" loading="eager" width="800" height="{{ 800 | divided_by: featured_image.aspect_ratio | round }}">
+        {%- endif -%}
+      </div>
+      {%- if macros_exist -%}
+        <div class="product-macros-block">
+          {%- if macros.macros_calories != blank -%}<div class="macro-stat macro-stat--calories"><span class="macro-stat__value">{{ macros.macros_calories }}</span><span class="macro-stat__label">Calories</span></div>{%- endif -%}
+          {%- if macros.macros_protein != blank -%}<div class="macro-stat macro-stat--protein"><span class="macro-stat__value">{{ macros.macros_protein }}g</span><span class="macro-stat__label">Protein</span></div>{%- endif -%}
+          {%- if macros.macros_carbs != blank -%}<div class="macro-stat macro-stat--carbs"><span class="macro-stat__value">{{ macros.macros_carbs }}g</span><span class="macro-stat__label">Carbs</span></div>{%- endif -%}
+          {%- if macros.macros_fats != blank -%}<div class="macro-stat macro-stat--fats"><span class="macro-stat__value">{{ macros.macros_fats }}g</span><span class="macro-stat__label">Fats</span></div>{%- endif -%}
+            {%- if macros.macros_fiber != blank -%}<div class="macro-stat macro-stat--fiber"><span class="macro-stat__value">{{ macros.macros_fiber }}g</span><span class="macro-stat__label">Fiber</span></div>{%- endif -%}
+            {%- if macros.macros_sodium != blank -%}<div class="macro-stat macro-stat--sodium"><span class="macro-stat__value">{{ macros.macros_sodium }}mg</span><span class="macro-stat__label">Sodium</span></div>{%- endif -%}
+          </div>
+        {%- endif -%}
+        <div id="nutrition-container"></div>
+      </div>
+    
+    <div class="product-main__info-column">
+      <div class="product-main__header">
+        <h1 class="product-main__title">
+          {% if product.handle == 'custom-meals' %}
+            Build Custom Meals
+          {% elsif product.handle == 'custom-breakfast' %}
+            Build Custom Breakfasts
+          {% else %}
+            {{ product.title }}
+          {% endif %}
+        </h1>
+        <div class="reviews-placeholder"><span class="yotpo-display-wrapper"></span></div>
+        <div class="product-main__price"><span data-product-price>{{ current_variant.price | money }}</span></div>
+      </div>
+      {%- if product.description != blank -%}<div class="product-description rte">{{ product.description }}</div>{%- endif -%}
+      {%- form 'product', product, class: 'product-main__form', data-product-form: '' -%}
+        <div class="product-main__options">
+          <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-variant-id>
+          {%- unless product.has_only_default_variant -%}
+            {%- for option in product.options_with_values -%}
+              <div class="product-form__option">
+                <label for="Option-{{ section.id }}-{{ forloop.index0 }}">{{ option.name }}</label>
+                <select id="Option-{{ section.id }}-{{ forloop.index0 }}" name="options[{{ option.name | escape }}]">
+                  {%- for value in option.values -%}<option value="{{ value | escape }}" {% if option.selected_value == value %}selected="selected"{% endif %}>{{ value }}</option>{%- endfor -%}
+                </select>
+              </div>
+            {%- endfor -%}
+          {%- endunless -%}
+          <div class="rc-widget-injection-parent"></div>
+          {% render 'recharge-bundle' %}
+        </div>
+        <div class="product-main__actions">
+          <div class="integrated-quantity">
+            <button type="button" class="integrated-quantity__button" name="minus" aria-label="{{ 'products.product.quantity_decrease' | t }}">－</button>
+            <span class="integrated-quantity__text" aria-live="polite">1</span>
+            <input class="integrated-quantity__input" type="number" name="quantity" value="1" min="1" aria-label="{{ 'products.product.quantity_label' | t }}" data-quantity-input>
+            <button type="button" class="integrated-quantity__button" name="plus" aria-label="{{ 'products.product.quantity_increase' | t }}">＋</button>
+          </div>
+          <button type="submit" name="add" class="product-card__add-btn alt-focus product-main-add-to-cart" {% unless current_variant.available %}disabled{% endunless %}>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <span data-add-to-cart-text>{%- if current_variant.available -%}Add{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
+          </button>
+        </div>
+      {%- endform -%}
+      <div class="product-accordion">
+        {%- if nutrition.ingredients != blank -%}<details class="product-accordion__item"><summary>Ingredients <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="product-accordion__content rte">{{ nutrition.ingredients }}</div></details>{%- endif -%}
+        {%- if nutrition.allergens != blank -%}<details class="product-accordion__item"><summary>Allergens <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="product-accordion__content rte">{{ nutrition.allergens }}</div></details>{%- endif -%}
+        {%- if nutrition.instructions != blank -%}<details class="product-accordion__item"><summary>Heating Instructions <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="product-accordion__content rte">{{ nutrition.instructions }}</div></details>{%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+{%- render 'footer-minimal-ordering' -%}
+<script type="application/json" data-product-json>{{ product | json }}</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const sectionEl = document.querySelector('.product-main[data-section-id="{{ section.id }}"]');
+    if (!sectionEl) return;
+    const productJsonElement = document.querySelector('script[data-product-json]');
+    if (productJsonElement) {
+      try {
+        const productData = JSON.parse(productJsonElement.textContent);
+        if (productData.handle === 'custom-meals' || productData.handle === 'custom-breakfast') {
+          new DynamicPriceUpdater(sectionEl);
+        }
+      } catch (e) { console.error("Could not initialize dynamic pricing", e); }
+    }
+    new AjaxFormHandler(sectionEl);
+  });
+
+  class DynamicPriceUpdater {
+    constructor(sectionEl) {
+      this.elements = {
+        priceDisplay: sectionEl.querySelector('.product-main__price span[data-product-price]'),
+        priceParent: sectionEl.querySelector('.product-main__price'),
+        quantityInput: sectionEl.querySelector('.integrated-quantity__input[name="quantity"]'),
+        quantityContainer: sectionEl.querySelector('.integrated-quantity'),
+        boldContainer: sectionEl.querySelector('.product-main__form'),
+      };
+      if (Object.values(this.elements).some(el => !el)) return;
+      this.hasInteracted = false;
+      this.basePriceInCents = {{ product.first_available_variant.price }};
+      this.moneyFormat = {{ shop.money_format | json }};
+      this.setInitialPlaceholder();
+      this.initBoldObserver();
+    }
+    updatePrice() {
+  if (!this.hasInteracted) {
+    this.hasInteracted = true;
+    // switch header to LIVE mode on first real calc
+    this.elements.priceParent.classList.remove('price--placeholder');
+    this.elements.priceParent.classList.add('price--live');
+    this.elements.priceDisplay.className = '';
+  }
+  if (!this.elements.boldTotal) return;
+  const extrasText = this.elements.boldTotal.querySelector('span')?.textContent || '0';
+  const extrasInCents = this.parseMoneyToCents(extrasText);
+  const quantity = parseInt(this.elements.quantityInput.value, 10) || 1;
+  const totalInCents = (this.basePriceInCents + extrasInCents) * quantity;
+  this.elements.priceDisplay.innerHTML =
+    this.formatMoney(totalInCents) + '<span class="price-note">updates as you choose</span>';
+}
+
+setInitialPlaceholder() {
+  this.elements.priceParent.classList.add('price--placeholder');
+  this.elements.priceDisplay.className = 'product-price--placeholder';
+  this.elements.priceDisplay.innerHTML = `
+    <div style="display:flex;gap:.75rem;align-items:flex-start">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+           fill="none" stroke="currentColor" stroke-width="2"
+           stroke-linecap="round" stroke-linejoin="round">
+        <rect x="3" y="2" width="18" height="20" rx="2" ry="2"></rect>
+        <line x1="8" y1="6" x2="16" y2="6"></line>
+        <line x1="8" y1="10" x2="10" y2="10"></line>
+        <line x1="12" y1="10" x2="14" y2="10"></line>
+        <line x1="8" y1="14" x2="10" y2="14"></line>
+        <line x1="12" y1="14" x2="14" y2="14"></line>
+        <line x1="8" y1="18" x2="10" y2="18"></line>
+        <line x1="12" y1="18" x2="14" y2="18"></line>
+      </svg>
+      <div>
+        <span class="placeholder-main-text">Starting at ${this.formatMoney(this.basePriceInCents)}</span>
+        <span class="placeholder-sub-text">Your total will update here</span>
+      </div>
+    </div>
+  `;
+}
+    initBoldObserver() {
+      const boldObserver = new MutationObserver((mutations, observer) => {
+        const boldTotalEl = this.elements.boldContainer.querySelector('.bold_option_total');
+        if (boldTotalEl) {
+          this.elements.boldTotal = boldTotalEl;
+          this.attachListeners();
+          observer.disconnect();
+        }
+      });
+      boldObserver.observe(this.elements.boldContainer, { childList: true, subtree: true });
+    }
+    attachListeners() {
+      const handleInteraction = () => this.updatePrice();
+      this.elements.quantityContainer.addEventListener('click', (e) => {
+        if (e.target.closest('.integrated-quantity__button')) setTimeout(handleInteraction, 10);
+      });
+      this.elements.quantityInput.addEventListener('change', handleInteraction);
+      const boldPriceObserver = new MutationObserver(handleInteraction);
+      boldPriceObserver.observe(this.elements.boldTotal, { childList: true, subtree: true, characterData: true });
+      if (window.BOLD?.options?.app?.on) {
+        BOLD.options.app.on('option_changed', handleInteraction);
+      }
+    }
+    parseMoneyToCents(t){if("string"!=typeof t)return 0;const e=t.replace(/[^0-9.]/g,""),s=parseFloat(e);return isNaN(s)?0:Math.round(100*s)}
+    formatMoney(t){if(!this.moneyFormat)return`$${(t/100).toFixed(2)}`;const e=(t/100).toFixed(2);return this.moneyFormat.replace(/\{\{\s*amount\s*\}\}/,e).replace(".00","")}
+  }
+
+  class AjaxFormHandler {
+    constructor(sectionEl) {
+      this.form = sectionEl.querySelector('.product-main__form');
+      this.addButton = sectionEl.querySelector('.product-main-add-to-cart');
+      if (!this.form || !this.addButton) return;
+      this.addButton.addEventListener('click', this.onButtonClick.bind(this));
+    }
+    async onButtonClick(e) {
+      e.preventDefault();
+      this.setLoading(true);
+      try {
+        const formData = new FormData(this.form);
+        const response = await fetch('/cart/add.js', { method: 'POST', body: formData });
+        if (!response.ok) throw new Error(await response.text());
+        const cart = await response.json();
+        document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+        this.setSuccess();
+      } catch (error) {
+        console.error('AJAX Cart Error:', error);
+        this.revert();
+      }
+    }
+    setLoading(isLoading) {
+      this.addButton.classList.toggle('is-loading', isLoading);
+      this.addButton.disabled = isLoading;
+    }
+    setSuccess() {
+      this.addButton.classList.remove('is-loading');
+      this.addButton.classList.add('is-added');
+      setTimeout(() => this.revert(), 2000);
+    }
+    revert() {
+      this.addButton.classList.remove('is-added');
+      this.addButton.disabled = false;
+    }
+  }
+</script>
+
+{% schema %}
+{
+  "name": "Product Main Content",
+  "tag": "section",
+  "class": "product-main-content-section"
+}
+{% endschema %}

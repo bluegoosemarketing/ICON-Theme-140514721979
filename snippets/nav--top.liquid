@@ -1,0 +1,17 @@
+{%- comment -%}
+  Top utility navigation bar.
+  Renders a simple list of links from a specified linklist handle.
+  CSS styling for this component is located in header.liquid.
+{%- endcomment -%}
+
+{%- if linklist_handle != blank and linklists[linklist_handle].links.size > 0 -%}
+  <nav class="top-nav-links" aria-label="Secondary navigation">
+    <ul class="top-nav-links__list">
+      {%- for link in linklists[linklist_handle].links -%}
+        <li class="top-nav-links__item">
+          <a href="{{ link.url }}" class="top-nav-links__link">{{ link.title }}</a>
+        </li>
+      {%- endfor -%}
+    </ul>
+  </nav>
+{%- endif -%}

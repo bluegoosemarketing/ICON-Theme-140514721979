@@ -1,0 +1,55 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "settings": {}
+    },
+    "advanced_layout_custom_html_3YTwhW": {
+      "type": "advanced-layout--custom-html",
+      "blocks": {
+        "html_7Fd63y": {
+          "type": "html",
+          "settings": {
+            "code": "<div style=\"text-align:center; padding: 50px 0;\">\n<h2>Use HTML to format your text so it can be easily read.</h2>This text can be used to share information about your brand with customers.</div>",
+            "width": "100%"
+          }
+        }
+      },
+      "block_order": [
+        "html_7Fd63y"
+      ],
+      "settings": {}
+    },
+    "custom_liquid_XRX6Xi": {
+      "type": "custom-liquid",
+      "settings": {
+        "custom_liquid": "<div style='text-align:center;'><h2>Custom Liquid</h2><p>Add app snippets or other Liquid code to create advanced customizations.</p></div>"
+      }
+    }
+  },
+  "order": [
+    "1649069563be558dae",
+    "main",
+    "advanced_layout_custom_html_3YTwhW",
+    "custom_liquid_XRX6Xi"
+  ]
+}

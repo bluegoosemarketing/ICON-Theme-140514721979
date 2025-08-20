@@ -1,0 +1,259 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div",
+  "sections": {
+    "main": {
+      "type": "template--product",
+      "settings": {
+        "show_out_of_stock_email": true,
+        "out_of_stock_email_position": "below-details",
+        "hide_out_of_stock": false,
+        "thumbnail_changes_variant": false,
+        "image_display": "thumbnails",
+        "enable_zoom": false,
+        "enable_video_loop": false
+      }
+    },
+    "product-description": {
+      "type": "template--product-description",
+      "blocks": {
+        "a1815482-0efd-42fb-ac26-9ae07b760726": {
+          "type": "custom_pages",
+          "settings": {
+            "pages": ""
+          }
+        }
+      },
+      "block_order": [
+        "a1815482-0efd-42fb-ac26-9ae07b760726"
+      ],
+      "settings": {
+        "content_display": "collapse_except_description",
+        "show_tags": false,
+        "show_collections": false,
+        "show_type": false
+      }
+    },
+    "165418577993fa8415": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "cc72e6ef-6b6e-43c4-bed4-86bd4fadd1ff": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "Build Your Perfect Plate",
+            "subheading": "Dial in your ideal macros",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "16541857792305e733-0": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "12 Proteins",
+            "subheading": "to choose from",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "16541857792305e733-1": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "13 Sides",
+            "subheading": "to choose from",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "cc72e6ef-6b6e-43c4-bed4-86bd4fadd1ff",
+        "16541857792305e733-0",
+        "16541857792305e733-1"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1654184727e869053f": {
+      "type": "image--image",
+      "settings": {
+        "image": "shopify://shop_images/download_2.webp",
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "1654185529a4a29e88": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "large",
+        "image": "shopify://shop_images/tile-icon-custom-meals-emily-hayden.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "Easy to Stay Healthy & on Track!",
+        "text_block": "<p>\"Customizing my options help me have healthy meals that fit my exact caloric needs. As long as I have one of these meals on hand, I have no excuse not to eat well! + The ingredients are always so fresh & delicious!\"<br/><strong>- </strong><em><strong>Emily Hayden</strong></em></p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1654191284976bc0e0": {
+      "type": "accordion",
+      "blocks": {
+        "1654191284d04edb5f-0": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Place your question or heading here",
+            "text": "<p>Here you can place an explanation or answer to the question.</p>"
+          }
+        },
+        "1654191284d04edb5f-1": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Place your question or heading here",
+            "text": "<p>Here you can place an explanation or answer to the question.</p>"
+          }
+        },
+        "1654191284d04edb5f-2": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Place your question or heading here",
+            "text": "<p>Here you can place an explanation or answer to the question.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1654191284d04edb5f-0",
+        "1654191284d04edb5f-1",
+        "1654191284d04edb5f-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "background-color": "#1b1b1b",
+        "text-color": "#dedede",
+        "title": "Frequently asked questions",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "1654184724898e49e6": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "small",
+        "subheading": "",
+        "title": "Delicious, chef-prepared meals made your way.",
+        "text": "<p>Create over 12,000 custom combinations with our huge selection of proteins and sides to build your perfect plate.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16523744666f90ac40": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165237446601a014c3-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Cooked Fresh",
+            "subheading": "Chef-prepared in our USDA Certified Kitchen",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165237446601a014c3-2": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Delivered to you",
+            "subheading": "Vacuum sealed for maximum freshness.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165237446601a014c3-1": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "No Mess",
+            "subheading": "Just heat & eat. Ready in 3 minutes or less.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "165237446601a014c3-0",
+        "165237446601a014c3-2",
+        "165237446601a014c3-1"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1654190853bc06115e": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/tile-icon-custom-meals-male.png",
+        "layout": "right",
+        "subheading": "",
+        "title": "An Iconic Selection",
+        "text_block": "<p>Your choice of <strong>13 tasty signature sides</strong> and <strong>12 proteins</strong> to choose from. From our brisket and black bean vegan pattie to our Kyoto blend veggies and sweet potatoes, we've got something for everyone.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "165177738992fa8fe2": {
+      "type": "apps",
+      "blocks": {
+        "3b03a32d-e155-4aba-8b03-5b58d04a606a": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "3b03a32d-e155-4aba-8b03-5b58d04a606a"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "template--product--recommendations",
+      "disabled": true,
+      "settings": {
+        "show_product_recommendations": false,
+        "product_recommendations_heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "product-description",
+    "165418577993fa8415",
+    "1654184727e869053f",
+    "1654185529a4a29e88",
+    "1654191284976bc0e0",
+    "1654184724898e49e6",
+    "16523744666f90ac40",
+    "1654190853bc06115e",
+    "165177738992fa8fe2",
+    "product-recommendations"
+  ]
+}

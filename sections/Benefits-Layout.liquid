@@ -1,0 +1,222 @@
+<section class="iconmeals-grid-layout">
+  <div class="iconmeals-container">
+    <h2 class="iconmeals-section-heading">Freshly Prepared, High-Quality Meals</h2>
+    <div class="iconmeals-grid">
+      
+      <!-- Custom, Flexible Options Module -->
+      <div class="iconmeals-card iconmeals-card-large">
+        <div class="iconmeals-card-bg">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/2-Meals_v1.png?v=1731861467" alt="Custom, Flexible Options">
+        </div>
+        <div class="iconmeals-card-content">
+          <h3>Custom, Flexible Options</h3>
+          <p>Choose from a wide variety of chef-crafted meals or customize your own to fit your dietary needs and preferences—no subscriptions required.</p>
+        </div>
+      </div>
+
+      <!-- Second Card on the First Row -->
+      <div class="iconmeals-card">
+        <div class="iconmeals-card-content">
+          <img src="https://via.placeholder.com/150x150?text=Meal+2" alt="Convenient Experience">
+          <h3>Convenient, Hassle-Free Experience</h3>
+          <p>Delivered straight to your door, ready to heat and eat in minutes—enjoy nutritious meals without the prep or clean-up.</p>
+        </div>
+      </div>
+
+      <!-- Remaining Cards -->
+      <div class="iconmeals-card">
+        <div class="iconmeals-card-content">
+          <img src="https://via.placeholder.com/150x150?text=Meal+3" alt="Vacuum-Sealed Freshness">
+          <h3>Vacuum-Sealed Freshness</h3>
+          <p>Meals are vacuum-sealed to lock in flavor and nutrients, made with transparent, wholesome ingredients you can trust—no fillers or artificial additives.</p>
+        </div>
+      </div>
+      <div class="iconmeals-card">
+        <div class="iconmeals-card-content">
+          <img src="https://via.placeholder.com/150x150?text=Meal+4" alt="Engage with Motion">
+          <h3>Engage with Motion</h3>
+          <p>Captivate your audience and drive engagement with motion and animation tools.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.iconmeals-grid-layout {
+  padding: 0;
+  background-color: #fff;
+}
+
+.iconmeals-container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+  padding: 40px;
+}
+
+.iconmeals-section-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e63946;
+  margin-bottom: 40px;
+}
+
+/* Grid Styles */
+.iconmeals-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr; /* First row split into 2/3 and 1/3 */
+  gap: 20px;
+}
+
+.iconmeals-card {
+  background-color: #f8f8f8;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.iconmeals-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.15);
+}
+
+.iconmeals-card-content img {
+  width: 100px;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.iconmeals-card h3 {
+  font-size: 1.2rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.iconmeals-card p {
+  font-size: 1rem;
+  color: #666;
+}
+
+/* Custom Large Card Styles */
+.iconmeals-card-large {
+  grid-column: span 1; /* Only span 1 grid space (2/3 layout handled by grid-template-columns) */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  padding: 0 !important; /* Remove padding on card */
+  margin: 0 !important; /* Remove margin */
+  height: 400px; /* Set fixed height for control */
+  background: linear-gradient(to right, #111, #222); /* Dark gradient */
+  color: #fff;
+}
+
+.iconmeals-card-large .iconmeals-card-bg {
+  display: flex; /* Use flexbox to control child alignment */
+  align-items: stretch; /* Ensures child fills height */
+  justify-content: center; /* Optional: centers horizontally */
+  height: 100%; /* Ensure it fills the full card height */
+  padding: 0;
+  margin: 0;
+  overflow: hidden; /* Prevents image overflow */
+}
+
+.iconmeals-card-large .iconmeals-card-bg img {
+  flex-grow: 1; /* Image will grow to fill the container */
+  height: 100%; /* Take full height of container */
+  width: auto; /* Maintain aspect ratio */
+  object-fit: cover; /* Ensure no empty space remains */
+  display: block; /* Prevent inline gaps */
+}
+
+.iconmeals-card-large .iconmeals-card-content {
+  flex: 1;
+  padding: 20px 30px;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* Centers text vertically */
+}
+
+.iconmeals-card-large h3 {
+  font-size: 2rem;
+  margin-bottom: 10px;
+  color: #ffffff; /* Ensures visible contrast on dark background */
+}
+
+.iconmeals-card-large p {
+  font-size: 1.1rem;
+  color: #f5f5f5; /* Subtle off-white for paragraph text */
+  line-height: 1.4;
+}
+
+/* Mobile Adjustments */
+@media (max-width: 768px) {
+  .iconmeals-container {
+    padding: 20px; /* Adjust container padding for better overall spacing */
+    margin: 0 auto;
+  }
+
+  .iconmeals-grid {
+    grid-template-columns: 1fr; /* Stack all cards in a single column */
+    gap: 20px; /* Space between cards */
+    margin: 0 auto; /* Center the grid */
+  }
+
+  .iconmeals-card {
+    margin: 0 20px; /* Add consistent left and right margin for negative space */
+    max-width: 500px; /* Keep cards readable at larger sizes */
+  }
+
+  .iconmeals-card-large {
+    flex-direction: column;
+    height: auto;
+    overflow: hidden;
+    margin: 0 20px; /* Ensure large cards have the same margin */
+  }
+
+  .iconmeals-card-large .iconmeals-card-bg {
+    height: 100%; 
+    width: 100%;
+    position: relative;
+    transform: rotate(-90deg); 
+    transform-origin: center; 
+    overflow: hidden;
+  }
+
+  .iconmeals-card-large .iconmeals-card-bg img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    display: block;
+  }
+
+  .iconmeals-card-large .iconmeals-card-content {
+    text-align: center;
+    padding: 15px;
+  }
+
+  .iconmeals-card-large h3 {
+    font-size: 1.8rem; 
+  }
+
+  .iconmeals-card-large p {
+    font-size: 1rem; 
+  }
+}
+
+</style>
+
+{% schema %}
+{
+  "name": "Homepage Benefits Section",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Homepage Benefits",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}

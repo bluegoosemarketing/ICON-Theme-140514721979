@@ -1,0 +1,311 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div",
+  "sections": {
+    "main": {
+      "type": "template--product",
+      "settings": {
+        "show_out_of_stock_email": true,
+        "out_of_stock_email_position": "below-details",
+        "hide_out_of_stock": false,
+        "thumbnail_changes_variant": false,
+        "image_display": "thumbnails",
+        "enable_zoom": false,
+        "enable_video_loop": false
+      }
+    },
+    "165178167457715956": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165178167444a09996-0": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_calories.value }} Calories",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-1": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_protein.value }}g Protein",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165178167444a09996-2": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_carbs.value }}g Carbs",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "2d9ffce1-1e39-4742-9bf5-be89abfe57a9": {
+          "type": "text",
+          "settings": {
+            "icon": "none",
+            "heading": "{{ product.metafields.macros.macros_fats.value }}g Fat",
+            "subheading": "",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "165178167444a09996-0",
+        "165178167444a09996-1",
+        "165178167444a09996-2",
+        "2d9ffce1-1e39-4742-9bf5-be89abfe57a9"
+      ],
+      "disabled": true,
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "product-description": {
+      "type": "template--product-description",
+      "blocks": {
+        "a1815482-0efd-42fb-ac26-9ae07b760726": {
+          "type": "custom_pages",
+          "settings": {
+            "pages": ""
+          }
+        }
+      },
+      "block_order": [
+        "a1815482-0efd-42fb-ac26-9ae07b760726"
+      ],
+      "disabled": true,
+      "settings": {
+        "content_display": "collapse_except_description",
+        "show_tags": false,
+        "show_collections": false,
+        "show_type": false
+      }
+    },
+    "text_rich_text_FR3z7k": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "High Protein Plant-Based Meals",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_QaEfDE": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_NienN4": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/plant-based-protein-meal-plan-03.webp",
+            "link": "",
+            "title": "Southern BBQ Platter",
+            "description": "<p>360 Cal | 27g Protein | 42g Carbs | 9g Fat</p>"
+          }
+        },
+        "image_iPEwTH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/plant-based-protein-meal-plan-04.webp",
+            "link": "",
+            "title": "Teriyaki Fried Rice",
+            "description": "<p>380 Cal | 32g Protein | 36g Carbs | 12g Fat</p>"
+          }
+        },
+        "image_JVqNFN": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/plant-based-protein-meal-plan-01.webp",
+            "link": "",
+            "title": "Protein Tex-Mex Quesadilla",
+            "description": "<p>530 Cal | 30g Protein | 50g Carbs | 23g Fat</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_NienN4",
+        "image_iPEwTH",
+        "image_JVqNFN"
+      ],
+      "settings": {}
+    },
+    "image_gallery_7ejfQV": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_4zpQrX": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/plant-based-protein-meal-plan-05.webp",
+            "link": "",
+            "title": "High Protein Tex-Mex & Sweet Potatoes",
+            "description": "<p>400 Cal | 29g Protein | 47g Carbs | 11g Fat</p>"
+          }
+        },
+        "image_FBNEcq": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/plant-based-protein-meal-plan-02.webp",
+            "link": "",
+            "title": "Tex-Mex Burrito",
+            "description": "<p>520 Cal | 28g Protein | 56g Carbs | 20g Fat</p>"
+          }
+        },
+        "image_VEHyaM": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/plant-based-protein-meal-plan-06.webp",
+            "link": "",
+            "title": "Caribbean Protein Bowl",
+            "description": "<p>350 Cal | 26g Protein | 48g Carbs | 6g Fat</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_4zpQrX",
+        "image_FBNEcq",
+        "image_VEHyaM"
+      ],
+      "settings": {}
+    },
+    "16523744666f90ac40": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "165237446601a014c3-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Cooked Fresh",
+            "subheading": "Chef-prepared in our USDA Certified Kitchen",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165237446601a014c3-2": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Delivered to you",
+            "subheading": "Vacuum sealed for maximum freshness.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "165237446601a014c3-1": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "No Mess",
+            "subheading": "Just heat & eat. Ready in 3 minutes or less.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "165237446601a014c3-0",
+        "165237446601a014c3-2",
+        "165237446601a014c3-1"
+      ],
+      "disabled": true,
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1651782024a70736a3": {
+      "type": "accordion",
+      "blocks": {
+        "1651782024e3efd747-0": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Ingredients",
+            "text": "<p>{{ product.metafields.nutrition.ingredients.value }}</p>"
+          }
+        },
+        "1651782024e3efd747-1": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Allergens",
+            "text": "<p>{{ product.metafields.nutrition.allergens.value }}</p>"
+          }
+        },
+        "1651782024e3efd747-2": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Heating Instructions",
+            "text": "<p>{{ product.metafields.nutrition.instructions.value }}</p><p>{{ product.metafields.nutrition.allergens.value }}</p>"
+          }
+        }
+      },
+      "block_order": [
+        "1651782024e3efd747-0",
+        "1651782024e3efd747-1",
+        "1651782024e3efd747-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "background-color": "#ffffff",
+        "text-color": "#000000",
+        "title": "",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "165177738992fa8fe2": {
+      "type": "apps",
+      "blocks": {
+        "5948fb2f-6a7a-46aa-902c-848012a272b2": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "5948fb2f-6a7a-46aa-902c-848012a272b2"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "product-recommendations": {
+      "type": "template--product--recommendations",
+      "settings": {
+        "show_product_recommendations": false,
+        "product_recommendations_heading": "You may also like"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "165178167457715956",
+    "product-description",
+    "text_rich_text_FR3z7k",
+    "image_gallery_QaEfDE",
+    "image_gallery_7ejfQV",
+    "16523744666f90ac40",
+    "1651782024a70736a3",
+    "165177738992fa8fe2",
+    "product-recommendations"
+  ]
+}

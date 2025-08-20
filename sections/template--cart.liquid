@@ -1,0 +1,180 @@
+{%- comment -%}
+  Cart Page - Dual Logic V1.1
+  - This version is now fully controlled by the central CartManager script.
+  - All local JavaScript has been removed to prevent conflicts.
+{%- endcomment -%}
+
+{{ 'cart-page.js' | asset_url | script_tag }}
+
+{%- liquid
+  if settings.enable_free_delivery_promo
+    assign free_delivery_target = settings.free_delivery_threshold | default: 21
+    assign meal_target = 8
+    assign progress_current = 0
+    assign excluded_collections = 'proteinpopcorn,butters,proteincoffee,seasonings' | split: ','
+    for progress_item in cart.items
+      assign item_collections = progress_item.product.collections | map: 'handle'
+      assign is_excluded = false
+      for excluded in excluded_collections
+        if item_collections contains excluded
+          assign is_excluded = true
+          break
+        endif
+      endfor
+      assign product_type_lower = progress_item.product.type | downcase
+      if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan' or progress_item.product.type == 'OPTIONS_HIDDEN_PRODUCT'
+        assign is_excluded = true
+      endif
+      unless is_excluded
+        assign item_multiplier = 1
+        if progress_item.variant.title contains 'Meal'
+          assign potential = progress_item.variant.title | split: ' ' | first | times: 1
+          if potential > 0
+            assign item_multiplier = potential
+          endif
+        endif
+        assign item_meals = progress_item.quantity | times: item_multiplier
+        assign progress_current = progress_current | plus: item_meals
+      endunless
+    endfor
+    if progress_current < meal_target
+      assign remaining_meals = meal_target | minus: progress_current
+      if remaining_meals < 0
+        assign remaining_meals = 0
+      endif
+      assign progress_percentage = progress_current | times: 100.0 | divided_by: meal_target
+      assign progress_target = meal_target
+      capture progress_message
+        echo "Add " | append: remaining_meals | append: " more meals to checkout."
+      endcapture
+      assign checkout_url = '/pages/add-ons'
+    else
+      assign remaining_free_delivery = free_delivery_target | minus: progress_current
+      if remaining_free_delivery < 0
+        assign remaining_free_delivery = 0
+      endif
+      assign progress_percentage = progress_current | times: 100.0 | divided_by: free_delivery_target
+      assign progress_target = free_delivery_target
+      if progress_current >= free_delivery_target and settings.free_delivery_discount_code != blank
+        assign checkout_url = '/pages/add-ons?discount=' | append: settings.free_delivery_discount_code
+      else
+        assign checkout_url = '/pages/add-ons'
+      endif
+      capture progress_message
+        if progress_current >= free_delivery_target
+          echo settings.free_delivery_unlocked_message
+          if settings.free_delivery_discount_code != blank
+            echo " Use code " | append: settings.free_delivery_discount_code | append: " at checkout."
+          endif
+        else
+          echo settings.free_delivery_locked_message | replace: '{remaining}', remaining_free_delivery
+        endif
+      endcapture
+    endif
+  else
+    assign meal_target = 8
+    assign progress_current = 0
+    assign non_meal_types = 'peanut butter,protein popcorn,seasoning,beverage,options_hidden_product' | split: ','
+    for progress_item in cart.items
+      assign product_type_lower = progress_item.product.type | downcase
+      if non_meal_types contains product_type_lower
+        continue
+      endif
+      assign item_multiplier = 1
+      if progress_item.variant.title contains 'Meal'
+        assign potential = progress_item.variant.title | split: ' ' | first | times: 1
+        if potential > 0
+          assign item_multiplier = potential
+        endif
+      endif
+      assign item_meals = progress_item.quantity | times: item_multiplier
+      assign progress_current = progress_current | plus: item_meals
+    endfor
+    assign remaining_meals = meal_target | minus: progress_current
+    if remaining_meals < 0
+      assign remaining_meals = 0
+    endif
+    assign progress_percentage = progress_current | times: 100.0 | divided_by: meal_target
+    assign progress_target = meal_target
+
+    if progress_current >= meal_target
+      assign progress_message = "Great! You have enough meals to checkout."
+    else
+      assign progress_message = "Add " | append: remaining_meals | append: " more meals to checkout."
+    endif
+    assign checkout_url = '/pages/add-ons'
+  endif
+
+  if progress_percentage > 100
+    assign progress_percentage = 100
+  endif
+-%}
+
+<div class="container container--cart-page">
+  {% if cart.item_count == 0 %}
+    <div class="cart-page__empty-state">
+      <h1 class="main-heading">Review Your Order</h1>
+      <div class="cart-empty-box">
+        <svg class="cart-empty-box__icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c.51 0 .962-.344 1.087-.835l1.858-6.491A1.125 1.125 0 0018 5.25H3.368M4.898 4.5h16.254a1.125 1.125 0 011.057 1.342l-2.518 8.814a1.125 1.125 0 01-1.057.906H5.414M15 21a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.75 21a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z" /></svg>
+        <p class="cart-empty-box__text">{{ 'cart.general.empty' | t }}</p>
+        <a href="/collections/signature-menu" class="btn">{{ 'cart.general.continue_browsing_html' | t }}</a>
+      </div>
+    </div>
+  {% else %}
+    <form action="{{ routes.cart_url }}" method="post" novalidate class="cart" id="cartform" data-wetheme-section-id="cart">
+      <div class="cart-error-box"></div>
+
+      <div class="cart-page__layout">
+        <div class="cart-page__main">
+          <div class="cart-page__header">
+            <h1 class="main-heading">Review Your Order</h1>
+            <a href="/collections/signature-menu" class="cart-page__continue-shopping-button" id="cart-continue-shopping">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" /></svg>
+              <span>Continue Shopping</span>
+            </a>
+          </div>
+
+          {%- if cart.item_count > 0 -%}
+            <div class="cart-progress cart-progress--green">
+              <p class="cart-progress__text" aria-live="polite">{{ progress_message | strip }}</p>
+              <div class="cart-progress__bar" role="progressbar" aria-label="Meal progress toward order minimum" aria-valuenow="{{ progress_current }}" aria-valuemin="0" aria-valuemax="{{ progress_target }}" aria-valuetext="{{ progress_current }} of {{ progress_target }} meals">
+                <div class="cart-progress__bar-inner" style="width: {{ progress_percentage }}%;"></div>
+              </div>
+            </div>
+          {%- endif -%}
+
+          <div class="cart-page__items LOOP_icon-meals-dev_bundles">
+            {%- render 'cart-item-list', context: 'page' -%}
+          </div>
+        </div>
+
+        <div class="cart-page__sidebar">
+          <div class="cart-summary">
+            <h2 class="cart-summary__title">Order Summary</h2>
+            <div class="cart-summary__row">
+              <span>{{ 'cart.general.subtotal' | t }}</span>
+              <span class="Bold-theme-hook-DO-NOT-DELETE bold_cart_total" style="display:none !important;"></span>
+              <span class="money"><span style="display:none" class="tdf-cart-total-flag"></span>{{ cart.total_price | money }}</span>
+            </div>
+            <div class="cart-summary__footer">
+              <p class="cart-summary__note">{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}</p>
+              <div class="cart-summary__actions">
+                <button
+                  type="button"
+                  id="cart_submit"
+                  class="btn btn--place-order"
+                  data-checkout-url="{{ checkout_url }}"
+                >
+                  Proceed to Checkout
+                </button>
+                <button type="submit" name="update" class="cart-summary__update-link">Update Cart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+    
+    <script type="application/json" id="initial-cart">{{ cart | json }}</script>
+  {% endif %}
+</div>

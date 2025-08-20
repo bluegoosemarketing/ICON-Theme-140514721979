@@ -1,0 +1,613 @@
+{% comment %}
+  UFC Contest Section
+  Predict the winners of UFC 313 for a chance to win a $75 ICON Meals Gift Card.
+  In Step 1, select one fighter per bout.
+  In Step 2, enter your first name, last name, email, and phone (optional), and opt in.
+  Your selections are submitted as separate custom fields.
+{% endcomment %}
+
+<div id="ufc-contest-app">
+  <div class="ufc-container">
+    <!-- Hero Section (Above the Fold) -->
+    <div class="ufc-hero">
+      <div class="hero-image">
+        <img 
+          src="https://cdn.shopify.com/s/files/1/1957/2713/files/313_SMA_ENG_820x312_b183cfe6-afdf-4202-8994-3d9bed8c07b1.jpg?v=1741313308" 
+          alt="Official Partner Graphic for UFC 313" 
+        />
+      </div>
+      <div class="hero-inner">
+        <h1 class="ufc-main-title">The Pick-5 Challenge</h1>
+        
+        <!-- Partner / Subtitle -->
+        <div class="ufc-partner-line">By ICON Meals – Official Meal Prep Partner of the UFC</div>
+        
+        <p class="ufc-subtitle">
+          Pick all 5 winners for UFC 313 correctly and win a $75 ICON Meals Gift Card!
+        </p>
+        
+        <!-- Countdown Timer -->
+        <div class="ufc-timer-container">
+          <div class="ufc-timer-block">
+            <span class="ufc-timer-prefix">Time Left:</span>
+            <span class="ufc-timer-digits" id="ufc-time-remaining"></span>
+          </div>
+          <p class="ufc-timer-note">Entries close Saturday at 9:00 PM CST</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Fighter Selection -->
+    <div class="ufc-instructions">
+      <p>Select your pick for each fight below. If you choose all 5 winners correctly, you’ll win a $75 ICON Meals Gift Card!</p>
+    </div>
+
+    <div class="ufc-cards" id="ufc-cards">
+      <!-- Card 1: Main Event -->
+      <div class="ufc-card" data-fight="1">
+        <h3>Light Heavyweight Title Bout</h3>
+        <p class="ufc-subheading">Main Event</p>
+        <p>Alex Pereira vs. Magomed Ankalaev</p>
+        <div class="ufc-btn-group">
+          <button class="ufc-btn" data-fighter="Pereira">Alex Pereira</button>
+          <button class="ufc-btn" data-fighter="Ankalaev">Magomed Ankalaev</button>
+        </div>
+      </div>
+
+      <!-- Card 2: Co-Main Event -->
+      <div class="ufc-card" data-fight="2">
+        <h3>Lightweight Bout</h3>
+        <p class="ufc-subheading">Co-Main Event</p>
+        <p>Justin Gaethje vs. Rafael Fiziev</p>
+        <div class="ufc-btn-group">
+          <button class="ufc-btn" data-fighter="Gaethje">Justin Gaethje</button>
+          <button class="ufc-btn" data-fighter="Fiziev">Rafael Fiziev</button>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="ufc-card" data-fight="3">
+        <h3>Lightweight Bout</h3>
+        <p>Jalin Turner vs. Ignacio Bahamondes</p>
+        <div class="ufc-btn-group">
+          <button class="ufc-btn" data-fighter="Turner">Jalin Turner</button>
+          <button class="ufc-btn" data-fighter="Bahamondes">Ignacio Bahamondes</button>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="ufc-card" data-fight="4">
+        <h3>Women’s Strawweight Bout</h3>
+        <p>Amanda Lemos vs. Iasmin Lucindo</p>
+        <div class="ufc-btn-group">
+          <button class="ufc-btn" data-fighter="Lemos">Amanda Lemos</button>
+          <button class="ufc-btn" data-fighter="Lucindo">Iasmin Lucindo</button>
+        </div>
+      </div>
+
+      <!-- Card 5 -->
+      <div class="ufc-card" data-fight="5">
+        <h3>Lightweight Bout</h3>
+        <p>King Green vs. Mauricio Ruffy</p>
+        <div class="ufc-btn-group">
+          <button class="ufc-btn" data-fighter="Green">King Green</button>
+          <button class="ufc-btn" data-fighter="Ruffy">Mauricio Ruffy</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Contact & Email Opt-In -->
+    <div class="ufc-step2" id="ufc-step2">
+      <h3>Enter Your Details</h3>
+      <div class="ufc-input-group">
+        <input type="text" id="ufc-first-name" placeholder="First Name">
+      </div>
+      <div class="ufc-input-group">
+        <input type="text" id="ufc-last-name" placeholder="Last Name">
+      </div>
+      <div class="ufc-input-group">
+        <input type="email" id="ufc-email" placeholder="Your Email">
+      </div>
+      <div class="ufc-input-group">
+        <input type="tel" id="ufc-phone" placeholder="Your Phone (optional)">
+      </div>
+      <div class="ufc-input-group ufc-optin">
+        <input type="checkbox" id="ufc-optin">
+        <label for="ufc-optin">
+          I agree to receive marketing emails &amp; accept our 
+          <a href="https://iconmeals.com/policies/terms-of-service" target="_blank">Terms of Service</a> and 
+          <a href="https://iconmeals.com/policies/privacy-policy" target="_blank">Privacy Policy</a>.
+        </label>
+      </div>
+      <button class="ufc-submit-btn" id="ufc-submit">Submit Entry</button>
+    </div>
+
+    <!-- Confirmation Message -->
+    <div class="ufc-confirmation" id="ufc-confirmation"></div>
+
+    <!-- Post-Deadline Closed Message -->
+    <div class="ufc-closed-message" id="ufc-closed-message">
+      <h3>Submission Closed</h3>
+      <p>The contest is no longer accepting entries.</p>
+    </div>
+  </div>
+
+  <!-- Pop-up Modal for Submission Confirmation -->
+  <div class="ufc-modal" id="ufc-modal">
+    <div class="ufc-modal-content">
+      <p id="ufc-modal-message"></p>
+      <button class="ufc-modal-close" id="ufc-modal-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Retrieve the contest service URL from section settings
+    var contestUrl = "{{ section.settings.contest_service_url | escape }}";
+    let ufcPredictions = {};
+
+    // Deadline: "this Saturday at 9 PM CST" => March 8, 2025 21:00:00 CST
+    const deadline = new Date("Mar 8, 2025 21:00:00 CST").getTime();
+
+    // Key elements
+    const cardsDiv = document.getElementById("ufc-cards");
+    const step2Div = document.getElementById("ufc-step2");
+    const closedMessageDiv = document.getElementById("ufc-closed-message");
+    const timerDisplay = document.getElementById("ufc-time-remaining");
+
+    // Modal elements
+    const modal = document.getElementById("ufc-modal");
+    const modalMessage = document.getElementById("ufc-modal-message");
+    const modalClose = document.getElementById("ufc-modal-close");
+
+    // Hide "Submission Closed" initially
+    closedMessageDiv.style.display = "none";
+
+    // Countdown Timer
+    const countdown = setInterval(function() {
+      const now = new Date().getTime();
+      const distance = deadline - now;
+
+      if (distance <= 0) {
+        // Time is up
+        clearInterval(countdown);
+        timerDisplay.innerHTML = "0d 0h 0m";
+        cardsDiv.style.display = "none";
+        step2Div.style.display = "none";
+        closedMessageDiv.style.display = "block";
+        return;
+      }
+
+      // Days, hours, minutes (no seconds)
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+      timerDisplay.innerHTML = 
+        (days < 10 ? "0" + days : days) + "d " + 
+        (hours < 10 ? "0" + hours : hours) + "h " + 
+        (minutes < 10 ? "0" + minutes : minutes) + "m";
+    }, 1000);
+
+    // Fighter selections
+    document.querySelectorAll("#ufc-contest-app .ufc-btn").forEach(btn => {
+      btn.addEventListener("click", function() {
+        const card = this.closest(".ufc-card");
+        const fightId = card.getAttribute("data-fight");
+
+        // Reset other buttons in this card
+        card.querySelectorAll(".ufc-btn").forEach(b => {
+          b.classList.remove("active");
+          b.style.backgroundColor = "#fff";
+          b.style.color = "#C10C0C";
+        });
+
+        // Activate the chosen fighter
+        this.classList.add("active");
+        this.style.backgroundColor = "#C10C0C";
+        this.style.color = "#fff";
+
+        // Save prediction
+        ufcPredictions[fightId] = this.getAttribute("data-fighter");
+        console.log("Current predictions:", ufcPredictions);
+
+        // Show Step 2 if all 5 selected
+        if (Object.keys(ufcPredictions).length === 5) {
+          step2Div.style.display = "block";
+        }
+      });
+    });
+
+    // Form submission
+    document.getElementById("ufc-submit").addEventListener("click", function() {
+      const firstName = document.getElementById("ufc-first-name").value.trim();
+      const lastName = document.getElementById("ufc-last-name").value.trim();
+      const email = document.getElementById("ufc-email").value.trim();
+      const phone = document.getElementById("ufc-phone").value.trim();
+      const optIn = document.getElementById("ufc-optin").checked;
+
+      // Basic validation
+      if (!email || Object.keys(ufcPredictions).length !== 5) {
+        alert("Please complete all fighter selections and provide your email.");
+        return;
+      }
+      if (!firstName || !lastName) {
+        alert("Please enter both your first and last name.");
+        return;
+      }
+      if (!optIn) {
+        alert("You must agree to receive marketing emails to participate.");
+        return;
+      }
+
+      // Disable double-submit
+      const submitBtn = document.getElementById("ufc-submit");
+      submitBtn.disabled = true;
+      submitBtn.innerText = "Submitting...";
+
+      // Order predictions
+      let orderedPredictions = [];
+      for (let i = 1; i <= 5; i++) {
+        orderedPredictions.push(ufcPredictions[i]);
+      }
+
+      fetch(contestUrl, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          first_name: firstName,
+          last_name: lastName,
+          email: email,
+          phone: phone,
+          predictions: orderedPredictions
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          // Show confirmation in main container
+          document.getElementById("ufc-confirmation").innerText = data.message;
+          document.getElementById("ufc-confirmation").style.display = "block";
+          // Hide the contest steps
+          cardsDiv.style.display = "none";
+          step2Div.style.display = "none";
+          // Show pop-up modal confirmation
+          modalMessage.innerText = data.message;
+          modal.style.display = "flex";
+        } else {
+          alert("Submission error: " + (data.error || "Unknown error."));
+          submitBtn.disabled = false;
+          submitBtn.innerText = "Submit Entry";
+        }
+      })
+      .catch(err => {
+        alert("Network error: " + err);
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Submit Entry";
+      });
+    });
+
+    // Modal close action
+    modalClose.addEventListener("click", function() {
+      modal.style.display = "none";
+    });
+  });
+</script>
+
+<style>
+  /* Scoped, unique styles for the UFC contest section using ICON Meals brand colors */
+  #ufc-contest-app {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background: #f8f8f8;
+    padding: 20px;
+  }
+  #ufc-contest-app .ufc-container {
+    max-width: 600px;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
+
+  /* Hero / Header Section (Above the Fold) */
+  .ufc-hero {
+    /* Subtle gradient from dark gray to black */
+    background: linear-gradient(to bottom, #2a2a2a, #000);
+    color: #fff;
+    position: relative;
+    padding: 0 0 40px 0;
+  }
+  .hero-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+    margin: 0;
+    border-radius: 12px 12px 0 0;
+  }
+  .hero-inner {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 40px 20px 0 20px;
+  }
+  .ufc-main-title {
+    font-size: 2.6em;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    font-weight: 700;
+  }
+  .ufc-partner-line {
+    display: block;
+    font-size: 1.1em;
+    margin: 0 auto 15px;
+    color: #bbb;
+    font-style: italic;
+  }
+  .ufc-subtitle {
+    font-size: 1.2em;
+    margin: 0 auto;
+    line-height: 1.4;
+    max-width: 400px;
+  }
+
+  /* Timer Container */
+  .ufc-timer-container {
+    margin-top: 30px;
+  }
+  .ufc-timer-block {
+    display: inline-block;
+    background: #222;
+    padding: 10px 15px;
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .ufc-timer-prefix {
+    font-size: 0.9em;
+    color: #ccc;
+    margin-right: 5px;
+  }
+  .ufc-timer-digits {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #FFD700;
+  }
+  .ufc-timer-note {
+    font-size: 0.95em;
+    color: #ccc;
+    margin-top: 8px;
+  }
+
+  /* Instructions above cards */
+  .ufc-instructions {
+    padding: 20px;
+    background: #fafafa;
+    border-top: 1px solid #eee;
+    border-bottom: 1px solid #eee;
+    text-align: center;
+  }
+  .ufc-instructions p {
+    margin: 0;
+    font-size: 1.1em;
+    color: #444;
+  }
+
+  /* Modal Pop-up */
+  .ufc-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6);
+    align-items: center;
+    justify-content: center;
+  }
+  .ufc-modal-content {
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+    max-width: 400px;
+    width: 90%;
+  }
+  .ufc-modal-close {
+    margin-top: 15px;
+    padding: 10px 20px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1em;
+  }
+  .ufc-modal-close:hover {
+    background: #333;
+  }
+
+  /* Responsive adjustments for mobile devices */
+  @media (max-width: 480px) {
+    .ufc-main-title {
+      font-size: 2.2em;
+    }
+    .ufc-subtitle {
+      font-size: 1.1em;
+      max-width: 100%;
+    }
+    .ufc-timer-digits {
+      font-size: 1.4em;
+    }
+    .ufc-instructions p {
+      font-size: 1em;
+    }
+  }
+
+  /* Cards (Step 1) */
+  #ufc-contest-app .ufc-cards {
+    padding: 20px;
+  }
+  #ufc-contest-app .ufc-card {
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    padding: 15px;
+    transition: transform 0.3s;
+    text-align: center;
+  }
+  #ufc-contest-app .ufc-card:hover {
+    transform: translateY(-5px);
+  }
+  #ufc-contest-app .ufc-card h3 {
+    margin: 0 0 5px;
+    font-size: 1.3em;
+    font-weight: 600;
+    color: #C10C0C;
+  }
+  .ufc-subheading {
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #C10C0C;
+    margin-bottom: 10px;
+  }
+  #ufc-contest-app .ufc-card p {
+    color: #666;
+    margin-bottom: 15px;
+  }
+  #ufc-contest-app .ufc-btn-group {
+    display: flex;
+    gap: 10px;
+  }
+  #ufc-contest-app .ufc-btn {
+    flex: 1;
+    padding: 12px;
+    border: 2px solid #C10C0C;
+    border-radius: 6px;
+    background: #fff;
+    color: #C10C0C;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    position: relative;
+  }
+  #ufc-contest-app .ufc-btn.active,
+  #ufc-contest-app .ufc-btn:hover {
+    background: #C10C0C;
+    color: #fff;
+    border-color: #C10C0C;
+  }
+  /* Check mark for selected fighter */
+  #ufc-contest-app .ufc-btn.active::after {
+    content: "✓";
+    font-size: 1.2em;
+    color: #fff;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  /* Step 2: Contact Form */
+  .ufc-step2 {
+    display: none;
+    padding: 20px;
+    background: #fdfdfd;
+    border-top: 1px solid #eee;
+    text-align: center;
+  }
+  .ufc-step2 h3 {
+    margin-bottom: 20px;
+    font-size: 1.3em;
+  }
+  .ufc-input-group {
+    margin-bottom: 15px;
+  }
+  .ufc-input-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 1em;
+  }
+  .ufc-optin {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    text-align: left;
+  }
+  .ufc-optin input[type="checkbox"] {
+    margin-right: 10px;
+    width: auto;
+    height: auto;
+  }
+  .ufc-optin label {
+    display: inline-block;
+    line-height: 1.4em;
+    margin: 0;
+  }
+  .ufc-optin a {
+    text-decoration: underline;
+  }
+  .ufc-submit-btn {
+    width: 100%;
+    padding: 15px;
+    background: #000;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+  }
+  .ufc-submit-btn:hover {
+    background: #333;
+  }
+
+  /* Confirmation Message */
+  .ufc-confirmation {
+    display: none;
+    text-align: center;
+    padding: 20px;
+    font-size: 1.1em;
+    color: #28a745;
+  }
+
+  /* Submission Closed Message */
+  .ufc-closed-message {
+    display: none;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .ufc-closed-message h3 {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+  }
+  .ufc-closed-message p {
+    font-size: 1em;
+    color: #555;
+  }
+</style>
+
+{% schema %}
+{
+  "name": "UFC Contest Section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "contest_service_url",
+      "label": "Contest Service URL",
+      "default": "https://contest-app-72056142257.us-central1.run.app/contest/submit"
+    }
+  ],
+  "presets": [
+    {
+      "name": "UFC Contest Section",
+      "category": "Custom"
+    }
+  ]
+}
+{% endschema %}

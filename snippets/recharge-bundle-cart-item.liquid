@@ -1,0 +1,72 @@
+{%- assign rc_bundle_price = 0 -%}
+{%- assign rc_bundle_original_price = 0 -%}
+{%- assign rc_bundle_selling_plan_allocation_compare_at_price = 0-%}
+{%- assign rc_bundle_product = "" -%}
+{%- assign rc_bundle_contents = "" -%}
+{%- assign rc_bundle_handle = "" -%}
+{%- assign rc_bundle_url_to_remove =  "/cart/update?" -%}
+{%- assign rc_bundle_variant = "" -%}
+{%- assign rc_bundle_variant_id = "" -%}
+
+
+
+    <div class="LOOP_BUNDLE_CONTAINER_CLASS">
+        <input type="hidden" value="rendering loop bundles here as we did not found any table">
+    </div>
+        
+{%- for item in cart.items -%}
+{% comment %}
+    LOOP SUBSCRIPTIONS (https://apps.shopify.com/loop-subscriptions)
+    DO NOT modify this source code because
+    It is automatically generated from LOOP SUBSCRIPTIONS BUNDLE DESIGN
+    If you need to make change, please contact the Loop support team
+    LOOP BUNDLE CODE STARTS
+{% endcomment %}
+    {% assign isBundleItem = false %}
+    {%- for property in item.properties -%}
+        {% if property.first == '_bundleId' %}
+            {% assign isBundleItem = true %}
+            {% break %}
+        {% endif %}
+    {%- endfor -%}
+    {% if isBundleItem == true %}
+        {% continue %}
+    {% endif %}
+{% comment %}
+    LOOP BUNDLE CODE ENDS
+{% endcomment %}
+  {%- if item.properties["_rc_bundle"] == rc_bundle_id -%}
+    {%- assign rc_bundle_price = rc_bundle_price | plus: item.final_line_price-%}
+
+    {%- assign rc_bundle_original_price = rc_bundle_original_price | plus: item.original_line_price -%}
+
+    {%- assign rc_bundle_contents = rc_bundle_contents | append: ", " | append: item.quantity | append: 'x ' | append: item.title -%}
+
+    {%- assign selling_plan_allocation_compare_at_price_total = item.selling_plan_allocation.compare_at_price | default: 0 | times: item.quantity -%}
+
+    {%- assign rc_bundle_selling_plan_allocation_compare_at_price = rc_bundle_selling_plan_allocation_compare_at_price | plus: selling_plan_allocation_compare_at_price_total  -%}
+
+    {%- assign rc_bundle_handle = item.properties["_rc_bundle_parent"] -%}
+
+    {%- assign rc_bundle_variant_id = item.properties["_rc_bundle_variant"] | plus: 0 -%}
+
+    {%- assign rc_bundle_url_to_remove = rc_bundle_url_to_remove | append: "updates[" | append: item.key | append: "]=0&" -%}
+  {%- endif -%}
+{%- endfor -%}
+
+{%- assign rc_bundle_product = all_products[rc_bundle_handle] -%}
+
+{%- assign rc_bundle_contents = rc_bundle_contents | remove_first: ", " -%}
+
+{%- assign rc_displayed_bundles = rc_displayed_bundles | append: "," | append: rc_bundle_id -%}
+
+{%- for variant in rc_bundle_product.variants -%}
+  {%- if variant.id == rc_bundle_variant_id -%}
+    {%- assign rc_bundle_variant = variant -%}
+  {%- endif -%}
+{%- endfor -%}
+<script defer="defer">
+  window.Loop = {};
+  window.Loop.bundleCartAllItems = {{ cart.items | json }};
+  initLoopBundle("LOOP_BUNDLE_CONTAINER_CLASS");
+</script>

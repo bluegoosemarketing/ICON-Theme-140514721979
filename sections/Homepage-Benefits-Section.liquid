@@ -1,0 +1,107 @@
+<section class="iconmeals-custom-layout">
+  <div class="iconmeals-container">
+    <h2 class="iconmeals-section-heading">Freshly Prepared, High-Quality Meals</h2>
+    <div class="iconmeals-row">
+      <div class="iconmeals-column">
+        <div class="iconmeals-image-container">
+          <img src="https://via.placeholder.com/200x200?text=Meal+1" alt="High-Quality Meals">
+        </div>
+        <h3 class="iconmeals-column-title">Custom, Flexible Options</h3>
+        <p class="iconmeals-column-text">Choose from a wide variety of chef-crafted meals or customize your own to fit your dietary needs and preferences—no subscriptions required.</p>
+      </div>
+      <div class="iconmeals-divider"></div>
+      <div class="iconmeals-column">
+        <div class="iconmeals-image-container">
+          <img src="https://via.placeholder.com/200x200?text=Meal+2" alt="Convenient Experience">
+        </div>
+        <h3 class="iconmeals-column-title">Convenient, Hassle-Free Experience</h3>
+        <p class="iconmeals-column-text">Delivered straight to your door, ready to heat and eat in minutes—enjoy nutritious meals without the prep or clean-up.</p>
+      </div>
+      <div class="iconmeals-divider"></div>
+      <div class="iconmeals-column">
+        <div class="iconmeals-image-container">
+          <img src="https://via.placeholder.com/200x200?text=Meal+3" alt="Vacuum-Sealed Freshness">
+        </div>
+        <h3 class="iconmeals-column-title">Vacuum-Sealed Freshness</h3>
+        <p class="iconmeals-column-text">Meals are vacuum-sealed to lock in flavor and nutrients, made with transparent, wholesome ingredients you can trust—no fillers or artificial additives.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+.iconmeals-custom-layout {
+  background-color: #fff;
+  padding: 60px 20px;
+}
+
+.iconmeals-container {
+  max-width: 1200px;
+  margin: auto;
+  text-align: center;
+}
+
+.iconmeals-section-heading {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #e63946;
+  margin-bottom: 40px;
+}
+
+.iconmeals-row {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+.iconmeals-column {
+  flex: 1 1 30%;
+  max-width: 30%;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.iconmeals-image-container img {
+  width: 100%;
+  max-width: 200px;
+  margin-bottom: 10px;
+}
+
+.iconmeals-column-title {
+  font-size: 1.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.iconmeals-column-text {
+  font-size: 1rem;
+  color: #666;
+}
+
+.iconmeals-divider {
+  width: 1px;
+  background-color: #d3d3d3;
+  margin: 0 10px;
+}
+
+@media (max-width: 768px) {
+  .iconmeals-row {
+    flex-direction: column;
+  }
+
+  .iconmeals-column {
+    max-width: 100%;
+  }
+
+  .iconmeals-divider {
+    display: none;
+  }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Home Benefits Section",
+  "settings": []
+}
+{% endschema %}

@@ -1,0 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "ai_macro_assistant_9xqz4m": {
+      "type": "AI-Macro-Assistant",
+      "settings": {
+        "assistant_title": "ICON Meals Macro Assistant",
+        "assistant_subtitle": "Let me help you build a 7-day meal plan!"
+      }
+    },
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "ai_macro_assistant_9xqz4m",
+    "1649069563be558dae",
+    "main"
+  ]
+}

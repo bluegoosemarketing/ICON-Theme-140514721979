@@ -1,0 +1,21 @@
+{% comment %}
+  LEAD DEVELOPER REVISION V3:
+  - This file makes the sidebar a reusable "Section" in Shopify.
+  - It simply renders our primary snippet, ensuring a single source of truth for the sidebar's HTML.
+  - This allows the sidebar to be added via the Theme Customizer on other pages if needed.
+{% endcomment %}
+
+{% render 'cart-preview-sidebar' %}
+
+{% schema %}
+{
+  "name": "Collection Page Sidebar",
+  "class": "shopify-section--cart-preview-sidebar",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Collection Page Sidebar"
+    }
+  ]
+}
+{% endschema %}

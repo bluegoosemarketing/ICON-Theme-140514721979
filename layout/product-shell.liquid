@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html class="no-js" lang="{{ request.locale.iso_code }}">
+<head>
+  
+  <script src="{{ 'pandectes-rules.js' | file_url }}"></script>
+
+  <!-- Preconnects -->
+  <link rel="preconnect dns-prefetch" href="https://api.config-security.com/" crossorigin />
+  <link rel="preconnect dns-prefetch" href="https://conf.config-security.com/" crossorigin />
+  <link rel="preconnect dns-prefetch" href="https://whale.camera/" crossorigin />
+
+  <!-- Google Tag Manager -->
+  <script>
+    (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+    new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+    j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+    'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+    })(window,document,'script','dataLayer','GTM-N4G4X563');
+  </script>
+  <!-- End Google Tag Manager -->
+
+  <!-- TriplePixel Tracking -->
+  <script>
+    /* >> TriplePixel :: start */
+    window.TriplePixelData = {
+      TripleName: "icon-meals-dev.myshopify.com",
+      ver: "2.12",
+      plat: "SHOPIFY",
+      isHeadless: false
+    };
+
+    (function(W, H, A, L, E, _, B, N) {
+      function O(U, T, P, H, R) {
+        void 0 === R && (R = !1),
+        H = new XMLHttpRequest,
+        P ? (H.open("POST", U, !0), H.setRequestHeader("Content-Type", "text/plain")) : H.open("GET", U, !0),
+        H.send(JSON.stringify(P || {})),
+        H.onreadystatechange = function() {
+          4 === H.readyState && 200 === H.status ?
+            (R = H.responseText, U.includes(".txt") ? eval(R) : P || (N[B] = R)) :
+            (299 < H.status || H.status < 200) && T && !R && (R = !0, O(U, T - 1, P))
+        }
+      }
+
+      if (N = window, !N[H + "sn"]) {
+        N[H + "sn"] = 1,
+        L = function() {
+          return Date.now().toString(36) + "_" + Math.random().toString(36)
+        };
+        try {
+          A.setItem(H, 1 + (0 | A.getItem(H) || 0)),
+          (E = JSON.parse(A.getItem(H + "U") || "[]")).push({
+            u: location.href,
+            r: document.referrer,
+            t: Date.now(),
+            id: L()
+          }),
+          A.setItem(H + "U", JSON.stringify(E))
+        } catch (e) {}
+        var i, m, p;
+        A.getItem('"!nC`') || (
+          _ = A,
+          A = N,
+          A[H] || (
+            E = A[H] = function(t, e, a) {
+              return void 0 === a && (a = []),
+              "State" == t ? E.s : (
+                W = L(),
+                (E._q = E._q || []).push([W, t, e].concat(a)),
+                W
+              )
+            },
+            E.s = "Installed",
+            E._q = [],
+            E.ch = W,
+            B = "configSecurityConfModel",
+            N[B] = 1,
+            O("https://conf.config-security.com/model", 5),
+            i = L(),
+            m = A[atob("c2NyZWVu")],
+            _.setItem("di_pmt_wt", i),
+            p = {
+              id: i,
+              action: "profile",
+              avatar: _.getItem("auth-security_rand_salt_"),
+              time: m[atob("d2lkdGg=")] + ":" + m[atob("aGVpZ2h0")],
+              host: A.TriplePixelData.TripleName,
+              plat: A.TriplePixelData.plat,
+              url: window.location.href,
+              ref: document.referrer,
+              ver: A.TriplePixelData.ver
+            },
+            O("https://api.config-security.com/event", 5, p),
+            O("https://whale.camera/live/dot.txt", 5)
+          )
+        )
+      }
+    })("", "TriplePixel", localStorage);
+    /* << TriplePixel :: end */
+  </script>
+
+<link rel='preconnect dns-prefetch' href='https://triplewhale-pixel.web.app/' crossorigin />
+
+
+	<meta charset="utf-8">
+	{%- comment -%}DemoStoreRequirements{%- endcomment -%}
+
+	<title>
+		{{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} – {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} – {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} – {{ shop.name }}{% endunless %}
+	</title>
+
+	<script type="text/javascript">
+		document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
+	</script>
+
+	{% if page_description %}
+	<meta name="description" content="{{ page_description | escape }}">
+	{% endif %}
+
+	{% if template contains 'product' %}
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+	{% else %}
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	{% endif %}
+
+	{% render 'social-meta-tags' %}
+
+	<link rel="canonical" href="{{ canonical_url }}" />
+
+	<!-- CSS -->
+	{% render 'css-variables' %}
+
+	{% if template == 'index' %}
+  		<link rel="preload" href="{{ 'theme-index.min.css' | asset_url }}" as="style">
+		{{ 'theme-index.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template.name == 'collection' %}
+	    <link rel="preload" href="{{ 'theme-collection.min.css' | asset_url }}" as="style">
+	    {{ 'theme-collection.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'list-collections' %}
+	    <link rel="preload" href="{{ 'theme-collection-list.min.css' | asset_url }}" as="style">
+	    {{ 'theme-collection-list.min.css' | asset_url | stylesheet_tag }}
+        {% elsif template.name contains 'product' %}
+                <link rel="preload" href="{{ 'theme-product.min.css' | asset_url }}" as="style">
+                {{ 'theme-product.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template.name == 'blog' %}
+		<link rel="preload" href="{{ 'theme-blog.min.css' | asset_url }}" as="style">
+	  	{{ 'theme-blog.min.css' | asset_url | stylesheet_tag }}
+	{% elsif template == 'cart' %}
+		<link rel="preload" href="{{ 'theme-cart.min.css' | asset_url }}" as="style">
+	  	{{ 'theme-cart.min.css' | asset_url | stylesheet_tag }}
+	{% else %}
+		<link rel="preload" href="{{ 'theme.min.css' | asset_url }}" as="style">
+	  	{{ 'theme.min.css' | asset_url | stylesheet_tag }}
+	{% endif %}
+
+	{{ 'custom.css' | asset_url | stylesheet_tag }}
+
+	{% render 'font-links' %}
+
+	{% if settings.favicon != blank %}
+		<link rel="shortcut icon" href="{{ settings.favicon | img_url: '32x32' }}" type="image/png">
+	{% endif %}
+
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+	{% render 'treedify' %}{{ content_for_header }}
+{%- render 'bold-options-hybrid' -%}
+{%- render 'bold-common' -%}
+{%- render 'sc-includes' -%}
+
+  {% if template == 'product' and product.metafields.inventory.ShappifyHidden or product.type contains '_HIDDEN_' %}<meta name='robots' content='noindex'>{% endif %}
+
+	<script type="text/javascript">
+	window.lazySizesConfig = window.lazySizesConfig || {};
+	window.lazySizesConfig.rias = window.lazySizesConfig.rias || {};
+
+	// configure available widths to replace with the {width} placeholder
+	window.lazySizesConfig.rias.widths = [150, 300, 600, 900, 1200, 1500, 1800, 2100];
+
+	window.wetheme = {
+		name: 'Fresh',
+	};
+	</script>
+
+	{% if template contains 'customers' %}
+		<script src="{{ 'shopify_common.js' | shopify_asset_url }}" async></script>
+		<script src="{{ 'customer_area.js' | shopify_asset_url }}" async></script>
+	{% endif %}
+
+	{% if template.name == 'article' %}
+		<script src="{{ 'textSlideshow.js' | asset_url }}" defer="defer"></script>
+	{% endif %}
+  
+  
+    <!-- cedriclajato.com start code -->
+    {% if product.handle == "custom-meals" or product.handle == "custom-breakfast" %}
+    {{ 'macro-calculator.css' | asset_url | stylesheet_tag }}
+    {% endif %}
+    <!-- cedriclajato.com end code -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "lcrgcoaa3y");
+  </script>
+  
+  
+</head>
+
+<body
+	id="{{ page_title | handle }}"
+	class="page-title--{{ page_title | handle }} {% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if template.suffix %} template-suffix--{{ template.suffix }}{% endif %} flexbox-wrapper"
+	data-cart-type="{{ settings.cart-type }}"
+	{% if settings.cart-type == 'persistent' %}
+	data-cart-visible="{{ cart_visible }}"
+	{% endif %}
+>
+  <!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N4G4X563"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+	<div class="main-body-wrapper{% if template == 'search' %} search-template{% elsif template.name == 'collection' %} collection-template{% endif %}" id="PageContainer" data-cart-action="{{ settings.cart-action }}" data-cart-type="{{ settings.cart-type }}">
+		{% if template != 'cart' %}
+			{% section 'cart-drawer' %}
+		{% endif %}
+
+		<div id="main-body" data-editor-open="{{ request.design_mode }}">
+
+			<noscript>
+				<div class="no-js disclaimer container">
+					<p>{{ "general.disclaimer.javascript_disabled" | t }}</p>
+				</div>
+			</noscript>
+
+			<div id="slideout-overlay"></div>
+
+			{%- comment -%} FIX: Corrected 'template contains' to 'template.name contains' {%- endcomment -%}
+			{% unless template.name contains 'balanced' %}{% section 'announcement-bar' %}{% endunless %}
+			
+                        {%- comment -%} LOGIC: Render the collection-style header on collection and product templates only. {%- endcomment -%}
+                        {% if template.name contains 'collection' or template.name contains 'product' %}
+                          {% section 'header-collections' %}
+                        {% else %}
+                          {% section 'header' %}
+                        {% endif %}
+
+                        <main id="main">
+                          <div class="container--collection-page">
+                            <div class="collection-page__layout">
+                              <div class="collection-page__main">
+                                
+                                {%- comment -%}
+                                  <!-- ======================================================================= -->
+                                  <!-- =================== INJECTION POINT FOR LOCAL NAV =================== -->
+                                  <!-- This renders the sticky "Back to Collection" header inside the main
+                                       product content area, ensuring a consistent user experience.
+                                  <!-- ======================================================================= -->
+                                {%- endcomment -%}
+                                {% render 'product-local-nav' %}
+
+                                {%- if request.path contains 'loop_subscriptions/bundle' or request.path contains 'loop_subscriptions/customer' -%}
+                                  {% render 'loop_loader' %}
+                                {%- endif -%}
+
+                                {{ content_for_layout }}<!-- End of layout -->
+                                <noscript class="endOfLayoutContentX" type="text/mark"></noscript>{% render 'treedify_script' %}
+
+                              </div>
+                              <aside class="collection-page__sidebar">
+                                {% render 'cart-preview-sidebar' %}
+                              </aside>
+                            </div>
+                          </div>
+                        </main>
+          
+            {% unless template contains 'balanced' %}
+              {% if template.name == 'cart' %}
+                {% section 'footer-minimal-ordering' %}
+              {% elsif template.name contains 'collection' or template.name contains 'product' %}
+                {%- comment -%} Footer is rendered inside the collection or product template {%- endcomment -%}
+              {% else %}
+                {% section 'footer' %}
+              {% endif %}
+            {% endunless %}
+		</div>
+
+	</div>
+
+	{% if settings.enable_verification_popup %}
+		{% render 'verification-popup' %}
+	{% endif %}
+
+{% if settings.popup--enable %}
+        {% render 'popup' %}
+{% endif %}
+
+        {% render 'min-meal-modal' %}
+
+        <script type="application/json" id="wetheme-global">
+                {
+                        {% comment %}Translations that will be used in javascript section handling{% endcomment %}
+                        "translations": {
+				"addToCart": {{ 'products.product.add_to_cart' | t | json }},
+				"added": {{ 'products.product.added' | t | json }},
+				"soldOut": {{ 'products.product.sold_out' | t | json }},
+				"unavailable": {{ 'products.product.unavailable' | t | json }},
+				"makeASelection": {{ 'products.product.make_a_selection' | t | json }},
+				"showMore": {{ 'general.filters.show_more' | t | json }},
+				"showLess": {{ 'general.filters.show_less' | t | json }},
+				"saving": {{ 'products.general.saving' | t | json }},
+				"products": {{ 'general.search.products' | t | json }},
+				"pages": {{ 'general.search.pages' | t | json }},
+				"collections": {{ 'general.search.collections' | t | json }},
+				"articles": {{ 'general.search.articles' | t | json }},
+				"loading": {{ 'collections.paginate.loading' | t | json }},
+				"applyFilterLabel": {{ 'collections.filters.apply_label' | t | json }},
+				"removeFilterLabel": {{ 'collections.filters.remove_label' | t | json }},
+				"no_results_html": {{ 'general.search.no_results_html' | t | json }},
+				"view_all": {{ 'general.search.view_all' | t | json }},
+				"clear": {{ 'general.search.clear' | t | json }},
+				"cart_title": {{ 'cart.general.title' | t | json }},
+				"cart_subtotal": {{ 'cart.general.subtotal' | t | json }},
+				"added_to_cart": {{ 'cart.general.added_to' | t | json }},
+				"removed_from_cart": {{ 'cart.general.removed_from' | t | json }},
+				"cart_item": {{ 'cart.general.item' | t | json }},
+				"slide": {{ 'general.slider.slide' | t | json }},
+				"pause": {{ 'general.slider.pause' | t | json }},
+				"search_found": {{ 'general.search.search_found' | t | json }},
+				"none_found": {{ 'general.search.none_found' | t | json }},
+				"search_result": {{ 'general.search.search_result' | t | json }},
+				"search_result_plural": {{ 'general.search.search_result_plural' | t | json }}
+			},
+			"moneyFormat": {{ shop.money_format | json }}
+		}
+	</script>
+	{% render 'structured-data' %}
+
+        <script defer type="module" src="{{ 'theme.js' | asset_url }}"></script>
+        <script defer nomodule src="{{ 'theme.legacy.js' | asset_url }}"></script>
+  <script defer src="{{ 'cart-preview-sidebar.js' | asset_url }}"></script>
+  <script defer src="{{ 'min-meal-check.js' | asset_url }}"></script>
+  <script defer src="{{ 'product-card.js' | asset_url }}"></script>
+  {% if settings.enable_free_delivery_promo %}
+    <script>
+      window.freeDeliveryPromo = { threshold: {{ settings.free_delivery_threshold | default: 21 }} };
+    </script>
+    <script defer src="{{ 'free-delivery-tracking.js' | asset_url }}"></script>
+  {% endif %}
+    <!-- cedriclajato.com start code -->
+    {% if product.handle == "custom-meals" or product.handle == "custom-breakfast" %}
+    <script defer src="{{ 'macro-calculator.js' | asset_url }}"></script>
+    {% endif %}
+    <!-- cedriclajato.com end code -->
+  <!-- ======================================================================= -->
+<!-- ===== CUSTOM SCRIPT: RIGID CART QUANTITY V8 (FINAL - Elegant Messaging) ===== -->
+<!-- ======================================================================= -->
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const TARGET_VARIANT_ID = '46724314169531';
+  const MAX_QTY = 4;
+  const ERROR_MESSAGE_CLASS = 'custom-cart-feedback';
+
+  // --- [PART 1: 'ADD TO CART' INTERCEPT - NO CHANGES, THIS IS WORKING] ---
+  const handleAddToCartClick = async (e) => {
+    const submitButton = e.currentTarget;
+    const form = submitButton.closest('form[action*="/cart/add"]');
+    if (!form) return;
+    const variantIdInput = form.querySelector('input[name="id"]');
+    if (!variantIdInput || variantIdInput.value !== TARGET_VARIANT_ID) return;
+    e.preventDefault(); e.stopPropagation();
+    const originalButtonText = submitButton.textContent;
+    const quantityToAdd = parseInt(form.querySelector('[name="quantity"]')?.value || '1', 10);
+    let feedbackEl = form.querySelector(`.${ERROR_MESSAGE_CLASS}`);
+    if (!feedbackEl) {
+        feedbackEl = document.createElement('div');
+        feedbackEl.className = ERROR_MESSAGE_CLASS;
+        Object.assign(feedbackEl.style, { color: '#c53030', fontSize: '14px', marginTop: '10px', textAlign: 'center' });
+        const buttonContainer = submitButton.closest('.product-form__buttons, .card__footer, .product-form__buttons-group');
+        if (buttonContainer) buttonContainer.parentNode.insertBefore(feedbackEl, buttonContainer.nextSibling);
+        else submitButton.parentNode.appendChild(feedbackEl);
+    }
+    feedbackEl.textContent = '';
+    submitButton.disabled = true;
+    submitButton.textContent = 'Checking...';
+    try {
+      const cartRes = await fetch('/cart.js');
+      const cart = await cartRes.json();
+      let currentQtyInCart = cart.items.find(item => item.variant_id == TARGET_VARIANT_ID)?.quantity || 0;
+      if (currentQtyInCart + quantityToAdd > MAX_QTY) throw new Error(`Limit of ${MAX_QTY}. You have ${currentQtyInCart} in your cart.`);
+      submitButton.textContent = 'Adding...';
+      const formData = new FormData(form);
+      const addResponse = await fetch('/cart/add.js', { method: 'POST', body: formData });
+      if (!addResponse.ok) throw new Error((await addResponse.json()).description);
+      const newCartData = await addResponse.json();
+      const cartDrawer = document.querySelector('cart-drawer');
+      const cartNotification = document.querySelector('cart-notification');
+      if (cartNotification?.renderContents) cartNotification.renderContents(newCartData);
+      if (cartDrawer?.renderContents) cartDrawer.renderContents(newCartData);
+      submitButton.textContent = originalButtonText;
+      setTimeout(() => { submitButton.disabled = false; }, 2500);
+    } catch (err) {
+      feedbackEl.textContent = err.message;
+      submitButton.textContent = originalButtonText;
+      submitButton.disabled = false;
+    }
+  };
+  
+  // --- [PART 2: CART PAGE ENFORCEMENT WITH ELEGANT MESSAGING] ---
+  const handleCartPageLogic = () => {
+    const cartForm = document.querySelector('form#cartform');
+    if (!cartForm) return;
+
+    const errorBox = document.querySelector('.cart-error-box');
+    const updateButton = cartForm.querySelector('input[name="update"]');
+    
+    // Style the error box so it's ready.
+    Object.assign(errorBox.style, { color: '#2c5282', padding: '15px', border: '1px solid #bee3f8', backgroundColor: '#ebf8ff', marginBottom: '20px', display: 'none', textAlign: 'center', fontWeight: 'bold' });
+
+    // ** New: Check if a message needs to be displayed after a page reload **
+    if (sessionStorage.getItem('cartLimitMessage')) {
+        errorBox.textContent = sessionStorage.getItem('cartLimitMessage');
+        errorBox.style.display = 'block';
+        sessionStorage.removeItem('cartLimitMessage'); // Clear the flag so it only shows once.
+    }
+
+    // A. Handle clicks on the "Update" button
+    if (updateButton) {
+      updateButton.addEventListener('click', () => {
+        const limitedItemRow = cartForm.querySelector(`tr[data-variant-id="${TARGET_VARIANT_ID}"]`);
+        if (limitedItemRow) {
+          const quantityInput = limitedItemRow.querySelector('input.quantity-selector');
+          if (parseInt(quantityInput.value, 10) > MAX_QTY) {
+            // Correct the value in the form BEFORE it submits
+            quantityInput.value = MAX_QTY;
+            // ** New: Set a message to be shown after the cart updates and reloads **
+            sessionStorage.setItem('cartLimitMessage', `The quantity for the Titan Burrito cannot exceed ${MAX_QTY}. We've automatically adjusted it for you.`);
+          }
+        }
+      });
+    }
+
+    // B. Handle clicks on the +/- buttons for instant feedback
+    cartForm.addEventListener('click', (e) => {
+      const isPlus = e.target.matches('.qty-plus');
+      if (!isPlus) return;
+      const itemRow = e.target.closest(`tr[data-variant-id="${TARGET_VARIANT_ID}"]`);
+      if (!itemRow) return;
+      const qtyInput = itemRow.querySelector('input.quantity-selector');
+      if (parseInt(qtyInput.value, 10) >= MAX_QTY) {
+        e.preventDefault();
+        e.stopPropagation();
+        qtyInput.value = MAX_QTY; // Ensure it doesn't visually go over
+        errorBox.textContent = `The maximum quantity for the Titan Burrito is ${MAX_QTY}.`;
+        errorBox.style.display = 'block';
+      } else {
+        errorBox.style.display = 'none';
+      }
+    });
+  };
+
+  // --- INITIALIZATION ---
+  const init = () => {
+    document.querySelectorAll('form[action*="/cart/add"] [type="submit"]').forEach(button => {
+        button.removeEventListener('click', handleAddToCartClick);
+        button.addEventListener('click', handleAddToCartClick);
+    });
+    if (document.body.classList.contains('template-cart')) {
+      handleCartPageLogic();
+    }
+  };
+  init();
+  new MutationObserver(init).observe(document.body, { childList: true, subtree: true });
+});
+</script>
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const productForm = document.querySelector('form[action*="/cart/add"]');
+    if (!productForm) return;
+
+    productForm.addEventListener('submit', async (e) => {
+      if (e.defaultPrevented) return;
+      e.preventDefault();
+
+      const submitBtn = productForm.querySelector('button[name="add"]');
+      const textEl = submitBtn?.querySelector('[data-add-to-cart-text]');
+      const originalText = textEl?.textContent || '';
+
+      if (submitBtn && textEl) {
+        submitBtn.disabled = true;
+        submitBtn.classList.add('is-loading');
+      }
+
+      try {
+        const formData = new FormData(productForm);
+        const res = await fetch('/cart/add.js', {
+          method: 'POST',
+          body: formData,
+          headers: { 'x-requested-with': 'XMLHttpRequest' },
+          credentials: 'same-origin'
+        });
+        const data = await res.json();
+        if (!res.ok) throw new Error(data.description || 'Error');
+
+          if (window.cartManager && typeof window.cartManager.render === 'function') {
+            await window.cartManager.render();
+          }
+
+        document
+          .querySelector('#cartSlideoutWrapper')
+          ?.dispatchEvent(new CustomEvent('cart:open', { detail: { silent: true } }));
+      } catch (err) {
+        console.error('Add to cart failed', err);
+        if (textEl) textEl.textContent = originalText;
+      } finally {
+        if (submitBtn) {
+          submitBtn.classList.remove('is-loading');
+          setTimeout(() => {
+            submitBtn.disabled = false;
+          }, 1500);
+        }
+      }
+    });
+  });
+</script>
+
+{% render 'quick-view-modal' %}
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const quickViewModal = document.getElementById('quick-view-modal');
+    if (!quickViewModal) return;
+
+    const body = document.body;
+    const dialog = quickViewModal.querySelector('.quick-view-modal__dialog');
+    const contentBody = quickViewModal.querySelector('.quick-view-modal__body');
+
+    body.addEventListener('click', async (event) => {
+      const trigger = event.target.closest('.js-quick-view-trigger');
+      if (!trigger) return;
+
+      event.preventDefault();
+      const productHandle = trigger.dataset.handle;
+      if (!productHandle) return;
+
+      body.classList.add('quick-view-open');
+      quickViewModal.setAttribute('aria-hidden', 'false');
+      dialog.classList.add('is-loading');
+
+      try {
+        const response = await fetch(`/products/${productHandle}?view=quick_view`);
+        if (!response.ok) throw new Error('Network response was not ok.');
+        const productHtml = await response.text();
+        
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(productHtml, 'text/html');
+        
+        const imageElement = doc.querySelector('[data-quick-view-source="image"] img');
+        const imageSrc = imageElement ? imageElement.src : '';
+        const title = doc.querySelector('[data-quick-view-source="title"]')?.textContent || '';
+        const description = doc.querySelector('[data-quick-view-source="description"]')?.innerHTML || '';
+        const macros = doc.querySelector('[data-quick-view-source="macros"]')?.innerHTML || '';
+        const accordion = doc.querySelector('[data-quick-view-source="accordion"]')?.innerHTML || '';
+        
+        populateModal({ imageSrc, title, description, macros, accordion });
+        
+      } catch (error) {
+        console.error('Failed to fetch product data:', error);
+      } finally {
+        dialog.classList.remove('is-loading');
+      }
+    });
+
+    const closeTriggers = quickViewModal.querySelectorAll('[data-quick-view-close]');
+    closeTriggers.forEach(trigger => {
+      trigger.addEventListener('click', () => closeModal());
+    });
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && body.classList.contains('quick-view-open')) {
+        closeModal();
+      }
+    });
+    
+    function closeModal() {
+      body.classList.remove('quick-view-open');
+      quickViewModal.setAttribute('aria-hidden', 'true');
+    }
+
+    function populateModal(data) {
+        const imageEl = contentBody.querySelector('[data-quick-view-image]');
+        if (imageEl) {
+          imageEl.src = data.imageSrc;
+          imageEl.style.display = data.imageSrc ? '' : 'none';
+        }
+
+        contentBody.querySelector('[data-quick-view-title]').textContent = data.title;
+        contentBody.querySelector('[data-quick-view-description]').innerHTML = data.description;
+        contentBody.querySelector('[data-quick-view-macros]').innerHTML = data.macros;
+        contentBody.querySelector('[data-quick-view-accordion]').innerHTML = data.accordion;
+
+        const priceEl = contentBody.querySelector('[data-quick-view-price]');
+        if (priceEl) priceEl.style.display = 'none';
+    }
+  });
+</script>
+
+</body>
+
+</html>

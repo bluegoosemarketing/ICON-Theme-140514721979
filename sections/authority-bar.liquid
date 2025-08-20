@@ -1,0 +1,164 @@
+{% comment %}
+  ICON Meals - Authority Bar [v7.0 - Refined Trust Bar]
+  Purpose: A definitive redesign based on precise user feedback. Restores the white background and implements the correct mobile layout with stars and rating on a single line.
+{% endcomment %}
+
+<div class="authority-bar-section-v4" id="icon-authority-bar-container-v4" style="visibility: hidden; opacity: 0;">
+  <div class="page-width">
+    <a href="/pages/reviews" class="authority-bar__link-v4" aria-label="View all customer reviews">
+      <div class="authority-bar__content-v4">
+        <div class="authority-bar__rating-line-v4">
+          <span class="authority-bar__stars-v4" id="icon-authority-stars-v4">★★★★★</span>
+          <span class="authority-bar__score-v4" id="icon-authority-score-v4"><strong>4.8/5.0</strong></span>
+        </div>
+        <span class="authority-bar__based-on-v4" id="icon-authority-based-on-v4">based on <strong>7,500+</strong> reviews</span>
+      </div>
+    </a>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const yotpoAppKey = 'SYPf8JLu0vVWFK0rW9gwMFln362yh2xvyfzVeCS6';
+    const apiUrl = `https://api.yotpo.com/v1/widget/${yotpoAppKey}`;
+    
+    const container = document.getElementById('icon-authority-bar-container-v4');
+    const starsEl = document.getElementById('icon-authority-stars-v4');
+    const scoreEl = document.getElementById('icon-authority-score-v4');
+    const basedOnEl = document.getElementById('icon-authority-based-on-v4');
+
+    const renderAuthorityBar = (avgScore, totalReviews) => {
+      const starRating = '★'.repeat(Math.round(avgScore)) + '☆'.repeat(5 - Math.round(avgScore));
+      const score = parseFloat(avgScore).toFixed(1);
+      const reviews = totalReviews.toLocaleString();
+
+      starsEl.textContent = starRating;
+      scoreEl.innerHTML = `<strong>${score}/5.0</strong>`;
+      basedOnEl.innerHTML = `based on <strong>${reviews}</strong> reviews`;
+
+      container.style.visibility = 'visible';
+      container.style.opacity = '1';
+    };
+
+    fetch(apiUrl)
+      .then(response => {
+        if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+        return response.json();
+      })
+      .then(data => {
+        if (data?.response?.bottomline) {
+          const { average_score, total_review } = data.response.bottomline;
+          renderAuthorityBar(average_score, total_review);
+        } else {
+          throw new Error('Yotpo data format unexpected.');
+        }
+      })
+      .catch(error => {
+        console.warn('Yotpo API failed. Displaying static fallback data.', error);
+        container.style.visibility = 'visible';
+        container.style.opacity = '1';
+      });
+  });
+</script>
+
+<style>
+  .authority-bar-section-v4 {
+    background-color: #FFFFFF !important; /* CORRECTED: Restored white background */
+    border-top: 1px solid #EAEAEA !important;
+    border-bottom: 1px solid #EAEAEA !important;
+    padding: 30px 20px !important;
+    text-align: center !important;
+    transition: opacity 0.6s ease-in-out !important;
+    cursor: pointer;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+  }
+  
+  .authority-bar__link-v4 {
+    text-decoration: none !important;
+    display: inline-block;
+    transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) !important;
+  }
+  
+  .authority-bar__link-v4:hover {
+    transform: scale(1.03);
+  }
+
+  /* Mobile-First: Stacked layout with a combined rating line */
+  .authority-bar__content-v4 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px; /* Space between the rating line and the "based on" text */
+  }
+
+  /* CORRECTED: The line containing stars and score */
+  .authority-bar__rating-line-v4 {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .authority-bar__stars-v4 {
+    color: #FFC107 !important;
+    font-size: 24px !important;
+    letter-spacing: 3px !important;
+    line-height: 1 !important;
+  }
+  
+  .authority-bar__score-v4 {
+    font-size: 18px !important;
+    color: #333333 !important;
+    font-weight: 500 !important;
+    line-height: 1 !important;
+  }
+  
+  .authority-bar__based-on-v4 {
+    font-size: 15px;
+    color: #4B5563;
+  }
+
+  .authority-bar__score-v4 strong,
+  .authority-bar__based-on-v4 strong {
+    color: #000000 !important;
+    font-weight: 700 !important;
+  }
+  
+  /* Desktop: Transition to a single horizontal layout */
+  @media (min-width: 769px) {
+    .authority-bar-section-v4 {
+      padding: 20px 0 !important;
+    }
+    .authority-bar__content-v4 {
+      flex-direction: row !important;
+      gap: 12px !important;
+    }
+    .authority-bar__rating-line-v4 {
+      gap: 12px !important;
+    }
+    .authority-bar__stars-v4 {
+      font-size: 20px !important;
+    }
+    .authority-bar__score-v4 {
+      font-size: 16px !important;
+    }
+    .authority-bar__based-on-v4 {
+      font-size: 16px !important;
+      color: #333333 !important;
+    }
+  }
+</style>
+
+{% schema %}
+{
+  "name": "Authority Bar",
+  "class": "authority-bar-wrapper",
+  "settings": [],
+  "presets": [
+    {
+      "name": "Authority Bar"
+    }
+  ]
+}
+{% endschema %}

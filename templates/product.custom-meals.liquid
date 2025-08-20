@@ -1,0 +1,21 @@
+{% comment %}
+  Custom product template for /products/custom-meals
+  Displays the existing product builder inside a collection-style grid layout.
+{% endcomment %}
+
+<div class="container--collection-page">
+  <div class="collection-page__layout">
+    <main class="collection-page__main">
+      <div id="CollectionProductGrid">
+        <ol class="product-grid" data-paginate-items="1">
+          <li class="grid__item custom-meals-card">
+            {% section 'template--product' %}
+          </li>
+        </ol>
+      </div>
+    </main>
+    <aside class="collection-page__sidebar">
+      {% render 'cart-preview-sidebar' %}
+    </aside>
+  </div>
+</div>

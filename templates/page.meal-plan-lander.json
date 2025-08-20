@@ -1,0 +1,416 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "text_rich_text_icNqmf": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "Tired of being lost on your fitness journey?",
+        "text": "<p>We're here to help! We've teamed up with ICON Meals to provide YOU with a solid meal plan PLUS 4 weeks of FREE online nutrition & fitness coaching from our expert coaches.</p>",
+        "button_link": "shopify://products/build-your-own-meal-plan-chris-and-eric-martinez",
+        "button_label": "Pick Your Meals"
+      }
+    },
+    "video_video_UYhT9M": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://vimeo.com/914880522?share=copy",
+        "autoplay": false,
+        "loop": true,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "text_rich_text_bEtBdG": {
+      "type": "text--rich-text",
+      "settings": {
+        "width": "medium",
+        "subheading": "",
+        "title": "How It Works",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_YX4WVN": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_xQ8AMW": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/step-1_e769b119-ad49-4c33-a7e6-b448bd948359.webp",
+            "link": "",
+            "title": "1. Build Your Meal Plan With A Few Clicks",
+            "description": "<p>Simply click the meals and delivery frequency. We'll prep and deliver the meals to you. Change meals any time!</p>"
+          }
+        },
+        "image_bxMDyW": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/step-2_45eafb8c-396e-4e8e-8b11-a7cce710af04.webp",
+            "link": "",
+            "title": "2. Unlock 4 FREE Weeks of Online Coaching",
+            "description": "<p>Shortly after your purchase, a licensed online health & fitness coach will reach out to you and coach you directly for FREE for 4 weeks.</p>"
+          }
+        },
+        "image_qykUM7": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/step-3_95cd655d-bad7-4a96-8c55-7bbc45445e03.webp",
+            "link": "",
+            "title": "3. Stay Accountable & Reach Your Goals",
+            "description": "<p>We want you to reach your goals! We'll provide the tools to help you stay on track with your fitness journey.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "image_xQ8AMW",
+        "image_bxMDyW",
+        "image_qykUM7"
+      ],
+      "settings": {}
+    },
+    "text_image_with_text_eVDwYj": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/coach_network.png",
+        "layout": "left",
+        "subheading": "",
+        "title": "Real Coaches. Real Results.",
+        "text_block": "<p>We'll connect you with a professional online coach to help you reach your fitness and health goals.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "image_gallery_TNeNxJ": {
+      "type": "image--gallery",
+      "blocks": {
+        "image_9RhDRa": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/ayda-testimonial.webp",
+            "link": "",
+            "title": "",
+            "description": ""
+          }
+        },
+        "image_Pn6qXW": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/jami-testimonial.webp",
+            "link": "",
+            "title": "",
+            "description": ""
+          }
+        },
+        "image_z4YkiH": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/samantha-testimonial.webp",
+            "link": "",
+            "title": "",
+            "description": ""
+          }
+        },
+        "image_TXrGGd": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/devin-testimonial.webp",
+            "link": "",
+            "title": "",
+            "description": ""
+          }
+        }
+      },
+      "block_order": [
+        "image_9RhDRa",
+        "image_Pn6qXW",
+        "image_z4YkiH",
+        "image_TXrGGd"
+      ],
+      "settings": {}
+    },
+    "text_testimonials_hLpEgz": {
+      "type": "text--testimonials",
+      "blocks": {
+        "textarea_tKRqzg": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"I noticed after 4 weeks my flexibility improved and my endurance, in one weeks' time I did all 3 workouts and shoveled my driveway twice with no problems unlike before.\"</p>",
+            "author": "Michelle w/ Coach Misty",
+            "link": ""
+          }
+        },
+        "textarea_jQYeNz": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"I can honestly say that Charis has changed my life. With her guidance and support, I have been able to find a healthy path in life after having been faced with some difficult challenges. Charis has always been there to work with me to find out what my goals and needs are, and to find healthy solutions and routines that fit well into my busy life. Because of her, I have been able to become a healthier version of myself.\"</p>",
+            "author": "Stacey M. w/coach charis",
+            "link": ""
+          }
+        },
+        "textarea_zGcyUt": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Coach Jami has significantly inspired me in my fitness journey. When I began my fitness journey l was intimidated. She helped me feel confident and comfortable in what I was doing and improved my form while doing that too. She's knowledgeable and has kept me safe while lifting heavy weights too. Thank you, Coach Jami for all you've done for me!\"</p>",
+            "author": "Cassandra C. w/coach Jami",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "textarea_tKRqzg",
+        "textarea_jQYeNz",
+        "textarea_zGcyUt"
+      ],
+      "settings": {
+        "subheading": "What our clients are saying",
+        "title": "Online Coaching Transformations",
+        "stars-color": "#FF9529"
+      }
+    },
+    "image_image_with_text_block_qBkFYi": {
+      "type": "image--image-with-text-block",
+      "disabled": true,
+      "settings": {
+        "background_image": "shopify://shop_images/coach_network.png",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "Get Started Today",
+        "title": "A happier, healthier you is waiting!",
+        "text": "<p>Let us help you get on track and hit your fitness goals</p>",
+        "button_link": "shopify://products/build-your-own-meal-plan-chris-and-eric-martinez",
+        "button_label": "Pick Your Meals"
+      }
+    },
+    "text_text_adverts_6BnQTh": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "text_hW9ECH": {
+          "type": "text",
+          "settings": {
+            "icon": "heart",
+            "heading": "4 Weeks of Free Online Coaching",
+            "subheading": "Let Dynamic Fit Pros & ICON Meals help you reach your goals",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "text_iwFWV9": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "No Fuss Meal Plan",
+            "subheading": "Skip the grocery list and build your first meal plan in seconds",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "text_FjdT34": {
+          "type": "text",
+          "settings": {
+            "icon": "star",
+            "heading": "Accountability Redefined",
+            "subheading": "The nudge you need to create better eating & fitness habits",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "text_hW9ECH",
+        "text_iwFWV9",
+        "text_FjdT34"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "text_image_with_text_7jbDPF": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/coaches_61553ee6-1b91-41e7-b3a2-28fea6f71eaa.webp",
+        "layout": "left",
+        "subheading": "Meet Chris & Eric",
+        "title": "We Want You To Win!",
+        "text_block": "<p>Chris & Eric Martinez (Dynamic Fit Pros) have been helping health and fitness enthusiasts build & grow their online fitness coaching businesses. This has led them to build an incredible network of online coaches who are changing thousands of lives. Now, teaming up with ICON Meals, the dynamic duo want to provide YOU with everything you need to create lasting change in your fitness journey.</p>",
+        "button_link": "shopify://products/build-your-own-meal-plan-chris-and-eric-martinez",
+        "button_label": "Pick Your Meals"
+      }
+    },
+    "text_image_with_text_N4dVC8": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/meal-plan-keto.webp",
+        "layout": "right",
+        "subheading": "Healthy Meals Delivered To Your Door",
+        "title": "Let ICON Meals Handle The Meal Prep",
+        "text_block": "<p>ICON Meals does all the hard work so you can focus on what matters. Just click the meals you want in your meal plan, and our culinary experts will prep and cook your meals fresh. ICON Meals has been in the meal prep industry for nearly a decade, and are industry-leaders in the space. Teaming up with licensed, professional coaches to help YOU succeed is a no-brainer, and the team at ICON is excited to be a part!</p>",
+        "button_link": "shopify://products/build-your-own-meal-plan-chris-and-eric-martinez",
+        "button_label": "Pick Your Meals"
+      }
+    },
+    "accordion_fXmTEy": {
+      "type": "accordion",
+      "blocks": {
+        "tab_content_rXrAex": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Is there a catch?",
+            "text": "<p>No catch! We want to help you succeed. That's why ICON Meals teamed up with Chris & Eric (Dynamic Fit Pros) to provide you with 4 weeks of completely FREE online health & fitness coaching when you get started with this meal plan.</p>"
+          }
+        },
+        "tab_content_jpKTTi": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Do I have to prep the meals?",
+            "text": "<p>No! Meals are individually vacuum sealed and ready to heat and eat. It's really that easy! Just pop the meals in the microwave for 2-3 minutes and you're done!</p>"
+          }
+        },
+        "tab_content_gTDKXe": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Can I choose my meals?",
+            "text": "<p>Yes! Just click on the \"Pick my meals\" buttons <a href=\"/products/build-your-own-meal-plan-chris-and-eric-martinez\" title=\"Build Your Own Meal Plan with Chris and Eric Martinez\">or click here</a>, and you can pick your first meal plan. After your initial purchase, your personalized coach will help you with your ongoing meal plans to dial in your goals.</p>"
+          }
+        },
+        "tab_content_kPViPQ": {
+          "type": "tab_content",
+          "settings": {
+            "question": "Can I change or cancel my meal plan?",
+            "text": "<p>After your first order, absolutely! If you need to change your meals OR cancel your subscription you can do so very easily. In order to take advantage of the FREE 4 weeks of personalized nutrition & health coaching, you must purchase the first plan at a minimum.</p>"
+          }
+        },
+        "tab_content_WyXq7M": {
+          "type": "tab_content",
+          "settings": {
+            "question": "How many meals do I get?",
+            "text": "<p>You can choose 12 or 24 meals to be delivered to you on a recurring basis.</p>"
+          }
+        },
+        "tab_content_niVJM4": {
+          "type": "tab_content",
+          "settings": {
+            "question": "How often do I receive the meals?",
+            "text": "<p>You choose! Pick between 1 and 2 week intervals.</p>"
+          }
+        }
+      },
+      "block_order": [
+        "tab_content_rXrAex",
+        "tab_content_jpKTTi",
+        "tab_content_gTDKXe",
+        "tab_content_kPViPQ",
+        "tab_content_WyXq7M",
+        "tab_content_niVJM4"
+      ],
+      "settings": {
+        "background-color": "#ffffff",
+        "text-color": "#000000",
+        "title": "Frequently asked questions",
+        "faq_icon": "plus_minus"
+      }
+    },
+    "text_testimonials_8PgBDA": {
+      "type": "text--testimonials",
+      "blocks": {
+        "textarea_eF8wGV": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonialImage": "shopify://shop_images/transformation-aisah.webp",
+            "testimonial": "<p>“The ease, excellence and quality of ICON Meals will always be a part of my daily life. And there's pizza & pancakes! This is a lifestyle tale of success and it is for longevity. It's a marathon and ICON is a part of my story to the finish line.\"</p>",
+            "author": "Aisah H. - A Lifestyle of Success",
+            "link": ""
+          }
+        },
+        "textarea_nFdAaJ": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonialImage": "shopify://shop_images/transformation-erik-a.webp",
+            "testimonial": "<p>“Your meals have been a godsend. they have helped break up the monotony of my diet or days I just don't have it in me to cook. if I am out of prepped meals it saves me from making bad decisions.” </p>",
+            "author": "Erik A. - Breaking Meal Monotony",
+            "link": ""
+          }
+        },
+        "textarea_XGb9FH": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonialImage": "shopify://shop_images/transformation-rachel.webp",
+            "testimonial": "<p>“It's made it simple! I love all the meals and the variety! They are fresh and tasty! I love seeing my icon meals on my door step. It cuts out the stress! \"</p>",
+            "author": "Rachel M. - Cutting Out Stress",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "textarea_eF8wGV",
+        "textarea_nFdAaJ",
+        "textarea_XGb9FH"
+      ],
+      "settings": {
+        "subheading": "Real People. Real Lives Changed.",
+        "title": "Nutrition Transformations",
+        "stars-color": "#ff9529"
+      }
+    },
+    "image_image_with_text_block_U4jbNY": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/icon-06572.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "center",
+        "subheading": "",
+        "title": "Get Started Today!",
+        "text": "<p>Ready to unlock 4 weeks of free online coaching?</p>",
+        "button_link": "shopify://products/build-your-own-meal-plan-chris-and-eric-martinez",
+        "button_label": "Pick My Meals"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "text_rich_text_icNqmf",
+    "video_video_UYhT9M",
+    "text_rich_text_bEtBdG",
+    "image_gallery_YX4WVN",
+    "text_image_with_text_eVDwYj",
+    "image_gallery_TNeNxJ",
+    "text_testimonials_hLpEgz",
+    "image_image_with_text_block_qBkFYi",
+    "text_text_adverts_6BnQTh",
+    "text_image_with_text_7jbDPF",
+    "text_image_with_text_N4dVC8",
+    "accordion_fXmTEy",
+    "text_testimonials_8PgBDA",
+    "image_image_with_text_block_U4jbNY"
+  ]
+}

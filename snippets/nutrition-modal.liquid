@@ -1,0 +1,14 @@
+{%- if product.metafields.nutrition.panel != blank -%}
+
+<button id="myBtn">Nutrition Panel</button>
+
+  <div id="myModal" class="modal">
+      <div class="modal-content">
+          <div class="modal-header"><span class="modalclose">×</span>
+          </div>
+      <div class="modal-body">
+          <img src="{{ product.metafields.nutrition.panel | img_url: '800x800' }}">
+      </div>
+      </div>
+  </div>
+{%- endif -%}

@@ -1,0 +1,224 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "wrapper": "div.index-sections",
+  "sections": {
+    "hero_multiple_selection_AEUztr": {
+      "type": "Hero-Multiple-Selection",
+      "settings": {
+        "credibility_text": "USDA Certified 🇺🇸 Serving the Lower 48",
+        "headline_1": "Win",
+        "headline_2": "Back",
+        "headline_3": "Your Week.",
+        "prop_1_text": "Chef-Crafted & Macro-Balanced",
+        "prop_2_text": "Ready in 2 Minutes",
+        "prop_3_text": "Effortless Results, Delivered",
+        "cta_button_text": "View The Menu"
+      }
+    },
+    "black_friday_2024_hero_99phtq": {
+      "type": "BlackFriday-2024-Hero",
+      "disabled": true,
+      "settings": {}
+    },
+    "authority_bar_grBYWU": {
+      "type": "authority-bar",
+      "name": "Authority Bar",
+      "settings": {}
+    },
+    "homepage_process_PmGH7t": {
+      "type": "Homepage-Process",
+      "name": "How It Works",
+      "settings": {
+        "kicker": "No Subscription Required",
+        "main_title": "Order On Your Terms.",
+        "title_1": "Choose Your Favorites",
+        "description_1": "Select meals from our chef-prepared menu, or build a custom order with your favorite proteins and sides to fit your exact goals.",
+        "title_2": "Prepared Fresh",
+        "description_2": "We cook every meal fresh in our USDA-certified kitchen, then vacuum-seal them to lock in flavor and quality.",
+        "title_3": "Select Your Delivery Date",
+        "description_3": "Choose the delivery date that fits your schedule. We'll ship your order straight to your door, office, or hotel.",
+        "title_4": "Heat & Enjoy",
+        "description_4": "There's zero prep work. Simply heat your meal for two minutes and enjoy delicious, performance-focused nutrition."
+      }
+    },
+    "standards_ApTC3f": {
+      "type": "standards",
+      "name": "The ICON Standard",
+      "settings": {
+        "main_title": "The ICON Standard",
+        "sub_title": "Chef-cooked meals, sealed fresh, delivered ready to fuel your day.",
+        "kicker_color": "#e63946",
+        "image_1": "shopify://shop_images/ICON-Meals_USDA-In-House-Cooked.jpg",
+        "kicker_1": "Safety & Control",
+        "title_1": "Cooked in Our USDA Certified Kitchen",
+        "description_1": "<p>We own the facility and run every step. Each meal clears strict USDA checks before it ships. Heat it, eat it, and feel confident.</p>",
+        "image_2": "shopify://shop_images/ICON-Meals_Performance-Recipes.jpg",
+        "kicker_2": "Balanced Nutrition",
+        "title_2": "Real Meals. Real Macros.",
+        "description_2": "<p>Our chefs build every recipe to hit the right mix of protein, carbs, and fats. You get consistent nutrition that supports fat loss, muscle gain, or steady energy—no measuring needed.</p>",
+        "image_3": "shopify://shop_images/ICON-Meals_Vacum-Sealed.jpg",
+        "kicker_3": "Vacuum-Sealed and Protected",
+        "title_3": "Freshness You Can Taste",
+        "description_3": "<p>Right after cooking, we seal each meal to keep air out and flavor in. No added preservatives, just real food whenever you are ready.</p>"
+      }
+    },
+    "homepage_partners_DVnkxT": {
+      "type": "Homepage-Partners",
+      "settings": {
+        "section_heading": "Supporting the Competitor's Journey"
+      }
+    },
+    "cta_grid_section_KKtenz": {
+      "type": "cta-grid-section",
+      "name": "Category Showcase",
+      "settings": {
+        "kicker": "Your Meals, Your Choice",
+        "main_title": "What Sounds Good?",
+        "image_1": "shopify://shop_images/chicken-pasta-bowl-02.webp",
+        "title_1": "Chef's Signature Meals",
+        "cta_text_1": "View Menu",
+        "link_1": "shopify://collections/signature-menu",
+        "image_2": "shopify://shop_images/Custom-Meals_v1.jpg",
+        "title_2": "Create Custom Meals",
+        "cta_text_2": "Build Yours",
+        "link_2": "shopify://products/custom-meals",
+        "image_3": "shopify://shop_images/Bulk-Meals_v1.jpg",
+        "title_3": "By the Pound",
+        "cta_text_3": "Shop Bulk",
+        "link_3": "shopify://collections/bulk-items",
+        "image_4": "shopify://shop_images/cinnabon-krunch-protein-popcorn-02_2.jpg",
+        "title_4": "Protein Snacks & More",
+        "cta_text_4": "Explore Extras",
+        "link_4": "shopify://collections/proteinpopcorn"
+      }
+    },
+    "1732191728840514d5": {
+      "type": "apps",
+      "blocks": {
+        "yotpo_product_reviews_ugc_reviews_carousel_cgM6bR": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews_carousel/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": ""
+          }
+        }
+      },
+      "block_order": [
+        "yotpo_product_reviews_ugc_reviews_carousel_cgM6bR"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
+    "1649069081fec50968": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069081714998e8-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Having my meals ready to grab and take with me keep me on track with my dietary needs. The hardest part for someone to lose weight is staying consistent with a hectic schedule, ICON helps me to manage that problem.\"</p>",
+            "author": "Erick W.",
+            "link": ""
+          }
+        },
+        "1649069081714998e8-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Great service, shipping quality and food quality. Saves time and keeps my meal planning on track!\"</p>",
+            "author": "Ryan D.",
+            "link": ""
+          }
+        },
+        "1649069081714998e8-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Every meal purchased from ICON is impeccable. The taste, the ease, the convenience all are incredible.<br/>Thank you for making healthy eating tasteful and easy to stay on track.\"</p>",
+            "author": "Barry H.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069081714998e8-0",
+        "1649069081714998e8-1",
+        "1649069081714998e8-2"
+      ],
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "What People Are Saying",
+        "stars-color": "#ec4242"
+      }
+    },
+    "16572160171c020142": {
+      "type": "image--gallery",
+      "blocks": {
+        "16572160171dcb979c-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-partner-mike-ohearn.png",
+            "link": "shopify://collections/signature-menu",
+            "title": "This Week's Menu",
+            "description": "<p><a href=\"/collections/this-weeks-menu\" title=\"This Week's Menu\">Shop Now →</a></p>"
+          }
+        },
+        "16572160171dcb979c-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-boxes.png",
+            "link": "shopify://pages/meal-boxes",
+            "title": "Meal Plans",
+            "description": "<p><a href=\"/pages/meal-boxes\" title=\"Meal Boxes\">Shop Now →</a></p>"
+          }
+        },
+        "16572160171dcb979c-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/header-icon-protein-popcorn.png",
+            "link": "shopify://pages/snacks-more",
+            "title": "Snacks & More",
+            "description": "<p><a href=\"/pages/snacks-more\" title=\"Snacks & More\">Shop Now →</a></p>"
+          }
+        },
+        "45a3bf37-449f-4781-b6c5-62f4aa261c87": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-icon-custom-meals-emily-hayden.png",
+            "link": "shopify://products/custom-meals",
+            "title": "Custom Meals",
+            "description": "<p><a href=\"/products/custom-meals\" title=\"Custom Meal\">Shop Now →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "16572160171dcb979c-0",
+        "16572160171dcb979c-1",
+        "16572160171dcb979c-2",
+        "45a3bf37-449f-4781-b6c5-62f4aa261c87"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero_multiple_selection_AEUztr",
+    "black_friday_2024_hero_99phtq",
+    "authority_bar_grBYWU",
+    "homepage_process_PmGH7t",
+    "standards_ApTC3f",
+    "homepage_partners_DVnkxT",
+    "cta_grid_section_KKtenz",
+    "1732191728840514d5",
+    "1649069081fec50968",
+    "16572160171c020142"
+  ]
+}

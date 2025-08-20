@@ -1,0 +1,46 @@
+{% assign macros = product.metafields.macros %}
+
+<div class="macrowrapperv2">
+  {% if macros.macros_calories != blank %}
+    <div class="macro-item">
+      <span class="macro-value">{{ macros.macros_calories }}</span>
+      <span class="macro-title">Calories</span>
+      <div class="macro-bar calories-bar"></div>
+    </div>
+  {% endif %}
+  {% if macros.macros_protein != blank %}
+    <div class="macro-item">
+      <span class="macro-value">{{ macros.macros_protein }}g</span>
+      <span class="macro-title">Protein</span>
+      <div class="macro-bar protein-bar"></div>
+    </div>
+  {% endif %}
+  {% if macros.macros_carbs != blank %}
+    <div class="macro-item">
+      <span class="macro-value">{{ macros.macros_carbs }}g</span>
+      <span class="macro-title">Carbs</span>
+      <div class="macro-bar carbs-bar"></div>
+    </div>
+  {% endif %}
+  {% if macros.macros_fats != blank %}
+    <div class="macro-item">
+      <span class="macro-value">{{ macros.macros_fats }}g</span>
+      <span class="macro-title">Fats</span>
+      <div class="macro-bar fats-bar"></div>
+    </div>
+  {% endif %}
+  {% if macros.macros_fiber != blank %}
+    <div class="macro-item">
+      <span class="macro-value">{{ macros.macros_fiber }}g</span>
+      <span class="macro-title">Fiber</span>
+      <div class="macro-bar fiber-bar"></div>
+    </div>
+  {% endif %}
+  {% if macros.macros_sodium != blank %}
+    <div class="macro-item">
+      <span class="macro-value">{{ macros.macros_sodium }}mg</span>
+      <span class="macro-title">Sodium</span>
+      <div class="macro-bar sodium-bar"></div>
+    </div>
+  {% endif %}
+</div>

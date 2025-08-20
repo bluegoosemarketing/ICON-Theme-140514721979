@@ -1,0 +1,362 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "cowboys_hero_NArLwD": {
+      "type": "Cowboys-Hero",
+      "settings": {}
+    },
+    "video_video_FGbEV3": {
+      "type": "video--video",
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://vimeo.com/871608622?share=copy#",
+        "autoplay": true,
+        "loop": true,
+        "mute": false,
+        "width_classes": "video-width--100"
+      }
+    },
+    "16529797536fca85fc": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/Cowboys_Meal_GIF-min.gif",
+        "layout": "left",
+        "subheading": "",
+        "title": "Dallas Cowboys & ICON Meals Partnership",
+        "text_block": "<p>We are proud to announce that ICON Meals is the Official Meal Prep Partner of the Dallas Cowboys and the Dallas Cowboys Cheerleaders.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16523801970682e17c": {
+      "type": "text--image-with-text",
+      "disabled": true,
+      "settings": {
+        "image-width": "extra-large",
+        "layout": "right",
+        "subheading": "Eat like an ICON",
+        "title": "",
+        "text_block": "<p><em><strong>\"quote from brand quote from brand quote from brand quote from brand quote from brand quote from brand\"<br/>- Brand CEO</strong></em></p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652975635eec01be5": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/cowboys-bg_1_567c3724-09f3-49c5-8ef7-45322ea08dfd.png",
+        "subheading": "",
+        "title": "Get 40% Off w/Code cowboys40",
+        "text": "<p>*Use code <strong>COWBOYS40</strong> at checkout. Limit 1 use per customer. Can't be used with subscriptions.</p>",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "shop with CODE: COYBOYS40"
+      }
+    },
+    "16529807514a9b1c1c": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1652980750cc79a4e9-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Chef Prepared",
+            "subheading": "With always-fresh ingredients in our USDA certified kitchen.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-1": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Shipped to you",
+            "subheading": "Delivered to your door. Just heat & eat in minutes.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-2": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Subscribe & Save",
+            "subheading": "Save 5% on all meal boxes when you subscribe.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1652980750cc79a4e9-0",
+        "1652980750cc79a4e9-1",
+        "1652980750cc79a4e9-2"
+      ],
+      "settings": {
+        "icon-color": "#ec4242",
+        "text-color": "#ffffff",
+        "background-color": "#000000"
+      }
+    },
+    "1655998593d373f32b": {
+      "type": "product--featured-product",
+      "settings": {
+        "subheading": "",
+        "title": "Featured Product",
+        "featured_product": "icon-meal-plan",
+        "tax_included": false,
+        "shipping_policy": false,
+        "show_discount": "hide",
+        "show_SKU": false,
+        "show_quantity_selector": true,
+        "show_smart_checkout": false,
+        "show_product_description": true,
+        "hide_out_of_stock": false,
+        "enable_video_loop": false
+      }
+    },
+    "165298179764109efd": {
+      "type": "text--rich-text",
+      "disabled": true,
+      "settings": {
+        "width": "medium",
+        "subheading": "Getting Started With ICON Meals",
+        "title": "We've got options!",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652982505b0a5645d": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/cowboys-icon-meals-partnership_b10337b0-6475-4ece-9504-92a43a345186.png",
+        "layout": "right",
+        "subheading": "",
+        "title": "We've Got Options!",
+        "text_block": "<p>From \"build your own\" <strong>custom meals</strong> and our chef-prepared <strong>weekly menu</strong> that offers over 30 incredible meals to <strong>bulk items</strong> for your favorite proteins, carbs, and veggies... we've got you covered. <em>(Don't forget your 40% off code for first-time orders)</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop Now"
+      }
+    },
+    "165599815757f542e6": {
+      "type": "video--video",
+      "disabled": true,
+      "settings": {
+        "subheading": "",
+        "title": "",
+        "url": "https://youtu.be/urz0L8KNazY",
+        "autoplay": false,
+        "loop": false,
+        "mute": false,
+        "width_classes": "video-width--75"
+      }
+    },
+    "1652981122d762eb25": {
+      "type": "image--gallery",
+      "blocks": {
+        "1652981122f9ec0f94-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "link": "shopify://products/custom-meals",
+            "title": "Custom Meals",
+            "description": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your goals.</p><p><a href=\"/products/custom-meals\" title=\"Custom Meal\"><span style=\"text-decoration:underline\">Build Your Meals →</span></a></p>"
+          }
+        },
+        "1652981122f9ec0f94-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "link": "shopify://collections/signature-menu",
+            "title": "Weekly Menu",
+            "description": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p><p><a href=\"/collections/this-weeks-menu\" title=\"This Week's Menu\">See The Menu →</a></p>"
+          }
+        },
+        "1652981122f9ec0f94-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "link": "shopify://collections/bulk-items",
+            "title": "Bulk Items",
+            "description": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p><p><a href=\"/collections/a-la-carte-sides\" title=\"A La Carte\">Shop Bulk Items →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "1652981122f9ec0f94-0",
+        "1652981122f9ec0f94-1",
+        "1652981122f9ec0f94-2"
+      ],
+      "settings": {}
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-1"
+      ],
+      "settings": {
+        "subheading": "It's easy to stay on track with our meal plans",
+        "title": "One-Click or build your own",
+        "collection": "subscription-boxes",
+        "grid": 3,
+        "rows": 3,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "165599846178b78151": {
+      "type": "image--gallery",
+      "blocks": {
+        "1655998461e331f936-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mike-ohearn-titan.webp",
+            "link": "shopify://blogs/news/stay-at-home-strategies-for-your-best-body",
+            "title": "Stay at home strategies for your best body",
+            "description": "<p>You know that diet and exercise are important when it comes to creating your best body, but you may be overlooking other...</p><p><a href=\"/blogs/news/stay-at-home-strategies-for-your-best-body\" title=\"Stay At Home Strategies For Your Best Body\">Read Article</a></p>"
+          }
+        },
+        "1655998461e331f936-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mike-ohearn-family.webp",
+            "link": "shopify://blogs/news/longevity-with-team-icon-meals-athlete-mike-ohearn",
+            "title": "Longevity with Team ICON Meals Athlete Mike O'Hearn",
+            "description": "<p>If I knew then what I know now…⁣ Today isn't your goal.⁣ It never was…⁣and it never should be.⁣ Your goal is tomorrow.⁣ Let me explain…⁣</p><p><a href=\"/blogs/news/longevity-with-team-icon-meals-athlete-mike-ohearn\" title=\"Longevity with Team ICON Meals Athlete Mike O'Hearn\">Read Article</a></p>"
+          }
+        },
+        "1655998461e331f936-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/mike-titan-ohearn-bodybuilder.webp",
+            "link": "",
+            "title": "Don't Mistake Thin For Fit w/ Mike O'Hearn",
+            "description": "<p>Too often thin is mistaken for fit, and that's not what you should strive for. When someone is thin, but has very little muscle tissue, they aren't truly fit.</p><p><a href=\"/blogs/news/don-t-mistake-thin-for-fit\" title=\"Don’t Mistake Thin for Fit\">Read Article</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "1655998461e331f936-0",
+        "1655998461e331f936-1",
+        "1655998461e331f936-2"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "165238003066e8a6db": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/bg-meals-popcorn-sweet.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "left",
+        "subheading": "",
+        "title": "We've got snacks & more!",
+        "text": "<p>From protein-packed popcorn, butters, and bread to waygu beef strips, sauces, coffee and seasonings!</p>",
+        "button_link": "shopify://pages/snacks-more",
+        "button_label": "Shop Snacks & More"
+      }
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Great taste, easy prep, an awesome go to for quick easy meals.\"</p>",
+            "author": "Gregg L.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"I love these meals! They taste great, quick to make, portioned out and already have all the nutrition facts listed! These meals make it much easier to stay on track and not overeat.\"</p>",
+            "author": "Rosemarie S.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"Awesome meals and easy to eat for work.\"</p>",
+            "author": "Brian L.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-1",
+        "1649069606aef06289-2"
+      ],
+      "settings": {
+        "subheading": "Real Reviews From ICON Meals Customers",
+        "title": "What People Are Saying",
+        "stars-color": "#ff9529"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "0881ea2c-d838-4a66-adf7-9ceefee62a16": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/cowboys-bg-3.png",
+        "text-color": "#dedede",
+        "background-color": "#000000",
+        "horizontal-alignment": "center",
+        "subheading": "ICON Meals /// Dallas Cowboys",
+        "title": "Use Code cowboys40 for 40% OFF",
+        "text": "<p><em>Limit 1 user per customer. Use code at checkout. Can't be combined with other deals or discounts. Does not include subscriptions.</em></p>",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop Now"
+      }
+    }
+  },
+  "order": [
+    "cowboys_hero_NArLwD",
+    "video_video_FGbEV3",
+    "16529797536fca85fc",
+    "16523801970682e17c",
+    "1652975635eec01be5",
+    "16529807514a9b1c1c",
+    "1655998593d373f32b",
+    "165298179764109efd",
+    "1652982505b0a5645d",
+    "165599815757f542e6",
+    "1652981122d762eb25",
+    "1649069644f0a79094",
+    "165599846178b78151",
+    "165238003066e8a6db",
+    "1649069606fc034211",
+    "main",
+    "0881ea2c-d838-4a66-adf7-9ceefee62a16"
+  ]
+}

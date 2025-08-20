@@ -1,0 +1,258 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1652975635eec01be5": {
+      "type": "image--image-with-text-overlay",
+      "settings": {
+        "image": "shopify://shop_images/alloy-banner.webp",
+        "subheading": "ICON Meals Official Partner",
+        "title": "Alloy Personal Training",
+        "text": "",
+        "parallax": true,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width",
+        "button_link": "shopify://collections/signature-menu",
+        "button_label": "Shop This Week's Menu"
+      }
+    },
+    "16529797536fca85fc": {
+      "type": "text--image-with-text",
+      "disabled": true,
+      "settings": {
+        "image-width": "medium",
+        "image": "shopify://shop_images/partner-seal-icon-meals-vshred_ba2c8e0f-0392-4d5a-beed-6d0d4e5962a3.png",
+        "layout": "left",
+        "subheading": "official partner",
+        "title": "VSHRED x ICON Meals",
+        "text_block": "<p><strong>VShred has partnered with ICON Meals to deliver meals that work perfect with our most popular fitness programs.</strong> We know that diet is one of the most difficult obstacles and we want to make that easier for you to reach your goals.</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16523801970682e17c": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/alloy-partner-logo.webp",
+        "layout": "right",
+        "subheading": "SINCE 1992, WE HAVE HELPED COUNTLESS PEOPLE GET IN THE BEST SHAPE OF THEIR LIVES.",
+        "title": "",
+        "text_block": "<p>For over 30 years Alloy Personal Training has provided a superior customized personal training system that is uniquely focused on clients who want to be in the best shape of their lives — not just the younger fitness fanatics that many gyms attract. We're now partnering with ICON Meals to provide a complete nutrition solution for you!</p>",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "16529807514a9b1c1c": {
+      "type": "text--text-adverts",
+      "blocks": {
+        "1652980750cc79a4e9-0": {
+          "type": "text",
+          "settings": {
+            "icon": "restaurant",
+            "heading": "Chef Prepared",
+            "subheading": "With always-fresh ingredients in our USDA certified kitchen.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-1": {
+          "type": "text",
+          "settings": {
+            "icon": "map-pin",
+            "heading": "Shipped to you",
+            "subheading": "Delivered to your door. Just heat & eat in minutes.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        },
+        "1652980750cc79a4e9-2": {
+          "type": "text",
+          "settings": {
+            "icon": "home-smile",
+            "heading": "Subscribe & Save",
+            "subheading": "Save 5% on all meal boxes when you subscribe.",
+            "buttonLabel": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1652980750cc79a4e9-0",
+        "1652980750cc79a4e9-1",
+        "1652980750cc79a4e9-2"
+      ],
+      "settings": {
+        "icon-color": "#333333",
+        "text-color": "#000000",
+        "background-color": "#ffffff"
+      }
+    },
+    "1649069644f0a79094": {
+      "type": "collection--featured-collection",
+      "blocks": {
+        "16490696444b6e132a-1": {
+          "type": "product-card-title",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "16490696444b6e132a-1"
+      ],
+      "settings": {
+        "subheading": "It's easy to stay on track with our",
+        "title": "One-Click Meal Plans",
+        "collection": "mealplans",
+        "grid": 4,
+        "rows": 3,
+        "hide_add_to_cart": false,
+        "show_view_all": false
+      }
+    },
+    "165298179764109efd": {
+      "type": "text--rich-text",
+      "disabled": true,
+      "settings": {
+        "width": "medium",
+        "subheading": "Getting Started With ICON Meals",
+        "title": "We've got options!",
+        "text": "",
+        "button_link": "",
+        "button_label": ""
+      }
+    },
+    "1652982505b0a5645d": {
+      "type": "text--image-with-text",
+      "settings": {
+        "image-width": "extra-large",
+        "image": "shopify://shop_images/alloy-partner.webp",
+        "layout": "left",
+        "subheading": "",
+        "title": "We've Got Options!",
+        "text_block": "<p>From <strong>1-click meal plans</strong>, \"build your own\" <strong>custom meals</strong> and our chef-prepared <strong>weekly menu</strong> that offers over 30 incredible meals to <strong>bulk items</strong> for your favorite proteins, carbs, and veggies... we've got you covered.</p>",
+        "button_link": "shopify://pages/mealplans",
+        "button_label": "Shop Meal Plans"
+      }
+    },
+    "1652981122d762eb25": {
+      "type": "image--gallery",
+      "blocks": {
+        "1652981122f9ec0f94-2": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/meal-plan-keto.webp",
+            "link": "shopify://pages/mealplans",
+            "title": "Meal Plans",
+            "description": "<p>Save serious time with our 1-click Meal Plans built for you!</p><p><a href=\"/pages/mealplans\" title=\"ICON Meal Plans\">Shop Meal Plans →</a></p>"
+          }
+        },
+        "1652981122f9ec0f94-0": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/meal-plan-lean.webp",
+            "link": "shopify://products/custom-meals",
+            "title": "Custom Meals",
+            "description": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your goals.</p><p><a href=\"/products/custom-meals\" title=\"Custom Meal\"><span style=\"text-decoration:underline\">Build Your Meals →</span></a></p>"
+          }
+        },
+        "1652981122f9ec0f94-1": {
+          "type": "image",
+          "settings": {
+            "image": "shopify://shop_images/meal-plan-protein.webp",
+            "link": "shopify://collections/signature-menu",
+            "title": "Weekly Menu",
+            "description": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p><p><a href=\"/collections/this-weeks-menu\" title=\"This Week's Menu\">See The Menu →</a></p>"
+          }
+        }
+      },
+      "block_order": [
+        "1652981122f9ec0f94-2",
+        "1652981122f9ec0f94-0",
+        "1652981122f9ec0f94-1"
+      ],
+      "settings": {}
+    },
+    "1649069606fc034211": {
+      "type": "text--testimonials",
+      "blocks": {
+        "1649069606aef06289-0": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"I’ve been using ICON since I started prepping for my first bodybuilding comp in 2017. They are my go-to for work travel. I have food delivered right to hotel. And occasionally for home to save time on meal prep and stay on track when super busy. The food is great and service on point.\"</p>",
+            "author": "Fanny B.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-2": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"The food tastes great, is always fresh, and taking the guesswork out of meal prepping truly makes this company top notch. I've tried some of the cheaper options out there and every time not only do I have regrets, but I return to ICON Meals knowing the products and services are top notch. Could not say enough good things about this company - if you're unsure, pull the trigger! This team will not let you down! :)\"</p>",
+            "author": "Jennifer H.",
+            "link": ""
+          }
+        },
+        "1649069606aef06289-1": {
+          "type": "textarea",
+          "settings": {
+            "stars": "5",
+            "testimonial": "<p>\"ICON Meals are absolutely amazing. These meals are great for hitting your macros and taste amazing. Quick, easy, and so many different menu items. I highly recommend you order some today!!!\"</p>",
+            "author": "Douglas G.",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "1649069606aef06289-0",
+        "1649069606aef06289-2",
+        "1649069606aef06289-1"
+      ],
+      "settings": {
+        "subheading": "Real Reviews From ICON Meals Customers",
+        "title": "What People Are Saying",
+        "stars-color": "#ff9529"
+      }
+    },
+    "165238003066e8a6db": {
+      "type": "image--image-with-text-block",
+      "settings": {
+        "background_image": "shopify://shop_images/bg-meals-popcorn-sweet.jpg",
+        "text-color": "#000000",
+        "background-color": "#ffffff",
+        "horizontal-alignment": "left",
+        "subheading": "",
+        "title": "We've got snacks & more!",
+        "text": "<p>From protein-packed popcorn, butters, and bread to waygu beef strips, sauces, coffee and seasonings!</p>",
+        "button_link": "shopify://pages/snacks-more",
+        "button_label": "Shop Snacks & More"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    }
+  },
+  "order": [
+    "1652975635eec01be5",
+    "16529797536fca85fc",
+    "16523801970682e17c",
+    "16529807514a9b1c1c",
+    "1649069644f0a79094",
+    "165298179764109efd",
+    "1652982505b0a5645d",
+    "1652981122d762eb25",
+    "1649069606fc034211",
+    "165238003066e8a6db",
+    "main"
+  ]
+}

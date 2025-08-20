@@ -1,0 +1,66 @@
+{% comment %}
+  TEMPLATE: product.quick_view.liquid
+  This is a data-only template used to populate the Quick View modal.
+  It is fetched by JavaScript and parsed for its content.
+  - `layout none` prevents the theme's main layout from being rendered.
+  - Each `data-quick-view-source` attribute corresponds to a piece of data
+    the modal's JavaScript is looking for.
+{% endcomment %}
+{% layout none %}
+
+{%- liquid
+  assign featured_image = product.featured_image
+  assign macros = product.metafields.macros
+  assign nutrition = product.metafields.nutrition
+  assign macros_exist = false
+  if macros.macros_calories != blank or macros.macros_protein != blank or macros.macros_carbs != blank or macros.macros_fats != blank or macros.macros_fiber != blank or macros.macros_sodium != blank
+    assign macros_exist = true
+  endif
+-%}
+
+{% comment %} --- DATA SOURCES FOR JAVASCRIPT --- {% endcomment %}
+<div data-quick-view-source="image">
+  <img src="{{ featured_image | image_url: width: 800 }}" alt="{{ featured_image.alt | escape }}">
+</div>
+
+<h1 data-quick-view-source="title">{{ product.title }}</h1>
+
+<div data-quick-view-source="price">{{ product.price | money }}</div>
+
+<div data-quick-view-source="description">{{ product.description }}</div>
+
+<div data-quick-view-source="macros">
+  {%- if macros_exist -%}
+    <div class="product-macros-block">
+      {%- if macros.macros_calories != blank -%}<div class="macro-stat macro-stat--calories"><span class="macro-stat__value">{{ macros.macros_calories }}</span><span class="macro-stat__label">Calories</span></div>{%- endif -%}
+      {%- if macros.macros_protein != blank -%}<div class="macro-stat macro-stat--protein"><span class="macro-stat__value">{{ macros.macros_protein }}g</span><span class="macro-stat__label">Protein</span></div>{%- endif -%}
+      {%- if macros.macros_carbs != blank -%}<div class="macro-stat macro-stat--carbs"><span class="macro-stat__value">{{ macros.macros_carbs }}g</span><span class="macro-stat__label">Carbs</span></div>{%- endif -%}
+      {%- if macros.macros_fats != blank -%}<div class="macro-stat macro-stat--fats"><span class="macro-stat__value">{{ macros.macros_fats }}g</span><span class="macro-stat__label">Fats</span></div>{%- endif -%}
+      {%- if macros.macros_fiber != blank -%}<div class="macro-stat macro-stat--fiber"><span class="macro-stat__value">{{ macros.macros_fiber }}g</span><span class="macro-stat__label">Fiber</span></div>{%- endif -%}
+      {%- if macros.macros_sodium != blank -%}<div class="macro-stat macro-stat--sodium"><span class="macro-stat__value">{{ macros.macros_sodium }}mg</span><span class="macro-stat__label">Sodium</span></div>{%- endif -%}
+    </div>
+  {%- endif -%}
+</div>
+
+<div data-quick-view-source="accordion">
+  <div class="product-accordion">
+    {%- if nutrition.ingredients.value != blank -%}
+      <details class="product-accordion__item">
+        <summary>Ingredients <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+        <div class="product-accordion__content rte">{{ nutrition.ingredients.value }}</div>
+      </details>
+    {%- endif -%}
+    {%- if nutrition.allergens.value != blank -%}
+      <details class="product-accordion__item">
+        <summary>Allergens <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+        <div class="product-accordion__content rte">{{ nutrition.allergens.value }}</div>
+      </details>
+    {%- endif -%}
+    {%- if nutrition.instructions.value != blank -%}
+      <details class="product-accordion__item">
+        <summary>Heating Instructions <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary>
+        <div class="product-accordion__content rte">{{ nutrition.instructions.value }}</div>
+      </details>
+    {%- endif -%}
+  </div>
+</div>

@@ -1,0 +1,88 @@
+{% comment %}
+  LEAD DEVELOPER REVISION V6.0:
+  This file is no longer in use. The new filter bar is implemented directly in
+  `sections/template--collection.liquid`. The content has been commented out to
+  prevent it from rendering.
+{% endcomment %}
+
+{% comment %}
+<facet-filters-form class="facets">
+  <form id="FacetFiltersForm" class="facets__form">
+    {%- if results.terms -%}
+      <input type="hidden" name="q" value="{{ results.terms | escape }}">
+      <input name="options[prefix]" type="hidden" value="last">
+    {%- endif -%}
+
+    <div class="facets__wrapper">
+      <button type="button" class="facets__open-btn">
+        <span>{{ 'sections.collection_template.filter_and_sort' | t }}</span>
+        {%- render 'icon-caret' -%}
+      </button>
+
+      <div class="facets__container">
+        <div class="facets__header">
+          <h2 class="facets__heading h4">{{ 'sections.collection_template.filter_by_label' | t }}</h2>
+          <button type="button" class="facets__close-btn" aria-label="{{ 'general.accessibility.close' | t }}">
+            {%- render 'icon-close' -%}
+          </button>
+        </div>
+
+        <div class="facets__body">
+          <div class="facets__body-inner">
+            {%- for filter in results.filters -%}
+              <div class="facet-group">
+                <h3 class="facet-group__title">{{ filter.label | escape }}</h3>
+                <ul class="facet-group__list list-unstyled" role="list">
+                  {%- for value in filter.values -%}
+                    <li>
+                      <label for="Filter-{{ filter.param_name }}-{{ forloop.index }}" class="facet-checkbox{% if value.count == 0 and value.active == false %} facet-checkbox--disabled{% endif %}">
+                        <input type="checkbox" name="{{ value.param_name }}" value="{{ value.value }}" id="Filter-{{ filter.param_name }}-{{ forloop.index }}" {% if value.active %}checked{% endif %} {% if value.count == 0 and value.active == false %}disabled{% endif %}>
+                        <span>{{ value.label | escape }} ({{ value.count }})</span>
+                      </label>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endfor -%}
+          </div>
+        </div>
+
+        <div class="facets__footer">
+          {%- if total_active_values > 0 -%}
+            <a href="{{ results.url }}?sort_by={{ sort_by }}" class="facets__clear-btn js-facet-remove">{{ 'sections.collection_template.clear_all' | t }}</a>
+          {%- endif -%}
+          <button type="button" class="facets__apply-btn">{{ 'sections.collection_template.apply' | t }}</button>
+        </div>
+
+      </div>
+    </div>
+    
+    {% if enable_sorting %}
+      <div class="facets__sort-by">
+        <label for="SortBy" class="visually-hidden">{{ 'sections.collection_template.sort_by_label' | t }}</label>
+        <select name="sort_by" class="facets__sort" id="SortBy">
+          {%- for option in results.sort_options -%}
+            <option value="{{ option.value | escape }}" {% if option.value == sort_by %}selected="selected"{% endif %}>{{ 'sections.collection_template.sort_by_label' | t }}: {{ option.name | escape }}</option>
+          {%- endfor -%}
+        </select>
+        {%- render 'icon-caret' -%}
+      </div>
+    {% endif %}
+
+    <div class="active-facets-wrapper">
+      <div class="active-facets">
+        {%- for filter in results.filters -%}
+          {%- for value in filter.active_values -%}
+            <a class="active-facets__button js-facet-remove" href="{{ value.url_to_remove }}">
+              <span class="active-facets__button-inner">
+                {{ filter.label | escape }}: {{ value.label | escape }}
+                {%- render 'icon-close' -%}
+              </span>
+            </a>
+          {%- endfor -%}
+        {%- endfor -%}
+      </div>
+    </div>
+  </form>
+</facet-filters-form>
+{% endcomment %}

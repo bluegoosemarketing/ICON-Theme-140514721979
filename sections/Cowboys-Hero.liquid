@@ -1,0 +1,454 @@
+<!-- Dallas Cowboys Hero Section -->
+<section class="cowboys-hero-section">
+  <div class="cowboys-hero-content">
+    <!-- Removed Dallas Cowboys logo block -->
+    <h1 class="cowboys-hero-heading">
+      <span class="cowboys-hero-heading-desktop">Get 40% OFF w/Code COWBOYS40</span>
+      <span class="cowboys-hero-heading-mobile">Get 40% OFF<br>w/Code COWBOYS40</span>
+    </h1>
+    <h2 class="cowboys-hero-subheading">
+      The Official Meal Prep Partner of the Dallas Cowboys & Dallas Cowboys Cheerleaders. Fresh, healthy meals delivered straight to your doorstep. Use code <strong>COWBOYS40</strong> at checkout. Limit 1 use per customer.
+    </h2>
+    <button id="cowboys-open-modal-btn" class="cowboys-hero-button">
+      Get 40% Off! <span class="cowboys-button-arrow">→</span>
+    </button>
+  </div>
+</section>
+
+<!-- Modal for Options Selection -->
+<div id="cowboys-options-modal" class="cowboys-modal" role="dialog" aria-modal="true">
+  <div class="cowboys-modal-content">
+    <span class="cowboys-close" aria-label="Close">&times;</span>
+    <h2 class="cowboys-modal-heading">Choose a Category</h2>
+    <ul class="cowboys-options-list">
+      <li>
+        <a
+          href="https://iconmeals.com/collections/this-weeks-menu?discount=COWBOYS40"
+          class="cowboys-icon-category-button cowboys-button-signature"
+        >
+          <span>Signature Menu</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://iconmeals.com/pages/mealplans?discount=COWBOYS40"
+          class="cowboys-icon-category-button cowboys-button-meal-plans"
+        >
+          <span>Meal Plans</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://iconmeals.com/products/custom-meals?discount=COWBOYS40"
+          class="cowboys-icon-category-button cowboys-button-custom"
+        >
+          <span>Custom Meals</span>
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://iconmeals.com/collections/bulk-items?discount=COWBOYS40"
+          class="cowboys-icon-category-button cowboys-button-bulk"
+        >
+          <span>Bulk Proteins/Sides</span>
+        </a>
+      </li>
+    </ul>
+    <p class="cowboys-modal-callout">
+      Welcome! Enjoy <strong style="color:#000;">40% Off</strong> your first order. Code <strong style="color:#e63946;">COWBOYS40</strong> applies when you select an option above.
+    </p>
+  </div>
+</div>
+
+<style>
+/* Dallas Cowboys Hero Section Styles */
+.cowboys-hero-section {
+  position: relative;
+  width: 100%;
+  /* Updated color scheme: Dallas Cowboys navy to black */
+  background: linear-gradient(to bottom, #041E42, #000000);
+  padding: 40px 0 80px;
+}
+
+.cowboys-hero-content {
+  text-align: center;
+  color: #ffffff;
+  margin: 0 auto;
+  max-width: 800px;
+  padding: 0 20px;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Removed .cowboys-hero-badge-container and .cowboys-hero-badge styles */
+
+.cowboys-hero-heading {
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #ffffff;
+  line-height: 1.2;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: 'Poppins', sans-serif;
+  font-size: 2.1rem; /* Default for desktop */
+}
+
+.cowboys-hero-heading-desktop {
+  display: inline;
+}
+
+.cowboys-hero-heading-mobile {
+  display: none;
+  font-size: 2.1rem;
+}
+
+.cowboys-hero-subheading {
+  font-size: 1.25rem;
+  font-weight: 400;
+  margin-bottom: 30px;
+  color: #ffffff;
+  line-height: 1.4;
+  text-transform: none;
+  letter-spacing: 0;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Button */
+.cowboys-hero-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 14px 32px !important;
+  background-color: #e63946 !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-size: 1rem !important;
+  font-weight: 600 !important;
+  border-radius: 6px !important;
+  transition: background-color 0.3s ease, transform 0.3s ease !important;
+  border: none !important;
+  cursor: pointer !important;
+  opacity: 1 !important;
+  font-family: 'Poppins', sans-serif;
+  letter-spacing: 0;
+  margin-top: 20px;
+}
+
+.cowboys-hero-button .cowboys-button-arrow {
+  display: inline-block !important;
+  margin-left: 8px !important;
+  transition: transform 0.3s ease !important;
+}
+
+.cowboys-hero-button:hover {
+  background-color: #ed3240 !important;
+  transform: translateY(-2px) !important;
+}
+
+.cowboys-hero-button:hover .cowboys-button-arrow {
+  transform: translateX(5px) !important;
+}
+
+/* Modal Styles */
+.cowboys-modal {
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(16, 2, 2, 0.8);
+}
+
+.cowboys-modal-heading {
+  font-size: 1.25rem;
+  font-weight: 600;
+  text-align: center;
+  margin-bottom: 40px;
+  color: #333;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.3;
+}
+
+.cowboys-modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 500px;
+  text-align: center;
+  position: relative;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.4;
+}
+
+.cowboys-close {
+  color: #aaa;
+  position: absolute;
+  top: 15px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+  display: none;
+}
+
+.cowboys-close:hover,
+.cowboys-close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+/* Options List Styles */
+.cowboys-options-list {
+  list-style-type: none;
+  padding: 0;
+  margin: 25px 0 0;
+}
+
+.cowboys-options-list li {
+  margin-bottom: 20px;
+}
+
+/* Category Buttons */
+.cowboys-icon-category-button {
+  display: flex;
+  align-items: center;
+  background-size: cover;
+  background-position: center left;
+  color: black !important;
+  text-align: left;
+  padding: 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  position: relative;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.2;
+  letter-spacing: 0;
+}
+
+.cowboys-icon-category-button,
+.cowboys-icon-category-button:link,
+.cowboys-icon-category-button:visited,
+.cowboys-icon-category-button:hover,
+.cowboys-icon-category-button:active,
+.cowboys-icon-category-button:focus {
+  text-decoration: none !important;
+  opacity: 1 !important;
+}
+
+.cowboys-icon-category-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0);
+  z-index: 1;
+  transition: background 0.3s ease;
+}
+
+.cowboys-icon-category-button span {
+  padding-left: 15px;
+  position: relative;
+  z-index: 2;
+  font-weight: bold;
+  font-size: 1.25rem;
+  font-family: 'Poppins', sans-serif;
+  line-height: 1.2;
+}
+
+.cowboys-modal-callout {
+  margin-top: 30px;
+  font-size: 1rem;
+  color: #333;
+  font-weight: 500;
+  font-family: 'Poppins', sans-serif;
+}
+
+/* Responsive Styles */
+@media (max-width: 767px) {
+  .cowboys-hero-heading-desktop {
+    display: none;
+  }
+  .cowboys-hero-heading-mobile {
+    display: inline;
+  }
+  .cowboys-hero-heading {
+    font-size: 2rem;
+    line-height: 1.3;
+    margin-bottom: 20px;
+  }
+  .cowboys-hero-subheading {
+    font-size: 1.15rem;
+    line-height: 1.5;
+    margin-bottom: 25px;
+  }
+  .cowboys-hero-button {
+    font-size: 1rem !important;
+    padding: 14px 30px !important;
+    margin-top: 25px;
+  }
+  .cowboys-hero-content {
+    padding: 0 20px;
+  }
+  .cowboys-icon-category-button span {
+    font-size: 1.1rem;
+    padding-left: 10px;
+  }
+  .cowboys-icon-category-button span::after {
+    margin-left: 8px;
+    font-size: 0.9rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .cowboys-hero-heading-desktop {
+    display: inline;
+  }
+  .cowboys-hero-heading-mobile {
+    display: none;
+  }
+  .cowboys-hero-heading {
+    font-size: 3rem;
+    line-height: 1.2;
+    margin-bottom: 15px;
+  }
+  .cowboys-hero-subheading {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    margin-bottom: 30px;
+  }
+  .cowboys-hero-button {
+    font-size: 1.1rem !important;
+    padding: 16px 36px !important;
+    margin-top: 20px;
+  }
+  .cowboys-hero-content {
+    padding: 0 20px;
+    width: 80%;
+    max-width: 900px;
+  }
+  .cowboys-icon-category-button span {
+    font-size: 1.2rem;
+    padding-left: 15px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .cowboys-hero-heading {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+  }
+  .cowboys-hero-subheading {
+    font-size: 1.5rem;
+    margin-bottom: 35px;
+  }
+  .cowboys-hero-button {
+    font-size: 1.2rem !important;
+    padding: 18px 40px !important;
+    margin-top: 20px;
+  }
+  .cowboys-hero-content {
+    padding: 0 30px;
+    width: 70%;
+  }
+}
+
+/* Hover Effects for Icon Category Buttons */
+.cowboys-icon-category-button:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cowboys-icon-category-button:hover::before {
+  background: rgba(0, 0, 0, 0);
+}
+
+.cowboys-icon-category-button span::after {
+  content: '➔';
+  margin-left: 10px;
+  font-size: 1.1rem;
+  color: #554c4c;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, transform 0.3s ease, color 0.3s ease, visibility 0.3s ease;
+}
+
+.cowboys-icon-category-button:hover span::after {
+  opacity: 1;
+  visibility: visible;
+  transform: translateX(5px);
+  color: #2f2f2f;
+}
+
+/* Background Images for Buttons */
+.cowboys-button-signature {
+  background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Menu_v1.jpg?v=1731424309');
+}
+
+.cowboys-button-custom {
+  background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Menu_v1.jpg?v=1731435672');
+}
+
+.cowboys-button-bulk {
+  background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Menu_v1.jpg?v=1731435672');
+}
+
+.cowboys-button-meal-plans {
+  background-image: url('https://cdn.shopify.com/s/files/1/1957/2713/files/Meal-Boxes_v2.jpg?v=1731609445');
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('cowboys-options-modal');
+  const openModalBtn = document.getElementById('cowboys-open-modal-btn');
+  const closeModal = document.querySelector('.cowboys-close');
+
+  // Open modal when button is clicked
+  openModalBtn.addEventListener('click', () => {
+    modal.style.display = 'block';
+    document.body.classList.add('modal-open');
+  });
+
+  // Close modal when close button is clicked
+  closeModal.addEventListener('click', () => {
+    modal.style.display = 'none';
+    document.body.classList.remove('modal-open');
+  });
+
+  // Close modal when clicking outside the modal content
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+      document.body.classList.remove('modal-open');
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "Dallas Cowboys Hero",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Dallas Cowboys Hero Section"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Dallas Cowboys Hero Section",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
