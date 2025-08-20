@@ -625,8 +625,17 @@ ol.product-grid {
 .cart-drawer__quantity-value, .cart-sidebar__quantity-value {
   font-size: 0.95rem !important; font-weight: 600 !important; min-width: 32px !important; height: 100% !important;
   text-align: center !important; color: var(--brand-text) !important; background-color: #fff !important;
+  border: none !important;
   border-left: 1px solid #e9ecef !important; border-right: 1px solid #e9ecef !important;
   padding: 0 4px !important; display: flex !important; align-items: center !important; justify-content: center !important;
+  -moz-appearance: textfield !important;
+}
+.cart-drawer__quantity-value::-webkit-outer-spin-button,
+.cart-drawer__quantity-value::-webkit-inner-spin-button,
+.cart-sidebar__quantity-value::-webkit-outer-spin-button,
+.cart-sidebar__quantity-value::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 .cart-drawer__remove-btn, .cart-sidebar__remove-btn {
   grid-column: 3 / 4; align-self: center; display: flex !important; align-items: center !important;

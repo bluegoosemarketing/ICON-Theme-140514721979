@@ -136,8 +136,19 @@
           if (plusButton) newQty = currentQty + 1;
           if (minusButton) newQty = currentQty - 1;
           if (removeButton) newQty = 0;
-          if (typeof newQty !== 'undefined' && key) this.updateQuantity(key, newQty);
+        if (typeof newQty !== 'undefined' && key) this.updateQuantity(key, newQty);
         }
+      });
+
+      document.body.addEventListener('change', (event) => {
+        const input = event.target.closest(selectors.qtyValue);
+        if (!input) return;
+        const cartItem = input.closest(selectors.cartItem);
+        if (!cartItem) return;
+        event.preventDefault();
+        const key = cartItem.dataset.lineKey;
+        const newQty = parseInt(input.value, 10);
+        if (key && !isNaN(newQty)) this.updateQuantity(key, newQty);
       });
     }
 
