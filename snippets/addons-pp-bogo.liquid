@@ -1,0 +1,48 @@
+{%- comment -%}
+  Protein Popcorn BOGO upsell card for add-ons page
+{%- endcomment -%}
+{%- assign dev_flag = request.params.pp_bogo_dev -%}
+{%- assign preview_mode = dev_flag == '1' -%}
+{%- assign enabled = section.settings.enable_pp_bogo -%}
+{%- assign has_blocks = flavor_blocks and flavor_blocks.size > 0 -%}
+{%- if enabled or preview_mode -%}
+<div class="addon-card-v2 addon-card--pp-bogo hidden" data-pp-bogo>
+  <div class="addon-card__body">
+    {%- if preview_mode -%}
+    <div class="pp-bogo-preview-badge">Preview</div>
+    {%- endif -%}
+    <h3 class="addon-card__title">BOGO Protein Popcorn — Savory 4-Pack</h3>
+    <p class="addon-card__note">Qualify with any 14+ meals. Limited time.</p>
+    <div class="addon-card__options">
+      <div class="addon-card__option-group">
+        <label for="pp-bogo-flavor">Flavor</label>
+        <select id="pp-bogo-flavor" data-pp-bogo-flavor>
+          {%- if has_blocks -%}
+            {%- for block in flavor_blocks -%}
+              <option value="{{ block.settings.variant_id }}">{{ block.settings.label }}</option>
+            {%- endfor -%}
+          {%- endif -%}
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="addon-card__footer">
+    <button type="button" class="btn addon-card__add-btn" data-pp-bogo-add>Add BOGO to Order</button>
+    <p class="addon-card__urgency" data-pp-bogo-end>{{ section.settings.pp_bogo_end_text | default: 'Ends Tuesday' }}</p>
+  </div>
+</div>
+{%- if enabled or has_blocks or section.settings.pp_bogo_end_text != blank -%}
+<script>
+  window.ppBogoConfig = window.ppBogoConfig || {};
+  window.ppBogoConfig.enabled = {{ enabled | json }};
+  window.ppBogoConfig.endText = {{ section.settings.pp_bogo_end_text | default: 'Ends Tuesday' | json }};
+  window.ppBogoConfig.flavors = [
+    {%- if has_blocks -%}
+      {%- for block in flavor_blocks -%}
+        { label: {{ block.settings.label | json }}, variantId: {{ block.settings.variant_id | json }} }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    {%- endif -%}
+  ];
+</script>
+{%- endif -%}
+{%- endif -%}

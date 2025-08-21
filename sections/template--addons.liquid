@@ -29,6 +29,7 @@
     assign fallback_product_3 = all_products['butter-herb']
     assign free_delivery_target = settings.free_delivery_threshold | default: 21
     assign remaining_placeholder = '{remaining}'
+    assign pp_bogo_blocks = section.blocks | where: 'type', 'pp_bogo_flavor'
   -%}
 
 <div class="addons-page-wrapper" data-free-delivery-target="{{ free_delivery_target }}">
@@ -83,6 +84,7 @@
 
 
     <div class="addons-grid">
+      {% render 'addons-pp-bogo', section: section, flavor_blocks: pp_bogo_blocks %}
       {%- comment -%} CARD FOR SLOT 1 {%- endcomment -%}
       {%- if slot1_block and slot1_block.settings.product != blank -%}
         {% render 'addons-card', product_obj: slot1_block.settings.product, card_id: 'slot-1', collection_handle: slot1_block.settings.collection_handle, card_description_points: slot1_block.settings.card_description_points, slot: 'slot-1' %}
@@ -344,11 +346,25 @@
   });
 </script>
 {% endif %}
-
+<script src="{{ 'addons-popcorn-bogo.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
   "name": "Add-Ons Page Section",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "enable_pp_bogo",
+      "label": "Enable Protein Popcorn BOGO",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "pp_bogo_end_text",
+      "label": "End date text",
+      "default": "Ends Tuesday"
+    }
+  ],
   "max_blocks": 50,
   "blocks": [
     {
@@ -385,6 +401,14 @@
           "label": "Benefit Points",
           "info": "List key benefits, separated by a pipe character (|). Example: Point one|Point two|Point three"
         }
+      ]
+    },
+    {
+      "type": "pp_bogo_flavor",
+      "name": "BOGO Flavor",
+      "settings": [
+        { "type": "text", "id": "label", "label": "Flavor label" },
+        { "type": "text", "id": "variant_id", "label": "Recharge bundle VARIANT ID (Shopify)" }
       ]
     }
   ],
