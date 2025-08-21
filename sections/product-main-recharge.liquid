@@ -132,7 +132,6 @@
                   <div class="purchase-options__option" data-purchase-option="subscribe">
                     <input type="radio" id="purchase-type-subscribe-{{ section.id }}" name="purchase_type" value="subscribe" {% if has_subscriptions %}checked{% endif %}>
                     <label for="purchase-type-subscribe-{{ section.id }}">
-                      <span class="purchase-options__badge">BEST VALUE</span>
                       <span class="purchase-options__title">Subscribe & Save</span>
                       <span class="purchase-options__price" data-subscribe-price></span>
                     </label>
@@ -277,6 +276,18 @@ customElements.define('product-form-controller', ProductFormController);
 </script>
 
 <style>
+  /* Structural fix: make the custom element a real block and allow grid children to shrink */
+  product-form-controller {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+  }
+  .meal-plan-hero__info,
+  .meal-plan-hero__form {
+    min-width: 0;
+  }
+
   :root {
     --brand-primary: #10B981;
     --brand-primary-light: #D1FAE5;
@@ -300,6 +311,7 @@ customElements.define('product-form-controller', ProductFormController);
     .meal-plan-hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 4rem; }
     .meal-plan-hero__form { position: sticky; top: 2rem; }
   }
+
   .meal-plan-hero__info { display: flex; flex-direction: column; gap: 2rem; }
   .meal-plan-hero__title { font-size: 2.5rem; line-height: 1.1; margin: 0; }
   .meal-plan-hero__hook { font-size: 1.25rem; font-weight: 500; color: var(--color-text-light); margin: 0.5rem 0 0; }
@@ -325,7 +337,7 @@ customElements.define('product-form-controller', ProductFormController);
   .meal-plan-quantity-callout.is-updating { animation: qty-flash 400ms ease-in-out; }
 
   /* --- Form Card --- */
-  .meal-plan-form-card { background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); padding: 1.5rem; width: 100%; }
+  .meal-plan-form-card { background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); padding: 1.5rem; }
   @media (min-width: 768px) { .meal-plan-form-card { padding: 2rem; } }
   .product-form-recharge { display: flex; flex-direction: column; gap: 1.5rem; }
   .form-step__label { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
@@ -337,14 +349,54 @@ customElements.define('product-form-controller', ProductFormController);
   .bold_option_element select { width: 100%; max-width: 100%; }
   .select-wrapper select:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 2px var(--brand-primary-light); }
   .select-wrapper__arrow { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--color-text-light); width: 16px; height: 16px; }
-  .purchase-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
-  .purchase-options__option input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
-  .purchase-options__option label { position: relative; display: flex; flex-direction: column; text-align: center; padding: 0.75rem 1rem; border: 2px solid var(--color-border); background-color: var(--color-surface); border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease-in-out; }
-  .purchase-options__option input[type=radio]:checked + label { border-color: var(--brand-primary); background-color: var(--brand-primary-light); }
-  .purchase-options__title { font-weight: 600; font-size: 0.9rem; color: var(--color-text); }
-  .purchase-options__price { font-weight: 700; font-size: 1.1rem; margin-top: 0.25rem; color: var(--color-text); }
-  .purchase-options__badge { position: absolute; top: -10px; right: -10px; background-color: var(--brand-primary); color: white; font-size: 0.7rem; font-weight: 700; padding: 0.2rem 0.5rem; border-radius: 1rem; text-transform: uppercase; }
-  [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__title, [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__price { color: var(--brand-primary-dark); }
+
+  /* --- [FINAL] Purchase Options Styling (Centered) --- */
+  .purchase-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+  }
+  .purchase-options__option input[type=radio] {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+  .purchase-options__option label {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Vertical centering */
+    align-items: center;     /* Horizontal centering */
+    text-align: center;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-border);
+    background-color: var(--color-surface);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    height: 100%; /* Ensures both boxes are the same height */
+  }
+  .purchase-options__option input[type=radio]:checked + label {
+    border-color: var(--brand-primary);
+    background-color: var(--brand-primary-light);
+  }
+  .purchase-options__title {
+    font-weight: 600;
+    font-size: 0.9rem;
+    color: var(--color-text);
+  }
+  .purchase-options__price {
+    font-weight: 700;
+    font-size: 1.1rem;
+    margin-top: 0.25rem;
+    color: var(--color-text);
+  }
+  [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__title,
+  [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__price {
+    color: var(--brand-primary-dark);
+  }
+  /* --- [END FINAL] --- */
+
   .selling-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 0.5rem; }
   .selling-plan-grid__button { appearance: none; -webkit-appearance: none; background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: var(--color-text-light); cursor: pointer; transition: all 0.2s ease-in-out; text-align: center; }
   .selling-plan-grid__button.is-active { background-color: var(--brand-primary-light); border-color: var(--brand-primary); color: var(--brand-primary-dark); }
@@ -368,10 +420,10 @@ customElements.define('product-form-controller', ProductFormController);
   .meal-plan-assurances { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 3rem 0; padding: 1.5rem; background-color: var(--color-background); border-radius: var(--radius-lg); }
   .meal-plan-assurance { flex: 1 1 180px; text-align: center; font-size: 0.9rem; font-weight: 500; color: var(--color-text-light); }
 
-/* --- [PATCH] Restore Header Cart Count Color --- */
-.collection-header-section-v8__cart-count {
-  color: #000000 !important;
-}
+  /* --- [PATCH] Restore Header Cart Count Color --- */
+  .collection-header-section-v8__cart-count {
+    color: #000000 !important;
+  }
 </style>
 
 {% schema %}
