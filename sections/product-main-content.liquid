@@ -35,7 +35,7 @@
   }
 
   /* Layout */
-  .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 0;}
+  .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 1.2rem;}
   .product-main__visuals-wrapper,.product-main__info-column{display:contents;}
   .product-main__header{order:1;display:flex;flex-direction:column;gap:0.35rem;} /* reduced gap here */
   .product-main__gallery{order:2;}
@@ -116,7 +116,7 @@
   @media (min-width:1024px){
     .product-main__visuals-wrapper,.product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
     .product-main__header,.product-main__gallery,.product-macros-block,.product-description,.product-main__form,.product-accordion,#nutrition-container{order:initial;}
-    .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;}
+    .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
     .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
     .product-main__info-column{grid-area:info;}
     .product-main__title{font-size:2.25rem!important;}
