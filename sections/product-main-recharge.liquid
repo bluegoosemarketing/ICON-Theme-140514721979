@@ -19,24 +19,29 @@
 {% endcomment %}
 
   {%- liquid
-    assign current_variant = product.selected_or_first_available_variant
-    assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
-    assign has_subscriptions = product.selling_plan_groups.size > 0
+  assign current_variant = product.selected_or_first_available_variant
+  assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
+  assign has_subscriptions = false
 
-    assign hero_hook      = product.metafields.plan.hook_line
-    assign stat_cards     = product.metafields.plan.stat_cards_json.value
-    assign who_for_list   = product.metafields.plan.who_for_list.value
+  assign hero_hook     = product.metafields.plan.hook_line
+  assign stat_cards    = product.metafields.plan.stat_cards_json.value
+  assign who_for_list  = product.metafields.plan.who_for_list.value
 
-    assign features_list  = product.metafields.plan.features_json.value
-    if features_list == blank
-      assign features_list = shop.metafields.defaults.features_json.value
-    endif
+  assign features_list   = product.metafields.plan.features_json.value
+  assign assurances_list = product.metafields.plan.assurances_list.value
+-%}
+{% if product.selling_plan_groups.size > 0 %}
+  {%- liquid assign has_subscriptions = true -%}
+{% endif %}
+{%- liquid
+  if features_list == blank
+    assign features_list = shop.metafields.defaults.features_json.value
+  endif
+  if assurances_list == blank
+    assign assurances_list = shop.metafields.defaults.assurances_list.value
+  endif
+-%}
 
-    assign assurances_list = product.metafields.plan.assurances_list.value
-    if assurances_list == blank
-      assign assurances_list = shop.metafields.defaults.assurances_list.value
-    endif
-  -%}
 
 <product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}">
   <div class="meal-plan-hero-container">
