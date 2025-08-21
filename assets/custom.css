@@ -3210,3 +3210,24 @@ body.quick-view-open {
   padding: 0 !important;        /* borders already provide separation */
   box-sizing: border-box !important;
 }
+
+/* Protein Popcorn BOGO card styles */
+.addon-card__note {
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  color: #6c757d;
+}
+.addon-card__urgency {
+  margin-top: 0.5rem;
+  font-size: 0.85rem;
+  color: #dc3545;
+}
+.addon-card--pp-bogo .addon-card__options {
+  margin-top: 1rem;
+}
+.pp-bogo-preview-badge {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  color: #dc3545;
+  margin-bottom: 0.25rem;
+}
