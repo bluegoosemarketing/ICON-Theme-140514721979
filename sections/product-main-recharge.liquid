@@ -18,30 +18,74 @@
 -->
 {% endcomment %}
 
-{%- liquid
-  assign current_variant = product.selected_or_first_available_variant
-  assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
-  assign has_subscriptions = false
-  if product.selling_plan_groups.size > 0
-    assign has_subscriptions = true
-  endif
--%}
+  {%- liquid
+    assign current_variant = product.selected_or_first_available_variant
+    assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
+    assign has_subscriptions = product.selling_plan_groups.size > 0
+
+    assign hero_hook      = product.metafields.plan.hook_line
+    assign stat_cards     = product.metafields.plan.stat_cards_json.value
+    assign who_for_list   = product.metafields.plan.who_for_list.value
+
+    assign features_list  = product.metafields.plan.features_json.value
+    if features_list == blank
+      assign features_list = shop.metafields.defaults.features_json.value
+    endif
+
+    assign assurances_list = product.metafields.plan.assurances_list.value
+    if assurances_list == blank
+      assign assurances_list = shop.metafields.defaults.assurances_list.value
+    endif
+  -%}
 
 <product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}">
   <div class="meal-plan-hero-container">
     <div class="meal-plan-hero-grid">
       <div class="meal-plan-hero__info">
         <h1 class="meal-plan-hero__title">{{ product.title }}</h1>
+        {%- if hero_hook != blank -%}
+          <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
+        {%- endif -%}
+        {%- if stat_cards and stat_cards.size > 0 -%}
+          <div class="meal-plan-highlights">
+            {%- for card in stat_cards -%}
+              <div class="meal-plan-highlight">
+                <span class="meal-plan-highlight__label">{{ card.label }}</span>
+                <span class="meal-plan-highlight__value">{{ card.value }}</span>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
         {%- if product.description != blank -%}<div class="meal-plan-description rte">{{ product.description }}</div>{%- endif -%}
+        {%- if who_for_list and who_for_list.size > 0 -%}
+          <div class="meal-plan-who-for">
+            <h3 class="meal-plan-who-for__title">Who It's For</h3>
+            <ul class="meal-plan-who-for__list">
+              {%- for item in who_for_list -%}
+                <li class="meal-plan-who-for__item">{{ item }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
+        {%- if features_list and features_list.size > 0 -%}
+          <div class="meal-plan-why">
+            {%- for feature in features_list -%}
+              <div class="meal-plan-feature">
+                <h4 class="meal-plan-feature__title">{{ feature.title }}</h4>
+                <p class="meal-plan-feature__subtitle">{{ feature.subtitle }}</p>
+              </div>
+            {%- endfor -%}
+          </div>
+        {%- endif -%}
         {%- if included_meals != blank -%}
           <div class="meal-plan-contents">
             <h3 class="meal-plan-contents__title">What's In Your Plan</h3>
             <ul class="meal-plan-contents__list" data-dynamic-meal-list>
-              {%- assign num_meal_types = included_meals | size -%}
-              {%- assign total_meals = current_variant.option1 | split: ' ' | first | times: 1 -%}
-              {%- assign qty_per_meal = total_meals | divided_by: num_meal_types -%}
               {%- for meal in included_meals -%}
-                <li><span class="meal-quantity-prefix">{{ qty_per_meal }}x</span><span class="meal-title-text">{{- meal.title -}}</span></li>
+                <li>
+                  <span class="meal-quantity-prefix"></span>
+                  <span class="meal-title-text">{{- meal.title -}}</span>
+                </li>
               {%- endfor -%}
             </ul>
             <p class="meal-plan-contents__disclaimer">Due to a routinely updating menu, subscription items in this meal plan are subject to change.</p>
@@ -95,9 +139,17 @@
         </div>
       </div>
     </div>
-  </div>
+    </div>
 
-  {% render 'meal-plan-grid', product: product %}
+    {%- if assurances_list and assurances_list.size > 0 -%}
+      <div class="meal-plan-assurances">
+        {%- for item in assurances_list -%}
+          <div class="meal-plan-assurance">{{ item }}</div>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+
+    {% render 'meal-plan-grid', product: product %}
 
   <script type="application/json" data-product-json>{{ product | json }}</script>
   <script type="application/json" data-selling-plans-json>{{ product.selling_plan_groups | json }}</script>
@@ -192,6 +244,23 @@ class ProductFormController extends HTMLElement {
 customElements.define('product-form-controller', ProductFormController);
 </script>
 
+<style>
+  .meal-plan-hero__hook{margin-top:0.5rem;font-size:1.2rem;font-weight:600;}
+  .meal-plan-highlights{margin-top:1rem;display:flex;flex-wrap:wrap;gap:1rem;}
+  .meal-plan-highlight{flex:1 1 120px;padding:0.75rem;border:1px solid #e5e5e5;border-radius:6px;text-align:center;}
+  .meal-plan-highlight__label{display:block;font-size:0.75rem;text-transform:uppercase;}
+  .meal-plan-highlight__value{display:block;font-size:1rem;font-weight:700;}
+  .meal-plan-who-for{margin-top:1.5rem;}
+  .meal-plan-who-for__title{margin-bottom:0.5rem;font-size:1rem;font-weight:700;}
+  .meal-plan-who-for__list{margin:0;padding-left:1.2rem;display:grid;gap:0.25rem;}
+  .meal-plan-who-for__item{list-style:disc;}
+  .meal-plan-why{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:1rem;}
+  .meal-plan-feature{flex:1 1 160px;padding:1rem;border:1px solid #e5e5e5;border-radius:6px;}
+  .meal-plan-feature__title{font-size:1rem;margin:0 0 0.25rem 0;font-weight:700;}
+  .meal-plan-feature__subtitle{margin:0;font-size:0.875rem;}
+  .meal-plan-assurances{margin:2rem 0;display:flex;flex-wrap:wrap;gap:1rem;}
+  .meal-plan-assurance{flex:1 1 160px;padding:0.75rem;border:1px solid #e5e5e5;border-radius:6px;text-align:center;}
+</style>
 <style>
 @keyframes qty-flash{0%{transform:scale(1)}50%{transform:scale(1.25)}100%{transform:scale(1)}}.meal-quantity-prefix.is-updating,.meal-plan-quantity-callout.is-updating{animation:qty-flash 400ms ease-in-out}.meal-plan-description{font-size:1.05rem;line-height:1.6;color:#343a40}.meal-plan-contents{margin-top:2rem;margin-bottom:1.5rem}.meal-plan-contents__title{font-family:var(--font-heading-family,sans-serif);text-transform:uppercase;letter-spacing:.1em;font-weight:700;font-size:1.2rem;text-align:left;margin-bottom:1.5rem}.meal-plan-contents__list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.75rem}.meal-plan-contents__list li{display:flex;align-items:center;background-color:#f7f7f7;border:1px solid #e9ecef;border-radius:8px;padding:.75rem 1rem;transition:background-color .2s}.meal-plan-contents__list li:hover{background-color:#f1f3f5}.meal-quantity-prefix{display:flex;align-items:center;justify-content:center;flex-shrink:0;min-width:40px;height:40px;font-size:1.1rem;font-weight:700;color:#fff;background-color:var(--brand-accent);border-radius:50%;margin-right:1rem}.meal-title-text{font-size:1rem;font-weight:500}.meal-plan-contents__disclaimer{font-size:.8rem;font-style:italic;color:#6c757d;margin-top:1.5rem;padding-top:1rem;border-top:1px solid #e9ecef}.meal-plan-items__grid-item{position:relative}.meal-plan-quantity-callout{display:none;position:absolute;top:10px;right:10px;width:40px;height:40px;font-size:1.1rem;font-weight:700;color:#fff;background-color:var(--brand-accent);border-radius:50%;z-index:2;pointer-events:none;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,.2)}.rc-widget-injection-parent>.rc-widget,.rc-template{display:none!important}.meal-plan-hero-container{margin-top:2rem}.product-form-recharge{display:flex;flex-direction:column;gap:1.25rem}[data-order="1"]{order:1}[data-order="2"]{order:2}[data-order="4"]{order:4}.product-form-recharge .bold_option{order:3}.product-form-recharge .rc-widget-injection-parent{order:5;text-align:center;margin-top:.5rem}.rc-widget-injection-parent .rc-popup{display:inline-block!important}.product-form__option-group label{display:block;font-weight:600;margin-bottom:.5rem;font-size:.875rem;color:#333}.select-wrapper{position:relative}.select-wrapper select{width:100%;appearance:none;-webkit-appearance:none;background-color:#f7f7f7;border:1px solid #e0e0e0;border-radius:8px;padding:.8rem 2.5rem .8rem 1rem;font-size:1rem;cursor:pointer}.select-wrapper .select-wrapper__arrow{position:absolute;right:1rem;top:50%;transform:translateY(-50%);pointer-events:none;color:#6c75d;width:16px;height:16px}.purchase-options{display:flex;border-radius:8px;overflow:hidden}.purchase-options__option{flex:1}.purchase-options__option[hidden]{display:none}.purchase-options__option input[type=radio]{position:absolute;opacity:0;width:0;height:0}.purchase-options__option label{display:flex;flex-direction:column;text-align:center;justify-content:center;align-items:center;padding:.75rem 1rem;border:2px solid #e0e0e0;background-color:#f7f7f7;cursor:pointer;transition:all .2s ease-in-out;height:100%;color:#555}.purchase-options__option:first-child label{border-right-width:0;border-top-left-radius:8px;border-bottom-left-radius:8px}.purchase-options__option:last-child label{border-top-right-radius:8px;border-bottom-right-radius:8px}.purchase-options__option input[type=radio]:checked+label{background-color:var(--brand-accent-lighter,#e6f6ef);border-color:var(--brand-accent)}.purchase-options__option:first-child input[type=radio]:checked+label{border-right-width:2px}.purchase-options__title{font-weight:600;font-size:.9rem;transition:color .2s ease-in-out}.purchase-options__price{font-weight:700;font-size:1.1rem;margin-top:.25rem;transition:color .2s ease-in-out}[data-purchase-option=subscribe] input[type=radio]:checked+label .purchase-options__price,[data-purchase-option=subscribe] input[type=radio]:checked+label .purchase-options__title{color:var(--brand-accent-darker,#004d40)}[data-purchase-option=one-time] input[type=radio]:checked+label .purchase-options__price,[data-purchase-option=one-time] input[type=radio]:checked+label .purchase-options__title{color:#212529}.selling-plan-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}.selling-plan-grid__button{appearance:none;-webkit-appearance:none;background-color:#f7f7f7;border:1px solid #e0e0e0;border-radius:8px;padding:.75rem .5rem;font-size:.875rem;font-weight:600;color:#555;cursor:pointer;transition:all .2s ease-in-out;text-align:center}.selling-plan-grid__button.is-active{background-color:#e6f6ef;border-color:var(--brand-accent);color:var(--brand-accent-darker);box-shadow:0 0 0 1px var(--brand-accent)}[data-selling-plan-select]{display:none}.product-form-recharge__footer{display:flex;align-items:center;justify-content:flex-end;margin-top:1rem;gap:1rem}.product-form-recharge__actions{display:grid;grid-template-columns:120px 1fr;gap:.75rem;align-items:center;width:100%}
 </style>
