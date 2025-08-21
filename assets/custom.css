@@ -2836,7 +2836,7 @@ body.quick-view-open {
 
 .meal-plan-hero-grid {
   display: grid;
-  grid-template-columns: 1fr;
+  grid-template-columns: minmax(0, 1fr);
   gap: 2.5rem;
   align-items: start;
 }
@@ -2934,6 +2934,10 @@ body.quick-view-open {
   font-weight: 500;
   cursor: pointer;
   transition: border-color 0.2s, box-shadow 0.2s;
+}
+.bold_option_element select {
+  width: 100%;
+  max-width: 100%;
 }
 .select-wrapper select:hover { border-color: #adb5bd; }
 .select-wrapper select:focus {
