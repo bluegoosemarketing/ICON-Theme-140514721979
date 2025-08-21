@@ -271,6 +271,8 @@ ol.product-grid {
   .collection-page__layout { grid-template-columns: 1fr; }
   .collection-page__sidebar { display: none; }
   body.template-collection .collection-page__main { padding: 0; }
+  body.template-product .collection-page__main { padding: 0; }
+  body.template-product .collection-page__layout { padding: 0 1.5rem 2rem 1.5rem; }
   body.template-collection .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
   body.template-collection ol.product-grid { padding: 1.25rem 1rem 0 1rem; }
   .desktop-filter-toggle { display: none !important; }
