@@ -295,6 +295,7 @@ customElements.define('product-form-controller', ProductFormController);
   /* --- Main Layout & Info Column --- */
   .meal-plan-hero-container { margin-block: 2rem 4rem; }
   .meal-plan-hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: flex-start; }
+  .meal-plan-hero-grid > * { min-width: 0; }
   @media (min-width: 990px) {
     .meal-plan-hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 4rem; }
     .meal-plan-hero__form { position: sticky; top: 2rem; }
