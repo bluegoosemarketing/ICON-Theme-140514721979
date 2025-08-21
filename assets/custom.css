@@ -2834,9 +2834,16 @@ body.quick-view-open {
 
 .meal-plan-hero-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) 420px;
-  gap: 3.5rem;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
   align-items: start;
+}
+
+@media (min-width: 1024px) {
+  .meal-plan-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+    gap: 3.5rem;
+  }
 }
 
 /* Left Column: Info */
@@ -2885,6 +2892,10 @@ body.quick-view-open {
 /* Right Column: Form */
 .meal-plan-hero__form {
   padding-top: 0.25rem;
+}
+
+.meal-plan-form-card {
+  width: 100%;
 }
 
 .meal-plan-form__options {
@@ -3029,10 +3040,6 @@ body.quick-view-open {
 
 /* Responsive */
 @media (max-width: 1024px) {
-  .meal-plan-hero-grid {
-    grid-template-columns: 1fr;
-    gap: 2.5rem;
-  }
   .meal-plan-hero-container {
     padding: 2rem;
   }
