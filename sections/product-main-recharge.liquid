@@ -294,7 +294,7 @@ customElements.define('product-form-controller', ProductFormController);
 
   /* --- Main Layout & Info Column --- */
   .meal-plan-hero-container { margin-block: 2rem 4rem; }
-  .meal-plan-hero-grid { display: grid; grid-template-columns: 1fr; gap: 2.5rem; align-items: flex-start; }
+  .meal-plan-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: flex-start; }
   .meal-plan-hero-grid > * { min-width: 0; }
   @media (min-width: 990px) {
     .meal-plan-hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 4rem; }
@@ -334,6 +334,7 @@ customElements.define('product-form-controller', ProductFormController);
   /* Form Controls */
   .select-wrapper { position: relative; }
   .select-wrapper select { width: 100%; appearance: none; -webkit-appearance: none; background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.8rem 2.5rem 0.8rem 1rem; font-size: 1rem; font-weight: 500; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+  .bold_option_element select { width: 100%; max-width: 100%; }
   .select-wrapper select:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 2px var(--brand-primary-light); }
   .select-wrapper__arrow { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--color-text-light); width: 16px; height: 16px; }
   .purchase-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
