@@ -2839,6 +2839,10 @@ body.quick-view-open {
   align-items: start;
 }
 
+.meal-plan-hero-grid > * {
+  min-width: 0;
+}
+
 @media (min-width: 1024px) {
   .meal-plan-hero-grid {
     grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
