@@ -1,0 +1,178 @@
+{%- comment -%}
+  BOGO Promo Modal (V2 - World-Class UI)
+  - Self-contained, step-by-step guide for the BOGO announcement.
+  - Includes all necessary HTML, CSS, and JavaScript.
+  - Designed for a professional, high-conversion user experience.
+{%- endcomment -%}
+
+<style>
+  .bogo-promo-modal-v2 {
+    position: fixed !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 9999 !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    opacity: 0 !important; visibility: hidden !important;
+    transition: opacity 0.3s ease, visibility 0s 0.3s !important;
+  }
+  .bogo-promo-modal-v2.is-open { opacity: 1 !important; visibility: visible !important; transition-delay: 0s !important; }
+
+  .bogo-promo-modal-v2__overlay {
+    position: absolute !important; top: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important;
+    background-color: rgba(33, 37, 41, 0.6) !important; backdrop-filter: blur(5px) !important;
+  }
+
+  .bogo-promo-modal-v2__dialog {
+    position: relative !important; background-color: #ffffff !important; border-radius: 16px !important;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important; width: 90% !important; max-width: 500px !important;
+    text-align: center !important;
+    transform: scale(0.95) translateY(10px) !important;
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    overflow: hidden !important;
+  }
+  .bogo-promo-modal-v2.is-open .bogo-promo-modal-v2__dialog { transform: scale(1) translateY(0px) !important; }
+
+  .bogo-promo-modal-v2__header {
+    padding: 2rem 2.5rem 1.5rem !important;
+    position: relative !important;
+  }
+
+  .bogo-promo-modal-v2__close {
+    position: absolute !important; top: 12px !important; right: 12px !important; background: transparent !important; border: none !important;
+    border-radius: 50% !important; width: 36px !important; height: 36px !important; display: flex !important; align-items: center !important; justify-content: center !important;
+    cursor: pointer !important; color: #9ca3af !important; transition: all 0.2s !important;
+  }
+  .bogo-promo-modal-v2__close:hover { color: #111827 !important; transform: rotate(90deg) !important; }
+
+  .bogo-promo-modal-v2__headline {
+    font-size: 1.75rem !important; font-weight: 800 !important; line-height: 1.2 !important;
+    margin: 0 !important; color: #111827 !important;
+  }
+  
+  .bogo-promo-modal-v2__body {
+    padding: 0 2.5rem 2.5rem !important;
+  }
+  
+  .bogo-promo-modal-v2__steps-list {
+    list-style: none !important; margin: 0 !important; padding: 0 !important;
+    display: flex !important; flex-direction: column !important; gap: 1.5rem !important;
+    text-align: left !important;
+  }
+  
+  .bogo-promo-modal-v2__step-item {
+    display: flex !important; align-items: flex-start !important; gap: 1rem !important;
+    position: relative !important;
+  }
+
+  .bogo-promo-modal-v2__step-icon {
+    flex-shrink: 0 !important; width: 40px !important; height: 40px !important;
+    background-color: #f3f4f6 !important; border-radius: 50% !important;
+    display: flex !important; align-items: center !important; justify-content: center !important;
+    color: var(--header-nav-link-hover-color) !important;
+    font-size: 1.25rem !important; font-weight: 700 !important;
+  }
+  
+  .bogo-promo-modal-v2__step-text strong {
+    display: block !important; font-size: 1rem !important; font-weight: 700 !important;
+    color: #1f2937 !important; margin-bottom: 0.25rem !important;
+  }
+  .bogo-promo-modal-v2__step-text p {
+    font-size: 0.9rem !important; line-height: 1.5 !important; color: #6b7280 !important;
+    margin: 0 !important;
+  }
+  
+  .bogo-promo-modal-v2__footer {
+    padding: 1.5rem 2.5rem !important; background-color: #f9fafb !important;
+    border-top: 1px solid #f3f4f6 !important;
+  }
+
+  .bogo-promo-modal-v2__cta {
+    display: inline-block !important; width: 100% !important; padding: 0.9rem 2rem !important;
+    font-size: 1rem !important; font-weight: 700 !important; color: #fff !important;
+    background-color: var(--header-nav-link-hover-color) !important; border-radius: 8px !important;
+    text-decoration: none !important; transition: all 0.2s ease !important;
+  }
+  .bogo-promo-modal-v2__cta:hover { background-color: #a71f1f !important; transform: translateY(-2px) !important; }
+
+  @media(max-width: 767px) {
+    .bogo-promo-modal-v2__header { padding: 1.5rem 1.5rem 1rem !important; }
+    .bogo-promo-modal-v2__body { padding: 0 1.5rem 2rem !important; }
+    .bogo-promo-modal-v2__footer { padding: 1.25rem 1.5rem !important; }
+    .bogo-promo-modal-v2__headline { font-size: 1.5rem !important; }
+  }
+</style>
+
+<div class="bogo-promo-modal-v2 hidden" data-bogo-announcement-modal>
+  <div class="bogo-promo-modal-v2__overlay" data-bogo-modal-close></div>
+  <div class="bogo-promo-modal-v2__dialog" role="dialog" aria-modal="true">
+    <button class="bogo-promo-modal-v2__close" aria-label="Close modal" data-bogo-modal-close>
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+    </button>
+    
+    <div class="bogo-promo-modal-v2__header">
+      <h2 class="bogo-promo-modal-v2__headline">{{ modal_headline }}</h2>
+    </div>
+    
+    <div class="bogo-promo-modal-v2__body">
+      <ul class="bogo-promo-modal-v2__steps-list">
+        <li class="bogo-promo-modal-v2__step-item">
+          <div class="bogo-promo-modal-v2__step-icon">1</div>
+          <div class="bogo-promo-modal-v2__step-text">
+            <strong>{{ modal_step1_title }}</strong>
+            <p>{{ modal_step1_desc }}</p>
+          </div>
+        </li>
+        <li class="bogo-promo-modal-v2__step-item">
+          <div class="bogo-promo-modal-v2__step-icon">2</div>
+          <div class="bogo-promo-modal-v2__step-text">
+            <strong>{{ modal_step2_title }}</strong>
+            <p>{{ modal_step2_desc }}</p>
+          </div>
+        </li>
+        <li class="bogo-promo-modal-v2__step-item">
+          <div class="bogo-promo-modal-v2__step-icon">3</div>
+          <div class="bogo-promo-modal-v2__step-text">
+            <strong>{{ modal_step3_title }}</strong>
+            <p>{{ modal_step3_desc }}</p>
+          </div>
+        </li>
+      </ul>
+    </div>
+
+    <div class="bogo-promo-modal-v2__footer">
+      <a href="{{ modal_button_link }}" class="bogo-promo-modal-v2__cta">{{ modal_button_text }}</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    if (window.bogoModalInitialized) return;
+    window.bogoModalInitialized = true;
+    
+    const trigger = document.querySelector('[data-bogo-announcement-trigger]');
+    const modal = document.querySelector('[data-bogo-announcement-modal]');
+    
+    if (!trigger || !modal) return;
+
+    const closeTriggers = modal.querySelectorAll('[data-bogo-modal-close]');
+    
+    const openModal = () => {
+      modal.classList.remove('hidden');
+      document.body.style.overflow = 'hidden';
+      setTimeout(() => modal.classList.add('is-open'), 10);
+    };
+
+    const closeModal = () => {
+      modal.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(() => modal.classList.add('hidden'), 300);
+    };
+
+    trigger.addEventListener('click', openModal);
+    closeTriggers.forEach(el => el.addEventListener('click', closeModal));
+    
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('is-open')) {
+        closeModal();
+      }
+    });
+  });
+</script>

@@ -1,10 +1,7 @@
 {%- comment -%}
-  Header - Advanced Announcement Bar V6.0 (Definitive Link & Control)
-  - RESTORED: Added a URL setting to the schema, allowing the entire announcement bar to be a clickable link.
-  - REFACTORED: The schema is now self-contained and clear. The bar's visibility and link are
-    controlled here in the section, while the text content is correctly pulled from your
-    global theme settings (`settings_schema.json`). This is best practice.
-  - PRESERVED: The powerful shortcode styling engine ([pulse], [yellow], etc.) is fully functional.
+  Header - V8.7 (Schema Validation Fix)
+  - FIXED: Removed the invalid "default" value from the `bogo_modal_button_link` setting.
+    The `url` type does not support default string paths, and this change fixes the schema error.
 {%- endcomment -%}
 
 {%- liquid
@@ -24,25 +21,29 @@
     --font-stack-header: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   
-  /* --- Announcement Bar Base & Link Wrapper --- */
-  .announcement-bar{background-color:var(--header-nav-link-hover-color);color:#fff;padding:10px 15px;font-family:var(--font-stack-header)}
+  /* --- Announcement Bar Styles --- */
+  .announcement-bar{background-color:var(--header-nav-link-hover-color);color:#fff;padding:0;font-family:var(--font-stack-header)}
   .announcement-bar__link-wrapper{display:block;color:inherit!important;text-decoration:none!important}
   .announcement-bar__content{margin:0 auto;max-width:95%;text-align:center;font-size:14px;font-weight:600;line-height:1.5;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px}
+  .announcement-bar__link-wrapper .announcement-bar__content,
+  .announcement-bar--no-action .announcement-bar__content { padding: 10px 15px; }
+
+  button.announcement-bar__trigger {
+    display: block; width: 100%; background: transparent; border: none; padding: 10px 15px;
+    margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer;
+    -webkit-appearance: none; appearance: none;
+  }
+  button.announcement-bar__trigger:focus,
+  button.announcement-bar__trigger:active {
+    background-color: var(--header-nav-link-hover-color) !important;
+    outline: none !important; box-shadow: none !important;
+  }
 
   /* --- Styling Engine for Announcement Bar --- */
   @keyframes flash-animation { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
-  
-  .promo-text--pulse {
-    font-weight: 800;
-    animation: flash-animation 1.5s infinite;
-  }
-  .promo-text--yellow {
-    color: #FFF200;
-    font-weight: 700;
-  }
-  .promo-text--bold {
-    font-weight: 800;
-  }
+  .promo-text--pulse { font-weight: 800; animation: flash-animation 1.5s infinite; }
+  .promo-text--yellow { color: #FFF200; font-weight: 700; }
+  .promo-text--bold { font-weight: 800; }
 
   /* --- Unchanged Header Styles --- */
   .top-nav{background-color:#f8f9fa;border-bottom:1px solid var(--header-border-color);padding:6px 0;display:none}@media (min-width:992px){.top-nav{display:block}}.top-nav__inner{max-width:1600px;margin:0 auto;padding:0 40px;display:flex;justify-content:flex-end;align-items:center}.top-nav-links__list{display:flex;align-items:center;gap:24px;list-style:none;margin:0;padding:0}.top-nav-links__link{font-family:var(--font-stack-header)!important;font-size:13px!important;color:#495057!important;text-decoration:none!important;transition:color .2s ease}.top-nav-links__link:hover{color:var(--header-nav-link-hover-color)!important}.site-header-wrapper.is-sticky{position:sticky;top:0;width:100%;box-shadow:0 2px 10px rgba(0,0,0,.05);z-index:100}.site-header{background-color:var(--header-background);border-bottom:1px solid var(--header-border-color)}.site-header__inner{display:flex;align-items:center;justify-content:space-between;gap:20px;height:var(--header-height-desktop);padding:0 40px;margin:0 auto;max-width:1600px;position:relative}.site-header__left,.site-header__right{flex:1 1 0;display:flex;align-items:center}.site-header__left{justify-content:flex-start}.site-header__right{justify-content:flex-end;gap:24px}.site-header__center{flex:2 1 auto;display:flex;justify-content:center}.site-header__logo-link img{display:block;max-width:{{ section.settings.logo_max_width }}px;height:auto}.site-header__icon{position:relative;background:0 0;border:none;padding:0;cursor:pointer;color:var(--header-icon-color);line-height:0;transition:color .2s ease}.site-header__icon svg{width:26px;height:26px;stroke:currentColor;stroke-width:1.5}.site-header__icon:hover{color:var(--header-nav-link-hover-color)}.site-header__icon--account:hover{color:var(--header-text-color)!important}.site-header__cart-count{position:absolute;top:-5px;right:-8px;background-color:var(--header-text-color);color:#fff;border-radius:50%;font-size:11px;font-weight:700;line-height:1;min-width:20px;height:20px;display:flex;align-items:center;justify-content:center;padding:0 4px;border:2px solid var(--header-background)}.site-header__mobile-trigger{display:none}.site-header__logo-desktop{display:block}.site-header__logo-mobile{display:none}@media (max-width:991px){.site-header__inner{height:var(--header-height-mobile);padding:0 15px}.site-header__left,.site-header__right{position:relative;z-index:2}.site-header__center{display:none}.site-header__mobile-trigger{display:block;background:0 0;border:none;padding:5px;cursor:pointer;line-height:0;color:var(--header-icon-color)!important}.site-header__mobile-trigger:active,.site-header__mobile-trigger:focus,.site-header__mobile-trigger[aria-expanded=true]{color:var(--header-icon-color)!important}.site-header__mobile-trigger svg{width:30px;height:30px;stroke:currentColor!important}.site-header__logo-desktop{display:none}.site-header__logo-mobile{display:block;position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:1}.site-header__logo-mobile img{max-width:calc({{ section.settings.logo_max_width }}px * .75)}.site-header__right{gap:16px}.site-header__icon svg{width:28px;height:28px}.site-header__icon--account{display:none}}@media (max-width:767px){.announcement-bar__content{flex-direction:column;gap:2px 0;font-size:13px}}
@@ -51,6 +52,7 @@
 {%- liquid
   assign announcement_text_raw = ''
   assign announcement_display = ''
+  assign announcement_action = section.settings.announcement_bar_action
 
   if settings.enable_free_delivery_promo
     if settings.announcement_promo_text != blank
@@ -66,21 +68,24 @@
 -%}
 
 {% if section.settings.announcement_bar_enabled and announcement_display != blank %}
-  <div class="announcement-bar">
-    {%- if section.settings.announcement_bar_link != blank -%}
-      <a href="{{ section.settings.announcement_bar_link }}" class="announcement-bar__link-wrapper">
-    {%- endif -%}
-
-    <div class="announcement-bar__content" aria-live="polite">
-      {{ announcement_display }}
+  {%- if announcement_action == 'link' and section.settings.announcement_bar_link != blank -%}
+    <a href="{{ section.settings.announcement_bar_link }}" class="announcement-bar__link-wrapper">
+      <div class="announcement-bar">
+        <div class="announcement-bar__content" aria-live="polite">{{ announcement_display }}</div>
+      </div>
+    </a>
+  {%- elsif announcement_action == 'modal' -%}
+    <div class="announcement-bar">
+      <button type="button" class="announcement-bar__trigger" data-bogo-announcement-trigger>
+        <div class="announcement-bar__content" aria-live="polite">{{ announcement_display }}</div>
+      </button>
     </div>
-
-    {%- if section.settings.announcement_bar_link != blank -%}
-      </a>
-    {%- endif -%}
-  </div>
+  {%- else -%}
+    <div class="announcement-bar announcement-bar--no-action">
+      <div class="announcement-bar__content" aria-live="polite">{{ announcement_display }}</div>
+    </div>
+  {%- endif -%}
 {% endif %}
-
 
 <div class="site-header-wrapper {% if section.settings.sticky_header %}is-sticky{% endif %}" data-header-wrapper>
   <!-- Main Header HTML (Unchanged) -->
@@ -89,6 +94,23 @@
 </div>
 
 {%- render 'nav-mobile' -%}
+
+{%- comment -%}
+  Render the BOGO Modal from its own snippet file.
+{%- endcomment -%}
+{%- if section.settings.announcement_bar_enabled and section.settings.announcement_bar_action == 'modal' -%}
+  {% render 'bogo-promo-modal',
+    modal_headline: section.settings.bogo_modal_headline,
+    modal_step1_title: section.settings.bogo_modal_step1_title,
+    modal_step1_desc: section.settings.bogo_modal_step1_desc,
+    modal_step2_title: section.settings.bogo_modal_step2_title,
+    modal_step2_desc: section.settings.bogo_modal_step2_desc,
+    modal_step3_title: section.settings.bogo_modal_step3_title,
+    modal_step3_desc: section.settings.bogo_modal_step3_desc,
+    modal_button_text: section.settings.bogo_modal_button_text,
+    modal_button_link: section.settings.bogo_modal_button_link
+  %}
+{%- endif -%}
 
 {% schema %}
 {
@@ -121,8 +143,7 @@
     },
     {
       "type": "header",
-      "content": "Announcement Bar",
-      "info": "The text for the announcement bar is controlled globally under Theme Settings > Free Delivery Promotion. Here you can control the visibility and link for the header."
+      "content": "Announcement Bar"
     },
     {
       "type": "checkbox",
@@ -131,10 +152,79 @@
       "default": true
     },
     {
+      "type": "select",
+      "id": "announcement_bar_action",
+      "label": "Action",
+      "options": [
+        { "value": "none", "label": "No Action" },
+        { "value": "link", "label": "Link to URL" },
+        { "value": "modal", "label": "Open BOGO Modal" }
+      ],
+      "default": "link"
+    },
+    {
       "type": "url",
       "id": "announcement_bar_link",
       "label": "Link",
-      "info": "Optional. Make the entire announcement bar a clickable link."
+      "info": "Used when 'Action' is set to 'Link to URL'."
+    },
+    {
+      "type": "header",
+      "content": "BOGO Modal Content",
+      "info": "The following settings are used when 'Action' is set to 'Open BOGO Modal'."
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_headline",
+      "label": "Modal Headline",
+      "default": "Unlock Your BOGO Offer"
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_step1_title",
+      "label": "Step 1 Title",
+      "default": "Build Your Box"
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_step1_desc",
+      "label": "Step 1 Description",
+      "default": "Add any 14+ delicious meals to your cart to qualify for the deal."
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_step2_title",
+      "label": "Step 2 Title",
+      "default": "Continue Towards Checkout"
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_step2_desc",
+      "label": "Step 2 Description",
+      "default": "Once you have enough meals, proceed to the next step: the Add-Ons page."
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_step3_title",
+      "label": "Step 3 Title",
+      "default": "Claim Your Free Pack"
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_step3_desc",
+      "label": "Step 3 Description",
+      "default": "On the Add-Ons page, a special banner will appear. Click to add the starter pack and get a second one free!"
+    },
+    {
+      "type": "text",
+      "id": "bogo_modal_button_text",
+      "label": "Modal Button Text",
+      "default": "Start Building Your Box"
+    },
+    {
+      "type": "url",
+      "id": "bogo_modal_button_link",
+      "label": "Modal Button Link"
     },
     {
       "type": "header",
@@ -145,6 +235,11 @@
       "id": "top_nav_menu",
       "label": "Top Navigation Menu",
       "info": "Used for the compact nav bar above the main header."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Header"
     }
   ]
 }
