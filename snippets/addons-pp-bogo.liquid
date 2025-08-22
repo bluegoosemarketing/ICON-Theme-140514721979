@@ -1,7 +1,6 @@
 {%- comment -%}
-  Protein Popcorn BOGO Promo Banner (V5.1 - Integrated Gift Logic)
-  - Uses the polished V5 UI.
-  - Passes the free gift variant ID to the script.
+  Protein Popcorn BOGO Promo Banner (V8 - Gradient Border UI)
+  - Final polished version with cohesive, professional flavor tags.
 {%- endcomment -%}
 
 {%- liquid
@@ -27,30 +26,45 @@
 -%}
 
 {%- if enabled or preview_mode -%}
-  <div class="pp-bogo-banner-v5 hidden" data-pp-bogo>
-    <div class="pp-bogo-banner-v5__image-wrapper">
+  <div class="pp-bogo-banner-v8 hidden" data-pp-bogo>
+    <div class="pp-bogo-banner-v8__image-wrapper">
       {%- if product_is_set and bogo_product.featured_image -%}
-        <img src="{{ bogo_product.featured_image | image_url: width: 300 }}" alt="{{ bogo_product.featured_image.alt | escape }}" width="150" height="150" loading="lazy">
+        <img src="{{ bogo_product.featured_image | image_url: width: 400 }}" alt="{{ bogo_product.featured_image.alt | escape }}" width="200" height="200" loading="lazy">
       {%- else -%}
-        {{ 'product-1' | placeholder_svg_tag: 'pp-bogo-banner-v5__placeholder-svg' }}
+        {{ 'product-1' | placeholder_svg_tag: 'pp-bogo-banner-v8__placeholder-svg' }}
       {%- endif -%}
     </div>
 
-    <div class="pp-bogo-banner-v5__content">
-      <div class="pp-bogo-banner-v5__details">
-        <span class="pp-bogo-banner-v5__pre-headline">LIMITED TIME BOGO OFFER</span>
-        <h3 class="pp-bogo-banner-v5__headline">{{ headline }}</h3>
-        <p class="pp-bogo-banner-v5__subtext">Buy one <strong>Protein Popcorn Savory Starter Pack for $24.99</strong>, and you’ll get another one absolutely free.</p>
-        <div class="pp-bogo-banner-v5__flavor-tags">
+    <div class="pp-bogo-banner-v8__content">
+      <div class="pp-bogo-banner-v8__details">
+        <span class="pp-bogo-banner-v8__pre-headline">LIMITED TIME BOGO OFFER</span>
+        <h3 class="pp-bogo-banner-v8__headline">{{ headline }}</h3>
+        <p class="pp-bogo-banner-v8__subtext">Buy one <strong>Protein Popcorn Savory Starter Pack for $24.99</strong>, and you’ll get another one absolutely free.</p>
+        
+        <div class="pp-bogo-banner-v8__flavor-tags">
           {%- for flavor in flavor_list -%}
             {%- assign trimmed_flavor = flavor | strip -%}
             {%- if trimmed_flavor != blank -%}
-              <span class="pp-bogo-banner-v5__flavor-tag">{{ trimmed_flavor }}</span>
+              {%- capture flavor_class -%}
+                {%- case trimmed_flavor -%}
+                  {%- when 'Cheddar Cheese' -%}
+                    cheddar
+                  {%- when 'Movie Time' -%}
+                    movie-time
+                  {%- when 'White Cheddar' -%}
+                    white-cheddar
+                  {%- when 'Salsa Cheddar' -%}
+                    salsa-cheddar
+                  {%- else -%}
+                    default
+                {%- endcase -%}
+              {%- endcapture -%}
+              <span class="pp-bogo-banner-v8__flavor-tag flavor-tag--{{ flavor_class | strip }}">{{ trimmed_flavor }}</span>
             {%- endif -%}
           {%- endfor -%}
         </div>
 
-        <ul class="pp-bogo-banner-v5__benefit-list">
+        <ul class="pp-bogo-banner-v8__benefit-list">
           {%- for benefit in benefit_list -%}
             {%- assign trimmed_benefit = benefit | strip -%}
             {%- if trimmed_benefit != blank -%}
@@ -64,14 +78,14 @@
       </div>
     </div>
     
-    <div class="pp-bogo-banner-v5__actions">
-      <button type="button" class="btn pp-bogo-banner-v5__cta" data-pp-bogo-add>
+    <div class="pp-bogo-banner-v8__actions">
+      <button type="button" class="btn pp-bogo-banner-v8__cta" data-pp-bogo-add>
         <span class="btn-text">Claim My Free Pack</span>
         <span class="btn-icon">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
         </span>
       </button>
-      <div class="pp-bogo-banner-v5__countdown" data-pp-bogo-countdown>
+      <div class="pp-bogo-banner-v8__countdown" data-pp-bogo-countdown>
         <div class="countdown-timer">
           <span data-countdown-days>00</span>:<span data-countdown-hours>00</span>:<span data-countdown-mins>00</span>:<span data-countdown-secs>00</span>
         </div>
