@@ -11,7 +11,15 @@
   "sections": {
     "main": {
       "type": "template--addons",
-      "settings": {}
+      "settings": {
+        "enable_pp_bogo": true,
+        "pp_bogo_product": "personal-size-savory-protein-popcorn-starter-pack",
+        "pp_bogo_gift_product": "gift-savory-protein-popcorn-starter-pack-personal-size",
+        "pp_bogo_headline": "Buy One, Get One Free!",
+        "pp_bogo_countdown_end_date": "2025-08-26 23:59:59",
+        "pp_bogo_flavors": "Cheddar Cheese|Movie Time|White Cheddar| Salsa Cheddar",
+        "pp_bogo_benefits": "10g Protein Per Bag"
+      }
     }
   },
   "order": [
