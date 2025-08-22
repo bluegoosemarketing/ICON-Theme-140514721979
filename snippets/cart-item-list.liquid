@@ -57,6 +57,7 @@ endif
           endif
 
           assign line_item_price = item.final_line_price
+          assign is_bogo_gift = item.properties._bogo_gift
 
           if is_custom_meal
             for hidden_item in cart.items
@@ -79,7 +80,8 @@ endif
             <div class="{{ class_prefix }}__item-meta">
               <span class="{{ class_prefix }}__item-price">{{ line_item_price | money }}</span>
               <div class="{{ class_prefix }}__item-actions">
-                <div class="{{ class_prefix }}__quantity-selector">
+                <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift %} {{ class_prefix }}__quantity-selector--static{% endif %}">
+                  {% unless is_bogo_gift %}
                   <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="minus" aria-label="Decrease quantity">－</button>
                   <input
                     type="number"
@@ -90,6 +92,9 @@ endif
                     aria-label="Quantity"
                   >
                   <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="plus" aria-label="Increase quantity">＋</button>
+                  {% else %}
+                  <span class="{{ class_prefix }}__quantity-value">{{ item.quantity }}</span>
+                  {% endunless %}
                 </div>
               </div>
             </div>
