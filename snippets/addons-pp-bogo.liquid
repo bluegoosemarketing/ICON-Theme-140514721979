@@ -1,7 +1,7 @@
 {%- comment -%}
   Protein Popcorn BOGO upsell card for add-ons page
 {%- endcomment -%}
-{%- assign dev_flag = request.params.pp_bogo_dev -%}
+{%- assign dev_flag = request.params.bogo_dev | default: request.params.pp_bogo_dev -%}
 {%- assign preview_mode = dev_flag == '1' -%}
 {%- assign enabled = section.settings.enable_pp_bogo -%}
 {%- assign has_blocks = flavor_blocks and flavor_blocks.size > 0 -%}
@@ -32,10 +32,16 @@
   </div>
 </div>
 {%- if enabled or has_blocks or section.settings.pp_bogo_end_text != blank -%}
+{%- assign gift_variant_id = section.settings.pp_bogo_gift_variant_id -%}
+{%- if gift_variant_id == blank and section.settings.pp_bogo_gift_product and section.settings.pp_bogo_gift_product.variants_count == 1 -%}
+  {%- assign gift_variant_id = section.settings.pp_bogo_gift_product.variants.first.id -%}
+{%- endif -%}
 <script>
   window.ppBogoConfig = window.ppBogoConfig || {};
   window.ppBogoConfig.enabled = {{ enabled | json }};
   window.ppBogoConfig.endText = {{ section.settings.pp_bogo_end_text | default: 'Ends Tuesday' | json }};
+  window.ppBogoConfig.giftEnabled = {{ section.settings.enable_pp_bogo_gift | json }};
+  window.ppBogoConfig.giftVariantId = {{ gift_variant_id | json }};
   window.ppBogoConfig.flavors = [
     {%- if has_blocks -%}
       {%- for block in flavor_blocks -%}

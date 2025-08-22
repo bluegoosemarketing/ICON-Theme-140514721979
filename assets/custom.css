@@ -3232,3 +3232,15 @@ body.quick-view-open {
   color: #dc3545;
   margin-bottom: 0.25rem;
 }
+
+/* Static quantity for BOGO gift items */
+.cart-sidebar__quantity-selector--static,
+.cart-drawer__quantity-selector--static {
+  justify-content: center;
+  pointer-events: none;
+}
+.cart-sidebar__quantity-selector--static .cart-sidebar__quantity-value,
+.cart-drawer__quantity-selector--static .cart-drawer__quantity-value {
+  border: none;
+  padding: 0;
+}
