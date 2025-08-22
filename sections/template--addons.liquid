@@ -1,11 +1,8 @@
 {%- comment -%}
   ==============================================================================
-  DYNAMIC ADD-ONS SECTION WITH FALLBACKS & A/B SPLIT TESTING
-  - If products are configured in the theme editor, they will be displayed
-    (with A/B testing if multiple are assigned to a slot).
-  - If no products are configured for a slot, it will display a hard-coded
-    fallback product to ensure the page is never empty.
-  - This is a safe approach for deploying to a live theme.
+  DYNAMIC ADD-ONS SECTION V2 - BOGO PROMO REFACTORED
+  - The BOGO feature is now a primary, full-width banner above the grid.
+  - Schema is updated to a single product picker for simplicity.
   ==============================================================================
 {%- endcomment -%}
 
@@ -21,6 +18,9 @@
     assign slot2_block = slot2_blocks | sample
     assign slot3_block = slot3_blocks | sample
 
+    # --- BOGO PROMO PRODUCT ---
+    assign bogo_product = section.settings.pp_bogo_product
+
     # --- FALLBACK PRODUCT DEFINITIONS ---
     # Define the original, hard-coded products that will be used if the
     # dynamic slots above are not configured.
@@ -28,8 +28,6 @@
     assign fallback_product_2 = all_products['brisket-by-pound']
     assign fallback_product_3 = all_products['butter-herb']
     assign free_delivery_target = settings.free_delivery_threshold | default: 21
-    assign remaining_placeholder = '{remaining}'
-    assign pp_bogo_blocks = section.blocks | where: 'type', 'pp_bogo_flavor'
   -%}
 
 <div class="addons-page-wrapper" data-free-delivery-target="{{ free_delivery_target }}">
@@ -37,6 +35,10 @@
     {%- comment -%}
       WORLD-CLASS UX REVISION V15: Final version with color changes removed.
     {%- endcomment -%}
+    
+    {%- comment -%} RENDER THE BOGO PROMO BANNER (Now sits above the grid) {%- endcomment -%}
+    {% render 'addons-pp-bogo', section: section, bogo_product: bogo_product %}
+
 {% if settings.enable_free_delivery_promo %}
       <div class="free-shipping-upsell hidden" data-double-up-upsell data-locked-template="{{ settings.free_delivery_locked_message }}">
       
@@ -44,7 +46,7 @@
       <div class="free-shipping-upsell__inner">
         <div class="upsell__content">
           <div class="upsell__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
           </div>
           <div class="upsell__text-wrapper">
             <div class="upsell__header">
@@ -72,7 +74,7 @@
       {%- comment -%} Success state of the banner (post-click) {%- endcomment -%}
       <div class="upsell__success-state">
           <div class="upsell__success-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
           </div>
           <div class="upsell__text-wrapper">
               <h3 class="upsell__title">{{ settings.free_delivery_unlocked_message }}</h3>
@@ -84,7 +86,6 @@
 
 
     <div class="addons-grid">
-      {% render 'addons-pp-bogo', section: section, flavor_blocks: pp_bogo_blocks %}
       {%- comment -%} CARD FOR SLOT 1 {%- endcomment -%}
       {%- if slot1_block and slot1_block.settings.product != blank -%}
         {% render 'addons-card', product_obj: slot1_block.settings.product, card_id: 'slot-1', collection_handle: slot1_block.settings.collection_handle, card_description_points: slot1_block.settings.card_description_points, slot: 'slot-1' %}
@@ -238,7 +239,7 @@
             arrow.className = 'collection-header-section-v8__checkout-arrow-link';
             arrow.setAttribute('aria-label', 'Proceed to Checkout');
             arrow.setAttribute('data-checkout-url', '');
-            arrow.innerHTML = '<span class="collection-header-section-v8__action-text">Continue</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
+            arrow.innerHTML = '<span class="collection-header-section-v8__action-text">Continue</span><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-arrow-right"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>';
             
             arrow.addEventListener('click', () => {
               window.location.href = arrow.href || '/checkout';
@@ -353,33 +354,55 @@
   "name": "Add-Ons Page Section",
   "settings": [
     {
+      "type": "header",
+      "content": "BOGO Popcorn Promo"
+    },
+    {
       "type": "checkbox",
       "id": "enable_pp_bogo",
-      "label": "Enable Protein Popcorn BOGO",
-      "default": false
-    },
-    {
-      "type": "text",
-      "id": "pp_bogo_end_text",
-      "label": "End date text",
-      "default": "Ends Tuesday"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_pp_bogo_gift",
-      "label": "Enable free gift",
+      "label": "Enable BOGO Promo Banner",
       "default": false
     },
     {
       "type": "product",
+      "id": "pp_bogo_product",
+      "label": "BOGO Product (The 'Buy One')",
+      "info": "The main product displayed in the banner that the user adds to their cart."
+    },
+    {
+      "type": "product",
       "id": "pp_bogo_gift_product",
-      "label": "Gift product"
+      "label": "Free Gift Product (The 'Get One')",
+      "info": "The FREE ($0) product that is automatically added to the cart."
+    },
+    {
+      "type": "header",
+      "content": "Banner Content"
     },
     {
       "type": "text",
-      "id": "pp_bogo_gift_variant_id",
-      "label": "Gift variant ID",
-      "info": "Single variant to add as free gift"
+      "id": "pp_bogo_headline",
+      "label": "Promo Headline",
+      "default": "GET A FREE SAVORY STARTER PACK!"
+    },
+    {
+      "type": "text",
+      "id": "pp_bogo_countdown_end_date",
+      "label": "Countdown End Date",
+      "info": "Format: YYYY-MM-DD HH:MM:SS. Example: 2024-08-27 23:59:59"
+    },
+    {
+      "type": "textarea",
+      "id": "pp_bogo_flavors",
+      "label": "Flavors in Pack",
+      "info": "List each flavor included, separated by a pipe character (|). Example: Cheddar Cheese|Movie Time|Salsa Cheddar"
+    },
+    {
+      "type": "textarea",
+      "id": "pp_bogo_benefits",
+      "label": "Benefit List",
+      "default": "10g Protein Per Bag",
+      "info": "List each benefit, separated by a pipe character (|)."
     }
   ],
   "max_blocks": 50,
@@ -391,8 +414,7 @@
         {
           "type": "product",
           "id": "product",
-          "label": "Product",
-          "info": "Select the product to display as an add-on."
+          "label": "Product"
         },
         {
           "type": "select",
@@ -403,29 +425,19 @@
             { "value": "slot_2", "label": "Slot 2 (Middle)" },
             { "value": "slot_3", "label": "Slot 3 (Right)" }
           ],
-          "default": "slot_1",
-          "info": "Assign this product to a slot. You can assign multiple products to the same slot to create an A/B test. If no products are assigned to a slot, a default product will be shown."
+          "default": "slot_1"
         },
         {
           "type": "text",
           "id": "collection_handle",
-          "label": "Collection Handle (Optional)",
-          "info": "For linking back to the product within its collection. E.g., 'protein-popcorn'. Leave blank if unsure."
+          "label": "Collection Handle (Optional)"
         },
         {
           "type": "textarea",
           "id": "card_description_points",
           "label": "Benefit Points",
-          "info": "List key benefits, separated by a pipe character (|). Example: Point one|Point two|Point three"
+          "info": "Separate points with a pipe character (|)."
         }
-      ]
-    },
-    {
-      "type": "pp_bogo_flavor",
-      "name": "BOGO Flavor",
-      "settings": [
-        { "type": "text", "id": "label", "label": "Flavor label" },
-        { "type": "text", "id": "variant_id", "label": "Recharge bundle VARIANT ID (Shopify)" }
       ]
     }
   ],

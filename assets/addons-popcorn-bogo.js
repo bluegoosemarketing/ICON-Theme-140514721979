@@ -1,180 +1,165 @@
 /* =====================================================================
-   Protein Popcorn BOGO module for Add-ons page
+   Protein Popcorn BOGO module for Add-ons page (V5.1 - Integrated Gift Logic)
+   - Manages the single promo banner UI.
+   - Includes automatic "free gift" synchronization.
    ===================================================================== */
-(function(){
-  document.addEventListener('DOMContentLoaded', function(){
+(function() {
+  document.addEventListener('DOMContentLoaded', function() {
     const container = document.querySelector('[data-pp-bogo]');
     if (!container) return;
+
+    const addBtn = container.querySelector('[data-pp-bogo-add]');
+    const countdownEl = container.querySelector('[data-pp-bogo-countdown]');
+
+    if (!addBtn) return;
 
     const params = new URLSearchParams(window.location.search);
     const devMode = params.get('bogo_dev') === '1' || params.get('pp_bogo_dev') === '1';
 
-    function debug(){
-      if (!devMode) return;
-      const args = Array.from(arguments);
-      args.unshift('[PP BOGO]');
-      console.log.apply(console, args);
+    const config = window.ppBogoConfig || {};
+
+    // --- Dev Mode Fallbacks ---
+    if (devMode && !config.variantId) {
+      config.variantId = '41138635473083'; // Default "Buy One"
+    }
+    if (devMode && !config.giftVariantId) {
+      config.giftVariantId = '41138635473083'; // Default "Get One" (using same for demo)
     }
 
-    const defaultConfig = {
-      enabled: false,
-      endText: 'Ends Tuesday',
-      giftEnabled: false,
-      giftVariantId: null,
-      flavors: [
-        { label: 'Sample Savory', variantId: '1111111111' },
-        { label: 'Sample BBQ', variantId: '2222222222' }
-      ]
-    };
-    const config = Object.assign({}, defaultConfig, window.ppBogoConfig || {});
-    debug('config', config);
-    if ((!config.flavors || config.flavors.length === 0)) {
-      if (devMode) {
-        config.flavors = defaultConfig.flavors;
-      } else {
-        container.classList.add('hidden');
+    if ((!config.enabled && !devMode) || !config.variantId) {
+      container.classList.add('hidden');
+      return;
+    }
+    
+    // --- Countdown Timer Logic ---
+    let countdownInterval;
+    function initializeCountdown(endDateString) {
+      if (!endDateString || !countdownEl) {
+        if(countdownEl) countdownEl.style.display = 'none';
         return;
       }
+      
+      const countdownDate = new Date(endDateString.replace(/-/g, '/')).getTime();
+      const daysEl = countdownEl.querySelector('[data-countdown-days]');
+      const hoursEl = countdownEl.querySelector('[data-countdown-hours]');
+      const minsEl = countdownEl.querySelector('[data-countdown-mins]');
+      const secsEl = countdownEl.querySelector('[data-countdown-secs]');
+      
+      if(!daysEl || !hoursEl || !minsEl || !secsEl) return;
+
+      countdownInterval = setInterval(() => {
+        const now = new Date().getTime();
+        const distance = countdownDate - now;
+
+        if (distance < 0) {
+          clearInterval(countdownInterval);
+          countdownEl.innerHTML = '<span class="countdown-expired">This offer has expired!</span>';
+          addBtn.disabled = true;
+          addBtn.querySelector('.btn-text').textContent = 'Offer Expired';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        daysEl.textContent = String(days).padStart(2, '0');
+        hoursEl.textContent = String(hours).padStart(2, '0');
+        minsEl.textContent = String(minutes).padStart(2, '0');
+        secsEl.textContent = String(seconds).padStart(2, '0');
+      }, 1000);
     }
 
-    const flavorSelect = container.querySelector('[data-pp-bogo-flavor]');
-    const endEl = container.querySelector('[data-pp-bogo-end]');
-    const addBtn = container.querySelector('[data-pp-bogo-add]');
-
-    // populate flavors
-    const availabilityPromises = [];
-    flavorSelect.innerHTML = '';
-    (config.flavors || []).forEach(f => {
-      const opt = document.createElement('option');
-      opt.value = f.variantId;
-      opt.textContent = f.label;
-      opt.disabled = true;
-      flavorSelect.appendChild(opt);
-      availabilityPromises.push(
-        checkAvailability(f.variantId).then(avail => {
-          if (avail) {
-            opt.disabled = false;
-          } else {
-            opt.textContent += ' (Unavailable)';
-          }
-        })
-      );
-    });
-
-    Promise.allSettled(availabilityPromises).then(() => {
-      const firstEnabled = Array.from(flavorSelect.options).find(o => !o.disabled);
-      if (firstEnabled) {
-        flavorSelect.value = firstEnabled.value;
-      } else if (!devMode) {
-        container.classList.add('hidden');
-      }
-      updateBtnState();
-    });
-
-    endEl.textContent = config.endText || 'Ends Tuesday';
-
-    flavorSelect.addEventListener('change', updateBtnState);
-    function updateBtnState(){
-      const option = flavorSelect.options[flavorSelect.selectedIndex];
-      addBtn.disabled = !option || option.disabled;
-    }
-
-    function isMeal(item){
+    initializeCountdown(config.countdownEndDate);
+    
+    // --- Core Eligibility & Cart Logic ---
+    function isMeal(item) {
       const type = String(item.product_type || '').toLowerCase();
-      const handle = String(item.handle || '').toLowerCase();
-      // Exclude clearly non-meal categories only
-      const nonMealTypes = ['peanut butter','protein popcorn','seasoning','beverage','options_hidden_product'];
-      if (nonMealTypes.includes(type)) return false;
-      // Everything else (including meal plans) is counted; multiplier handles 12/24 parsing
-      return true;
+      const nonMealTypes = ['peanut butter', 'protein popcorn', 'seasoning', 'beverage', 'options_hidden_product'];
+      return !nonMealTypes.includes(type);
     }
-    function mealMultiplier(item){
-      if (item.properties && item.properties._meals_per_unit){
-        const n = parseInt(item.properties._meals_per_unit,10);
-        if(!isNaN(n) && n>0) return n;
+
+    function mealMultiplier(item) {
+      if (item.properties && item.properties._meals_per_unit) {
+        const n = parseInt(item.properties._meals_per_unit, 10);
+        if (!isNaN(n) && n > 0) return n;
       }
-      const sources = [item.variant_title,item.title,item.sku]
-        .filter(Boolean)
-        .map(s => String(s).toLowerCase());
-      for (const src of sources){
-        // catches "12 Meal", "12-Meal", "24 meals"
+      const sources = [item.variant_title, item.title, item.sku].filter(Boolean).map(s => String(s).toLowerCase());
+      for (const src of sources) {
         const m = src.match(/(\d+)\s*[- ]*\s*meal(s)?\b/);
-        if (m){
-          const n = parseInt(m[1],10);
-          if(!isNaN(n) && n>0) return n;
+        if (m) {
+          const n = parseInt(m[1], 10);
+          if (!isNaN(n) && n > 0) return n;
         }
       }
       return 1;
     }
-    function mealCount(cart){
-      return (cart.items || []).reduce((count,item)=>{
-        if(!isMeal(item)) return count;
+
+    function mealCount(cart) {
+      return (cart.items || []).reduce((count, item) => {
+        if (!isMeal(item)) return count;
         return count + item.quantity * mealMultiplier(item);
-      },0);
-    }
-    function fetchCart(){
-      return fetch('/cart.js', {credentials:'same-origin'}).then(r=>r.json());
+      }, 0);
     }
 
-    async function syncGift(cart, eligible){
-      if (!config.giftEnabled || !config.giftVariantId) { debug('skip gift: not configured'); return; }
+    function fetchCart() {
+      return fetch('/cart.js', { credentials: 'same-origin' }).then(r => r.json());
+    }
+
+    async function syncGift(cart, eligible) {
+      if (!config.giftVariantId) return;
+
       const items = cart.items || [];
       const giftId = String(config.giftVariantId);
-      const giftLine = items.find(i => String(i.variant_id) === giftId);
-      const hasBogo = items.some(i => (config.flavors || []).some(f => String(f.variantId) === String(i.variant_id)));
-      debug('syncGift', {hasBogo, giftLine, eligible});
+      const mainBogoItemId = String(config.variantId);
 
+      const giftLine = items.find(i => String(i.variant_id) === giftId);
+      const hasBogoItem = items.some(i => String(i.variant_id) === mainBogoItemId);
+      
       try {
-        if (hasBogo && eligible){
-          if (!giftLine){
-            debug('adding gift');
+        if (hasBogoItem && eligible) {
+          if (!giftLine) {
             await fetch('/cart/add.js', {
-              method:'POST',
-              headers:{'Content-Type':'application/json'},
-              body: JSON.stringify({ id: giftId, quantity:1, properties:{ _bogo_gift:'1' } })
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ id: giftId, quantity: 1, properties: { _bogo_gift: 'true' } })
             });
-            const newCart = await fetchCart();
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail:{ cart:newCart } }));
-          } else if (giftLine.quantity > 1){
-            debug('reducing gift quantity');
-            const lineIndex = items.findIndex(i => String(i.key) === String(giftLine.key)) + 1;
-            await fetch('/cart/change.js', {
-              method:'POST',
-              headers:{'Content-Type':'application/json'},
-              body: JSON.stringify({ line: lineIndex, quantity:1 })
-            });
-            const newCart = await fetchCart();
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail:{ cart:newCart } }));
+            return true; // Indicates a cart change happened
           }
-        } else if (giftLine){
-          debug('removing gift');
-          const lineIndex = items.findIndex(i => String(i.key) === String(giftLine.key)) + 1;
+        } else if (giftLine) {
           await fetch('/cart/change.js', {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({ line: lineIndex, quantity:0 })
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: giftId, quantity: 0 })
           });
-          const newCart = await fetchCart();
-          document.dispatchEvent(new CustomEvent('cart:updated', { detail:{ cart:newCart } }));
+          return true; // Indicates a cart change happened
         }
-      } catch(err){
+      } catch (err) {
         console.error('PP BOGO gift sync failed', err);
       }
+      return false; // No cart change
     }
 
-    async function evaluate(){
-      try{
+    async function evaluate() {
+      try {
         const cart = await fetchCart();
         const count = mealCount(cart);
         const eligible = count >= 14;
-        debug('evaluate', {count, eligible});
-        if (eligible || devMode){
+
+        if (eligible || devMode) {
           container.classList.remove('hidden');
         } else {
           container.classList.add('hidden');
         }
-        await syncGift(cart, eligible);
-      } catch(e) {
+
+        const giftChanged = await syncGift(cart, eligible);
+        if (giftChanged) {
+          const newCart = await fetchCart();
+          document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: newCart } }));
+        }
+
+      } catch (e) {
         console.error('PP BOGO eval failed', e);
       }
     }
@@ -183,38 +168,42 @@
     document.addEventListener('cart:updated', evaluate);
 
     addBtn.addEventListener('click', async () => {
-      const selected = flavorSelect.value;
-      if (!selected) return;
+      const variantId = config.variantId;
+      if (!variantId) return;
+
+      addBtn.disabled = true;
+      addBtn.classList.add('is-loading');
 
       try {
-        if (!devMode){
+        if (!devMode) {
           const cart = await fetchCart();
-          if (mealCount(cart) < 14){
+          if (mealCount(cart) < 14) {
             container.classList.add('hidden');
             return;
           }
         }
-        addBtn.disabled = true;
+
         const res = await fetch('/cart/add.js', {
-          method:'POST',
-          headers:{'Content-Type':'application/json'},
-          body: JSON.stringify({ id: selected, quantity:1 })
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id: variantId, quantity: 1 }),
         });
+
         if (!res.ok) throw new Error('Add to cart failed');
-        const newCart = await fetchCart();
-        document.dispatchEvent(new CustomEvent('cart:updated', { detail:{ cart:newCart } }));
-      } catch(e){
+        
+        addBtn.classList.remove('is-loading');
+        addBtn.classList.add('is-added');
+        addBtn.querySelector('.btn-text').textContent = 'Added!';
+
+        // Trigger evaluation to sync the gift immediately
+        await evaluate();
+
+      } catch (e) {
         console.error('PP BOGO add failed', e);
-      } finally {
-        addBtn.disabled = false;
+        addBtn.disabled = false; // Re-enable on failure
+        addBtn.classList.remove('is-loading');
+        addBtn.querySelector('.btn-text').textContent = 'Error - Try Again';
       }
     });
-
-    function checkAvailability(id){
-      return fetch(`/variants/${id}.json`)
-        .then(r => r.json())
-        .then(data => data && data.variant && data.variant.available)
-        .catch(()=>false);
-    }
   });
 })();

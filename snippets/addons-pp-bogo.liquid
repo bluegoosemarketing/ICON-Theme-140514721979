@@ -1,54 +1,93 @@
 {%- comment -%}
-  Protein Popcorn BOGO upsell card for add-ons page
+  Protein Popcorn BOGO Promo Banner (V5.1 - Integrated Gift Logic)
+  - Uses the polished V5 UI.
+  - Passes the free gift variant ID to the script.
 {%- endcomment -%}
-{%- assign dev_flag = request.params.bogo_dev | default: request.params.pp_bogo_dev -%}
-{%- assign preview_mode = dev_flag == '1' -%}
-{%- assign enabled = section.settings.enable_pp_bogo -%}
-{%- assign has_blocks = flavor_blocks and flavor_blocks.size > 0 -%}
+
+{%- liquid
+  assign dev_flag = request.params.bogo_dev | default: request.params.pp_bogo_dev
+  assign preview_mode = false
+  if dev_flag == '1'
+    assign preview_mode = true
+  endif
+
+  assign enabled = section.settings.enable_pp_bogo
+  assign product_is_set = false
+  if bogo_product != blank
+    assign product_is_set = true
+  endif
+
+  assign variant_id = bogo_product.first_available_variant.id
+  assign gift_variant_id = section.settings.pp_bogo_gift_product.first_available_variant.id
+
+  assign headline = section.settings.pp_bogo_headline
+  assign flavor_list = section.settings.pp_bogo_flavors | split: '|'
+  assign benefit_list = section.settings.pp_bogo_benefits | split: '|'
+  assign countdown_end_date = section.settings.pp_bogo_countdown_end_date
+-%}
+
 {%- if enabled or preview_mode -%}
-<div class="addon-card-v2 addon-card--pp-bogo hidden" data-pp-bogo>
-  <div class="addon-card__body">
-    {%- if preview_mode -%}
-    <div class="pp-bogo-preview-badge">Preview</div>
-    {%- endif -%}
-    <h3 class="addon-card__title">BOGO Protein Popcorn — Savory 4-Pack</h3>
-    <p class="addon-card__note">Qualify with any 14+ meals. Limited time.</p>
-    <div class="addon-card__options">
-      <div class="addon-card__option-group">
-        <label for="pp-bogo-flavor">Flavor</label>
-        <select id="pp-bogo-flavor" data-pp-bogo-flavor>
-          {%- if has_blocks -%}
-            {%- for block in flavor_blocks -%}
-              <option value="{{ block.settings.variant_id }}">{{ block.settings.label }}</option>
-            {%- endfor -%}
-          {%- endif -%}
-        </select>
+  <div class="pp-bogo-banner-v5 hidden" data-pp-bogo>
+    <div class="pp-bogo-banner-v5__image-wrapper">
+      {%- if product_is_set and bogo_product.featured_image -%}
+        <img src="{{ bogo_product.featured_image | image_url: width: 300 }}" alt="{{ bogo_product.featured_image.alt | escape }}" width="150" height="150" loading="lazy">
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'pp-bogo-banner-v5__placeholder-svg' }}
+      {%- endif -%}
+    </div>
+
+    <div class="pp-bogo-banner-v5__content">
+      <div class="pp-bogo-banner-v5__details">
+        <span class="pp-bogo-banner-v5__pre-headline">LIMITED TIME BOGO OFFER</span>
+        <h3 class="pp-bogo-banner-v5__headline">{{ headline }}</h3>
+        <p class="pp-bogo-banner-v5__subtext">Qualify with any 14+ meals in your cart. A <strong>{{ bogo_product.price | default: 2499 | money }} value</strong>, absolutely free.</p>
+        
+        <div class="pp-bogo-banner-v5__flavor-tags">
+          {%- for flavor in flavor_list -%}
+            {%- assign trimmed_flavor = flavor | strip -%}
+            {%- if trimmed_flavor != blank -%}
+              <span class="pp-bogo-banner-v5__flavor-tag">{{ trimmed_flavor }}</span>
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+
+        <ul class="pp-bogo-banner-v5__benefit-list">
+          {%- for benefit in benefit_list -%}
+            {%- assign trimmed_benefit = benefit | strip -%}
+            {%- if trimmed_benefit != blank -%}
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                <span>{{ trimmed_benefit }}</span>
+              </li>
+            {%- endif -%}
+          {%- endfor -%}
+        </ul>
+      </div>
+    </div>
+    
+    <div class="pp-bogo-banner-v5__actions">
+      <button type="button" class="btn pp-bogo-banner-v5__cta" data-pp-bogo-add>
+        <span class="btn-text">Claim My Free Pack</span>
+        <span class="btn-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+        </span>
+      </button>
+      <div class="pp-bogo-banner-v5__countdown" data-pp-bogo-countdown>
+        <div class="countdown-timer">
+          <span data-countdown-days>00</span>:<span data-countdown-hours>00</span>:<span data-countdown-mins>00</span>:<span data-countdown-secs>00</span>
+        </div>
+        <div class="countdown-labels">
+          <span>Days</span><span>Hrs</span><span>Mins</span><span>Secs</span>
+        </div>
       </div>
     </div>
   </div>
-  <div class="addon-card__footer">
-    <button type="button" class="btn addon-card__add-btn" data-pp-bogo-add>Add BOGO to Order</button>
-    <p class="addon-card__urgency" data-pp-bogo-end>{{ section.settings.pp_bogo_end_text | default: 'Ends Tuesday' }}</p>
-  </div>
-</div>
-{%- if enabled or has_blocks or section.settings.pp_bogo_end_text != blank -%}
-{%- assign gift_variant_id = section.settings.pp_bogo_gift_variant_id -%}
-{%- if gift_variant_id == blank and section.settings.pp_bogo_gift_product and section.settings.pp_bogo_gift_product.variants_count == 1 -%}
-  {%- assign gift_variant_id = section.settings.pp_bogo_gift_product.variants.first.id -%}
-{%- endif -%}
-<script>
-  window.ppBogoConfig = window.ppBogoConfig || {};
-  window.ppBogoConfig.enabled = {{ enabled | json }};
-  window.ppBogoConfig.endText = {{ section.settings.pp_bogo_end_text | default: 'Ends Tuesday' | json }};
-  window.ppBogoConfig.giftEnabled = {{ section.settings.enable_pp_bogo_gift | json }};
-  window.ppBogoConfig.giftVariantId = {{ gift_variant_id | json }};
-  window.ppBogoConfig.flavors = [
-    {%- if has_blocks -%}
-      {%- for block in flavor_blocks -%}
-        { label: {{ block.settings.label | json }}, variantId: {{ block.settings.variant_id | json }} }{%- unless forloop.last -%},{%- endunless -%}
-      {%- endfor -%}
-    {%- endif -%}
-  ];
-</script>
-{%- endif -%}
+
+  <script>
+    window.ppBogoConfig = window.ppBogoConfig || {};
+    window.ppBogoConfig.enabled = {{ enabled | json }};
+    window.ppBogoConfig.variantId = {{ variant_id | json }}; // The "Buy One"
+    window.ppBogoConfig.giftVariantId = {{ gift_variant_id | json }}; // The "Get One"
+    window.ppBogoConfig.countdownEndDate = {{ countdown_end_date | json }};
+  </script>
 {%- endif -%}

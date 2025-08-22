@@ -3244,3 +3244,229 @@ body.quick-view-open {
   border: none;
   padding: 0;
 }
+
+/* ==========================================================================
+   BOGO PROMO BANNER V5 (COHESIVE UI)
+   ========================================================================== */
+
+/* Clean up previous versions to avoid conflicts */
+.pp-bogo-banner, .pp-bogo-banner-v2, .pp-bogo-banner-v3, .pp-bogo-banner-v4 { display: none; }
+
+.pp-bogo-banner-v5 {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 2.5rem;
+  align-items: center;
+  background: linear-gradient(180deg, #ffffff 0%, #fcfdfd 100%);
+  border: 1px solid #e9ecef;
+  border-radius: 16px;
+  padding: 2rem 2.5rem;
+  margin-bottom: 3rem;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.06);
+  transition: opacity 0.3s ease;
+}
+.pp-bogo-banner-v5.hidden { display: none; }
+
+.pp-bogo-banner-v5__image-wrapper {
+  flex-shrink: 0;
+  width: 150px;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8f9fa;
+  border-radius: 12px;
+}
+.pp-bogo-banner-v5__image-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.pp-bogo-banner-v5__placeholder-svg {
+  width: 60%;
+  height: 60%;
+  color: #ced4da;
+}
+
+.pp-bogo-banner-v5__content {
+  flex-grow: 1;
+}
+
+.pp-bogo-banner-v5__pre-headline {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #c0392b;
+  margin-bottom: 0.75rem;
+}
+
+.pp-bogo-banner-v5__headline {
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  font-size: 2rem !important;
+  font-weight: 800 !important;
+  line-height: 1.2 !important;
+  color: #212529 !important;
+  margin: 0 0 0.5rem 0 !important;
+  letter-spacing: -0.02em;
+}
+
+.pp-bogo-banner-v5__subtext {
+  font-size: 1rem;
+  color: #495057;
+  margin: 0 0 1.25rem 0;
+  max-width: 55ch;
+}
+
+.pp-bogo-banner-v5__flavor-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 1.25rem;
+  border-bottom: 1px solid #f0f2f5;
+}
+
+.pp-bogo-banner-v5__flavor-tag {
+  background-color: #f1f3f5;
+  color: #495057;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 0.3rem 0.75rem;
+  border-radius: 6px;
+}
+
+.pp-bogo-banner-v5__benefit-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+.pp-bogo-banner-v5__benefit-list li {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #343a40;
+}
+.pp-bogo-banner-v5__benefit-list li svg {
+  color: var(--brand-accent, #2EBF7A);
+  flex-shrink: 0;
+}
+
+.pp-bogo-banner-v5__actions {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pp-bogo-banner-v5__cta {
+  width: 100%;
+  min-width: 260px;
+  background-color: var(--brand-accent) !important;
+  border-color: var(--brand-accent) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-size: 1.1rem !important;
+  padding: 1rem !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+.pp-bogo-banner-v5__cta:hover:not(:disabled) {
+  background-color: var(--brand-accent-darker) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+.pp-bogo-banner-v5__cta .btn-text { transition: all 0.3s ease; }
+.pp-bogo-banner-v5__cta .btn-icon {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0.5);
+  opacity: 0; transition: all 0.3s ease;
+}
+.pp-bogo-banner-v5__cta.is-added .btn-text { opacity: 0; transform: translateY(-10px); }
+.pp-bogo-banner-v5__cta.is-added .btn-icon { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+.pp-bogo-banner-v5__cta.is-loading > span { opacity: 0; }
+.pp-bogo-banner-v5__cta.is-loading::after {
+  content: ""; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%); opacity: 1; width: 24px; height: 24px;
+  background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3e.spinner_path%7bstroke:%23ffffff;stroke-width:3;stroke-linecap:round;fill:none%7d%3c/style%3e%3ccircle class='spinner_path' cx='12' cy='12' r='10' stroke-dasharray='62.83' stroke-dashoffset='47.12'/%3e%3c/svg%3e") !important;
+  background-size: contain; background-repeat: no-repeat;
+  animation: unified-spinner-spin 0.85s cubic-bezier(0.5, 0.15, 0.5, 0.85) infinite;
+}
+
+.pp-bogo-banner-v5__countdown {
+  width: 100%;
+  background-color: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+}
+.pp-bogo-banner-v5__countdown .countdown-timer {
+  font-family: 'SF Mono', 'Menlo', 'Monaco', 'Consolas', monospace;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #212529;
+  text-align: center;
+  letter-spacing: 0.05em;
+}
+.pp-bogo-banner-v5__countdown .countdown-timer span:not(:last-child) {
+  margin-right: 0.1em;
+}
+.pp-bogo-banner-v5__countdown .countdown-labels {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  text-align: center;
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: #6c757d;
+  text-transform: uppercase;
+  margin-top: 0.1rem;
+  padding: 0 4px;
+}
+.pp-bogo-banner-v5__countdown .countdown-expired {
+  text-align: center;
+  font-size: 1rem; font-weight: 600; color: #dc3545;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .pp-bogo-banner-v5 {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 1.5rem;
+  }
+  .pp-bogo-banner-v5__image-wrapper {
+    margin: 0 auto;
+  }
+  .pp-bogo-banner-v5__flavor-tags {
+    justify-content: center;
+  }
+  .pp-bogo-banner-v5__benefit-list {
+    max-width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+  }
+  .pp-bogo-banner-v5__actions {
+    width: 100%;
+    max-width: 400px;
+    margin: 1.5rem auto 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .pp-bogo-banner-v5 {
+    padding: 1.5rem;
+  }
+  .pp-bogo-banner-v5__headline {
+    font-size: 1.75rem !important;
+  }
+}
