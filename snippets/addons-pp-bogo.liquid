@@ -40,8 +40,7 @@
       <div class="pp-bogo-banner-v5__details">
         <span class="pp-bogo-banner-v5__pre-headline">LIMITED TIME BOGO OFFER</span>
         <h3 class="pp-bogo-banner-v5__headline">{{ headline }}</h3>
-        <p class="pp-bogo-banner-v5__subtext">Qualify with any 14+ meals in your cart. A <strong>{{ bogo_product.price | default: 2499 | money }} value</strong>, absolutely free.</p>
-        
+        <p class="pp-bogo-banner-v5__subtext">For a limited time, when you buy one <strong>Protein Popcorn Savory Starter Pack</strong>, you’ll get another one absolutely free.</p>
         <div class="pp-bogo-banner-v5__flavor-tags">
           {%- for flavor in flavor_list -%}
             {%- assign trimmed_flavor = flavor | strip -%}
