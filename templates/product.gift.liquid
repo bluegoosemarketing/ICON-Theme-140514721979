@@ -1,0 +1,73 @@
+{% comment %}
+  ================================================================
+  PRODUCT TEMPLATE - THE ASSEMBLER
+  ================================================================
+  This file creates the final page layout.
+  1. It builds the two-column grid.
+  2. It calls the main 'template--product' section (which is now just content).
+  3. It then calls the other sections, which will now appear correctly inside the main column.
+{% endcomment %}
+
+<div class="container--collection-page">
+  <div class="collection-page__layout">
+    <main class="collection-page__main">
+      <div class="collection-header">
+        <a href="{{ product.collections.first.url | default: routes.root_url }}" class="collection-header__title back-to-collection-link">
+          <svg class="back-arrow-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+            <path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path>
+          </svg>
+          <span>{{ product.collections.first.title | default: 'Menu' }}</span>
+        </a>
+      </div>
+
+      <div id="CollectionProductGrid">
+        <ol class="product-grid" data-paginate-items="1">
+          <li class="grid__item">
+            {% comment %} This renders the main product content (image, form, etc) {% endcomment %}
+            {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
+              {% section 'template--product-custom-meals' %}
+            {% else %}
+              {% section 'template--product' %}
+            {% endif %}
+            <div class="gift-product-message" role="status">
+              This is a free gift that's automatically added to eligible orders.
+            </div>
+            {% if product.description != blank %}
+              <div class="gift-product-description">
+                {{ product.description | strip_html | truncatewords: 40 }}
+              </div>
+            {% endif %}
+          </li>
+        </ol>
+      </div>
+    </main>
+
+    <aside class="collection-page__sidebar">
+      {% render 'cart-preview-sidebar' %}
+    </aside>
+  </div>
+</div>
+
+<style>
+  .template-suffix--gift .product-page--pricing,
+  .template-suffix--gift .product-page--pricing--discount,
+  .template-suffix--gift .product-form-option,
+  .template-suffix--gift .quantity-controls__outer,
+  .template-suffix--gift .product-page--submit-action,
+  .template-suffix--gift .rc-widget-injection-parent,
+  .template-suffix--gift .shopify-payment-terms__container,
+  .template-suffix--gift .product-description-wrapper {
+    display: none !important;
+  }
+
+  .template-suffix--gift .gift-product-message,
+  .template-suffix--gift .gift-product-description {
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .template-suffix--gift .gift-product-message {
+    font-weight: 600;
+  }
+</style>

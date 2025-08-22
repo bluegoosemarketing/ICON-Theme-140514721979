@@ -95,6 +95,7 @@
 {%- render 'sc-includes' -%}
 
   {% if template == 'product' and product.metafields.inventory.ShappifyHidden or product.type contains '_HIDDEN_' %}<meta name='robots' content='noindex'>{% endif %}
+  {% if template.name == 'product' and template.suffix == 'gift' %}<meta name="robots" content="noindex,nofollow">{% endif %}
 
 	<script type="text/javascript">
 	window.lazySizesConfig = window.lazySizesConfig || {};
