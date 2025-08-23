@@ -24,10 +24,19 @@
     --font-stack-header: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
   
-  /* --- Announcement Bar Base & Link Wrapper --- */
+  /* --- Announcement Bar Base & Trigger --- */
   .announcement-bar{background-color:var(--header-nav-link-hover-color);color:#fff;padding:10px 15px;font-family:var(--font-stack-header)}
-  .announcement-bar__link-wrapper{display:block;color:inherit!important;text-decoration:none!important}
-  .announcement-bar__content{margin:0 auto;max-width:95%;text-align:center;font-size:14px;font-weight:600;line-height:1.5;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px}
+  .announcement-bar__content{margin:0 auto;max-width:95%;text-align:center;font-size:14px;font-weight:600;line-height:1.5;letter-spacing:.04em;text-transform:uppercase;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:4px 8px;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;outline:none}
+  .announcement-bar__content:hover,
+  .announcement-bar__content:focus,
+  .announcement-bar__content:active{opacity:.85}
+
+  /* --- BOGO Modal Styles --- */
+  .bogo-modal{display:none;position:fixed;inset:0;z-index:2000;background-color:rgba(17,17,17,.85)}
+  .bogo-modal__content{background:var(--header-background);color:var(--header-text-color);margin:8% auto;padding:40px;max-width:520px;position:relative;border-radius:8px;text-align:center}
+  .bogo-modal__close{position:absolute;top:15px;right:20px;background:none;border:0;font-size:32px;line-height:1;color:var(--header-text-color);cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:color .3s ease,transform .3s ease}
+  .bogo-modal__close:hover,
+  .bogo-modal__close:focus{color:var(--header-nav-link-hover-color);transform:rotate(90deg) scale(1.1)}
 
   /* --- Styling Engine for Announcement Bar --- */
   @keyframes flash-animation { 0%, 100% { opacity: 1; } 50% { opacity: 0.7; } }
@@ -67,19 +76,37 @@
 
 {% if section.settings.announcement_bar_enabled and announcement_display != blank %}
   <div class="announcement-bar">
-    {%- if section.settings.announcement_bar_link != blank -%}
-      <a href="{{ section.settings.announcement_bar_link }}" class="announcement-bar__link-wrapper">
-    {%- endif -%}
-
-    <div class="announcement-bar__content" aria-live="polite">
+    <div class="announcement-bar__content" data-bogo-announcement-trigger aria-live="polite" role="button" tabindex="0">
       {{ announcement_display }}
     </div>
-
-    {%- if section.settings.announcement_bar_link != blank -%}
-      </a>
-    {%- endif -%}
   </div>
 {% endif %}
+
+<div id="bogo-announcement-modal" class="bogo-modal" hidden>
+  <div class="bogo-modal__content">
+    <button type="button" class="bogo-modal__close" data-bogo-announcement-close aria-label="Close">×</button>
+    <div>{{ announcement_display }}</div>
+  </div>
+</div>
+
+<script>
+  (function(){
+    function initBogoAnnouncement(){
+      const trigger=document.querySelector('[data-bogo-announcement-trigger]');
+      const modal=document.getElementById('bogo-announcement-modal');
+      const closeBtn=modal?modal.querySelector('[data-bogo-announcement-close]'):null;
+      if(!trigger||!modal||!closeBtn)return;
+      const open=()=>{modal.style.display='block';modal.removeAttribute('hidden');};
+      const close=()=>{modal.style.display='none';modal.setAttribute('hidden','');};
+      trigger.addEventListener('click',open);
+      trigger.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();open();}});
+      closeBtn.addEventListener('click',close);
+      modal.addEventListener('click',e=>{if(e.target===modal)close();});
+      document.addEventListener('keydown',e=>{if(e.key==='Escape')close();});
+    }
+    if(document.readyState==='loading'){document.addEventListener('DOMContentLoaded',initBogoAnnouncement);}else{initBogoAnnouncement();}
+  })();
+</script>
 
 
 <div class="site-header-wrapper {% if section.settings.sticky_header %}is-sticky{% endif %}" data-header-wrapper>
