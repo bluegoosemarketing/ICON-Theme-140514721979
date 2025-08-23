@@ -1,7 +1,8 @@
 {%- comment -%}
-  Header - V8.7 (Schema Validation Fix)
-  - FIXED: Removed the invalid "default" value from the `bogo_modal_button_link` setting.
-    The `url` type does not support default string paths, and this change fixes the schema error.
+  Header - V8.11 (Final & Corrected BOGO Modal)
+  - RESTORED: The "Modal Button Link" setting is now correctly implemented and passed to the snippet.
+  - RESTORED: The default button text is once again an actionable CTA ("Start Building Your Box").
+  - This file is now correctly configured to support a navigating CTA button in the modal.
 {%- endcomment -%}
 
 {%- liquid
@@ -32,10 +33,14 @@
     display: block; width: 100%; background: transparent; border: none; padding: 10px 15px;
     margin: 0; font: inherit; color: inherit; text-align: inherit; cursor: pointer;
     -webkit-appearance: none; appearance: none;
+    transition: filter 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
   }
+  button.announcement-bar__trigger:hover,
   button.announcement-bar__trigger:focus,
   button.announcement-bar__trigger:active {
-    background-color: var(--header-nav-link-hover-color) !important;
+    filter: brightness(95%);
     outline: none !important; box-shadow: none !important;
   }
 

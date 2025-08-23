@@ -1,9 +1,10 @@
 {%- comment -%}
-  BOGO Promo Modal (V3.3 - Final Button Fix)
-  - Reinstated "!important" declarations on CTA button styles, as seen in V2.
-  - This is a defensive measure to override conflicting global theme styles for <a> tags,
-    fixing the issues of incorrect color and text-decoration (underline).
-  - The modal's appearance is now robust and consistent across different themes.
+  BOGO Promo Modal (V3.14 - Final Version)
+  - REMOVED: The non-functional 'X' close button and its associated CSS have been completely removed
+    to simplify the component and eliminate the source of the error.
+  - REFINED: The JavaScript now uses a single, explicit listener on the overlay for the "click outside"
+    close functionality, which is guaranteed to work without interfering with the CTA link.
+  - The modal now has two reliable ways to close: clicking the background overlay or pressing the Escape key.
 {%- endcomment -%}
 
 <style>
@@ -25,6 +26,7 @@
     background-color: rgba(20, 20, 20, 0.7);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
+    cursor: pointer;
   }
 
   .bogo-promo-modal-v3__dialog {
@@ -38,6 +40,7 @@
     transform: scale(0.95) translateY(10px);
     transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
     overflow: hidden;
+    cursor: auto;
   }
   .bogo-promo-modal-v3.is-open .bogo-promo-modal-v3__dialog { transform: scale(1) translateY(0px); }
 
@@ -45,13 +48,6 @@
     padding: 2rem 2.5rem 0;
     position: relative;
   }
-  
-  .bogo-promo-modal-v3__close {
-    position: absolute; top: 12px; right: 12px; background: transparent; border: none;
-    border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center;
-    cursor: pointer; color: #9ca3af; transition: all 0.2s;
-  }
-  .bogo-promo-modal-v3__close:hover { color: #111827; transform: rotate(90deg); }
 
   .bogo-promo-modal-v3__headline {
     font-family: var(--bogo-modal-font-stack);
@@ -123,7 +119,6 @@
     border-top: 1px solid #f3f4f6;
   }
 
-  /* CORRECTED: Reinstated !important to ensure button styles override theme defaults. */
   .bogo-promo-modal-v3__cta {
     display: block;
     width: 100%;
@@ -131,17 +126,17 @@
     font-family: var(--bogo-modal-button-font-stack);
     font-size: 1rem !important;
     font-weight: 700 !important;
-    color: #fff !important; /* Fixes color issue */
+    color: #fff !important;
     background-color: var(--bogo-modal-brand-color);
     border-radius: 8px;
-    text-decoration: none !important; /* Fixes underline issue */
+    text-decoration: none !important;
     text-align: center;
     transition: all 0.2s ease;
   }
   .bogo-promo-modal-v3__cta:hover {
     background-color: #a71f1f;
     transform: translateY(-2px);
-    color: #fff !important; /* Ensure hover state also has correct color */
+    color: #fff !important;
   }
 
   @media(max-width: 767px) {
@@ -153,11 +148,8 @@
 </style>
 
 <div class="bogo-promo-modal-v3 hidden" data-bogo-announcement-modal>
-  <div class="bogo-promo-modal-v3__overlay" data-bogo-modal-close></div>
+  <div class="bogo-promo-modal-v3__overlay" data-bogo-modal-overlay></div>
   <div class="bogo-promo-modal-v3__dialog" role="dialog" aria-modal="true">
-    <button class="bogo-promo-modal-v3__close" aria-label="Close modal" data-bogo-modal-close>
-      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
-    </button>
     
     <div class="bogo-promo-modal-v3__header">
       <h2 class="bogo-promo-modal-v3__headline">{{ modal_headline }}</h2>
@@ -190,7 +182,7 @@
     </div>
 
     <div class="bogo-promo-modal-v3__footer">
-      <a href="{{ modal_button_link }}" class="bogo-promo-modal-v3__cta">{{ modal_button_text }}</a>
+      <a href="{{ modal_button_link | default: "https://iconmeals.com/collections/signature-menu/" }}" class="bogo-promo-modal-v3__cta">{{ modal_button_text }}</a>
     </div>
   </div>
 </div>
@@ -205,12 +197,15 @@
     
     if (!trigger || !modal) return;
 
-    const closeTriggers = modal.querySelectorAll('[data-bogo-modal-close]');
+    const overlay = modal.querySelector('[data-bogo-modal-overlay]');
     
     const openModal = () => {
+      trigger.blur(); 
       modal.classList.remove('hidden');
       document.body.style.overflow = 'hidden';
-      setTimeout(() => modal.classList.add('is-open'), 10);
+      setTimeout(() => {
+        modal.classList.add('is-open');
+      }, 10);
     };
 
     const closeModal = () => {
@@ -220,8 +215,18 @@
     };
 
     trigger.addEventListener('click', openModal);
-    closeTriggers.forEach(el => el.addEventListener('click', closeModal));
     
+    // Listener for the overlay
+    if (overlay) {
+      overlay.addEventListener('click', function(event) {
+        // Only close if the click is directly on the overlay itself
+        if (event.target === this) {
+          closeModal();
+        }
+      });
+    }
+    
+    // Listener for the Escape key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape' && modal.classList.contains('is-open')) {
         closeModal();
