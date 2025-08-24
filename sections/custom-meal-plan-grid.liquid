@@ -2,10 +2,9 @@
 =====================================================================================
   CUSTOM MEAL PLAN GRID SECTION
   Designed for ICON Meals by your AI Assistant
-  Version: 12.0 - The Final Responsive Polish.
-  - Implemented "hanging indent" for benefit list text on mobile.
-  - Ensured purchase option pills remain side-by-side on mobile.
-  - This is the definitive, world-class, and fully responsive version.
+  Version: 12.1 - The Definitive Final Version.
+  - Fixed subtitle centering bug by applying auto margins for perfect alignment.
+  - All previous world-class responsive refinements are included.
 =====================================================================================
 {% endcomment %}
 
@@ -48,7 +47,10 @@
     font-size: 1rem; font-weight: 500; line-height: 1.4;
     color: rgba(255, 255, 255, 0.95);
     text-shadow: 0 1px 4px rgba(0,0,0,0.25);
-    max-width: 35ch; margin-top: 0.5rem;
+    max-width: 35ch;
+    margin-top: 0.5rem;
+    margin-left: auto; /* THE FIX */
+    margin-right: auto; /* THE FIX */
   }
 
   /* --- Prestige Content Layout --- */
@@ -69,7 +71,6 @@
   .meal-plan-card__benefit-item { display: flex; align-items: flex-start; gap: 0.75rem; color: #343a40; font-weight: 500; }
   .meal-plan-card__benefit-item svg { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; color: var(--brand-accent, #2EBF7A); }
   
-  /* NEW: Hanging indent for benefit text */
   .meal-plan-card__benefit-item span {
     display: block;
   }
@@ -93,9 +94,9 @@
   .meal-plan-card__cta-wrapper { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef; }
   .meal-plan-card__options-bar {
     display: flex;
-    flex-wrap: nowrap; /* NEW: Prevents wrapping on mobile */
+    flex-wrap: nowrap;
     justify-content: center;
-    gap: 0.5rem; /* NEW: Tighter gap on mobile */
+    gap: 0.5rem;
     margin-bottom: 1.5rem;
   }
   .meal-plan-card__option-pill {
@@ -103,13 +104,13 @@
     font-size: 0.8rem; font-weight: 600; color: #495057;
     background-color: #f8f9fa; border-radius: 99px;
     padding: 0.4rem 0.8rem;
-    white-space: nowrap; /* Prevents text inside from wrapping */
+    white-space: nowrap;
   }
   .meal-plan-card__option-pill svg { width: 16px; height: 16px; stroke-width: 2; color: #6c757d; }
   
   @media (max-width: 767px) {
     .meal-plan-card__option-pill {
-      font-size: 0.75rem; /* Slightly smaller text on mobile */
+      font-size: 0.75rem;
       padding: 0.3rem 0.6rem;
       gap: 0.35rem;
     }

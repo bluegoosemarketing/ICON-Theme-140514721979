@@ -12,17 +12,20 @@
     "meal_plan_grid": {
       "type": "custom-meal-plan-grid",
       "blocks": {
-        "plan_card_KnUht3": {
+        "plan_card_4arTix": {
           "type": "plan_card",
           "settings": {
-            "plan_product": "keto-meal-plan",
-            "promo_title": "KETO",
-            "gradient_start": "#2ecc71",
-            "gradient_end": "#27ae60",
+            "plan_product": "icon-meal-plan",
+            "promo_title": "The ICON",
+            "gradient_start": "#ec4242",
+            "gradient_end": "#d02222",
             "show_hook_line": true,
-            "show_stat_cards": true,
-            "show_who_for_list": false,
-            "description": "<p>Enjoy a high-fat, low-carb assortment of chef-crafted meals designed to keep you on track and fully satisfied. </p>",
+            "show_who_for_list": true,
+            "who_for_limit": 1,
+            "show_options_bar": true,
+            "option_1_text": "12 or 24 Meals",
+            "option_2_text": "One-Time or Subscribe",
+            "description": "<p>Enjoy our chef’s top picks with a rotating mix of best-selling meals, packed with flavor and variety. Healthy, satisfying, and ready in 3 minutes or less.</p>",
             "button_text": "View Plan"
           }
         },
@@ -34,9 +37,46 @@
             "gradient_start": "#db5d34",
             "gradient_end": "#b3441f",
             "show_hook_line": true,
-            "show_stat_cards": true,
-            "show_who_for_list": false,
+            "show_who_for_list": true,
+            "who_for_limit": 1,
+            "show_options_bar": true,
+            "option_1_text": "12 or 24 Meals",
+            "option_2_text": "One-Time or Subscribe",
             "description": "<p>Get 50g+ protein in every meal with larger portions made for muscle growth and strength.</p>",
+            "button_text": "View Plan"
+          }
+        },
+        "plan_card_d7Rgbq": {
+          "type": "plan_card",
+          "settings": {
+            "plan_product": "get-lean-meal-plan",
+            "promo_title": "Get Lean",
+            "gradient_start": "#28a745",
+            "gradient_end": "#20c997",
+            "show_hook_line": true,
+            "show_who_for_list": true,
+            "who_for_limit": 1,
+            "show_options_bar": true,
+            "option_1_text": "12 or 24 Meals",
+            "option_2_text": "One-Time or Subscribe",
+            "description": "<p>Stay fit with high-protein, low-fat meals crafted to keep you lean, satisfied, and on track. Delicious, chef-prepared, and ready in 3 minutes or less.</p>",
+            "button_text": "View Plan"
+          }
+        },
+        "plan_card_KnUht3": {
+          "type": "plan_card",
+          "settings": {
+            "plan_product": "keto-meal-plan",
+            "promo_title": "KETO",
+            "gradient_start": "#cc2ea3",
+            "gradient_end": "#740e59",
+            "show_hook_line": true,
+            "show_who_for_list": true,
+            "who_for_limit": 1,
+            "show_options_bar": true,
+            "option_1_text": "12 or 24 Meals",
+            "option_2_text": "One-Time or Subscribe",
+            "description": "<p>Enjoy a high-fat, low-carb assortment of chef-crafted meals designed to keep you on track and fully satisfied. </p>",
             "button_text": "View Plan"
           }
         },
@@ -48,16 +88,21 @@
             "gradient_start": "#28a745",
             "gradient_end": "#20c997",
             "show_hook_line": true,
-            "show_stat_cards": true,
             "show_who_for_list": true,
+            "who_for_limit": 1,
+            "show_options_bar": true,
+            "option_1_text": "12 or 24 Meals",
+            "option_2_text": "One-Time or Subscribe",
             "description": "<p>Enjoy a high-fat, low-carb assortment of chef-crafted meals designed to keep you on track and fully satisfied.</p>",
             "button_text": "View Plan"
           }
         }
       },
       "block_order": [
-        "plan_card_KnUht3",
+        "plan_card_4arTix",
         "plan_card_fXAaWR",
+        "plan_card_d7Rgbq",
+        "plan_card_KnUht3",
         "plan_card_DAFVxK"
       ],
       "settings": {
