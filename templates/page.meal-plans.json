@@ -1,8 +1,69 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "meal_plan_grid": {
       "type": "custom-meal-plan-grid",
-      "settings": {}
+      "blocks": {
+        "plan_card_KnUht3": {
+          "type": "plan_card",
+          "settings": {
+            "plan_product": "keto-meal-plan",
+            "promo_title": "KETO",
+            "gradient_start": "#2ecc71",
+            "gradient_end": "#27ae60",
+            "show_hook_line": true,
+            "show_stat_cards": true,
+            "show_who_for_list": false,
+            "description": "<p>Enjoy a high-fat, low-carb assortment of chef-crafted meals designed to keep you on track and fully satisfied. </p>",
+            "button_text": "View Plan"
+          }
+        },
+        "plan_card_fXAaWR": {
+          "type": "plan_card",
+          "settings": {
+            "plan_product": "extreme-protein-meal-plan",
+            "promo_title": "Extreme Protein",
+            "gradient_start": "#db5d34",
+            "gradient_end": "#b3441f",
+            "show_hook_line": true,
+            "show_stat_cards": true,
+            "show_who_for_list": false,
+            "description": "<p>Get 50g+ protein in every meal with larger portions made for muscle growth and strength.</p>",
+            "button_text": "View Plan"
+          }
+        },
+        "plan_card_DAFVxK": {
+          "type": "plan_card",
+          "settings": {
+            "plan_product": "lean-lifter-meal-plan",
+            "promo_title": "Lean Lifter",
+            "gradient_start": "#28a745",
+            "gradient_end": "#20c997",
+            "show_hook_line": true,
+            "show_stat_cards": true,
+            "show_who_for_list": true,
+            "description": "<p>Enjoy a high-fat, low-carb assortment of chef-crafted meals designed to keep you on track and fully satisfied.</p>",
+            "button_text": "View Plan"
+          }
+        }
+      },
+      "block_order": [
+        "plan_card_KnUht3",
+        "plan_card_fXAaWR",
+        "plan_card_DAFVxK"
+      ],
+      "settings": {
+        "subheading": "THE MOST CONVENIENT WAY TO MEAL PREP",
+        "heading": "One-Click Meal Plans"
+      }
     }
   },
   "order": [
