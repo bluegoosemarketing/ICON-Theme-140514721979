@@ -9,6 +9,18 @@
  */
 {
   "sections": {
+    "meal_plan_header": {
+      "type": "custom-meal-plan-header",
+      "settings": {
+        "background_color": "#ffffff",
+        "eyebrow": "PRE-BUILT MEAL PLANS",
+        "title": "Meals made for your goals",
+        "intro_text": "<p>Pick 12 or 24 meals. Order once or subscribe to save.</p>",
+        "feature_1_text": "Meals designed by chefs for taste and balance",
+        "feature_2_text": "Choose 12 or 24 meals to fit your routine",
+        "feature_3_text": "Order once or subscribe and save"
+      }
+    },
     "meal_plan_grid": {
       "type": "custom-meal-plan-grid",
       "blocks": {
@@ -105,13 +117,11 @@
         "plan_card_KnUht3",
         "plan_card_DAFVxK"
       ],
-      "settings": {
-        "subheading": "THE MOST CONVENIENT WAY TO MEAL PREP",
-        "heading": "One-Click Meal Plans"
-      }
+      "settings": {}
     }
   },
   "order": [
+    "meal_plan_header",
     "meal_plan_grid"
   ]
 }
