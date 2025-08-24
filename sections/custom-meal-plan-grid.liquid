@@ -1,0 +1,156 @@
+{% comment %}
+=====================================================================================
+  CUSTOM MEAL PLAN GRID SECTION
+  Designed for ICON Meals by your AI Assistant
+  Version: 1.2 - Use "enabled_on" for sitewide availability (replaces deprecated "templates").
+  - World-class, responsive design inspired by the site's existing aesthetic.
+  - Fully configurable through the theme editor with repeatable blocks.
+  - Scoped CSS to prevent conflicts with custom.css.
+=====================================================================================
+{% endcomment %}
+
+<style>
+  .meal-plan-section-wrapper {
+    padding: 40px 0;
+    background-color: #f8f9fa;
+  }
+  @media (min-width: 768px) { .meal-plan-section-wrapper { padding: 60px 0; } }
+
+  .meal-plan-section-header { text-align: center; margin-bottom: 40px; }
+  @media (min-width: 768px) { .meal-plan-section-header { margin-bottom: 50px; } }
+
+  .meal-plan-section-header__subheading {
+    font-size: 1rem; font-weight: 600; color: #d42828; text-transform: uppercase;
+    letter-spacing: 0.05em; margin-bottom: 0.5rem;
+  }
+  .meal-plan-section-header__heading {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+    font-size: 2.5rem !important; font-weight: 800 !important; line-height: 1.2 !important;
+    margin: 0 !important; color: #212529 !important; letter-spacing: -0.02em;
+  }
+  @media (max-width: 767px) { .meal-plan-section-header__heading { font-size: 2rem !important; } }
+
+  .meal-plan-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px; list-style: none; padding: 0; margin: 0;
+  }
+  @media (max-width: 767px) { .meal-plan-grid { grid-template-columns: 1fr; gap: 20px; } }
+
+  .meal-plan-card {
+    display: flex; flex-direction: column; height: 100%; background-color: #fff;
+    border-radius: 16px; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,.04);
+    overflow: hidden; text-decoration: none; transition: all .25s cubic-bezier(.25,.8,.25,1);
+  }
+  .meal-plan-card:hover { transform: translateY(-8px); border-color: #d1d9e2; box-shadow: 0 12px 28px rgba(0,0,0,.07), 0 5px 10px rgba(0,0,0,.05); }
+
+  .meal-plan-card__image-wrapper { position: relative; padding-top: 56.25%; background-color: #f8f9fa; overflow: hidden; }
+  .meal-plan-card__image { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .4s ease; }
+  .meal-plan-card:hover .meal-plan-card__image { transform: scale(1.05); }
+
+  .meal-plan-card__content { display: flex; flex-direction: column; flex-grow: 1; padding: 1.5rem; }
+  .meal-plan-card__title {
+    font-family: system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif !important;
+    font-size: 1.75rem !important; font-weight: 700 !important; line-height: 1.3 !important;
+    margin: 0 0 .75rem 0 !important; color: #212529 !important;
+  }
+  .meal-plan-card__description { font-size: 1rem; line-height: 1.6; color: #495057; margin: 0; flex-grow: 1; }
+  .meal-plan-card__description p:last-child { margin-bottom: 0; }
+
+  .meal-plan-card__cta-wrapper { margin-top: 1.5rem; }
+  .meal-plan-card__cta {
+    display: inline-block; width: 100%; text-align: center;
+    background-color: #fff !important; border: 2px solid var(--brand-accent,#2EBF7A) !important;
+    color: var(--brand-accent,#2EBF7A) !important; border-radius: 8px; font-size: 1rem;
+    font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: .05em;
+    cursor: pointer; padding: .85rem 1.5rem; transition: all .2s ease; text-decoration: none;
+  }
+  .meal-plan-card:hover .meal-plan-card__cta { background-color: var(--brand-accent,#2EBF7A) !important; color: #fff !important; }
+</style>
+
+<div class="meal-plan-section-wrapper">
+  <div class="container">
+    {% if section.settings.heading != blank or section.settings.subheading != blank %}
+      <div class="meal-plan-section-header">
+        {% if section.settings.subheading != blank %}
+          <p class="meal-plan-section-header__subheading">{{ section.settings.subheading | escape }}</p>
+        {% endif %}
+        {% if section.settings.heading != blank %}
+          <h2 class="meal-plan-section-header__heading">{{ section.settings.heading | escape }}</h2>
+        {% endif %}
+      </div>
+    {% endif %}
+
+    {% if section.blocks.size > 0 %}
+      <div class="meal-plan-grid">
+        {% for block in section.blocks %}
+          <div class="meal-plan-grid__item" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.button_link }}" class="meal-plan-card">
+              <div class="meal-plan-card__image-wrapper">
+                {% if block.settings.image != blank %}
+                  <img
+                    src="{{ block.settings.image | image_url: width: 800 }}"
+                    alt="{{ block.settings.image.alt | default: block.settings.title | escape }}"
+                    class="meal-plan-card__image"
+                    loading="lazy"
+                    width="{{ block.settings.image.width }}"
+                    height="{{ block.settings.image.height }}"
+                  >
+                {% else %}
+                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg meal-plan-card__image' }}
+                {% endif %}
+              </div>
+              <div class="meal-plan-card__content">
+                {% if block.settings.title != blank %}
+                  <h3 class="meal-plan-card__title">{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if block.settings.description != blank %}
+                  <div class="meal-plan-card__description">{{ block.settings.description }}</div>
+                {% endif %}
+                <div class="meal-plan-card__cta-wrapper">
+                  <span class="meal-plan-card__cta">{{ block.settings.button_text | escape }}</span>
+                </div>
+              </div>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Custom Meal Plan Grid",
+  "class": "custom-meal-plan-section",
+  "settings": [
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "THE MOST CONVENIENT WAY TO MEAL PREP" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "One-Click Meal Plans" }
+  ],
+  "blocks": [
+    {
+      "type": "plan_card",
+      "name": "Meal Plan Card",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "title", "label": "Title", "default": "Meal Plan Title" },
+        { "type": "richtext", "id": "description", "label": "Description", "default": "<p>Use this space to briefly describe the meal plan. Highlight key benefits and what makes it unique.</p>" },
+        { "type": "text", "id": "button_text", "label": "Button Text", "default": "View Plan" },
+        { "type": "url", "id": "button_link", "label": "Button Link", "info": "Link to the meal plan product or collection page." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Custom Meal Plan Grid",
+      "blocks": [
+        { "type": "plan_card" },
+        { "type": "plan_card" },
+        { "type": "plan_card" }
+      ]
+    }
+  ],
+  "enabled_on": {
+    "templates": ["*"]
+  }
+}
+{% endschema %}

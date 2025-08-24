@@ -1,0 +1,16 @@
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "disabled": true
+    },
+    "meal_plan_grid": {
+      "type": "custom-meal-plan-grid",
+      "settings": {}
+    }
+  },
+  "order": [
+    "main",
+    "meal_plan_grid"
+  ]
+}
