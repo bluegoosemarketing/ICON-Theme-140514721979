@@ -32,38 +32,43 @@
   assign collection_url = fallback_url
 -%}
 
-{%- comment -%}
-  Loop through product tags to find the first match and set the correct
-  collection title and URL. The `break` tag exits the loop after the first match.
-{%- endcomment -%}
-{%- for tag in product.tags -%}
-  {%- case tag -%}
-    {%- when 'Signature Menu' -%}
-      {%- assign collection_title = "Signature Menu" -%}
-      {%- assign collection_url = "/collections/signature-menu" -%}
-      {%- break -%}
+{%- if product.handle contains 'meal-plan' or product.tags contains 'Meal Plan' or product.tags contains 'Meal Plans' -%}
+  {%- assign collection_title = "Meal Plans" -%}
+  {%- assign collection_url = "/pages/mealplans" -%}
+{%- else -%}
+  {%- comment -%}
+    Loop through product tags to find the first match and set the correct
+    collection title and URL. The `break` tag exits the loop after the first match.
+  {%- endcomment -%}
+  {%- for tag in product.tags -%}
+    {%- case tag -%}
+      {%- when 'Signature Menu' -%}
+        {%- assign collection_title = "Signature Menu" -%}
+        {%- assign collection_url = "/collections/signature-menu" -%}
+        {%- break -%}
 
-    {%- when 'Bulk Items' -%}
-      {%- assign collection_title = "Bulk Items" -%}
-      {%- assign collection_url = "/collections/bulk-items" -%}
-      {%- break -%}
+      {%- when 'Bulk Items' -%}
+        {%- assign collection_title = "Bulk Items" -%}
+        {%- assign collection_url = "/collections/bulk-items" -%}
+        {%- break -%}
 
-    {%- when 'Protein Popcorn' -%}
-      {%- assign collection_title = "Protein Popcorn" -%}
-      {%- assign collection_url = "/collections/proteinpopcorn" -%}
-      {%- break -%}
+      {%- when 'Protein Popcorn' -%}
+        {%- assign collection_title = "Protein Popcorn" -%}
+        {%- assign collection_url = "/collections/proteinpopcorn" -%}
+        {%- break -%}
 
-    {%- when 'Protein Butters' -%}
-      {%- assign collection_title = "Protein Butters" -%}
-      {%- assign collection_url = "/collections/butters" -%}
-      {%- break -%}
+      {%- when 'Protein Butters' -%}
+        {%- assign collection_title = "Protein Butters" -%}
+        {%- assign collection_url = "/collections/butters" -%}
+        {%- break -%}
 
-    {%- when 'Protein Coffee' -%}
-      {%- assign collection_title = "Protein Coffee" -%}
-      {%- assign collection_url = "/collections/proteincoffee" -%}
-      {%- break -%}
-  {%- endcase -%}
-{%- endfor -%}
+      {%- when 'Protein Coffee' -%}
+        {%- assign collection_title = "Protein Coffee" -%}
+        {%- assign collection_url = "/collections/proteincoffee" -%}
+        {%- break -%}
+    {%- endcase -%}
+  {%- endfor -%}
+{%- endif -%}
 
 {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
   <div class="collection-header">
