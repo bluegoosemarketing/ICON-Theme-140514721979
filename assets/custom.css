@@ -2836,6 +2836,20 @@ body.quick-view-open {
   margin-bottom: 4rem;
 }
 
+/* Make hero container span full width on Recharge meal plan pages */
+product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  border-radius: 0;
+}
+
+@media (max-width: 991px) {
+  product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
 .meal-plan-hero-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
