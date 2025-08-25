@@ -10,6 +10,10 @@
 {
   "layout": "product-shell",
   "sections": {
+    "collection_header": {
+      "type": "meal-plans-collection-header",
+      "settings": {}
+    },
     "meal_plan_header": {
       "type": "custom-meal-plan-header",
       "settings": {
@@ -146,6 +150,7 @@
     }
   },
   "order": [
+    "collection_header",
     "meal_plan_header",
     "meal_plan_grid"
   ]

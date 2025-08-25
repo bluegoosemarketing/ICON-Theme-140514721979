@@ -281,7 +281,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                         </main>
           
             {% unless template contains 'balanced' %}
-              {% if template.name == 'cart' %}
+              {% if template.name == 'cart' or template.suffix == 'meal-plans' %}
                 {% section 'footer-minimal-ordering' %}
               {% elsif template.name contains 'collection' or template.name contains 'product' %}
                 {%- comment -%} Footer is rendered inside the collection or product template {%- endcomment -%}
