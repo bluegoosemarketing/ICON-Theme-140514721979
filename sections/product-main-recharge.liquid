@@ -191,6 +191,8 @@
   <script type="application/json" data-included-meals-json>{%- if included_meals != blank -%}{{ included_meals | map: 'title' | json }}{%- else -%}[]{%- endif -%}</script>
 </product-form-controller>
 
+{%- render 'footer-minimal-ordering' -%}
+
 {% comment %} ==================================================================================== {% endcomment %}
 {% comment %} SCRIPT: MODIFIED - Removed injection logic and fixed update logic. {% endcomment %}
 {% comment %} ==================================================================================== {% endcomment %}
