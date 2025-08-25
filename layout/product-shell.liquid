@@ -271,6 +271,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 
                                 {{ content_for_layout }}<!-- End of layout -->
                                 <noscript class="endOfLayoutContentX" type="text/mark"></noscript>{% render 'treedify_script' %}
+                                {% if template.suffix == 'meal-plans' %}
+                                  {% section 'footer-minimal-ordering' %}
+                                {% endif %}
 
                               </div>
                               <aside class="collection-page__sidebar">
@@ -279,9 +282,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                             </div>
                           </div>
                         </main>
-          
+
             {% unless template contains 'balanced' %}
-              {% if template.name == 'cart' or template.suffix == 'meal-plans' %}
+              {% if template.name == 'cart' %}
                 {% section 'footer-minimal-ordering' %}
               {% elsif template.name contains 'collection' or template.name contains 'product' %}
                 {%- comment -%} Footer is rendered inside the collection or product template {%- endcomment -%}
