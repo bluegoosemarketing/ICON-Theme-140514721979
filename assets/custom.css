@@ -1333,7 +1333,6 @@ ol.product-grid {
 
 /* This parent rule prevents layout jumps when the placeholder is replaced */
 .product-main__price {
-  min-height: 68px; /* Adjust as needed to match placeholder height */
   display: flex;
   align-items: flex-start; /* Aligns the placeholder to the top */
 }
