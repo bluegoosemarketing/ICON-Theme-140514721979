@@ -393,7 +393,11 @@ customElements.define('product-form-controller', ProductFormController);
     .meal-plan-hero__form { position: sticky; top: 2rem; }
   }
 
-  .meal-plan-hero__info { display: flex; flex-direction: column; gap: 1.75rem; }
+  .meal-plan-hero__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem; /* MODIFIED: Increased from 1.75rem for more breathing room */
+  }
   .meal-plan-section-title { font-size: 0.875rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
   
   /* --- [IMPROVEMENT] Title & Hook Grouping --- */
