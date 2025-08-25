@@ -48,10 +48,12 @@
     <div class="meal-plan-hero-grid">
 
       <div class="meal-plan-hero__info">
-        <h1 class="meal-plan-hero__title">{{ product.title }}</h1>
-        {%- if hero_hook != blank -%}
-          <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
-        {%- endif -%}
+        <div class="meal-plan-hero__header">
+          <h1 class="meal-plan-hero__title">{{ product.title }}</h1>
+          {%- if hero_hook != blank -%}
+            <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
+          {%- endif -%}
+        </div>
         
         {%- if product.description != blank -%}
           <div class="meal-plan-description rte">{{ product.description }}</div>
@@ -63,7 +65,9 @@
             <ul class="meal-plan-target-audience__list">
               {%- for item in who_for_list -%}
                 <li class="meal-plan-target-audience__item">
-                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  <span class="meal-plan-target-audience__icon-wrapper">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                  </span>
                   <span>{{ item }}</span>
                 </li>
               {%- endfor -%}
@@ -311,17 +315,41 @@ customElements.define('product-form-controller', ProductFormController);
     .meal-plan-hero__form { position: sticky; top: 2rem; }
   }
 
-  .meal-plan-hero__info { display: flex; flex-direction: column; gap: 2rem; }
-  .meal-plan-hero__title { font-size: 2.5rem; line-height: 1.1; margin: 0; }
-  .meal-plan-hero__hook { font-size: 1.25rem; font-weight: 500; color: var(--color-text-light); margin: 0.25rem 0 0; }
-  .meal-plan-description.rte { font-size: 1rem; line-height: 1.6; color: var(--color-text-light); }
+  .meal-plan-hero__info { display: flex; flex-direction: column; gap: 1.75rem; }
   .meal-plan-section-title { font-size: 0.875rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
-  .meal-plan-target-audience { margin: 2rem 0; padding: 1.5rem 2rem; background-color: #f8f9fa; border-top: 1px solid #e9ecef; border-bottom: 1px solid #e9ecef; }
-  @media (max-width: 767px) { .meal-plan-target-audience { padding: 1.5rem; } }
+  
+  /* --- [IMPROVEMENT] Title & Hook Grouping --- */
+  .meal-plan-hero__header { display: flex; flex-direction: column; gap: 0.25rem; }
+  .meal-plan-hero__title { font-size: 2.5rem; line-height: 1.2; margin: 0; }
+  .meal-plan-hero__hook { font-size: 1.25rem; font-weight: 500; color: var(--color-text-light); margin: 0; }
+  .meal-plan-description.rte { font-size: 1rem; line-height: 1.6; color: var(--color-text-light); }
+  
+  /* --- [REDESIGN] "Who It's For" Section --- */
+  .meal-plan-target-audience { margin: 0; padding: 0; background-color: transparent; border: none; }
   .meal-plan-target-audience__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
-  .meal-plan-target-audience__item { display: flex; align-items: flex-start; gap: 0.75rem; font-size: 1rem; color: #343a40; font-weight: 500; }
-  .meal-plan-target-audience__item svg { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; color: var(--brand-accent, #2EBF7A); }
-  @media (max-width: 767px) { .meal-plan-target-audience__item { display: block; padding-left: 28px; position: relative; } .meal-plan-target-audience__item svg { position: absolute; left: 0; top: 2px; } }
+  .meal-plan-target-audience__item { 
+    display: flex; 
+    align-items: center;
+    background-color: var(--color-background); 
+    border: 1px solid var(--color-border); 
+    border-radius: var(--radius-md); 
+    padding: 0.75rem 1rem; 
+    font-weight: 500;
+  }
+  .meal-plan-target-audience__icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    margin-right: 1rem;
+    /* [FINAL POLISH] Use the rich, dark brand green for a premium, distinct look */
+    background-color: var(--brand-primary-dark);
+    color: var(--color-surface); /* White icon for high contrast */
+  }
+
   .meal-plan-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
   .meal-plan-feature-card { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; text-align: left; }
   .meal-plan-feature-card__title { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
