@@ -266,6 +266,8 @@ ol.product-grid {
 .grid-view-toggle:hover { color: #495057; }
 .grid-view-toggle.is-active { background-color: #ffffff; color: var(--brand-text); box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
 
+body.template-suffix--meal-plans .collection-page__main { padding-left: 0; padding-right: 0; }
+
 /* RESPONSIVE & MOBILE OVERRIDES */
 @media (max-width: 991px) {
   .collection-page__layout { grid-template-columns: 1fr; }
