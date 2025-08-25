@@ -2621,6 +2621,8 @@ body.template-suffix--add-ons .collection-header-section-v8__cart-button {
   }
   .meal-plan-items__grid {
     gap: 1.5rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
   }
 }
 
@@ -3060,7 +3062,7 @@ body.quick-view-open {
 }
 @media (max-width: 767px) {
   .meal-plan-premium-layout {
-    padding: 1rem 0 2rem;
+    padding: 0rem 0 2rem;
   }
   .meal-plan-hero-container {
     padding: 1.5rem;
@@ -3246,11 +3248,11 @@ body.quick-view-open {
 }
 
 /* ==========================================================================
-   BOGO PROMO BANNER V8.1 (REFINED TAG SIZE)
+   BOGO PROMO BANNER V8 (GRADIENT BORDER UI)
    ========================================================================== */
 
 /* Clean up previous versions to avoid conflicts */
-.pp-bogo-banner, .pp-bogo-banner-v2, .pp-bogo-banner-v3, .pp-bogo-banner-v4, .pp-bogo-banner-v5, .pp-bogo-banner-v6, .pp-bogo-banner-v7, .pp-bogo-banner-v8 { display: none; }
+.pp-bogo-banner, .pp-bogo-banner-v2, .pp-bogo-banner-v3, .pp-bogo-banner-v4, .pp-bogo-banner-v5, .pp-bogo-banner-v6, .pp-bogo-banner-v7 { display: none; }
 
 .pp-bogo-banner-v8 {
   display: grid;
@@ -3329,30 +3331,30 @@ body.quick-view-open {
 }
 
 /* ========================================================
-   FLAVOR TAGS – GRADIENT BORDER TECHNIQUE (REFINED SIZE)
+   FLAVOR TAGS – GRADIENT BORDER TECHNIQUE
    ======================================================== */
 .pp-bogo-banner-v8__flavor-tag {
-  position: relative;
+  position: relative; /* Anchor for the pseudo-element */
   z-index: 1;
-  border-radius: 6px; /* Tighter radius for a smaller feel */
-  padding: 0.4rem 0.9rem; /* Reduced padding */
-  font-size: 0.85rem; /* Explicitly smaller font */
+  border-radius: 8px;
+  padding: 0.5rem 1rem;
   font-weight: 600;
   line-height: 1;
-  background: #f8f9fa;
-  color: #343a40;
+  background: #f8f9fa; /* Consistent light background for unity */
+  color: #343a40; /* Consistent dark text for readability */
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .pp-bogo-banner-v8__flavor-tag:hover {
   transform: translateY(-2px);
   box-shadow: 0 4px 10px rgba(0,0,0,0.08);
 }
+/* This pseudo-element sits *behind* the tag and is slightly larger, creating the border effect */
 .pp-bogo-banner-v8__flavor-tag::before {
   content: '';
   position: absolute;
   z-index: -1;
-  inset: -2px;
-  border-radius: inherit;
+  inset: -2px; /* Controls border thickness */
+  border-radius: inherit; /* Matches the parent's border-radius */
   transition: opacity 0.2s ease;
 }
 
@@ -3362,7 +3364,6 @@ body.quick-view-open {
 .flavor-tag--white-cheddar::before { background: linear-gradient(45deg, #e9ecef, #ced4da); }
 .flavor-tag--salsa-cheddar::before { background: linear-gradient(45deg, #F14B45, #F07A2F); }
 .flavor-tag--default::before { background: linear-gradient(45deg, #6B7280, #4B5563); }
-
 
 .pp-bogo-banner-v8__benefit-list {
   list-style: none;
