@@ -133,12 +133,15 @@
 	{% if template == 'index' %}
   		<link rel="preload" href="{{ 'theme-index.min.css' | asset_url }}" as="style">
 		{{ 'theme-index.min.css' | asset_url | stylesheet_tag }}
-	{% elsif template.name == 'collection' %}
-	    <link rel="preload" href="{{ 'theme-collection.min.css' | asset_url }}" as="style">
-	    {{ 'theme-collection.min.css' | asset_url | stylesheet_tag }}
-	{% elsif template == 'list-collections' %}
-	    <link rel="preload" href="{{ 'theme-collection-list.min.css' | asset_url }}" as="style">
-	    {{ 'theme-collection-list.min.css' | asset_url | stylesheet_tag }}
+        {% elsif template.name == 'collection' %}
+            <link rel="preload" href="{{ 'theme-collection.min.css' | asset_url }}" as="style">
+            {{ 'theme-collection.min.css' | asset_url | stylesheet_tag }}
+        {% elsif template.suffix == 'meal-plans' %}
+            <link rel="preload" href="{{ 'theme-collection.min.css' | asset_url }}" as="style">
+            {{ 'theme-collection.min.css' | asset_url | stylesheet_tag }}
+        {% elsif template == 'list-collections' %}
+            <link rel="preload" href="{{ 'theme-collection-list.min.css' | asset_url }}" as="style">
+            {{ 'theme-collection-list.min.css' | asset_url | stylesheet_tag }}
         {% elsif template.name contains 'product' %}
                 <link rel="preload" href="{{ 'theme-product.min.css' | asset_url }}" as="style">
                 {{ 'theme-product.min.css' | asset_url | stylesheet_tag }}
@@ -240,7 +243,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 			{% unless template.name contains 'balanced' %}{% section 'announcement-bar' %}{% endunless %}
 			
                         {%- comment -%} LOGIC: Render the collection-style header on collection and product templates only. {%- endcomment -%}
-                        {% if template.name contains 'collection' or template.name contains 'product' %}
+                        {% if template.name contains 'collection' or template.name contains 'product' or template.suffix == 'meal-plans' %}
                           {% section 'header-collections' %}
                         {% else %}
                           {% section 'header' %}
@@ -258,7 +261,9 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                                        product content area, ensuring a consistent user experience.
                                   <!-- ======================================================================= -->
                                 {%- endcomment -%}
-                                {% render 'product-local-nav' %}
+                                {% if template.name contains 'product' %}
+                                  {% render 'product-local-nav' %}
+                                {% endif %}
 
                                 {%- if request.path contains 'loop_subscriptions/bundle' or request.path contains 'loop_subscriptions/customer' -%}
                                   {% render 'loop_loader' %}

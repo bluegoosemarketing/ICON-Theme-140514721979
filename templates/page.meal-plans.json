@@ -6,8 +6,9 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
- */
+*/
 {
+  "layout": "product-shell",
   "sections": {
     "meal_plan_header": {
       "type": "custom-meal-plan-header",
