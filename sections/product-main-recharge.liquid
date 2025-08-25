@@ -31,6 +31,14 @@
 
   assign features_list   = product.metafields.plan.features_json.value
   assign assurances_list = product.metafields.plan.assurances_list.value
+  assign hero_grad = product.metafields.plan.hero_gradient
+  if hero_grad == blank and product.metafields.plan.hero_color_start and product.metafields.plan.hero_color_end
+    assign hero_grad = 'linear-gradient(90deg, '
+      | append: product.metafields.plan.hero_color_start
+      | append: ', '
+      | append: product.metafields.plan.hero_color_end
+      | append: ')'
+  endif
 -%}
 {% if product.selling_plan_groups.size > 0 %}
   {%- liquid assign has_subscriptions = true -%}
@@ -45,9 +53,10 @@
 -%}
 
 
-<product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}">
+  <product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}">
   <div class="meal-plan-hero-container">
     <div class="meal-plan-hero-grid">
+      <div class="meal-plan-hero__bg" aria-hidden="true" style="background: {{ hero_grad | default: 'linear-gradient(90deg, #F5F7FA, #E4ECF7)' }};"></div>
 
       <div class="meal-plan-hero__info">
         <div class="meal-plan-hero__header">
@@ -363,6 +372,7 @@ customElements.define('product-form-controller', ProductFormController);
     max-width: 100%;
     box-sizing: border-box;
   }
+  .meal-plan-hero-container { position: relative; }
   .meal-plan-hero__info,
   .meal-plan-hero__form {
     min-width: 0;
@@ -384,14 +394,23 @@ customElements.define('product-form-controller', ProductFormController);
   }
 
   /* --- Main Layout & Info Column --- */
-  .meal-plan-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: flex-start; }
+  .meal-plan-hero-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: flex-start; }
   .meal-plan-hero-grid > * { min-width: 0; }
+  .meal-plan-hero__bg {
+    position: absolute;
+    inset: 0 auto auto 0;
+    width: min(100%, 1000px);
+    height: var(--hero-bg-h, 260px);
+    border-radius: 24px;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .meal-plan-hero__info { display: flex; flex-direction: column; gap: 1.75rem; position: relative; z-index: 1; }
+  .meal-plan-hero__form { position: relative; z-index: 2; }
   @media (min-width: 990px) {
     .meal-plan-hero-grid { grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 4rem; }
     .meal-plan-hero__form { position: sticky; top: 2rem; }
   }
-
-  .meal-plan-hero__info { display: flex; flex-direction: column; gap: 1.75rem; }
   .meal-plan-section-title { font-size: 0.875rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
   
   /* --- [IMPROVEMENT] Title & Hook Grouping --- */
@@ -448,8 +467,27 @@ customElements.define('product-form-controller', ProductFormController);
   }
 
   /* --- Form Card --- */
-  .meal-plan-form-card { background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); padding: 1.5rem; }
+  .meal-plan-form-card {
+    background: var(--color-surface);
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--color-border);
+    padding: 1.5rem;
+    position: relative;
+    margin-top: var(--form-overlap, -48px);
+    box-shadow: 0 10px 30px rgba(0,0,0,.10);
+    z-index: 2;
+  }
   @media (min-width: 768px) { .meal-plan-form-card { padding: 2rem; } }
+  @media (max-width: 1023px) {
+    .meal-plan-hero__bg {
+      width: 100%;
+      height: var(--hero-bg-h-mobile, 180px);
+    }
+    .meal-plan-form-card {
+      margin-top: 0;
+      box-shadow: 0 6px 18px rgba(0,0,0,.08);
+    }
+  }
   .product-form-recharge { display: flex; flex-direction: column; gap: 1.5rem; }
   .form-step__label { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
   .form-step__number { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; font-size: 0.875rem; font-weight: 700; background-color: var(--color-text); color: var(--color-surface); border-radius: 50%; }
