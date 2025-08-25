@@ -281,13 +281,13 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
                               </aside>
                             </div>
                           </div>
-                        </main>
+                                                </main>
 
             {% unless template contains 'balanced' %}
               {% if template.name == 'cart' %}
                 {% section 'footer-minimal-ordering' %}
-              {% elsif template.name contains 'collection' or template.name contains 'product' %}
-                {%- comment -%} Footer is rendered inside the collection or product template {%- endcomment -%}
+              {% elsif template.name contains 'collection' or template.name contains 'product' or template.suffix == 'meal-plans' %}
+                {%- comment -%} Footer is rendered inside the template or, for meal-plans, inside the main content area {%- endcomment -%}
               {% else %}
                 {% section 'footer' %}
               {% endif %}
