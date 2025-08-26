@@ -51,7 +51,14 @@
 
       <div class="meal-plan-hero__info">
         <div class="meal-plan-hero__header">
-          <h1 class="meal-plan-hero__title">{{ product.title }}</h1>
+          {%- assign display_title = product.metafields.custom.display_title | strip -%}
+          <h1 class="meal-plan-hero__title">
+            {%- if display_title != blank -%}
+              {{- display_title | escape -}}
+            {%- else -%}
+              {{- product.title | escape -}}
+            {%- endif -%}
+          </h1>
           {%- if hero_hook != blank -%}
             <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
           {%- endif -%}
