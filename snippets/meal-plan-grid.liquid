@@ -9,7 +9,7 @@
 
 {%- liquid
   assign meal_plan_metafield = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
-  assign section_title = "What's Included In This Plan"
+  assign section_title = "What's In Your Plan"
 
   assign current_variant = product.selected_or_first_available_variant
   assign price_per_meal = null

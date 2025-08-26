@@ -14,7 +14,8 @@
 *       finds the existing callout elements.
 *    3. CSS POSITIONING: Added `position: relative` to the meal grid item to
 *       ensure the absolute-positioned callout displays correctly.
-*  - WHY: This is the definitive, robust, and professional solution.
+*  - ADDITION: Added a stylish "Meal Plan" tag next to the main product title for
+*    enhanced value communication.
 *
 ************************************************************************************
 -->
@@ -51,14 +52,21 @@
 
       <div class="meal-plan-hero__info">
         <div class="meal-plan-hero__header">
-          {%- assign display_title = product.metafields.custom.display_title | strip -%}
-          <h1 class="meal-plan-hero__title">
-            {%- if display_title != blank -%}
-              {{- display_title | escape -}}
-            {%- else -%}
-              {{- product.title | escape -}}
-            {%- endif -%}
-          </h1>
+          
+          <!-- NEW: Wrapper for title and tag for proper alignment -->
+          <div class="meal-plan-hero__title-wrapper">
+            {%- assign display_title = product.metafields.custom.display_title | strip -%}
+            <h1 class="meal-plan-hero__title">
+              {%- if display_title != blank -%}
+                {{- display_title | escape -}}
+              {%- else -%}
+                {{- product.title | escape -}}
+              {%- endif -%}
+            </h1>
+            <!-- NEW: Stylish "Meal Plan" tag -->
+            <span class="meal-plan-hero__tag">Meal Plan</span>
+          </div>
+
           {%- if hero_hook != blank -%}
             <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
           {%- endif -%}
@@ -381,6 +389,7 @@ customElements.define('product-form-controller', ProductFormController);
     --brand-primary: #10B981;
     --brand-primary-light: #D1FAE5;
     --brand-primary-dark: #047857;
+    --brand-accent-red: #EF4444; /* NEW: Added for the "Meal Plan" tag */
     --color-text: #1F2937;
     --color-text-light: #6B7280;
     --color-border: #E5E7EB;
@@ -409,10 +418,59 @@ customElements.define('product-form-controller', ProductFormController);
   
   /* --- [IMPROVEMENT] Title & Hook Grouping --- */
   .meal-plan-hero__header { display: flex; flex-direction: column; gap: 0.25rem; }
+
+  /* NEW: Wrapper for title and tag to align them */
+  .meal-plan-hero__title-wrapper {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap; /* Allows tag to wrap on small screens */
+    gap: 0.75rem;    /* Space between title and tag */
+    row-gap: 0.25rem; /* Tighter gap if it wraps to a new line */
+  }
+
   .meal-plan-hero__title { font-size: 2.5rem; line-height: 1.2; margin: 0; }
+
+  /* NEW: World-class aesthetic tag for "Meal Plan" */
+  .meal-plan-hero__tag {
+  display: inline-flex;
+  align-items: center;
+  /* Modern Flat Color: Pure, vibrant red for a clean look */
+  background-color: var(--brand-accent-red);
+  color: white;
+  /* Refined Typography: smaller, bold, and with better spacing for a premium feel */
+  font-size: 0.75rem;
+  font-weight: 700; /* Bold, but not overly heavy */
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: 0.06em; /* A touch more space for legibility */
+  padding: 0.4em 0.8em;
+  /* Modern Pill Shape: Fully rounded corners are contemporary and friendly */
+  border-radius: 999px;
+  white-space: nowrap;
+  /* The Premium Detail: A subtle, diffused glow using the tag's own color. This adds depth without looking dated. */
+  /* Alignment: Retain subtle vertical lift */
+  transform: translateY(-2px);
+  transition: transform 0.2s ease-out; /* Smooth transition for hover */
+}
+
+
   .meal-plan-hero__hook { font-size: 1.25rem; font-weight: 500; color: var(--color-text-light); margin: 0; }
   .meal-plan-description.rte { font-size: 1rem; line-height: 1.6; color: var(--color-text-light); }
   
+  /* NEW: Responsive adjustments for title and tag */
+  @media (max-width: 480px) {
+  .meal-plan-hero__title { font-size: 2rem; }
+  .meal-plan-hero__tag {
+    font-size: 0.7rem;
+    transform: translateY(0); /* Reset lift on small screens for better wrapping */
+    box-shadow: 0 2px 8px -1px rgba(239, 68, 68, 0.4); /* Softer shadow on mobile */
+  }
+  .meal-plan-hero__tag:hover {
+    transform: translateY(0); /* Disable hover effect on mobile */
+  }
+  .meal-plan-hero__title-wrapper { gap: 0.5rem; }
+}
+
   /* --- [REDESIGN] "Who It's For" Section --- */
   .meal-plan-target-audience { margin: 0; padding: 0; background-color: transparent; border: none; }
   .meal-plan-target-audience__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
