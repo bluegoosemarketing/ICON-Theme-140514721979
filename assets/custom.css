@@ -121,19 +121,18 @@ body.collection-menu-open {
 .collection-page__layout {
   display: grid;
   grid-template-columns: 1fr 380px;
-  height: auto;
-  min-height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
+  height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
 }
 
 @supports not (height: 100dvh) {
   .collection-page__layout {
-    min-height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+    height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
   }
 }
 
 @supports not (height: 100svh) {
   .collection-page__layout {
-    min-height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+    height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
   }
 }
 
@@ -148,12 +147,9 @@ body.collection-menu-open {
   overflow-y: auto;
   min-width: 0;
   padding: 0 1.5rem 0 1.5rem;
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   background-color: var(--page-background);
   border-right: 1px solid #dee2e6;
-}
-
-.collection-page__main {
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
 .collection-header {
@@ -286,19 +282,18 @@ ol.product-grid {
 body.template-suffix--meal-plans .collection-page__main { padding-left: 0; padding-right: 0; }
 body.template-suffix--meal-plans .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
 body[class*="template-suffix--meal-plans"] .collection-page__layout {
-  height: auto;
-  min-height: calc(100dvh - var(--app-header-min-height));
+  height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
 }
 
 @supports not (height: 100dvh) {
   body[class*="template-suffix--meal-plans"] .collection-page__layout {
-    min-height: calc(100svh - var(--app-header-min-height));
+    height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
   }
 }
 
 @supports not (height: 100svh) {
   body[class*="template-suffix--meal-plans"] .collection-page__layout {
-    min-height: calc(100vh - var(--app-header-min-height));
+    height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
   }
 }
 
