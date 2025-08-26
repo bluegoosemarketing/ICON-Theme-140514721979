@@ -1,18 +1,16 @@
 {% comment %}
   ============================================================================
-  ICON Labor Day 2025 Landing Page - V8.0 (Final & Polished)
+  ICON Labor Day 2025 Landing Page - V14.0 (Final & Polished)
   - Designer/Developer: Your AI Lead Dev
   - Change Log:
-    - UPDATED: "One-Time Orders" CTA now links to the signature-menu
-      collection and automatically applies the REST25 discount code.
+    - CORRECTED: Reverted the "One-Time Orders" benefit list back to the
+      user's strategic copy to properly de-emphasize the secondary offer.
   ============================================================================
 {% endcomment %}
 
 <style>
   /* ==========================================================================
      THEME SPACER RESET
-     - This rule targets the theme's default wrapper for this section
-       and removes the top padding to ensure the hero is flush with the header.
      ========================================================================== */
   #shopify-section-{{ section.id }} {
     padding-top: 0 !important;
@@ -21,21 +19,21 @@
 
   :root {
     /* BRAND PALETTE - Aligned with custom.css */
-    --ld8-brand-red: {{ section.settings.color_accent | default: '#d42828' }};
-    --ld8-brand-dark: {{ section.settings.color_text | default: '#212529' }};
-    --ld8-brand-white: #ffffff;
-    --ld8-page-bg: {{ section.settings.color_background | default: '#ffffff' }};
+    --ld14-brand-red: {{ section.settings.color_accent | default: '#d42828' }};
+    --ld14-brand-dark: {{ section.settings.color_text | default: '#212529' }};
+    --ld14-brand-white: #ffffff;
+    --ld14-page-bg: {{ section.settings.color_background | default: '#ffffff' }};
     
     /* UI Colors */
-    --ld8-text-secondary: #495057;
-    --ld8-text-subtle: #6c757d;
-    --ld8-border: #e9ecef;
-    --ld8-surface-light: #f8f9fa;
-    --ld8-surface-dark: #111111;
+    --ld14-text-secondary: #495057;
+    --ld14-text-subtle: #6c757d;
+    --ld14-border: #e9ecef;
+    --ld14-surface-light: #f8f9fa;
+    --ld14-surface-dark: #111111;
     
     /* TYPOGRAPHY - Aligned with custom.css */
-    --ld8-font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    --ld8-font-heading: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --ld14-font-body: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --ld14-font-heading: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   }
 
   @keyframes subtleAura {
@@ -47,32 +45,32 @@
   /* ==========================================================================
      BASE & GLOBAL STYLES
      ========================================================================== */
-  .ld8-wrapper {
-    background-color: var(--ld8-page-bg) !important;
-    color: var(--ld8-brand-dark) !important;
-    font-family: var(--ld8-font-body) !important;
+  .ld14-wrapper {
+    background-color: var(--ld14-page-bg) !important;
+    color: var(--ld14-brand-dark) !important;
+    font-family: var(--ld14-font-body) !important;
     overflow-x: hidden !important;
   }
 
-  .ld8-section {
+  .ld14-section {
     padding: clamp(60px, 8vw, 100px) 0 !important;
   }
 
-  .ld8-container {
+  .ld14-container {
     width: 100% !important;
     max-width: 1140px !important;
     margin: 0 auto !important;
     padding: 0 20px !important;
   }
   
-  .ld8-section-header {
+  .ld14-section-header {
     text-align: center;
     max-width: 750px;
-    margin: 0 auto 3.5rem auto;
+    margin: 0 auto 4rem auto;
   }
 
-  .ld8-headline {
-    font-family: var(--ld8-font-heading) !important;
+  .ld14-headline {
+    font-family: var(--ld14-font-heading) !important;
     font-size: clamp(3rem, 6vw, 5rem) !important;
     font-weight: 800 !important;
     line-height: 1.1 !important;
@@ -81,8 +79,8 @@
     color: inherit !important;
   }
 
-  .ld8-sub-headline {
-    font-family: var(--ld8-font-heading) !important;
+  .ld14-sub-headline {
+    font-family: var(--ld14-font-heading) !important;
     font-size: clamp(2rem, 4vw, 3rem) !important;
     font-weight: 700 !important;
     line-height: 1.2 !important;
@@ -90,47 +88,58 @@
     margin: 0 0 1rem 0 !important;
   }
   
-  .ld8-intro-text {
+  .ld14-intro-text {
     font-size: 1.1rem;
-    color: var(--ld8-text-secondary);
+    color: var(--ld14-text-secondary);
     line-height: 1.6;
     margin: 0;
   }
 
-  .ld8-fine-print {
+  .ld14-fine-print {
     font-size: 0.9rem !important;
-    color: var(--ld8-text-subtle) !important;
+    color: var(--ld14-text-subtle) !important;
     line-height: 1.5 !important;
   }
 
-  .ld8-cta {
+  .ld14-cta {
     display: inline-flex !important;
     align-items: center !important;
     justify-content: center !important;
-    background-color: var(--ld8-brand-red) !important;
-    color: var(--ld8-brand-white) !important;
+    background-color: var(--ld14-brand-red) !important;
+    color: var(--ld14-brand-white) !important;
     padding: 1rem 2.5rem !important;
-    font-family: var(--ld8-font-heading) !important;
+    font-family: var(--ld14-font-heading) !important;
     font-size: 1rem !important;
     font-weight: 700 !important;
     text-decoration: none !important;
     border-radius: 8px !important;
-    border: none !important;
+    border: 2px solid var(--ld14-brand-red) !important;
     cursor: pointer !important;
     text-transform: uppercase !important;
     letter-spacing: 0.05em !important;
     transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
   }
-  .ld8-cta:hover {
+  .ld14-cta:hover {
     transform: translateY(-3px) !important;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15) !important;
+    box-shadow: 0 8px 20px rgba(212, 40, 40, 0.25) !important;
   }
+  .ld14-cta--secondary {
+    background-color: transparent !important;
+    color: var(--ld14-brand-red) !important;
+    box-shadow: none !important;
+  }
+  .ld14-cta--secondary:hover {
+    background-color: var(--ld14-brand-red) !important;
+    color: var(--ld14-brand-white) !important;
+    box-shadow: 0 8px 20px rgba(212, 40, 40, 0.25) !important;
+  }
+
 
   /* ==========================================================================
      1. HERO SECTION - AMBIENT GRADIENT BACKGROUND
      ========================================================================== */
-  .ld8-hero {
-    color: var(--ld8-brand-white) !important;
+  .ld14-hero {
+    color: var(--ld14-brand-white) !important;
     min-height: 75vh;
     display: flex;
     align-items: center;
@@ -138,126 +147,153 @@
     text-align: center;
     position: relative;
     padding: clamp(80px, 10vw, 120px) 0 !important;
-    background-color: #0d1222; /* Fallback color */
+    background-color: #1a1f2c; /* Warmer fallback color */
     background-size: 200% 200%, 150% 150%, 150% 150%;
     background-image: 
-      /* Top Layer: Subtle Red Aura */
       radial-gradient(ellipse 80% 80% at 90% -10%, rgba(212, 40, 40, 0.25), transparent),
-      /* Middle Layer: Subtle Light Aura (behind text) */
       radial-gradient(ellipse 80% 80% at 50% 40%, rgba(180, 200, 255, 0.1), transparent),
-      /* Bottom Layer: Dark Navy Base */
-      linear-gradient(180deg, #0d1222 0%, #111827 100%);
+      linear-gradient(180deg, #1a1f2c 0%, #111827 100%);
     animation: subtleAura 20s ease-in-out infinite;
   }
 
-  .ld8-hero .ld8-container { position: relative; z-index: 2; }
+  .ld14-hero .ld14-container { position: relative; z-index: 2; }
   
-  .ld8-hero__content {
-    max-width: 800px;
-    margin: 0 auto;
-  }
+  .ld14-hero__content { max-width: 800px; margin: 0 auto; }
   
-  .ld8-hero__pre-headline {
-    font-size: 1.2rem;
+  .ld14-hero__pre-headline {
+    display: inline-block;
+    font-size: 1rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    color: var(--ld8-brand-red);
+    color: var(--ld14-brand-white);
     margin-bottom: 1.5rem;
-    display: block;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+    padding: 0.5rem 1.25rem;
+    border-radius: 99px;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
   }
 
-  .ld8-hero .ld8-headline { text-shadow: 0 4px 20px rgba(0,0,0,0.6); }
+  .ld14-hero .ld14-headline { text-shadow: 0 4px 20px rgba(0,0,0,0.6); }
 
-  .ld8-hero__divider {
+  .ld14-hero__divider {
     width: 80px;
     height: 2px;
-    background-color: var(--ld8-brand-red);
+    background-color: var(--ld14-brand-red);
     margin: 2rem auto;
     border: none;
   }
 
-  .ld8-hero .ld8-fine-print {
+  .ld14-hero .ld14-fine-print {
     color: rgba(255, 255, 255, 0.85) !important;
     max-width: 550px;
     margin: 0 auto 2.5rem;
   }
 
   /* ==========================================================================
-     2. OFFER CHOICES SECTION
+     2. OFFER CHOICES SECTION - HIERARCHICAL LAYOUT
      ========================================================================== */
-  .ld8-choices-grid {
+  .ld14-choices-grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: 2.5rem;
-    align-items: center;
-    max-width: 900px;
+    align-items: stretch;
+    max-width: 1000px;
     margin: 0 auto;
   }
-  @media (min-width: 768px) { .ld8-choices-grid { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 992px) { .ld14-choices-grid { grid-template-columns: 1.1fr 1fr; gap: 2rem; } }
   
-  .ld8-choice-card {
-    background-color: var(--ld8-brand-white) !important;
-    border: 1px solid var(--ld8-border) !important;
-    border-radius: 12px !important;
-    padding: 2rem !important;
+  .ld14-card-wrapper {
+    position: relative;
+  }
+
+  .ld14-choice-card {
+    border-radius: 16px !important;
+    padding: 2.5rem !important;
     display: flex !important;
     flex-direction: column !important;
-    height: 100% !important;
     text-align: left !important;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04) !important;
     transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1) !important;
+    height: 100%;
   }
-  .ld8-choice-card:hover {
+  .ld14-choice-card:hover {
     transform: translateY(-8px) !important;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.1), 0 5px 10px rgba(0, 0, 0, 0.08) !important;
   }
-  .ld8-choice-card h3 {
-    font-family: var(--ld8-font-heading) !important;
+  .ld14-choice-card h3 {
+    font-family: var(--ld14-font-heading) !important;
     font-size: 1.75rem !important;
     font-weight: 700 !important;
-    margin: 0 0 1.5rem !important;
+    margin: 0 0 0.5rem !important;
   }
-  .ld8-choice-card ul {
+  .ld14-card-sub-label {
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1.5rem;
+  }
+
+  .ld14-choice-card ul {
     list-style: none !important;
     padding: 0 !important;
     margin: 0 0 1.5rem !important;
     flex-grow: 1 !important;
   }
-  .ld8-choice-card li {
+  .ld14-choice-card li {
     display: flex !important;
     align-items: flex-start !important;
     gap: 0.75rem !important;
     margin-bottom: 1rem !important;
     line-height: 1.5 !important;
-    color: var(--ld8-text-secondary) !important;
   }
-  .ld8-choice-card li svg {
+  .ld14-choice-card li svg {
     flex-shrink: 0;
     width: 20px;
     height: 20px;
     margin-top: 2px;
-    color: var(--ld8-brand-red);
   }
-  .ld8-choice-card .ld8-fine-print { margin: 0 0 1.5rem !important; max-width: 100%; }
-  .ld8-choice-card .ld8-cta { width: 100% !important; margin-top: auto !important; }
+  .ld14-choice-card .ld14-fine-print { margin: 0 0 1.5rem !important; max-width: 100%; }
+  .ld14-choice-card .ld14-cta { width: 100% !important; margin-top: auto !important; }
 
-  .ld8-choice-card--best-value {
-    border: 2px solid var(--ld8-brand-red) !important;
+  /* Primary Card (Meal Plans) */
+  .ld14-choice-card--primary {
+    background-color: var(--ld14-surface-light) !important;
+    border: 1px solid var(--ld14-border) !important;
     position: relative;
-    transform: scale(1.05);
+    overflow: hidden; /* This is necessary for the inner glow */
+    color: var(--ld14-brand-dark) !important;
+    background-image: 
+      radial-gradient(ellipse 100% 80% at 100% -10%, rgba(212, 40, 40, 0.1), transparent),
+      url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23e9ecef' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   }
-  @media(max-width: 767px) { .ld8-choice-card--best-value { transform: scale(1); margin-top: 3rem; order: -1; } }
-  
-  .ld8-best-value-badge {
-    position: absolute; top: -18px; left: 50%;
-    transform: translateX(-50%);
-    background-color: var(--ld8-brand-red) !important;
-    color: var(--ld8-brand-white) !important;
-    padding: 0.5rem 1.25rem !important;
+  @media (min-width: 992px) { .ld14-card-wrapper--primary { transform: scale(1.03); z-index: 2; } }
+  @media (max-width: 991px) { .ld14-card-wrapper--primary { order: -1; margin-top: 2rem; } }
+
+  .ld14-choice-card--primary .ld14-card-sub-label { color: var(--ld14-brand-dark); }
+  .ld14-choice-card--primary li { color: var(--ld14-text-secondary) !important; }
+  .ld14-choice-card--primary li svg { color: var(--ld14-brand-red); }
+
+  /* Secondary Card (One-Time) */
+  .ld14-choice-card--secondary {
+    background-color: var(--ld14-brand-white) !important;
+    border: 1px solid var(--ld14-border) !important;
+    color: var(--ld14-brand-dark) !important;
+  }
+  .ld14-choice-card--secondary .ld14-card-sub-label { color: var(--ld14-brand-dark); }
+  .ld14-choice-card--secondary li { color: var(--ld14-text-secondary) !important; }
+  .ld14-choice-card--secondary li svg { color: var(--ld14-brand-red); }
+
+  .ld14-best-value-badge {
+    position: absolute; top: -18px; left: 50%; z-index: 5;
+    transform: translateX(-50%) rotate(-2deg);
+    background-color: var(--ld14-brand-red) !important;
+    color: var(--ld14-brand-white) !important;
+    padding: 0.6rem 1.5rem !important;
     border-radius: 99px !important;
-    font-size: 0.8rem !important;
+    font-size: 0.9rem !important;
     font-weight: 700 !important;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -266,9 +302,9 @@
   /* ==========================================================================
      3. HOW IT WORKS SECTION
      ========================================================================== */
-  .ld8-how-it-works { background-color: var(--ld8-surface-light) !important; }
-  .ld8-steps-container { margin-top: 5rem; max-width: 900px; margin-left: auto; margin-right: auto; }
-  .ld8-step {
+  .ld14-how-it-works { background-color: var(--ld14-brand-white) !important; }
+  .ld14-steps-container { margin-top: 5rem; max-width: 900px; margin-left: auto; margin-right: auto; }
+  .ld14-step {
     display: flex;
     gap: 2rem;
     align-items: center;
@@ -276,17 +312,17 @@
     padding-left: 60px;
     min-height: 120px;
   }
-  .ld8-step:not(:last-child) { padding-bottom: 3rem; }
-  .ld8-step:not(:last-child)::before {
+  .ld14-step:not(:last-child) { padding-bottom: 3rem; }
+  .ld14-step:not(:last-child)::before {
     content: '';
     position: absolute;
     left: 24px;
     top: 60px;
     bottom: -3rem;
     width: 2px;
-    background-color: var(--ld8-border);
+    background-color: var(--ld14-border);
   }
-  .ld8-step__number {
+  .ld14-step__number {
     position: absolute;
     left: 0;
     top: 0;
@@ -296,67 +332,77 @@
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    background-color: var(--ld8-brand-white);
-    border: 2px solid var(--ld8-border);
+    background-color: var(--ld14-brand-white);
+    border: 2px solid var(--ld14-border);
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--ld8-brand-red);
+    color: var(--ld14-brand-red);
+    transition: all 0.3s ease;
   }
-  .ld8-step__content { text-align: left; }
-  .ld8-step__content h3 {
-    font-family: var(--ld8-font-heading);
+  .ld14-step__content { text-align: left; }
+  .ld14-step__content h3 {
+    font-family: var(--ld14-font-heading);
     font-size: 1.5rem;
     font-weight: 700;
     margin: 0 0 0.5rem;
+    transition: color 0.3s ease;
   }
-  .ld8-step__content p {
+  .ld14-step__content p {
     font-size: 1.05rem;
     line-height: 1.6;
     margin: 0;
-    color: var(--ld8-text-secondary);
+    color: var(--ld14-text-secondary);
   }
-  .ld8-how-it-works .ld8-cta { margin-top: 4rem; }
+  .ld14-step--highlight .ld14-step__number {
+    background-color: var(--ld14-brand-red);
+    color: var(--ld14-brand-white);
+    border-color: var(--ld14-brand-red);
+  }
+  .ld14-step--highlight h3 { color: var(--ld14-brand-red); }
+
+  .ld14-how-it-works .ld14-cta { margin-top: 4rem; }
 
   /* ==========================================================================
      4. SOCIAL PROOF SECTION
      ========================================================================== */
-  .ld8-proof-grid {
+  .ld14-social-proof { background-color: var(--ld14-surface-light) !important; }
+  .ld14-proof-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
   }
-  .ld8-testimonial-card {
-    background-color: var(--ld8-surface-light) !important;
+  .ld14-testimonial-card {
+    background-color: var(--ld14-brand-white) !important;
     padding: 2rem !important;
     border-radius: 12px !important;
-    border: 1px solid var(--ld8-border) !important;
+    border: 1px solid var(--ld14-border) !important;
     text-align: center;
   }
-  .ld8-testimonial-stars {
+  .ld14-testimonial-stars {
     color: #facc15;
     font-size: 1.2rem;
     letter-spacing: 3px;
     margin-bottom: 1rem;
   }
-  .ld8-testimonial-text {
+  .ld14-testimonial-text {
     font-size: 1.15rem;
     line-height: 1.6;
     font-weight: 500;
-    color: var(--ld8-text-secondary);
+    color: var(--ld14-text-secondary);
     margin: 0;
   }
-  .ld8-testimonial-text::before { content: '“'; }
-  .ld8-testimonial-text::after { content: '”'; }
+  .ld14-testimonial-text::before { content: '“'; }
+  .ld14-testimonial-text::after { content: '”'; }
 
   /* ==========================================================================
      5. URGENCY SECTION
      ========================================================================== */
-  .ld8-urgency {
-    background-color: var(--ld8-surface-dark) !important;
-    color: var(--ld8-brand-white) !important;
+  .ld14-urgency {
+    background-color: var(--ld14-surface-dark) !important;
+    color: var(--ld14-brand-white) !important;
   }
-  .ld8-urgency .ld8-sub-headline { color: #fff; }
-  .ld8-urgency .ld8-fine-print { color: rgba(255,255,255,0.7) !important; }
+  .ld14-urgency .ld14-sub-headline { color: #fff; }
+  .ld14-urgency .ld14-fine-print { color: rgba(255,255,255,0.7) !important; }
   
   #countdown-timer-{{ section.id }} {
     display: flex;
@@ -364,86 +410,98 @@
     gap: clamp(1rem, 4vw, 3rem);
     margin-bottom: 2.5rem;
   }
-  .ld8-countdown__block { text-align: center; }
-  .ld8-countdown__number {
-    font-family: var(--ld8-font-heading) !important;
+  .ld14-countdown__block { text-align: center; }
+  .ld14-countdown__number {
+    font-family: var(--ld14-font-heading) !important;
     font-size: clamp(3rem, 10vw, 5.5rem) !important;
     font-weight: 800 !important;
     line-height: 1 !important;
-    color: var(--ld8-brand-white) !important;
+    color: var(--ld14-brand-white) !important;
+    text-shadow: 0 0 25px rgba(212, 40, 40, 0.5);
   }
-  .ld8-countdown__label {
+  .ld14-countdown__label {
     font-size: 0.9rem;
     text-transform: uppercase;
     letter-spacing: 0.1em;
     margin-top: 0.75rem;
-    color: var(--ld8-brand-red);
+    color: var(--ld14-brand-red);
     font-weight: 600;
+  }
+  
+  /* ==========================================================================
+     6. FINAL CTA SECTION
+     ========================================================================== */
+  .ld14-final-cta {
+    background-color: var(--ld14-surface-light);
+  }
+  .ld14-final-cta .ld14-intro-text {
+    margin-bottom: 2.5rem;
   }
 </style>
 
-<div class="ld8-wrapper">
+<div class="ld14-wrapper">
 
   <!-- ======================= 1. HERO ======================= -->
-  <section class="ld8-section ld8-hero">
-    <div class="ld8-container">
-      <div class="ld8-hero__content">
-        <p class="ld8-hero__pre-headline">2025 LABOR DAY SALE</p>
-        <h1 class="ld8-headline">Up to $180 Off!</h1>
-        <div class="ld8-hero__divider"></div>
-        <p class="ld8-fine-print">Your first 4 Subscribe and Save boxes are discounted automatically. Bigger plans mean bigger savings. Ends September 2nd.</p>
-        <a href="#offers" class="ld8-cta">Claim My Savings</a>
+  <section class="ld14-section ld14-hero">
+    <div class="ld14-container">
+      <div class="ld14-hero__content">
+        <p class="ld14-hero__pre-headline">2025 Labor Day Sale</p>
+        <h1 class="ld14-headline">Up to $180 Off Meal Plans</h1>
+        <div class="ld14-hero__divider"></div>
+        <p class="ld14-fine-print">Choose Subscribe & Save at checkout to activate your discount. Your first 4 boxes are discounted automatically. Bigger plan means bigger savings. Ends September 2.</p>
+        <a href="/pages/mealplans" class="ld14-cta">Start My Meal Plan</a>
       </div>
     </div>
   </section>
 
   <!-- ======================= 2. OFFER CHOICES ======================= -->
-  <section id="offers" class="ld8-section">
-    <div class="ld8-container">
-      <div class="ld8-section-header">
-        <h2 class="ld8-sub-headline">Bigger plans. Bigger results. Bigger savings.</h2>
+  <section id="offers" class="ld14-section">
+    <div class="ld14-container">
+      <div class="ld14-section-header">
+        <h2 class="ld14-sub-headline">Two Ways to Save</h2>
+        <p class="ld14-intro-text">Go big with Meal Plans for the deepest discount or stock up with 25% off one-time orders.</p>
       </div>
-      <div class="ld8-choices-grid">
+      <div class="ld14-choices-grid">
         
-        <div class="ld8-choice-card">
-          <h3>One-Time Orders</h3>
-          <ul>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-              <span>25% off all meals this weekend</span>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-              <span>Stock up with no commitment</span>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-              <span>Perfect for trying ICON</span>
-            </li>
-          </ul>
-          <p class="ld8-fine-print">25% discount applies to one-time orders placed before September 2nd.</p>
-          <a href="/discount/REST25?redirect=/collections/signature-menu" class="ld8-cta">Shop One-Time Deals</a>
+        <div class="ld14-card-wrapper ld14-card-wrapper--primary">
+          <div class="ld14-best-value-badge">Best Value</div>
+          <div class="ld14-choice-card ld14-choice-card--primary">
+            <h3>Meal Plans</h3>
+            <p class="ld14-card-sub-label">Best for Results</p>
+            <ul>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                <span>Up to $180 off your first 4 boxes</span>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                <span>Fresh, chef-prepared meals built for your goals</span>
+              </li>
+              <li>
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                <span>Skip, pause, or cancel anytime with full flexibility</span>
+              </li>
+            </ul>
+            <p class="ld14-fine-print">Labor Day savings apply only when you select Subscribe & Save. Discount is spread across your first 4 orders and varies by plan size.</p>
+            <a href="/pages/mealplans" class="ld14-cta">Build My Plan</a>
+          </div>
         </div>
         
-        <div class="ld8-choice-card ld8-choice-card--best-value">
-          <div class="ld8-best-value-badge">Best Value</div>
-          <h3>Subscribe & Save</h3>
+        <div class="ld14-choice-card ld14-choice-card--secondary">
+          <h3>One-Time Orders</h3>
+          <p class="ld14-card-sub-label">Customize your order</p>
           <ul>
             <li>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-              <span>Up to $180 off your first 4 boxes</span>
+              <span>25% off site-wide this weekend</span>
             </li>
             <li>
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-              <span>Fresh, chef-prepared meals</span>
-            </li>
-            <li>
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
-              <span>Skip, pause, or cancel anytime</span>
+              <span>Order Signature Meals, Custom Meals, or Bulk</span>
             </li>
           </ul>
-          <p class="ld8-fine-print">Discount spread across your first 4 subscription orders. Savings vary by plan size.</p>
-          <a href="/collections/meal-plans" class="ld8-cta">Start My Plan</a>
+          <p class="ld14-fine-print">25% off applies to one-time orders placed before September 2.</p>
+          <a href="/discount/REST25?redirect=/collections/signature-menu" class="ld14-cta ld14-cta--secondary">Shop Meals</a>
         </div>
 
       </div>
@@ -451,84 +509,91 @@
   </section>
 
   <!-- ======================= 3. HOW IT WORKS ======================= -->
-  <section class="ld8-section ld8-how-it-works">
-    <div class="ld8-container">
-      <div class="ld8-section-header">
-        <h2 class="ld8-sub-headline">Order in minutes. Meals delivered fast.</h2>
+  <section class="ld14-section ld14-how-it-works">
+    <div class="ld14-container">
+      <div class="ld14-section-header">
+        <h2 class="ld14-sub-headline">Getting started is simple</h2>
       </div>
-      <div class="ld8-steps-container">
-        <div class="ld8-step">
-          <div class="ld8-step__number">1</div>
-          <div class="ld8-step__content">
-            <h3>Pick Your Plan</h3>
-            <p>Choose the number of meals you want delivered each week to match your lifestyle and goals.</p>
+      <div class="ld14-steps-container">
+        <div class="ld14-step">
+          <div class="ld14-step__number">1</div>
+          <div class="ld14-step__content">
+            <h3>Pick your plan</h3>
+            <p>Choose 12 or 24 meals and set your delivery frequency.</p>
           </div>
         </div>
-        <div class="ld8-step">
-          <div class="ld8-step__number">2</div>
-          <div class="ld8-step__content">
-            <h3>Choose Your Meals</h3>
-            <p>Select your favorites from our constantly rotating menu of delicious, goal-oriented options.</p>
+        <div class="ld14-step">
+          <div class="ld14-step__number">2</div>
+          <div class="ld14-step__content">
+            <h3>Choose your meals</h3>
+            <p>Select from a rotating menu of chef-prepared favorites.</p>
           </div>
         </div>
-        <div class="ld8-step">
-          <div class="ld8-step__number">3</div>
-          <div class="ld8-step__content">
-            <h3>Get It Delivered</h3>
-            <p>Get fresh, ready-to-eat meals delivered right to your doorstep. Just heat and enjoy.</p>
+        <div class="ld14-step ld14-step--highlight">
+          <div class="ld14-step__number">3</div>
+          <div class="ld14-step__content">
+            <h3>Select Subscribe & Save</h3>
+            <p>Activate your Labor Day discount by choosing the subscription option.</p>
+          </div>
+        </div>
+        <div class="ld14-step">
+          <div class="ld14-step__number">4</div>
+          <div class="ld14-step__content">
+            <h3>Get it delivered</h3>
+            <p>Meals arrive fresh and ready to eat. Heat and enjoy.</p>
           </div>
         </div>
       </div>
-      <div class="ld8-section-header">
-        <a href="/collections/meal-plans" class="ld8-cta">Build My Box</a>
+      <div class="ld14-section-header">
+        <a href="/pages/mealplans" class="ld14-cta">Claim My Savings</a>
       </div>
     </div>
   </section>
 
   <!-- ======================= 4. SOCIAL PROOF ======================= -->
-  <section class="ld8-section">
-    <div class="ld8-container">
-      <div class="ld8-section-header">
-        <h2 class="ld8-sub-headline">Trusted by athletes. Loved by busy people.</h2>
+  <section class="ld14-section ld14-social-proof">
+    <div class="ld14-container">
+      <div class="ld14-section-header">
+        <h2 class="ld14-sub-headline">Trusted by athletes. Loved by busy people.</h2>
       </div>
-      <div class="ld8-proof-grid">
-        <div class="ld8-testimonial-card">
-          <div class="ld8-testimonial-stars">★★★★★</div>
-          <p class="ld8-testimonial-text">Cheaper than groceries and saves me hours every week.</p>
+      <div class="ld14-proof-grid">
+        <div class="ld14-testimonial-card">
+          <div class="ld14-testimonial-stars">★★★★★</div>
+          <p class="ld14-testimonial-text">Cheaper than groceries and saves me hours every week.</p>
         </div>
-        <div class="ld8-testimonial-card">
-          <div class="ld8-testimonial-stars">★★★★★</div>
-          <p class="ld8-testimonial-text">ICON makes hitting my nutrition goals simple and delicious.</p>
+        <div class="ld14-testimonial-card">
+          <div class="ld14-testimonial-stars">★★★★★</div>
+          <p class="ld14-testimonial-text">ICON makes hitting my nutrition goals simple and delicious.</p>
         </div>
-        <div class="ld8-testimonial-card">
-          <div class="ld8-testimonial-stars">★★★★★</div>
-          <p class="ld8-testimonial-text">Finally, healthy meals that taste as good as they look!</p>
+        <div class="ld14-testimonial-card">
+          <div class="ld14-testimonial-stars">★★★★★</div>
+          <p class="ld14-testimonial-text">Finally, healthy meals that taste as good as they look!</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- ======================= 5. URGENCY ======================= -->
-  <section class="ld8-section ld8-urgency">
-    <div class="ld8-container">
-      <div class="ld8-section-header">
-        <h2 class="ld8-sub-headline">Labor Day Savings End Soon</h2>
-        <p class="ld8-fine-print">Don't miss your chance to lock in your discount. This is the perfect time to fuel your goals for less.</p>
+  <section class="ld14-section ld14-urgency">
+    <div class="ld14-container">
+      <div class="ld14-section-header">
+        <h2 class="ld14-sub-headline">Labor Day savings end soon</h2>
+        <p class="ld14-fine-print">Lock in your discount before September 2. Select Subscribe & Save on your Meal Plan or take 25% off one-time meals while it lasts.</p>
       </div>
       <div id="countdown-timer-{{ section.id }}"></div>
-      <div class="ld8-section-header" style="margin-bottom: 0;">
-         <a href="#offers" class="ld8-cta">Shop The Labor Day Sale</a>
+      <div class="ld14-section-header" style="margin-bottom: 0;">
+         <a href="/pages/mealplans" class="ld14-cta">Shop Meal Plans</a>
       </div>
     </div>
   </section>
 
   <!-- ======================= 6. FINAL CTA ======================= -->
-  <section class="ld8-section">
-    <div class="ld8-container">
-      <div class="ld8-section-header">
-        <h2 class="ld8-sub-headline">Up to $180 Off. Your Choice.</h2>
-        <p class="ld8-intro-text">Fuel your goals with fresh, ready-to-eat meals and make this Labor Day your easiest and healthiest one yet. Choose your plan and start saving today.</p>
-        <a href="#offers" class="ld8-cta">Start Saving Today</a>
+  <section class="ld14-section ld14-final-cta">
+    <div class="ld14-container">
+      <div class="ld14-section-header">
+        <h2 class="ld14-sub-headline">Fuel your goals. Save up to $180.</h2>
+        <p class="ld14-intro-text">This Labor Day, make clean eating effortless. Pick your Meal Plan, set your delivery schedule, select Subscribe & Save, and enjoy chef-made meals for less. Not ready for a plan? Take 25% off one-time meals this weekend.</p>
+        <a href="/pages/mealplans" class="ld14-cta">Start My Plan Today</a>
       </div>
     </div>
   </section>
@@ -565,10 +630,10 @@
         const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
         countdownElement.innerHTML = `
-          <div class="ld8-countdown__block"><div class="ld8-countdown__number">${String(days).padStart(2, '0')}</div><div class="ld8-countdown__label">Days</div></div>
-          <div class="ld8-countdown__block"><div class="ld8-countdown__number">${String(hours).padStart(2, '0')}</div><div class="ld8-countdown__label">Hours</div></div>
-          <div class="ld8-countdown__block"><div class="ld8-countdown__number">${String(minutes).padStart(2, '0')}</div><div class="ld8-countdown__label">Minutes</div></div>
-          <div class="ld8-countdown__block"><div class="ld8-countdown__number">${String(seconds).padStart(2, '0')}</div><div class="ld8-countdown__label">Seconds</div></div>
+          <div class="ld14-countdown__block"><div class="ld14-countdown__number">${String(days).padStart(2, '0')}</div><div class="ld14-countdown__label">Days</div></div>
+          <div class="ld14-countdown__block"><div class="ld14-countdown__number">${String(hours).padStart(2, '0')}</div><div class="ld14-countdown__label">Hours</div></div>
+          <div class="ld14-countdown__block"><div class="ld14-countdown__number">${String(minutes).padStart(2, '0')}</div><div class="ld14-countdown__label">Minutes</div></div>
+          <div class="ld14-countdown__block"><div class="ld14-countdown__number">${String(seconds).padStart(2, '0')}</div><div class="ld14-countdown__label">Seconds</div></div>
         `;
       }, 1000);
     }
