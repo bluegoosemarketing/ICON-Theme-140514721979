@@ -1,0 +1,32 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "landing_labor_day_pro_PUTUwm": {
+      "type": "landing-labor-day-pro",
+      "name": "Labor Day Lander",
+      "settings": {
+        "color_background": "#ffffff",
+        "color_text": "#1a1a1a",
+        "color_accent": "#ec4242",
+        "countdown_date": "2025-09-02 23:59:59"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "landing_labor_day_pro_PUTUwm"
+  ]
+}
