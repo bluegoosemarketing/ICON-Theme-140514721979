@@ -121,7 +121,20 @@ body.collection-menu-open {
 .collection-page__layout {
   display: grid;
   grid-template-columns: 1fr 380px;
-  height: calc(100vh - var(--header-offset, 100px));
+  height: auto;
+  min-height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
+}
+
+@supports not (height: 100dvh) {
+  .collection-page__layout {
+    min-height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+  }
+}
+
+@supports not (height: 100svh) {
+  .collection-page__layout {
+    min-height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+  }
 }
 
 .collection-page__sidebar {
@@ -134,9 +147,13 @@ body.collection-menu-open {
   height: 100%;
   overflow-y: auto;
   min-width: 0;
-  padding: 0 1.5rem 2rem 1.5rem;
+  padding: 0 1.5rem 0 1.5rem;
   background-color: var(--page-background);
   border-right: 1px solid #dee2e6;
+}
+
+.collection-page__main {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
 
 .collection-header {
@@ -268,6 +285,26 @@ ol.product-grid {
 
 body.template-suffix--meal-plans .collection-page__main { padding-left: 0; padding-right: 0; }
 body.template-suffix--meal-plans .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
+body[class*="template-suffix--meal-plans"] .collection-page__layout {
+  height: auto;
+  min-height: calc(100dvh - var(--app-header-min-height));
+}
+
+@supports not (height: 100dvh) {
+  body[class*="template-suffix--meal-plans"] .collection-page__layout {
+    min-height: calc(100svh - var(--app-header-min-height));
+  }
+}
+
+@supports not (height: 100svh) {
+  body[class*="template-suffix--meal-plans"] .collection-page__layout {
+    min-height: calc(100vh - var(--app-header-min-height));
+  }
+}
+
+body[class*="template-suffix--meal-plans"] .collection-page__main {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+}
 /* Desktop default */
 body.template-suffix--meal-plans .collection-selector__toggle {
   padding-left: 1.5rem;
@@ -285,7 +322,9 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   .collection-page__layout { grid-template-columns: 1fr; }
   .collection-page__sidebar { display: none; }
   body.template-collection .collection-page__main { padding: 0; }
+  body.template-collection .collection-page__main { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
   body.template-product .collection-page__main { padding: 0; border-right: none; }
+  body.template-product .collection-page__main { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
   body.template-product .collection-page__layout { padding: 0 0 2rem; }
   body.template-collection .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
   body.template-product .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
@@ -1899,7 +1938,19 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 .addons-page-wrapper {
   padding: 4rem 1.5rem;
   background-color: #f8f9fa; /* Slightly off-white for a softer feel */
-  min-height: calc(100vh - 200px);
+  min-height: calc(100dvh - 200px);
+}
+
+@supports not (height: 100dvh) {
+  .addons-page-wrapper {
+    min-height: calc(100svh - 200px);
+  }
+}
+
+@supports not (height: 100svh) {
+  .addons-page-wrapper {
+    min-height: calc(100vh - 200px);
+  }
 }
 .addons-page-wrapper .container {
   max-width: 1200px;
@@ -3522,4 +3573,41 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   .pp-bogo-banner-v8__headline {
     font-size: 1.75rem !important;
   }
+}
+
+/* ============================================================
+   FULL-VIEWPORT HELPERS — v2025-08-26
+   Fills the visible viewport while accounting for safe areas.
+   ============================================================ */
+
+:root{
+  /* If the theme already defines a header height var, reuse it in overrides below.
+     This default is only used where no header var exists. */
+  --app-header-min-height: var(--header-offset, 64px);
+  --app-footer-min-height: 0px;
+}
+
+/* Use the most accurate unit available, with safe fallbacks */
+.full-viewport {
+  /* modern browsers */
+  min-height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
+}
+
+@supports not (height: 100dvh) {
+  .full-viewport {
+    /* static/“small” viewport on Safari to avoid URL-bar jump */
+    min-height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+  }
+}
+
+@supports not (height: 100svh) {
+  .full-viewport {
+    /* legacy fallback */
+    min-height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+  }
+}
+
+/* Safe-area aware bottom padding for scroll columns */
+.pad-safe-bottom {
+  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
