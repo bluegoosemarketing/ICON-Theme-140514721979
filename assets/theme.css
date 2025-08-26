@@ -11731,13 +11731,26 @@ th {
 
 #main-body {
   display: flex;
-  min-height: 100vh;
+  height: auto;
   flex-direction: column;
   position: relative;
   background-color: var(--page-background);
   width: 100%;
   word-wrap: break-word;
-  overflow-x: hidden; }
+  overflow-x: hidden;
+  min-height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height)); }
+
+@supports not (height: 100dvh) {
+  #main-body {
+    min-height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+  }
+}
+
+@supports not (height: 100svh) {
+  #main-body {
+    min-height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+  }
+}
 
 body input:focus-visible, body input.focus-visible, body input:focus,
 body select:focus-visible,
