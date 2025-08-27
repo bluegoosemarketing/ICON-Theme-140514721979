@@ -1,11 +1,11 @@
 {%- comment -%}
   ==========================================================================
-  REVISION: V20 - CRITICAL RENDER FIX
-  - FIXED: A fatal Liquid error occurred when calculating 'original_line_price' for custom meals
-    where a sub-item had no discount. This caused the entire cart to fail rendering.
-  - The logic now defensively defaults to the final_line_price if original_line_price is nil,
-    preventing the error and ensuring the cart always renders correctly.
-  - This is the definitive, production-ready fix.
+  REVISION: V24 - REDESIGN: Promotional Badge
+  - REDESIGNED: The discount badge has been completely restyled to match
+    the "Labor Day Sale" theme, incorporating the USA emoji and a red
+    color palette inspired by the promotion's landing page.
+  - This version maintains all previous layout, alignment, and syntax
+    fixes.
   ==========================================================================
 {%- endcomment -%}
 {%- liquid
@@ -77,16 +77,36 @@
             <a href="{{ item.url }}" class="{{ class_prefix }}__item-title" title="{{ item.product.title }}">{{ item.product.title }}</a>
 
             <div class="{{ class_prefix }}__item-meta">
-              <div class="{{ class_prefix }}__item-price-wrapper">
-                {%- if final_line_price < original_line_price -%}
-                  <span class="{{ class_prefix }}__item-price--final money">{{ final_line_price | money }}</span>
-                  <del class="{{ class_prefix }}__item-price--original money">{{ original_line_price | money }}</del>
-                {%- else -%}
-                  <span class="{{ class_prefix }}__item-price money">{{ final_line_price | money }}</span>
-                {%- endif -%}
+              <div class="{{ class_prefix }}__item-top-row">
+                <div class="{{ class_prefix }}__item-actions">
+                  <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift %} {{ class_prefix }}__quantity-selector--static{% endif %}">
+                    {% unless is_bogo_gift %}
+                    <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="minus" aria-label="Decrease quantity">－</button>
+                    <input
+                      type="number"
+                      class="{{ class_prefix }}__quantity-value"
+                      value="{{ item.quantity }}"
+                      min="0"
+                      inputmode="numeric"
+                      aria-label="Quantity"
+                    >
+                    <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="plus" aria-label="Increase quantity">＋</button>
+                    {% else %}
+                    <span class="{{ class_prefix }}__quantity-value">{{ item.quantity }}</span>
+                    {% endunless %}
+                  </div>
+                </div>
+                <div class="{{ class_prefix }}__item-price-wrapper">
+                  {%- if final_line_price < original_line_price -%}
+                    <span class="{{ class_prefix }}__item-price--final money">{{ final_line_price | money }}</span>
+                    <del class="{{ class_prefix }}__item-price--original money">{{ original_line_price | money }}</del>
+                  {%- else -%}
+                    <span class="{{ class_prefix }}__item-price money">{{ final_line_price | money }}</span>
+                  {%- endif -%}
+                </div>
               </div>
 
-              {%- if item.line_level_discounts.size > 0 -%}
+              {%- if item.line_level_discounts.size > 0 or item.selling_plan_allocation and item.final_line_price < original_line_price -%}
                 <ul class="{{ class_prefix }}__item-discounts" aria-label="Discounts">
                   {%- for discount in item.line_level_discounts -%}
                     <li class="{{ class_prefix }}__item-discount">
@@ -96,27 +116,25 @@
                       </span>
                     </li>
                   {%- endfor -%}
+
+                  {%- assign has_sub_discount_in_list = false -%}
+                  {%- for discount in item.line_level_discounts -%}
+                    {%- assign title_down = discount.title | downcase -%}
+                    {%- if title_down contains 'subscription' or title_down contains 'subscribe' or title_down contains 'labor day' -%}
+                      {%- assign has_sub_discount_in_list = true -%}
+                    {%- endif -%}
+                  {%- endfor -%}
+
+                  {%- if item.selling_plan_allocation and item.final_line_price < original_line_price and has_sub_discount_in_list == false -%}
+                    <li class="{{ class_prefix }}__item-discount">
+                      <span class="discount-badge discount-badge--promo">
+                        <span class="discount-badge__icon">🇺🇸</span>
+                        <span class="discount-badge__text">Labor Day Sale!</span>
+                      </span>
+                    </li>
+                  {%- endif -%}
                 </ul>
               {%- endif -%}
-
-              <div class="{{ class_prefix }}__item-actions">
-                <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift %} {{ class_prefix }}__quantity-selector--static{% endif %}">
-                  {% unless is_bogo_gift %}
-                  <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="minus" aria-label="Decrease quantity">－</button>
-                  <input
-                    type="number"
-                    class="{{ class_prefix }}__quantity-value"
-                    value="{{ item.quantity }}"
-                    min="0"
-                    inputmode="numeric"
-                    aria-label="Quantity"
-                  >
-                  <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="plus" aria-label="Increase quantity">＋</button>
-                  {% else %}
-                  <span class="{{ class_prefix }}__quantity-value">{{ item.quantity }}</span>
-                  {% endunless %}
-                </div>
-              </div>
             </div>
 
             {% if subscription_frequency != '' %}
@@ -259,27 +277,67 @@
 </div>
 
 <style>
-  .{{ class_prefix }}__item-price-wrapper { display: flex; align-items: center; gap: 0.5rem; }
-  .{{ class_prefix }}__item-price--original { color: #6c757d; }
-  .{{ class_prefix }}__item-discounts {
-    list-style: none;
-    padding: 0;
-    margin: 4px 0 0;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 4px;
+  /* =================================================================== */
+  /*  DEFINITIVE CART ITEM STYLES (V5 - Promo Redesign)
+  /* =================================================================== */
+
+  .{{ class_prefix }}__item-details { min-width: 0; }
+  .{{ class_prefix }}__item-meta {
+    display: flex !important; flex-direction: column !important;
+    align-items: flex-start !important; gap: 8px !important;
+    margin-top: 4px !important; width: 100% !important;
   }
-  .discount-badge {
+  .{{ class_prefix }}__item-top-row {
+    display: flex; flex-wrap: wrap; align-items: center;
+    gap: 1.25rem; row-gap: 8px;
+  }
+  .{{ class_prefix }}__item-discounts {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+
+  /* --- Price Styling --- */
+  .{{ class_prefix }}__item-price.money,
+  .{{ class_prefix }}__item-price--final.money,
+  .{{ class_prefix }}__item-price--original.money {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
+  }
+  .{{ class_prefix }}__item-price-wrapper { display: flex; align-items: baseline; gap: 0.5rem; }
+  .{{ class_prefix }}__item-price.money { font-size: 0.9rem !important; font-weight: 500 !important; color: #212529 !important; }
+  .{{ class_prefix }}__item-price--final.money { font-size: 0.95rem !important; font-weight: 600 !important; color: #212529 !important; }
+  .{{ class_prefix }}__item-price--original.money { font-size: 0.9rem !important; font-weight: 500 !important; color: #6c757d !important; text-decoration: line-through; }
+
+  /* --- REDESIGNED: Promo Discount Badge --- */
+  .discount-badge--promo {
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-    background-color: #e9f9f0;
-    color: #0b793d;
-    font-size: 0.75rem;
-    font-weight: 500;
-    padding: 2px 6px;
-    border-radius: 4px;
+    gap: 0.5em;
+    background-color: #fdf5f5;
+    color: #d42828 !important;
+    border: 1px solid #f5c6cb;
+    font-size: 0.7rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 5px 10px;
+    border-radius: 6px;
     white-space: nowrap;
   }
-  .discount-badge .icon-discount { width: 10px; height: 10px; }
+  .discount-badge--promo .discount-badge__icon {
+    font-size: 1rem;
+    line-height: 1;
+    /* Nudge emoji down slightly for better vertical alignment */
+    transform: translateY(1px);
+  }
+
+  /* --- Fallback/Standard Discount Badge (Kept for other discounts) --- */
+  .discount-badge:not(.discount-badge--promo) {
+    display: inline-flex; align-items: center; gap: 4px;
+    background-color: #e9f9f0; color: #0b793d !important;
+    font-size: 0.75rem; font-weight: 500;
+    padding: 2px 6px; border-radius: 4px; white-space: nowrap;
+  }
+  .discount-badge:not(.discount-badge--promo) .icon-discount {
+    width: 10px; height: 10px;
+  }
 </style>
