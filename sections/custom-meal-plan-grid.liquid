@@ -5,6 +5,7 @@
   - Built from the last stable version to guarantee no syntax errors.
   - Correctly implements shadowless typography and the watermark icon feature.
   - This is the final, production-ready, world-class version.
+  REVISED: Added editable savings badge per card via theme editor settings.
 =====================================================================================
 {% endcomment %}
 
@@ -95,9 +96,8 @@
   .meal-plan-card__cta { display: inline-block; width: 100%; text-align: center; background-color: #fff !important; border: 2px solid var(--brand-accent,#2EBF7A) !important; color: var(--brand-accent,#2EBF7A) !important; border-radius: 8px; font-size: 1rem; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: .05em; cursor: pointer; padding: .85rem 1.5rem; transition: all .2s ease; }
   .meal-plan-card:hover .meal-plan-card__cta { background-color: var(--brand-accent,#2EBF7A) !important; color: #fff !important; }
 
-  .mp-plan-card-badge { text-align: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef; }
-  .mp-plan-card-badge .mp-badge { display: inline-block; background: #d42828; color: #fff; font-size: .8rem; font-weight: 600; padding: .25rem .6rem; border-radius: 4px; }
-  .mp-plan-card-badge .mp-sub { display: block; font-size: .8rem; color: #495057; margin-top: .35rem; }
+  .mp-plan-card-badge { text-align: center; margin-bottom: 1rem; }
+  .mp-plan-card-badge .mp-badge { display: inline-block; background: var(--brand-accent, #2EBF7A); color: #fff; font-size: .8rem; font-weight: 600; padding: .25rem .6rem; border-radius: 4px; }
 </style>
 
 <div class="meal-plan-grid-wrapper">
@@ -150,12 +150,11 @@
             </div>
 
             <div class="meal-plan-card__content">
-              {% if promo_active %}
+              {%- if block.settings.savings_badge != blank -%}
                 <div class="mp-plan-card-badge">
-                  <span class="mp-badge">Save up to {{ max_savings_total | times: 100 | money_without_trailing_zeros }}</span>
-                  <small class="mp-sub">Applied to first 4 boxes with Subscribe & Save.</small>
+                  <span class="mp-badge">{{ block.settings.savings_badge | escape }}</span>
                 </div>
-              {% endif %}
+              {%- endif -%}
               <div class="meal-plan-card__main-info">
                 {%- if has_benefits -%}
                   <div class="meal-plan-card__benefits-block">
@@ -227,6 +226,7 @@
           "default": "none"
         },
         { "type": "header", "content": "Card Content Settings" },
+        { "type": "text", "id": "savings_badge", "label": "Savings Badge", "info": "e.g., 'Save $50'. If blank, no badge will be shown." },
         { "type": "checkbox", "id": "show_hook_line", "label": "Show 'Hook Line' as subtitle", "default": true },
         { "type": "checkbox", "id": "show_who_for_list", "label": "Show 'Who It's For' from metafield", "default": true },
         { "type": "range", "id": "who_for_limit", "min": 1, "max": 5, "step": 1, "label": "Max 'Who It's For' items to show", "default": 1 },

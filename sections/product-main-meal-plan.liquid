@@ -1,6 +1,7 @@
 {% comment %}
   SECTION: Product Main Meal Plan (v4.2 - DIVIDER FIX)
   - DIVIDER FIX: Removed the redundant horizontal divider.
+  REVISED: Updated price display logic to show before/after pricing for discounted variants.
 {% endcomment %}
 
 {%- liquid
@@ -9,6 +10,15 @@
   assign qty_in_cart = current_item_in_cart.quantity | default: 0
   assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
 -%}
+
+<style>
+  .meal-plan-form__price del {
+    color: #6c757d;
+    font-weight: 400;
+    margin-right: 8px;
+    opacity: 0.8;
+  }
+</style>
 
 <div class="meal-plan-premium-layout">
   
@@ -155,8 +165,14 @@
           // Update price display
           if (priceEl) {
             const moneyFormat = {{ shop.money_format | json }};
+            let priceHtml = '';
+            if (matchedVariant.compare_at_price && matchedVariant.compare_at_price > matchedVariant.price) {
+              const compareValue = (matchedVariant.compare_at_price / 100.0).toFixed(2);
+              priceHtml += `<del>${moneyFormat.replace(/\{\{\s*amount\s*\}\}/, compareValue)}</del> `;
+            }
             const value = (matchedVariant.price / 100.0).toFixed(2);
-            priceEl.textContent = moneyFormat.replace(/\{\{\s*amount\s*\}\}/, value);
+            priceHtml += `<span>${moneyFormat.replace(/\{\{\s*amount\s*\}\}/, value)}</span>`;
+            priceEl.innerHTML = priceHtml;
           }
           
           // NEW: Update Meal Quantities

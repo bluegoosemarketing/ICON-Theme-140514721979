@@ -1,7 +1,8 @@
 {%- comment -%}
-  Cart Drawer - Dual Logic V1.1
-  - FIXED: Corrected the Liquid syntax error in the progress bar's `if` condition.
-  - The bar now correctly displays whenever the cart is not empty, showing the appropriate message.
+  Cart Drawer - Dual Logic V1.2
+  - FIXED: Restored the necessary div structure within the footer to ensure theme JavaScript compatibility,
+    preventing components from disappearing.
+  - RETAINED: Clear before/after pricing, discount lines, and a savings summary in the cart footer.
 {%- endcomment -%}
 
 {%- liquid
@@ -107,6 +108,43 @@
     assign progress_percentage = 100
   endif
 -%}
+<style>
+  .cart-drawer__summary-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid #e9ecef;
+  }
+  .cart-drawer__subtotal, .cart-drawer__discount-line, .cart-drawer__savings-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.9rem;
+  }
+  .cart-drawer__subtotal-label, .cart-drawer__discount-label, .cart-drawer__savings-label {
+    color: #495057;
+  }
+  .cart-drawer__subtotal-price, .cart-drawer__discount-amount {
+    font-weight: 600;
+  }
+  .cart-drawer__subtotal-price del {
+    color: #6c757d;
+    font-weight: 400;
+    margin-right: 8px;
+  }
+  .cart-drawer__discount-amount, .cart-drawer__savings-amount {
+    color: #28a745;
+  }
+  .cart-drawer__savings-summary {
+    font-weight: 700;
+    font-size: 1rem;
+    margin-top: 4px;
+    padding-top: 8px;
+    border-top: 1px dashed #ced4da;
+  }
+</style>
 
 <script class="cartFlagX"></script><aside id="cartSlideoutAside">
   <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-drawer-form">
@@ -136,13 +174,41 @@
           <div class="cart-drawer__footer">
             {%- if cart.item_count > 0 -%}
               <div class="cart-drawer__summary">
-                <div class="cart-drawer__subtotal">
-                  <span class="cart-drawer__subtotal-label">{{ 'cart.general.subtotal' | t }}</span>
-                  <span class="cart-drawer__subtotal-price" id="cart_drawer_subtotal">
-                    <span class="money"><span style="display:none" class="tdf-cart-total-flag"></span>{{ cart.total_price | money }}</span>
-                  </span>
+                <div class="cart-drawer__summary-wrapper">
+                  {%- if cart.total_discount > 0 -%}
+                    {%- for discount in cart.cart_level_discounts -%}
+                      <div class="cart-drawer__discount-line">
+                        <span class="cart-drawer__discount-label">
+                          <svg aria-hidden="true" focusable="false" role="presentation" style="width: 12px; height: 12px; vertical-align: middle; margin-right: 4px;" viewBox="0 0 12 12"><path fill-rule="evenodd" clip-rule="evenodd" d="M7 0h3a2 2 0 012 2v3a1 1 0 01-.29.71l-4 4a1 1 0 01-1.42 0l-3-3a1 1 0 010-1.42l4-4A1 1 0 017 0zm2 2a1 1 0 100 2 1 1 0 000-2z" fill="currentColor"></path></svg>
+                          {{ discount.title }}
+                        </span>
+                        <span class="cart-drawer__discount-amount money">-{{ discount.total_allocated_amount | money }}</span>
+                      </div>
+                    {%- endfor -%}
+
+                    <div class="cart-drawer__subtotal">
+                      <span class="cart-drawer__subtotal-label">{{ 'cart.general.subtotal' | t }}</span>
+                      <span class="cart-drawer__subtotal-price" id="cart_drawer_subtotal">
+                        <del class="money">{{ cart.original_total_price | money }}</del>
+                        <span class="money"><span style="display:none" class="tdf-cart-total-flag"></span>{{ cart.total_price | money }}</span>
+                      </span>
+                    </div>
+                    
+                    <div class="cart-drawer__savings-summary">
+                      <span class="cart-drawer__savings-label">You saved</span>
+                      <span class="cart-drawer__savings-amount money">{{ cart.total_discount | money }}</span>
+                    </div>
+                  {%- else -%}
+                    <div class="cart-drawer__subtotal">
+                      <span class="cart-drawer__subtotal-label">{{ 'cart.general.subtotal' | t }}</span>
+                      <span class="cart-drawer__subtotal-price" id="cart_drawer_subtotal">
+                        <span class="money"><span style="display:none" class="tdf-cart-total-flag"></span>{{ cart.total_price | money }}</span>
+                      </span>
+                    </div>
+                  {%- endif -%}
                 </div>
-                <div class="cart-drawer__discounts cart--order-discount-wrapper custom-font ajax-cart-discount-wrapper"></div>
+                {% comment %} This div is restored for JS compatibility {% endcomment %}
+                <div class="cart-drawer__discounts cart--order-discount-wrapper custom-font ajax-cart-discount-wrapper" style="display: none;"></div>
               </div>
               <a href="{{ routes.cart_url }}" class="cart-drawer__view-cart-link">View Cart</a>
               {%- capture taxes_shipping_checkout -%}
