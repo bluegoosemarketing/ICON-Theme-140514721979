@@ -16,11 +16,34 @@
     },
     "landing_labor_day_pro_PUTUwm": {
       "type": "landing-labor-day-pro",
+      "blocks": {
+        "customer_image_JKky8e": {
+          "type": "customer_image",
+          "settings": {
+            "image": "shopify://shop_images/IMG_4613.jpg",
+            "alt_text": "ICON Meals | Delivered to Your Doorstep"
+          }
+        },
+        "customer_image_wniVDc": {
+          "type": "customer_image",
+          "settings": {
+            "image": "shopify://shop_images/ICON-Meals_Vacum-Sealed.jpg",
+            "alt_text": "ICON Meals | Chicken Stir Fry, Rice & Kyoto Blend"
+          }
+        }
+      },
+      "block_order": [
+        "customer_image_JKky8e",
+        "customer_image_wniVDc"
+      ],
       "name": "Labor Day Lander",
       "settings": {
         "color_background": "#ffffff",
         "color_text": "#1a1a1a",
         "color_accent": "#ec4242",
+        "proof_headline": "Cooked From Raw, The Right Way",
+        "proof_intro": "<p>CEO Todd Abrams explains how we cut and cook every protein from raw in our USDA kitchen for fresher taste.</p>",
+        "proof_video_id": "9X5PUb0oh1E",
         "countdown_date": "2025-09-02 23:59:59"
       }
     }

@@ -6,7 +6,7 @@
  * or related systems. Please exercise caution as any changes
  * made to this file may be overwritten.
  * ------------------------------------------------------------
-*/
+ */
 {
   "layout": "product-shell",
   "sections": {
@@ -38,7 +38,7 @@
             "gradient_end": "#d02222",
             "watermark_icon": "none",
             "show_hook_line": true,
-            "show_who_for_list": true,
+            "show_who_for_list": false,
             "who_for_limit": 1,
             "show_options_bar": true,
             "option_1_text": "12 or 24 Meals",
@@ -56,7 +56,7 @@
             "gradient_end": "#b3441f",
             "watermark_icon": "none",
             "show_hook_line": true,
-            "show_who_for_list": true,
+            "show_who_for_list": false,
             "who_for_limit": 1,
             "show_options_bar": true,
             "option_1_text": "12 or 24 Meals",
@@ -74,7 +74,7 @@
             "gradient_end": "#20c997",
             "watermark_icon": "none",
             "show_hook_line": true,
-            "show_who_for_list": true,
+            "show_who_for_list": false,
             "who_for_limit": 1,
             "show_options_bar": true,
             "option_1_text": "12 or 24 Meals",
@@ -92,7 +92,7 @@
             "gradient_end": "#740e59",
             "watermark_icon": "none",
             "show_hook_line": true,
-            "show_who_for_list": true,
+            "show_who_for_list": false,
             "who_for_limit": 1,
             "show_options_bar": true,
             "option_1_text": "12 or 24 Meals",
@@ -110,7 +110,7 @@
             "gradient_end": "#20c997",
             "watermark_icon": "none",
             "show_hook_line": true,
-            "show_who_for_list": true,
+            "show_who_for_list": false,
             "who_for_limit": 1,
             "show_options_bar": true,
             "option_1_text": "12 or 24 Meals",
