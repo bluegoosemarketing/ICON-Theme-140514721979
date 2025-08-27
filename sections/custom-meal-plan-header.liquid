@@ -187,16 +187,7 @@
             <div class="mp-promo-line__text">
               <span class="mp-promo-line__title">{{ settings.meal_plan_promo_name }} is live!</span>
               <span class="mp-promo-line__subtitle">
-                {% if max_savings_total > 0 %}
-                  Save up to {{ max_savings_total | times: 100 | money_without_trailing_zeros }} with Subscribe & Save.
-                {% else %}
-                  Save with Subscribe & Save.
-                {% endif %}
-                Ends {{ settings.meal_plan_promo_end_date | date: '%b %-d' }}.
-                <details class="mp-promo-how">
-                  <summary>How it works</summary>
-                  <div>Extra savings apply to your first 4 boxes when you choose Subscribe & Save. Amount varies by plan size.</div>
-                </details>
+                <strong>Labor Day Deal:</strong> Get automatic discounts on your next 4 orders when you choose "Subscribe & Save." That’s up to $180 in total savings. Offer ends September 2.
               </span>
             </div>
           </div>
