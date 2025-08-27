@@ -104,8 +104,12 @@
   <div class="container">
     <div class="meal-plan-grid">
       {%- for block in section.blocks -%}
-        {%- liquid
+      {%- liquid
           assign product = block.settings.plan_product
+          assign plan_url = product.url | default: '#'
+          if promo_active
+            assign plan_url = '/discount/180OFF?redirect=' | append: plan_url
+          endif
           assign promo_title = block.settings.promo_title | default: product.title
           assign hook_line = product.metafields.plan.hook_line
           assign who_for_list = product.metafields.plan.who_for_list.value
@@ -121,7 +125,7 @@
         -%}
 
         <div class="meal-plan-grid__item" {{ block.shopify_attributes }}>
-          <a href="{{ product.url | default: '#' }}" class="meal-plan-card">
+          <a href="{{ plan_url }}" class="meal-plan-card">
             <div
               class="meal-plan-card__promo-header"
               style="background: linear-gradient(65deg, {{ block.settings.gradient_start }}, {{ block.settings.gradient_end }});"
