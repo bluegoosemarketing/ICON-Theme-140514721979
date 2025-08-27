@@ -1,11 +1,11 @@
 {%- comment -%}
   ==========================================================================
-  REVISION: V24 - REDESIGN: Promotional Badge
-  - REDESIGNED: The discount badge has been completely restyled to match
-    the "Labor Day Sale" theme, incorporating the USA emoji and a red
-    color palette inspired by the promotion's landing page.
-  - This version maintains all previous layout, alignment, and syntax
-    fixes.
+  REVISION: V26 - DEFINITIVE UX: Tooltip Badge
+  - REVERTED & ENHANCED: Based on feedback, the split-badge has been
+    removed. Reverted to the visually preferred single red promo badge.
+  - ADDED: A pure CSS tooltip has been added to the badge. On hover/tap,
+    it reveals detailed promotional info ("Applies to today's order...")
+    without cluttering the UI, providing the best of both worlds.
   ==========================================================================
 {%- endcomment -%}
 {%- liquid
@@ -127,9 +127,12 @@
 
                   {%- if item.selling_plan_allocation and item.final_line_price < original_line_price and has_sub_discount_in_list == false -%}
                     <li class="{{ class_prefix }}__item-discount">
-                      <span class="discount-badge discount-badge--promo">
+                      <span
+                        class="discount-badge discount-badge--promo"
+                        data-tooltip="Applies to today's order and your next 3 deliveries. You can pause or cancel anytime."
+                      >
                         <span class="discount-badge__icon">🇺🇸</span>
-                        <span class="discount-badge__text">Labor Day Sale!</span>
+                        <span class="discount-badge__text">Labor Day Sale</span>
                       </span>
                     </li>
                   {%- endif -%}
@@ -278,7 +281,7 @@
 
 <style>
   /* =================================================================== */
-  /*  DEFINITIVE CART ITEM STYLES (V5 - Promo Redesign)
+  /*  DEFINITIVE CART ITEM STYLES (V7 - Tooltip Badge)
   /* =================================================================== */
 
   .{{ class_prefix }}__item-details { min-width: 0; }
@@ -307,8 +310,9 @@
   .{{ class_prefix }}__item-price--final.money { font-size: 0.95rem !important; font-weight: 600 !important; color: #212529 !important; }
   .{{ class_prefix }}__item-price--original.money { font-size: 0.9rem !important; font-weight: 500 !important; color: #6c757d !important; text-decoration: line-through; }
 
-  /* --- REDESIGNED: Promo Discount Badge --- */
+  /* --- PROMO BADGE WITH TOOLTIP --- */
   .discount-badge--promo {
+    position: relative; /* Anchor for the tooltip */
     display: inline-flex;
     align-items: center;
     gap: 0.5em;
@@ -322,15 +326,60 @@
     padding: 5px 10px;
     border-radius: 6px;
     white-space: nowrap;
+    cursor: help;
   }
   .discount-badge--promo .discount-badge__icon {
-    font-size: 1rem;
-    line-height: 1;
-    /* Nudge emoji down slightly for better vertical alignment */
-    transform: translateY(1px);
+    font-size: 1rem; line-height: 1; transform: translateY(1px);
+  }
+  /* Tooltip Box */
+  .discount-badge--promo::after {
+    content: attr(data-tooltip);
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-8px);
+    background-color: #212529;
+    color: #ffffff;
+    padding: 8px 12px;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    line-height: 1.5;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: normal;
+    width: 240px;
+    text-align: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 10;
+    pointer-events: none;
+  }
+  /* Tooltip Arrow */
+  .discount-badge--promo::before {
+    content: '';
+    position: absolute;
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(0px);
+    border: 5px solid transparent;
+    border-top-color: #212529;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 11;
+    pointer-events: none;
+  }
+  /* Show on Hover */
+  .discount-badge--promo:hover::after,
+  .discount-badge--promo:hover::before {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
   }
 
-  /* --- Fallback/Standard Discount Badge (Kept for other discounts) --- */
+  /* --- Fallback/Standard Discount Badge --- */
   .discount-badge:not(.discount-badge--promo) {
     display: inline-flex; align-items: center; gap: 4px;
     background-color: #e9f9f0; color: #0b793d !important;
