@@ -2299,24 +2299,6 @@
         "default": false
       },
       {
-        "type": "checkbox",
-        "id": "meal_plan_promo_list_enable",
-        "label": "Enable on Meal Plan list page",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "meal_plan_promo_pdp_enable",
-        "label": "Enable on Meal Plan product pages",
-        "default": true
-      },
-      {
-        "type": "checkbox",
-        "id": "meal_plan_promo_cart_enable",
-        "label": "Enable on cart surfaces",
-        "default": true
-      },
-      {
         "type": "text",
         "id": "meal_plan_promo_name",
         "label": "Sale name",
@@ -2331,15 +2313,14 @@
       {
         "type": "text",
         "id": "meal_plan_promo_savings_12",
-        "label": "Box 1 savings for 12-meal plan",
-        "default": ""
+        "label": "Box 1 savings for 12-meal plan"
       },
       {
         "type": "text",
         "id": "meal_plan_promo_savings_24",
-        "label": "Box 1 savings for 24-meal plan",
-        "default": ""
+        "label": "Box 1 savings for 24-meal plan"
       }
     ]
   }
 ]
+

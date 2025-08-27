@@ -32,6 +32,15 @@
 
   assign features_list   = product.metafields.plan.features_json.value
   assign assurances_list = product.metafields.plan.assurances_list.value
+  assign promo_end = settings.meal_plan_promo_end_date | default: ''
+  assign mp_promo_active = false
+  if settings.meal_plan_promo_enable
+    assign now_ts = 'now' | date: '%s'
+    assign end_ts = promo_end | date: '%s'
+    if promo_end == '' or end_ts >= now_ts
+      assign mp_promo_active = true
+    endif
+  endif
 -%}
 {% if product.selling_plan_groups.size > 0 %}
   {%- liquid assign has_subscriptions = true -%}
@@ -154,10 +163,18 @@
                     <input type="radio" id="purchase-type-subscribe-{{ section.id }}" name="purchase_type" value="subscribe" {% if has_subscriptions %}checked{% endif %}>
                     <label for="purchase-type-subscribe-{{ section.id }}">
                       <span class="purchase-options__title">Subscribe & Save</span>
+                      {% if mp_promo_active %}<span class="mp-promo-pill mp-promo-element">{{ settings.meal_plan_promo_name }} bonus in cart</span>{% endif %}
                       <span class="purchase-options__price" data-subscribe-price></span>
                     </label>
                   </div>
                </div>
+               {% if mp_promo_active %}
+               <div class="mp-promo-details mp-promo-element">
+                 <small class="mp-promo-micro">Extra savings apply in cart, on top of Subscribe & Save.</small>
+                 <small class="mp-promo-preview">{{ settings.meal_plan_promo_name }} savings applied in cart.</small>
+                 <small class="mp-promo-deadline">Ends {{ settings.meal_plan_promo_end_date | date: '%b %-d' }}.</small>
+               </div>
+               {% endif %}
             </div>
 
             <div class="form-step" data-selling-plan-selector-container data-order="3">
@@ -315,6 +332,9 @@ class ProductFormController extends HTMLElement {
       this.sellingPlanSelectorContainer.style.display = 'none';
       this.querySelector('input[value="one-time"]').checked = true;
     }
+
+    const promoEls = this.querySelectorAll('.mp-promo-element');
+    promoEls.forEach(el => { el.style.display = purchaseType === 'subscribe' ? '' : 'none'; });
 
     this.addToCartButton.disabled = !selectedVariant.available;
   }
@@ -577,6 +597,10 @@ customElements.define('product-form-controller', ProductFormController);
   [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__price {
     color: var(--brand-primary-dark);
   }
+
+  .mp-promo-pill{display:inline-block;margin-left:.5rem;background:#f8d7da;color:#721c24;font-size:.75rem;padding:.15rem .5rem;border-radius:999px}
+  .mp-promo-details{margin-top:.5rem;text-align:center}
+  .mp-promo-details small{display:block;font-size:.75rem;color:#495057}
   /* --- [END FINAL] --- */
 
   .selling-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 0.5rem; }
