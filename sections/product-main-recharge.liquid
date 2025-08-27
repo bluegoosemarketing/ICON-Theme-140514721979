@@ -47,7 +47,7 @@
 -%}
 
 
-<product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}">
+<product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}" data-promo-active="{{ promo_active }}">
   <div class="meal-plan-hero-container">
     <div class="meal-plan-hero-grid">
 
@@ -238,6 +238,7 @@ class ProductFormController extends HTMLElement {
     this.subscribePriceDisplay = this.querySelector('[data-subscribe-price]');
     this.addToCartButton = this.querySelector('[data-add-to-cart-button]');
     this.dynamicMealList = this.querySelector('[data-dynamic-meal-list]');
+    this.promoActive = this.dataset.promoActive === 'true';
     
     this.addToCartButton.addEventListener('click', this.onAddToCartClick.bind(this));
     
@@ -254,10 +255,12 @@ class ProductFormController extends HTMLElement {
   async onAddToCartClick(evt) {
     evt.preventDefault();
     this.setLoading(true);
-    
+    const purchaseTypeInput = this.querySelector('input[name="purchase_type"]:checked');
+    const purchaseType = purchaseTypeInput ? purchaseTypeInput.value : null;
+
     const formData = new FormData(this.form);
     formData.delete('purchase_type');
-    if (this.querySelector('input[value="one-time"]:checked')) {
+    if (purchaseType === 'one-time') {
       formData.delete('selling_plan');
     }
     
@@ -266,6 +269,14 @@ class ProductFormController extends HTMLElement {
       if (!response.ok) throw new Error(await response.text());
       const cart = await response.json();
       document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+      if (this.promoActive && purchaseType === 'subscribe') {
+        try {
+          await fetch('/discount/180OFF');
+          sessionStorage.setItem('deferred_discount', '180OFF');
+        } catch (discountError) {
+          console.error('Discount Apply Error:', discountError);
+        }
+      }
       this.setSuccess();
     } catch (error) {
       console.error('Cart Submission Error:', error);
