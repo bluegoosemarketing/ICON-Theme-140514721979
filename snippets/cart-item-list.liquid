@@ -79,6 +79,7 @@ endif
             <a href="{{ item.url }}" class="{{ class_prefix }}__item-title" title="{{ item.product.title }}">{{ item.product.title }}</a>
             <div class="{{ class_prefix }}__item-meta">
               <span class="{{ class_prefix }}__item-price">{{ line_item_price | money }}</span>
+            {% render 'meal-plan-promo-breadcrumb', context: 'cart-item', item: item %}
               <div class="{{ class_prefix }}__item-actions">
                 <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift %} {{ class_prefix }}__quantity-selector--static{% endif %}">
                   {% unless is_bogo_gift %}

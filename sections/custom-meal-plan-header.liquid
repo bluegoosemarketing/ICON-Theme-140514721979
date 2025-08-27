@@ -97,6 +97,7 @@
           {%- if section.settings.intro_text != blank -%}
             <div class="meal-plan-header__intro rte">{{ section.settings.intro_text }}</div>
           {%- endif -%}
+          {% render 'meal-plan-promo-breadcrumb', context: 'list-line' %}
         </div>
         <div class="meal-plan-header__features">
           <ul class="header-feature-list">
