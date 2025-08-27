@@ -18,6 +18,15 @@
   if context == 'drawer'
     assign class_prefix = 'cart-drawer'
   endif
+  assign promo_end = settings.meal_plan_promo_end_date | default: ''
+  assign mp_promo_active = false
+  if settings.meal_plan_promo_enable
+    assign now_ts = 'now' | date: '%s'
+    assign end_ts = promo_end | date: '%s'
+    if promo_end == '' or end_ts >= now_ts
+      assign mp_promo_active = true
+    endif
+  endif
 -%}
 
 <div class="{{ class_prefix }}__content">
@@ -77,9 +86,36 @@ endif
           </div>
           <div class="{{ class_prefix }}__item-details">
             <a href="{{ item.url }}" class="{{ class_prefix }}__item-title" title="{{ item.product.title }}">{{ item.product.title }}</a>
+            {% if mp_promo_active and is_meal_plan and item.selling_plan_allocation %}
+              <small class="mp-cart-item-note">Box 1 savings shown. Boxes 2–4 auto-apply with Subscribe & Save.</small>
+            {% endif %}
             <div class="{{ class_prefix }}__item-meta">
               <span class="{{ class_prefix }}__item-price">{{ line_item_price | money }}</span>
-            {% render 'meal-plan-promo-breadcrumb', context: 'cart-item', item: item %}
+              {% if mp_promo_active and is_meal_plan and item.selling_plan_allocation %}
+                {% assign plan_size = 0 %}
+                {% assign variant_string = item.variant.option1 | default: item.variant.title %}
+                {% assign tokens = variant_string | split: ' ' %}
+                {% for token in tokens %}
+                  {% assign clean = token | remove: '(' | remove: ')' | remove: '[' | remove: ']' | remove: ',' | remove: '.' | remove: '+' | remove: '–' | remove: '—' | remove: '-' | remove: 'Meal' | remove: 'Meals' | remove: 'meal' | remove: 'meals' %}
+                  {% assign maybe_num = clean | times: 1 %}
+                  {% if maybe_num > 0 %}
+                    {% assign plan_size = maybe_num %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+                {% assign savings_amount = 0 %}
+                {% if plan_size == 12 %}
+                  {% assign savings_amount = settings.meal_plan_promo_savings_12 | plus: 0 %}
+                {% elsif plan_size == 24 %}
+                  {% assign savings_amount = settings.meal_plan_promo_savings_24 | plus: 0 %}
+                {% endif %}
+                {% if savings_amount > 0 %}
+                  {% assign savings_money = savings_amount | times: 100 | money_without_trailing_zeros %}
+                  <span class="mp-cart-promo">{{ settings.meal_plan_promo_name }}: -{{ savings_money }} today</span>
+                {% else %}
+                  <span class="mp-cart-promo">{{ settings.meal_plan_promo_name }} savings applied.</span>
+                {% endif %}
+              {% endif %}
               <div class="{{ class_prefix }}__item-actions">
                 <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift %} {{ class_prefix }}__quantity-selector--static{% endif %}">
                   {% unless is_bogo_gift %}
@@ -238,3 +274,8 @@ endif
     </div>
   {% endif %}
 </div>
+
+<style>
+  .mp-cart-promo{display:block;color:#d42828;font-size:.75rem;margin-top:.25rem}
+  .mp-cart-item-note{display:block;font-size:.75rem;color:#495057;margin-top:.25rem}
+</style>

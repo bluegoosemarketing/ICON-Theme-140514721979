@@ -82,6 +82,11 @@
     .meal-plan-header__heading { font-size: 2.25rem !important; }
     .meal-plan-header__intro { font-size: 1rem; }
   }
+
+  .mp-promo-line{font-size:.875rem;margin-top:.5rem;text-align:center}
+  .mp-promo-line details{display:inline-block;margin-left:.5rem}
+  .mp-promo-line summary{cursor:pointer;font-size:.75rem;color:#6c757d;display:inline}
+  .mp-promo-line div{font-size:.75rem;color:#495057;margin-top:.25rem}
 </style>
 
 <div class="meal-plan-header-wrapper">
@@ -97,7 +102,24 @@
           {%- if section.settings.intro_text != blank -%}
             <div class="meal-plan-header__intro rte">{{ section.settings.intro_text }}</div>
           {%- endif -%}
-          {% render 'meal-plan-promo-breadcrumb', context: 'list-line' %}
+{% liquid
+  assign promo_end = settings.meal_plan_promo_end_date | default: ''
+  assign promo_active = false
+  if settings.meal_plan_promo_enable
+    assign now_ts = 'now' | date: '%s'
+    assign end_ts = promo_end | date: '%s'
+    if promo_end == '' or end_ts >= now_ts
+      assign promo_active = true
+    endif
+  endif
+  assign max_savings = settings.meal_plan_promo_savings_24 | plus: 0 | times: 4
+{% endliquid %}
+{% if promo_active %}
+  <div class="mp-promo-line">
+    <span>{{ settings.meal_plan_promo_name }} is live.{% if max_savings > 0 %} Save up to {{ max_savings | times: 100 | money_without_trailing_zeros }} with Subscribe & Save.{% else %} Save with Subscribe & Save.{% endif %} Ends {{ settings.meal_plan_promo_end_date | date: '%b %-d' }}.</span>
+    <details class="mp-promo-how"><summary>How it works</summary><div>Extra savings apply to your first 4 boxes when you choose Subscribe & Save. Amount varies by plan size.</div></details>
+  </div>
+{% endif %}
         </div>
         <div class="meal-plan-header__features">
           <ul class="header-feature-list">
