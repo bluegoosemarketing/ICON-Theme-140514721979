@@ -12,7 +12,7 @@
     "main": {
       "type": "template--addons",
       "settings": {
-        "enable_pp_bogo": true,
+        "enable_pp_bogo": false,
         "pp_bogo_product": "personal-size-savory-protein-popcorn-starter-pack",
         "pp_bogo_gift_product": "gift-savory-protein-popcorn-starter-pack-personal-size",
         "pp_bogo_headline": "Buy One, Get One Free!",
