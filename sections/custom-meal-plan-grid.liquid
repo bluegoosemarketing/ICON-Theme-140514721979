@@ -8,18 +8,25 @@
 =====================================================================================
 {% endcomment %}
 
-{% liquid
+{%- liquid
   assign promo_end = settings.meal_plan_promo_end_date | default: ''
   assign promo_active = false
-  if settings.meal_plan_promo_enable
+  if settings.meal_plan_promo_enable and settings.meal_plan_promo_list_enable
     assign now_ts = 'now' | date: '%s'
     assign end_ts = promo_end | date: '%s'
-    if promo_end == '' or end_ts >= now_ts
+    if promo_end == blank or end_ts >= now_ts
       assign promo_active = true
     endif
   endif
-  assign max_savings = settings.meal_plan_promo_savings_24 | plus: 0 | times: 4
-{% endliquid %}
+
+  assign s12 = settings.meal_plan_promo_savings_12 | plus: 0
+  assign s24 = settings.meal_plan_promo_savings_24 | plus: 0
+  assign max_savings_single = s12
+  if s24 > s12
+    assign max_savings_single = s24
+  endif
+  assign max_savings_total = max_savings_single | times: 4
+-%}
 
 <style>
   /* --- Section Wrapper & Header (Unchanged) --- */
@@ -88,10 +95,9 @@
   .meal-plan-card__cta { display: inline-block; width: 100%; text-align: center; background-color: #fff !important; border: 2px solid var(--brand-accent,#2EBF7A) !important; color: var(--brand-accent,#2EBF7A) !important; border-radius: 8px; font-size: 1rem; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: .05em; cursor: pointer; padding: .85rem 1.5rem; transition: all .2s ease; }
   .meal-plan-card:hover .meal-plan-card__cta { background-color: var(--brand-accent,#2EBF7A) !important; color: #fff !important; }
 
-  .mp-plan-card-badge{text-align:center;margin-bottom:.5rem}
-  .mp-plan-card-badge .mp-badge{display:inline-block;background:#d42828;color:#fff;font-size:.75rem;padding:.1rem .5rem;border-radius:4px}
-  .mp-plan-card-badge .mp-sub{display:block;font-size:.75rem;color:#495057;margin-top:.25rem}
-
+  .mp-plan-card-badge { text-align: center; margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid #e9ecef; }
+  .mp-plan-card-badge .mp-badge { display: inline-block; background: #d42828; color: #fff; font-size: .8rem; font-weight: 600; padding: .25rem .6rem; border-radius: 4px; }
+  .mp-plan-card-badge .mp-sub { display: block; font-size: .8rem; color: #495057; margin-top: .35rem; }
 </style>
 
 <div class="meal-plan-grid-wrapper">
@@ -146,7 +152,7 @@
             <div class="meal-plan-card__content">
               {% if promo_active %}
                 <div class="mp-plan-card-badge">
-                  <span class="mp-badge">Save up to {{ max_savings | times: 100 | money_without_trailing_zeros }}</span>
+                  <span class="mp-badge">Save up to {{ max_savings_total | times: 100 | money_without_trailing_zeros }}</span>
                   <small class="mp-sub">Applied to first 4 boxes with Subscribe & Save.</small>
                 </div>
               {% endif %}

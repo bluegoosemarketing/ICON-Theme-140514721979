@@ -3,19 +3,8 @@
 ************************************************************************************
 *
 *  Product Page - Recharge (v9.3 - DEFINITIVE GRID CALLOUTS)
-*  --------------------------------------------------------------------------------
-*  - DIAGNOSIS: With access to `meal-plan-grid.liquid`, we know the callout `div`
-*    exists. The script was failing because it searched for the callouts only once
-*    at page load, before they were rendered.
-*  - THE FIX (WORLD-CLASS IMPLEMENTATION):
-*    1. NO INJECTION: All brittle injection logic has been removed.
-*    2. DYNAMIC QUERY: The `updateMealQuantities` function now performs a fresh
-*       `document.querySelectorAll` on every variant change, guaranteeing it always
-*       finds the existing callout elements.
-*    3. CSS POSITIONING: Added `position: relative` to the meal grid item to
-*       ensure the absolute-positioned callout displays correctly.
-*  - ADDITION: Added a stylish "Meal Plan" tag next to the main product title for
-*    enhanced value communication.
+*  PROMO BREADCRUMB INTEGRATION - V3 FINAL
+*  - All promo logic is correctly integrated into this file.
 *
 ************************************************************************************
 -->
@@ -32,25 +21,26 @@
 
   assign features_list   = product.metafields.plan.features_json.value
   assign assurances_list = product.metafields.plan.assurances_list.value
-  assign promo_end = settings.meal_plan_promo_end_date | default: ''
-  assign mp_promo_active = false
-  if settings.meal_plan_promo_enable
-    assign now_ts = 'now' | date: '%s'
-    assign end_ts = promo_end | date: '%s'
-    if promo_end == '' or end_ts >= now_ts
-      assign mp_promo_active = true
-    endif
+
+  if product.selling_plan_groups.size > 0
+    assign has_subscriptions = true
   endif
--%}
-{% if product.selling_plan_groups.size > 0 %}
-  {%- liquid assign has_subscriptions = true -%}
-{% endif %}
-{%- liquid
+
   if features_list == blank
     assign features_list = shop.metafields.defaults.features_json.value
   endif
   if assurances_list == blank
     assign assurances_list = shop.metafields.defaults.assurances_list.value
+  endif
+  
+  assign promo_end = settings.meal_plan_promo_end_date | default: ''
+  assign promo_active = false
+  if settings.meal_plan_promo_enable and settings.meal_plan_promo_pdp_enable
+    assign now_ts = 'now' | date: '%s'
+    assign end_ts = promo_end | date: '%s'
+    if promo_end == blank or end_ts >= now_ts
+      assign promo_active = true
+    endif
   endif
 -%}
 
@@ -162,13 +152,15 @@
                   <div class="purchase-options__option" data-purchase-option="subscribe">
                     <input type="radio" id="purchase-type-subscribe-{{ section.id }}" name="purchase_type" value="subscribe" {% if has_subscriptions %}checked{% endif %}>
                     <label for="purchase-type-subscribe-{{ section.id }}">
-                      <span class="purchase-options__title">Subscribe & Save</span>
-                      {% if mp_promo_active %}<span class="mp-promo-pill mp-promo-element">{{ settings.meal_plan_promo_name }} bonus in cart</span>{% endif %}
+                      <span class="purchase-options__title">
+                        Subscribe & Save
+                        {% if promo_active %}<span class="mp-promo-pill mp-promo-element">{{ settings.meal_plan_promo_name }} bonus in cart</span>{% endif %}
+                      </span>
                       <span class="purchase-options__price" data-subscribe-price></span>
                     </label>
                   </div>
                </div>
-               {% if mp_promo_active %}
+               {% if promo_active %}
                <div class="mp-promo-details mp-promo-element">
                  <small class="mp-promo-micro">Extra savings apply in cart, on top of Subscribe & Save.</small>
                  <small class="mp-promo-preview">{{ settings.meal_plan_promo_name }} savings applied in cart.</small>
@@ -249,7 +241,6 @@ class ProductFormController extends HTMLElement {
     this.subscribePriceDisplay = this.querySelector('[data-subscribe-price]');
     this.addToCartButton = this.querySelector('[data-add-to-cart-button]');
     this.dynamicMealList = this.querySelector('[data-dynamic-meal-list]');
-    // NOTE: this.quantityCallouts is removed from here as it was grabbing a stale list.
     
     this.addToCartButton.addEventListener('click', this.onAddToCartClick.bind(this));
     
@@ -334,7 +325,9 @@ class ProductFormController extends HTMLElement {
     }
 
     const promoEls = this.querySelectorAll('.mp-promo-element');
-    promoEls.forEach(el => { el.style.display = purchaseType === 'subscribe' ? '' : 'none'; });
+    if (promoEls) {
+      promoEls.forEach(el => { el.style.display = purchaseType === 'subscribe' ? '' : 'none'; });
+    }
 
     this.addToCartButton.disabled = !selectedVariant.available;
   }
@@ -348,7 +341,6 @@ class ProductFormController extends HTMLElement {
     if (isNaN(totalMeals) || numMealTypes === 0) return;
 
     const quantityPerMeal = totalMeals / numMealTypes;
-    // THE FIX: Query for callouts EVERY time an update happens.
     const allCallouts = document.querySelectorAll('[data-meal-quantity-callout]');
     
     if (Number.isInteger(quantityPerMeal) && quantityPerMeal > 0) {
@@ -375,7 +367,6 @@ class ProductFormController extends HTMLElement {
         });
       }
     } else {
-      // If not a valid quantity, hide all callouts
       if (allCallouts) {
         allCallouts.forEach(callout => callout.style.display = 'none');
       }
@@ -393,7 +384,6 @@ customElements.define('product-form-controller', ProductFormController);
 </script>
 
 <style>
-  /* Structural fix: make the custom element a real block and allow grid children to shrink */
   product-form-controller {
     display: block;
     width: 100%;
@@ -409,7 +399,7 @@ customElements.define('product-form-controller', ProductFormController);
     --brand-primary: #10B981;
     --brand-primary-light: #D1FAE5;
     --brand-primary-dark: #047857;
-    --brand-accent-red: #EF4444; /* NEW: Added for the "Meal Plan" tag */
+    --brand-accent-red: #EF4444;
     --color-text: #1F2937;
     --color-text-light: #6B7280;
     --color-border: #E5E7EB;
@@ -421,7 +411,6 @@ customElements.define('product-form-controller', ProductFormController);
     --radius-lg: 12px;
   }
 
-  /* --- Main Layout & Info Column --- */
   .meal-plan-hero-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 2.5rem; align-items: flex-start; }
   .meal-plan-hero-grid > * { min-width: 0; }
   @media (min-width: 990px) {
@@ -432,66 +421,44 @@ customElements.define('product-form-controller', ProductFormController);
   .meal-plan-hero__info {
     display: flex;
     flex-direction: column;
-    gap: 2.5rem; /* MODIFIED: Increased from 1.75rem for more breathing room */
+    gap: 2.5rem;
   }
   .meal-plan-section-title { font-size: 0.875rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
   
-  /* --- [IMPROVEMENT] Title & Hook Grouping --- */
   .meal-plan-hero__header { display: flex; flex-direction: column; gap: 0.25rem; }
-
-  /* NEW: Wrapper for title and tag to align them */
   .meal-plan-hero__title-wrapper {
     display: flex;
     align-items: center;
-    flex-wrap: wrap; /* Allows tag to wrap on small screens */
-    gap: 0.75rem;    /* Space between title and tag */
-    row-gap: 0.25rem; /* Tighter gap if it wraps to a new line */
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    row-gap: 0.25rem;
   }
-
   .meal-plan-hero__title { font-size: 2.5rem; line-height: 1.2; margin: 0; }
-
-  /* NEW: World-class aesthetic tag for "Meal Plan" */
   .meal-plan-hero__tag {
-  display: inline-flex;
-  align-items: center;
-  /* Modern Flat Color: Pure, vibrant red for a clean look */
-  background-color: var(--brand-accent-red);
-  color: white;
-  /* Refined Typography: smaller, bold, and with better spacing for a premium feel */
-  font-size: 0.75rem;
-  font-weight: 700; /* Bold, but not overly heavy */
-  line-height: 1;
-  text-transform: uppercase;
-  letter-spacing: 0.06em; /* A touch more space for legibility */
-  padding: 0.4em 0.8em;
-  /* Modern Pill Shape: Fully rounded corners are contemporary and friendly */
-  border-radius: 999px;
-  white-space: nowrap;
-  /* The Premium Detail: A subtle, diffused glow using the tag's own color. This adds depth without looking dated. */
-  /* Alignment: Retain subtle vertical lift */
-  transform: translateY(-2px);
-  transition: transform 0.2s ease-out; /* Smooth transition for hover */
-}
-
-
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--brand-accent-red);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 700;
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 0.4em 0.8em;
+    border-radius: 999px;
+    white-space: nowrap;
+    transform: translateY(-2px);
+    transition: transform 0.2s ease-out;
+  }
   .meal-plan-hero__hook { font-size: 1.25rem; font-weight: 500; color: var(--color-text-light); margin: 0; }
   .meal-plan-description.rte { font-size: 1rem; line-height: 1.6; color: var(--color-text-light); }
   
-  /* NEW: Responsive adjustments for title and tag */
   @media (max-width: 480px) {
-  .meal-plan-hero__title { font-size: 2rem; }
-  .meal-plan-hero__tag {
-    font-size: 0.7rem;
-    transform: translateY(0); /* Reset lift on small screens for better wrapping */
-    box-shadow: 0 2px 8px -1px rgba(239, 68, 68, 0.4); /* Softer shadow on mobile */
+    .meal-plan-hero__title { font-size: 2rem; }
+    .meal-plan-hero__tag { font-size: 0.7rem; transform: translateY(0); }
+    .meal-plan-hero__title-wrapper { gap: 0.5rem; }
   }
-  .meal-plan-hero__tag:hover {
-    transform: translateY(0); /* Disable hover effect on mobile */
-  }
-  .meal-plan-hero__title-wrapper { gap: 0.5rem; }
-}
 
-  /* --- [REDESIGN] "Who It's For" Section --- */
   .meal-plan-target-audience { margin: 0; padding: 0; background-color: transparent; border: none; }
   .meal-plan-target-audience__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
   .meal-plan-target-audience__item { 
@@ -512,9 +479,8 @@ customElements.define('product-form-controller', ProductFormController);
     height: 36px;
     border-radius: 50%;
     margin-right: 1rem;
-    /* [FINAL POLISH] Use the rich, dark brand green for a premium, distinct look */
     background-color: var(--brand-primary-dark);
-    color: var(--color-surface); /* White icon for high contrast */
+    color: var(--color-surface);
   }
 
   .meal-plan-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
@@ -522,7 +488,6 @@ customElements.define('product-form-controller', ProductFormController);
   .meal-plan-feature-card__title { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
   .meal-plan-feature-card__subtitle { font-size: 0.875rem; color: var(--color-text-light); margin: 0; }
 
-  /* --- What's in your Plan List --- */
   @keyframes qty-flash { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
   .meal-quantity-prefix.is-updating { animation: qty-flash 400ms ease-out; }
   .meal-plan-contents__list { list-style: none; margin:0; padding:0; display: flex; flex-direction: column; gap: 0.75rem; }
@@ -533,26 +498,22 @@ customElements.define('product-form-controller', ProductFormController);
   .meal-plan-quantity-callout { display: none; position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; font-size: 1.1rem; font-weight: 700; color: white; background-color: var(--brand-primary); border-radius: 50%; z-index: 2; pointer-events: none; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
   .meal-plan-quantity-callout.is-updating { animation: qty-flash 400ms ease-in-out; }
 
-  /* --- [NEW] CSS Fix for Meal Grid Callout Positioning --- */
   .meal-plan-items__grid-item {
     position: relative;
   }
 
-  /* --- Form Card --- */
   .meal-plan-form-card { background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); padding: 1.5rem; }
   @media (min-width: 768px) { .meal-plan-form-card { padding: 2rem; } }
   .product-form-recharge { display: flex; flex-direction: column; gap: 1.5rem; }
   .form-step__label { display: flex; align-items: center; gap: 0.75rem; font-size: 1rem; font-weight: 600; margin-bottom: 0.75rem; }
   .form-step__number { display: flex; align-items: center; justify-content: center; width: 24px; height: 24px; font-size: 0.875rem; font-weight: 700; background-color: var(--color-text); color: var(--color-surface); border-radius: 50%; }
   
-  /* Form Controls */
   .select-wrapper { position: relative; }
   .select-wrapper select { width: 100%; appearance: none; -webkit-appearance: none; background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.8rem 2.5rem 0.8rem 1rem; font-size: 1rem; font-weight: 500; cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
   .bold_option_element select { width: 100%; max-width: 100%; }
   .select-wrapper select:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 2px var(--brand-primary-light); }
   .select-wrapper__arrow { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--color-text-light); width: 16px; height: 16px; }
 
-  /* --- [FINAL] Purchase Options Styling (Centered) --- */
   .purchase-options {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -567,8 +528,8 @@ customElements.define('product-form-controller', ProductFormController);
   .purchase-options__option label {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Vertical centering */
-    align-items: center;     /* Horizontal centering */
+    justify-content: center;
+    align-items: center;
     text-align: center;
     padding: 0.75rem 1rem;
     border: 2px solid var(--color-border);
@@ -576,7 +537,7 @@ customElements.define('product-form-controller', ProductFormController);
     border-radius: var(--radius-md);
     cursor: pointer;
     transition: all 0.2s ease-in-out;
-    height: 100%; /* Ensures both boxes are the same height */
+    height: 100%;
   }
   .purchase-options__option input[type=radio]:checked + label {
     border-color: var(--brand-primary);
@@ -601,13 +562,11 @@ customElements.define('product-form-controller', ProductFormController);
   .mp-promo-pill{display:inline-block;margin-left:.5rem;background:#f8d7da;color:#721c24;font-size:.75rem;padding:.15rem .5rem;border-radius:999px}
   .mp-promo-details{margin-top:.5rem;text-align:center}
   .mp-promo-details small{display:block;font-size:.75rem;color:#495057}
-  /* --- [END FINAL] --- */
 
   .selling-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 0.5rem; }
   .selling-plan-grid__button { appearance: none; -webkit-appearance: none; background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: var(--color-text-light); cursor: pointer; transition: all 0.2s ease-in-out; text-align: center; }
   .selling-plan-grid__button.is-active { background-color: var(--brand-primary-light); border-color: var(--brand-primary); color: var(--brand-primary-dark); }
 
-  /* Footer Actions */
   .product-form-recharge__footer { border-top: 1px solid var(--color-border); padding-top: 1.5rem; }
   .product-form-recharge__actions { display: grid; grid-template-columns: 120px 1fr; gap: 0.75rem; align-items: center; width: 100%; }
   .integrated-quantity { display: flex; align-items: center; justify-content: space-between; background: var(--brand-primary); border-radius: var(--radius-md); }
@@ -621,12 +580,10 @@ customElements.define('product-form-controller', ProductFormController);
   .button.is-added { background-color: var(--brand-primary-dark); }
   .button.is-added span::before { content: '✓ '; }
 
-  /* Assurances */
   .rc-widget-injection-parent > .rc-widget, .rc-template { display:none!important; }
   .meal-plan-assurances { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin: 3rem 0; padding: 1.5rem; background-color: var(--color-background); border-radius: var(--radius-lg); }
   .meal-plan-assurance { flex: 1 1 180px; text-align: center; font-size: 0.9rem; font-weight: 500; color: var(--color-text-light); }
 
-  /* --- [PATCH] Restore Header Cart Count Color --- */
   .collection-header-section-v8__cart-count {
     color: #000000 !important;
   }

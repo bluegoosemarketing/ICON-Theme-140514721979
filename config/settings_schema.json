@@ -2281,7 +2281,7 @@
         "label": "Announcement bar text when promo off",
         "default": "USDA Certified • Serving the lower 48"
       },
-      {
+            {
         "type": "text",
         "id": "announcement_promo_text",
         "label": "Announcement bar text when promo on",
@@ -2296,7 +2296,25 @@
         "type": "checkbox",
         "id": "meal_plan_promo_enable",
         "label": "Enable Meal Plan promo",
-        "default": false
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "meal_plan_promo_list_enable",
+        "label": "Enable on Meal Plan list page",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "meal_plan_promo_pdp_enable",
+        "label": "Enable on Meal Plan product pages",
+        "default": true
+      },
+      {
+        "type": "checkbox",
+        "id": "meal_plan_promo_cart_enable",
+        "label": "Enable on cart surfaces",
+        "default": true
       },
       {
         "type": "text",
@@ -2323,4 +2341,3 @@
     ]
   }
 ]
-
