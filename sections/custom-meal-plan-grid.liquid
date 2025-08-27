@@ -127,6 +127,7 @@
             </div>
 
             <div class="meal-plan-card__content">
+          {% render 'meal-plan-promo-breadcrumb', context: 'plan-card' %}
               <div class="meal-plan-card__main-info">
                 {%- if has_benefits -%}
                   <div class="meal-plan-card__benefits-block">

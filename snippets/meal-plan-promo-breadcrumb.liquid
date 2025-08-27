@@ -1,0 +1,67 @@
+{% comment %}
+  Renders meal plan promotion breadcrumb elements based on context.
+  Usage: {% render 'meal-plan-promo-breadcrumb', context: 'list-line' %}
+{% endcomment %}
+
+{% assign promo_end = settings.meal_plan_promo_end_date | default: '' %}
+{% assign promo_end_timestamp = promo_end | date: '%s' %}
+{% assign now_timestamp = 'now' | date: '%s' %}
+{% assign promo_active = false %}
+{% if settings.meal_plan_promo_enable %}
+  {% if promo_end == blank or promo_end_timestamp >= now_timestamp %}
+    {% assign promo_active = true %}
+  {% endif %}
+{% endif %}
+
+{% if promo_active %}
+  {% case context %}
+    {% when 'list-line' %}
+      {% if settings.meal_plan_promo_list_enable %}
+        <div class="mp-promo-line">
+          <span>{{ settings.meal_plan_promo_name }} is live. Save up to $180 with Subscribe & Save. Ends {{ settings.meal_plan_promo_end_date | date: '%b %-d' }}.</span>
+          <details class="mp-promo-how"><summary>How it works</summary><div>Extra savings apply to your first 4 boxes when you choose Subscribe & Save. Amount varies by plan size.</div></details>
+        </div>
+      {% endif %}
+    {% when 'plan-card' %}
+      {% if settings.meal_plan_promo_list_enable %}
+        <div class="mp-plan-card-badge">
+          <span class="mp-badge">Save up to $180</span>
+          <small class="mp-sub">Applied to first 4 boxes with Subscribe & Save.</small>
+        </div>
+      {% endif %}
+    {% when 'pdp' %}
+      {% if settings.meal_plan_promo_pdp_enable %}
+        <div class="mp-pdp-callout">
+          <span class="mp-pill">Labor Day bonus in cart</span>
+          <small class="mp-sub">Extra savings apply in cart, on top of Subscribe & Save.</small>
+        </div>
+      {% endif %}
+    {% when 'cart-item' %}
+      {% if settings.meal_plan_promo_cart_enable and item %}
+        {% assign is_meal_plan = false %}
+        {% assign product_type_lower = item.product.type | downcase %}
+        {% if product_type_lower contains 'meal plan' or item.product.handle contains 'meal-plan' %}
+          {% assign is_meal_plan = true %}
+        {% endif %}
+        {% if is_meal_plan and item.selling_plan_allocation %}
+          <div class="mp-cart-note">
+            <span>Labor Day savings applied.</span>
+            <small>Box 1 savings shown. Boxes 2–4 auto-apply with Subscribe & Save.</small>
+          </div>
+        {% endif %}
+      {% endif %}
+  {% endcase %}
+{% endif %}
+
+<style>
+  .mp-promo-line{font-size:0.875rem;margin-top:0.5rem;text-align:center}
+  .mp-promo-line details{display:inline-block;margin-left:0.5rem}
+  .mp-plan-card-badge{text-align:center;margin-bottom:0.5rem}
+  .mp-plan-card-badge .mp-badge{display:inline-block;background:#d42828;color:#fff;font-size:0.75rem;padding:0.1rem 0.5rem;border-radius:4px}
+  .mp-plan-card-badge .mp-sub{display:block;font-size:0.75rem;color:#495057;margin-top:0.25rem}
+  .mp-pdp-callout{margin-top:0.5rem}
+  .mp-pdp-callout .mp-pill{display:inline-block;background:#f8d7da;color:#721c24;font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:999px}
+  .mp-pdp-callout .mp-sub{display:block;font-size:0.75rem;color:#495057;margin-top:0.25rem}
+  .mp-cart-note{font-size:0.75rem;color:#495057;margin-top:0.25rem}
+  .mp-cart-note span{color:#d42828;display:block}
+</style>

@@ -72,6 +72,7 @@
             <div class="meal-plan-form__price" data-product-price>
               {{ current_variant.price | money }}
             </div>
+            {% render 'meal-plan-promo-breadcrumb', context: 'pdp' %}
 
             <div class="meal-plan-form__actions">
               <product-form class="product-form--quick-add product-form--full-width" data-state="{% if qty_in_cart > 0 %}active{% else %}initial{% endif %}">
