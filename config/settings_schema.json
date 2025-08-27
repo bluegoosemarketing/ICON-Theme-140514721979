@@ -2326,7 +2326,7 @@
         "type": "text",
         "id": "meal_plan_promo_end_date",
         "label": "End date (YYYY-MM-DD)",
-        "default": "2024-09-02"
+        "default": "2025-09-02"
       },
       {
         "type": "text",
