@@ -1,13 +1,14 @@
 {% comment %}
   ============================================================================
-  ICON Labor Day 2025 Landing Page - V23.1 (Auto Discount)
+  ICON Labor Day 2025 Landing Page - V23.3 (Subtle Promo Code)
   - Designer/Developer: Your AI Lead Dev
   - Change Log:
-    - MODIFIED: Updated all "Meal Plan" CTAs to auto-apply the '180OFF'
-      discount code upon click, redirecting to the meal plans page.
-    - ADDED: Seamlessly integrated the dynamic Yotpo Authority Bar below the
-      hero section to enhance trust and social proof. Prefixed all styles
-      to prevent conflicts and merged JavaScript for clean execution.
+    - V23.3: MODIFIED: Refined the 'REST25' promo code display to be more subtle,
+      using neutral colors to reduce visual competition with the primary
+      "Meal Plans" offer, reinforcing the intended user journey.
+    - V23.2: ADDED: A styled coupon code element to the "One-Time Offer" card
+      to explicitly display the 'REST25' discount code.
+    - V23.1: MODIFIED & ADDED: Auto-apply discount links and Yotpo authority bar.
   ============================================================================
 {% endcomment %}
 
@@ -139,7 +140,12 @@
   .ld14-choice-card--secondary li { color: var(--ld14-text-secondary) !important; }
   .ld14-choice-card--secondary li svg { color: var(--ld14-brand-red); }
   .ld14-best-value-badge { position: absolute; top: -25px; left: 50%; z-index: 5; transform: translateX(-50%) rotate(-2deg); background-color: var(--ld14-brand-red) !important; color: var(--ld14-brand-white) !important; padding: 0.6rem 1.5rem !important; border-radius: 99px !important; font-size: 0.9rem !important; font-weight: 700 !important; text-transform: uppercase; letter-spacing: 0.05em; }
-
+  
+  /* === NEW: SUBTLE PROMO CODE STYLES === */
+  .ld14-coupon-wrapper { text-align: center; background-color: var(--ld14-surface-light); border: 1px solid var(--ld14-border); border-radius: 8px; padding: 1rem; margin-bottom: 1.5rem; }
+  .ld14-coupon-label { display: block; font-size: 0.9rem; font-weight: 600; color: var(--ld14-text-secondary); margin-bottom: 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+  .ld14-coupon-code { font-family: 'Courier New', monospace; font-weight: 700; font-size: 1.5rem; color: var(--ld14-brand-dark); background-color: var(--ld14-brand-white); padding: 0.25rem 0.75rem; border-radius: 4px; border: 1px solid var(--ld14-border); user-select: all; }
+  
   /* ==========================================================================
      3. HOW IT WORKS SECTION
      ========================================================================== */
@@ -219,80 +225,181 @@
   </div>
 
   <!-- ======================= 2. OFFER CHOICES ======================= -->
-  <section id="offers" class="ld14-section">
-    <div class="ld14-container"><div class="ld14-section-header"><h2 class="ld14-sub-headline">Two Ways to Save</h2><p class="ld14-intro-text">Go big with Meal Plans for the deepest discount or get 25% off one-time orders.</p></div><div class="ld14-choices-grid"><div class="ld14-card-wrapper ld14-card-wrapper--primary"><div class="ld14-best-value-badge">Best Value</div><div class="ld14-choice-card ld14-choice-card--primary"><h3>Meal Plans</h3><p class="ld14-card-sub-label">Best for Results</p><ul><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Up to $180 off your first 4 boxes</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Fresh, chef-prepared meals built for your goals</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Skip, pause, or cancel anytime with full flexibility</span></li></ul><p class="ld14-fine-print">Labor Day savings apply only when you select Subscribe & Save. Discount is spread across your first 4 orders and varies by plan size.</p><a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Choose My Plan</a></div></div><div class="ld14-choice-card ld14-choice-card--secondary"><h3>One-Time Orders</h3><p class="ld14-card-sub-label">Customize your order</p><ul><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>25% off site-wide this weekend</span></li><li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Order Signature Meals, Custom Meals, or Bulk</span></li></ul><p class="ld14-fine-print">25% off applies to one-time orders placed before September 2.</p><a href="/discount/REST25?redirect=/collections/signature-menu" class="ld14-cta ld14-cta--secondary">Shop Meals</a></div></div></div>
-  </section>
-
-  <!-- ======================= 3. HOW IT WORKS ======================= -->
-  <section class="ld14-section ld14-how-it-works">
-    <div class="ld14-container"><div class="ld14-section-header"><h2 class="ld14-sub-headline">Getting started is simple</h2></div><div class="ld14-steps-container"><div class="ld14-step"><div class="ld14-step__number">1</div><div class="ld14-step__content"><h3>PICK YOUR PLAN</h3><p>Choose 12 or 24 meals and set your delivery schedule.</p></div></div><div class="ld14-step"><div class="ld14-step__number">2</div><div class="ld14-step__content"><h3>PREVIEW YOUR MENU</h3><p>See the exact meals in your plan. Curated for results.</p></div></div><div class="ld14-step ld14-step--highlight"><div class="ld14-step__number">3</div><div class="ld14-step__content"><h3>SELECT SUBSCRIBE & SAVE</h3><p>Turn on your Labor Day savings. Your first four boxes are discounted.</p></div></div><div class="ld14-step"><div class="ld14-step__number">4</div><div class="ld14-step__content"><h3>WE COOK & DELIVER</h3><p>Meals arrive fresh and ready to eat. Heat and enjoy.</p></div></div></div><div class="ld14-section-header"><a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Claim My Savings</a></div></div>
-  </section>
-
-  <!-- ======================= 4. COMMUNITY & PROOF ======================= -->
-  <section class="ld14-section ld14-community-proof">
-    <div class="ld14-container">
-      <div class="ld14-section-header">
-        <h2 class="ld14-sub-headline">{{ section.settings.proof_headline }}</h2>
-        <div class="ld14-intro-text">{{ section.settings.proof_intro }}</div>
+<section id="offers" class="ld14-section">
+  <div class="ld14-container">
+    <div class="ld14-section-header">
+      <h2 class="ld14-sub-headline">Two Ways to Save</h2>
+      <p class="ld14-intro-text">Go big with Meal Plans for the deepest discount or get 25% off one-time orders.</p>
+    </div>
+    <div class="ld14-choices-grid">
+      <div class="ld14-card-wrapper ld14-card-wrapper--primary">
+        <div class="ld14-best-value-badge">Best Value</div>
+        <div class="ld14-choice-card ld14-choice-card--primary">
+          <h3>Meal Plans</h3>
+          <p class="ld14-card-sub-label">Best for Results</p>
+          <ul>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Up to $180 off your first 4 boxes</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Fresh, chef-prepared meals built for your goals</span></li>
+            <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Skip, pause, or cancel anytime with full flexibility</span></li>
+          </ul>
+          <p class="ld14-fine-print">Labor Day savings apply only when you select Subscribe & Save. Discount is spread across your first 4 orders and varies by plan size.</p>
+          <a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Choose My Plan</a>
+        </div>
       </div>
-      
-      <div class="ld14-proof-layout">
-        {% if section.settings.proof_video_id != blank %}
-          <div class="ld14-video-wrapper">
-            <iframe 
-              src="https://www.youtube.com/embed/{{ section.settings.proof_video_id }}?controls=1&loop=1&playlist={{ section.settings.proof_video_id }}&modestbranding=1&rel=0"
-              title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
-            </iframe>
-          </div>
-        {% endif %}
-  
-        {% if section.blocks.size > 0 %}
-          <div class="ld14-customer-grid">
-            {% for block in section.blocks %}
-              <div class="ld14-customer-image-wrapper">
-                {% if block.settings.image != blank %}
-                  <img src="{{ block.settings.image | image_url: width: 400, height: 400, crop: 'center' }}" alt="{{ block.settings.alt_text | escape }}" loading="lazy" width="400" height="400">
-                {% else %}
-                  {{ 'image' | placeholder_svg_tag: 'placeholder-svg', 'Image' }}
-                {% endif %}
-              </div>
-            {% endfor %}
-          </div>
-        {% endif %}
-      </div>
-      
-      <div class="ld14-proof-grid">
-        <div class="ld14-testimonial-card"><div class="ld14-testimonial-stars">★★★★★</div><p class="ld14-testimonial-text">Cheaper than groceries and saves me hours every week.</p></div>
-        <div class="ld14-testimonial-card"><div class="ld14-testimonial-stars">★★★★★</div><p class="ld14-testimonial-text">ICON makes hitting my nutrition goals simple and delicious.</p></div>
-        <div class="ld14-testimonial-card"><div class="ld14-testimonial-stars">★★★★★</div><p class="ld14-testimonial-text">Finally, healthy meals that taste as good as they look!</p></div>
+      <div class="ld14-choice-card ld14-choice-card--secondary">
+        <h3>One-Time Orders</h3>
+        <p class="ld14-card-sub-label">Customize your order</p>
+        <ul>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>25% off site-wide this weekend</span></li>
+          <li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg><span>Order Signature Meals, Custom Meals, or Bulk</span></li>
+        </ul>
+        <div class="ld14-coupon-wrapper">
+          <span class="ld14-coupon-label">Use Code at Checkout</span>
+          <span class="ld14-coupon-code">REST25</span>
+        </div>
+        <p class="ld14-fine-print">25% off applies to one-time orders placed before September 2.</p>
+        <a href="/discount/REST25?redirect=/collections/signature-menu" class="ld14-cta ld14-cta--secondary">Shop Meals</a>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- ======================= 5. URGENCY ======================= -->
-  <section class="ld14-section ld14-urgency">
-    <div class="ld14-container"><div class="ld14-section-header"><h2 class="ld14-sub-headline">Labor Day savings end soon</h2><p class="ld14-fine-print">Lock in your discount before September 2. Select Subscribe & Save on your Meal Plan or take 25% off one-time meals while it lasts.</p></div><div id="countdown-timer-{{ section.id }}"></div><div class="ld14-section-header" style="margin-bottom: 0;"><a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Shop Meal Plans</a></div></div>
-  </section>
+<!-- ======================= 3. HOW IT WORKS ======================= -->
+<section class="ld14-section ld14-how-it-works">
+  <div class="ld14-container">
+    <div class="ld14-section-header">
+      <h2 class="ld14-sub-headline">Getting started is simple</h2>
+    </div>
+    <div class="ld14-steps-container">
+      <div class="ld14-step">
+        <div class="ld14-step__number">1</div>
+        <div class="ld14-step__content">
+          <h3>PICK YOUR PLAN</h3>
+          <p>Choose 12 or 24 meals and set your delivery schedule.</p>
+        </div>
+      </div>
+      <div class="ld14-step">
+        <div class="ld14-step__number">2</div>
+        <div class="ld14-step__content">
+          <h3>PREVIEW YOUR MENU</h3>
+          <p>See the exact meals in your plan. Curated for results.</p>
+        </div>
+      </div>
+      <div class="ld14-step ld14-step--highlight">
+        <div class="ld14-step__number">3</div>
+        <div class="ld14-step__content">
+          <h3>SELECT SUBSCRIBE & SAVE</h3>
+          <p>Turn on your Labor Day savings. Your first four boxes are discounted.</p>
+        </div>
+      </div>
+      <div class="ld14-step">
+        <div class="ld14-step__number">4</div>
+        <div class="ld14-step__content">
+          <h3>WE COOK & DELIVER</h3>
+          <p>Meals arrive fresh and ready to eat. Heat and enjoy.</p>
+        </div>
+      </div>
+    </div>
+    <div class="ld14-section-header">
+      <a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Claim My Savings</a>
+    </div>
+  </div>
+</section>
 
-  <!-- ======================= 6. FINAL CTA ======================= -->
-  <section class="ld14-section ld14-final-cta">
-    <div class="ld14-container"><div class="ld14-section-header"><h2 class="ld14-sub-headline">Fuel your goals. Save up to $180.</h2><div class="ld14-intro-text"><p>This Labor Day, make clean eating effortless. Pick your Meal Plan, set your delivery schedule, select Subscribe & Save, and enjoy chef-made meals for less. Not ready for a plan? Take 25% off one-time meals this weekend.</p></div><a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Start My Plan Today</a></div></div>
-  </section>
+<!-- ======================= 4. COMMUNITY & PROOF ======================= -->
+<section class="ld14-section ld14-community-proof">
+  <div class="ld14-container">
+    <div class="ld14-section-header">
+      <h2 class="ld14-sub-headline">{{ section.settings.proof_headline }}</h2>
+      <div class="ld14-intro-text">{{ section.settings.proof_intro }}</div>
+    </div>
+    <div class="ld14-proof-layout">
+      {% if section.settings.proof_video_id != blank %}
+      <div class="ld14-video-wrapper">
+        <iframe src="https://www.youtube.com/embed/{{ section.settings.proof_video_id }}?controls=1&loop=1&playlist={{ section.settings.proof_video_id }}&modestbranding=1&rel=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen>
+        </iframe>
+      </div>
+      {% endif %}
+
+      {% if section.blocks.size > 0 %}
+      <div class="ld14-customer-grid">
+        {% for block in section.blocks %}
+        <div class="ld14-customer-image-wrapper">
+          {% if block.settings.image != blank %}
+          <img src="{{ block.settings.image | image_url: width: 400, height: 400, crop: 'center' }}" alt="{{ block.settings.alt_text | escape }}" loading="lazy" width="400" height="400">
+          {% else %}
+          {{ 'image' | placeholder_svg_tag: 'placeholder-svg', 'Image' }}
+          {% endif %}
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+    <div class="ld14-proof-grid">
+      <div class="ld14-testimonial-card">
+        <div class="ld14-testimonial-stars">★★★★★</div>
+        <p class="ld14-testimonial-text">Cheaper than groceries and saves me hours every week.</p>
+      </div>
+      <div class="ld14-testimonial-card">
+        <div class="ld14-testimonial-stars">★★★★★</div>
+        <p class="ld14-testimonial-text">ICON makes hitting my nutrition goals simple and delicious.</p>
+      </div>
+      <div class="ld14-testimonial-card">
+        <div class="ld14-testimonial-stars">★★★★★</div>
+        <p class="ld14-testimonial-text">Finally, healthy meals that taste as good as they look!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 5. URGENCY ======================= -->
+<section class="ld14-section ld14-urgency">
+  <div class="ld14-container">
+    <div class="ld14-section-header">
+      <h2 class="ld14-sub-headline">Labor Day savings end soon</h2>
+      <p class="ld14-fine-print">Lock in your discount before September 2. Select Subscribe & Save on your Meal Plan or take 25% off one-time meals while it lasts.</p>
+    </div>
+    <div id="countdown-timer-{{ section.id }}"></div>
+    <div class="ld14-section-header" style="margin-bottom: 0;">
+      <a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Shop Meal Plans</a>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 6. FINAL CTA ======================= -->
+<section class="ld14-section ld14-final-cta">
+  <div class="ld14-container">
+    <div class="ld14-section-header">
+      <h2 class="ld14-sub-headline">Fuel your goals. Save up to $180.</h2>
+      <div class="ld14-intro-text">
+        <p>This Labor Day, make clean eating effortless. Pick your Meal Plan, set your delivery schedule, select Subscribe & Save, and enjoy chef-made meals for less. Not ready for a plan? Take 25% off one-time meals this weekend.</p>
+      </div>
+      <a href="/discount/180OFF?redirect=/pages/mealplans" class="ld14-cta">Start My Plan Today</a>
+    </div>
+  </div>
+</section>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    
+
     // --- Countdown Timer ---
     const countdownElement = document.getElementById('countdown-timer-{{ section.id }}');
     const endDateString = "{{ section.settings.countdown_date | default: '2025-09-02 23:59:59' }}";
     if (countdownElement && endDateString) {
       const endDate = new Date(endDateString.replace(/-/g, '/')).getTime();
-      if (isNaN(endDate)) { countdownElement.innerHTML = "<h4>Please set a valid end date.</h4>"; return; }
+      if (isNaN(endDate)) {
+        countdownElement.innerHTML = "<h4>Please set a valid end date.</h4>";
+        return;
+      }
       const interval = setInterval(function() {
         const now = new Date().getTime();
         const distance = endDate - now;
-        if (distance < 0) { clearInterval(interval); countdownElement.innerHTML = "<h4>Sale Has Ended</h4>"; return; }
+        if (distance < 0) {
+          clearInterval(interval);
+          countdownElement.innerHTML = "<h4>Sale Has Ended</h4>";
+          return;
+        }
         const days = Math.floor(distance / (1000 * 60 * 60 * 24));
         const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
         const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
@@ -309,7 +416,7 @@
     // --- Yotpo Authority Bar ---
     const yotpoAppKey = 'SYPf8JLu0vVWFK0rW9gwMFln362yh2xvyfzVeCS6';
     const apiUrl = `https://api.yotpo.com/v1/widget/${yotpoAppKey}`;
-    
+
     const container = document.getElementById('ld14-authority-bar-container');
     const starsEl = document.getElementById('ld14-authority-stars');
     const scoreEl = document.getElementById('ld14-authority-score');
@@ -336,7 +443,10 @@
         })
         .then(data => {
           if (data?.response?.bottomline) {
-            const { average_score, total_review } = data.response.bottomline;
+            const {
+              average_score,
+              total_review
+            } = data.response.bottomline;
             renderAuthorityBar(average_score, total_review);
           } else {
             throw new Error('Yotpo data format unexpected.');
@@ -355,8 +465,7 @@
 {% schema %}
 {
   "name": "Labor Day Lander",
-  "settings": [
-    {
+  "settings": [{
       "type": "header",
       "content": "🎨 Brand & Page Settings"
     },
@@ -413,37 +522,41 @@
       "info": "e.g., 2025-09-02 23:59:59"
     }
   ],
-  "blocks": [
-    {
-      "type": "customer_image",
-      "name": "Customer Image",
-      "limit": 6,
-      "settings": [
-        {
-          "type": "image_picker",
-          "id": "image",
-          "label": "Image"
-        },
-        {
-          "type": "text",
-          "id": "alt_text",
-          "label": "Alt Text",
-          "info": "Describe the image for accessibility."
-        }
-      ]
-    }
-  ],
-  "presets": [
-    {
-      "name": "Labor Day Lander",
-      "blocks": [
-        { "type": "customer_image" },
-        { "type": "customer_image" },
-        { "type": "customer_image" },
-        { "type": "customer_image" },
-        { "type": "customer_image" }
-      ]
-    }
-  ]
+  "blocks": [{
+    "type": "customer_image",
+    "name": "Customer Image",
+    "limit": 6,
+    "settings": [{
+        "type": "image_picker",
+        "id": "image",
+        "label": "Image"
+      },
+      {
+        "type": "text",
+        "id": "alt_text",
+        "label": "Alt Text",
+        "info": "Describe the image for accessibility."
+      }
+    ]
+  }],
+  "presets": [{
+    "name": "Labor Day Lander",
+    "blocks": [{
+        "type": "customer_image"
+      },
+      {
+        "type": "customer_image"
+      },
+      {
+        "type": "customer_image"
+      },
+      {
+        "type": "customer_image"
+      },
+      {
+        "type": "customer_image"
+      }
+    ]
+  }]
 }
 {% endschema %}
