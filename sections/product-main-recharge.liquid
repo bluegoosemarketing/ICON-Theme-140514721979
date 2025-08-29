@@ -327,11 +327,13 @@ class ProductFormController extends HTMLElement {
 
       const selectedSellingPlanAllocation = this.getSelectedSellingPlan(selectedVariant);
       if (selectedSellingPlanAllocation) {
+        const regularPrice = selectedSellingPlanAllocation.compare_at_price > 0 ? selectedSellingPlanAllocation.compare_at_price : selectedVariant.price;
+        const discountedPrice = this.promoActive ? Math.round(regularPrice * 0.8) : selectedSellingPlanAllocation.price;
         let subscribePriceHtml = '';
-        if (selectedSellingPlanAllocation.compare_at_price > selectedSellingPlanAllocation.price) {
-          subscribePriceHtml += `<del>${this.formatMoney(selectedSellingPlanAllocation.compare_at_price)}</del> `;
+        if (regularPrice > discountedPrice) {
+          subscribePriceHtml += `<del>${this.formatMoney(regularPrice)}</del> `;
         }
-        subscribePriceHtml += `<span>${this.formatMoney(selectedSellingPlanAllocation.price)}</span>`;
+        subscribePriceHtml += `<span>${this.formatMoney(discountedPrice)}</span>`;
         this.subscribePriceDisplay.innerHTML = subscribePriceHtml;
       }
       
