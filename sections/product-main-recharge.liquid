@@ -149,13 +149,14 @@
                       <span class="purchase-options__price" data-one-time-price></span>
                     </label>
                   </div>
-                  <div class="purchase-options__option" data-purchase-option="subscribe">
+                  <div class="purchase-options__option{% if promo_active %} promo-active{% endif %}" data-purchase-option="subscribe">
                     <input type="radio" id="purchase-type-subscribe-{{ section.id }}" name="purchase_type" value="subscribe" {% if has_subscriptions %}checked{% endif %}>
                     <label for="purchase-type-subscribe-{{ section.id }}">
-                      <span class="purchase-options__title">
-                        Subscribe & Save
-                      </span>
+                      <span class="purchase-options__title">Subscribe & Save</span>
                       <span class="purchase-options__price" data-subscribe-price></span>
+                      {% if promo_active %}
+                        <span class="promo-deal-badge">Labor Day Deal</span>
+                      {% endif %}
                     </label>
                   </div>
                </div>
@@ -328,7 +329,7 @@ class ProductFormController extends HTMLElement {
       const selectedSellingPlanAllocation = this.getSelectedSellingPlan(selectedVariant);
       if (selectedSellingPlanAllocation) {
         const regularPrice = selectedSellingPlanAllocation.compare_at_price > 0 ? selectedSellingPlanAllocation.compare_at_price : selectedVariant.price;
-        const discountedPrice = this.promoActive ? Math.round(regularPrice * 0.8) : selectedSellingPlanAllocation.price;
+        const discountedPrice = this.promoActive ? Math.round(selectedSellingPlanAllocation.price * 0.85) : selectedSellingPlanAllocation.price;
         let subscribePriceHtml = '';
         if (regularPrice > discountedPrice) {
           subscribePriceHtml += `<del>${this.formatMoney(regularPrice)}</del> `;
@@ -525,9 +526,7 @@ customElements.define('product-form-controller', ProductFormController);
   .meal-plan-quantity-callout { display: none; position: absolute; top: 10px; right: 10px; width: 40px; height: 40px; font-size: 1.1rem; font-weight: 700; color: white; background-color: var(--brand-primary); border-radius: 50%; z-index: 2; pointer-events: none; align-items: center; justify-content: center; box-shadow: var(--shadow-sm); }
   .meal-plan-quantity-callout.is-updating { animation: qty-flash 400ms ease-in-out; }
 
-  .meal-plan-items__grid-item {
-    position: relative;
-  }
+  .meal-plan-items__grid-item { position: relative; }
 
   .meal-plan-form-card { background: var(--color-surface); border-radius: var(--radius-lg); border: 1px solid var(--color-border); box-shadow: var(--shadow-md); padding: 1.5rem; }
   @media (min-width: 768px) { .meal-plan-form-card { padding: 2rem; } }
@@ -541,87 +540,54 @@ customElements.define('product-form-controller', ProductFormController);
   .select-wrapper select:focus { outline: none; border-color: var(--brand-primary); box-shadow: 0 0 0 2px var(--brand-primary-light); }
   .select-wrapper__arrow { position: absolute; right: 1rem; top: 50%; transform: translateY(-50%); pointer-events: none; color: var(--color-text-light); width: 16px; height: 16px; }
 
-  .purchase-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.5rem;
-  }
-  .purchase-options__option input[type=radio] {
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
-  .purchase-options__option label {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    padding: 0.75rem 1rem;
-    border: 2px solid var(--color-border);
-    background-color: var(--color-surface);
-    border-radius: var(--radius-md);
-    cursor: pointer;
-    transition: all 0.2s ease-in-out;
-    height: 100%;
-  }
-  .purchase-options__option input[type=radio]:checked + label {
-    border-color: var(--brand-primary);
-    background-color: var(--brand-primary-light);
-  }
-  .purchase-options__title {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--color-text);
-  }
-  .purchase-options__price {
-    font-weight: 700;
-    font-size: 1.1rem;
-    margin-top: 0.25rem;
-    color: var(--color-text);
-  }
-  [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__title,
-  [data-purchase-option=subscribe] input[type=radio]:checked + label .purchase-options__price {
-    color: var(--brand-primary-dark);
-  }
+  /* --- Base Purchase Option Styles --- */
+  .purchase-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+  .purchase-options__option input[type=radio] { position: absolute; opacity: 0; width: 0; height: 0; }
+  .purchase-options__option label { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 1rem; border: 2px solid var(--color-border); background-color: var(--color-surface); border-radius: var(--radius-md); cursor: pointer; transition: all 0.2s ease-in-out; height: 100%; }
+  .purchase-options__option input[type=radio]:checked + label { border-color: var(--brand-primary); background-color: var(--brand-primary-light); }
+  .purchase-options__title { font-weight: 600; font-size: 0.9rem; color: var(--color-text); }
+  .purchase-options__price { font-weight: 700; font-size: 1.1rem; margin-top: 0.25rem; color: var(--color-text); }
+  [data-purchase-option=subscribe]:not(.promo-active) input[type=radio]:checked + label .purchase-options__title,
+  [data-purchase-option=subscribe]:not(.promo-active) input[type=radio]:checked + label .purchase-options__price { color: var(--brand-primary-dark); }
 
-  .pdp-promo-callout {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.75rem;
-    margin-top: 0.75rem;
-    padding: 0.75rem 1rem;
-    background-color: #fdf5f5;
-    border: 1px solid #f5c6cb;
-    border-radius: var(--radius-md, 8px);
-}
-.pdp-promo-callout__icon {
-    flex-shrink: 0;
-    width: 20px;
-    height: 20px;
-    margin-top: 2px;
-}
-.pdp-promo-callout__text {
-    display: flex;
-    flex-direction: column;
-}
-.pdp-promo-callout__title {
-    font-size: 0.9rem;
-    font-weight: 700;
-    line-height: 1.3;
-    margin-bottom: 0.25rem;
-    color: #d42828;
-}
-.pdp-promo-callout__subtitle {
-    font-size: 0.8rem;
-    line-height: 1.4;
-    color: #212529;
-}
-.pdp-promo-callout__subtitle strong {
-    color: #212529;
-}
+  /* --- Labor Day Promo Styles --- */
+  @keyframes promo-glow {
+    0% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.25); }
+    50% { box-shadow: 0 0 12px 2px rgba(30, 58, 138, 0.4); }
+    100% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.25); }
+  }
+  .purchase-options__option.promo-active input[type=radio]:checked + label {
+    background: linear-gradient(135deg, rgba(224, 242, 254, 0.5) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(254, 226, 226, 0.5) 100%);
+    border-color: #1e3a8a;
+    animation: promo-glow 2.5s infinite ease-in-out;
+  }
+  .purchase-options__option.promo-active input[type=radio]:checked + label .purchase-options__title { color: #1e3a8a; }
+  .purchase-options__option.promo-active input[type=radio]:checked + label .purchase-options__price { color: #1e3a8a; }
+  .purchase-options__option.promo-active input[type=radio]:checked + label .purchase-options__price del { color: #1e3a8a; opacity: 0.6; }
 
+  .promo-deal-badge {
+    margin-top: 8px;
+    display: inline-block;
+    background-color: var(--brand-accent-red);
+    color: white;
+    padding: 4px 10px;
+    border-radius: 99px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+  
+  /* --- Promo Callout Styles --- */
+  .pdp-promo-callout { display: flex; align-items: flex-start; gap: 0.75rem; margin-top: 0.75rem; padding: 0.75rem 1rem; background-color: #fdf5f5; border: 1px solid #f5c6cb; border-radius: var(--radius-md, 8px); }
+  .pdp-promo-callout__icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 2px; }
+  .pdp-promo-callout__text { display: flex; flex-direction: column; }
+  .pdp-promo-callout__title { font-size: 0.9rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.25rem; color: #d42828; }
+  .pdp-promo-callout__subtitle { font-size: 0.8rem; line-height: 1.4; color: #212529; }
+  .pdp-promo-callout__subtitle strong { color: #212529; }
+
+  /* --- Remaining Form Styles --- */
   .selling-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(70px, 1fr)); gap: 0.5rem; }
   .selling-plan-grid__button { appearance: none; -webkit-appearance: none; background-color: var(--color-background); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 0.75rem 0.5rem; font-size: 0.875rem; font-weight: 600; color: var(--color-text-light); cursor: pointer; transition: all 0.2s ease-in-out; text-align: center; }
   .selling-plan-grid__button.is-active { background-color: var(--brand-primary-light); border-color: var(--brand-primary); color: var(--brand-primary-dark); }
