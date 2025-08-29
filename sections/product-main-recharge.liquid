@@ -69,6 +69,21 @@
           {%- if hero_hook != blank -%}
             <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
           {%- endif -%}
+          
+          {%- if features_list and features_list.size > 0 -%}
+            <div class="meal-plan-key-benefits">
+              <ul class="key-benefits__list">
+                {%- for feature in features_list -%}
+                  <li class="key-benefits__item">
+                    <span class="key-benefits__icon">
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                    </span>
+                    <span class="key-benefits__text">{{ feature.title }}</span>
+                  </li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
         </div>
         
         {%- if product.description != blank -%}
@@ -88,17 +103,6 @@
                 </li>
               {%- endfor -%}
             </ul>
-          </div>
-        {%- endif -%}
-
-        {%- if features_list and features_list.size > 0 -%}
-          <div class="meal-plan-features-grid">
-            {%- for feature in features_list -%}
-              <div class="meal-plan-feature-card">
-                <h4 class="meal-plan-feature-card__title">{{ feature.title }}</h4>
-                <p class="meal-plan-feature-card__subtitle">{{ feature.subtitle }}</p>
-              </div>
-            {%- endfor -%}
           </div>
         {%- endif -%}
 
@@ -453,7 +457,7 @@ customElements.define('product-form-controller', ProductFormController);
   }
   .meal-plan-section-title { font-size: 0.875rem; font-weight: 700; color: var(--color-text); text-transform: uppercase; letter-spacing: 0.05em; margin: 0 0 1rem; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border); }
   
-  .meal-plan-hero__header { display: flex; flex-direction: column; gap: 0.25rem; }
+  .meal-plan-hero__header { display: flex; flex-direction: column; gap: 0.5rem; }
   .meal-plan-hero__title-wrapper {
     display: flex;
     align-items: center;
@@ -487,6 +491,49 @@ customElements.define('product-form-controller', ProductFormController);
     .meal-plan-hero__title-wrapper { gap: 0.5rem; }
   }
 
+  /* --- NEW: Key Benefits Bar --- */
+  .meal-plan-key-benefits {
+    margin-top: 1.5rem;
+  }
+  .key-benefits__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+  }
+  .key-benefits__item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+  .key-benefits__icon {
+    flex-shrink: 0;
+    color: var(--brand-primary-dark);
+  }
+  .key-benefits__icon svg {
+    width: 20px;
+    height: 20px;
+  }
+  .key-benefits__text {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--color-text);
+  }
+  @media (max-width: 768px) {
+    .key-benefits__list {
+      justify-content: flex-start;
+      gap: 1rem;
+    }
+    .key-benefits__item {
+      width: calc(50% - 0.5rem); /* Two items per row on mobile */
+    }
+  }
+
+
   .meal-plan-target-audience { margin: 0; padding: 0; background-color: transparent; border: none; }
   .meal-plan-target-audience__list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 0.75rem; }
   .meal-plan-target-audience__item { 
@@ -510,11 +557,6 @@ customElements.define('product-form-controller', ProductFormController);
     background-color: var(--brand-primary-dark);
     color: var(--color-surface);
   }
-
-  .meal-plan-features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1rem; }
-  .meal-plan-feature-card { background-color: var(--color-surface); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 1.25rem; text-align: left; }
-  .meal-plan-feature-card__title { font-size: 1rem; font-weight: 600; margin: 0 0 0.25rem; }
-  .meal-plan-feature-card__subtitle { font-size: 0.875rem; color: var(--color-text-light); margin: 0; }
 
   @keyframes qty-flash { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.2); } }
   .meal-quantity-prefix.is-updating { animation: qty-flash 400ms ease-out; }
@@ -552,12 +594,12 @@ customElements.define('product-form-controller', ProductFormController);
 
   /* --- Labor Day Promo Styles --- */
   @keyframes promo-glow {
-    0% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.25); }
-    50% { box-shadow: 0 0 12px 2px rgba(30, 58, 138, 0.4); }
-    100% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.25); }
+    0% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2); }
+    50% { box-shadow: 0 0 8px 2px rgba(30, 58, 138, 0.3); }
+    100% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.2); }
   }
   .purchase-options__option.promo-active input[type=radio]:checked + label {
-    background: linear-gradient(135deg, rgba(224, 242, 254, 0.5) 0%, rgba(255, 255, 255, 0.5) 50%, rgba(254, 226, 226, 0.5) 100%);
+    background: linear-gradient(135deg, rgba(239, 246, 255, 0.7) 0%, rgba(255, 255, 255, 0.7) 50%, rgba(254, 242, 242, 0.7) 100%);
     border-color: #1e3a8a;
     animation: promo-glow 2.5s infinite ease-in-out;
   }
