@@ -1,8 +1,8 @@
 <!--
-  Hero Section V17.0 (Final Version w/ Mobile Height)
+  Hero Section V17.0 (Final Aesthetic Refinement)
   Developer: AI Assistant
   Date: September 5, 2025
-  Summary: This version re-introduces a controllable minimum height for mobile devices to ensure an impactful presentation, mirroring the layout of the original V16.2 section.
+  Summary: This version perfects the aesthetic with a focus on mobile typography and interactive elements. The mobile headline now has a clean two-line break. The promo code has been redesigned into an interactive "chip" with copy-to-clipboard functionality. All spacing and shadows have been refined for a world-class finish.
 -->
 <section class="hero17-section">
   <div class="hero17-background">
@@ -52,12 +52,16 @@
           <a href="{{ cta_url }}" class="hero17-button">
             {{ section.settings.cta_button_text }} <span class="hero17-button-arrow">→</span>
           </a>
-          {%- if section.settings.promo_code != blank -%}
-            <p class="hero17-promo-code">
-              Use Code: <strong>{{ section.settings.promo_code }}</strong>
-            </p>
-          {%- endif -%}
         </div>
+        
+        {%- if section.settings.promo_code != blank -%}
+          <div class="hero17-promo-container">
+            <button type="button" class="hero17-promo-chip" data-clipboard-text="{{ section.settings.promo_code }}">
+              <span class="promo-chip-text">USE CODE: <strong>{{ section.settings.promo_code }}</strong></span>
+              <span class="promo-chip-feedback">COPIED!</span>
+            </button>
+          </div>
+        {%- endif -%}
       </div>
     </div>
   </div>
@@ -65,7 +69,7 @@
 
 <style>
 /* ─────────────────────────────────────────────
-   HERO SECTION V17.0 (Final Version w/ Mobile Height)
+   HERO SECTION V17.0 (Final Aesthetic Refinement)
    ───────────────────────────────────────────── */
 :root {
   --font-heading-v17: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -77,182 +81,156 @@
   
   --color-brand-red-v17: #E63946;
   --color-brand-red-dark-v17: #C1272D;
+  --color-background-v17: #F9FAFB;
+  --color-border-v17: #E5E7EB;
 }
 
 .hero17-section {
   position: relative !important;
   width: 100% !important;
-  background-color: #F9FAFB !important;
+  background-color: var(--color-background-v17) !important;
   overflow: hidden !important;
   display: flex !important;
 }
-
 .hero17-background {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  height: 100% !important;
-  z-index: 1 !important;
+  position: absolute !important; top: 0 !important; left: 0 !important;
+  width: 100% !important; height: 100% !important; z-index: 1 !important;
 }
-
 .hero17-image {
-  width: 100% !important;
-  height: 100% !important;
-  display: block !important;
-  object-fit: cover !important;
+  width: 100% !important; height: 100% !important;
+  display: block !important; object-fit: cover !important;
 }
-
 .hero17-content-wrapper {
-  position: relative !important;
-  z-index: 2 !important;
-  width: 100% !important;
-  display: flex !important;
-  align-items: center !important;
+  position: relative !important; z-index: 2 !important; width: 100% !important;
+  display: flex !important; align-items: center !important;
   padding: 8vh 0 !important;
 }
-
 .hero17-page-container {
-  width: 100% !important;
-  max-width: 1600px !important;
-  margin-left: auto !important;
-  margin-right: auto !important;
-  padding: 0 40px !important;
+  width: 100% !important; max-width: 1600px !important;
+  margin: 0 auto !important; padding: 0 40px !important;
 }
-
-.hero17-content {
-  text-align: left !important;
-  max-width: 50% !important;
-}
+.hero17-content { text-align: left !important; max-width: 50% !important; }
 
 .hero17-credibility-tag {
-  font-family: var(--font-body-v17) !important;
-  font-size: 0.8rem !important;
-  font-weight: 700 !important;
-  color: var(--color-brand-red-v17) !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1.5px !important;
+  font-family: var(--font-body-v17) !important; font-size: 0.8rem !important;
+  font-weight: 700 !important; color: var(--color-brand-red-v17) !important;
+  text-transform: uppercase !important; letter-spacing: 1.5px !important;
   margin: 0 0 16px 0 !important;
 }
-
 .hero17-headline {
-  font-family: var(--font-heading-v17) !important;
-  font-size: 4.5rem !important;
-  font-weight: 900 !important;
-  color: var(--color-text-dark-v17) !important;
-  line-height: 1.1 !important;
-  text-transform: uppercase !important;
-  letter-spacing: -2.5px !important;
-  margin: 0 !important;
+  font-family: var(--font-heading-v17) !important; font-size: 4.5rem !important;
+  font-weight: 900 !important; color: var(--color-text-dark-v17) !important;
+  line-height: 1.05 !important; text-transform: uppercase !important;
+  letter-spacing: -2.5px !important; margin: 0 !important;
 }
-
 .hero17-subheadline {
-  font-family: var(--font-body-v17) !important;
-  font-size: 2rem !important;
-  font-weight: 500 !important;
-  color: var(--color-text-medium-v17) !important;
-  line-height: 1.4 !important;
-  letter-spacing: -0.5px !important;
-  margin: 8px 0 24px 0 !important;
+  font-family: var(--font-body-v17) !important; font-size: 2rem !important;
+  font-weight: 500 !important; color: var(--color-text-medium-v17) !important;
+  line-height: 1.4 !important; letter-spacing: -0.5px !important;
+  margin: 12px 0 28px 0 !important;
 }
-
 .hero17-offer-text {
-  font-family: var(--font-body-v17) !important;
-  font-size: 1.15rem !important;
-  font-weight: 400 !important;
-  color: var(--color-text-light-v17) !important;
-  line-height: 1.6 !important;
-  max-width: 500px !important;
+  font-family: var(--font-body-v17) !important; font-size: 1.15rem !important;
+  font-weight: 400 !important; color: var(--color-text-light-v17) !important;
+  line-height: 1.6 !important; max-width: 500px !important;
   margin: 0 0 32px 0 !important;
 }
 
-.hero17-cta-container {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 16px;
-}
-
+.hero17-cta-container { display: inline-block; }
 .hero17-button {
-  display: inline-flex !important;
-  align-items: center !important;
-  padding: 16px 35px !important;
-  background: var(--color-brand-red-v17) !important;
-  color: #ffffff !important;
-  text-decoration: none !important;
-  font-family: var(--font-heading-v17) !important;
-  font-size: 1rem !important;
-  font-weight: 700 !important;
-  text-transform: uppercase !important;
-  letter-spacing: 1px !important;
-  border-radius: 8px !important;
-  border: none !important;
-  transition: all 0.3s ease !important;
-  cursor: pointer !important;
-  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 5px 15px rgba(230, 57, 70, 0.2) !important;
+  display: inline-flex !important; align-items: center !important;
+  padding: 16px 35px !important; background: var(--color-brand-red-v17) !important;
+  color: #ffffff !important; text-decoration: none !important;
+  font-family: var(--font-heading-v17) !important; font-size: 1rem !important;
+  font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 1px !important;
+  border-radius: 8px !important; border: none !important;
+  transition: all 0.2s ease !important; cursor: pointer !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.08), 0 5px 15px rgba(230, 57, 70, 0.15) !important;
 }
-
 .hero17-button-arrow {
-  margin-left: 10px !important;
-  transition: transform 0.3s ease !important;
+  margin-left: 10px !important; transition: transform 0.2s ease !important;
 }
-
 .hero17-button:hover {
   background: var(--color-brand-red-dark-v17) !important;
-  box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 10px 20px rgba(200, 40, 50, 0.25) !important;
+  box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 10px 20px rgba(200, 40, 50, 0.2) !important;
   transform: translateY(-2px) !important;
 }
+.hero17-button:hover .hero17-button-arrow { transform: translateX(4px) !important; }
 
-.hero17-button:hover .hero17-button-arrow {
-  transform: translateX(4px) !important;
-}
-
-.hero17-promo-code {
-  font-family: var(--font-body-v17) !important;
-  font-size: 0.9rem !important;
-  color: var(--color-text-light-v17) !important;
-  margin: 0 !important;
-}
-.hero17-promo-code strong {
+/* ★★★ NEW Promo Chip Styling ★★★ */
+.hero17-promo-container { margin-top: 20px; }
+.hero17-promo-chip {
+  display: inline-block; position: relative;
+  font-family: monospace !important; font-size: 0.9rem !important;
   color: var(--color-text-medium-v17) !important;
-  font-weight: 700 !important;
+  background-color: var(--color-background-v17) !important;
+  border: 1px solid var(--color-border-v17) !important;
+  padding: 8px 14px !important; border-radius: 20px !important;
+  cursor: pointer; transition: all 0.2s ease; overflow: hidden;
+  -webkit-appearance: none;
 }
+.hero17-promo-chip:hover {
+  border-color: #D1D5DB !important;
+  background-color: #F3F4F6 !important;
+  color: var(--color-text-dark-v17) !important;
+}
+.hero17-promo-chip strong { color: var(--color-text-dark-v17) !important; }
+.promo-chip-text, .promo-chip-feedback {
+  display: inline-block; transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.promo-chip-feedback {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, 150%);
+  opacity: 0;
+  color: var(--color-brand-red-v17); font-weight: bold;
+}
+.hero17-promo-chip.copied .promo-chip-text { transform: translateY(-150%); opacity: 0; }
+.hero17-promo-chip.copied .promo-chip-feedback { transform: translate(-50%, -50%); opacity: 1; }
 
 /* ─── RESPONSIVE STYLES ─── */
 @media (min-width: 768px) {
-  .hero17-section {
-    min-height: {{ section.settings.min_height_desktop }}vh !important;
-  }
+  .hero17-section { min-height: {{ section.settings.min_height_desktop }}vh !important; }
 }
-@media (max-width: 1200px) {
-  .hero17-content { max-width: 60% !important; }
-}
+@media (max-width: 1200px) { .hero17-content { max-width: 60% !important; } }
 @media (max-width: 990px) {
   .hero17-content { max-width: 75% !important; }
   .hero17-headline { font-size: 4rem !important; }
   .hero17-subheadline { font-size: 1.75rem !important; }
 }
 @media (max-width: 767px) {
-  /* ★★★ MOBILE MIN-HEIGHT RESTORED ★★★ */
-  .hero17-section {
-    min-height: {{ section.settings.min_height_mobile }}vh !important;
-  }
+  .hero17-section { min-height: {{ section.settings.min_height_mobile }}vh !important; }
   .hero17-image { object-position: center !important; }
-  .hero17-content-wrapper {
-    align-items: flex-start !important;
-    padding: 50px 0 !important;
-  }
+  .hero17-content-wrapper { align-items: flex-start !important; padding: 50px 0 !important; }
   .hero17-page-container { padding: 0 20px !important; }
   .hero17-content { text-align: center !important; max-width: 100% !important; }
-  .hero17-cta-container { align-items: center; }
-  .hero17-headline { font-size: 2.75rem !important; letter-spacing: -1.5px !important; }
+  .hero17-cta-container { display: block; }
+  .hero17-promo-container { margin-top: 16px; }
+  /* ★★★ Mobile Headline Break ★★★ */
+  .hero17-headline {
+    font-size: 3rem !important; letter-spacing: -1.5px !important; max-width: 12ch; margin: 0 auto !important;
+  }
   .hero17-subheadline { font-size: 1.5rem !important; }
   .hero17-offer-text { font-size: 1rem !important; margin-left: auto; margin-right: auto; }
 }
-@media (min-width: 1600px) {
-  .hero17-content { max-width: 800px !important; }
-}
+@media (min-width: 1600px) { .hero17-content { max-width: 800px !important; } }
 </style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  const promoChip = document.querySelector('.hero17-promo-chip');
+  if (promoChip) {
+    promoChip.addEventListener('click', function() {
+      const textToCopy = this.getAttribute('data-clipboard-text');
+      navigator.clipboard.writeText(textToCopy).then(() => {
+        this.classList.add('copied');
+        setTimeout(() => {
+          this.classList.remove('copied');
+        }, 2000);
+      });
+    });
+  }
+});
+</script>
 
 {% schema %}
 {
@@ -336,7 +314,7 @@
       "id": "promo_code",
       "label": "Promo Code (for display only)",
       "default": "DIALED25",
-      "info": "Leave blank to hide the 'Use Code' text."
+      "info": "Leave blank to hide the code chip."
     },
     {
       "type": "header",
