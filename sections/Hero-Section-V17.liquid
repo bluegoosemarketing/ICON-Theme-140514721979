@@ -1,0 +1,375 @@
+<!--
+  Hero Section V17.0 (Final Version w/ Mobile Height)
+  Developer: AI Assistant
+  Date: September 5, 2025
+  Summary: This version re-introduces a controllable minimum height for mobile devices to ensure an impactful presentation, mirroring the layout of the original V16.2 section.
+-->
+<section class="hero17-section">
+  <div class="hero17-background">
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcset="https://cdn.shopify.com/s/files/1/1957/2713/files/New-Cover-Image_MOBILE_v2.2.jpg?v=1751559612"
+      >
+      <source
+        media="(min-width: 768px)"
+        srcset="https://cdn.shopify.com/s/files/1/1957/2713/files/New-Cover-Image_v3.jpg?v=1751559314"
+      >
+      <img
+        src="https://cdn.shopify.com/s/files/1/1957/2713/files/New-Cover-Image_v3.jpg?v=1751559314"
+        alt="A variety of fresh, healthy, ready-to-eat meals"
+        class="hero17-image"
+        width="1920" height="800" loading="eager"
+      >
+    </picture>
+  </div>
+
+  <div class="hero17-content-wrapper">
+    <div class="hero17-page-container">
+      <div class="hero17-content">
+        {%- if section.settings.credibility_text != blank -%}
+          <p class="hero17-credibility-tag">{{ section.settings.credibility_text }}</p>
+        {%- endif -%}
+
+        <h1 class="hero17-headline">{{ section.settings.headline }}</h1>
+        <p class="hero17-subheadline">{{ section.settings.subheadline }}</p>
+        
+        {%- if section.settings.offer_text_option == 'a' -%}
+          <p class="hero17-offer-text">{{ section.settings.offer_text_a }}</p>
+        {%- else -%}
+          <p class="hero17-offer-text">{{ section.settings.offer_text_b }}</p>
+        {%- endif -%}
+
+        <div class="hero17-cta-container">
+          {%- liquid
+            assign base_link = '/collections/signature-menu'
+            if section.settings.enable_auto_discount and section.settings.discount_code_apply != blank
+              assign cta_url = '/discount/' | append: section.settings.discount_code_apply | append: '?redirect=' | append: base_link
+            else
+              assign cta_url = base_link
+            endif
+          -%}
+          <a href="{{ cta_url }}" class="hero17-button">
+            {{ section.settings.cta_button_text }} <span class="hero17-button-arrow">→</span>
+          </a>
+          {%- if section.settings.promo_code != blank -%}
+            <p class="hero17-promo-code">
+              Use Code: <strong>{{ section.settings.promo_code }}</strong>
+            </p>
+          {%- endif -%}
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ─────────────────────────────────────────────
+   HERO SECTION V17.0 (Final Version w/ Mobile Height)
+   ───────────────────────────────────────────── */
+:root {
+  --font-heading-v17: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body-v17: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  
+  --color-text-dark-v17: #111827;
+  --color-text-medium-v17: #4B5563;
+  --color-text-light-v17: #6B7280;
+  
+  --color-brand-red-v17: #E63946;
+  --color-brand-red-dark-v17: #C1272D;
+}
+
+.hero17-section {
+  position: relative !important;
+  width: 100% !important;
+  background-color: #F9FAFB !important;
+  overflow: hidden !important;
+  display: flex !important;
+}
+
+.hero17-background {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  z-index: 1 !important;
+}
+
+.hero17-image {
+  width: 100% !important;
+  height: 100% !important;
+  display: block !important;
+  object-fit: cover !important;
+}
+
+.hero17-content-wrapper {
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  padding: 8vh 0 !important;
+}
+
+.hero17-page-container {
+  width: 100% !important;
+  max-width: 1600px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding: 0 40px !important;
+}
+
+.hero17-content {
+  text-align: left !important;
+  max-width: 50% !important;
+}
+
+.hero17-credibility-tag {
+  font-family: var(--font-body-v17) !important;
+  font-size: 0.8rem !important;
+  font-weight: 700 !important;
+  color: var(--color-brand-red-v17) !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.5px !important;
+  margin: 0 0 16px 0 !important;
+}
+
+.hero17-headline {
+  font-family: var(--font-heading-v17) !important;
+  font-size: 4.5rem !important;
+  font-weight: 900 !important;
+  color: var(--color-text-dark-v17) !important;
+  line-height: 1.1 !important;
+  text-transform: uppercase !important;
+  letter-spacing: -2.5px !important;
+  margin: 0 !important;
+}
+
+.hero17-subheadline {
+  font-family: var(--font-body-v17) !important;
+  font-size: 2rem !important;
+  font-weight: 500 !important;
+  color: var(--color-text-medium-v17) !important;
+  line-height: 1.4 !important;
+  letter-spacing: -0.5px !important;
+  margin: 8px 0 24px 0 !important;
+}
+
+.hero17-offer-text {
+  font-family: var(--font-body-v17) !important;
+  font-size: 1.15rem !important;
+  font-weight: 400 !important;
+  color: var(--color-text-light-v17) !important;
+  line-height: 1.6 !important;
+  max-width: 500px !important;
+  margin: 0 0 32px 0 !important;
+}
+
+.hero17-cta-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.hero17-button {
+  display: inline-flex !important;
+  align-items: center !important;
+  padding: 16px 35px !important;
+  background: var(--color-brand-red-v17) !important;
+  color: #ffffff !important;
+  text-decoration: none !important;
+  font-family: var(--font-heading-v17) !important;
+  font-size: 1rem !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  border-radius: 8px !important;
+  border: none !important;
+  transition: all 0.3s ease !important;
+  cursor: pointer !important;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 5px 15px rgba(230, 57, 70, 0.2) !important;
+}
+
+.hero17-button-arrow {
+  margin-left: 10px !important;
+  transition: transform 0.3s ease !important;
+}
+
+.hero17-button:hover {
+  background: var(--color-brand-red-dark-v17) !important;
+  box-shadow: 0 7px 14px rgba(0,0,0,0.1), 0 10px 20px rgba(200, 40, 50, 0.25) !important;
+  transform: translateY(-2px) !important;
+}
+
+.hero17-button:hover .hero17-button-arrow {
+  transform: translateX(4px) !important;
+}
+
+.hero17-promo-code {
+  font-family: var(--font-body-v17) !important;
+  font-size: 0.9rem !important;
+  color: var(--color-text-light-v17) !important;
+  margin: 0 !important;
+}
+.hero17-promo-code strong {
+  color: var(--color-text-medium-v17) !important;
+  font-weight: 700 !important;
+}
+
+/* ─── RESPONSIVE STYLES ─── */
+@media (min-width: 768px) {
+  .hero17-section {
+    min-height: {{ section.settings.min_height_desktop }}vh !important;
+  }
+}
+@media (max-width: 1200px) {
+  .hero17-content { max-width: 60% !important; }
+}
+@media (max-width: 990px) {
+  .hero17-content { max-width: 75% !important; }
+  .hero17-headline { font-size: 4rem !important; }
+  .hero17-subheadline { font-size: 1.75rem !important; }
+}
+@media (max-width: 767px) {
+  /* ★★★ MOBILE MIN-HEIGHT RESTORED ★★★ */
+  .hero17-section {
+    min-height: {{ section.settings.min_height_mobile }}vh !important;
+  }
+  .hero17-image { object-position: center !important; }
+  .hero17-content-wrapper {
+    align-items: flex-start !important;
+    padding: 50px 0 !important;
+  }
+  .hero17-page-container { padding: 0 20px !important; }
+  .hero17-content { text-align: center !important; max-width: 100% !important; }
+  .hero17-cta-container { align-items: center; }
+  .hero17-headline { font-size: 2.75rem !important; letter-spacing: -1.5px !important; }
+  .hero17-subheadline { font-size: 1.5rem !important; }
+  .hero17-offer-text { font-size: 1rem !important; margin-left: auto; margin-right: auto; }
+}
+@media (min-width: 1600px) {
+  .hero17-content { max-width: 800px !important; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Hero Section V17.0",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "credibility_text",
+      "label": "Credibility Tag (Optional)",
+      "default": "PERFORMANCE NUTRITION"
+    },
+    {
+      "type": "text",
+      "id": "headline",
+      "label": "Headline",
+      "default": "FOCUS ON THE WIN."
+    },
+    {
+      "type": "text",
+      "id": "subheadline",
+      "label": "Sub-headline",
+      "default": "We'll handle the meals."
+    },
+    {
+      "type": "select",
+      "id": "offer_text_option",
+      "label": "Choose Offer Text",
+      "options": [
+        {
+          "value": "a",
+          "label": "Option A (Direct & Clear)"
+        },
+        {
+          "value": "b",
+          "label": "Option B (Benefit-Oriented)"
+        }
+      ],
+      "default": "a"
+    },
+    {
+      "type": "textarea",
+      "id": "offer_text_a",
+      "label": "Offer Text - Option A",
+      "default": "Dial in your nutrition with 25% off sitewide. Get free shipping when you stock up with 21+ meals."
+    },
+    {
+      "type": "textarea",
+      "id": "offer_text_b",
+      "label": "Offer Text - Option B",
+      "default": "Fuel your entire week. Get 25% off all meals and free shipping on your box of 21+."
+    },
+    {
+      "type": "header",
+      "content": "Call to Action Button"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_text",
+      "label": "Button Text",
+      "default": "FUEL YOUR GOALS"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_auto_discount",
+      "label": "Auto-apply discount code in link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "discount_code_apply",
+      "label": "Discount Code to Apply",
+      "default": "DIALED25",
+      "info": "The actual code to be applied at checkout."
+    },
+    {
+      "type": "text",
+      "id": "promo_code",
+      "label": "Promo Code (for display only)",
+      "default": "DIALED25",
+      "info": "Leave blank to hide the 'Use Code' text."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "min_height_desktop",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Desktop Minimum Section Height",
+      "default": 65,
+      "info": "Set the minimum height of the hero on screens wider than 767px."
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 70,
+      "max": 100,
+      "step": 5,
+      "unit": "vh",
+      "label": "Mobile Minimum Section Height",
+      "default": 90,
+      "info": "Set the minimum height of the hero on screens 767px or smaller."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero Section V17.0",
+      "category": "Custom Sections"
+    }
+  ]
+}
+{% endschema %}
