@@ -106,7 +106,7 @@
                 </div>
               </div>
 
-              {%- if item.line_level_discounts.size > 0 or item.selling_plan_allocation and item.final_line_price < original_line_price -%}
+              {%- if item.line_level_discounts.size > 0 -%}
                 <ul class="{{ class_prefix }}__item-discounts" aria-label="Discounts">
                   {%- for discount in item.line_level_discounts -%}
                     <li class="{{ class_prefix }}__item-discount">
@@ -116,26 +116,6 @@
                       </span>
                     </li>
                   {%- endfor -%}
-
-                  {%- assign has_sub_discount_in_list = false -%}
-                  {%- for discount in item.line_level_discounts -%}
-                    {%- assign title_down = discount.title | downcase -%}
-                    {%- if title_down contains 'subscription' or title_down contains 'subscribe' or title_down contains 'labor day' -%}
-                      {%- assign has_sub_discount_in_list = true -%}
-                    {%- endif -%}
-                  {%- endfor -%}
-
-                  {%- if item.selling_plan_allocation and item.final_line_price < original_line_price and has_sub_discount_in_list == false -%}
-                    <li class="{{ class_prefix }}__item-discount">
-                      <span
-                        class="discount-badge discount-badge--promo"
-                        data-tooltip="Applies to today's order and your next 3 deliveries. You can pause or cancel anytime."
-                      >
-                        <span class="discount-badge__icon">🇺🇸</span>
-                        <span class="discount-badge__text">Labor Day Sale</span>
-                      </span>
-                    </li>
-                  {%- endif -%}
                 </ul>
               {%- endif -%}
             </div>
@@ -310,83 +290,14 @@
   .{{ class_prefix }}__item-price--final.money { font-size: 0.95rem !important; font-weight: 600 !important; color: #212529 !important; }
   .{{ class_prefix }}__item-price--original.money { font-size: 0.9rem !important; font-weight: 500 !important; color: #6c757d !important; text-decoration: line-through; }
 
-  /* --- PROMO BADGE WITH TOOLTIP --- */
-  .discount-badge--promo {
-    position: relative; /* Anchor for the tooltip */
-    display: inline-flex;
-    align-items: center;
-    gap: 0.5em;
-    background-color: #fdf5f5;
-    color: #d42828 !important;
-    border: 1px solid #f5c6cb;
-    font-size: 0.7rem !important;
-    font-weight: 700 !important;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 5px 10px;
-    border-radius: 6px;
-    white-space: nowrap;
-    cursor: help;
-  }
-  .discount-badge--promo .discount-badge__icon {
-    font-size: 1rem; line-height: 1; transform: translateY(1px);
-  }
-  /* Tooltip Box */
-  .discount-badge--promo::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(-8px);
-    background-color: #212529;
-    color: #ffffff;
-    padding: 8px 12px;
-    border-radius: 6px;
-    font-size: 0.8rem;
-    font-weight: 500;
-    line-height: 1.5;
-    text-transform: none;
-    letter-spacing: normal;
-    white-space: normal;
-    width: 240px;
-    text-align: center;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 10;
-    pointer-events: none;
-  }
-  /* Tooltip Arrow */
-  .discount-badge--promo::before {
-    content: '';
-    position: absolute;
-    bottom: 100%;
-    left: 50%;
-    transform: translateX(-50%) translateY(0px);
-    border: 5px solid transparent;
-    border-top-color: #212529;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s ease, transform 0.2s ease;
-    z-index: 11;
-    pointer-events: none;
-  }
-  /* Show on Hover */
-  .discount-badge--promo:hover::after,
-  .discount-badge--promo:hover::before {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0);
-  }
-
   /* --- Fallback/Standard Discount Badge --- */
-  .discount-badge:not(.discount-badge--promo) {
+  .discount-badge {
     display: inline-flex; align-items: center; gap: 4px;
     background-color: #e9f9f0; color: #0b793d !important;
     font-size: 0.75rem; font-weight: 500;
     padding: 2px 6px; border-radius: 4px; white-space: nowrap;
   }
-  .discount-badge:not(.discount-badge--promo) .icon-discount {
+  .discount-badge .icon-discount {
     width: 10px; height: 10px;
   }
 </style>
