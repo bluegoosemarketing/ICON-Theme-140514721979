@@ -1968,6 +1968,225 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 .cart-drawer.is-loading .cart-sidebar__loader-overlay {
   display: flex;
 }
+/* ==========================================================================
+   CART DRAWER - V2.2 UI/UX ENHANCEMENT (PRICE ALIGNMENT FIX)
+   ========================================================================== */
+
+:root {
+  /* Black for the CTA, Red for accents if needed elsewhere */
+  --cart-cta-bg: #1A1A1A;
+  --cart-cta-bg-hover: #333333;
+  --cart-accent-red: #d42828;
+  --cart-text-primary: #1A1A1A;
+  --cart-text-secondary: #6B7280;
+  --cart-border-color: #E5E7EB;
+  --cart-surface-bg: #F7F7F7;
+  --cart-white-bg: #FFFFFF;
+}
+
+/* --- Base Drawer & Header --- */
+.cart-drawer {
+  background-color: var(--cart-surface-bg) !important;
+}
+.cart-drawer__header {
+  background: var(--cart-white-bg) !important;
+  border-bottom: 1px solid var(--cart-border-color) !important;
+  padding: 0 20px !important;
+  flex-shrink: 0;
+}
+.cart-drawer__title-bar {
+  height: 64px;
+  padding: 0 !important;
+}
+.cart-drawer__title {
+  font-size: 18px !important;
+  font-weight: 700 !important;
+  color: var(--cart-text-primary) !important;
+}
+.cart-drawer__close-btn svg {
+  width: 28px !important; height: 28px !important;
+}
+
+/* --- Progress Bar --- */
+.cart-drawer__header .cart-progress {
+  padding: 12px 0 !important;
+  margin: 0 !important;
+  border-top: 1px solid var(--cart-border-color) !important;
+  background-color: transparent !important;
+}
+.cart-progress__text {
+  font-size: 14px !important;
+  color: var(--cart-text-secondary) !important;
+  font-weight: 500 !important;
+  margin-bottom: 8px !important;
+}
+.cart-progress__bar {
+  height: 10px !important;
+}
+.cart-progress--green .cart-progress__text {
+  color: #25a268 !important;
+}
+
+/* --- Item List & Body --- */
+.cart-drawer__body {
+  padding: 0 20px !important;
+}
+.cart-drawer__items {
+  padding: 12px 0 !important;
+}
+.cart-drawer__item {
+  background-color: var(--cart-white-bg) !important;
+  border: 1px solid var(--cart-border-color) !important;
+  border-radius: 12px !important;
+  padding: 16px !important;
+  margin-bottom: 12px !important;
+  gap: 16px !important;
+}
+.cart-drawer__item:last-child {
+  margin-bottom: 0;
+}
+.cart-drawer__item-image {
+  width: 72px !important;
+  height: 72px !important;
+}
+.cart-drawer__item-title {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--cart-text-primary) !important;
+}
+
+/* ▼▼▼ ITEM PRICE ALIGNMENT FIX START ▼▼▼ */
+.cart-drawer__item-meta {
+  display: flex !important;
+  justify-content: flex-start !important;
+  align-items: center !important;
+  gap: 16px !important;
+  width: 100% !important;
+  flex-wrap: wrap;
+}
+.cart-drawer__item-price-wrapper {
+  margin-left: 0; /* REMOVED margin-left: auto */
+  text-align: left; /* Set to left */
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+.cart-drawer__item-price--final,
+.cart-drawer__item-price {
+  font-size: 16px !important;
+  font-weight: 600 !important;
+  color: var(--cart-text-primary) !important;
+}
+.cart-drawer__item-price--original {
+  font-size: 14px !important;
+  color: var(--cart-text-secondary) !important;
+  text-decoration: line-through;
+}
+/* ▲▲▲ ITEM PRICE ALIGNMENT FIX END ▲▲▲ */
+
+.cart-drawer__remove-btn {
+  align-self: flex-start !important;
+}
+.cart-drawer__empty-state {
+  padding: 4rem 1rem !important;
+}
+.cart-drawer__empty-icon {
+  width: 56px !important;
+  height: 56px !important;
+}
+.cart-drawer__empty-text {
+  font-size: 18px !important;
+  font-weight: 600 !important;
+  margin-top: 1.5rem !important;
+  color: var(--cart-text-primary) !important;
+}
+
+/* --- Footer & CTA --- */
+.cart-drawer__footer {
+  flex-shrink: 0;
+  background-color: var(--cart-white-bg) !important;
+  border-top: 1px solid var(--cart-border-color) !important;
+  padding: 16px 24px !important;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom)) !important;
+  box-shadow: 0 -4px 12px rgba(0,0,0,0.04) !important;
+}
+.cart-drawer__summary-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 12px;
+  padding: 0 !important;
+  border: none !important;
+}
+.cart-drawer__subtotal,
+.cart-drawer__discount-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  font-size: 16px;
+}
+.cart-drawer__subtotal-label,
+.cart-drawer__discount-label {
+  color: var(--cart-text-secondary);
+  font-weight: 500;
+  white-space: nowrap;
+  padding-right: 16px;
+}
+.cart-drawer__subtotal-price {
+  text-align: right;
+}
+.cart-drawer__subtotal-price .money,
+.cart-drawer__discount-amount {
+  font-weight: 700;
+  color: var(--cart-text-primary);
+}
+.cart-drawer__subtotal-price del {
+  color: var(--cart-text-secondary);
+  font-weight: 500;
+  font-size: 14px;
+  margin-right: 8px;
+}
+.cart-drawer__discount-amount { color: #25a268; }
+.cart-drawer__subtext {
+  font-size: 12px !important;
+  margin-bottom: 16px !important;
+  text-align: center;
+}
+.cart-drawer__checkout-btn {
+  display: flex !important; justify-content: center !important; align-items: center !important;
+  width: 100% !important; height: 56px !important;
+  background-color: var(--cart-cta-bg) !important;
+  color: #FFFFFF !important; text-decoration: none !important;
+  font-size: 18px !important; font-weight: 700 !important; border-radius: 12px !important;
+  transition: background-color 0.2s ease !important;
+  border: none !important;
+}
+.cart-drawer__checkout-btn:hover {
+  background-color: var(--cart-cta-bg-hover) !important;
+  transform: none !important;
+  box-shadow: none !important;
+}
+.cart-drawer__continue-action {
+  margin-top: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.cart-drawer__secondary-link {
+  font-size: 14px !important;
+  font-weight: 500 !important;
+  color: var(--cart-text-secondary) !important;
+}
+.cart-drawer__secondary-link:hover {
+  color: var(--cart-text-primary) !important;
+}
+.cart-drawer__secondary-link-divider {
+  color: var(--cart-border-color);
+}
+
+/* Hide legacy elements not used in new design */
+.cart-drawer__view-cart-link, .cart-drawer__savings-summary { display: none !important; }
 
 /* ==========================================================================
    POLISHED ADD-ONS PAGE STYLES V8.1 (TAG REMOVED & IMAGE CENTERED)
