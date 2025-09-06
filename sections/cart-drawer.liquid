@@ -3,12 +3,29 @@
   - FIXED: Restored the necessary div structure within the footer to ensure theme JavaScript compatibility,
     preventing components from disappearing.
   - RETAINED: Clear before/after pricing, discount lines, and a savings summary in the cart footer.
+  - MODIFIED: Added a short-circuit to bypass progress logic if a meal plan is in the cart.
 {%- endcomment -%}
 
 {%- liquid
-  if settings.enable_free_delivery_promo
+  assign meal_target = 8
+
+  assign has_meal_plan = false
+  for progress_item in cart.items
+    assign product_type_lower = progress_item.product.type | downcase
+    if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan' or progress_item.product.type == 'OPTIONS_HIDDEN_PRODUCT'
+      assign has_meal_plan = true
+      break
+    endif
+  endfor
+
+  if has_meal_plan
+    assign progress_current = meal_target
+    assign progress_target = meal_target
+    assign progress_percentage = 100
+    assign checkout_url = '/pages/add-ons'
+    assign progress_message = "Great! You have enough meals to checkout."
+  elsif settings.enable_free_delivery_promo
     assign free_delivery_target = settings.free_delivery_threshold | default: 21
-    assign meal_target = 8
     assign progress_current = 0
     assign excluded_collections = 'proteinpopcorn,butters,proteincoffee,seasonings' | split: ','
     for progress_item in cart.items
@@ -71,7 +88,6 @@
       endcapture
     endif
   else
-    assign meal_target = 8
     assign progress_current = 0
     assign non_meal_types = 'peanut butter,protein popcorn,seasoning,beverage,options_hidden_product' | split: ','
     for progress_item in cart.items
