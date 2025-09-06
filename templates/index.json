@@ -10,17 +10,22 @@
 {
   "wrapper": "div.index-sections",
   "sections": {
-    "hero_multiple_selection_AEUztr": {
-      "type": "Hero-Multiple-Selection",
+    "hero_section_v17_QKLrxM": {
+      "type": "Hero-Section-V17",
+      "name": "Hero Section V17.0",
       "settings": {
-        "credibility_text": "USDA Certified 🇺🇸 Serving the Lower 48",
-        "headline_1": "Win",
-        "headline_2": "Back",
-        "headline_3": "Your Week.",
-        "prop_1_text": "Chef-Crafted & Macro-Balanced",
-        "prop_2_text": "Ready in 2 Minutes",
-        "prop_3_text": "Effortless Results, Delivered",
-        "cta_button_text": "View The Menu"
+        "credibility_text": "PERFORMANCE NUTRITION",
+        "headline": "FOCUS ON THE WIN.",
+        "subheadline": "We'll handle the meals.",
+        "offer_text_option": "a",
+        "offer_text_a": "Dial in your nutrition with 25% off sitewide. Get free shipping when you stock up with 21+ meals.",
+        "offer_text_b": "Fuel your entire week. Get 25% off all meals and free shipping on your box of 21+.",
+        "cta_button_text": "FUEL YOUR GOALS",
+        "enable_auto_discount": true,
+        "discount_code_apply": "DIALED25",
+        "promo_code": "DIALED25",
+        "min_height_desktop": 65,
+        "min_height_mobile": 90
       }
     },
     "black_friday_2024_hero_99phtq": {
@@ -210,7 +215,7 @@
     }
   },
   "order": [
-    "hero_multiple_selection_AEUztr",
+    "hero_section_v17_QKLrxM",
     "black_friday_2024_hero_99phtq",
     "authority_bar_grBYWU",
     "homepage_process_PmGH7t",

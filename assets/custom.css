@@ -2167,7 +2167,7 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   box-shadow: none !important;
 }
 .cart-drawer__continue-action {
-  margin-top: 12px;
+  margin-top: 8px; /* Reduced from 12px */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2187,6 +2187,26 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 
 /* Hide legacy elements not used in new design */
 .cart-drawer__view-cart-link, .cart-drawer__savings-summary { display: none !important; }
+
+/* ==========================================================================
+   CART SIDEBAR - FOOTER PRICE HIERARCHY FIX
+   ========================================================================== */
+.cart-sidebar__summary-value {
+  display: flex;
+  justify-content: flex-end;
+  align-items: baseline;
+}
+.cart-sidebar__summary-value del.money {
+  font-size: 1rem !important;
+  font-weight: 500 !important;
+  color: var(--cart-text-secondary, #6B7280) !important;
+  margin-right: 0.5rem;
+}
+.cart-sidebar__summary-value > .money {
+  font-size: 1.1rem !important;
+  font-weight: 700 !important;
+  color: var(--cart-text-primary, #1A1A1A) !important;
+}
 
 /* ==========================================================================
    POLISHED ADD-ONS PAGE STYLES V8.1 (TAG REMOVED & IMAGE CENTERED)

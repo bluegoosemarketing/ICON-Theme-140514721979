@@ -1,8 +1,7 @@
 {%- comment -%}
-  Cart Page - Dual Logic V1.1
-  - This version is now fully controlled by the central CartManager script.
-  - All local JavaScript has been removed to prevent conflicts.
-  - MODIFIED: Added a short-circuit to bypass progress logic if a meal plan is in the cart.
+  Cart Page - V1.2 (Custom Meal Logic Fix)
+  - FIXED: The `has_meal_plan` check is now more specific and no longer incorrectly identifies custom meals as meal plans.
+  - RETAINED: All previous functionality, including the meal plan bypass and original meal counting logic.
 {%- endcomment -%}
 
 {{ 'cart-page.js' | asset_url | script_tag }}
@@ -13,7 +12,7 @@
   assign has_meal_plan = false
   for progress_item in cart.items
     assign product_type_lower = progress_item.product.type | downcase
-    if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan' or progress_item.product.type == 'OPTIONS_HIDDEN_PRODUCT'
+    if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan'
       assign has_meal_plan = true
       break
     endif

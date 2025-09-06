@@ -1,13 +1,29 @@
 {%- comment -%}
-  Cart Sidebar - Dual Logic V1.1
-  - FIXED: Corrected the Liquid syntax error in the progress bar's `if` condition.
-  - The bar now correctly displays whenever the cart is not empty, showing the appropriate message.
+  Cart Preview Sidebar - V1.3 (Definitive Logic Fix & Full Footer Restore)
+  - FIXED: The `has_meal_plan` check is now specific and no longer incorrectly identifies custom meals as meal plans.
+  - RESTORED: The footer has been restored to its full, multi-action state to match the cart drawer.
 {%- endcomment -%}
 
 {%- liquid
-  if settings.enable_free_delivery_promo
+  assign meal_target = 8
+
+  assign has_meal_plan = false
+  for progress_item in cart.items
+    assign product_type_lower = progress_item.product.type | downcase
+    if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan'
+      assign has_meal_plan = true
+      break
+    endif
+  endfor
+
+  if has_meal_plan
+    assign progress_current = meal_target
+    assign progress_target = meal_target
+    assign progress_percentage = 100
+    assign checkout_url = '/pages/add-ons'
+    assign progress_message = "Great! You have enough meals to checkout."
+  elsif settings.enable_free_delivery_promo
     assign free_delivery_target = settings.free_delivery_threshold | default: 21
-    assign meal_target = 8
     assign progress_current = 0
     assign excluded_collections = 'proteinpopcorn,butters,proteincoffee,seasonings' | split: ','
     for progress_item in cart.items
@@ -70,7 +86,6 @@
       endcapture
     endif
   else
-    assign meal_target = 8
     assign progress_current = 0
     assign non_meal_types = 'peanut butter,protein popcorn,seasoning,beverage,options_hidden_product' | split: ','
     for progress_item in cart.items
@@ -108,14 +123,11 @@
   endif
 -%}
 
-<div class="cart-sidebar-section-wrapper">
-  <div class="cart-sidebar">
+<div class="cart-sidebar-section-wrapper" data-wetheme-section-id="cart-preview-sidebar" data-wetheme-section-type="cart-sidebar-section">
+  <div id="cart-sidebar" class="cart-sidebar">
     <div class="cart-sidebar__header">
-      <h2 class="cart-sidebar__title">Your Cart</h2>
+      <h2 class="cart-sidebar__title">{{ 'cart.general.title' | t }}</h2>
     </div>
-
-    {% render 'cart-item-list' %}
-
     {%- if cart.item_count > 0 -%}
       <div class="cart-progress cart-progress--green">
         <p class="cart-progress__text" aria-live="polite">{{ progress_message | strip }}</p>
@@ -124,21 +136,29 @@
         </div>
       </div>
     {%- endif -%}
+    
+    {% render 'cart-item-list', context: 'sidebar' %}
 
-    <div class="cart-sidebar__footer"{% if cart.item_count == 0 %} style="display: none;"{% endif %}>
-      <div class="cart-sidebar__summary">
-        <span class="cart-sidebar__summary-label">Subtotal</span>
-        <span class="cart-sidebar__summary-value" data-cart-subtotal>{{ cart.total_price | money }}</span>
+    {% if cart.item_count > 0 %}
+      <div class="cart-sidebar__footer">
+                  <div class="cart-sidebar__summary">
+            <span class="cart-sidebar__summary-label">{{ 'cart.general.subtotal' | t }}</span>
+            <span class="cart-sidebar__summary-value">
+              {%- if cart.total_discount > 0 -%}<del class="money">{{ cart.original_total_price | money }}</del>{%- endif -%}
+              <span class="money"><span style="display:none" class="tdf-cart-total-flag"></span>{{ cart.total_price | money }}</span>
+            </span>
+          </div>
+        <p class="cart-drawer__subtext">{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}</p>
+        <div class="cart-sidebar__actions">
+           <a href="{{ checkout_url }}" class="btn cart-sidebar__checkout-btn">
+            Proceed to Checkout
+          </a>
+        </div>
+        <div class="cart-drawer__continue-action">
+          <a href="{{ routes.cart_url }}" class="cart-drawer__secondary-link">View Full Cart</a>
+        </div>
       </div>
-      <p class="cart-sidebar__subtext">Shipping & taxes calculated at checkout.</p>
-      <button type="button" class="btn cart-sidebar__checkout-btn" data-checkout-url="{{ checkout_url }}">
-        Proceed to Checkout
-      </button>
-      <a href="{{ routes.cart_url }}" class="cart-footer__secondary-link">
-        View Full Cart
-      </a>
-    </div>
-
+    {% endif %}
     <div class="cart-sidebar__loader-overlay">
       <div class="cart-sidebar__spinner"></div>
     </div>

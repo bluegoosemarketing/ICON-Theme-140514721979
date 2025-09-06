@@ -1,7 +1,7 @@
 {%- comment -%}
-  Cart Drawer - V2.1 (Enhanced UX/UI + Functional Restore)
-  - RESTORED: Re-added the hidden discounts div for JS compatibility and the full tax/shipping capture block.
-  - RETAINED: The complete visual refresh inspired by the V10 mobile navigation.
+  Cart Drawer - V2.2 (Custom Meal Logic Fix)
+  - FIXED: The `has_meal_plan` check is now more specific and no longer incorrectly identifies custom meals as meal plans.
+  - RETAINED: The complete V2 visual refresh and all functional elements.
 {%- endcomment -%}
 
 {%- liquid
@@ -10,7 +10,7 @@
   assign has_meal_plan = false
   for progress_item in cart.items
     assign product_type_lower = progress_item.product.type | downcase
-    if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan' or progress_item.product.type == 'OPTIONS_HIDDEN_PRODUCT'
+    if product_type_lower contains 'meal plan' or progress_item.product.handle contains 'meal-plan'
       assign has_meal_plan = true
       break
     endif
