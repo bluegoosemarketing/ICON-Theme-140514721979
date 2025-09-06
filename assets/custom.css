@@ -1926,6 +1926,50 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 }
 
 /* ==========================================================================
+   CART DRAWER - DOUBLE SCROLL & OVERLAY FIX
+   ========================================================================== */
+
+/* Ensure the slideout wrapper is viewport-tall and not scrollable itself */
+#cartSlideoutWrapper.cart-drawer {
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: hidden;
+  overscroll-behavior: contain;
+}
+@supports not (height: 100dvh) {
+  #cartSlideoutWrapper.cart-drawer { height: 100svh; max-height: 100svh; }
+}
+@supports not (height: 100svh) {
+  #cartSlideoutWrapper.cart-drawer { height: 100vh; max-height: 100vh; }
+}
+
+/* Only the middle section scrolls */
+.cart-drawer__body {
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+/* Footer should never expand/steal space */
+.cart-drawer__footer { flex-shrink: 0; }
+
+/* Loader overlay must not create layout height; show only while .is-loading is present */
+.cart-sidebar__loader-overlay {
+  position: absolute;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 10; /* Ensure it's on top of content */
+}
+
+/* This is a more specific selector to show the overlay when the drawer is loading */
+.cart-drawer.is-loading .cart-sidebar__loader-overlay {
+  display: flex;
+}
+
+/* ==========================================================================
    POLISHED ADD-ONS PAGE STYLES V8.1 (TAG REMOVED & IMAGE CENTERED)
    ========================================================================== */
 

@@ -1,9 +1,7 @@
 {%- comment -%}
-  Cart Drawer - Dual Logic V1.2
-  - FIXED: Restored the necessary div structure within the footer to ensure theme JavaScript compatibility,
-    preventing components from disappearing.
-  - RETAINED: Clear before/after pricing, discount lines, and a savings summary in the cart footer.
-  - MODIFIED: Added a short-circuit to bypass progress logic if a meal plan is in the cart.
+  Cart Drawer - Dual Logic V1.3
+  - FIXED: Moved the loader overlay inside the positioned content host to prevent "double scroll" layout issues.
+  - RETAINED: All previous functionality, including meal plan short-circuit and pricing display.
 {%- endcomment -%}
 
 {%- liquid
@@ -257,6 +255,7 @@
             <h2 id="cart_dialog_status" role="status" class="js-cart-drawer-status sr-only"></h2>
           </div>
         </div>
+        <!-- Moved overlay inside the positioned host -->
         <div class="cart-sidebar__loader-overlay"><div class="cart-sidebar__spinner"></div></div>
       </div>
     </div>
