@@ -83,6 +83,7 @@ button.btn.benefitbadge.badgeallergen { background-color: #eec877; }
 #bebalanced-x-icon-meals-partnership a.btn { background-color: #83276b !important; }
 .template--collection_header { display: none; }
 
+
 /* ==========================================================================
    APP-STYLE COLLECTION PAGE & WORLD-CLASS MENU (V8.4 - DESKTOP/MOBILE FIX)
    - DESKTOP FIX: Restored desktop-specific styles for main menu triggers and sub-panel grids.
@@ -3295,7 +3296,6 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .bold_option_element select {
-  width: 100%;
   max-width: 100%;
 }
 .select-wrapper select:hover { border-color: #adb5bd; }
