@@ -1964,8 +1964,9 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   z-index: 10; /* Ensure it's on top of content */
 }
 
-/* This is a more specific selector to show the overlay when the drawer is loading */
-.cart-drawer.is-loading .cart-sidebar__loader-overlay {
+/* Show loader overlay when either the cart drawer or cart sidebar is loading */
+.cart-drawer.is-loading .cart-sidebar__loader-overlay,
+.cart-sidebar-section-wrapper.is-loading .cart-sidebar__loader-overlay {
   display: flex;
 }
 /* ==========================================================================
