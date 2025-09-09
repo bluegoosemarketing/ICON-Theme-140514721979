@@ -1,66 +1,149 @@
 <div class="signature-cross-sells">
-  <h2 class="signature-cross-sells__title">Explore More Categories</h2>
-  <div class="signature-cross-sells__grid">
-    <a class="signature-cross-sells__item" href="/products/custom-meals">
-      <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_v1.jpg" alt="Custom Meals" loading="lazy">
-      <span class="signature-cross-sells__label">Build Custom Meals</span>
-    </a>
-    <a class="signature-cross-sells__item" href="/collections/bulk-items">
-      <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Meals_v1.jpg" alt="Bulk Items" loading="lazy">
-      <span class="signature-cross-sells__label">Shop Bulk Items</span>
-    </a>
-    <a class="signature-cross-sells__item" href="/pages/snacks-more">
-      <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/tile-snacks.jpg" alt="Snacks &amp; More" loading="lazy">
-      <span class="signature-cross-sells__label">Snacks &amp; More</span>
-    </a>
+  <div class="page-width">
+    <h2 class="signature-cross-sells__title">NOT SEEING WHAT YOU WANT?</h2>
+    <p class="signature-cross-sells__subtitle">Explore our other popular categories to build your perfect order.</p>
+    <div class="signature-cross-sells__grid">
+      
+      <a class="signature-cross-sells__item" href="/products/custom-meals">
+        <div class="signature-cross-sells__image-wrapper">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_v1.jpg" alt="A collection of freshly prepared custom meals in containers" loading="lazy">
+        </div>
+        <div class="signature-cross-sells__content">
+          <h3 class="signature-cross-sells__heading">BUILD YOUR OWN</h3>
+          <span class="signature-cross-sells__cta">Shop Custom Meals &rarr;</span>
+        </div>
+      </a>
+
+      <a class="signature-cross-sells__item" href="/collections/bulk-items">
+        <div class="signature-cross-sells__image-wrapper">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Meals_v1.jpg" alt="Packaged salmon from ICON Meals, representing bulk ordering" loading="lazy">
+        </div>
+        <div class="signature-cross-sells__content">
+          <h3 class="signature-cross-sells__heading">ORDER IN BULK</h3>
+          <span class="signature-cross-sells__cta">Shop Bulk Items &rarr;</span>
+        </div>
+      </a>
+
+      <a class="signature-cross-sells__item" href="/pages/mealplans">
+        <div class="signature-cross-sells__image-wrapper">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Performance-Recipes.jpg?v=1754054304" alt="A dish from ICON Meals' performance recipes, representing meal plans" loading="lazy">
+        </div>
+        <div class="signature-cross-sells__content">
+          <h3 class="signature-cross-sells__heading">VIEW MEAL PLANS</h3>
+          <span class="signature-cross-sells__cta">Explore Plans &rarr;</span>
+        </div>
+      </a>
+
+    </div>
   </div>
 </div>
 
 <style>
   .signature-cross-sells {
-    margin: 60px auto;
-    padding: 0 20px;
+    margin-top: 60px !important; /* Creates visual separation from the content above */
+    padding: 60px 0 !important;
+    background-color: #f7f7f7 !important;
+  }
+
+  .page-width {
     max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
   }
+
   .signature-cross-sells__title {
-    text-align: center;
-    font-size: 1.75rem;
-    font-weight: 700;
-    margin-bottom: 1.5rem;
-    color: #111827;
+    text-align: center !important;
+    font-size: 2.25rem !important;
+    font-weight: 800 !important;
+    margin-bottom: 0.5rem !important;
+    color: #1a1a1a !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
   }
+
+  .signature-cross-sells__subtitle {
+    text-align: center !important;
+    font-size: 1.125rem !important;
+    margin-bottom: 3rem !important;
+    color: #555 !important;
+  }
+
   .signature-cross-sells__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
+    display: grid !important;
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
   }
+
+  @media (min-width: 768px) {
+    .signature-cross-sells__grid {
+      grid-template-columns: repeat(3, 1fr) !important;
+    }
+  }
+
   .signature-cross-sells__item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    text-decoration: none;
-    color: #fff;
+    display: flex !important;
+    flex-direction: column !important;
+    background-color: #ffffff !important;
+    border-radius: 16px !important;
+    text-decoration: none !important;
+    overflow: hidden !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+    transition: transform 0.3s ease, box-shadow 0.3s ease !important;
   }
+
+  .signature-cross-sells__item:hover {
+    transform: translateY(-8px) !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    text-decoration: none !important;
+  }
+
+  .signature-cross-sells__image-wrapper {
+    width: 100% !important;
+    padding-top: 75%; /* 4:3 Aspect Ratio */
+    position: relative !important;
+    overflow: hidden !important;
+  }
+
   .signature-cross-sells__item img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.3s ease;
-    display: block;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
+    transition: transform 0.4s ease !important;
   }
+
   .signature-cross-sells__item:hover img {
-    transform: scale(1.05);
+    transform: scale(1.05) !important;
   }
-  .signature-cross-sells__label {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 15px;
-    background: rgba(0,0,0,0.55);
-    text-align: center;
-    font-weight: 600;
-    font-size: 1.1rem;
-    line-height: 1.2;
+
+  .signature-cross-sells__content {
+    padding: 30px 25px !important;
+    text-align: center !important;
+  }
+
+  .signature-cross-sells__heading {
+    color: #1a1a1a !important;
+    font-size: 1.25rem !important;
+    font-weight: 700 !important;
+    margin: 0 0 0.5rem 0 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+    text-decoration: none !important;
+  }
+
+  .signature-cross-sells__cta {
+    color: #d9242a !important; /* ICON Meals Brand Red */
+    font-weight: 600 !important;
+    font-size: 1rem !important;
+    text-decoration: none !important;
+    display: inline-block !important;
+    transition: color 0.3s ease !important;
+  }
+  
+  .signature-cross-sells__item:hover .signature-cross-sells__cta {
+    color: #a81c20 !important; /* Darker red on hover */
+    text-decoration: underline !important;
   }
 </style>
