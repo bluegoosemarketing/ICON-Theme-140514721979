@@ -1,0 +1,326 @@
+<div class="parlay-page-wrapper" id="parlay-contest-app">
+  <div class="parlay-container">
+    <!-- Hero Section -->
+    <div class="parlay-hero">
+      <div class="hero-inner">
+        <h1 class="parlay-main-title">{{ section.settings.main_heading }} 🏈</h1>
+        <p class="parlay-subtitle">{{ section.settings.subheading }}</p>
+        <div class="parlay-timer-container">
+          <div class="parlay-timer-block">
+            <span class="parlay-timer-prefix">Picks Lock In:</span>
+            <span class="parlay-timer-digits" id="parlay-time-remaining"></span>
+          </div>
+          <p class="parlay-timer-note">Sunday at 1:00 PM EST</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 1: Parlay Picks -->
+    <div class="parlay-instructions">
+      <p>Select your pick for each of the 5 challenges below. Go 5-for-5 to win!</p>
+    </div>
+
+    <div class="parlay-cards" id="parlay-cards">
+      {%- for block in section.blocks -%}
+        <div class="parlay-card" data-leg="{{ forloop.index }}">
+          <h3>{{ block.settings.leg_title }}</h3>
+          <p class="parlay-card-subheading">Leg {{ forloop.index }}</p>
+          <p>{{ block.settings.leg_question }}</p>
+          <div class="parlay-btn-group">
+            <button class="parlay-btn" data-pick="{{ block.settings.option_a | escape }}">{{ block.settings.option_a }}</button>
+            <button class="parlay-btn" data-pick="{{ block.settings.option_b | escape }}">{{ block.settings.option_b }}</button>
+          </div>
+        </div>
+      {%- endfor -%}
+      
+      <div class="parlay-card tie-breaker">
+          <h3>{{ section.settings.tie_breaker_title }}</h3>
+          <p class="parlay-card-subheading">Tie-Breaker</p>
+          <p>{{ section.settings.tie_breaker_question }}</p>
+          <input type="number" id="parlay-tie-breaker" placeholder="Enter a number" class="parlay-input">
+      </div>
+    </div>
+
+    <!-- Step 2: Contact & Opt-In -->
+    <div class="parlay-step2" id="parlay-step2">
+      <h3>Enter Your Details to Lock In Picks</h3>
+      <div class="parlay-input-group"><input type="text" id="parlay-first-name" placeholder="First Name" required class="parlay-input"></div>
+      <div class="parlay-input-group"><input type="text" id="parlay-last-name" placeholder="Last Name" required class="parlay-input"></div>
+      <div class="parlay-input-group"><input type="email" id="parlay-email" placeholder="Your Email" required class="parlay-input"></div>
+      <div class="parlay-input-group"><input type="tel" id="parlay-phone" placeholder="Your Phone (optional)" class="parlay-input"></div>
+      <div class="parlay-input-group parlay-optin">
+        <input type="checkbox" id="parlay-optin" required>
+        <label for="parlay-optin">I agree to receive marketing emails &amp; accept our <a href="/policies/terms-of-service" target="_blank">Terms</a> and <a href="/policies/privacy-policy" target="_blank">Privacy Policy</a>.</label>
+      </div>
+      <button class="parlay-submit-btn" id="parlay-submit">Submit My Parlay</button>
+    </div>
+
+    <div class="parlay-confirmation" id="parlay-confirmation"></div>
+    <div class="parlay-closed-message" id="parlay-closed-message">
+      <h3>Picks Are Locked</h3>
+      <p>The contest is no longer accepting entries. Good luck to everyone who played!</p>
+    </div>
+  </div>
+
+  <div class="parlay-modal" id="parlay-modal">
+    <div class="parlay-modal-content">
+      <p id="parlay-modal-message"></p>
+      <button class="parlay-modal-close" id="parlay-modal-close">Close</button>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const appContainer = document.getElementById("parlay-contest-app");
+    if (!appContainer) { return; }
+
+    const webhookUrl = "{{ section.settings.webhook_url | escape }}";
+    let parlayPicks = {};
+    const deadline = new Date("{{ section.settings.deadline_date | replace: ' ', 'T' }}").getTime();
+    
+    const elements = {
+        cardsDiv: appContainer.querySelector("#parlay-cards"),
+        step2Div: appContainer.querySelector("#parlay-step2"),
+        closedMessageDiv: appContainer.querySelector("#parlay-closed-message"),
+        timerDisplay: appContainer.querySelector("#parlay-time-remaining"),
+        modal: appContainer.querySelector("#parlay-modal"),
+        modalMessage: appContainer.querySelector("#parlay-modal-message"),
+        modalClose: appContainer.querySelector("#parlay-modal-close"),
+        confirmationDiv: appContainer.querySelector("#parlay-confirmation"),
+        submitBtn: appContainer.querySelector("#parlay-submit"),
+        tieBreakerInput: appContainer.querySelector('#parlay-tie-breaker')
+    };
+
+    if (elements.timerDisplay) {
+        const countdown = setInterval(() => {
+            const now = new Date().getTime();
+            const distance = deadline - now;
+            if (distance <= 0) {
+                clearInterval(countdown);
+                elements.timerDisplay.innerHTML = "0d 0h 0m 0s";
+                if (elements.cardsDiv) elements.cardsDiv.style.display = "none";
+                if (elements.step2Div) elements.step2Div.style.display = "none";
+                if (elements.closedMessageDiv) elements.closedMessageDiv.style.display = "block";
+                return;
+            }
+            const d = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const h = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const m = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const s = Math.floor((distance % (1000 * 60)) / 1000);
+            elements.timerDisplay.innerHTML = `${d}d ${h}h ${m}m ${s}s`;
+        }, 1000);
+    }
+    
+    appContainer.querySelectorAll(".parlay-btn").forEach(btn => {
+        btn.addEventListener("click", function() {
+            const card = this.closest(".parlay-card");
+            if (!card) return;
+            const legId = card.getAttribute("data-leg");
+            card.querySelectorAll(".parlay-btn").forEach(b => b.classList.remove("active"));
+            this.classList.add("active");
+            parlayPicks[legId] = this.getAttribute("data-pick");
+            checkCompletion();
+        });
+    });
+
+    if (elements.tieBreakerInput) {
+      elements.tieBreakerInput.addEventListener('input', checkCompletion);
+    }
+
+    function checkCompletion() {
+        const tieBreakerValue = elements.tieBreakerInput ? elements.tieBreakerInput.value.trim() : '';
+        if (Object.keys(parlayPicks).length === 5 && tieBreakerValue !== '' && elements.step2Div) {
+            elements.step2Div.style.display = "block";
+        }
+    }
+
+    if (elements.submitBtn) {
+        elements.submitBtn.addEventListener("click", function() {
+            const payload = {
+                first_name: appContainer.querySelector("#parlay-first-name").value.trim(),
+                last_name: appContainer.querySelector("#parlay-last-name").value.trim(),
+                email: appContainer.querySelector("#parlay-email").value.trim(),
+                phone: appContainer.querySelector("#parlay-phone").value.trim(),
+                parlay_leg_1: parlayPicks['1'] || '',
+                parlay_leg_2: parlayPicks['2'] || '',
+                parlay_leg_3: parlayPicks['3'] || '',
+                parlay_leg_4: parlayPicks['4'] || '',
+                parlay_leg_5: parlayPicks['5'] || '',
+                parlay_tie_breaker: elements.tieBreakerInput.value.trim(),
+                parlay_source: "Perfect Parlay Challenge - Week {{ section.settings.week_number }}"
+            };
+
+            if (!payload.email || Object.keys(parlayPicks).length !== 5 || !payload.parlay_tie_breaker) {
+                alert("Please make a selection for all 5 legs and the tie-breaker, and provide your email.");
+                return;
+            }
+            if (!appContainer.querySelector("#parlay-optin").checked) {
+                alert("You must agree to the terms to participate.");
+                return;
+            }
+
+            elements.submitBtn.disabled = true;
+            elements.submitBtn.innerText = "Submitting...";
+
+            fetch(webhookUrl, {
+                method: "POST",
+                body: JSON.stringify(payload),
+                mode: 'no-cors' 
+            }).catch(err => {
+                console.error("Fetch Network Error:", err);
+            });
+            
+            setTimeout(() => {
+                const successMessage = "✅ Your picks are in! Winners will be announced on Tuesday. Good luck!";
+                if(elements.confirmationDiv) {
+                  elements.confirmationDiv.innerText = successMessage;
+                  elements.confirmationDiv.style.display = "block";
+                }
+                if(elements.cardsDiv) elements.cardsDiv.style.display = "none";
+                if(elements.step2Div) elements.step2Div.style.display = "none";
+                if(elements.modalMessage) elements.modalMessage.innerText = successMessage;
+                if(elements.modal) elements.modal.style.display = "flex";
+            }, 750);
+        });
+    }
+
+    if (elements.modalClose) {
+        elements.modalClose.addEventListener("click", () => {
+            if (elements.modal) elements.modal.style.display = "none";
+        });
+    }
+});
+</script>
+
+
+<style>
+  :root { 
+    --color-dark: #222222;
+    --color-red: #E1261C;
+    --color-gold: #FFD700;
+    --color-light-gray: #f8f8f8;
+    --color-text: #4a4a4a;
+  }
+  #parlay-contest-app { font-family: 'Inter', sans-serif; background: var(--color-light-gray); padding: 20px 10px; }
+  #parlay-contest-app .parlay-container { max-width: 600px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 8px 20px rgba(0,0,0,0.1); overflow: hidden; }
+  #parlay-contest-app .parlay-hero { background: var(--color-dark); color: #fff; padding: 30px 20px; text-align: center; }
+  #parlay-contest-app .parlay-main-title { font-family: 'League Spartan', sans-serif; font-size: 2.4em; line-height: 1.2; margin-bottom: 10px; }
+  #parlay-contest-app .parlay-subtitle { font-size: 1.1em; margin: 0 auto 20px; line-height: 1.4; max-width: 450px; color: #ccc; }
+  #parlay-contest-app .parlay-timer-container { margin-top: 20px; }
+  #parlay-contest-app .parlay-timer-block { display: inline-block; background: #111; padding: 10px 15px; border-radius: 6px; }
+  #parlay-contest-app .parlay-timer-prefix { font-size: 0.9em; color: #ccc; margin-right: 8px; }
+  #parlay-contest-app .parlay-timer-digits { font-size: 1.5em; font-weight: 700; color: var(--color-gold); letter-spacing: 1px; }
+  #parlay-contest-app .parlay-timer-note { font-size: 0.9em; color: #ccc; margin-top: 8px; }
+  #parlay-contest-app .parlay-instructions { padding: 20px; background: #fafafa; border-top: 1px solid #eee; border-bottom: 1px solid #eee; text-align: center; }
+  #parlay-contest-app .parlay-instructions p { margin: 0; font-size: 1.1em; color: var(--color-text); }
+  #parlay-contest-app .parlay-cards { padding: 20px; }
+  #parlay-contest-app .parlay-card { border: 2px solid #ddd; border-radius: 10px; margin-bottom: 15px; padding: 15px; text-align: center; transition: box-shadow 0.3s; }
+  #parlay-contest-app .parlay-input { width: 100%; text-align: center; font-size: 1.2em; padding: 10px; border: 2px solid #ccc; border-radius: 6px; -webkit-appearance: none; margin: 0; }
+  #parlay-contest-app .parlay-card h3 { margin: 0 0 5px; font-size: 1.3em; font-weight: 600; color: var(--color-red); }
+  #parlay-contest-app .parlay-card-subheading { font-size: 0.9em; font-weight: 500; color: #777; margin-bottom: 10px; }
+  #parlay-contest-app .parlay-card p { color: #666; margin-bottom: 15px; }
+  #parlay-contest-app .parlay-btn-group { display: flex; gap: 10px; }
+  #parlay-contest-app .parlay-btn {
+    flex: 1; padding: 12px; border: 2px solid var(--color-red); border-radius: 6px;
+    background: #fff; color: var(--color-red); font-weight: 600; cursor: pointer; transition: all 0.2s;
+  }
+  #parlay-contest-app .parlay-btn:not(.active):hover { background: #fde8e7; }
+  #parlay-contest-app .parlay-btn.active { background: var(--color-red); color: #fff; border-color: var(--color-red); }
+  #parlay-contest-app .parlay-step2 { display: none; padding: 20px; background: #fdfdfd; border-top: 1px solid #eee; text-align: center; }
+  #parlay-contest-app .parlay-step2 h3 { margin-bottom: 20px; font-size: 1.3em; }
+  #parlay-contest-app .parlay-input-group { margin-bottom: 15px; }
+  #parlay-contest-app .parlay-optin { display: flex; align-items: center; margin-bottom: 15px; text-align: left; }
+  #parlay-contest-app .parlay-optin input[type="checkbox"] { margin-right: 10px; width: auto; }
+  #parlay-contest-app .parlay-optin label { line-height: 1.4em; font-size: 0.9em; }
+  #parlay-contest-app .parlay-optin a { text-decoration: underline; color: var(--color-red); }
+  #parlay-contest-app .parlay-submit-btn { width: 100%; padding: 15px; background: #000; color: #fff; border: none; border-radius: 8px; font-size: 1.1em; cursor: pointer; }
+  #parlay-contest-app .parlay-confirmation, #parlay-contest-app .parlay-closed-message { text-align: center; padding: 40px 20px; display: none; }
+  #parlay-contest-app .parlay-confirmation { color: #28a745; font-size: 1.2em; }
+  #parlay-contest-app .parlay-modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); align-items: center; justify-content: center; }
+  #parlay-contest-app .parlay-modal-content { background: #fff; padding: 20px; border-radius: 8px; text-align: center; max-width: 400px; width: 90%; }
+  #parlay-contest-app .parlay-modal-close { margin-top: 15px; padding: 10px 20px; background: #000; color: #fff; border: none; border-radius: 6px; cursor: pointer; }
+</style>
+
+{% schema %}
+{
+  "name": "Perfect Parlay Challenge",
+  "settings": [
+    { "type": "header", "content": "Campaign General Settings" },
+    { "type": "text", "id": "main_heading", "label": "Main Heading", "default": "The Perfect Parlay Challenge" },
+    { "type": "text", "id": "subheading", "label": "Subheading", "default": "Go 5-for-5 and win a month of free meals!" },
+    { "type": "text", "id": "week_number", "label": "Week Number", "default": "2" },
+    { "type": "header", "content": "Deadline" },
+    { "type": "text", "id": "deadline_date", "label": "Entry Deadline", "default": "2025-09-14 13:00:00", "info": "IMPORTANT: Use format YYYY-MM-DD HH:MM:SS" },
+    { "type": "header", "content": "Backend Integration" },
+    { "type": "url", "id": "webhook_url", "label": "Webhook URL (from Google Apps Script)", "info": "This is where the form data will be sent." },
+    { "type": "header", "content": "Tie-Breaker" },
+    { "type": "text", "id": "tie_breaker_title", "label": "Tie-Breaker Title", "default": "Final Score Tie-Breaker" },
+    { "type": "text", "id": "tie_breaker_question", "label": "Tie-Breaker Question", "default": "Guess the total combined points for the Sunday Night Football game (Chiefs vs. Bills)" }
+  ],
+  "blocks": [
+    {
+      "type": "parlay_leg",
+      "name": "Parlay Leg",
+      "settings": [
+        { "type": "text", "id": "leg_title", "label": "Leg Title" },
+        { "type": "text", "id": "leg_question", "label": "Leg Question" },
+        { "type": "text", "id": "option_a", "label": "Option A" },
+        { "type": "text", "id": "option_b", "label": "Option B" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Perfect Parlay Challenge",
+      "blocks": [
+        {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The AFC North Clash",
+            "leg_question": "Who will have MORE total yards (Passing + Rushing)?",
+            "option_a": "Lamar Jackson (BAL)",
+            "option_b": "Joe Burrow (CIN)"
+          }
+        },
+        {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The High-Flyers",
+            "leg_question": "Will the Dolphins score OVER or UNDER 30.5 points vs. the Jaguars?",
+            "option_a": "OVER 30.5 Points",
+            "option_b": "UNDER 30.5 Points"
+          }
+        },
+        {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The Star Receiver",
+            "leg_question": "Will Justin Jefferson have 95.5 or more receiving yards vs. the Lions?",
+            "option_a": "YES (95.5+ Yards)",
+            "option_b": "NO (Under 95.5 Yards)"
+          }
+        },
+        {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The NFC East Rivalry",
+            "leg_question": "Who will win?",
+            "option_a": "Dallas Cowboys",
+            "option_b": "Philadelphia Eagles"
+          }
+        },
+        {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The Point Spread",
+            "leg_question": "Who will win against the spread?",
+            "option_a": "San Francisco 49ers (-4.5)",
+            "option_b": "New York Jets (+4.5)"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
