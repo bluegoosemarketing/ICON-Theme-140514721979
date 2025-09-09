@@ -1,0 +1,66 @@
+<div class="signature-cross-sells">
+  <h2 class="signature-cross-sells__title">Explore More Categories</h2>
+  <div class="signature-cross-sells__grid">
+    <a class="signature-cross-sells__item" href="/products/custom-meals">
+      <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_v1.jpg" alt="Custom Meals" loading="lazy">
+      <span class="signature-cross-sells__label">Build Custom Meals</span>
+    </a>
+    <a class="signature-cross-sells__item" href="/collections/bulk-items">
+      <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Meals_v1.jpg" alt="Bulk Items" loading="lazy">
+      <span class="signature-cross-sells__label">Shop Bulk Items</span>
+    </a>
+    <a class="signature-cross-sells__item" href="/pages/snacks-more">
+      <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/tile-snacks.jpg" alt="Snacks &amp; More" loading="lazy">
+      <span class="signature-cross-sells__label">Snacks &amp; More</span>
+    </a>
+  </div>
+</div>
+
+<style>
+  .signature-cross-sells {
+    margin: 60px auto;
+    padding: 0 20px;
+    max-width: 1200px;
+  }
+  .signature-cross-sells__title {
+    text-align: center;
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: #111827;
+  }
+  .signature-cross-sells__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .signature-cross-sells__item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    text-decoration: none;
+    color: #fff;
+  }
+  .signature-cross-sells__item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block;
+  }
+  .signature-cross-sells__item:hover img {
+    transform: scale(1.05);
+  }
+  .signature-cross-sells__label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 15px;
+    background: rgba(0,0,0,0.55);
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1rem;
+    line-height: 1.2;
+  }
+</style>
