@@ -275,6 +275,9 @@
         flush with the end of the meal list. This keeps the cart sidebar
         aligned with the viewport and prevents extra space below the layout.
       {%- endcomment -%}
+      {% if collection.handle == 'signature-menu' %}
+        {% render 'signature-menu-cross-sells' %}
+      {% endif %}
       {% render 'footer-minimal-ordering' %}
     </main>
 
