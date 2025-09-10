@@ -62,9 +62,45 @@ function nutritionTable() {
     const itemCal = macros.calorie*ozVal, itemP = macros.protein*ozVal, itemC = macros.carb*ozVal, itemF = macros.fat*ozVal, itemFib = macros.fiber*ozVal, itemSfat = macros.satfat*ozVal, itemTfat = macros.transfat*ozVal, itemChol = macros.chol*ozVal, itemSod = macros.sodium*ozVal;
     totals = { cal: totals.cal+itemCal, p: totals.p+itemP, c: totals.c+itemC, f: totals.f+itemF, fib: totals.fib+itemFib, sfat: totals.sfat+itemSfat, tfat: totals.tfat+itemTfat, chol: totals.chol+itemChol, sod: totals.sod+itemSod };
 
+    let unit;
+
+    const patties = [
+    "Beyond Meat Vegan Patty",
+    "Black Bean Vegan Patty",
+    "Home Style Protein Pancakes"
+    ].map(item => item.toLowerCase());
+
+    const cups = [
+    "Brown Rice",
+    "Gluten Free Penne Pasta",
+    "Jasmine Saffron Rice",
+    "Kyoto Blend Veggies",
+    "Quinoa",
+    "Red Quinoa",
+    "Quinoa Rice Blend",
+    "White Rice",
+    "Oatmeal"
+    ].map(item => item.toLowerCase());
+
+    const slices = [
+    "Turkey Bacon"
+    ].map(item => item.toLowerCase());
+
+    const itemUnit = itemName.toLowerCase();
+
+    if (patties.includes(itemUnit)) {
+    unit = "each";
+    } else if (cups.includes(itemUnit)) {
+    unit = "cup";
+    } else if (slices.includes(itemUnit)) {
+    unit = "slice";
+    } else {
+    unit = "ounce";
+    }
+
     breakdownHtml += `
       <div class="ingredient-row">
-        <div class="ingredient-name">${itemName} (${ozVal}oz)</div>
+        <div class="ingredient-name">${itemName} ( ${ozVal} ${unit})</div>
         <div class="ingredient-details">
           <span><strong>Cal:</strong> ${formatMacroValue(itemCal)}</span>
           <span><strong>P:</strong> ${formatMacroValue(itemP)}g</span>

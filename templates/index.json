@@ -17,15 +17,15 @@
         "credibility_text": "PERFORMANCE NUTRITION",
         "headline": "FOCUS ON THE WIN.",
         "subheadline": "We'll handle the meals.",
-        "offer_text_option": "a",
+        "offer_text_option": "b",
         "offer_text_a": "Dial in your nutrition with 25% off sitewide. Get free shipping when you stock up with 21+ meals.",
-        "offer_text_b": "Fuel your entire week. Get 25% off all meals and free shipping on your box of 21+.",
+        "offer_text_b": "Perfectly portioned, macro-friendly meals built for your goals. Ready to eat in minutes.",
         "cta_button_text": "FUEL YOUR GOALS",
-        "enable_auto_discount": true,
+        "enable_auto_discount": false,
         "discount_code_apply": "DIALED25",
-        "promo_code": "DIALED25",
+        "promo_code": "",
         "min_height_desktop": 65,
-        "min_height_mobile": 90
+        "min_height_mobile": 80
       }
     },
     "black_friday_2024_hero_99phtq": {

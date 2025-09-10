@@ -50,6 +50,7 @@
         },
         "parlay_leg_AVHUtq": {
           "type": "parlay_leg",
+          "name": "The Point Spread",
           "settings": {
             "leg_title": "The Point Spread",
             "leg_question": "Who will win against the spread?",
