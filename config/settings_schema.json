@@ -2243,9 +2243,21 @@
       }
     ]
   },
-  {
-    "name": "Free delivery promotion",
-    "settings": [
+      {
+      "name": "Recharge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "recharge_storefront_access_token",
+          "label": "Recharge Storefront Access Token",
+          "info": "The Storefront API token from your Recharge admin (starts with 'strfnt').",
+          "default": "strfnt_99ea5f01e926d5141e01d5b9cd729c9f475753c06fc95611641945c0a661ef54"
+        }
+      ]
+    },
+    {
+      "name": "Free delivery promotion",
+      "settings": [
       {
         "type": "checkbox",
         "id": "enable_free_delivery_promo",
