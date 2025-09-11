@@ -1,0 +1,10 @@
+{
+  "layout": "product-shell",
+  "sections": {
+    "main": {
+      "type": "product-cm-recharge",
+      "settings": {}
+    }
+  },
+  "order": ["main"]
+}

@@ -1,0 +1,70 @@
+{%- comment -%}
+  Custom Meal builder powered by Recharge Storefront API.
+  Renders main content for product.cm-recharge template.
+{%- endcomment -%}
+
+{%- liquid
+  assign selling_plans = product.selling_plan_groups
+-%}
+
+<div class="cm-recharge" data-section-id="{{ section.id }}" data-protein-handle="recharge-cm-proteins" data-side-handle="recharge-cm-sides">
+  <div class="cm-recharge__intro">
+    <h1 class="cm-recharge__title">Build Custom Meals</h1>
+    <div class="cm-recharge__price-card">
+      <span class="cm-recharge__price" data-starting-price>Starting at {{ product.price | money_without_trailing_zeros }} – updates as you choose</span>
+    </div>
+    {%- if product.description != blank -%}
+      <div class="cm-recharge__description rte">{{ product.description }}</div>
+    {%- endif -%}
+  </div>
+
+  <form class="cm-recharge__form" data-cm-form>
+    <div class="cm-recharge__field">
+      <label for="cm-protein">Protein</label>
+      <select id="cm-protein" data-protein-select></select>
+    </div>
+    <div class="cm-recharge__field">
+      <label for="cm-side1">Side 1</label>
+      <select id="cm-side1" data-side1-select></select>
+    </div>
+    <div class="cm-recharge__field">
+      <label for="cm-side2">Side 2</label>
+      <select id="cm-side2" data-side2-select></select>
+    </div>
+    <div class="cm-recharge__field" data-seasoning-field hidden>
+      <label for="cm-seasoning">Seasoning (optional)</label>
+      <input id="cm-seasoning" type="text" data-seasoning-input>
+    </div>
+
+    <div class="cm-recharge__field">
+      <span>Delivery Frequency</span>
+      <div class="cm-recharge__frequency" data-frequency-options></div>
+    </div>
+
+    <div class="cm-recharge__actions">
+      <div class="cm-recharge__quantity" data-quantity-wrapper>
+        <button type="button" class="quantity-button" data-qty-minus aria-label="Decrease quantity">−</button>
+        <input type="number" min="1" value="1" readonly data-qty-input>
+        <button type="button" class="quantity-button" data-qty-plus aria-label="Increase quantity">+</button>
+      </div>
+      <button type="submit" class="button button--primary" data-add disabled>
+        <span>+ Add</span>
+      </button>
+    </div>
+
+    <div class="cm-recharge__total" data-total-price></div>
+    <div class="cm-recharge__error" data-error></div>
+  </form>
+</div>
+
+<script type="application/json" data-product-json>{{ product | json }}</script>
+<script type="application/json" data-selling-plans-json>{{ selling_plans | json }}</script>
+
+<link rel="stylesheet" href="{{ 'cm-recharge.css' | asset_url }}" media="print" onload="this.media='all'">
+<script type="module" src="{{ 'cm-recharge.js' | asset_url }}" defer></script>
+
+{% schema %}
+{
+  "name": "Custom Meal Recharge"
+}
+{% endschema %}
