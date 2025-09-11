@@ -1,0 +1,21 @@
+.cm-recharge__form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cm-recharge__quantity {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.cm-recharge__total {
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.cm-recharge__error {
+  color: #c01923;
+  margin-top: 0.5rem;
+}
