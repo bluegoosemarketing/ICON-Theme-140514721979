@@ -1,0 +1,99 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "perfect_parlay_challenge_dJG7Ae": {
+      "type": "perfect-parlay-challenge",
+      "blocks": {
+        "parlay_leg_bdF4Qm": {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The AFC North Clash",
+            "leg_question": "Who will have MORE total yards (Passing + Rushing)?",
+            "option_a": "Lamar Jackson (BAL)",
+            "option_b": "Joe Burrow (CIN)"
+          }
+        },
+        "parlay_leg_mnUJDA": {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The High-Flyers",
+            "leg_question": "Will the Dolphins score OVER or UNDER 30.5 points vs. the Jaguars?",
+            "option_a": "OVER 30.5 Points",
+            "option_b": "UNDER 30.5 Points"
+          }
+        },
+        "parlay_leg_kMBqyL": {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The Star Receiver",
+            "leg_question": "Will Justin Jefferson have 95.5 or more receiving yards vs. the Lions?",
+            "option_a": "YES (95.5+ Yards)",
+            "option_b": "NO (Under 95.5 Yards)"
+          }
+        },
+        "parlay_leg_KeByhG": {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The NFC East Rivalry",
+            "leg_question": "Who will win?",
+            "option_a": "Dallas Cowboys",
+            "option_b": "Philadelphia Eagles"
+          }
+        },
+        "parlay_leg_AVHUtq": {
+          "type": "parlay_leg",
+          "settings": {
+            "leg_title": "The Point Spread",
+            "leg_question": "Who will win against the spread?",
+            "option_a": "San Francisco 49ers (-4.5)",
+            "option_b": "New York Jets (+4.5)"
+          }
+        }
+      },
+      "block_order": [
+        "parlay_leg_bdF4Qm",
+        "parlay_leg_mnUJDA",
+        "parlay_leg_kMBqyL",
+        "parlay_leg_KeByhG",
+        "parlay_leg_AVHUtq"
+      ],
+      "name": "Perfect Parlay Challenge",
+      "settings": {
+        "main_heading": "The Perfect Parlay Challenge",
+        "subheading": "Go 5-for-5 and win a month of free meals!",
+        "week_number": "2",
+        "deadline_date": "2025-09-14 13:00:00",
+        "webhook_url": "https://script.google.com/macros/s/AKfycbz-Thn_NuN6tL10YljJnic8cquCSj0o_W1NzAXqYfcV1jnozXbFXdMSSl2de2uXGZxHTQ/exec",
+        "tie_breaker_title": "Final Score Tie-Breaker",
+        "tie_breaker_question": "Guess the total combined points for the Sunday Night Football game (Chiefs vs. Bills)"
+      }
+    },
+    "1649069563be558dae": {
+      "type": "image--image",
+      "disabled": true,
+      "settings": {
+        "parallax": false,
+        "alignment": "center",
+        "hero_size": "medium",
+        "text-over-image-width": "full-width"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "perfect_parlay_challenge_dJG7Ae",
+    "1649069563be558dae",
+    "main"
+  ]
+}
