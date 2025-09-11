@@ -90,6 +90,24 @@
 	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
 	{% render 'treedify' %}{{ content_for_header }}
+  {%- comment -%}
+  =====================================================================================
+  Recharge Storefront SDK - Global Loader
+  - Loads the official UMD script from the Recharge CDN.
+  - Initializes the SDK globally with the Storefront Access Token from Theme Settings.
+  =====================================================================================
+{%- endcomment -%}
+<script src="https://static.rechargecdn.com/assets/storefront/recharge-client-1.47.0.min.js"></script>
+<script>
+  if (typeof recharge !== 'undefined' && typeof recharge.init === 'function') {
+    recharge.init({
+      storeIdentifier: "{{ shop.permanent_domain }}",
+      storefrontAccessToken: "{{ settings.recharge_storefront_access_token }}",
+      appName: "ICON Meals CM PDP",
+      appVersion: "1.0.0"
+    });
+  }
+</script>
 {%- render 'bold-options-hybrid' -%}
 {%- render 'bold-common' -%}
 {%- render 'sc-includes' -%}

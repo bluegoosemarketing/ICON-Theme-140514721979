@@ -1,7 +1,7 @@
 /*
-  REVISED - v4.0
-  Recharge Custom Bundle Builder for ICON Meals
-  - Relies on globally initialized `recharge` object from theme.liquid.
+  REVISED - v4.1 (Bugfix Edition)
+  - Corrects the sellingPlan ID format (removes incorrect parseInt).
+  - Relies on globally initialized `recharge` object.
   - Uses Shopify's products.json endpoint for fetching data.
   - Implements the official recharge.bundle.getDynamicBundleItems workflow.
 */
@@ -45,8 +45,8 @@ class CustomMealBuilder {
   }
 
   async initialize() {
-    if (typeof recharge === 'undefined') {
-      this.showError('Recharge SDK could not be loaded. Contact support.');
+    if (typeof recharge === 'undefined' || typeof recharge.bundle === 'undefined') {
+      this.showError('Recharge SDK could not be loaded. Please check API Key and configuration.');
       return;
     }
 
@@ -68,7 +68,7 @@ class CustomMealBuilder {
 
     } catch (error) {
       console.error('Failed to initialize Custom Meal Builder:', error);
-      this.showError('Could not load meal options. Please refresh the page.');
+      this.showError('Could not load meal options. Please check collection handles and refresh.');
     }
   }
 
@@ -119,7 +119,7 @@ class CustomMealBuilder {
     this.sellingPlanGroups.forEach(group => {
       group.selling_plans.forEach(plan => {
         const option = document.createElement('option');
-        option.value = plan.id;
+        option.value = plan.id; // This is the full GraphQL ID string
         option.textContent = plan.name;
         this.frequencySelect.appendChild(option);
       });
@@ -129,7 +129,7 @@ class CustomMealBuilder {
 
   update() {
     this.state.quantity = parseInt(this.quantityInput.value, 10);
-    this.state.sellingPlanId = this.frequencySelect.value || null;
+    this.state.sellingPlanId = this.frequencySelect.value || null; // This will be the string GID or null
     this.calculatePrice();
     this.validate();
   }
@@ -189,14 +189,18 @@ class CustomMealBuilder {
     const proteinData = getSelectionData(this.proteinSelect);
     const side1Data = getSelectionData(this.side1Select);
     const side2Data = getSelectionData(this.side2Select);
+    
+    // ** THE FIX IS HERE **
+    // The sellingPlan must be the full string GID, not an integer.
+    const sellingPlanForBundle = this.state.sellingPlanId ? this.state.sellingPlanId : null;
 
     const bundle = {
       externalProductId: parseInt(this.bundleProductId),
       externalVariantId: parseInt(this.bundleVariantId),
       selections: [
-        { collectionId: parseInt(this.proteinCollectionId), externalProductId: proteinData.productId, externalVariantId: proteinData.variantId, quantity: 1, sellingPlan: this.state.sellingPlanId ? parseInt(this.state.sellingPlanId) : null },
-        { collectionId: parseInt(this.sideCollectionId), externalProductId: side1Data.productId, externalVariantId: side1Data.variantId, quantity: 1, sellingPlan: this.state.sellingPlanId ? parseInt(this.state.sellingPlanId) : null },
-        { collectionId: parseInt(this.sideCollectionId), externalProductId: side2Data.productId, externalVariantId: side2Data.variantId, quantity: 1, sellingPlan: this.state.sellingPlanId ? parseInt(this.state.sellingPlanId) : null }
+        { collectionId: parseInt(this.proteinCollectionId), externalProductId: proteinData.productId, externalVariantId: proteinData.variantId, quantity: 1, sellingPlan: sellingPlanForBundle },
+        { collectionId: parseInt(this.sideCollectionId), externalProductId: side1Data.productId, externalVariantId: side1Data.variantId, quantity: 1, sellingPlan: sellingPlanForBundle },
+        { collectionId: parseInt(this.sideCollectionId), externalProductId: side2Data.productId, externalVariantId: side2Data.variantId, quantity: 1, sellingPlan: sellingPlanForBundle }
       ]
     };
 
