@@ -35,10 +35,13 @@
           {%- assign rc_bundle_price = 0 -%}
           {%- assign rc_bundle_original_total = 0 -%}
           {%- assign rc_bundle_compare_total = 0 -%}
-          {%- assign rc_bundle_contents_raw = '' -%}
           {%- assign rc_bundle_remove_parts = '' -%}
           {%- assign rc_bundle_subscription_name = '' -%}
           {%- assign rc_bundle_primary_key = '' -%}
+          
+          {%- comment -%} V2: Initialize separate lists for sorting protein first {%- endcomment -%}
+          {%- assign protein_list_raw = '' -%}
+          {%- assign sides_list_raw = '' -%}
 
           {%- for inner_item in cart.items -%}
             {%- if inner_item.properties._rc_bundle == rc_bundle_id -%}
@@ -47,16 +50,43 @@
               {%- assign compare_each = inner_item.selling_plan_allocation.compare_at_price | default: 0 -%}
               {%- assign compare_total = compare_each | times: inner_item.quantity -%}
               {%- assign rc_bundle_compare_total = rc_bundle_compare_total | plus: compare_total -%}
+              
               {%- if rc_bundle_subscription_name == '' and inner_item.selling_plan_allocation -%}
                 {%- assign rc_bundle_subscription_name = inner_item.selling_plan_allocation.selling_plan.name -%}
               {%- endif -%}
-              {%- assign rc_bundle_contents_raw = rc_bundle_contents_raw | append: '||' | append: inner_item.quantity | append: 'x ' | append: inner_item.title -%}
+
+              {%- assign ounces = inner_item.variant.title | strip -%}
+              {%- assign prod_name = inner_item.product.title 
+                   | replace: ' OZ', '' 
+                   | replace: ' Oz', '' 
+                   | replace: ' oz', '' 
+                   | strip -%}
+              {%- assign friendly = ounces | append: 'oz ' | append: prod_name -%}
+
+              {%- comment -%} V2: Check product's collection to determine if it's a protein {%- endcomment -%}
+              {%- assign is_protein = false -%}
+              {%- for c in inner_item.product.collections -%}
+                {%- if c.handle == 'recharge-cm-proteins' -%}
+                  {%- assign is_protein = true -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+
+              {%- if is_protein -%}
+                {%- assign protein_list_raw = protein_list_raw | append: '||' | append: friendly -%}
+              {%- else -%}
+                {%- assign sides_list_raw = sides_list_raw | append: '||' | append: friendly -%}
+              {%- endif -%}
+
               {%- assign rc_bundle_remove_parts = rc_bundle_remove_parts | append: '&' | append: 'updates[' | append: inner_item.key | append: ']=0' -%}
               {%- if rc_bundle_primary_key == '' -%}
                 {%- assign rc_bundle_primary_key = inner_item.key -%}
               {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
+          
+          {%- comment -%} V2: Combine the lists, with proteins first {%- endcomment -%}
+          {%- assign rc_bundle_contents_raw = protein_list_raw | append: sides_list_raw -%}
 
           {%- assign rc_bundle_remove_query = rc_bundle_remove_parts | remove_first: '&' -%}
           {%- if rc_bundle_remove_query != '' -%}
@@ -112,8 +142,17 @@
               <div class="{{ class_prefix }}__item-meta">
                 <div class="{{ class_prefix }}__item-top-row">
                   <div class="{{ class_prefix }}__item-actions">
-                    <div class="{{ class_prefix }}__quantity-selector {{ class_prefix }}__quantity-selector--static">
-                      <span class="{{ class_prefix }}__quantity-value">1</span>
+                    <div class="{{ class_prefix }}__quantity-selector">
+                      <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="minus" data-line-key="{{ rc_bundle_primary_key }}" data-associated="bundle" aria-label="Decrease quantity">－</button>
+                      <input
+                        type="text"
+                        class="{{ class_prefix }}__quantity-value"
+                        value="{{ item.quantity }}"
+                        readonly
+                        inputmode="numeric"
+                        aria-label="Quantity"
+                      >
+                      <button type="button" class="{{ class_prefix }}__quantity-btn" data-action="plus" data-line-key="{{ rc_bundle_primary_key }}" data-associated="bundle" aria-label="Increase quantity">＋</button>
                     </div>
                   </div>
                   <div class="{{ class_prefix }}__item-price-wrapper">
@@ -126,17 +165,6 @@
                   </div>
                 </div>
 
-                {%- if rc_bundle_product and rc_bundle_variant and rc_bundle_variant.title != 'Default Title' -%}
-                  <div class="{{ class_prefix }}__bundle-options">
-                    {%- for option in rc_bundle_product.options -%}
-                      <div class="{{ class_prefix }}__property">
-                        <span class="{{ class_prefix }}__property-name">{{ option }}</span>:
-                        <span class="{{ class_prefix }}__property-value">{{ rc_bundle_variant.options[forloop.index0] }}</span>
-                      </div>
-                    {%- endfor -%}
-                  </div>
-                {%- endif -%}
-
                 {%- if rc_bundle_subscription_name != '' -%}
                   <div class="{{ class_prefix }}__subscription-info">
                     <svg class="{{ class_prefix }}__subscription-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0114.83-3.36L23 10"></path><path d="M20.49 15A9 9 0 015.67 18.36L1 14"></path></svg>
@@ -146,20 +174,19 @@
 
                 {%- if rc_bundle_contents_list.size > 0 and rc_bundle_contents_list[0] != '' -%}
                   <ul class="{{ class_prefix }}__properties {{ class_prefix }}__properties--custom">
-                    {%- for entry in rc_bundle_contents_list -%}
-                      <li class="{{ class_prefix }}__property">
-                        <span class="ingredient-line {{ class_prefix }}__property-value">
-                          <span class="ingredient-name">{{ entry | strip }}</span>
-                        </span>
+                    {%- for label in rc_bundle_contents_list -%}
+                      {%- assign parts = label | split: 'oz ' -%}
+                      {%- assign oz  = parts[0] -%}
+                      {%- assign name = parts[1] -%}
+                      <li class="{{ class_prefix }}__property ingredient-line">
+                        <strong class="ingredient-oz">{{ oz }}oz</strong>
+                        <span class="ingredient-name"> {{ name }}</span>
                       </li>
                     {%- endfor -%}
                   </ul>
                 {%- endif -%}
               </div>
 
-              <div class="{{ class_prefix }}__bundle-remove">
-                <a href="{{ rc_bundle_remove_url }}">{{ 'cart.general.remove' | t }}</a>
-              </div>
             </div>
             <button type="button" class="{{ class_prefix }}__remove-btn" data-action="remove" aria-label="Remove item">
               <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">

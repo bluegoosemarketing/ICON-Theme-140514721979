@@ -3603,6 +3603,22 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   padding: 0;
 }
 
+/* Make bundle component list match live style */
+.cart-sidebar__properties--custom,
+.cart-drawer__properties--custom {
+  margin-top: 6px;
+  padding: 0;
+  list-style: none;
+}
+.cart-sidebar__properties--custom .ingredient-line,
+.cart-drawer__properties--custom .ingredient-line {
+  display: flex;
+  gap: 6px;
+  line-height: 1.35;
+}
+.ingredient-oz { font-weight: 700; }
+.ingredient-name { font-weight: 500; }
+
 /* ==========================================================================
    BOGO PROMO BANNER V8 (GRADIENT BORDER UI)
    ========================================================================== */

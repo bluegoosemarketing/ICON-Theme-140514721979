@@ -153,20 +153,33 @@
           event.preventDefault();
 
           const key = cartItem.dataset.lineKey;
-          let currentQty;
+          if (!key) return;
           
-          const qtyValueEl = cartItem.querySelector(selectors.qtyValue);
-          if(qtyValueEl.tagName === 'INPUT'){
-             currentQty = parseInt(qtyValueEl.value, 10);
-          } else {
-             currentQty = parseInt(qtyValueEl.textContent, 10);
+          if (removeButton) {
+            this.updateQuantity(key, 0);
+            return;
           }
-          
-          let newQty;
-          if (plusButton) newQty = currentQty + 1;
-          if (minusButton) newQty = currentQty - 1;
-          if (removeButton) newQty = 0;
-        if (typeof newQty !== 'undefined' && key) this.updateQuantity(key, newQty);
+
+          // New logic for plus/minus based on team direction.
+          // This fetches the current quantity from the cart state rather than the DOM, which is more reliable.
+          // It then calls the existing `updateQuantity` method, which correctly handles bundle updates and section rendering.
+          this.showLoadingState();
+          try {
+            const cart = await fetch('/cart.js').then(r => r.json());
+            const sample = cart.items.find(i => i.key === key);
+            if (!sample) {
+              this.hideLoadingState();
+              return;
+            }
+
+            const delta = plusButton ? 1 : -1;
+            const newQty = Math.max(0, (sample.quantity || 0) + delta);
+            
+            await this.updateQuantity(key, newQty);
+          } catch (error) {
+            console.error('Error updating cart quantity:', error);
+            this.hideLoadingState();
+          }
         }
       });
 
