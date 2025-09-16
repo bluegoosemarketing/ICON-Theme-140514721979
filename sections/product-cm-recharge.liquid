@@ -1,7 +1,11 @@
 {% comment %}
-  REVISED - v4.0
-  This version uses the globally loaded Recharge SDK and passes all necessary numeric IDs for the modern add-to-cart workflow.
+  Custom Meal Recharge PDP
+  - Relies on the globally initialized Recharge Storefront SDK.
+  - Exposes bundle + collection identifiers for the JavaScript controller.
 {% endcomment %}
+
+{% assign protein_collection = collections[section.settings.protein_collection_handle] %}
+{% assign side_collection = collections[section.settings.side_collection_handle] %}
 
 <div 
   id="cm-recharge-root-{{ section.id }}"
@@ -12,8 +16,8 @@
   data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}"
   data-protein-collection-handle="{{ section.settings.protein_collection_handle }}"
   data-side-collection-handle="{{ section.settings.side_collection_handle }}"
-  data-protein-collection-id="{{ collections[section.settings.protein_collection_handle].id }}"
-  data-side-collection-id="{{ collections[section.settings.side_collection_handle].id }}"
+  data-protein-collection-id="{{ protein_collection.id | default: '' }}"
+  data-side-collection-id="{{ side_collection.id | default: '' }}"
 >
   <div class="cm-recharge__intro">
     <h1 class="cm-recharge__title">{{ product.title | escape }}</h1>
@@ -71,6 +75,27 @@
 
 <script id="RechargeSellingPlans-{{ section.id }}" type="application/json">
   {{ product.selling_plan_groups | json }}
+</script>
+
+<script>
+  (function loadRechargeBundleScript() {
+    if (window.__iconRechargeBundleScriptRequested) return;
+    if (typeof window.recharge !== 'undefined' && typeof window.recharge.bundle !== 'undefined') return;
+
+    var existingScript = document.querySelector('script[data-icon-recharge-bundle]');
+    if (existingScript) {
+      window.__iconRechargeBundleScriptRequested = true;
+      return;
+    }
+
+    window.__iconRechargeBundleScriptRequested = true;
+    var script = document.createElement('script');
+    script.src = 'https://static.rechargecdn.com/assets/bundling-widget/src.js';
+    script.defer = true;
+    script.referrerPolicy = 'origin';
+    script.setAttribute('data-icon-recharge-bundle', 'true');
+    document.head.appendChild(script);
+  })();
 </script>
 
 <link rel="stylesheet" href="{{ 'cm-recharge.css' | asset_url }}">
