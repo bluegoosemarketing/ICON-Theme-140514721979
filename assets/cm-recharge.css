@@ -94,3 +94,57 @@
     font-size: 1.75rem !important;
   }
 }
+
+/*
+ * File: assets/cm-recharge.css
+ * Version: 3.0 (Two-Step Selection UI)
+ * Description: Adds styles for variant option buttons and hides legacy elements.
+*/
+
+/* Hides the original select elements that are now controlled by JS */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px;
+  width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+
+/* Container for the new variant option buttons */
+.variant-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+
+/* Individual variant option button styles */
+.variant-option-button {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+
+.variant-option-button:hover {
+  border-color: #adb5bd;
+  background-color: #f1f3f5;
+}
+
+/* Style for the selected variant option button */
+.variant-option-button.is-selected {
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
