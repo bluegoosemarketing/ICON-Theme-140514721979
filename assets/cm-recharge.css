@@ -1,7 +1,7 @@
 /*
  * File: assets/cm-recharge.css
- * Version: 2.1 (Safe Refactor)
- * Description: Layout-only styles for the Custom Meal Recharge builder.
+ * Version: 4.3 (Definitive SOW Implementation)
+ * Description: Scoped styles for the CM-Recharge builder, correctly implementing SOW for media and quantity UI.
 */
 
 /* Main Page Layout */
@@ -9,12 +9,7 @@
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
   gap: 3rem;
-  align-items: start;
-}
-.cm-recharge__media.card {
-  padding: 1.5rem;
-  position: sticky;
-  top: 100px;
+  align-items: flex-start;
 }
 .cm-recharge__panel {
   display: flex;
@@ -25,7 +20,7 @@
 
 /* Header & Description */
 .cm-recharge__intro .h2 {
-  font-size: 2.25rem !important; /* Match theme heading */
+  font-size: 2.25rem !important;
   font-weight: 800 !important;
   margin-bottom: 1rem;
 }
@@ -53,9 +48,6 @@
   align-items: center;
   margin-top: 1.5rem;
 }
-.cm-recharge__cta .integrated-quantity {
-  height: 44px; /* Match button height */
-}
 .cm-recharge__cta .product-card__add-btn {
   width: 100% !important;
   height: 44px;
@@ -69,7 +61,118 @@
   font-weight: 500;
 }
 
-/* Responsive Overrides */
+/* Variant Option Buttons */
+.visually-hidden {
+  position: absolute !important;
+  height: 1px; width: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+}
+.variant-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+}
+.variant-option-button {
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  line-height: 1.2;
+}
+.variant-option-button:hover {
+  border-color: #adb5bd;
+  background-color: #f1f3f5;
+}
+.variant-option-button.is-selected {
+  background-color: var(--brand-accent);
+  border-color: var(--brand-accent);
+  color: #ffffff;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* ---- MEDIA BLOCK (Corrected per SOW) ---- */
+.cm-recharge__media { 
+  align-self: start; 
+  position: sticky;
+  top: 100px;
+}
+.cm-recharge__media .product__media-wrapper,
+.cm-recharge__media .media,
+.cm-recharge__media .responsive-image,
+.cm-recharge__media .rimage-outer-wrapper {
+  aspect-ratio: auto !important;
+  max-height: none !important;
+  height: auto !important;
+  padding-top: 0 !important;
+}
+.cm-recharge__media img {
+  display: block;
+  width: 100%;
+  height: auto !important;
+  object-fit: contain !important;
+  background: transparent;
+}
+.cm-recharge__media .card,
+.cm-recharge__media .card--soft { 
+  padding: 0 !important; 
+  box-shadow: none !important; 
+}
+@media (min-width: 990px){
+  .cm-recharge__media { max-width: 620px; }
+}
+
+/* ---- QUANTITY CONTROL (Corrected per SOW) ---- */
+.cm-recharge__cta .integrated-quantity {
+  display: flex;
+  height: 44px; /* Match button height */
+}
+.cm-recharge__cta .integrated-quantity__button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  background-color: var(--brand-accent);
+  border: 1px solid var(--brand-accent);
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+.cm-recharge__cta .integrated-quantity__button[data-qty-minus] {
+  border-radius: 8px 0 0 8px;
+}
+.cm-recharge__cta .integrated-quantity__button[data-qty-plus] {
+  border-radius: 0 8px 8px 0;
+}
+.cm-recharge__cta .integrated-quantity__input {
+  width: 48px;
+  height: 100%;
+  text-align: center;
+  border: 1px solid #ced4da;
+  border-left: none;
+  border-right: none;
+  background: #fff !important;
+  color: #111 !important;
+  font-weight: 600;
+  -moz-appearance: textfield;
+}
+.cm-recharge__cta .integrated-quantity__input::-webkit-outer-spin-button,
+.cm-recharge__cta .integrated-quantity__input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* ---- RESPONSIVE OVERRIDES ---- */
 @media (max-width: 990px) {
   .product-page__grid {
     grid-template-columns: 1fr;
@@ -93,58 +196,4 @@
   .cm-recharge__intro .h2 {
     font-size: 1.75rem !important;
   }
-}
-
-/*
- * File: assets/cm-recharge.css
- * Version: 3.0 (Two-Step Selection UI)
- * Description: Adds styles for variant option buttons and hides legacy elements.
-*/
-
-/* Hides the original select elements that are now controlled by JS */
-.visually-hidden {
-  position: absolute !important;
-  height: 1px;
-  width: 1px;
-  overflow: hidden;
-  clip: rect(1px, 1px, 1px, 1px);
-  white-space: nowrap;
-}
-
-/* Container for the new variant option buttons */
-.variant-options {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.5rem;
-  margin-top: 0.75rem;
-}
-
-/* Individual variant option button styles */
-.variant-option-button {
-  appearance: none;
-  -webkit-appearance: none;
-  background-color: #f8f9fa;
-  border: 1px solid #ced4da;
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #495057;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  line-height: 1.2;
-}
-
-.variant-option-button:hover {
-  border-color: #adb5bd;
-  background-color: #f1f3f5;
-}
-
-/* Style for the selected variant option button */
-.variant-option-button.is-selected {
-  background-color: var(--brand-accent);
-  border-color: var(--brand-accent);
-  color: #ffffff;
-  font-weight: 600;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }

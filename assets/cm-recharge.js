@@ -134,7 +134,7 @@ class CustomMealBuilder {
     products.forEach(product => {
       const option = document.createElement('option');
       option.value = product.id;
-      option.textContent = product.title;
+      option.textContent = product.title.replace(/ oz/gi, '').trim();
       selectElement.appendChild(option);
     });
     selectElement.disabled = false;
