@@ -166,7 +166,38 @@
 
 	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
 
-	{% render 'treedify' %}{{ content_for_header }}
+        {% render 'treedify' %}{{ content_for_header }}
+  {%- comment -%}
+  =====================================================================================
+  Recharge Storefront SDK - Global Loader (Product Shell Layout)
+  Mirrors the loader in layout/theme.liquid so sections like `product-cm-recharge`
+  can rely on the Recharge SDK being present when this alternate layout is used.
+  =====================================================================================
+  {%- endcomment -%}
+  {% if settings.recharge_storefront_access_token != blank %}
+    <script src="https://static.rechargecdn.com/assets/storefront/recharge-client-1.47.0.min.js"></script>
+    <script>
+      (function initializeRecharge() {
+        if (window.__rechargeInitialized) return;
+        if (typeof recharge === 'undefined' || typeof recharge.init !== 'function') return;
+
+        recharge.init({
+          storeIdentifier: "{{ shop.permanent_domain }}",
+          storefrontAccessToken: "{{ settings.recharge_storefront_access_token }}",
+          appName: "ICON Meals CM PDP",
+          appVersion: "1.0.0",
+          loginRetryFn: function () {
+            if (recharge && recharge.auth && typeof recharge.auth.loginShopifyAppProxy === 'function') {
+              return recharge.auth.loginShopifyAppProxy();
+            }
+            return Promise.resolve();
+          }
+        });
+
+        window.__rechargeInitialized = true;
+      })();
+    </script>
+  {% endif %}
 {%- render 'bold-options-hybrid' -%}
 {%- render 'bold-common' -%}
 {%- render 'sc-includes' -%}
