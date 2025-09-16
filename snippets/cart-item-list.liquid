@@ -13,6 +13,7 @@
   if context == 'drawer'
     assign class_prefix = 'cart-drawer'
   endif
+  assign rc_processed_bundles = '|'  
 -%}
 
 <div class="{{ class_prefix }}__content">
@@ -20,6 +21,158 @@
     <ul class="{{ class_prefix }}__items cart-items" aria-label="Cart items">
 
       {% for item in cart.items %}
+        {%- assign rc_bundle_id = item.properties._rc_bundle -%}
+        {%- if rc_bundle_id != blank -%}
+          {%- assign rc_bundle_token = '|' | append: rc_bundle_id | append: '|' -%}
+          {%- if rc_processed_bundles contains rc_bundle_token -%}
+            {% continue %}
+          {%- endif -%}
+
+          {%- assign rc_bundle_handle = item.properties._rc_bundle_parent -%}
+          {%- assign rc_bundle_variant_id = item.properties._rc_bundle_variant | plus: 0 -%}
+          {%- assign rc_bundle_product = all_products[rc_bundle_handle] -%}
+          {%- assign rc_bundle_variant = nil -%}
+          {%- assign rc_bundle_price = 0 -%}
+          {%- assign rc_bundle_original_total = 0 -%}
+          {%- assign rc_bundle_compare_total = 0 -%}
+          {%- assign rc_bundle_contents_raw = '' -%}
+          {%- assign rc_bundle_remove_parts = '' -%}
+          {%- assign rc_bundle_subscription_name = '' -%}
+          {%- assign rc_bundle_primary_key = '' -%}
+
+          {%- for inner_item in cart.items -%}
+            {%- if inner_item.properties._rc_bundle == rc_bundle_id -%}
+              {%- assign rc_bundle_price = rc_bundle_price | plus: inner_item.final_line_price -%}
+              {%- assign rc_bundle_original_total = rc_bundle_original_total | plus: inner_item.original_line_price -%}
+              {%- assign compare_each = inner_item.selling_plan_allocation.compare_at_price | default: 0 -%}
+              {%- assign compare_total = compare_each | times: inner_item.quantity -%}
+              {%- assign rc_bundle_compare_total = rc_bundle_compare_total | plus: compare_total -%}
+              {%- if rc_bundle_subscription_name == '' and inner_item.selling_plan_allocation -%}
+                {%- assign rc_bundle_subscription_name = inner_item.selling_plan_allocation.selling_plan.name -%}
+              {%- endif -%}
+              {%- assign rc_bundle_contents_raw = rc_bundle_contents_raw | append: '||' | append: inner_item.quantity | append: 'x ' | append: inner_item.title -%}
+              {%- assign rc_bundle_remove_parts = rc_bundle_remove_parts | append: '&' | append: 'updates[' | append: inner_item.key | append: ']=0' -%}
+              {%- if rc_bundle_primary_key == '' -%}
+                {%- assign rc_bundle_primary_key = inner_item.key -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+
+          {%- assign rc_bundle_remove_query = rc_bundle_remove_parts | remove_first: '&' -%}
+          {%- if rc_bundle_remove_query != '' -%}
+            {%- assign rc_bundle_remove_url = '/cart/update?' | append: rc_bundle_remove_query -%}
+          {%- else -%}
+            {%- assign rc_bundle_remove_url = routes.cart_url -%}
+          {%- endif -%}
+          {%- if rc_bundle_compare_total == 0 -%}
+            {%- assign rc_bundle_compare_total = rc_bundle_original_total -%}
+          {%- endif -%}
+          {%- if rc_bundle_product and rc_bundle_variant_id > 0 -%}
+            {%- for variant in rc_bundle_product.variants -%}
+              {%- if variant.id == rc_bundle_variant_id -%}
+                {%- assign rc_bundle_variant = variant -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          {%- assign rc_bundle_contents_list = rc_bundle_contents_raw | remove_first: '||' | split: '||' -%}
+          {%- if rc_bundle_primary_key == '' -%}
+            {%- assign rc_bundle_primary_key = item.key -%}
+          {%- endif -%}
+
+          <li
+            class="{{ class_prefix }}__item {{ class_prefix }}__item--bundle"
+            data-line-key="{{ rc_bundle_primary_key }}"
+            data-rc-bundle-id="{{ rc_bundle_id }}"
+          >
+            <div class="{{ class_prefix }}__item-image">
+              {%- if rc_bundle_product and rc_bundle_product.featured_image -%}
+                <a href="{{ rc_bundle_product.url }}" tabindex="-1">
+                  <img
+                    src="{{ rc_bundle_product.featured_image | img_url: '200x' }}"
+                    alt="{{ rc_bundle_product.title | escape }}"
+                    loading="lazy"
+                    width="72"
+                    height="72"
+                  >
+                </a>
+              {%- else -%}
+                <span class="{{ class_prefix }}__item-placeholder" aria-hidden="true"></span>
+              {%- endif -%}
+            </div>
+            <div class="{{ class_prefix }}__item-details">
+              <a
+                href="{{ rc_bundle_product.url | default: item.url }}"
+                class="{{ class_prefix }}__item-title"
+                title="{{ rc_bundle_product.title | default: item.product.title }}"
+              >
+                {{ rc_bundle_product.title | default: item.product.title }}
+              </a>
+
+              <div class="{{ class_prefix }}__item-meta">
+                <div class="{{ class_prefix }}__item-top-row">
+                  <div class="{{ class_prefix }}__item-actions">
+                    <div class="{{ class_prefix }}__quantity-selector {{ class_prefix }}__quantity-selector--static">
+                      <span class="{{ class_prefix }}__quantity-value">1</span>
+                    </div>
+                  </div>
+                  <div class="{{ class_prefix }}__item-price-wrapper">
+                    {%- if rc_bundle_compare_total > rc_bundle_price and rc_bundle_compare_total > 0 -%}
+                      <span class="{{ class_prefix }}__item-price--final money">{{ rc_bundle_price | money }}</span>
+                      <del class="{{ class_prefix }}__item-price--original money">{{ rc_bundle_compare_total | money }}</del>
+                    {%- else -%}
+                      <span class="{{ class_prefix }}__item-price money">{{ rc_bundle_price | money }}</span>
+                    {%- endif -%}
+                  </div>
+                </div>
+
+                {%- if rc_bundle_product and rc_bundle_variant and rc_bundle_variant.title != 'Default Title' -%}
+                  <div class="{{ class_prefix }}__bundle-options">
+                    {%- for option in rc_bundle_product.options -%}
+                      <div class="{{ class_prefix }}__property">
+                        <span class="{{ class_prefix }}__property-name">{{ option }}</span>:
+                        <span class="{{ class_prefix }}__property-value">{{ rc_bundle_variant.options[forloop.index0] }}</span>
+                      </div>
+                    {%- endfor -%}
+                  </div>
+                {%- endif -%}
+
+                {%- if rc_bundle_subscription_name != '' -%}
+                  <div class="{{ class_prefix }}__subscription-info">
+                    <svg class="{{ class_prefix }}__subscription-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0114.83-3.36L23 10"></path><path d="M20.49 15A9 9 0 015.67 18.36L1 14"></path></svg>
+                    <span>{{ rc_bundle_subscription_name }}</span>
+                  </div>
+                {%- endif -%}
+
+                {%- if rc_bundle_contents_list.size > 0 and rc_bundle_contents_list[0] != '' -%}
+                  <ul class="{{ class_prefix }}__properties {{ class_prefix }}__properties--custom">
+                    {%- for entry in rc_bundle_contents_list -%}
+                      <li class="{{ class_prefix }}__property">
+                        <span class="ingredient-line {{ class_prefix }}__property-value">
+                          <span class="ingredient-name">{{ entry | strip }}</span>
+                        </span>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                {%- endif -%}
+              </div>
+
+              <div class="{{ class_prefix }}__bundle-remove">
+                <a href="{{ rc_bundle_remove_url }}">{{ 'cart.general.remove' | t }}</a>
+              </div>
+            </div>
+            <button type="button" class="{{ class_prefix }}__remove-btn" data-action="remove" aria-label="Remove item">
+              <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="currentColor" aria-hidden="true">
+                <path d="M17 12C17 11.4477 16.5523 11 16 11H8C7.44772 11 7 11.4477 7 12C7 12.5523 7.44771 13 8 13H16C16.5523 13 17 12.5523 17 12Z"></path>
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M12 23C18.0751 23 23 18.0751 23 12C23 5.92487 18.0751 1 12 1C5.92487 1 1 5.92487 1 12C1 18.0751 5.92487 23 12 23ZM12 20.9932C7.03321 20.9932 3.00683 16.9668 3.00683 12C3.00683 7.03321 7.03321 3.00683 12 3.00683C16.9668 3.00683 20.9932 7.03321 20.9932 12C20.9932 16.9668 16.9668 20.9932 12 20.9932Z"></path>
+              </svg>
+            </button>
+          </li>
+
+          {%- assign rc_processed_bundles = rc_processed_bundles | append: rc_bundle_id | append: '|' -%}
+          {% continue %}
+        {%- endif -%}
+
         {%- if item.product.type == 'OPTIONS_HIDDEN_PRODUCT' -%}
           {%- assign builder_id = item.properties._boldBuilderId | default: item.properties.builder_id -%}
           <div data-builder-id="{{ builder_id }}" data-bold-builder-id="{{ builder_id }}" style="display:none">
@@ -300,4 +453,21 @@
   .discount-badge .icon-discount {
     width: 10px; height: 10px;
   }
+
+  .{{ class_prefix }}__item-placeholder {
+    display: block;
+    width: 72px;
+    height: 72px;
+    background-color: #f1f3f5;
+    border-radius: 8px;
+  }
+
+  .{{ class_prefix }}__bundle-options { font-size: 0.85rem; color: #495057; display: flex; flex-direction: column; gap: 2px; }
+  .{{ class_prefix }}__bundle-remove { margin-top: 4px; }
+  .{{ class_prefix }}__bundle-remove a {
+    font-size: 0.85rem;
+    color: #c01923;
+    text-decoration: underline;
+  }
+  .{{ class_prefix }}__bundle-remove a:hover { color: #9a131b; }
 </style>

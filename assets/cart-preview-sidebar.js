@@ -44,23 +44,53 @@
 
     async getAssociatedKeys(baseKey) {
       let builderId = null;
+      let rcBundleId = null;
+      let cartData = null;
 
       const domItem = document.querySelector(`[data-line-key="${baseKey}"]`);
-      if (domItem) builderId = domItem.getAttribute('data-bold-builder-id') || domItem.getAttribute('data-builder-id');
+      if (domItem) {
+        builderId = domItem.getAttribute('data-bold-builder-id') || domItem.getAttribute('data-builder-id');
+        rcBundleId = domItem.getAttribute('data-rc-bundle-id');
+      }
 
-      if (!builderId) {
-        const cart = await fetch('/cart.js').then(r => r.json());
-        const item = cart.items.find(i => i.key === baseKey);
+      if (!builderId || !rcBundleId) {
+        cartData = await fetch('/cart.js').then(r => r.json());
+        const item = cartData.items.find(i => i.key === baseKey);
         if (item && item.properties) {
-          builderId = item.properties._boldBuilderId || null;
+          if (!builderId) {
+            builderId = item.properties._boldBuilderId || item.properties.builder_id || null;
+          }
+          if (!rcBundleId) {
+            rcBundleId = item.properties._rc_bundle || null;
+          }
         }
       }
 
       const keys = new Set([baseKey]);
+
       if (builderId) {
         document.querySelectorAll(`[data-builder-id="${builderId}"], [data-bold-builder-id="${builderId}"]`).forEach(el => {
           const itemKey = el.getAttribute('data-line-key');
           if (itemKey) keys.add(itemKey);
+        });
+        if (!cartData) {
+          cartData = await fetch('/cart.js').then(r => r.json());
+        }
+        cartData.items.forEach(item => {
+          if (item.properties && (item.properties._boldBuilderId === builderId || item.properties.builder_id === builderId)) {
+            keys.add(item.key);
+          }
+        });
+      }
+
+      if (rcBundleId) {
+        if (!cartData) {
+          cartData = await fetch('/cart.js').then(r => r.json());
+        }
+        cartData.items.forEach(item => {
+          if (item.properties && item.properties._rc_bundle === rcBundleId) {
+            keys.add(item.key);
+          }
         });
       }
 
