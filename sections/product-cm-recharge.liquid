@@ -1,15 +1,20 @@
 {% comment %}
-  Custom Meal Recharge PDP
-  - Relies on the globally initialized Recharge Storefront SDK.
-  - Exposes bundle + collection identifiers for the JavaScript controller.
+  **
+  * File: sections/product-cm-recharge.liquid
+  * Version: 2.1 (Safe Refactor)
+  * Description: This version preserves the original functional HTML structure and all data-attributes.
+  * It wraps the working code in the theme's two-column layout and applies cosmetic CSS classes
+  * for visual integration without breaking the underlying JavaScript.
+  **
 {% endcomment %}
 
 {% assign protein_collection = collections[section.settings.protein_collection_handle] %}
 {% assign side_collection = collections[section.settings.side_collection_handle] %}
 
-<div 
+{% comment %} The outer wrapper now includes theme layout classes AND the original cm-recharge class for JS initialization {% endcomment %}
+<div
   id="cm-recharge-root-{{ section.id }}"
-  class="cm-recharge" 
+  class="cm-recharge product product--with-sidebar product-template"
   data-section-id="{{ section.id }}"
   data-product-handle="{{ product.handle }}"
   data-bundle-product-id="{{ product.id }}"
@@ -19,60 +24,99 @@
   data-protein-collection-id="{{ protein_collection.id | default: '' }}"
   data-side-collection-id="{{ side_collection.id | default: '' }}"
 >
-  <div class="cm-recharge__intro">
-    <h1 class="cm-recharge__title">{{ product.title | escape }}</h1>
-    <div class="cm-recharge__price-card">
-      <span class="cm-recharge__price" data-total-price>
-        {{ product.price | money_without_trailing_zeros }}
-      </span>
+  <div class="product-page container">
+    <div class="product-page__grid">
+      <!-- LEFT: Media / Hero Image (New element for visual context) -->
+      <section class="product-page__media cm-recharge__media card card--soft">
+        {% render 'product-media', product: product, media_layout: 'single' %}
+      </section>
+
+      <!-- RIGHT: Builder Panel (Contains all the original functional elements) -->
+      <section class="product-page__details cm-recharge__panel">
+        
+        {% comment %} Original intro block, now acts as the header in the right panel {% endcomment %}
+        <div class="cm-recharge__intro">
+          <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
+          
+          {% comment %} Price display is now wrapped in the theme's placeholder style, but the critical data-total-price span is preserved {% endcomment %}
+          <div class="product-price--placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
+            <div>
+              <span class="placeholder-main-text" data-total-price>{{ product.price | money_without_trailing_zeros }}</span>
+              <span class="placeholder-sub-text">Your total will update here.</span>
+            </div>
+          </div>
+
+          {%- if product.description != blank -%}
+            <div class="cm-recharge__description rte">{{ product.description }}</div>
+          {%- endif -%}
+        </div>
+
+        {% comment %} The original form with all its data-attributes is preserved perfectly {% endcomment %}
+        <form class="cm-recharge__form" data-cm-form>
+          <div class="form-grid">
+            {% comment %} Each form field is wrapped in theme classes for styling {% endcomment %}
+            <div class="field">
+              <label class="label" for="cm-protein-{{ section.id }}">Protein</label>
+              <div class="select-wrapper">
+                <select id="cm-protein-{{ section.id }}" name="protein" data-protein-select disabled>
+                  <option value="">Loading proteins...</option>
+                </select>
+                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="cm-side1-{{ section.id }}">Side 1</label>
+              <div class="select-wrapper">
+                <select id="cm-side1-{{ section.id }}" name="side1" data-side1-select disabled>
+                  <option value="">Loading sides...</option>
+                </select>
+                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="cm-side2-{{ section.id }}">Side 2</label>
+              <div class="select-wrapper">
+                <select id="cm-side2-{{ section.id }}" name="side2" data-side2-select disabled>
+                  <option value="">Loading sides...</option>
+                </select>
+                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
+              <div class="select-wrapper">
+                <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled>
+                  <option value="">Loading frequencies...</option>
+                </select>
+                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+              </div>
+            </div>
+          </div>
+
+          {% comment %} Actions are now in the theme's CTA grid, using styled quantity selector and button classes {% endcomment %}
+          <div class="cm-recharge__cta">
+            <div class="integrated-quantity" data-quantity-wrapper>
+              <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
+              <input class="integrated-quantity__input" type="number" name="quantity" min="1" value="1" readonly data-qty-input>
+              <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+            <button type="submit" class="product-card__add-btn" data-add-to-cart-button disabled>
+              <span data-add-to-cart-text>Select Options</span>
+            </button>
+          </div>
+
+          <div class="cm-recharge__error" data-error-message></div>
+        </form>
+      </section>
     </div>
-    {%- if product.description != blank -%}
-      <div class="cm-recharge__description rte">{{ product.description }}</div>
-    {%- endif -%}
   </div>
-
-  <form class="cm-recharge__form" data-cm-form>
-    <div class="cm-recharge__field">
-      <label for="cm-protein-{{ section.id }}">Protein</label>
-      <select id="cm-protein-{{ section.id }}" name="protein" data-protein-select disabled>
-        <option value="">Loading proteins...</option>
-      </select>
-    </div>
-    <div class="cm-recharge__field">
-      <label for="cm-side1-{{ section.id }}">Side 1</label>
-      <select id="cm-side1-{{ section.id }}" name="side1" data-side1-select disabled>
-        <option value="">Loading sides...</option>
-      </select>
-    </div>
-    <div class="cm-recharge__field">
-      <label for="cm-side2-{{ section.id }}">Side 2</label>
-      <select id="cm-side2-{{ section.id }}" name="side2" data-side2-select disabled>
-        <option value="">Loading sides...</option>
-      </select>
-    </div>
-
-    <div class="cm-recharge__field">
-      <label for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
-      <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled>
-         <option value="">Loading frequencies...</option>
-      </select>
-    </div>
-
-    <div class="cm-recharge__actions">
-      <div class="cm-recharge__quantity" data-quantity-wrapper>
-        <button type="button" class="quantity-button" data-qty-minus aria-label="Decrease quantity">−</button>
-        <input type="number" name="quantity" min="1" value="1" readonly data-qty-input>
-        <button type="button" class="quantity-button" data-qty-plus aria-label="Increase quantity">+</button>
-      </div>
-      <button type="submit" class="button button--primary" data-add-to-cart-button disabled>
-        <span data-add-to-cart-text>Select Options</span>
-      </button>
-    </div>
-
-    <div class="cm-recharge__error" data-error-message></div>
-  </form>
 </div>
 
+{% comment %} All scripts and the schema remain exactly as they were in the working version {% endcomment %}
 <script id="RechargeSellingPlans-{{ section.id }}" type="application/json">
   {{ product.selling_plan_groups | json }}
 </script>
