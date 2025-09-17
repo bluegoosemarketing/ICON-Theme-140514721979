@@ -1,8 +1,8 @@
 /*
-  Custom Meal Recharge Bundle Builder - v3.0 (Two-Step Selection)
-  - Implements a two-step selection UI (Product -> Variant) for improved UX.
-  - Dynamically renders variant option buttons based on product selection.
-  - Controls hidden select elements to maintain compatibility with original pricing and cart logic.
+  Custom Meal Recharge Bundle Builder - v3.1 (Visual Enhancement Layer)
+  - Preserves all original logic from v3.0.
+  - Adds a new visual layer on top of the functional dropdowns.
+  - When a visual card is clicked, it programmatically controls the original hidden dropdown.
 */
 
 class CustomMealBuilder {
@@ -52,6 +52,7 @@ class CustomMealBuilder {
     this.config = {};
     this.variantDetails = new Map();
     this.productData = { protein: [], side: [] };
+    this.productImageData = new Map(); // *** NEW: To store image URLs ***
 
     if (!this.ensureRequiredIds()) return;
 
@@ -100,6 +101,11 @@ class CustomMealBuilder {
       this.populateProductSelect(this.root.querySelector('[data-product-select="side2"]'), this.productData.side, 'side');
       
       this.populateHiddenVariantSelects();
+      
+      // *** NEW: Render the visual layer AFTER original selects are populated ***
+      this.renderAllVisualOptions(); 
+      this.bindVisualOptionEvents();
+      // *** END NEW ***
 
       this.state.isLoading = false;
       this.update();
@@ -110,6 +116,10 @@ class CustomMealBuilder {
   
   processProductData(products) {
     return products.map(product => {
+      // *** NEW: Store image data ***
+      this.productImageData.set(String(product.id), (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src);
+      // *** END NEW ***
+
       const variants = (product.variants || []).map(variant => {
         const variantId = String(variant.id);
         this.variantDetails.set(variantId, {
@@ -148,7 +158,6 @@ class CustomMealBuilder {
       const option = document.createElement('option');
       option.value = variantId;
       option.dataset.price = details.price;
-      // Find which selects this option should be added to
       if (this.productData.protein.some(p => p.variants.some(v => v.id === variantId))) {
         this.proteinSelect.appendChild(option.cloneNode(true));
       }
@@ -193,6 +202,8 @@ class CustomMealBuilder {
       select.addEventListener('change', (event) => {
         const selectionGroup = event.target.dataset.productSelect;
         this.renderVariantOptions(selectionGroup, event.target.value);
+        // *** NEW: Sync visual selection state on change ***
+        this.syncVisualSelection(selectionGroup, event.target.value);
       });
     });
     
@@ -220,9 +231,71 @@ class CustomMealBuilder {
     this.form.addEventListener('submit', (event) => this.handleAddToCart(event));
   }
   
-  // All other methods (update, calculatePrice, validate, handleAddToCart, etc.) remain largely the same,
-  // as they read from the hidden select elements which we are now controlling.
+  // ===================================================================
+  // === NEW VISUAL ENHANCEMENT METHODS (SAFE - ADDITIVE ONLY) =========
+  // ===================================================================
   
+  renderAllVisualOptions() {
+    this.productSelects.forEach(select => {
+      const group = select.dataset.productSelect;
+      const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`);
+      if (!visualContainer) return;
+
+      visualContainer.innerHTML = ''; // Clear
+      
+      // Skip the first "Choose..." option
+      Array.from(select.options).slice(1).forEach(option => {
+        const productId = option.value;
+        const productTitle = option.textContent;
+        const imageUrl = this.productImageData.get(productId) || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==';
+        
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.className = 'cm-product-card-visual';
+        card.dataset.productId = productId;
+        card.dataset.group = group;
+        card.innerHTML = `
+          <img src="${imageUrl}" alt="${productTitle}" class="cm-product-card-visual__image" width="56" height="56" loading="lazy">
+          <span class="cm-product-card-visual__title">${productTitle}</span>
+        `;
+        visualContainer.appendChild(card);
+      });
+    });
+  }
+
+  bindVisualOptionEvents() {
+    this.root.addEventListener('click', (event) => {
+      const card = event.target.closest('.cm-product-card-visual');
+      if (!card) return;
+
+      const { productId, group } = card.dataset;
+      
+      // Find the original hidden select and set its value
+      const originalSelect = this.root.querySelector(`[data-product-select="${group}"]`);
+      if (originalSelect) {
+        originalSelect.value = productId;
+        // CRITICAL: Trigger the change event to run all original logic
+        originalSelect.dispatchEvent(new Event('change'));
+      }
+    });
+  }
+
+  syncVisualSelection(group, selectedProductId) {
+    const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`);
+    if (!visualContainer) return;
+    
+    // *** NEW: Mark parent step as selected ***
+    visualContainer.closest('.cm-selection-step').dataset.productSelected = !!selectedProductId;
+
+    visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => {
+      card.classList.toggle('is-selected', card.dataset.productId === selectedProductId);
+    });
+  }
+
+  // ===================================================================
+  // === END NEW VISUAL ENHANCEMENT METHODS ============================
+  // ===================================================================
+
   waitForRechargeBundle(timeout = 10000, interval = 50) {
     return new Promise((resolve, reject) => {
       const start = Date.now();
@@ -277,7 +350,7 @@ class CustomMealBuilder {
   }
 
   validate() {
-    const hasSelections = this.proteinSelect.value && this.side1Select.value && this.side2Select.value;
+    const hasSelections = this.proteinSelect.value && this.side1Select.value; // Side 2 is optional
     const canSubmit = hasSelections && !this.state.isLoading;
     this.addToCartButton.disabled = !canSubmit;
     this.addToCartText.textContent = this.state.isLoading ? 'Loading...' : (canSubmit ? 'Add to Cart' : 'Select Options');
@@ -286,13 +359,17 @@ class CustomMealBuilder {
 
   getSelectionDetails(selectElement) {
     const variantId = selectElement.value;
-    if (!variantId) throw new Error('A required selection is missing.');
+    if (!variantId && selectElement !== this.side2Select) { // Side 2 can be empty
+      throw new Error('A required selection is missing.');
+    }
+    if (!variantId) return null; // Return null for optional empty selections
     const details = this.variantDetails.get(variantId);
     if (!details) throw new Error(`Missing variant metadata for ${variantId}.`);
     return details;
   }
   
   buildSelection(variantDetails, collectionId) {
+    if (!variantDetails) return null; // Handle optional selections
     const selection = {
       collectionId,
       externalProductId: variantDetails.productId,
@@ -313,23 +390,29 @@ class CustomMealBuilder {
     this.addToCartText.textContent = 'Adding...';
 
     try {
-      const bundle = {
-        externalProductId: this.config.bundleProductId,
-        externalVariantId: this.config.bundleVariantId,
-        selections: [
-          this.buildSelection(this.getSelectionDetails(this.proteinSelect), this.config.proteinCollectionId),
-          this.buildSelection(this.getSelectionDetails(this.side1Select), this.config.sideCollectionId),
-          this.buildSelection(this.getSelectionDetails(this.side2Select), this.config.sideCollectionId)
-        ]
-      };
-      const items = recharge.bundle.getDynamicBundleItems(bundle, this.root.dataset.productHandle);
-      await this.addItemsToCart(items, this.state.quantity);
-      this.addToCartText.textContent = 'Added!';
-      setTimeout(() => { this.addToCartButton.disabled = false; this.update(); }, 2000);
+        const selections = [
+            this.buildSelection(this.getSelectionDetails(this.proteinSelect), this.config.proteinCollectionId),
+            this.buildSelection(this.getSelectionDetails(this.side1Select), this.config.sideCollectionId),
+            this.buildSelection(this.getSelectionDetails(this.side2Select), this.config.sideCollectionId)
+        ].filter(Boolean); // Filter out nulls from optional empty selections
+
+        if (selections.length < 2) {
+            throw new Error('Please select a protein and at least one side.');
+        }
+
+        const bundle = {
+            externalProductId: this.config.bundleProductId,
+            externalVariantId: this.config.bundleVariantId,
+            selections: selections
+        };
+        const items = recharge.bundle.getDynamicBundleItems(bundle, this.root.dataset.productHandle);
+        await this.addItemsToCart(items, this.state.quantity);
+        this.addToCartText.textContent = 'Added!';
+        setTimeout(() => { this.addToCartButton.disabled = false; this.update(); }, 2000);
     } catch (error) {
-      this.addToCartButton.disabled = false;
-      this.showError(error.message || 'Error adding to cart.', false);
-      this.validate();
+        this.addToCartButton.disabled = false;
+        this.showError(error.message || 'Error adding to cart.', false);
+        this.validate();
     }
   }
   

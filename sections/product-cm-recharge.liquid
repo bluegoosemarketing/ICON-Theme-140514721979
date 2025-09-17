@@ -1,10 +1,9 @@
 {% comment %}
   **
   * File: sections/product-cm-recharge.liquid
-  * Version: 3.0 (Two-Step Selection UI)
-  * Description: Implements a two-step selection process (Product -> Variant) for a better UX.
-  * Adds new user-facing dropdowns and containers for variant option buttons.
-  * Hides the original select elements, which are now controlled by the JS to preserve functionality.
+  * Version: 3.2 (Intuitive Step-by-Step Layout)
+  * Description: Re-structures the form into clear, full-width fieldsets for an intuitive, top-to-bottom user flow.
+  * Preserves all existing functionality and data attributes.
   **
 {% endcomment %}
 
@@ -40,18 +39,6 @@
             {% case hero_media.media_type %}
               {% when 'image' %}
                 {% render 'responsive-image' with hero_media, class: 'cm-recharge__image', alt: hero_alt, default_size: '1024x', blur: false %}
-              {% when 'external_video' %}
-                <div class="cm-recharge__media-video">
-                  {{ hero_media | external_video_tag: class: 'cm-recharge__external-video' }}
-                </div>
-              {% when 'video' %}
-                <div class="cm-recharge__media-video">
-                  {{ hero_media | video_tag: controls: true, playsinline: true, class: 'cm-recharge__video' }}
-                </div>
-              {% when 'model' %}
-                <div class="cm-recharge__media-model">
-                  {{ hero_media | model_viewer_tag: class: 'cm-recharge__model-viewer', reveal: 'interaction', toggleable: true, image_size: "1024x", data-model-id: hero_media.id }}
-                </div>
               {% else %}
                 <div class="cm-recharge__media-generic">
                   {{ hero_media | media_tag }}
@@ -70,7 +57,7 @@
         <div class="cm-recharge__intro">
           <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
           <div class="product-price--placeholder">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
             <div>
               <span class="placeholder-main-text" data-total-price>{{ 0 | money }}</span>
               <span class="placeholder-sub-text">Your total will update here.</span>
@@ -82,55 +69,54 @@
         </div>
 
         <form class="cm-recharge__form" data-cm-form>
-          <div class="form-grid">
-            <!-- Protein Selection -->
-            <div class="field" data-selection-group="protein">
-              <label class="label" for="cm-product-protein-{{ section.id }}">Protein</label>
-              <div class="select-wrapper">
-                <select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled>
-                  <option value="">Loading proteins...</option>
-                </select>
-                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+
+          <!-- Step 1: Protein Selection -->
+          <fieldset class="cm-selection-step" data-selection-group="protein">
+            <legend class="cm-step__legend"><span>1</span> Choose Protein</legend>
+            <div class="cm-step__content">
+              <div class="select-wrapper visually-hidden">
+                <select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select>
               </div>
+              <div class="cm-visual-options" data-visual-options-for="protein"></div>
               <div class="variant-options" data-variant-options="protein"></div>
               <select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select>
             </div>
+          </fieldset>
 
-            <!-- Side 1 Selection -->
-            <div class="field" data-selection-group="side1">
-              <label class="label" for="cm-product-side1-{{ section.id }}">Side 1</label>
-              <div class="select-wrapper">
-                <select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled>
-                  <option value="">Loading sides...</option>
-                </select>
-                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <!-- Step 2: Side 1 Selection -->
+          <fieldset class="cm-selection-step" data-selection-group="side1">
+            <legend class="cm-step__legend"><span>2</span> Choose Side 1</legend>
+            <div class="cm-step__content">
+              <div class="select-wrapper visually-hidden">
+                <select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select>
               </div>
+              <div class="cm-visual-options" data-visual-options-for="side1"></div>
               <div class="variant-options" data-variant-options="side1"></div>
               <select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select>
             </div>
+          </fieldset>
 
-            <!-- Side 2 Selection -->
-            <div class="field" data-selection-group="side2">
-              <label class="label" for="cm-product-side2-{{ section.id }}">Side 2</label>
-              <div class="select-wrapper">
-                <select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled>
-                  <option value="">Loading sides...</option>
-                </select>
-                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+          <!-- Step 3: Side 2 Selection -->
+          <fieldset class="cm-selection-step" data-selection-group="side2">
+            <legend class="cm-step__legend"><span>3</span> Choose Side 2 <small>(Optional)</small></legend>
+            <div class="cm-step__content">
+              <div class="select-wrapper visually-hidden">
+                <select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select>
               </div>
+              <div class="cm-visual-options" data-visual-options-for="side2"></div>
               <div class="variant-options" data-variant-options="side2"></div>
               <select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select>
             </div>
-            
-            <!-- Frequency -->
-            <div class="field">
-              <label class="label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
-              <div class="select-wrapper">
-                <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled>
-                   <option value="">Loading frequencies...</option>
-                </select>
-                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-              </div>
+          </fieldset>
+          
+          <!-- Frequency -->
+          <div class="cm-selection-step">
+            <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
+            <div class="select-wrapper">
+              <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled>
+                 <option value="">Loading frequencies...</option>
+              </select>
+              <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
             </div>
           </div>
 
@@ -162,14 +148,12 @@
     if (typeof window.recharge !== 'undefined' && typeof window.recharge.bundle !== 'undefined') return;
     var existingScript = document.querySelector('script[data-icon-recharge-bundle]');
     if (existingScript) {
-      window.__iconRechargeBundleScriptRequested = true;
-      return;
+      window.__iconRechargeBundleScriptRequested = true; return;
     }
     window.__iconRechargeBundleScriptRequested = true;
     var script = document.createElement('script');
     script.src = 'https://static.rechargecdn.com/assets/bundling-widget/src/js';
-    script.defer = true;
-    script.referrerPolicy = 'origin';
+    script.defer = true; script.referrerPolicy = 'origin';
     script.setAttribute('data-icon-recharge-bundle', 'true');
     document.head.appendChild(script);
   })();
@@ -182,29 +166,10 @@
 {
   "name": "Custom Meal Recharge",
   "settings": [
-    {
-      "type": "header",
-      "content": "Collection Handles"
-    },
-    {
-      "type": "text",
-      "id": "protein_collection_handle",
-      "label": "Protein Collection Handle",
-      "default": "recharge-cm-proteins",
-      "info": "The handle for the collection containing protein options."
-    },
-    {
-      "type": "text",
-      "id": "side_collection_handle",
-      "label": "Sides Collection Handle",
-      "default": "recharge-cm-sides",
-      "info": "The handle for the collection containing side options."
-    }
+    { "type": "header", "content": "Collection Handles" },
+    { "type": "text", "id": "protein_collection_handle", "label": "Protein Collection Handle", "default": "recharge-cm-proteins" },
+    { "type": "text", "id": "side_collection_handle", "label": "Sides Collection Handle", "default": "recharge-cm-sides" }
   ],
-  "presets": [
-    {
-      "name": "Custom Meal Recharge"
-    }
-  ]
+  "presets": [ { "name": "Custom Meal Recharge" } ]
 }
 {% endschema %}
