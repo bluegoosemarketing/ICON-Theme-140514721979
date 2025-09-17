@@ -25,9 +25,44 @@
 >
   <div class="product-page container">
     <div class="product-page__grid">
+      {% liquid
+        assign hero_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+        if hero_media == blank and product.media.size > 0
+          assign hero_media = product.media.first
+        endif
+      %}
+
       <!-- LEFT: Media / Hero Image -->
       <section class="product-page__media cm-recharge__media card card--soft">
-        {% render 'product-media', product: product, media_layout: 'single' %}
+        {% if hero_media %}
+          {% assign hero_alt = hero_media.alt | default: product.title %}
+          <div class="cm-recharge__media-frame">
+            {% case hero_media.media_type %}
+              {% when 'image' %}
+                {% render 'responsive-image' with hero_media, class: 'cm-recharge__image', alt: hero_alt, default_size: '1024x', blur: false %}
+              {% when 'external_video' %}
+                <div class="cm-recharge__media-video">
+                  {{ hero_media | external_video_tag: class: 'cm-recharge__external-video' }}
+                </div>
+              {% when 'video' %}
+                <div class="cm-recharge__media-video">
+                  {{ hero_media | video_tag: controls: true, playsinline: true, class: 'cm-recharge__video' }}
+                </div>
+              {% when 'model' %}
+                <div class="cm-recharge__media-model">
+                  {{ hero_media | model_viewer_tag: class: 'cm-recharge__model-viewer', reveal: 'interaction', toggleable: true, image_size: "1024x", data-model-id: hero_media.id }}
+                </div>
+              {% else %}
+                <div class="cm-recharge__media-generic">
+                  {{ hero_media | media_tag }}
+                </div>
+            {% endcase %}
+          </div>
+        {% else %}
+          <div class="cm-recharge__media-placeholder">
+            {{ 'product-1' | placeholder_svg_tag: 'icon--placeholder' }}
+          </div>
+        {% endif %}
       </section>
 
       <!-- RIGHT: Builder Panel -->
