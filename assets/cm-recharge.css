@@ -123,10 +123,36 @@
   object-fit: contain !important;
   background: transparent;
 }
+.cm-recharge__media-frame {
+  width: 100%;
+  position: relative;
+}
+.cm-recharge__media-frame > * {
+  width: 100%;
+}
+.cm-recharge__media-video,
+.cm-recharge__media-model,
+.cm-recharge__media-generic {
+  display: block;
+}
+.cm-recharge__media video,
+.cm-recharge__media iframe,
+.cm-recharge__media model-viewer,
+.cm-recharge__media .shopify-model-viewer-ui {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  background: transparent;
+}
+.cm-recharge__media-placeholder svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
 .cm-recharge__media .card,
-.cm-recharge__media .card--soft { 
-  padding: 0 !important; 
-  box-shadow: none !important; 
+.cm-recharge__media .card--soft {
+  padding: 0 !important;
+  box-shadow: none !important;
 }
 @media (min-width: 990px){
   .cm-recharge__media { max-width: 620px; }
