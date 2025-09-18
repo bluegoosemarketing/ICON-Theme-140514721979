@@ -1,0 +1,198 @@
+#nutrition-container-v2 {
+  margin-top: 1.5rem;
+}
+
+#nutrition-container-v2 .macro-panel {
+  background: #ffffff;
+  border: 1px solid rgba(17, 24, 39, 0.08);
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+#nutrition-container-v2 .macro-panel__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+#nutrition-container-v2 .macro-panel__title {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+  color: #111827;
+}
+
+#nutrition-container-v2 .macro-panel__status {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #16a34a;
+  background: rgba(22, 163, 74, 0.12);
+  border-radius: 9999px;
+  padding: 0.25rem 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+#nutrition-container-v2 .macro-panel__empty {
+  font-size: 0.95rem;
+  color: #4b5563;
+  margin: 0;
+}
+
+#nutrition-container-v2 .macro-panel__table {
+  width: 100%;
+  overflow-x: auto;
+}
+
+#nutrition-container-v2 .macro-panel__grid {
+  display: grid;
+  grid-template-columns: minmax(160px, 2fr) repeat(6, minmax(90px, 1fr));
+  gap: 0.75rem;
+  align-items: stretch;
+}
+
+#nutrition-container-v2 .macro-panel__row {
+  display: contents;
+}
+
+#nutrition-container-v2 .macro-panel__cell {
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#nutrition-container-v2 .macro-panel__cell--item {
+  justify-content: flex-start;
+  text-align: left;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.25rem;
+}
+
+#nutrition-container-v2 .macro-panel__item-role {
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #6b7280;
+}
+
+#nutrition-container-v2 .macro-panel__item-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+#nutrition-container-v2 .macro-panel__item-quantity {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+
+#nutrition-container-v2 .macro-panel__row--header .macro-panel__cell {
+  background: #111827;
+  color: #f9fafb;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: 0.75rem;
+  letter-spacing: 0.05em;
+}
+
+#nutrition-container-v2 .macro-panel__row--total .macro-panel__cell {
+  background: #e0f2fe;
+  color: #0f172a;
+  font-weight: 700;
+}
+
+#nutrition-container-v2 .macro-panel__value {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+#nutrition-container-v2 .macro-panel__value strong {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #111827;
+}
+
+#nutrition-container-v2 .macro-panel__value span {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #6b7280;
+}
+
+#nutrition-container-v2 .macro-panel--empty .macro-panel__grid {
+  display: none;
+}
+
+#nutrition-container-v2 .macro-panel--empty {
+  align-items: flex-start;
+}
+
+#nutrition-container-v2 .macro-panel__body {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+#nutrition-container-v2 .macro-panel__footnote {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+@media (max-width: 900px) {
+  #nutrition-container-v2 .macro-panel__grid {
+    grid-template-columns: minmax(160px, 2fr) repeat(3, minmax(90px, 1fr));
+  }
+
+  #nutrition-container-v2 .macro-panel__grid[data-columns="7"] {
+    grid-template-columns: minmax(160px, 2fr) repeat(3, minmax(90px, 1fr));
+  }
+
+  #nutrition-container-v2 .macro-panel__grid::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  #nutrition-container-v2 .macro-panel__grid::-webkit-scrollbar-thumb {
+    background: rgba(156, 163, 175, 0.6);
+    border-radius: 9999px;
+  }
+}
+
+@media (max-width: 640px) {
+  #nutrition-container-v2 {
+    margin-top: 1rem;
+  }
+
+  #nutrition-container-v2 .macro-panel {
+    padding: 1.25rem;
+  }
+
+  #nutrition-container-v2 .macro-panel__title {
+    font-size: 1.05rem;
+  }
+
+  #nutrition-container-v2 .macro-panel__status {
+    font-size: 0.75rem;
+  }
+
+  #nutrition-container-v2 .macro-panel__cell {
+    font-size: 0.85rem;
+    padding: 0.65rem;
+  }
+}

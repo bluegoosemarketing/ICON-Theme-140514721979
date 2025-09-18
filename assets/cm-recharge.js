@@ -124,7 +124,9 @@ class CustomMealBuilder {
         const variantId = String(variant.id);
         this.variantDetails.set(variantId, {
           productId: product.id,
+          productTitle: product.title,
           variantId: variant.id,
+          variantTitle: variant.title,
           price: this.toCents(variant.price),
           sellingPlanAllocations: this.normalizeSellingPlanAllocations(variant.selling_plan_allocations)
         });
@@ -330,6 +332,40 @@ class CustomMealBuilder {
     this.frequencySelect.disabled = false;
   }
 
+  getVariantLabelByValue(variantId) {
+    if (!variantId) return '';
+    const details = this.variantDetails.get(String(variantId));
+    if (!details) return '';
+
+    const productTitle = (details.productTitle || '').trim();
+    const variantTitle = (details.variantTitle || '').trim();
+    const normalizedVariantTitle = variantTitle && variantTitle.toLowerCase() !== 'default title'
+      ? variantTitle
+      : '';
+
+    if (!productTitle && !normalizedVariantTitle) return '';
+    if (!productTitle) return normalizedVariantTitle;
+    if (!normalizedVariantTitle) return productTitle;
+
+    if (normalizedVariantTitle.toLowerCase().includes(productTitle.toLowerCase())) {
+      return normalizedVariantTitle;
+    }
+
+    return `${productTitle} - ${normalizedVariantTitle}`;
+  }
+
+  emitMacroSelections() {
+    if (!window.iconMacroV2 || typeof window.iconMacroV2.update !== 'function') return;
+
+    const payload = {
+      protein: this.getVariantLabelByValue(this.proteinSelect?.value),
+      side1: this.getVariantLabelByValue(this.side1Select?.value),
+      side2: this.getVariantLabelByValue(this.side2Select?.value)
+    };
+
+    window.iconMacroV2.update(payload);
+  }
+
   update() {
     const qty = parseInt(this.quantityInput.value, 10);
     this.state.quantity = !isNaN(qty) && qty > 0 ? qty : 1;
@@ -337,6 +373,7 @@ class CustomMealBuilder {
     this.state.sellingPlanId = this.frequencySelect.value || null;
     this.calculatePrice();
     this.validate();
+    this.emitMacroSelections();
   }
 
   calculatePrice() {

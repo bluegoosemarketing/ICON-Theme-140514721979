@@ -226,7 +226,12 @@
 		<script src="{{ 'textSlideshow.js' | asset_url }}" defer="defer"></script>
 	{% endif %}
   
-  
+
+    {% if template.name == 'product' and template.suffix == 'cm-recharge' %}
+    {{ 'macro-calculator-v2.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'macro-calculator-v2.js' | asset_url }}" defer="defer"></script>
+    {% endif %}
+
     <!-- cedriclajato.com start code -->
     {% if product.handle == "custom-meals" or product.handle == "custom-breakfast" %}
     {{ 'macro-calculator.css' | asset_url | stylesheet_tag }}
