@@ -1,11 +1,19 @@
 /*
  * File: assets/cm-recharge.css
- * Version: 4.6 (World-Class Compact Token UI)
+ * Version: 4.7 (Layout & Width Normalized)
  * Description: Final polished UI for the custom meal builder.
  * - Replaces large cards with a compact, token-based design (circular image + label).
  * - Uses flexbox for a tight, flowing layout of options.
  * - Preserves all existing functionality.
 */
+
+/* === Width normalization to match legacy PDP ===
+   Kill the default .page-width left/right padding for THIS section only.
+   This makes the inner grid hit the same visual edges as the legacy PDP. */
+.section--cm-recharge > .page-width {
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 
 /* --- Main Layout --- */
 .cm-recharge__main { padding: 1.5rem 0; }
@@ -13,7 +21,11 @@
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  padding: 1.5rem 1.2rem;
+  /* The layout should not add any horizontal padding—grid handles spacing */
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
 .cm-recharge__visuals {
   display: flex;
@@ -154,6 +166,13 @@
   border: none;
   box-shadow: none;
 }
+/* Match standard PDP hero frame */
+.cm-recharge__media-frame {
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
 .cm-recharge__media-frame,
 .cm-recharge__media-placeholder,
 .cm-recharge__media-generic {
@@ -162,6 +181,13 @@
   overflow: hidden;
   background: #fff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+/* Ensure the inner image behaves like product-main__gallery-image */
+.cm-recharge__image {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
 }
 .cm-recharge__media img {
   display: block;
@@ -179,15 +205,23 @@
 .cm-recharge__cta .integrated-quantity__button[data-qty-plus] { border-radius: 0 8px 8px 0; }
 .cm-recharge__cta .integrated-quantity__input { width: 52px; text-align: center; border: 1px solid #ced4da; border-left: none; border-right: none; background: #fff !important; color: #111 !important; font-weight: 600; -moz-appearance: textfield; height:100%; }
 
+/* --- Optional Polish & Final Overrides --- */
+/* Trim bottom rhythm on the right column’s last block */
+.cm-recharge__panel > *:last-child { margin-bottom: 0; }
+/* Keep the section from adding bottom padding beyond the PDP norm */
+#product-cm-recharge.section--cm-recharge { padding-bottom: 0; }
+
+
 /* --- Responsive Overrides --- */
 @media (min-width: 1024px) {
-  .cm-recharge__layout {
+  /* Safety: keep the exact 45/55 split used on the legacy PDP */
+  .product-main__layout.cm-recharge__layout {
     display: grid;
-    grid-template-columns: 45fr 55fr;
+    grid-template-columns: 45fr 55fr !important;
     grid-template-areas: "visuals panel";
     gap: 3rem;
     align-items: flex-start;
-    padding: 1.5rem 0;
+    padding: 1.5rem 0; /* Vertical rhythm, no horizontal gutters */
   }
   .cm-recharge__visuals {
     grid-area: visuals;
@@ -202,7 +236,9 @@
 }
 
 @media (max-width: 1023px) {
-  .cm-recharge__layout { padding: 1.5rem 1.2rem; }
+  .cm-recharge__layout {
+    padding-inline: 0 !important; /* Keep vertical rhythm, no side gutters */
+  }
   .cm-recharge__media { order: -1; position: static; top: auto; }
   .cm-recharge__panel { padding-top: 0; }
 }
