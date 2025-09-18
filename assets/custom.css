@@ -218,8 +218,10 @@ body.collection-menu-open {
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  padding: 2rem clamp(1rem, 3vw, 3rem) 4rem;
   background: linear-gradient(180deg, #ffffff 0%, rgba(248, 249, 250, 0.9) 100%);
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem clamp(1rem, 4vw, 4rem) 4rem;
 }
 
 .blog-page__empty {

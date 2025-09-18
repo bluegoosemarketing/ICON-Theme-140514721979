@@ -71,18 +71,6 @@
         </main>
 
         <aside class="blog-sidebar" aria-label="Blog filters and promotions">
-          <div class="blog-sidebar__block">
-            <h2 class="blog-sidebar__title">{{ 'general.search.search' | t }}</h2>
-            <form class="blog-sidebar__search" action="{{ routes.search_url }}" method="get" role="search">
-              <input type="hidden" name="type" value="article" />
-              <label class="sr-only" for="blog-search">{{ 'general.search.search' | t }}</label>
-              {% assign search_placeholder = 'general.search.placeholder' | t %}
-              <input id="blog-search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ search_placeholder | replace: 'general.search.placeholder', 'Search the blog' }}" />
-              {% assign search_label = 'general.search.submit' | t %}
-              <button type="submit" class="btn btn--outline">{{ search_label | replace: 'general.search.submit', 'Search' }}</button>
-            </form>
-          </div>
-
           {% if blog.all_tags.size > 0 %}
             <div class="blog-sidebar__block">
               <h2 class="blog-sidebar__title">{{ 'blogs.article.tags' | t }}</h2>
