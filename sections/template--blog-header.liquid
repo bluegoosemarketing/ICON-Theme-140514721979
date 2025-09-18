@@ -1,15 +1,8 @@
-<div class="title-bar custom-font remove-margin-bottom">
-  <h1 class="main-heading">{{ blog.title }}</h1>
-  {% if blog.all_tags != blank %}
-    {% for tag in blog.all_tags %}
-    {% if current_tags contains tag %}
-      <h3 class="title-bar-sub">
-          {{ tag }}
-      </h3>
-    {% endif %}
-    {% endfor %}
+<div class="blog-page__a11y-header">
+  <h1 class="sr-only">{{ blog.title }}</h1>
+  {% if current_tags %}
+    <p class="sr-only">{{ 'blogs.article.tags' | t }}: {{ current_tags | join: ', ' }}</p>
   {% endif %}
-  <div class="clear"></div>
 </div>
 
 {% schema %}

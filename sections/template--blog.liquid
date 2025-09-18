@@ -1,93 +1,124 @@
-<section id="blog_posts" class="collection">
-
-	{% paginate blog.articles by section.settings.blog-posts-per-page %}
-
-	<div class="row blog__post-container">
-
-	<div class="col-md-10 offset-md-1 blog-main">
-
-  {% assign item_width = '' %}
-  {% if section.settings.blog_layout == 'grid' %}
-    {% if section.settings.blog-posts-per-page == 1 %}
-      {% assign item_width = 'col-12' %}
-    {% elsif section.settings.blog-posts-per-page == 2 %}
-      {% assign item_width = 'col-12 col-sm-6' %}
+<section id="blog_posts" class="blog-page" aria-labelledby="blog-page-heading">
+  {% paginate blog.articles by section.settings.blog-posts-per-page %}
+    {% if blog.articles_count == 0 %}
+      <div class="blog-page__empty">
+        <h1 id="blog-page-heading" class="blog-page__empty-title">{{ blog.title }}</h1>
+        <p>{{ 'blogs.article.no_articles' | t }}</p>
+      </div>
     {% else %}
-      {% assign item_width = 'col-12 col-sm-6 col-md-4' %}
-    {% endif %}
-    <div class="container-fluid">
-      <div class="row">
-  {% endif %}
-
-			{% for article in blog.articles %}
-
-      <article class="{{ item_width }}">
-
-				{% if article.image %}
-					<div class="article-image">
-						<a href="{{article.url}}" title="{{ 'blogs.article.view_post' | t }}" tabindex="-1">
-							{% render 'responsive-image' with article.image, alt: article.image.alt %}
-						</a>
-					</div>
-				{% endif %}
-
-				<div class="blog-title-wrapper{% if article.image %} article-image-header{% endif %}">
-
-					<div class="blog-title-wrapper homepage-blog-title-wrapper{% if article.image %} article-image-header{% endif %}">
-
-						<h3 class="type-subheading type-subheading--2">
-							<a href="{{ article.url }}">{{ article.title }}</a>
-						</h3>
-
-						{% if section.settings.show_dates or section.settings.show_author_name %}
-							<div class="blog__date-author">
-								<div class="blog-publish-date">
-									{% if section.settings.show_dates %}
-										<time class="updated blog--indiv-date" datetime="{{ article.published_at | date: format: 'long' }}" pubdate>{{ article.published_at | date: format: 'month_day_year' }}</time>
-									{% endif %}
-
-									{% if section.settings.show_dates and section.settings.show_author_name %}
-										<span>  |  </span>
-									{% endif %}
-
-									{% if section.settings.show_author_name %}<span>
-										{{ article.author }}</span>
-									{% endif %}
-								</div>
-							</div>
-						{% endif %}
-
-					</div>
-
-				{% if section.settings.blog_layout != 'grid' %}
-  				<div class="blog--excerpt entry-content">
-  					  {{ article.excerpt_or_content | truncate: 300 }}
-  				</div>
-				  {% endif %}
-
-  				<div class="blog--read-more">
-  					<a href="{{ article.url }}" class="button--text-subdued" tabindex="-1">{{ 'blogs.article.read_more' | t }}</a>
-  				</div>
-
+      {% assign featured_article = blog.articles.first %}
+      <header class="blog-hero" role="banner">
+        <div class="blog-hero__media">
+          {% if featured_article.image %}
+            <a href="{{ featured_article.url }}" class="blog-hero__image" aria-label="{{ featured_article.title | escape }}">
+              {% render 'responsive-image' with featured_article.image, alt: featured_article.image.alt | default: featured_article.title %}
+            </a>
+          {% endif %}
         </div>
+        <div class="blog-hero__content">
+          <div class="blog-hero__meta">
+            {% assign featured_tag = featured_article.tags.first %}
+            {% if featured_tag %}
+              <span class="blog-pill">{{ featured_tag }}</span>
+            {% endif %}
+            {% if section.settings.show_dates %}
+              <time datetime="{{ featured_article.published_at | date: "%Y-%m-%d" }}">{{ featured_article.published_at | date: format: 'month_day_year' }}</time>
+            {% endif %}
+          </div>
+          <h1 id="blog-page-heading" class="blog-hero__heading">{{ blog.title }}</h1>
+          <h2 class="blog-hero__title">
+            <a href="{{ featured_article.url }}">{{ featured_article.title }}</a>
+          </h2>
+          <p class="blog-hero__excerpt">{{ featured_article.excerpt_or_content | strip_html | truncate: 150 }}</p>
+          <a class="btn btn--primary" href="{{ featured_article.url }}">{{ 'blogs.article.read_more' | t }}</a>
+        </div>
+      </header>
 
-      </article>
+      <div class="blog-layout">
+        <main class="blog-main" role="main">
+          <div class="blog-grid" aria-label="More articles">
+            {% for article in blog.articles offset: 1 %}
+              <article class="blog-card" aria-labelledby="article-{{ article.id }}-title">
+                <a class="blog-card__image" href="{{ article.url }}" aria-hidden="true" tabindex="-1">
+                  {% if article.image %}
+                    {% render 'responsive-image' with article.image, alt: article.image.alt | default: article.title %}
+                  {% else %}
+                    <div class="blog-card__placeholder" aria-hidden="true"></div>
+                  {% endif %}
+                </a>
+                <div class="blog-card__body">
+                  <div class="blog-card__meta">
+                    {% assign category = article.tags.first %}
+                    {% if category %}
+                      <span class="blog-pill">{{ category }}</span>
+                    {% endif %}
+                    {% if section.settings.show_dates %}
+                      <time datetime="{{ article.published_at | date: "%Y-%m-%d" }}">{{ article.published_at | date: format: 'month_day_year' }}</time>
+                    {% endif %}
+                  </div>
+                  <h2 id="article-{{ article.id }}-title" class="blog-card__title">
+                    <a href="{{ article.url }}">{{ article.title }}</a>
+                  </h2>
+                  <p class="blog-card__excerpt">{{ article.excerpt_or_content | strip_html | truncate: 110 }}</p>
+                  <a class="blog-card__cta" href="{{ article.url }}">{{ 'blogs.article.read_more' | t }}</a>
+                </div>
+              </article>
+            {% else %}
+              <p class="blog-grid__empty">{{ 'blogs.article.no_articles' | t }}</p>
+            {% endfor %}
+          </div>
+          {% render 'pagination', paginate: paginate %}
+        </main>
 
-			{% endfor %}
+        <aside class="blog-sidebar" aria-label="Blog filters and promotions">
+          <div class="blog-sidebar__block">
+            <h2 class="blog-sidebar__title">{{ 'general.search.search' | t }}</h2>
+            <form class="blog-sidebar__search" action="{{ routes.search_url }}" method="get" role="search">
+              <input type="hidden" name="type" value="article" />
+              <label class="sr-only" for="blog-search">{{ 'general.search.search' | t }}</label>
+              {% assign search_placeholder = 'general.search.placeholder' | t %}
+              <input id="blog-search" type="search" name="q" value="{{ search.terms | escape }}" placeholder="{{ search_placeholder | replace: 'general.search.placeholder', 'Search the blog' }}" />
+              {% assign search_label = 'general.search.submit' | t %}
+              <button type="submit" class="btn btn--outline">{{ search_label | replace: 'general.search.submit', 'Search' }}</button>
+            </form>
+          </div>
 
-  {% if section.settings.blog_layout == 'grid' %}
-    </div>
-  </div>
-  {% endif %}
+          {% if blog.all_tags.size > 0 %}
+            <div class="blog-sidebar__block">
+              <h2 class="blog-sidebar__title">{{ 'blogs.article.tags' | t }}</h2>
+              <ul class="blog-sidebar__list">
+                {% for tag in blog.all_tags %}
+                  <li><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          {% endif %}
 
-	</div>
+          <div class="blog-sidebar__block">
+            {% assign popular_heading = 'blogs.article.popular_posts' | t %}
+            <h2 class="blog-sidebar__title">{{ popular_heading | replace: 'blogs.article.popular_posts', 'Popular Reads' }}</h2>
+            <ul class="blog-sidebar__popular">
+              {% assign popular_articles = blog.articles | slice: 0, 5 %}
+              {% for popular_article in popular_articles %}
+                <li>
+                  <a href="{{ popular_article.url }}">{{ popular_article.title }}</a>
+                  {% if section.settings.show_dates %}
+                    <time datetime="{{ popular_article.published_at | date: "%Y-%m-%d" }}">{{ popular_article.published_at | date: "%b %d" }}</time>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
 
-	</div>
-
-	{% render 'pagination', paginate: paginate  %}
-
-	{% endpaginate %}
-
+          <div class="blog-sidebar__cta">
+            <h2>Fuel Your Goals</h2>
+            <p>Stay energized with chef-crafted meals delivered to your door. Join the Icon Meals community today.</p>
+            <a class="btn btn--primary" href="/pages/meal-plans">Explore Meal Plans</a>
+          </div>
+        </aside>
+      </div>
+    {% endif %}
+  {% endpaginate %}
 </section>
 
 {% schema %}
@@ -102,45 +133,11 @@
 		"class": "container",
     "settings": [
         {
-            "type": "select",
-            "id": "blog_layout",
-            "label": {
-                "en": "Layout",
-                "de": "Layout",
-                "es": "Diseño",
-                "fr": "Mise en page",
-                "pt-PT": "Apresentação"
-            },
-            "options": [
-                {
-                    "value": "list",
-                    "label": {
-                        "en": "List",
-                        "fr": "Liste",
-                        "de": "Lista",
-                        "es": "Liste",
-                        "pt-PT": "Lista"
-                    }
-                },
-                {
-                    "value": "grid",
-                    "label": {
-                        "en": "Grid",
-                        "de": "Raster",
-                        "es": "Cuadrícula",
-                        "fr": "Grille",
-                        "pt-PT": "Grelha"
-                    }
-                }
-            ],
-            "default": "grid"
-        },
-				{
-						"type": "range",
-						"id": "blog-posts-per-page",
-						"min": 1,
-						"max": 12,
-						"step": 1,
+                                                "type": "range",
+                                                "id": "blog-posts-per-page",
+                                                "min": 1,
+                                                "max": 12,
+                                                "step": 1,
 						"label": {
 							"en": "Posts per page",
 							"de": "Posts pro Seite",
