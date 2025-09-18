@@ -219,9 +219,23 @@ body.collection-menu-open {
   flex-direction: column;
   gap: 3rem;
   background: linear-gradient(180deg, #ffffff 0%, rgba(248, 249, 250, 0.9) 100%);
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 2rem clamp(1rem, 4vw, 4rem) 4rem;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 2rem clamp(1.5rem, 4vw, 4rem) 4rem;
+}
+
+.template-blog .shopify-section.container {
+  max-width: none;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.blog-hero,
+.blog-layout {
+  width: min(100%, 1280px);
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .blog-page__empty {
@@ -307,8 +321,8 @@ body.collection-menu-open {
 
 .blog-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) clamp(260px, 25vw, 320px);
-  gap: clamp(2rem, 4vw, 3rem);
+  grid-template-columns: minmax(0, 1fr) clamp(260px, 24vw, 320px);
+  gap: clamp(2rem, 3.5vw, 3rem);
   align-items: start;
 }
 
@@ -402,6 +416,9 @@ body.collection-menu-open {
   gap: 2rem;
   position: sticky;
   top: 120px;
+  max-height: calc(100vh - 140px);
+  overflow-y: auto;
+  padding-right: 0.5rem;
 }
 
 .blog-sidebar__block {
@@ -453,7 +470,48 @@ body.collection-menu-open {
   margin: 0;
   padding: 0;
   display: grid;
-  gap: 0.5rem;
+  gap: 0.75rem;
+}
+
+.blog-sidebar__list {
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  max-height: min(26rem, 42vh);
+  overflow-y: auto;
+  padding-right: 0.25rem;
+}
+
+.blog-sidebar__list::-webkit-scrollbar,
+.blog-sidebar::-webkit-scrollbar {
+  width: 6px;
+}
+
+.blog-sidebar__list::-webkit-scrollbar-track,
+.blog-sidebar::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.06);
+  border-radius: 999px;
+}
+
+.blog-sidebar__list::-webkit-scrollbar-thumb,
+.blog-sidebar::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.25);
+  border-radius: 999px;
+}
+
+.blog-sidebar__list li a {
+  display: block;
+  padding: 0.45rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(46, 191, 122, 0.12);
+  font-size: 0.9rem;
+  text-align: center;
+  transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.blog-sidebar__list li a:hover,
+.blog-sidebar__list li a:focus {
+  background: rgba(46, 191, 122, 0.25);
+  color: var(--brand-primary-darker);
+  transform: translateY(-1px);
 }
 
 .blog-sidebar__list a,
@@ -856,6 +914,9 @@ body.collection-menu-open {
 
   .blog-sidebar {
     position: static;
+    max-height: none;
+    overflow: visible;
+    padding-right: 0;
   }
 
   .article-layout {
