@@ -1,6 +1,6 @@
 /*
  * File: assets/cm-recharge.css
- * Version: 4.7 (Layout & Width Normalized)
+ * Version: 4.8 (Variant Visibility Fix)
  * Description: Final polished UI for the custom meal builder.
  * - Replaces large cards with a compact, token-based design (circular image + label).
  * - Uses flexbox for a tight, flowing layout of options.
@@ -16,6 +16,12 @@
 }
 
 /* --- Main Layout --- */
+/* Final Width Fix: Remove horizontal constraints from the theme's .container class */
+.cm-recharge__main.container {
+  max-width: none !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
 .cm-recharge__main { padding: 1.5rem 0; }
 .cm-recharge__layout {
   display: flex;
@@ -127,11 +133,19 @@
 /* === Variant Option Buttons (Ounce Selection) === */
 .variant-options {
   display: none; /* Hide by default */
-  flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem;
+  flex-wrap: wrap; 
+  gap: 0.5rem; 
+  margin-top: 1rem; 
+  padding-top: 1rem;
   border-top: 1px dashed #ced4da;
 }
+/* Primary gate: works when the step wrapper carries the data flag */
 .cm-selection-step[data-product-selected="true"] .variant-options {
-  display: flex; /* Show only when a product in the step is selected */
+  display: flex;
+}
+/* Fallback/JS Hook: forces visibility, ensuring sides appear */
+.cm-selection-step .variant-options.is-visible {
+  display: flex !important;
 }
 .variant-option-button {
   appearance: none; -webkit-appearance: none; background-color: #fff; border: 1px solid #ced4da;

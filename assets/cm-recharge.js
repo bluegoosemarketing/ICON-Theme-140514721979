@@ -1,7 +1,8 @@
 /*
-  Custom Meal Recharge Bundle Builder - v3.5 (Final)
-  - Fixes "ghost" selections by checking if a product is selected for a slot before sending its variant data.
-  - Prevents macro calculation on initial page load to ensure the panel starts empty.
+  Custom Meal Recharge Bundle Builder - v3.7 (Corrected Variant Rendering)
+  - Fixes a critical bug where variant size options would not render for Side 1 or Side 2.
+  - Replaces fragile selectors with a more robust method of finding step containers.
+  - Ensures UI logic works consistently across all selection steps (Protein, Side 1, Side 2).
 */
 
 class CustomMealBuilder {
@@ -15,11 +16,9 @@ class CustomMealBuilder {
     this.proteinSelect = this.root.querySelector('[data-protein-select]');
     this.side1Select = this.root.querySelector('[data-side1-select]');
     this.side2Select = this.root.querySelector('[data-side2-select]');
-    // *** FIX: Get references to the product selectors themselves ***
     this.proteinProductSelect = this.root.querySelector('[data-product-select="protein"]');
     this.side1ProductSelect = this.root.querySelector('[data-product-select="side1"]');
     this.side2ProductSelect = this.root.querySelector('[data-product-select="side2"]');
-
     this.frequencySelect = this.root.querySelector('[data-frequency-select]');
     this.quantityInput = this.root.querySelector('[data-qty-input]');
     this.priceDisplay = this.root.querySelector('[data-total-price]');
@@ -109,6 +108,14 @@ class CustomMealBuilder {
       this.renderAllVisualOptions(); 
       this.bindVisualOptionEvents();
 
+      // De-risk: Re-apply visibility for any pre-selected steps on load
+      this.root.querySelectorAll('.cm-selection-step').forEach(step => {
+        if (step.dataset.productSelected === 'true') {
+          const vo = step.querySelector('.variant-options');
+          if (vo) vo.classList.add('is-visible');
+        }
+      });
+
       this.state.isLoading = false;
       this.update({ emitMacros: false });
     } catch (error) {
@@ -171,7 +178,11 @@ class CustomMealBuilder {
   }
 
   renderVariantOptions(selectionGroup, productId) {
-    const container = this.root.querySelector(`[data-variant-options="${selectionGroup}"]`);
+    // ROBUST FIX: Find the step container first, then find the variant options inside it.
+    const step = this.root.querySelector(`[data-selection-group="${selectionGroup}"]`);
+    if (!step) return;
+
+    const container = step.querySelector('.variant-options');
     const hiddenSelect = this.root.querySelector(`[data-${selectionGroup}-select]`);
     if (!container || !hiddenSelect) return;
 
@@ -211,11 +222,15 @@ class CustomMealBuilder {
     this.form.addEventListener('click', (event) => {
       const button = event.target.closest('.variant-option-button');
       if (!button) return;
+      
+      // ROBUST FIX: Find the parent step to reliably get the selection group.
+      const step = button.closest('.cm-selection-step');
+      if (!step) return;
 
-      const container = button.parentElement;
-      const selectionGroup = container.dataset.variantOptions;
+      const selectionGroup = step.dataset.selectionGroup;
       const hiddenSelect = this.root.querySelector(`[data-${selectionGroup}-select]`);
       const variantId = button.dataset.variantId;
+      const container = button.parentElement;
 
       if (hiddenSelect) {
         hiddenSelect.value = variantId;
@@ -277,12 +292,24 @@ class CustomMealBuilder {
   syncVisualSelection(group, selectedProductId) {
     const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`);
     if (!visualContainer) return;
-    
-    visualContainer.closest('.cm-selection-step').dataset.productSelected = !!selectedProductId;
+
+    const step = visualContainer.closest('.cm-selection-step');
+    if (!step) return;
+
+    step.dataset.productSelected = !!selectedProductId;
 
     visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => {
       card.classList.toggle('is-selected', card.dataset.productId === selectedProductId);
     });
+    
+    const variantOptionsContainer = step.querySelector('.variant-options');
+    if (variantOptionsContainer) {
+      if (selectedProductId) {
+        variantOptionsContainer.classList.add('is-visible');
+      } else {
+        variantOptionsContainer.classList.remove('is-visible');
+      }
+    }
   }
 
   waitForRechargeBundle(timeout = 10000, interval = 50) {
@@ -344,7 +371,6 @@ class CustomMealBuilder {
   emitMacroSelections() {
     if (!window.iconMacroV2 || typeof window.iconMacroV2.update !== 'function') return;
 
-    // *** FIX: Only get the variant value if a product has been explicitly selected for that slot ***
     const payload = {
       protein: this.proteinProductSelect.value ? this.getVariantLabelByValue(this.proteinSelect?.value) : '',
       side1: this.side1ProductSelect.value ? this.getVariantLabelByValue(this.side1Select?.value) : '',
