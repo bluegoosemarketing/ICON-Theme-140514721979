@@ -8,8 +8,11 @@
 */
 
 /* --- Main Layout --- */
-.product-page__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 3rem; align-items: flex-start; }
-.cm-recharge__panel { display: flex; flex-direction: column; gap: 1.5rem; padding-top: 0.5rem; }
+.cm-recharge__main { padding: 1.5rem 0; }
+.cm-recharge__layout { display: flex; flex-direction: column; gap: 1.5rem; }
+.cm-recharge__visuals,
+.cm-recharge__panel { display: flex; flex-direction: column; gap: 1.5rem; }
+.cm-recharge__panel { padding-top: 0.5rem; }
 
 /* --- Header & Description --- */
 .cm-recharge__intro .h2 { font-size: 2.25rem !important; font-weight: 800 !important; margin-bottom: 1rem; }
@@ -127,7 +130,7 @@
 .cm-recharge__cta { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; align-items: center; margin-top: 1.5rem; }
 .cm-recharge__cta .product-card__add-btn { width: 100% !important; height: 48px; }
 .cm-recharge__error { color: #c01923; margin-top: 0.75rem; font-size: 0.9rem; font-weight: 500; }
-.cm-recharge__media { align-self: start; position: sticky; top: 100px; }
+.cm-recharge__media { align-self: stretch; position: relative; top: auto; }
 .cm-recharge__media img { display: block; width: 100%; height: auto !important; object-fit: contain !important; background: transparent; }
 .cm-recharge__cta .integrated-quantity { display: flex; height: 48px; }
 .cm-recharge__cta .integrated-quantity__button { width: 48px; background-color: var(--brand-accent); border: 1px solid var(--brand-accent); color: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
@@ -136,8 +139,13 @@
 .cm-recharge__cta .integrated-quantity__input { width: 52px; text-align: center; border: 1px solid #ced4da; border-left: none; border-right: none; background: #fff !important; color: #111 !important; font-weight: 600; -moz-appearance: textfield; height:100%; }
 
 /* --- Responsive Overrides --- */
-@media (max-width: 990px) {
-  .product-page__grid { grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 1024px) {
+  .cm-recharge__layout { display: grid; grid-template-columns: 45fr 55fr; gap: 3rem; align-items: flex-start; }
+  .cm-recharge__visuals { position: sticky; top: 1.5rem; }
+  .cm-recharge__panel { padding-top: 0; }
+}
+
+@media (max-width: 1023px) {
   .cm-recharge__media { order: -1; position: static; top: auto; }
   .cm-recharge__panel { padding-top: 0; }
 }

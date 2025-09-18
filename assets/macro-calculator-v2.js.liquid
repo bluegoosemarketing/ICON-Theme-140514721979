@@ -32,6 +32,14 @@
     "suffix": "mg"
   }
 ];
+  const MACRO_CLASS_MAP = {
+    calorie: 'calories',
+    protein: 'protein',
+    carb: 'carbs',
+    fat: 'fats',
+    fiber: 'fiber',
+    sodium: 'sodium'
+  };
   const NUTRITION_DATA = {
   "black bean vegan patty": {
     "calorie": 150,
@@ -456,8 +464,6 @@
   "patty": "each",
   "patties": "each"
 };
-  const STATUS_LABEL = 'Live preview';
-
   const api = window.iconMacroV2 = window.iconMacroV2 || {};
 
   const ESCAPE_LOOKUP = {
@@ -470,6 +476,38 @@
 
   function getContainer() {
     return document.getElementById(containerId);
+  }
+
+  function decorateContainer(container) {
+    if (!container) return;
+    container.classList.add('nutrition-container-v8');
+    if (!container.dataset.toggleBound) {
+      container.addEventListener('click', handlePanelToggle, false);
+      container.dataset.toggleBound = 'true';
+    }
+  }
+
+  function handlePanelToggle(event) {
+    const toggle = event.target.closest('.panel-toggle-primary');
+    if (!toggle) return;
+
+    event.preventDefault();
+
+    const panel = toggle.closest('.nutrition-panel-v8');
+    if (!panel) return;
+
+    const body = panel.querySelector('.panel-body');
+    if (!body) return;
+
+    const nextExpanded = !panel.classList.contains('is-expanded');
+    panel.classList.toggle('is-expanded', nextExpanded);
+    body.classList.toggle('is-hidden', !nextExpanded);
+
+    toggle.setAttribute('aria-expanded', nextExpanded ? 'true' : 'false');
+    const textNode = toggle.querySelector('.toggle-text');
+    if (textNode) {
+      textNode.textContent = nextExpanded ? 'Less Info' : 'More Info';
+    }
   }
 
   function escapeHtml(value) {
@@ -627,18 +665,20 @@
   }
 
   function renderEmpty(container) {
+    decorateContainer(container);
+    container.style.display = 'block';
     container.innerHTML = `
-      <div class="macro-panel macro-panel--empty">
-        <div class="macro-panel__header">
-          <h3 class="macro-panel__title">Meal Nutrition</h3>
-          <span class="macro-panel__status">${escapeHtml(STATUS_LABEL)}<\/span>
+      <div class="nutrition-panel-v8 nutrition-panel-v8--empty">
+        <div class="panel-body">
+          <p class="panel-empty-message">Select items to build your meal and see nutritional info.<\/p>
         </div>
-        <p class="macro-panel__empty">Select items to build your meal and see nutritional info.<\/p>
       </div>
     `;
   }
 
   function renderPanel(container, items) {
+    decorateContainer(container);
+
     const totals = {};
     MACRO_FIELDS.forEach(field => { totals[field.key] = 0; });
 
@@ -648,6 +688,14 @@
         totals[field.key] += item.macros[field.key];
       });
     });
+
+    const macroStatsHtml = MACRO_FIELDS.map(field => {
+      const classSuffix = MACRO_CLASS_MAP[field.key] || field.key;
+      const formattedValue = formatNumber(totals[field.key]);
+      const suffix = field.suffix || '';
+      const displayValue = suffix ? `${formattedValue}${suffix}` : formattedValue;
+      return `<div class="macro-stat macro-stat--${classSuffix}"><span class="macro-stat__value">${escapeHtml(displayValue)}<\/span><span class="macro-stat__label">${escapeHtml(field.label)}<\/span></div>`;
+    }).join('');
 
     const headerCells = [
       '<div class="macro-panel__cell macro-panel__cell--item">Item<\/div>'
@@ -705,16 +753,20 @@
     });
 
     const totalRow = `<div class="macro-panel__row macro-panel__row--total">${totalCells.join('')}<\/div>`;
-
     const columnCount = 1 + MACRO_FIELDS.length;
 
+    container.style.display = 'block';
     container.innerHTML = `
-      <div class="macro-panel">
-        <div class="macro-panel__header">
-          <h3 class="macro-panel__title">Meal Nutrition</h3>
-          <span class="macro-panel__status">${escapeHtml(STATUS_LABEL)}<\/span>
+      <div class="nutrition-panel-v8">
+        <div class="macro-grid--interactive">${macroStatsHtml}</div>
+        <div class="panel-footer">
+          <a href="#" class="panel-toggle-primary" role="button" aria-expanded="false">
+            <span class="toggle-text">More Info</span>
+            <span class="toggle-icon"></span>
+          </a>
         </div>
-        <div class="macro-panel__body">
+        <div class="panel-body is-hidden">
+          <h4 class="panel-body-title">Ingredient Breakdown</h4>
           <div class="macro-panel__table">
             <div class="macro-panel__grid" data-columns="${columnCount}">
               ${headerRow}${itemRows}${totalRow}

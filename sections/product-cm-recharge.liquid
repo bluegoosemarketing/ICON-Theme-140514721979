@@ -12,7 +12,7 @@
 
 <div
   id="cm-recharge-root-{{ section.id }}"
-  class="cm-recharge product product--with-sidebar product-template"
+  class="cm-recharge product product-template"
   data-section-id="{{ section.id }}"
   data-product-handle="{{ product.handle }}"
   data-bundle-product-id="{{ product.id }}"
@@ -22,8 +22,8 @@
   data-protein-collection-id="{{ protein_collection.id | default: '' }}"
   data-side-collection-id="{{ side_collection.id | default: '' }}"
 >
-  <div class="product-page container">
-    <div class="product-page__grid">
+  <div class="product-main cm-recharge__main container">
+    <div class="product-main__layout cm-recharge__layout">
       {% liquid
         assign hero_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
         if hero_media == blank and product.media.size > 0
@@ -32,9 +32,9 @@
       %}
 
       <!-- Wrapper for Left Column Content -->
-      <div>
+      <div class="product-main__visuals-wrapper cm-recharge__visuals">
         <!-- LEFT: Media / Hero Image -->
-        <section class="product-page__media cm-recharge__media card card--soft">
+        <section class="product-main__gallery cm-recharge__media card card--soft">
           {% if hero_media %}
             {% assign hero_alt = hero_media.alt | default: product.title %}
             <div class="cm-recharge__media-frame">
@@ -55,12 +55,12 @@
         </section>
 
         <!-- Nutrition Calculator (Now correctly positioned below the image) -->
-        <div id="nutrition-container-v2" class="cm-recharge-macro-container"></div>
+        <div id="nutrition-container-v2" class="cm-recharge-macro-container nutrition-container-v8"></div>
       </div>
 
 
       <!-- RIGHT: Builder Panel -->
-      <section class="product-page__details cm-recharge__panel">
+      <section class="product-main__info-column cm-recharge__panel">
         <div class="cm-recharge__intro">
           <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
           <div class="product-price--placeholder">
