@@ -1,0 +1,758 @@
+(function (window, document) {
+  const containerId = 'nutrition-container-v2';
+  const MACRO_FIELDS = [
+  {
+    "key": "calorie",
+    "label": "Calories",
+    "suffix": ""
+  },
+  {
+    "key": "protein",
+    "label": "Protein",
+    "suffix": "g"
+  },
+  {
+    "key": "carb",
+    "label": "Carbs",
+    "suffix": "g"
+  },
+  {
+    "key": "fat",
+    "label": "Fats",
+    "suffix": "g"
+  },
+  {
+    "key": "fiber",
+    "label": "Fiber",
+    "suffix": "g"
+  },
+  {
+    "key": "sodium",
+    "label": "Sodium",
+    "suffix": "mg"
+  }
+];
+  const NUTRITION_DATA = {
+  "black bean vegan patty": {
+    "calorie": 150,
+    "protein": 8,
+    "carb": 27,
+    "fat": 1.5,
+    "sodium": 610,
+    "fiber": 9,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0
+  },
+  "beyond meat vegan patty": {
+    "calorie": 280,
+    "protein": 20,
+    "carb": 6,
+    "fat": 20,
+    "sodium": 390,
+    "fiber": 2,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0
+  },
+  "brisket": {
+    "calorie": 67.5,
+    "protein": 9.3,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 3.3,
+    "satfat": 1.3,
+    "transfat": 0,
+    "chol": 23.8,
+    "sodium": 112.5
+  },
+  "chicken": {
+    "calorie": 40,
+    "protein": 8.8,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 0.6,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 17.5,
+    "sodium": 37.5
+  },
+  "chicken breast": {
+    "calorie": 40,
+    "protein": 8.8,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 0.6,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 17.5,
+    "sodium": 37.5
+  },
+  "chicken thighs": {
+    "calorie": 52.5,
+    "protein": 7.3,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 2.5,
+    "satfat": 0.5,
+    "transfat": 0,
+    "chol": 26.3,
+    "sodium": 50
+  },
+  "cod": {
+    "calorie": 22.5,
+    "protein": 5.8,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 11.3,
+    "sodium": 23.8
+  },
+  "egg whites": {
+    "calorie": 16.67,
+    "protein": 4,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 56.67
+  },
+  "ground beef": {
+    "calorie": 65,
+    "protein": 8.5,
+    "carb": 0.5,
+    "fiber": 0,
+    "fat": 3.3,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 18.8,
+    "sodium": 35
+  },
+  "ground bison": {
+    "calorie": 65,
+    "protein": 6.8,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 4,
+    "satfat": 1.3,
+    "transfat": 0,
+    "chol": 20,
+    "sodium": 21.3
+  },
+  "ground turkey": {
+    "calorie": 55,
+    "protein": 6.8,
+    "carb": 0.5,
+    "fiber": 0,
+    "fat": 3,
+    "satfat": 0.9,
+    "transfat": 0,
+    "chol": 20,
+    "sodium": 57.5
+  },
+  "salmon": {
+    "calorie": 50,
+    "protein": 7,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 2.5,
+    "satfat": 0.5,
+    "transfat": 0,
+    "chol": 15,
+    "sodium": 23.8
+  },
+  "shrimp": {
+    "calorie": 27.5,
+    "protein": 5.8,
+    "carb": 0.3,
+    "fiber": 0,
+    "fat": 0.3,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 40,
+    "sodium": 82.5
+  },
+  "steak": {
+    "calorie": 47.5,
+    "protein": 8.3,
+    "carb": 0.8,
+    "fiber": 0,
+    "fat": 1.3,
+    "satfat": 0.5,
+    "transfat": 0,
+    "chol": 16.3,
+    "sodium": 40
+  },
+  "turkey bacon": {
+    "calorie": 40,
+    "protein": 3,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 3,
+    "satfat": 0.5,
+    "transfat": 0,
+    "chol": 15,
+    "sodium": 160
+  },
+  "turkey breast": {
+    "calorie": 35,
+    "protein": 7.5,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 0.5,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 17.5,
+    "sodium": 95
+  },
+  "whole egg": {
+    "calorie": 50,
+    "protein": 5,
+    "carb": 0,
+    "fiber": 0,
+    "fat": 3.5,
+    "satfat": 1,
+    "transfat": 0,
+    "chol": 130,
+    "sodium": 50
+  },
+  "asparagus": {
+    "calorie": 3.8,
+    "protein": 0.5,
+    "carb": 0.8,
+    "fiber": 0.5,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 0
+  },
+  "broccoli": {
+    "calorie": 9,
+    "protein": 0.7,
+    "carb": 1.4,
+    "fiber": 0.7,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 5.4
+  },
+  "brown rice": {
+    "calorie": 50,
+    "protein": 1.1,
+    "carb": 10.8,
+    "fiber": 0,
+    "fat": 0.3,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 1.1
+  },
+  "cauliflower": {
+    "calorie": 15,
+    "protein": 1,
+    "carb": 2.5,
+    "fiber": 1,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 15
+  },
+  "green beans": {
+    "calorie": 11.3,
+    "protein": 0.8,
+    "carb": 2,
+    "fiber": 0.8,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 0
+  },
+  "jasmine saffron rice": {
+    "calorie": 40,
+    "protein": 0.8,
+    "carb": 9.4,
+    "fiber": 0,
+    "fat": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 56
+  },
+  "kyoto blend veggies": {
+    "calorie": 24.5,
+    "protein": 1.9,
+    "carb": 3.4,
+    "fiber": 0,
+    "fat": 0.7,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 7.3
+  },
+  "gluten free penne pasta": {
+    "calorie": 70,
+    "protein": 1.5,
+    "carb": 15,
+    "fat": 0.25,
+    "sodium": 0,
+    "fiber": 0.25,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0
+  },
+  "oatmeal": {
+    "calorie": 45,
+    "protein": 1.5,
+    "carb": 8.25,
+    "fiber": 1.2,
+    "fat": 0.9,
+    "satfat": 0.15,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 0
+  },
+  "quinoa": {
+    "calorie": 50,
+    "protein": 2,
+    "carb": 10,
+    "fat": 1,
+    "sodium": 70,
+    "fiber": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0
+  },
+  "red quinoa": {
+    "calorie": 30,
+    "protein": 1.1,
+    "carb": 5.2,
+    "fiber": 0.5,
+    "fat": 0.5,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 0
+  },
+  "quinoa rice blend": {
+    "calorie": 60,
+    "protein": 2,
+    "carb": 10,
+    "fat": 1,
+    "sodium": 60,
+    "fiber": 0,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0
+  },
+  "red potatoes": {
+    "calorie": 25,
+    "protein": 0.5,
+    "carb": 4.8,
+    "fiber": 0.5,
+    "fat": 0.4,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 1.3
+  },
+  "sauteed carrots": {
+    "calorie": 17.5,
+    "protein": 0,
+    "carb": 2.5,
+    "fiber": 1,
+    "fat": 0.75,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 20
+  },
+  "sweet potato mash": {
+    "calorie": 32.5,
+    "protein": 0.5,
+    "carb": 6.3,
+    "fiber": 1,
+    "fat": 0.5,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 0
+  },
+  "sweet potatoes": {
+    "calorie": 30,
+    "protein": 0.5,
+    "carb": 5.5,
+    "fiber": 0.8,
+    "fat": 0.6,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 15
+  },
+  "white rice": {
+    "calorie": 60,
+    "protein": 1.4,
+    "carb": 13.9,
+    "fiber": 0,
+    "fat": 0.1,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 0
+  },
+  "home style protein pancakes": {
+    "calorie": 180,
+    "protein": 16,
+    "carb": 27,
+    "fiber": 0,
+    "fat": 0.5,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0,
+    "sodium": 350
+  },
+  "original oats": {
+    "calorie": 10,
+    "protein": 0.375,
+    "carb": 1.75,
+    "fat": 0.1875,
+    "sodium": 0,
+    "fiber": 6.5,
+    "satfat": 0,
+    "transfat": 0,
+    "chol": 0
+  }
+};
+  const CUP_ITEMS = new Set(["brown rice", "gluten free penne pasta", "jasmine saffron rice", "kyoto blend veggies", "quinoa", "red quinoa", "quinoa rice blend", "white rice", "oatmeal", "original oats"]);
+  const EACH_ITEMS = new Set(["home style protein pancakes", "whole egg"]);
+  const SLICE_ITEMS = new Set(["turkey bacon"]);
+  const PATTY_ITEMS = new Set(["black bean vegan patty", "beyond meat vegan patty"]);
+  const ROLE_LABELS = {
+  "protein": "Protein",
+  "side1": "Side 1",
+  "side2": "Side 2"
+};
+  const UNIT_SYNONYMS = {
+  "oz": "ounce",
+  "ounce": "ounce",
+  "ounces": "ounce",
+  "ozs": "ounce",
+  "c": "cup",
+  "cup": "cup",
+  "cups": "cup",
+  "ea": "each",
+  "each": "each",
+  "unit": "each",
+  "slice": "slice",
+  "slices": "slice",
+  "sl": "slice",
+  "patty": "each",
+  "patties": "each"
+};
+  const STATUS_LABEL = 'Live preview';
+
+  const api = window.iconMacroV2 = window.iconMacroV2 || {};
+
+  const ESCAPE_LOOKUP = {
+    '&': '&amp;',
+    '<': '&lt;',
+    '>': '&gt;',
+    '"': '&quot;',
+    "'": '&#39;'
+  };
+
+  function getContainer() {
+    return document.getElementById(containerId);
+  }
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, char => ESCAPE_LOOKUP[char] || char);
+  }
+
+  function formatNumber(value) {
+    if (!Number.isFinite(value)) return '0';
+    const rounded = Math.round(value * 10) / 10;
+    if (Math.abs(rounded - Math.round(rounded)) < 0.0001) {
+      return String(Math.round(rounded));
+    }
+    return rounded.toFixed(1);
+  }
+
+  function parseFractionalNumber(input) {
+    if (!input) return NaN;
+    const segments = String(input).trim().split(' ');
+    let total = 0;
+    let parsedAny = false;
+
+    segments.forEach(segment => {
+      const value = segment.trim();
+      if (!value) return;
+      if (value.includes('/')) {
+        const [numerator, denominator] = value.split('/').map(Number);
+        if (!Number.isNaN(numerator) && !Number.isNaN(denominator) && denominator !== 0) {
+          total += numerator / denominator;
+          parsedAny = true;
+        }
+      } else {
+        const numeric = Number(value);
+        if (!Number.isNaN(numeric)) {
+          total += numeric;
+          parsedAny = true;
+        }
+      }
+    });
+
+    return parsedAny ? total : NaN;
+  }
+
+  function normalizeUnit(token) {
+    if (!token) return '';
+    const cleaned = token.replace(/\./g, '');
+    return UNIT_SYNONYMS[cleaned] || cleaned;
+  }
+
+  function inferUnitForItem(itemKey, unitToken) {
+    let resolved = unitToken;
+    if (!resolved) {
+      if (CUP_ITEMS.has(itemKey)) resolved = 'cup';
+      else if (SLICE_ITEMS.has(itemKey)) resolved = 'slice';
+      else if (EACH_ITEMS.has(itemKey) || PATTY_ITEMS.has(itemKey)) resolved = 'each';
+    }
+    if (!resolved) resolved = 'ounce';
+    return resolved;
+  }
+
+  function formatQuantityFromAmount(amount, unit) {
+    if (!Number.isFinite(amount) || amount <= 0) return '';
+    if (unit === 'cup') {
+      const cups = amount / 4;
+      const label = Math.abs(cups - 1) < 0.0001 ? 'cup' : 'cups';
+      return `${formatNumber(cups)} ${label}`;
+    }
+    if (unit === 'each') {
+      return `${formatNumber(amount)} ea`;
+    }
+    if (unit === 'slice') {
+      const label = Math.abs(amount - 1) < 0.0001 ? 'slice' : 'slices';
+      return `${formatNumber(amount)} ${label}`;
+    }
+    return `${formatNumber(amount)} oz`;
+  }
+
+  function parseQuantity(quantityText, itemKey) {
+    const raw = typeof quantityText === 'string' ? quantityText.trim() : '';
+    const normalizedBase = raw
+      .toLowerCase()
+      .replace(/[–—]/g, '-')
+      .replace(/[^0-9a-z/\.\s-]/g, ' ')
+      .replace(/([0-9])([a-zA-Z])/g, '$1 $2')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    let numberToken = normalizedBase;
+    let unitToken = '';
+    const unitMatch = normalizedBase.match(/([a-z]+)$/);
+    if (unitMatch) {
+      unitToken = unitMatch[1];
+      numberToken = normalizedBase.slice(0, normalizedBase.length - unitToken.length).trim();
+    }
+
+    unitToken = normalizeUnit(unitToken);
+    const resolvedUnit = inferUnitForItem(itemKey, unitToken);
+    const numericValue = parseFractionalNumber(numberToken);
+
+    if (!Number.isFinite(numericValue) || numericValue <= 0) {
+      return { amount: NaN, unit: resolvedUnit, display: raw };
+    }
+
+    let amount = numericValue;
+    if (resolvedUnit === 'cup') {
+      amount = numericValue * 4;
+    }
+
+    return {
+      amount,
+      unit: resolvedUnit,
+      display: raw || formatQuantityFromAmount(amount, resolvedUnit)
+    };
+  }
+
+  function parseSelection(rawTitle, slot) {
+    if (!rawTitle || typeof rawTitle !== 'string') return null;
+    const separatorIndex = rawTitle.lastIndexOf(' - ');
+    let baseName = rawTitle;
+    let quantityText = '';
+
+    if (separatorIndex !== -1) {
+      baseName = rawTitle.slice(0, separatorIndex).trim();
+      quantityText = rawTitle.slice(separatorIndex + 3).trim();
+    }
+
+    const lookupKey = baseName.toLowerCase();
+    const nutrition = NUTRITION_DATA[lookupKey];
+    if (!nutrition) return null;
+
+    const quantity = parseQuantity(quantityText, lookupKey);
+    const isValidAmount = Number.isFinite(quantity.amount) && quantity.amount > 0;
+    const macros = {};
+
+    MACRO_FIELDS.forEach(field => {
+      const baseValue = Number(nutrition[field.key]) || 0;
+      macros[field.key] = isValidAmount ? baseValue * quantity.amount : NaN;
+    });
+
+    return {
+      slot,
+      role: ROLE_LABELS[slot] || slot,
+      key: lookupKey,
+      name: baseName,
+      quantityDisplay: quantity.display || formatQuantityFromAmount(quantity.amount, quantity.unit),
+      amount: quantity.amount,
+      unit: quantity.unit,
+      macros,
+      isValid: isValidAmount
+    };
+  }
+
+  function renderEmpty(container) {
+    container.innerHTML = `
+      <div class="macro-panel macro-panel--empty">
+        <div class="macro-panel__header">
+          <h3 class="macro-panel__title">Meal Nutrition</h3>
+          <span class="macro-panel__status">${escapeHtml(STATUS_LABEL)}<\/span>
+        </div>
+        <p class="macro-panel__empty">Select items to build your meal and see nutritional info.<\/p>
+      </div>
+    `;
+  }
+
+  function renderPanel(container, items) {
+    const totals = {};
+    MACRO_FIELDS.forEach(field => { totals[field.key] = 0; });
+
+    items.forEach(item => {
+      if (!item.isValid) return;
+      MACRO_FIELDS.forEach(field => {
+        totals[field.key] += item.macros[field.key];
+      });
+    });
+
+    const headerCells = [
+      '<div class="macro-panel__cell macro-panel__cell--item">Item<\/div>'
+    ].concat(MACRO_FIELDS.map(field => `
+      <div class="macro-panel__cell">${escapeHtml(field.label)}<\/div>
+    `));
+
+    const headerRow = `<div class="macro-panel__row macro-panel__row--header">${headerCells.join('')}<\/div>`;
+
+    const itemRows = items.map(item => {
+      const quantityLabel = item.quantityDisplay || formatQuantityFromAmount(item.amount, item.unit);
+      const cells = [];
+      cells.push(`
+        <div class="macro-panel__cell macro-panel__cell--item">
+          <span class="macro-panel__item-role">${escapeHtml(item.role)}<\/span>
+          <span class="macro-panel__item-name">${escapeHtml(item.name)}<\/span>
+          ${quantityLabel ? `<span class="macro-panel__item-quantity">${escapeHtml(quantityLabel)}<\/span>` : ''}
+        </div>
+      `);
+
+      MACRO_FIELDS.forEach(field => {
+        const value = item.isValid ? formatNumber(item.macros[field.key]) : '--';
+        const suffix = field.suffix;
+        cells.push(`
+          <div class="macro-panel__cell">
+            <div class="macro-panel__value">
+              <strong>${escapeHtml(value)}<\/strong>
+              ${suffix ? `<span>${escapeHtml(suffix)}<\/span>` : ''}
+            </div>
+          </div>
+        `);
+      });
+
+      return `<div class="macro-panel__row">${cells.join('')}<\/div>`;
+    }).join('');
+
+    const totalCells = [`
+      <div class="macro-panel__cell macro-panel__cell--item">
+        <span class="macro-panel__item-role">Totals<\/span>
+        <span class="macro-panel__item-name">Combined Meal<\/span>
+      </div>
+    `];
+
+    MACRO_FIELDS.forEach(field => {
+      const value = formatNumber(totals[field.key]);
+      const suffix = field.suffix;
+      totalCells.push(`
+        <div class="macro-panel__cell">
+          <div class="macro-panel__value">
+            <strong>${escapeHtml(value)}<\/strong>
+            ${suffix ? `<span>${escapeHtml(suffix)}<\/span>` : ''}
+          </div>
+        </div>
+      `);
+    });
+
+    const totalRow = `<div class="macro-panel__row macro-panel__row--total">${totalCells.join('')}<\/div>`;
+
+    const columnCount = 1 + MACRO_FIELDS.length;
+
+    container.innerHTML = `
+      <div class="macro-panel">
+        <div class="macro-panel__header">
+          <h3 class="macro-panel__title">Meal Nutrition</h3>
+          <span class="macro-panel__status">${escapeHtml(STATUS_LABEL)}<\/span>
+        </div>
+        <div class="macro-panel__body">
+          <div class="macro-panel__table">
+            <div class="macro-panel__grid" data-columns="${columnCount}">
+              ${headerRow}${itemRows}${totalRow}
+            </div>
+          </div>
+          <p class="macro-panel__footnote">Values are estimates and update as you customize your meal.<\/p>
+        </div>
+      </div>
+    `;
+  }
+
+  function update(payload) {
+    const container = getContainer();
+    if (!container) return;
+
+    const safePayload = payload && typeof payload === 'object' ? payload : {};
+    const slots = ['protein', 'side1', 'side2'];
+    const items = [];
+
+    slots.forEach(slot => {
+      const parsed = parseSelection(safePayload[slot], slot);
+      if (parsed) items.push(parsed);
+    });
+
+    if (!items.length) {
+      renderEmpty(container);
+      return;
+    }
+
+    renderPanel(container, items);
+  }
+
+  api.update = update;
+
+  function initialize() {
+    const container = getContainer();
+    if (!container) return;
+    renderEmpty(container);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initialize);
+  } else {
+    initialize();
+  }
+})(window, document);
