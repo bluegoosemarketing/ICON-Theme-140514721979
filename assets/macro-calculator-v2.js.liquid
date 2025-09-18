@@ -595,9 +595,14 @@
       quantityText = rawTitle.slice(separatorIndex + 3).trim();
     }
 
-    const lookupKey = baseName.toLowerCase();
+    // *** FIX: Clean the base name to remove " OZ" before lookup ***
+    const lookupKey = baseName.toLowerCase().replace(/\s+oz$/, '').trim();
     const nutrition = NUTRITION_DATA[lookupKey];
-    if (!nutrition) return null;
+
+    if (!nutrition) {
+      console.warn(`[MacroV2] Nutrition data not found for key: "${lookupKey}" (derived from "${rawTitle}")`);
+      return null;
+    }
 
     const quantity = parseQuantity(quantityText, lookupKey);
     const isValidAmount = Number.isFinite(quantity.amount) && quantity.amount > 0;

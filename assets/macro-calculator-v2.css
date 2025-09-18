@@ -1,5 +1,8 @@
 #nutrition-container-v2 {
   margin-top: 1.5rem;
+  /* *** FIX: Add position and z-index to ensure it renders above sticky elements *** */
+  position: relative;
+  z-index: 2;
 }
 
 #nutrition-container-v2 .macro-panel {

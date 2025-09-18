@@ -1,8 +1,7 @@
 /*
-  Custom Meal Recharge Bundle Builder - v3.1 (Visual Enhancement Layer)
-  - Preserves all original logic from v3.0.
-  - Adds a new visual layer on top of the functional dropdowns.
-  - When a visual card is clicked, it programmatically controls the original hidden dropdown.
+  Custom Meal Recharge Bundle Builder - v3.5 (Final)
+  - Fixes "ghost" selections by checking if a product is selected for a slot before sending its variant data.
+  - Prevents macro calculation on initial page load to ensure the panel starts empty.
 */
 
 class CustomMealBuilder {
@@ -16,6 +15,11 @@ class CustomMealBuilder {
     this.proteinSelect = this.root.querySelector('[data-protein-select]');
     this.side1Select = this.root.querySelector('[data-side1-select]');
     this.side2Select = this.root.querySelector('[data-side2-select]');
+    // *** FIX: Get references to the product selectors themselves ***
+    this.proteinProductSelect = this.root.querySelector('[data-product-select="protein"]');
+    this.side1ProductSelect = this.root.querySelector('[data-product-select="side1"]');
+    this.side2ProductSelect = this.root.querySelector('[data-product-select="side2"]');
+
     this.frequencySelect = this.root.querySelector('[data-frequency-select]');
     this.quantityInput = this.root.querySelector('[data-qty-input]');
     this.priceDisplay = this.root.querySelector('[data-total-price]');
@@ -52,7 +56,7 @@ class CustomMealBuilder {
     this.config = {};
     this.variantDetails = new Map();
     this.productData = { protein: [], side: [] };
-    this.productImageData = new Map(); // *** NEW: To store image URLs ***
+    this.productImageData = new Map(); 
 
     if (!this.ensureRequiredIds()) return;
 
@@ -96,19 +100,17 @@ class CustomMealBuilder {
       this.productData.protein = this.processProductData(proteins);
       this.productData.side = this.processProductData(sides);
 
-      this.populateProductSelect(this.root.querySelector('[data-product-select="protein"]'), this.productData.protein, 'protein');
-      this.populateProductSelect(this.root.querySelector('[data-product-select="side1"]'), this.productData.side, 'side');
-      this.populateProductSelect(this.root.querySelector('[data-product-select="side2"]'), this.productData.side, 'side');
+      this.populateProductSelect(this.proteinProductSelect, this.productData.protein, 'protein');
+      this.populateProductSelect(this.side1ProductSelect, this.productData.side, 'side');
+      this.populateProductSelect(this.side2ProductSelect, this.productData.side, 'side');
       
       this.populateHiddenVariantSelects();
       
-      // *** NEW: Render the visual layer AFTER original selects are populated ***
       this.renderAllVisualOptions(); 
       this.bindVisualOptionEvents();
-      // *** END NEW ***
 
       this.state.isLoading = false;
-      this.update();
+      this.update({ emitMacros: false });
     } catch (error) {
       this.showError('Could not load meal options. Please refresh.');
     }
@@ -116,9 +118,7 @@ class CustomMealBuilder {
   
   processProductData(products) {
     return products.map(product => {
-      // *** NEW: Store image data ***
       this.productImageData.set(String(product.id), (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src);
-      // *** END NEW ***
 
       const variants = (product.variants || []).map(variant => {
         const variantId = String(variant.id);
@@ -204,7 +204,6 @@ class CustomMealBuilder {
       select.addEventListener('change', (event) => {
         const selectionGroup = event.target.dataset.productSelect;
         this.renderVariantOptions(selectionGroup, event.target.value);
-        // *** NEW: Sync visual selection state on change ***
         this.syncVisualSelection(selectionGroup, event.target.value);
       });
     });
@@ -233,19 +232,14 @@ class CustomMealBuilder {
     this.form.addEventListener('submit', (event) => this.handleAddToCart(event));
   }
   
-  // ===================================================================
-  // === NEW VISUAL ENHANCEMENT METHODS (SAFE - ADDITIVE ONLY) =========
-  // ===================================================================
-  
   renderAllVisualOptions() {
     this.productSelects.forEach(select => {
       const group = select.dataset.productSelect;
       const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`);
       if (!visualContainer) return;
 
-      visualContainer.innerHTML = ''; // Clear
+      visualContainer.innerHTML = ''; 
       
-      // Skip the first "Choose..." option
       Array.from(select.options).slice(1).forEach(option => {
         const productId = option.value;
         const productTitle = option.textContent;
@@ -272,11 +266,9 @@ class CustomMealBuilder {
 
       const { productId, group } = card.dataset;
       
-      // Find the original hidden select and set its value
       const originalSelect = this.root.querySelector(`[data-product-select="${group}"]`);
       if (originalSelect) {
         originalSelect.value = productId;
-        // CRITICAL: Trigger the change event to run all original logic
         originalSelect.dispatchEvent(new Event('change'));
       }
     });
@@ -286,17 +278,12 @@ class CustomMealBuilder {
     const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`);
     if (!visualContainer) return;
     
-    // *** NEW: Mark parent step as selected ***
     visualContainer.closest('.cm-selection-step').dataset.productSelected = !!selectedProductId;
 
     visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => {
       card.classList.toggle('is-selected', card.dataset.productId === selectedProductId);
     });
   }
-
-  // ===================================================================
-  // === END NEW VISUAL ENHANCEMENT METHODS ============================
-  // ===================================================================
 
   waitForRechargeBundle(timeout = 10000, interval = 50) {
     return new Promise((resolve, reject) => {
@@ -357,23 +344,27 @@ class CustomMealBuilder {
   emitMacroSelections() {
     if (!window.iconMacroV2 || typeof window.iconMacroV2.update !== 'function') return;
 
+    // *** FIX: Only get the variant value if a product has been explicitly selected for that slot ***
     const payload = {
-      protein: this.getVariantLabelByValue(this.proteinSelect?.value),
-      side1: this.getVariantLabelByValue(this.side1Select?.value),
-      side2: this.getVariantLabelByValue(this.side2Select?.value)
+      protein: this.proteinProductSelect.value ? this.getVariantLabelByValue(this.proteinSelect?.value) : '',
+      side1: this.side1ProductSelect.value ? this.getVariantLabelByValue(this.side1Select?.value) : '',
+      side2: this.side2ProductSelect.value ? this.getVariantLabelByValue(this.side2Select?.value) : ''
     };
 
     window.iconMacroV2.update(payload);
   }
 
-  update() {
+  update({ emitMacros = true } = {}) {
     const qty = parseInt(this.quantityInput.value, 10);
     this.state.quantity = !isNaN(qty) && qty > 0 ? qty : 1;
     this.quantityInput.value = this.state.quantity;
     this.state.sellingPlanId = this.frequencySelect.value || null;
     this.calculatePrice();
     this.validate();
-    this.emitMacroSelections();
+    
+    if (emitMacros) {
+      this.emitMacroSelections();
+    }
   }
 
   calculatePrice() {
@@ -387,7 +378,7 @@ class CustomMealBuilder {
   }
 
   validate() {
-    const hasSelections = this.proteinSelect.value && this.side1Select.value; // Side 2 is optional
+    const hasSelections = this.proteinSelect.value && this.side1Select.value;
     const canSubmit = hasSelections && !this.state.isLoading;
     this.addToCartButton.disabled = !canSubmit;
     this.addToCartText.textContent = this.state.isLoading ? 'Loading...' : (canSubmit ? 'Add to Cart' : 'Select Options');
@@ -396,17 +387,17 @@ class CustomMealBuilder {
 
   getSelectionDetails(selectElement) {
     const variantId = selectElement.value;
-    if (!variantId && selectElement !== this.side2Select) { // Side 2 can be empty
+    if (!variantId && selectElement !== this.side2Select) {
       throw new Error('A required selection is missing.');
     }
-    if (!variantId) return null; // Return null for optional empty selections
+    if (!variantId) return null; 
     const details = this.variantDetails.get(variantId);
     if (!details) throw new Error(`Missing variant metadata for ${variantId}.`);
     return details;
   }
   
   buildSelection(variantDetails, collectionId) {
-    if (!variantDetails) return null; // Handle optional selections
+    if (!variantDetails) return null; 
     const selection = {
       collectionId,
       externalProductId: variantDetails.productId,
@@ -431,7 +422,7 @@ class CustomMealBuilder {
             this.buildSelection(this.getSelectionDetails(this.proteinSelect), this.config.proteinCollectionId),
             this.buildSelection(this.getSelectionDetails(this.side1Select), this.config.sideCollectionId),
             this.buildSelection(this.getSelectionDetails(this.side2Select), this.config.sideCollectionId)
-        ].filter(Boolean); // Filter out nulls from optional empty selections
+        ].filter(Boolean);
 
         if (selections.length < 2) {
             throw new Error('Please select a protein and at least one side.');

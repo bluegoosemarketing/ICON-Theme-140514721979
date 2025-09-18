@@ -31,28 +31,33 @@
         endif
       %}
 
-      <!-- LEFT: Media / Hero Image -->
-      <section class="product-page__media cm-recharge__media card card--soft">
-        {% if hero_media %}
-          {% assign hero_alt = hero_media.alt | default: product.title %}
-          <div class="cm-recharge__media-frame">
-            {% case hero_media.media_type %}
-              {% when 'image' %}
-                {% render 'responsive-image' with hero_media, class: 'cm-recharge__image', alt: hero_alt, default_size: '1024x', blur: false %}
-              {% else %}
-                <div class="cm-recharge__media-generic">
-                  {{ hero_media | media_tag }}
-                </div>
-            {% endcase %}
-          </div>
-        {% else %}
-          <div class="cm-recharge__media-placeholder">
-            {{ 'product-1' | placeholder_svg_tag: 'icon--placeholder' }}
-          </div>
-        {% endif %}
-      </section>
+      <!-- Wrapper for Left Column Content -->
+      <div>
+        <!-- LEFT: Media / Hero Image -->
+        <section class="product-page__media cm-recharge__media card card--soft">
+          {% if hero_media %}
+            {% assign hero_alt = hero_media.alt | default: product.title %}
+            <div class="cm-recharge__media-frame">
+              {% case hero_media.media_type %}
+                {% when 'image' %}
+                  {% render 'responsive-image' with hero_media, class: 'cm-recharge__image', alt: hero_alt, default_size: '1024x', blur: false %}
+                {% else %}
+                  <div class="cm-recharge__media-generic">
+                    {{ hero_media | media_tag }}
+                  </div>
+              {% endcase %}
+            </div>
+          {% else %}
+            <div class="cm-recharge__media-placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'icon--placeholder' }}
+            </div>
+          {% endif %}
+        </section>
 
-      <div id="nutrition-container-v2" class="cm-recharge-macro-container"></div>
+        <!-- Nutrition Calculator (Now correctly positioned below the image) -->
+        <div id="nutrition-container-v2" class="cm-recharge-macro-container"></div>
+      </div>
+
 
       <!-- RIGHT: Builder Panel -->
       <section class="product-page__details cm-recharge__panel">
