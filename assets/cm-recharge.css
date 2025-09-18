@@ -10,9 +10,18 @@
 /* --- Main Layout --- */
 .cm-recharge__main { padding: 1.5rem 0; }
 .cm-recharge__layout { display: flex; flex-direction: column; gap: 1.5rem; }
-.cm-recharge__visuals,
-.cm-recharge__panel { display: flex; flex-direction: column; gap: 1.5rem; }
-.cm-recharge__panel { padding-top: 0.5rem; }
+.cm-recharge__visuals {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  min-width: 0; /* FIX: Prevents wide children (e.g., nutrition table) from breaking the grid layout. */
+}
+.cm-recharge__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding-top: 0.5rem;
+}
 
 /* --- Header & Description --- */
 .cm-recharge__intro .h2 { font-size: 2.25rem !important; font-weight: 800 !important; margin-bottom: 1rem; }

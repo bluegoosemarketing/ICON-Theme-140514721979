@@ -1,17 +1,129 @@
+/* ==========================================================================
+   V2 Macro Calculator - Merged & Finalized Styles
+   - Combines styles from the legacy 'nutrition-panel-v8' with the
+     newly generated markup for a consistent look and feel.
+   ========================================================================== */
+
 #nutrition-container-v2 {
   margin-top: 1.5rem;
 }
 
+/* --- Main Panel Wrapper --- */
 #nutrition-container-v2 .nutrition-panel-v8 {
   width: 100%;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background-color: #f8f9fa;
+  overflow: hidden;
+  transition: all 0.2s ease-in-out;
 }
 
+/* --- Interactive Macro Grid (3x2 Totals) --- */
+#nutrition-container-v2 .macro-grid--interactive {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+}
+#nutrition-container-v2 .macro-stat {
+  padding: 1rem 0.5rem;
+  text-align: center;
+  background-color: #f8f9fa;
+  border-right: 1px solid #e9ecef;
+  border-bottom: 1px solid #e9ecef;
+  border-top-width: 4px;
+  border-top-style: solid;
+}
+#nutrition-container-v2 .macro-stat:nth-child(3n) {
+  border-right: none;
+}
+#nutrition-container-v2 .macro-grid--interactive .macro-stat:nth-last-child(-n+3) {
+  border-bottom: none;
+}
+
+/* Macro Colors (with fallbacks) */
+#nutrition-container-v2 .macro-stat--calories { border-top-color: var(--macro-color-calories, #6c757d); }
+#nutrition-container-v2 .macro-stat--protein { border-top-color: var(--macro-color-protein, #2a9d8f); }
+#nutrition-container-v2 .macro-stat--carbs { border-top-color: var(--macro-color-carbs, #e9c46a); }
+#nutrition-container-v2 .macro-stat--fats { border-top-color: var(--macro-color-fats, #8ab17d); }
+#nutrition-container-v2 .macro-stat--fiber { border-top-color: var(--macro-color-fiber, #b58db6); }
+#nutrition-container-v2 .macro-stat--sodium { border-top-color: var(--macro-color-sodium, #f4a261); }
+
+#nutrition-container-v2 .macro-stat__value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212529;
+  line-height: 1.2;
+  display: block;
+  margin-bottom: 0.25rem;
+}
+#nutrition-container-v2 .macro-stat__label {
+  font-size: 0.7rem;
+  color: #6c757d;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: block;
+}
+
+/* --- Panel Footer & Toggle Button --- */
+#nutrition-container-v2 .panel-footer {
+  padding: 10px 15px;
+  background-color: #f8f9fa;
+  text-align: center;
+}
+/* The summary grid doesn't have a border separating it from the footer, so the footer adds it */
+#nutrition-container-v2 .nutrition-panel-v8:not(.nutrition-panel-v8--empty) .panel-footer {
+  border-top: 1px solid #e9ecef;
+}
+
+#nutrition-container-v2 .panel-toggle-primary {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  color: #495057 !important;
+  background-color: #ffffff !important;
+  border: 1px solid #dee2e6 !important;
+  padding: 6px 12px !important;
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  cursor: pointer !important;
+  white-space: nowrap !important;
+  transition: all 0.2s ease !important;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.04) !important;
+  text-decoration: none !important;
+}
+#nutrition-container-v2 .panel-toggle-primary:hover {
+  background-color: #f8f9fa !important;
+  border-color: #ced4da !important;
+  color: #212529 !important;
+  transform: translateY(-1px) !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05) !important;
+  text-decoration: none !important;
+}
+#nutrition-container-v2 .toggle-icon {
+  width: 0;
+  height: 0;
+  border-left: 4px solid transparent;
+  border-right: 4px solid transparent;
+  border-top: 4px solid currentColor;
+  transition: transform 0.2s ease-in-out;
+}
+#nutrition-container-v2 .nutrition-panel-v8.is-expanded .toggle-icon {
+  transform: rotate(180deg);
+}
+
+
+/* --- Hidden Panel Body for Ingredient Breakdown --- */
 #nutrition-container-v2 .panel-body {
   border-top: 1px solid #e9ecef;
   background-color: #ffffff;
   padding: 1.25rem 1.5rem;
 }
+#nutrition-container-v2 .panel-body.is-hidden {
+  display: none;
+}
 
+/* --- Ingredient Breakdown Table Styles (from previous patch) --- */
 #nutrition-container-v2 .panel-body-title {
   margin: 0 0 1rem 0;
   font-size: 1rem;
@@ -20,31 +132,19 @@
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
-
-#nutrition-container-v2 .panel-empty-message {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #495057;
-  text-align: center;
-}
-
 #nutrition-container-v2 .macro-panel__table {
   width: 100%;
   overflow-x: auto;
 }
-
 #nutrition-container-v2 .macro-panel__grid {
   display: grid;
   grid-template-columns: minmax(180px, 2fr) repeat(6, minmax(90px, 1fr));
   gap: 0.75rem;
   align-items: stretch;
 }
-
 #nutrition-container-v2 .macro-panel__row {
   display: contents;
 }
-
 #nutrition-container-v2 .macro-panel__cell {
   padding: 0.75rem;
   background-color: #f8f9fa;
@@ -58,7 +158,6 @@
   justify-content: center;
   text-align: center;
 }
-
 #nutrition-container-v2 .macro-panel__cell--item {
   justify-content: flex-start;
   text-align: left;
@@ -66,7 +165,6 @@
   align-items: flex-start;
   gap: 0.25rem;
 }
-
 #nutrition-container-v2 .macro-panel__item-role {
   font-size: 0.75rem;
   font-weight: 600;
@@ -74,18 +172,15 @@
   letter-spacing: 0.05em;
   color: #6c757d;
 }
-
 #nutrition-container-v2 .macro-panel__item-name {
   font-size: 0.95rem;
   font-weight: 600;
   color: #111827;
 }
-
 #nutrition-container-v2 .macro-panel__item-quantity {
   font-size: 0.8rem;
   color: #6b7280;
 }
-
 #nutrition-container-v2 .macro-panel__row--header .macro-panel__cell {
   background-color: #111827;
   border-color: #111827;
@@ -95,44 +190,54 @@
   font-size: 0.75rem;
   letter-spacing: 0.05em;
 }
-
 #nutrition-container-v2 .macro-panel__row--total .macro-panel__cell {
   background-color: #e0f2fe;
   border-color: #cfe1f5;
   color: #0f172a;
   font-weight: 700;
 }
-
 #nutrition-container-v2 .macro-panel__value {
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 0.25rem;
 }
-
 #nutrition-container-v2 .macro-panel__value strong {
   font-size: 1rem;
   font-weight: 700;
   color: #111827;
 }
-
 #nutrition-container-v2 .macro-panel__value span {
   font-size: 0.7rem;
   text-transform: uppercase;
   letter-spacing: 0.04em;
   color: #6c757d;
 }
-
 #nutrition-container-v2 .macro-panel__footnote {
   margin-top: 1rem;
   font-size: 0.75rem;
   color: #6c757d;
 }
 
+
+/* --- Empty State --- */
+#nutrition-container-v2 .panel-empty-message {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
+}
+#nutrition-container-v2 .nutrition-panel-v8--empty {
+  border: none;
+  background: none;
+}
 #nutrition-container-v2 .nutrition-panel-v8--empty .panel-body {
   padding: 1.5rem;
+  border: 1px solid #e9ecef;
+  border-radius: 12px;
+  background-color: #f8f9fa;
 }
-
 #nutrition-container-v2 .nutrition-panel-v8--empty .panel-body::before {
   content: '';
   display: block;
@@ -143,22 +248,21 @@
   border-radius: 999px;
 }
 
+
+/* --- Responsive Overrides --- */
 @media (max-width: 1023px) {
   #nutrition-container-v2 .macro-panel__grid {
     grid-template-columns: minmax(160px, 2fr) repeat(6, minmax(80px, 1fr));
   }
 }
-
 @media (max-width: 640px) {
   #nutrition-container-v2 .panel-body {
     padding: 1.25rem 1rem;
   }
-
   #nutrition-container-v2 .macro-panel__grid {
     grid-template-columns: minmax(160px, 1.5fr) repeat(6, minmax(70px, 1fr));
     gap: 0.5rem;
   }
-
   #nutrition-container-v2 .macro-panel__cell {
     padding: 0.6rem;
     font-size: 0.85rem;
