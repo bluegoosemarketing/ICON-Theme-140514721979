@@ -15,6 +15,28 @@
   padding-right: 0 !important;
 }
 
+/* --- Structural Helpers --- */
+.cm-recharge {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+}
+
+.cm-recharge__inner {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+  min-height: 100%;
+}
+
+.cm-recharge__main {
+  flex: 1 0 auto;
+}
+
+.cm-recharge__footer {
+  margin-top: auto;
+}
+
 /* --- Main Layout --- */
 /* Final Width Fix: Remove horizontal constraints from the theme's .container class */
 .cm-recharge__main.container {

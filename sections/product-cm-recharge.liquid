@@ -12,7 +12,7 @@
 
 <div
   id="cm-recharge-root-{{ section.id }}"
-  class="cm-recharge product product-template"
+  class="cm-recharge product product-template full-viewport"
   data-section-id="{{ section.id }}"
   data-product-handle="{{ product.handle }}"
   data-bundle-product-id="{{ product.id }}"
@@ -22,8 +22,9 @@
   data-protein-collection-id="{{ protein_collection.id | default: '' }}"
   data-side-collection-id="{{ side_collection.id | default: '' }}"
 >
-  <div class="product-main cm-recharge__main container">
-    <div class="product-main__layout cm-recharge__layout">
+  <div class="cm-recharge__inner pad-safe-bottom">
+    <div class="product-main cm-recharge__main container">
+      <div class="product-main__layout cm-recharge__layout">
       {% liquid
         assign hero_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
         if hero_media == blank and product.media.size > 0
@@ -141,6 +142,11 @@
           <div class="cm-recharge__error" data-error-message></div>
         </form>
       </section>
+      </div>
+    </div>
+
+    <div class="cm-recharge__footer">
+      {% render 'footer-minimal-ordering' %}
     </div>
   </div>
 </div>
