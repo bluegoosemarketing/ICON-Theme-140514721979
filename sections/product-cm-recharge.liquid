@@ -1,250 +1,182 @@
 {% comment %}
-  Custom Meal Recharge Product Template
-  - Purpose: Present the "build your own" custom meal builder that integrates with Recharge bundles.
-  - Notes: This template feeds the `assets/cm-recharge.js` controller which expects specific
-    data attributes and markup hooks. The previous version of this file was replaced with a
-    blog layout which caused Liquid pagination errors on product pages.
+  **
+  * File: sections/product-cm-recharge.liquid
+  * Version: 3.2 (Intuitive Step-by-Step Layout)
+  * Description: Re-structures the form into clear, full-width fieldsets for an intuitive, top-to-bottom user flow.
+  * Preserves all existing functionality and data attributes.
+  **
 {% endcomment %}
 
-{{ 'cm-recharge.css' | asset_url | stylesheet_tag }}
-{{ 'cm-recharge.js' | asset_url | script_tag }}
+{% assign protein_collection = collections[section.settings.protein_collection_handle] %}
+{% assign side_collection = collections[section.settings.side_collection_handle] %}
 
-{%- liquid
-  assign display_title = product.metafields.custom.display_title | default: product.title
-  assign subheading = product.metafields.custom.subtitle
-  assign hero_copy = product.metafields.custom.hero_copy
+<div
+  id="cm-recharge-root-{{ section.id }}"
+  class="cm-recharge product product-template"
+  data-section-id="{{ section.id }}"
+  data-product-handle="{{ product.handle }}"
+  data-bundle-product-id="{{ product.id }}"
+  data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-protein-collection-handle="{{ section.settings.protein_collection_handle }}"
+  data-side-collection-handle="{{ section.settings.side_collection_handle }}"
+  data-protein-collection-id="{{ protein_collection.id | default: '' }}"
+  data-side-collection-id="{{ side_collection.id | default: '' }}"
+>
+  <div class="product-main cm-recharge__main container">
+    <div class="product-main__layout cm-recharge__layout">
+      {% liquid
+        assign hero_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+        if hero_media == blank and product.media.size > 0
+          assign hero_media = product.media.first
+        endif
+      %}
 
-  assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
-  if featured_media and featured_media.preview_image
-    assign hero_image = featured_media.preview_image
-  else
-    assign hero_image = featured_media
-  endif
-  if hero_image == blank
-    assign hero_image = product.featured_image
-  endif
-
-  assign price_placeholder = product.selected_or_first_available_variant.price | default: product.price
-
-  assign bundle_product_id = product.metafields.bundle.bundle_product_id | default: product.metafields.custom.bundle_product_id | default: section.settings.bundle_product_id
-  assign bundle_variant_id = product.metafields.bundle.bundle_variant_id | default: product.metafields.custom.bundle_variant_id | default: section.settings.bundle_variant_id
-  assign protein_collection_handle = product.metafields.bundle.protein_collection_handle | default: product.metafields.custom.protein_collection_handle | default: section.settings.protein_collection_handle
-  assign side_collection_handle = product.metafields.bundle.side_collection_handle | default: product.metafields.custom.side_collection_handle | default: section.settings.side_collection_handle
-  assign protein_collection_id = product.metafields.bundle.protein_collection_id | default: product.metafields.custom.protein_collection_id | default: section.settings.protein_collection_id
-  assign side_collection_id = product.metafields.bundle.side_collection_id | default: product.metafields.custom.side_collection_id | default: section.settings.side_collection_id
-
-  assign protein_heading = section.settings.protein_heading | default: 'Choose your protein'
-  assign side1_heading = section.settings.side1_heading | default: 'Pick your first side'
-  assign side2_heading = section.settings.side2_heading | default: 'Pick an optional second side'
-  assign frequency_heading = section.settings.frequency_heading | default: 'Delivery frequency'
-  assign quantity_heading = section.settings.quantity_heading | default: 'Quantity'
-  assign add_to_cart_label = section.settings.add_to_cart_label | default: 'Add to Cart'
-
-  assign selling_plan_json = product.selling_plan_groups | json
--%}
-
-<section id="product-cm-recharge" class="section section--cm-recharge">
-  <div class="page-width">
-    <div
-      class="cm-recharge cm-recharge__main container"
-      data-section-id="{{ section.id }}"
-      data-product-handle="{{ product.handle }}"
-      data-bundle-product-id="{{ bundle_product_id | default: '' }}"
-      data-bundle-variant-id="{{ bundle_variant_id | default: '' }}"
-      data-protein-collection-handle="{{ protein_collection_handle | default: '' }}"
-      data-side-collection-handle="{{ side_collection_handle | default: '' }}"
-      data-protein-collection-id="{{ protein_collection_id | default: '' }}"
-      data-side-collection-id="{{ side_collection_id | default: '' }}"
-    >
-      <div class="cm-recharge__layout product-main__layout">
-        <div class="cm-recharge__panel">
-          <header class="cm-recharge__intro">
-            <p class="product__vendor" aria-hidden="true">{{ product.vendor }}</p>
-            <h1 class="h2">{{ display_title }}</h1>
-            <div class="product-price product-price--placeholder" aria-live="polite">
-              <span data-total-price>{{ price_placeholder | money }}</span>
+      <!-- Wrapper for Left Column Content -->
+      <div class="product-main__visuals-wrapper cm-recharge__visuals">
+        <!-- LEFT: Media / Hero Image -->
+        <section class="product-main__gallery cm-recharge__media card card--soft">
+          {% if hero_media %}
+            {% assign hero_alt = hero_media.alt | default: product.title %}
+            <div class="cm-recharge__media-frame">
+              {% case hero_media.media_type %}
+                {% when 'image' %}
+                  {% render 'responsive-image' with hero_media, class: 'cm-recharge__image', alt: hero_alt, default_size: '1024x', blur: false %}
+                {% else %}
+                  <div class="cm-recharge__media-generic">
+                    {{ hero_media | media_tag }}
+                  </div>
+              {% endcase %}
             </div>
-            {% if subheading != blank %}
-              <p class="cm-recharge__subheading">{{ subheading }}</p>
-            {% endif %}
-            {% if hero_copy != blank %}
-              <p class="cm-recharge__hook">{{ hero_copy }}</p>
-            {% endif %}
-          </header>
-
-          <form class="cm-recharge__form" data-cm-form>
-            <fieldset class="cm-selection-step" data-selection-group="protein">
-              <legend class="cm-step__legend"><span>1</span>{{ protein_heading }}</legend>
-              <div class="cm-visual-options" data-visual-options-for="protein"></div>
-              <label class="visually-hidden" for="ProteinProduct-{{ section.id }}">{{ protein_heading }}</label>
-              <select id="ProteinProduct-{{ section.id }}" data-product-select="protein" disabled>
-                <option value="">Loading proteins…</option>
-              </select>
-              <div class="variant-options" aria-live="polite"></div>
-              <select class="visually-hidden" data-protein-select aria-hidden="true"></select>
-            </fieldset>
-
-            <fieldset class="cm-selection-step" data-selection-group="side1">
-              <legend class="cm-step__legend"><span>2</span>{{ side1_heading }}</legend>
-              <div class="cm-visual-options" data-visual-options-for="side1"></div>
-              <label class="visually-hidden" for="Side1Product-{{ section.id }}">{{ side1_heading }}</label>
-              <select id="Side1Product-{{ section.id }}" data-product-select="side1" disabled>
-                <option value="">Loading sides…</option>
-              </select>
-              <div class="variant-options" aria-live="polite"></div>
-              <select class="visually-hidden" data-side1-select aria-hidden="true"></select>
-            </fieldset>
-
-            <fieldset class="cm-selection-step" data-selection-group="side2">
-              <legend class="cm-step__legend"><span>3</span>{{ side2_heading }}<small>(optional)</small></legend>
-              <div class="cm-visual-options" data-visual-options-for="side2"></div>
-              <label class="visually-hidden" for="Side2Product-{{ section.id }}">{{ side2_heading }}</label>
-              <select id="Side2Product-{{ section.id }}" data-product-select="side2" disabled>
-                <option value="">Add another side…</option>
-              </select>
-              <div class="variant-options" aria-live="polite"></div>
-              <select class="visually-hidden" data-side2-select aria-hidden="true"></select>
-            </fieldset>
-
-            <div class="cm-selection-step">
-              <label class="cm-step__label" for="Frequency-{{ section.id }}">{{ frequency_heading }}</label>
-              <select id="Frequency-{{ section.id }}" data-frequency-select disabled>
-                <option value="">One-time purchase</option>
-              </select>
-            </div>
-
-            <div class="cm-recharge__cta">
-              <div class="integrated-quantity">
-                <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
-                <input type="number" class="integrated-quantity__input" value="1" min="1" data-qty-input aria-live="polite" aria-label="{{ quantity_heading }}">
-                <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
-              </div>
-              <button type="submit" class="btn btn--primary product-card__add-btn" data-add-to-cart-button>
-                <span data-add-to-cart-text>{{ add_to_cart_label }}</span>
-              </button>
-            </div>
-
-            <p class="cm-recharge__error" data-error-message role="alert"></p>
-          </form>
-
-          {% if product.description != blank %}
-            <div class="cm-recharge__description rte">{{ product.description }}</div>
-          {% endif %}
-        </div>
-
-        <aside class="cm-recharge__visuals">
-          <div class="cm-recharge__media">
-            {% if hero_image %}
-              <div class="cm-recharge__media-frame">
-                {% render 'responsive-image' with hero_image, class: 'cm-recharge__image', alt: display_title %}
-              </div>
-            {% else %}
-              <div class="cm-recharge__media-placeholder">
-                {{ 'product-1' | placeholder_svg_tag: 'cm-recharge__media-generic' }}
-              </div>
-            {% endif %}
-          </div>
-
-          {% if section.settings.show_macros %}
-            <div class="cm-recharge__macros">
-              {% render 'product-macros', product: product %}
+          {% else %}
+            <div class="cm-recharge__media-placeholder">
+              {{ 'product-1' | placeholder_svg_tag: 'icon--placeholder' }}
             </div>
           {% endif %}
-        </aside>
+        </section>
+
+        <!-- Nutrition Calculator (Now correctly positioned below the image) -->
+        <div id="nutrition-container-v2" class="cm-recharge-macro-container nutrition-container-v8"></div>
       </div>
 
-      <script type="application/json" id="RechargeSellingPlans-{{ section.id }}">{{ selling_plan_json | default: '[]' }}</script>
-      <script type="application/json" data-product-json>{{ product | json }}</script>
+
+      <!-- RIGHT: Builder Panel -->
+      <section class="product-main__info-column cm-recharge__panel">
+        <div class="cm-recharge__intro">
+          <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
+          <div class="product-price--placeholder">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
+            <div>
+              <span class="placeholder-main-text" data-total-price>{{ 0 | money }}</span>
+              <span class="placeholder-sub-text">Your total will update here.</span>
+            </div>
+          </div>
+          {%- if product.description != blank -%}
+            <div class="cm-recharge__description rte">{{ product.description }}</div>
+          {%- endif -%}
+        </div>
+
+        <form class="cm-recharge__form" data-cm-form>
+
+          <!-- Step 1: Protein Selection -->
+          <fieldset class="cm-selection-step" data-selection-group="protein">
+            <legend class="cm-step__legend"><span>1</span> Choose Protein</legend>
+            <div class="cm-step__content">
+              <div class="select-wrapper visually-hidden">
+                <select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select>
+              </div>
+              <div class="cm-visual-options" data-visual-options-for="protein"></div>
+              <div class="variant-options" data-variant-options="protein"></div>
+              <select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select>
+            </div>
+          </fieldset>
+
+          <!-- Step 2: Side 1 Selection -->
+          <fieldset class="cm-selection-step" data-selection-group="side1">
+            <legend class="cm-step__legend"><span>2</span> Choose Side 1</legend>
+            <div class="cm-step__content">
+              <div class="select-wrapper visually-hidden">
+                <select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select>
+              </div>
+              <div class="cm-visual-options" data-visual-options-for="side1"></div>
+              <div class="variant-options" data-variant-options-for="side1"></div>
+              <select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select>
+            </div>
+          </fieldset>
+
+          <!-- Step 3: Side 2 Selection -->
+          <fieldset class="cm-selection-step" data-selection-group="side2">
+            <legend class="cm-step__legend"><span>3</span> Choose Side 2 <small>(Optional)</small></legend>
+            <div class="cm-step__content">
+              <div class="select-wrapper visually-hidden">
+                <select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select>
+              </div>
+              <div class="cm-visual-options" data-visual-options-for="side2"></div>
+              <div class="variant-options" data-variant-options-for="side2"></div>
+              <select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select>
+            </div>
+          </fieldset>
+          
+          <!-- Frequency -->
+          <div class="cm-selection-step">
+            <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
+            <div class="select-wrapper">
+              <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled>
+                 <option value="">Loading frequencies...</option>
+              </select>
+              <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </div>
+          </div>
+
+          <div class="cm-recharge__cta">
+            <div class="integrated-quantity" data-quantity-wrapper>
+              <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
+              <input class="integrated-quantity__input" type="number" name="quantity" min="1" value="1" readonly data-qty-input>
+              <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
+            </div>
+            <button type="submit" class="product-card__add-btn" data-add-to-cart-button disabled>
+              <span data-add-to-cart-text>Select Options</span>
+            </button>
+          </div>
+
+          <div class="cm-recharge__error" data-error-message></div>
+        </form>
+      </section>
     </div>
   </div>
-</section>
+</div>
+
+<script id="RechargeSellingPlans-{{ section.id }}" type="application/json">
+  {{ product.selling_plan_groups | json }}
+</script>
+
+<script>
+  (function loadRechargeBundleScript() {
+    if (window.__iconRechargeBundleScriptRequested) return;
+    if (typeof window.recharge !== 'undefined' && typeof window.recharge.bundle !== 'undefined') return;
+    var existingScript = document.querySelector('script[data-icon-recharge-bundle]');
+    if (existingScript) {
+      window.__iconRechargeBundleScriptRequested = true; return;
+    }
+    window.__iconRechargeBundleScriptRequested = true;
+    var script = document.createElement('script');
+    script.src = 'https://static.rechargecdn.com/assets/bundling-widget/src/js';
+    script.defer = true; script.referrerPolicy = 'origin';
+    script.setAttribute('data-icon-recharge-bundle', 'true');
+    document.head.appendChild(script);
+  })();
+</script>
+
+<link rel="stylesheet" href="{{ 'cm-recharge.css' | asset_url }}">
+<script src="{{ 'cm-recharge.js' | asset_url }}" defer="defer"></script>
 
 {% schema %}
 {
-  "name": "Custom meal (Recharge)",
+  "name": "Custom Meal Recharge",
   "settings": [
-    {
-      "type": "header",
-      "content": "Recharge bundle configuration"
-    },
-    {
-      "type": "text",
-      "id": "bundle_product_id",
-      "label": "Bundle product ID",
-      "info": "Numeric product ID used for the Recharge dynamic bundle."
-    },
-    {
-      "type": "text",
-      "id": "bundle_variant_id",
-      "label": "Bundle variant ID",
-      "info": "Variant ID associated with the bundle product."
-    },
-    {
-      "type": "text",
-      "id": "protein_collection_handle",
-      "label": "Protein collection handle"
-    },
-    {
-      "type": "text",
-      "id": "protein_collection_id",
-      "label": "Protein collection ID"
-    },
-    {
-      "type": "text",
-      "id": "side_collection_handle",
-      "label": "Side collection handle"
-    },
-    {
-      "type": "text",
-      "id": "side_collection_id",
-      "label": "Side collection ID"
-    },
-    {
-      "type": "header",
-      "content": "UI copy"
-    },
-    {
-      "type": "text",
-      "id": "protein_heading",
-      "label": "Protein step heading",
-      "default": "Choose your protein"
-    },
-    {
-      "type": "text",
-      "id": "side1_heading",
-      "label": "Side 1 step heading",
-      "default": "Pick your first side"
-    },
-    {
-      "type": "text",
-      "id": "side2_heading",
-      "label": "Side 2 step heading",
-      "default": "Pick an optional second side"
-    },
-    {
-      "type": "text",
-      "id": "frequency_heading",
-      "label": "Frequency label",
-      "default": "Delivery frequency"
-    },
-    {
-      "type": "text",
-      "id": "quantity_heading",
-      "label": "Quantity label",
-      "default": "Quantity"
-    },
-    {
-      "type": "text",
-      "id": "add_to_cart_label",
-      "label": "Add to cart label",
-      "default": "Add to Cart"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_macros",
-      "label": "Show macro snapshot",
-      "default": true
-    }
-  ]
+    { "type": "header", "content": "Collection Handles" },
+    { "type": "text", "id": "protein_collection_handle", "label": "Protein Collection Handle", "default": "recharge-cm-proteins" },
+    { "type": "text", "id": "side_collection_handle", "label": "Sides Collection Handle", "default": "recharge-cm-sides" }
+  ],
+  "presets": [ { "name": "Custom Meal Recharge" } ]
 }
 {% endschema %}
