@@ -200,9 +200,9 @@ body.collection-menu-open {
 }
 
 /* ==========================================================================
-   HIGH-PERFORMANCE BLOG LAYOUT V5.0 (DEFINITIVE MOBILE CENTERING FIX)
-   Description: Corrects the hero alignment bug on mobile Safari by
-   explicitly centering the flex container's children.
+   HIGH-PERFORMANCE BLOG LAYOUT V5.2 (DEFINITIVE HERO WIDTH FIX)
+   Description: Corrects the hero width on mobile by ensuring flex children
+   take up the full available width. This is the final version.
    ========================================================================== */
 
 /* --- Universal Helpers --- */
@@ -219,15 +219,16 @@ body.collection-menu-open {
 .blog-page {
   display: flex;
   flex-direction: column;
-  /* V5.0 DEFINITIVE FIX: This forces all direct children (the hero and the layout) to be centered horizontally. */
   align-items: center;
   gap: 3.5rem;
   background: linear-gradient(180deg, #ffffff 0%, #f1f3f5 100%);
   width: 100%; margin: 0; padding: 3rem clamp(1.5rem, 4vw, 4rem) 5rem;
 }
+
+/* V5.2 DEFINITIVE FIX: Force flex children to take up full width */
 .blog-hero, .blog-layout {
-  width: min(100%, 1280px);
-  /* The margin: auto is kept as a fallback for non-flex browsers but is no longer the primary centering mechanism. */
+  width: 100%; /* Ensures it takes full width of the flex parent */
+  max-width: 1280px; /* Constrains the width on larger screens */
   margin-left: auto;
   margin-right: auto;
 }
@@ -235,13 +236,14 @@ body.collection-menu-open {
 
 /* --- Featured Article Hero --- */
 .blog-hero {
-  display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr));
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 3rem; align-items: center;
   background-color: #f8f9fa; border: 1px solid #dee2e6;
   border-radius: 24px; padding: clamp(2rem, 4vw, 3.5rem);
   box-shadow: 0 12px 28px rgba(33, 37, 41, 0.05); overflow: hidden;
 }
-.blog-hero__media { aspect-ratio: 16/9; background-color: #e9ecef; border-radius: 18px; overflow: hidden; }
+.blog-hero__media { aspect-ratio: 16/9; background-color: #e9ecef; border-radius: 18px; overflow: hidden; width: 100%; }
 .blog-hero__media .blog-hero__image, .blog-hero__media img {
   display: block !important; width: 100% !important; height: 100% !important;
   object-fit: cover !important;
@@ -402,8 +404,13 @@ body.collection-menu-open {
 }
 @media (max-width: 768px) {
   .blog-page { padding: 1.5rem 1.25rem 3rem; }
-  .blog-hero { text-align: center; }
-  .blog-hero__content { align-items: center; }
+  .blog-hero {
+    display: flex; flex-direction: column;
+    text-align: center;
+  }
+  .blog-hero__content {
+    align-items: center;
+  }
 }
 
 /* --- END OF BLOG LAYOUT --- */
