@@ -1,194 +1,249 @@
 {% comment %}
-====================================================================================
-  ICON MEALS - WORLD-CLASS BLOG TEMPLATE (V4.0 - FINAL POLISH)
-  - Author: Gemini AI
-  - Description: The final, polished version of the blog template. Features
-    a two-column layout for better aesthetics, refined sidebar widgets, and
-    enhanced micro-interactions. Search bar removed as per request.
-====================================================================================
+  Custom Meal Recharge Product Template
+  - Purpose: Present the "build your own" custom meal builder that integrates with Recharge bundles.
+  - Notes: This template feeds the `assets/cm-recharge.js` controller which expects specific
+    data attributes and markup hooks. The previous version of this file was replaced with a
+    blog layout which caused Liquid pagination errors on product pages.
 {% endcomment %}
 
-<section id="blog_posts" class="blog-page" aria-labelledby="blog-page-heading">
-  {% paginate blog.articles by section.settings.blog-posts-per-page %}
-    {% if blog.articles_count == 0 %}
-      <div class="blog-page__empty">
-        <h1 id="blog-page-heading" class="blog-page__empty-title">{{ blog.title }}</h1>
-        <p>{{ 'blogs.article.no_articles' | t }}</p>
-      </div>
-    {% else %}
-      {% if paginate.current_page == 1 %}
-        {%- if section.settings.use_manual_featured_article and section.settings.featured_article_picker != blank -%}
-          {%- assign featured_article = section.settings.featured_article_picker -%}
-        {%- else -%}
-          {%- assign featured_article = blog.articles.first -%}
-        {%- endif -%}
+{{ 'cm-recharge.css' | asset_url | stylesheet_tag }}
+{{ 'cm-recharge.js' | asset_url | script_tag }}
 
-        <header class="blog-hero" role="banner">
-          <div class="blog-hero__media">
-            {% if featured_article.image %}
-              <a href="{{ featured_article.url }}" class="blog-hero__image" aria-label="Read more about {{ featured_article.title | escape }}">
-                {% render 'responsive-image' with featured_article.image, alt: featured_article.image.alt | default: featured_article.title %}
-              </a>
+{%- liquid
+  assign display_title = product.metafields.custom.display_title | default: product.title
+  assign subheading = product.metafields.custom.subtitle
+  assign hero_copy = product.metafields.custom.hero_copy
+
+  assign featured_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
+  if featured_media and featured_media.preview_image
+    assign hero_image = featured_media.preview_image
+  else
+    assign hero_image = featured_media
+  endif
+  if hero_image == blank
+    assign hero_image = product.featured_image
+  endif
+
+  assign price_placeholder = product.selected_or_first_available_variant.price | default: product.price
+
+  assign bundle_product_id = product.metafields.bundle.bundle_product_id | default: product.metafields.custom.bundle_product_id | default: section.settings.bundle_product_id
+  assign bundle_variant_id = product.metafields.bundle.bundle_variant_id | default: product.metafields.custom.bundle_variant_id | default: section.settings.bundle_variant_id
+  assign protein_collection_handle = product.metafields.bundle.protein_collection_handle | default: product.metafields.custom.protein_collection_handle | default: section.settings.protein_collection_handle
+  assign side_collection_handle = product.metafields.bundle.side_collection_handle | default: product.metafields.custom.side_collection_handle | default: section.settings.side_collection_handle
+  assign protein_collection_id = product.metafields.bundle.protein_collection_id | default: product.metafields.custom.protein_collection_id | default: section.settings.protein_collection_id
+  assign side_collection_id = product.metafields.bundle.side_collection_id | default: product.metafields.custom.side_collection_id | default: section.settings.side_collection_id
+
+  assign protein_heading = section.settings.protein_heading | default: 'Choose your protein'
+  assign side1_heading = section.settings.side1_heading | default: 'Pick your first side'
+  assign side2_heading = section.settings.side2_heading | default: 'Pick an optional second side'
+  assign frequency_heading = section.settings.frequency_heading | default: 'Delivery frequency'
+  assign quantity_heading = section.settings.quantity_heading | default: 'Quantity'
+  assign add_to_cart_label = section.settings.add_to_cart_label | default: 'Add to Cart'
+
+  assign selling_plan_json = product.selling_plan_groups | json
+-%}
+
+<section id="product-cm-recharge" class="section section--cm-recharge">
+  <div class="page-width">
+    <div
+      class="cm-recharge cm-recharge__main container"
+      data-section-id="{{ section.id }}"
+      data-product-handle="{{ product.handle }}"
+      data-bundle-product-id="{{ bundle_product_id | default: '' }}"
+      data-bundle-variant-id="{{ bundle_variant_id | default: '' }}"
+      data-protein-collection-handle="{{ protein_collection_handle | default: '' }}"
+      data-side-collection-handle="{{ side_collection_handle | default: '' }}"
+      data-protein-collection-id="{{ protein_collection_id | default: '' }}"
+      data-side-collection-id="{{ side_collection_id | default: '' }}"
+    >
+      <div class="cm-recharge__layout product-main__layout">
+        <div class="cm-recharge__panel">
+          <header class="cm-recharge__intro">
+            <p class="product__vendor" aria-hidden="true">{{ product.vendor }}</p>
+            <h1 class="h2">{{ display_title }}</h1>
+            <div class="product-price product-price--placeholder" aria-live="polite">
+              <span data-total-price>{{ price_placeholder | money }}</span>
+            </div>
+            {% if subheading != blank %}
+              <p class="cm-recharge__subheading">{{ subheading }}</p>
+            {% endif %}
+            {% if hero_copy != blank %}
+              <p class="cm-recharge__hook">{{ hero_copy }}</p>
+            {% endif %}
+          </header>
+
+          <form class="cm-recharge__form" data-cm-form>
+            <fieldset class="cm-selection-step" data-selection-group="protein">
+              <legend class="cm-step__legend"><span>1</span>{{ protein_heading }}</legend>
+              <div class="cm-visual-options" data-visual-options-for="protein"></div>
+              <label class="visually-hidden" for="ProteinProduct-{{ section.id }}">{{ protein_heading }}</label>
+              <select id="ProteinProduct-{{ section.id }}" data-product-select="protein" disabled>
+                <option value="">Loading proteins…</option>
+              </select>
+              <div class="variant-options" aria-live="polite"></div>
+              <select class="visually-hidden" data-protein-select aria-hidden="true"></select>
+            </fieldset>
+
+            <fieldset class="cm-selection-step" data-selection-group="side1">
+              <legend class="cm-step__legend"><span>2</span>{{ side1_heading }}</legend>
+              <div class="cm-visual-options" data-visual-options-for="side1"></div>
+              <label class="visually-hidden" for="Side1Product-{{ section.id }}">{{ side1_heading }}</label>
+              <select id="Side1Product-{{ section.id }}" data-product-select="side1" disabled>
+                <option value="">Loading sides…</option>
+              </select>
+              <div class="variant-options" aria-live="polite"></div>
+              <select class="visually-hidden" data-side1-select aria-hidden="true"></select>
+            </fieldset>
+
+            <fieldset class="cm-selection-step" data-selection-group="side2">
+              <legend class="cm-step__legend"><span>3</span>{{ side2_heading }}<small>(optional)</small></legend>
+              <div class="cm-visual-options" data-visual-options-for="side2"></div>
+              <label class="visually-hidden" for="Side2Product-{{ section.id }}">{{ side2_heading }}</label>
+              <select id="Side2Product-{{ section.id }}" data-product-select="side2" disabled>
+                <option value="">Add another side…</option>
+              </select>
+              <div class="variant-options" aria-live="polite"></div>
+              <select class="visually-hidden" data-side2-select aria-hidden="true"></select>
+            </fieldset>
+
+            <div class="cm-selection-step">
+              <label class="cm-step__label" for="Frequency-{{ section.id }}">{{ frequency_heading }}</label>
+              <select id="Frequency-{{ section.id }}" data-frequency-select disabled>
+                <option value="">One-time purchase</option>
+              </select>
+            </div>
+
+            <div class="cm-recharge__cta">
+              <div class="integrated-quantity">
+                <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
+                <input type="number" class="integrated-quantity__input" value="1" min="1" data-qty-input aria-live="polite" aria-label="{{ quantity_heading }}">
+                <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
+              </div>
+              <button type="submit" class="btn btn--primary product-card__add-btn" data-add-to-cart-button>
+                <span data-add-to-cart-text>{{ add_to_cart_label }}</span>
+              </button>
+            </div>
+
+            <p class="cm-recharge__error" data-error-message role="alert"></p>
+          </form>
+
+          {% if product.description != blank %}
+            <div class="cm-recharge__description rte">{{ product.description }}</div>
+          {% endif %}
+        </div>
+
+        <aside class="cm-recharge__visuals">
+          <div class="cm-recharge__media">
+            {% if hero_image %}
+              <div class="cm-recharge__media-frame">
+                {% render 'responsive-image' with hero_image, class: 'cm-recharge__image', alt: display_title %}
+              </div>
             {% else %}
-              <div class="blog-card__placeholder" aria-hidden="true"></div>
+              <div class="cm-recharge__media-placeholder">
+                {{ 'product-1' | placeholder_svg_tag: 'cm-recharge__media-generic' }}
+              </div>
             {% endif %}
           </div>
-          <div class="blog-hero__content">
-            <div class="blog-hero__meta">
-              {%- assign featured_tag = featured_article.tags.first -%}
-              {% if featured_tag %}<span class="blog-pill">{{ featured_tag }}</span>{% endif %}
-              {% if section.settings.show_dates %}<time datetime="{{ featured_article.published_at | date: '%Y-%m-%d' }}">{{ featured_article.published_at | date: format: 'month_day_year' }}</time>{% endif %}
-            </div>
-            <h1 id="blog-page-heading" class="blog-hero__heading">{{ blog.title }}</h1>
-            <h2 class="blog-hero__title"><a href="{{ featured_article.url }}">{{ featured_article.title }}</a></h2>
-            {% if featured_article.excerpt.size > 0 %}<p class="blog-hero__excerpt">{{ featured_article.excerpt | strip_html | truncate: 150 }}</p>{% endif %}
-            <a class="btn btn--primary" href="{{ featured_article.url }}">{{ 'blogs.article.read_more' | t }}</a>
-          </div>
-        </header>
-      {% endif %}
 
-      <div class="blog-layout">
-        <main class="blog-main" role="main">
-          {%- if paginate.current_page > 1 -%}
-            <div class="blog-pagination-header">
-              <h1 class="blog-pagination-header__title">{{ blog.title }}</h1>
-              <div class="blog-pagination-header__controls">
-                {%- if paginate.previous -%}
-                  <a href="{{ paginate.previous.url }}" class="blog-pagination-header__nav-link" aria-label="Go to Previous Page">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                    <span>Prev</span>
-                  </a>
-                {%- else -%}
-                  <span class="blog-pagination-header__nav-link is-disabled" aria-disabled="true">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"></polyline></svg>
-                    <span>Prev</span>
-                  </span>
-                {%- endif -%}
-                <span class="blog-pagination-header__page-info" aria-current="page">Page {{ paginate.current_page }} of {{ paginate.pages }}</span>
-                {%- if paginate.next -%}
-                  <a href="{{ paginate.next.url }}" class="blog-pagination-header__nav-link" aria-label="Go to Next Page">
-                    <span>Next</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                  </a>
-                {%- else -%}
-                  <span class="blog-pagination-header__nav-link is-disabled" aria-disabled="true">
-                    <span>Next</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                  </span>
-                {%- endif -%}
-              </div>
-            </div>
-          {%- endif -%}
-
-          <div class="blog-grid" aria-label="More articles">
-            {%- for article in blog.articles -%}
-              {%- if paginate.current_page == 1 -%}
-                {%- if section.settings.use_manual_featured_article and section.settings.featured_article_picker != blank -%}
-                  {%- assign featured_id = section.settings.featured_article_picker.id -%}
-                  {%- if article.id == featured_id -%}{%- continue -%}{%- endif -%}
-                {%- else -%}
-                  {%- if forloop.first -%}{%- continue -%}{%- endif -%}
-                {%- endif -%}
-              {%- endif -%}
-              <article class="blog-card" aria-labelledby="article-{{ article.id }}-title">
-                <a class="blog-card__image" href="{{ article.url }}" aria-hidden="true" tabindex="-1">
-                  {% if article.image %}{% render 'responsive-image' with article.image, alt: article.image.alt | default: article.title %}{% else %}<div class="blog-card__placeholder" aria-hidden="true"></div>{% endif %}
-                </a>
-                <div class="blog-card__body">
-                  <div class="blog-card__meta">
-                    {%- assign category = article.tags.first -%}
-                    {% if category %}<span class="blog-pill">{{ category }}</span>{% endif %}
-                    {% if section.settings.show_dates %}<time datetime="{{ article.published_at | date: '%Y-%m-%d' }}">{{ article.published_at | date: format: 'month_day_year' }}</time>{% endif %}
-                  </div>
-                  <h2 id="article-{{ article.id }}-title" class="blog-card__title"><a href="{{ article.url }}">{{ article.title }}</a></h2>
-                  {% if article.excerpt.size > 0 %}<p class="blog-card__excerpt">{{ article.excerpt | strip_html | truncate: 110 }}</p>{% endif %}
-                  {% if section.settings.show_author_name %}<p class="blog-card__author">{{ article.author }}</p>{% endif %}
-                  <a class="blog-card__cta" href="{{ article.url }}" aria-label="Read more about {{ article.title | escape }}">{{ 'blogs.article.read_more' | t }}</a>
-                </div>
-              </article>
-            {%- endfor -%}
-          </div>
-          {% render 'pagination', paginate: paginate %}
-        </main>
-
-        <aside class="blog-sidebar" role="complementary">
-          {% if blog.all_tags.size > 0 %}
-            <div class="blog-sidebar__block">
-              <h3 class="blog-sidebar__title">{{ 'blogs.article.tags' | t }}</h3>
-              <ul class="blog-sidebar__tag-list" role="list">
-                {% for tag in blog.all_tags %}<li><a href="{{ blog.url }}/tagged/{{ tag | handle }}">{{ tag }}</a></li>{% endfor %}
-              </ul>
+          {% if section.settings.show_macros %}
+            <div class="cm-recharge__macros">
+              {% render 'product-macros', product: product %}
             </div>
           {% endif %}
-          <div class="blog-sidebar__block">
-            <h3 class="blog-sidebar__title">Popular Reads</h3>
-            <ol class="blog-sidebar__popular-list" role="list">
-              {% for popular_article in blog.articles limit: 5 %}
-                <li>
-                  <a href="{{ popular_article.url }}">{{ popular_article.title }}</a>
-                  {% if section.settings.show_dates %}<time datetime="{{ popular_article.published_at | date: '%Y-%m-%d' }}">{{ popular_article.published_at | date: format: 'month_day_year' }}</time>{% endif %}
-                </li>
-              {% endfor %}
-            </ol>
-          </div>
-          <div class="blog-sidebar__cta">
-            <h3>Fuel Your Goals</h3>
-            <p>Stay energized with chef-crafted meals delivered to your door. Join the Icon Meals community today.</p>
-            <a class="btn btn--primary" href="/pages/meal-plans">Explore Meal Plans</a>
-          </div>
         </aside>
       </div>
-    {% endif %}
-  {% endpaginate %}
+
+      <script type="application/json" id="RechargeSellingPlans-{{ section.id }}">{{ selling_plan_json | default: '[]' }}</script>
+      <script type="application/json" data-product-json>{{ product | json }}</script>
+    </div>
+  </div>
 </section>
 
 {% schema %}
 {
-  "name": "Blog pages",
-  "class": "container",
+  "name": "Custom meal (Recharge)",
   "settings": [
     {
       "type": "header",
-      "content": "Content & Layout"
+      "content": "Recharge bundle configuration"
     },
     {
-      "type": "range",
-      "id": "blog-posts-per-page",
-      "min": 3,
-      "max": 24,
-      "step": 1,
-      "label": "Posts per page",
-      "info": "On page 1, this number of posts will appear below the hero article.",
-      "default": 8
+      "type": "text",
+      "id": "bundle_product_id",
+      "label": "Bundle product ID",
+      "info": "Numeric product ID used for the Recharge dynamic bundle."
     },
     {
-      "type": "checkbox",
-      "id": "show_author_name",
-      "label": "Show author name",
-      "default": true
+      "type": "text",
+      "id": "bundle_variant_id",
+      "label": "Bundle variant ID",
+      "info": "Variant ID associated with the bundle product."
     },
     {
-      "type": "checkbox",
-      "id": "show_dates",
-      "label": "Show dates",
-      "default": true
+      "type": "text",
+      "id": "protein_collection_handle",
+      "label": "Protein collection handle"
+    },
+    {
+      "type": "text",
+      "id": "protein_collection_id",
+      "label": "Protein collection ID"
+    },
+    {
+      "type": "text",
+      "id": "side_collection_handle",
+      "label": "Side collection handle"
+    },
+    {
+      "type": "text",
+      "id": "side_collection_id",
+      "label": "Side collection ID"
     },
     {
       "type": "header",
-      "content": "Featured Post Settings"
+      "content": "UI copy"
+    },
+    {
+      "type": "text",
+      "id": "protein_heading",
+      "label": "Protein step heading",
+      "default": "Choose your protein"
+    },
+    {
+      "type": "text",
+      "id": "side1_heading",
+      "label": "Side 1 step heading",
+      "default": "Pick your first side"
+    },
+    {
+      "type": "text",
+      "id": "side2_heading",
+      "label": "Side 2 step heading",
+      "default": "Pick an optional second side"
+    },
+    {
+      "type": "text",
+      "id": "frequency_heading",
+      "label": "Frequency label",
+      "default": "Delivery frequency"
+    },
+    {
+      "type": "text",
+      "id": "quantity_heading",
+      "label": "Quantity label",
+      "default": "Quantity"
+    },
+    {
+      "type": "text",
+      "id": "add_to_cart_label",
+      "label": "Add to cart label",
+      "default": "Add to Cart"
     },
     {
       "type": "checkbox",
-      "id": "use_manual_featured_article",
-      "label": "Manually select featured article",
-      "info": "If unchecked, the most recent article will be featured automatically.",
-      "default": false
-    },
-    {
-      "type": "article",
-      "id": "featured_article_picker",
-      "label": "Featured Article",
-      "info": "Choose an article to pin to the hero section. Only works if the checkbox above is checked."
+      "id": "show_macros",
+      "label": "Show macro snapshot",
+      "default": true
     }
   ]
 }
