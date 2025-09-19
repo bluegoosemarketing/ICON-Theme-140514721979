@@ -200,9 +200,9 @@ body.collection-menu-open {
 }
 
 /* ==========================================================================
-   HIGH-PERFORMANCE BLOG LAYOUT V4.9 (DEFINITIVE HERO IMAGE FIX)
-   Description: Corrects hero image alignment on mobile by ensuring it
-   covers its container, matching the behavior of the article cards.
+   HIGH-PERFORMANCE BLOG LAYOUT V5.0 (DEFINITIVE MOBILE CENTERING FIX)
+   Description: Corrects the hero alignment bug on mobile Safari by
+   explicitly centering the flex container's children.
    ========================================================================== */
 
 /* --- Universal Helpers --- */
@@ -217,12 +217,19 @@ body.collection-menu-open {
   max-width: none !important; padding-left: 0 !important; padding-right: 0 !important;
 }
 .blog-page {
-  display: flex; flex-direction: column; gap: 3.5rem;
+  display: flex;
+  flex-direction: column;
+  /* V5.0 DEFINITIVE FIX: This forces all direct children (the hero and the layout) to be centered horizontally. */
+  align-items: center;
+  gap: 3.5rem;
   background: linear-gradient(180deg, #ffffff 0%, #f1f3f5 100%);
   width: 100%; margin: 0; padding: 3rem clamp(1.5rem, 4vw, 4rem) 5rem;
 }
 .blog-hero, .blog-layout {
-  width: min(100%, 1280px); margin-left: auto; margin-right: auto;
+  width: min(100%, 1280px);
+  /* The margin: auto is kept as a fallback for non-flex browsers but is no longer the primary centering mechanism. */
+  margin-left: auto;
+  margin-right: auto;
 }
 .blog-page__empty { text-align: center; padding: 4rem 1rem; }
 
@@ -235,16 +242,11 @@ body.collection-menu-open {
   box-shadow: 0 12px 28px rgba(33, 37, 41, 0.05); overflow: hidden;
 }
 .blog-hero__media { aspect-ratio: 16/9; background-color: #e9ecef; border-radius: 18px; overflow: hidden; }
-
-/* V4.9 DEFINITIVE FIX: Ensures hero image covers its container correctly on all devices */
 .blog-hero__media .blog-hero__image, .blog-hero__media img {
-  display: block !important;
-  width: 100% !important;
-  height: 100% !important;
+  display: block !important; width: 100% !important; height: 100% !important;
   object-fit: cover !important;
   box-shadow: 0 16px 32px rgba(33, 37, 41, 0.15);
 }
-
 .blog-hero__content { display: flex; flex-direction: column; gap: 1rem; }
 .blog-hero__heading {
   font-size: clamp(0.9rem, 1vw, 1rem); text-transform: uppercase;
@@ -276,52 +278,32 @@ body.collection-menu-open {
 
 /* --- Article Card Styling --- */
 .blog-page .blog-card {
-  display: flex !important;
-  flex-direction: column !important;
-  background: #ffffff !important;
-  border-radius: 18px !important;
-  border: 1px solid #e9ecef !important;
+  display: flex !important; flex-direction: column !important; background: #ffffff !important;
+  border-radius: 18px !important; border: 1px solid #e9ecef !important;
   box-shadow: 0 4px 12px rgba(33, 37, 41, 0.02), 0 12px 28px rgba(33, 37, 41, 0.04) !important;
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
-  height: 100% !important;
-  overflow: hidden !important;
-  position: relative !important;
+  height: 100% !important; overflow: hidden !important; position: relative !important;
 }
 .blog-page .blog-card:hover, .blog-page .blog-card:focus-within {
-  transform: translateY(-8px) !important;
-  border-color: #d0d7e0 !important;
+  transform: translateY(-8px) !important; border-color: #d0d7e0 !important;
   box-shadow: 0 6px 16px rgba(33, 37, 41, 0.05), 0 18px 36px rgba(33, 37, 41, 0.08) !important;
 }
-
 .blog-page .blog-card__image {
-  display: block !important;
-  height: 240px !important;
-  flex-shrink: 0 !important;
-  background-color: #f8f9fa;
-  border-bottom: 1px solid #e9ecef;
+  display: block !important; height: 240px !important; flex-shrink: 0 !important;
+  background-color: #f8f9fa; border-bottom: 1px solid #e9ecef;
+  position: relative !important; z-index: 1 !important;
 }
 .blog-page .blog-card__image img {
-  width: 100% !important;
-  height: 100% !important;
-  object-fit: cover !important;
+  width: 100% !important; height: 100% !important; object-fit: cover !important;
 }
 .blog-page .blog-card__placeholder { background: var(--brand-neutral); height: 100%; }
-
 .blog-page .blog-card__body {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 0.75rem;
-  padding: 1.75rem;
-  flex-grow: 1;
-  position: relative !important;
-  z-index: 2 !important;
-  transform: none !important;
-  opacity: 1 !important;
-  visibility: visible !important;
-  transition: none !important;
-  background: #ffffff !important;
+  display: flex !important; flex-direction: column !important; gap: 0.75rem;
+  padding: 1.75rem; flex-grow: 1;
+  position: relative !important; z-index: 2 !important;
+  transform: none !important; opacity: 1 !important; visibility: visible !important;
+  transition: none !important; background: #ffffff !important;
 }
-
 .blog-page .blog-card__title { font-size: 1.4rem; margin: 0; line-height: 1.3; }
 .blog-page .blog-card__title a { color: var(--brand-primary); text-decoration: none; transition: color 0.2s ease; }
 .blog-page .blog-card__title a:hover, .blog-page .blog-card__title a:focus-visible { color: var(--brand-accent); }
@@ -342,8 +324,7 @@ body.collection-menu-open {
 }
 .blog-sidebar__block {
   background: #ffffff; border-radius: 16px; padding: 1.75rem;
-  border: 1px solid #e9ecef;
-  box-shadow: 0 10px 24px rgba(33, 37, 41, 0.05);
+  border: 1px solid #e9ecef; box-shadow: 0 10px 24px rgba(33, 37, 41, 0.05);
 }
 .blog-sidebar__title { font-size: 1.1rem; font-weight: 700; margin: 0 0 1.25rem 0; color: var(--brand-primary); }
 .blog-sidebar__tag-list {
@@ -355,10 +336,8 @@ body.collection-menu-open {
   border: 1px solid #e9ecef;
 }
 .blog-sidebar__tag-list a:hover, .blog-sidebar__tag-list a:focus-visible {
-  background: var(--brand-accent);
-  color: var(--brand-primary-darker) !important;
-  transform: translateY(-2px);
-  border-color: var(--brand-accent-darker);
+  background: var(--brand-accent); color: var(--brand-primary-darker) !important;
+  transform: translateY(-2px); border-color: var(--brand-accent-darker);
 }
 .blog-sidebar__popular-list {
   list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column;
