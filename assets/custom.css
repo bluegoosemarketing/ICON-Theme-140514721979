@@ -200,9 +200,9 @@ body.collection-menu-open {
 }
 
 /* ==========================================================================
-   HIGH-PERFORMANCE BLOG LAYOUT V4.4 (DEFINITIVE MOBILE & IMAGE FIX)
-   Description: Corrects mobile Safari rendering bug by explicitly resetting
-   sticky properties in the mobile media query. Retains all other fixes.
+   HIGH-PERFORMANCE BLOG LAYOUT V4.5 (DEFINITIVE VISIBILITY & IMAGE FIX)
+   Description: Corrects card content visibility bug on mobile/tall images
+   by explicitly overriding conflicting theme styles.
    ========================================================================== */
 
 /* --- Universal Helpers --- */
@@ -390,17 +390,25 @@ body.collection-menu-open {
 @media (max-width: 992px) {
   .blog-layout { grid-template-columns: 1fr; }
   .blog-sidebar {
-    /* V4.4 DEFINITIVE MOBILE FIX: Reset sticky properties to prevent layout breaking on iOS */
-    position: static;
-    max-height: none;
-    overflow-y: visible;
-    padding-right: 0;
+    position: static; max-height: none;
+    overflow-y: visible; padding-right: 0;
   }
 }
 @media (max-width: 768px) {
   .blog-page { padding: 1.5rem 1.25rem 3rem; }
   .blog-hero { text-align: center; }
   .blog-hero__content { align-items: center; }
+}
+
+/* V4.5 DEFINITIVE FIX: Card Content Visibility */
+/* This block overrides theme styles that may be causing card text to be hidden
+   initially and only appear on hover, especially with tall images. */
+.blog-card__body {
+  position: relative !important; /* Ensures static positioning in the flex layout */
+  opacity: 1 !important; /* Guarantees the text block is always visible */
+  visibility: visible !important; /* Reinforces visibility */
+  transform: none !important; /* Resets any theme-based transforms */
+  transition: none !important; /* Removes unwanted fade-in transitions */
 }
 
 /* --- END OF BLOG LAYOUT --- */
