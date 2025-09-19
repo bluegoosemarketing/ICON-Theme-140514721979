@@ -200,9 +200,9 @@ body.collection-menu-open {
 }
 
 /* ==========================================================================
-   HIGH-PERFORMANCE BLOG LAYOUT V4.8 (DEFINITIVE CONFLICT FIX)
-   Description: Solves all image height and text visibility issues by using
-   highly specific selectors to override conflicting theme styles.
+   HIGH-PERFORMANCE BLOG LAYOUT V4.9 (DEFINITIVE HERO IMAGE FIX)
+   Description: Corrects hero image alignment on mobile by ensuring it
+   covers its container, matching the behavior of the article cards.
    ========================================================================== */
 
 /* --- Universal Helpers --- */
@@ -235,10 +235,16 @@ body.collection-menu-open {
   box-shadow: 0 12px 28px rgba(33, 37, 41, 0.05); overflow: hidden;
 }
 .blog-hero__media { aspect-ratio: 16/9; background-color: #e9ecef; border-radius: 18px; overflow: hidden; }
+
+/* V4.9 DEFINITIVE FIX: Ensures hero image covers its container correctly on all devices */
 .blog-hero__media .blog-hero__image, .blog-hero__media img {
-  display: block; width: 100%; height: 100%; object-fit: cover;
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
   box-shadow: 0 16px 32px rgba(33, 37, 41, 0.15);
 }
+
 .blog-hero__content { display: flex; flex-direction: column; gap: 1rem; }
 .blog-hero__heading {
   font-size: clamp(0.9rem, 1vw, 1rem); text-transform: uppercase;
@@ -269,7 +275,6 @@ body.collection-menu-open {
 @media (max-width: 820px) { .blog-grid { grid-template-columns: 1fr; } }
 
 /* --- Article Card Styling --- */
-/* V4.8 DEFINITIVE FIX: Use a more specific selector to win the CSS war */
 .blog-page .blog-card {
   display: flex !important;
   flex-direction: column !important;
@@ -280,7 +285,7 @@ body.collection-menu-open {
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease !important;
   height: 100% !important;
   overflow: hidden !important;
-  position: relative !important; /* Context for children */
+  position: relative !important;
 }
 .blog-page .blog-card:hover, .blog-page .blog-card:focus-within {
   transform: translateY(-8px) !important;
@@ -294,8 +299,6 @@ body.collection-menu-open {
   flex-shrink: 0 !important;
   background-color: #f8f9fa;
   border-bottom: 1px solid #e9ecef;
-  position: relative !important; /* Ensure it's part of the normal document flow */
-  z-index: 1 !important;
 }
 .blog-page .blog-card__image img {
   width: 100% !important;
@@ -310,8 +313,8 @@ body.collection-menu-open {
   gap: 0.75rem;
   padding: 1.75rem;
   flex-grow: 1;
-  position: relative !important; /* Changed from static to allow z-index */
-  z-index: 2 !important; /* Ensure body is painted on top of any theme pseudo-elements */
+  position: relative !important;
+  z-index: 2 !important;
   transform: none !important;
   opacity: 1 !important;
   visibility: visible !important;
