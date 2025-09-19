@@ -200,9 +200,9 @@ body.collection-menu-open {
 }
 
 /* ==========================================================================
-   HIGH-PERFORMANCE BLOG LAYOUT V4.1 (VISIBILITY & POLISH REFINEMENT)
-   Description: Final version with subtle color and contrast adjustments to
-   reduce eye strain and enhance the clarity of the hero section and UI elements.
+   HIGH-PERFORMANCE BLOG LAYOUT V4.4 (DEFINITIVE MOBILE & IMAGE FIX)
+   Description: Corrects mobile Safari rendering bug by explicitly resetting
+   sticky properties in the mobile media query. Retains all other fixes.
    ========================================================================== */
 
 /* --- Universal Helpers --- */
@@ -218,7 +218,7 @@ body.collection-menu-open {
 }
 .blog-page {
   display: flex; flex-direction: column; gap: 3.5rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f1f3f5 100%); /* V4.1: Slightly softer background gradient */
+  background: linear-gradient(180deg, #ffffff 0%, #f1f3f5 100%);
   width: 100%; margin: 0; padding: 3rem clamp(1.5rem, 4vw, 4rem) 5rem;
 }
 .blog-hero, .blog-layout {
@@ -226,16 +226,13 @@ body.collection-menu-open {
 }
 .blog-page__empty { text-align: center; padding: 4rem 1rem; }
 
-/* --- Featured Article Hero (Visibility Enhanced) --- */
+/* --- Featured Article Hero --- */
 .blog-hero {
   display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
   gap: 3rem; align-items: center;
-  /* V4.1 REFINEMENT: Changed to a solid, calmer background to reduce eye strain */
-  background-color: #f8f9fa;
-  border: 1px solid #dee2e6;
+  background-color: #f8f9fa; border: 1px solid #dee2e6;
   border-radius: 24px; padding: clamp(2rem, 4vw, 3.5rem);
-  box-shadow: 0 12px 28px rgba(33, 37, 41, 0.05);
-  overflow: hidden;
+  box-shadow: 0 12px 28px rgba(33, 37, 41, 0.05); overflow: hidden;
 }
 .blog-hero__media { aspect-ratio: 16/9; background-color: #e9ecef; border-radius: 18px; overflow: hidden; }
 .blog-hero__media .blog-hero__image, .blog-hero__media img {
@@ -244,7 +241,6 @@ body.collection-menu-open {
 }
 .blog-hero__content { display: flex; flex-direction: column; gap: 1rem; }
 .blog-hero__heading {
-  /* V4.1 REFINEMENT: Increased weight and darker color for better hierarchy */
   font-size: clamp(0.9rem, 1vw, 1rem); text-transform: uppercase;
   letter-spacing: 0.15em; color: #495057; font-weight: 600; margin: 0;
 }
@@ -256,7 +252,6 @@ body.collection-menu-open {
 .blog-hero__title a { color: var(--brand-primary-darker); text-decoration: none; transition: color 0.2s ease; }
 .blog-hero__title a:hover, .blog-hero__title a:focus-visible { color: var(--brand-accent); }
 .blog-hero__excerpt { font-size: 1.1rem; color: #343a40; line-height: 1.65; max-width: 60ch; }
-/* V4.1 REFINEMENT: Added a subtle hover effect to the primary hero button */
 .blog-hero .btn--primary { transition: transform 0.2s ease, box-shadow 0.2s ease; }
 .blog-hero .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 8px 15px rgba(0,0,0,0.1); }
 
@@ -276,19 +271,26 @@ body.collection-menu-open {
 /* --- Article Card Styling --- */
 .blog-card {
   display: flex; flex-direction: column; background: #ffffff; border-radius: 18px;
-  /* V4.1 REFINEMENT: Added a subtle border for better separation */
   border: 1px solid #e9ecef;
   box-shadow: 0 4px 12px rgba(33, 37, 41, 0.02), 0 12px 28px rgba(33, 37, 41, 0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; height: 100%;
+  overflow: hidden; /* Ensures image corners are clipped */
 }
 .blog-card:hover, .blog-card:focus-within {
-  transform: translateY(-8px);
-  border-color: #d0d7e0;
+  transform: translateY(-8px); border-color: #d0d7e0;
   box-shadow: 0 6px 16px rgba(33, 37, 41, 0.05), 0 18px 36px rgba(33, 37, 41, 0.08);
 }
-.blog-card__image { aspect-ratio: 16/9; background-color: #f1f3f5; }
-.blog-card__image img { width: 100%; height: 100%; object-fit: cover; border-radius: 17px 17px 0 0; }
-.blog-card__placeholder { background: var(--brand-neutral); height: 100%; border-radius: 17px 17px 0 0; }
+.blog-card__image {
+  display: block;
+  aspect-ratio: 16 / 10 !important;
+  background-color: #f8f9fa;
+  border-bottom: 1px solid #e9ecef;
+}
+.blog-card__image img {
+  width: 100% !important; height: 100% !important;
+  object-fit: cover !important;
+}
+.blog-card__placeholder { background: var(--brand-neutral); height: 100%; }
 .blog-card__body {
   display: flex; flex-direction: column; gap: 0.75rem;
   padding: 1.75rem; flex-grow: 1;
@@ -302,9 +304,7 @@ body.collection-menu-open {
   margin-top: 1.25rem; font-weight: 700; color: var(--brand-accent); text-decoration: none;
   transition: color 0.2s ease; display: inline-flex; align-items: center; gap: 0.5rem;
 }
-.blog-card__cta::after {
-  content: '→'; font-size: 1.2em; transition: transform 0.2s ease;
-}
+.blog-card__cta::after { content: '→'; font-size: 1.2em; transition: transform 0.2s ease; }
 .blog-card__cta:hover, .blog-card__cta:focus-visible { color: var(--brand-accent-stronger); }
 .blog-card__cta:hover::after { transform: translateX(4px); }
 
@@ -315,7 +315,7 @@ body.collection-menu-open {
 }
 .blog-sidebar__block {
   background: #ffffff; border-radius: 16px; padding: 1.75rem;
-  border: 1px solid #e9ecef; /* V4.1: Added border to match card style */
+  border: 1px solid #e9ecef;
   box-shadow: 0 10px 24px rgba(33, 37, 41, 0.05);
 }
 .blog-sidebar__title { font-size: 1.1rem; font-weight: 700; margin: 0 0 1.25rem 0; color: var(--brand-primary); }
@@ -328,9 +328,11 @@ body.collection-menu-open {
   border: 1px solid #e9ecef;
 }
 .blog-sidebar__tag-list a:hover, .blog-sidebar__tag-list a:focus-visible {
-  background: var(--brand-accent); color: #ffffff; transform: translateY(-2px); border-color: var(--brand-accent);
+  background: var(--brand-accent);
+  color: var(--brand-primary-darker) !important;
+  transform: translateY(-2px);
+  border-color: var(--brand-accent-darker);
 }
-
 .blog-sidebar__popular-list {
   list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column;
   counter-reset: popular-counter;
@@ -342,13 +344,11 @@ body.collection-menu-open {
 .blog-sidebar__popular-list li:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
 .blog-sidebar__popular-list li::before {
   counter-increment: popular-counter; content: "0" counter(popular-counter);
-  font-weight: 700; font-size: 1.1rem; color: #ced4da; /* V4.1: Subtler color */
-  padding-top: 0.1em;
+  font-weight: 700; font-size: 1.1rem; color: #ced4da; padding-top: 0.1em;
 }
 .blog-sidebar__popular-list li a { color: var(--brand-primary); text-decoration: none; font-weight: 600; line-height: 1.4; }
 .blog-sidebar__popular-list li a:hover { text-decoration: underline; }
-.blog-sidebar__popular-list time { display: block; font-size: 0.8rem; color: #6c757d; margin-top: 0.25rem; font-weight: 500; /* V4.1: Enhanced readability */ }
-
+.blog-sidebar__popular-list time { display: block; font-size: 0.8rem; color: #6c757d; margin-top: 0.25rem; font-weight: 500; }
 .blog-sidebar__cta {
   background: linear-gradient(135deg, var(--brand-primary) 0%, var(--brand-primary-darker) 100%);
   color: #ffffff; border-radius: 20px; padding: 2rem; text-align: center;
@@ -356,7 +356,6 @@ body.collection-menu-open {
 }
 .blog-sidebar__cta h3 { margin: 0 0 0.5rem 0; font-size: 1.5rem; }
 .blog-sidebar__cta p { margin: 0 0 1.5rem 0; color: rgba(255, 255, 255, 0.85); }
-
 .blog-pill {
   padding: 0.35rem 0.75rem; border-radius: 999px; background: rgba(46, 191, 122, 0.15);
   color: var(--brand-accent-stronger); font-weight: 600; text-transform: uppercase;
@@ -390,7 +389,13 @@ body.collection-menu-open {
 /* --- Responsive Breakpoints --- */
 @media (max-width: 992px) {
   .blog-layout { grid-template-columns: 1fr; }
-  .blog-sidebar { position: static; max-height: none; overflow: visible; padding-right: 0; }
+  .blog-sidebar {
+    /* V4.4 DEFINITIVE MOBILE FIX: Reset sticky properties to prevent layout breaking on iOS */
+    position: static;
+    max-height: none;
+    overflow-y: visible;
+    padding-right: 0;
+  }
 }
 @media (max-width: 768px) {
   .blog-page { padding: 1.5rem 1.25rem 3rem; }
