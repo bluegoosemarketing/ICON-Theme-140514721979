@@ -34,7 +34,25 @@
 }
 
 .cm-recharge__footer {
-  margin-top: auto;
+  margin-top: 2.5rem;
+}
+
+/* Remove the rigid viewport height from the shell layout so the footer hugs the content. */
+body.template-product.template-suffix--cm-recharge .collection-page__layout {
+  height: auto;
+  min-height: 0;
+}
+
+body.template-product.template-suffix--cm-recharge .collection-page__main {
+  height: auto;
+  min-height: 0;
+  overflow: visible;
+  padding-bottom: 0;
+}
+
+body.template-product.template-suffix--cm-recharge .cm-recharge,
+body.template-product.template-suffix--cm-recharge .cm-recharge__inner {
+  min-height: auto;
 }
 
 /* --- Main Layout --- */
