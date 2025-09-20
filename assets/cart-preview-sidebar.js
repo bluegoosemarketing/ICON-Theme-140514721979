@@ -284,9 +284,18 @@
     }
     
     updateCartCount(cart) {
+      const processedBundles = new Set();
       const visibleCount = (cart.items || []).reduce((total, item) => {
+        const properties = item.properties || {};
+        const bundleId = properties._rc_bundle;
+        if (bundleId) {
+          if (processedBundles.has(bundleId)) return total;
+          processedBundles.add(bundleId);
+          const bundleQty = Number(item.quantity) || 0;
+          return total + bundleQty;
+        }
         if (item.product_type === 'OPTIONS_HIDDEN_PRODUCT') return total;
-        let itemCount = item.quantity;
+        let itemCount = Number(item.quantity) || 0;
         if (item.variant_title && /meal/i.test(item.variant_title)) {
           const match = item.variant_title.match(/^\d+/);
           if (match) {

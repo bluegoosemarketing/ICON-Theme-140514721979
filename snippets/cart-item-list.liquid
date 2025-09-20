@@ -37,6 +37,7 @@
           {%- assign rc_bundle_compare_total = 0 -%}
           {%- assign rc_bundle_remove_parts = '' -%}
           {%- assign rc_bundle_subscription_name = '' -%}
+          {%- assign rc_bundle_subscription_frequency = '' -%}
           {%- assign rc_bundle_primary_key = '' -%}
           
           {%- comment -%} V2: Initialize separate lists for sorting protein first {%- endcomment -%}
@@ -51,8 +52,16 @@
               {%- assign compare_total = compare_each | times: inner_item.quantity -%}
               {%- assign rc_bundle_compare_total = rc_bundle_compare_total | plus: compare_total -%}
               
-              {%- if rc_bundle_subscription_name == '' and inner_item.selling_plan_allocation -%}
-                {%- assign rc_bundle_subscription_name = inner_item.selling_plan_allocation.selling_plan.name -%}
+              {%- if inner_item.selling_plan_allocation -%}
+                {%- if rc_bundle_subscription_name == '' -%}
+                  {%- assign rc_bundle_subscription_name = inner_item.selling_plan_allocation.selling_plan.name -%}
+                {%- endif -%}
+                {%- if rc_bundle_subscription_frequency == '' -%}
+                  {%- assign first_option = inner_item.selling_plan_allocation.selling_plan.options | first -%}
+                  {%- if first_option -%}
+                    {%- assign rc_bundle_subscription_frequency = first_option.value -%}
+                  {%- endif -%}
+                {%- endif -%}
               {%- endif -%}
 
               {%- assign ounces = inner_item.variant.title | strip -%}
@@ -165,10 +174,16 @@
                   </div>
                 </div>
 
-                {%- if rc_bundle_subscription_name != '' -%}
+                {%- if rc_bundle_subscription_name != '' or rc_bundle_subscription_frequency != '' -%}
                   <div class="{{ class_prefix }}__subscription-info">
                     <svg class="{{ class_prefix }}__subscription-icon" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"></polyline><polyline points="1 20 1 14 7 14"></polyline><path d="M3.51 9a9 9 0 0114.83-3.36L23 10"></path><path d="M20.49 15A9 9 0 015.67 18.36L1 14"></path></svg>
-                    <span>{{ rc_bundle_subscription_name }}</span>
+                    <span>
+                      {%- if rc_bundle_subscription_frequency != '' -%}
+                        Renews every {{ rc_bundle_subscription_frequency }}
+                      {%- else -%}
+                        {{ rc_bundle_subscription_name }}
+                      {%- endif -%}
+                    </span>
                   </div>
                 {%- endif -%}
 
