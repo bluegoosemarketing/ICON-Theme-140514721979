@@ -452,61 +452,64 @@ class CustomMealBuilder {
     this.addToCartText.textContent = 'Adding...';
 
     try {
-        const selections = [
-            this.buildSelection(this.getSelectionDetails(this.proteinSelect), this.config.proteinCollectionId),
-            this.buildSelection(this.getSelectionDetails(this.side1Select), this.config.sideCollectionId),
-            this.buildSelection(this.getSelectionDetails(this.side2Select), this.config.sideCollectionId)
-        ].filter(Boolean);
+      const childVariants = [
+        this.getSelectionDetails(this.proteinSelect),
+        this.getSelectionDetails(this.side1Select),
+        this.getSelectionDetails(this.side2Select)
+      ].filter(Boolean).map(v => ({ id: v.variantId, quantity: 1 }));
 
-        if (selections.length < 2) {
-            throw new Error('Please select a protein and at least one side.');
-        }
+      if (childVariants.length < 2) {
+        throw new Error('Please select a protein and at least one side.');
+      }
 
-        const bundle = {
-            externalProductId: String(this.config.bundleProductId),
-            externalVariantId: String(this.config.bundleVariantId),
-            selections: selections
-        };
-        let items = recharge.bundle.getDynamicBundleItems(bundle, this.root.dataset.productHandle);
+      const parentHandle = this.root.dataset.productHandle;
+      const parentVariantId = this.config.bundleVariantId;
+      const planId = this.state.sellingPlanId;
 
-        if (this.state.sellingPlanId) {
-          const sp = Number(this.state.sellingPlanId);
-          const bundleVid = String(this.config.bundleVariantId);
+      // 1) Build bundle token and line items
+      const bundleId = crypto.randomUUID();
+      const commonProps = {
+        _rc_bundle: bundleId,
+        _rc_bundle_parent: parentHandle,
+        _rc_bundle_variant: String(parentVariantId)
+      };
 
-          items = items.map(line => {
-            const vid = String(line.id ?? line.variant_id ?? line.variantId ?? '');
-            if (vid === bundleVid) {
-              const withPlan = { ...line, selling_plan: sp };
-              console.debug('[CM Recharge] Applied selling plan to bundle parent', withPlan);
-              return withPlan;
-            }
+      const parentLine = {
+        id: parentVariantId,
+        quantity: 1,
+        properties: { ...commonProps }
+      };
 
-            if ('selling_plan' in line) {
-              const cleaned = { ...line };
-              delete cleaned.selling_plan;
-              return cleaned;
-            }
+      // Only add selling_plan if one is selected
+      if (planId) {
+        parentLine.selling_plan = planId;
+      }
 
-            return line;
-          });
-        }
+      const childLines = childVariants.map(({ id, quantity }) => ({
+        id,
+        quantity,
+        properties: { ...commonProps } // children: NO selling_plan
+      }));
 
-        await this.addItemsToCart(items, this.state.quantity);
-        this.addToCartText.textContent = 'Added!';
-        setTimeout(() => { this.addToCartButton.disabled = false; this.update(); }, 2000);
+      const payload = { items: [parentLine, ...childLines] };
+
+      await this.addItemsToCart(payload, this.state.quantity);
+
+      this.addToCartText.textContent = 'Added!';
+      setTimeout(() => { this.addToCartButton.disabled = false; this.update(); }, 2000);
     } catch (error) {
-        this.addToCartButton.disabled = false;
-        this.showError(error.message || 'Error adding to cart.', false);
-        this.validate();
+      this.addToCartButton.disabled = false;
+      this.showError(error.message || 'Error adding to cart.', false);
+      this.validate();
     }
   }
   
-  async addItemsToCart(items, qty) {
-      const lines = Array.from({ length: qty }, () => items).flat();
+  async addItemsToCart(payload, qty) {
+      const allItems = Array.from({ length: qty }, () => payload.items).flat();
       const response = await fetch('/cart/add.js', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items: lines })
+        body: JSON.stringify({ items: allItems })
       });
       if (!response.ok) {
         let msg = 'Failed to add items to cart.';

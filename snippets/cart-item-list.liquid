@@ -46,6 +46,13 @@
 
           {%- for inner_item in cart.items -%}
             {%- if inner_item.properties._rc_bundle == rc_bundle_id -%}
+              {%- assign is_parent_line = false -%}
+              {%- if inner_item.variant and inner_item.variant.id == rc_bundle_variant_id and inner_item.product and inner_item.product.handle == rc_bundle_handle -%}
+                {%- assign is_parent_line = true -%}
+              {%- endif -%}
+              {%- if is_parent_line -%}
+                {% continue %}
+              {%- endif -%}
               {%- assign rc_bundle_price = rc_bundle_price | plus: inner_item.final_line_price -%}
               {%- assign rc_bundle_original_total = rc_bundle_original_total | plus: inner_item.original_line_price -%}
               {%- assign compare_each = inner_item.selling_plan_allocation.compare_at_price | default: 0 -%}
@@ -130,18 +137,49 @@
               {%- endfor -%}
             {%- endif -%}
           
+            {%- comment -%} Compute frequency from parent_sp with robust fallbacks {%- endcomment -%}
+            {%- assign freq = '' -%}
             {%- if parent_sp -%}
-              {%- assign first_option = parent_sp.options | first -%}
-              {%- if first_option and first_option.value != blank -%}
-                {%- assign rc_bundle_subscription_frequency = first_option.value -%}
-              {%- else -%}
+              {%- assign opt = parent_sp.options | first -%}
+              {%- assign opt_val = '' -%}
+              {%- if opt and opt.value -%}
+                {%- assign opt_val = opt.value | strip -%}
+              {%- endif -%}
+            
+              {%- assign opt_is_numeric = opt_val | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9' -%}
+              {%- if opt_val != '' and opt_is_numeric == '' -%}
+                {% comment %} option is numeric-only like "19758128" → ignore and parse name {% endcomment %}
+                {%- assign opt_val = '' -%}
+              {%- endif -%}
+            
+              {%- if opt_val != '' -%}
+                {%- assign freq = opt_val -%}
+              {%- elsif parent_sp.name -%}
+                {% comment %} parse: "Delivery every 1 week" → "1 Week(s)" {% endcomment %}
+                {%- assign name_down = parent_sp.name | downcase -%}
+                {%- if name_down contains 'every ' -%}
+                  {%- assign after = name_down | split: 'every ' | last -%}
+                  {%- assign parts = after | split: ' ' -%}
+                  {%- assign ic = parts[0] | strip -%}
+                  {%- assign iu = parts[1] | strip -%}
+                  {%- assign iu_title = iu
+                     | replace: 'weeks','Week' | replace: 'week','Week'
+                     | replace: 'months','Month' | replace: 'month','Month'
+                     | replace: 'days','Day' | replace: 'day','Day' -%}
+                  {%- assign freq = ic | append: ' ' | append: iu_title | append: '(s)' -%}
+                {%- endif -%}
+              {%- elsif parent_sp.delivery_policy -%}
                 {%- assign ic = parent_sp.delivery_policy.interval_count -%}
-                {%- assign iu = parent_sp.delivery_policy.interval | replace: '_', ' ' | strip -%}
+                {%- assign iu = parent_sp.delivery_policy.interval | replace: '_',' ' | strip -%}
                 {%- if ic and iu -%}
                   {%- assign iu_title = iu | capitalize -%}
-                  {%- assign rc_bundle_subscription_frequency = ic | append: ' ' | append: iu_title | append: '(s)' -%}
+                  {%- assign freq = ic | append: ' ' | append: iu_title | append: '(s)' -%}
                 {%- endif -%}
               {%- endif -%}
+            {%- endif -%}
+            
+            {%- if rc_bundle_subscription_frequency == '' and freq != '' -%}
+              {%- assign rc_bundle_subscription_frequency = freq -%}
             {%- endif -%}
           {%- endif -%}
           
@@ -294,15 +332,33 @@
           assign subscription_frequency = ''
           if item.selling_plan_allocation
             assign sp = item.selling_plan_allocation.selling_plan
-            assign first_option = sp.options | first
-            if first_option and first_option.value != blank
-              assign subscription_frequency = first_option.value
+            assign opt = sp.options | first
+            assign opt_val = ''
+            if opt and opt.value
+              assign opt_val = opt.value | strip
+            endif
+
+            assign opt_is_numeric = opt_val | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9'
+            if opt_val != '' and opt_is_numeric != ''
+              assign subscription_frequency = opt_val
             else
-              assign ic = sp.delivery_policy.interval_count
-              assign iu = sp.delivery_policy.interval
-              if ic and iu
-                assign iu_title = iu | capitalize
-                assign subscription_frequency = ic | append: ' ' | append: iu_title | append: '(s)'
+              assign name_down = sp.name | downcase
+              if name_down contains 'every '
+                assign after = name_down | split: 'every ' | last
+                assign parts = after | split: ' '
+                if parts.size >= 2
+                  assign ic = parts[0] | strip
+                  assign iu = parts[1] | strip
+                  assign iu_title = iu | replace: 'weeks','Week' | replace: 'week','Week' | replace: 'months','Month' | replace: 'month','Month' | replace: 'days','Day' | replace: 'day','Day'
+                  assign subscription_frequency = ic | append: ' ' | append: iu_title | append: '(s)'
+                endif
+              elsif sp.delivery_policy
+                assign ic = sp.delivery_policy.interval_count
+                assign iu = sp.delivery_policy.interval | replace: '_',' ' | strip
+                if ic and iu
+                  assign iu_title = iu | capitalize
+                  assign subscription_frequency = ic | append: ' ' | append: iu_title | append: '(s)'
+                endif
               endif
             endif
           endif
