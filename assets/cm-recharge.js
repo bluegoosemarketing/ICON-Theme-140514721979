@@ -441,11 +441,6 @@ class CustomMealBuilder {
       externalVariantId: String(variantDetails.variantId),
       quantity: 1,
     };
-    if (this.state.sellingPlanId) {
-      const sp = Number(this.state.sellingPlanId);
-      selection.sellingPlanId = sp;
-      selection.sellingPlan = sp;
-    }
     return selection;
   }
 
@@ -481,8 +476,17 @@ class CustomMealBuilder {
           items = items.map(line => {
             const vid = String(line.id ?? line.variant_id ?? line.variantId ?? '');
             if (vid === bundleVid) {
-              return { ...line, selling_plan: sp };
+              const withPlan = { ...line, selling_plan: sp };
+              console.debug('[CM Recharge] Applied selling plan to bundle parent', withPlan);
+              return withPlan;
             }
+
+            if ('selling_plan' in line) {
+              const cleaned = { ...line };
+              delete cleaned.selling_plan;
+              return cleaned;
+            }
+
             return line;
           });
         }
