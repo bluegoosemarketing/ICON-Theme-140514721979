@@ -53,13 +53,22 @@
               {%- assign rc_bundle_compare_total = rc_bundle_compare_total | plus: compare_total -%}
               
               {%- if inner_item.selling_plan_allocation -%}
-                {%- if rc_bundle_subscription_name == '' -%}
-                  {%- assign rc_bundle_subscription_name = inner_item.selling_plan_allocation.selling_plan.name -%}
+                {%- assign inner_selling_plan = inner_item.selling_plan_allocation.selling_plan -%}
+                {%- if rc_bundle_subscription_name == '' and inner_selling_plan -%}
+                  {%- assign rc_bundle_subscription_name = inner_selling_plan.name -%}
                 {%- endif -%}
-                {%- if rc_bundle_subscription_frequency == '' -%}
-                  {%- assign first_option = inner_item.selling_plan_allocation.selling_plan.options | first -%}
-                  {%- if first_option -%}
+                {%- if rc_bundle_subscription_frequency == '' and inner_selling_plan -%}
+                  {%- assign first_option = inner_selling_plan.options | first -%}
+                  {%- if first_option and first_option.value != blank -%}
                     {%- assign rc_bundle_subscription_frequency = first_option.value -%}
+                  {%- else -%}
+                    {%- assign delivery_policy = inner_selling_plan.delivery_policy -%}
+                    {%- if delivery_policy and delivery_policy.interval_count and delivery_policy.interval -%}
+                      {%- assign interval_count = delivery_policy.interval_count -%}
+                      {%- assign interval_unit = delivery_policy.interval | replace: '_', ' ' | strip -%}
+                      {%- assign interval_unit_label = interval_unit | capitalize -%}
+                      {%- assign rc_bundle_subscription_frequency = interval_count | append: ' ' | append: interval_unit_label | append: '(s)' -%}
+                    {%- endif -%}
                   {%- endif -%}
                 {%- endif -%}
               {%- endif -%}
@@ -242,8 +251,19 @@
 
           assign subscription_frequency = ''
           if item.selling_plan_allocation
-            assign first_option = item.selling_plan_allocation.selling_plan.options | first
-            assign subscription_frequency = first_option.value
+            assign selling_plan = item.selling_plan_allocation.selling_plan
+            assign first_option = selling_plan.options | first
+            if first_option and first_option.value != blank
+              assign subscription_frequency = first_option.value
+            else
+              assign delivery_policy = selling_plan.delivery_policy
+              if delivery_policy and delivery_policy.interval_count and delivery_policy.interval
+                assign interval_count = delivery_policy.interval_count
+                assign interval_unit = delivery_policy.interval | replace: '_', ' ' | strip
+                assign interval_unit_label = interval_unit | capitalize
+                assign subscription_frequency = interval_count | append: ' ' | append: interval_unit_label | append: '(s)'
+              endif
+            endif
           endif
 
           assign final_line_price = item.final_line_price
