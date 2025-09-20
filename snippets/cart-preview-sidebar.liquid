@@ -26,7 +26,19 @@
     assign free_delivery_target = settings.free_delivery_threshold | default: 21
     assign progress_current = 0
     assign excluded_collections = 'proteinpopcorn,butters,proteincoffee,seasonings' | split: ','
+    assign rc_progress_bundles = '|'
     for progress_item in cart.items
+      assign rc_bundle_id = progress_item.properties._rc_bundle
+      if rc_bundle_id != blank
+        assign rc_bundle_token = '|' | append: rc_bundle_id | append: '|'
+        if rc_progress_bundles contains rc_bundle_token
+          continue
+        endif
+        assign rc_progress_bundles = rc_progress_bundles | append: rc_bundle_id | append: '|'
+        assign bundle_quantity = progress_item.quantity | times: 1
+        assign progress_current = progress_current | plus: bundle_quantity
+        continue
+      endif
       assign item_collections = progress_item.product.collections | map: 'handle'
       assign is_excluded = false
       for excluded in excluded_collections
@@ -88,7 +100,19 @@
   else
     assign progress_current = 0
     assign non_meal_types = 'peanut butter,protein popcorn,seasoning,beverage,options_hidden_product' | split: ','
+    assign rc_progress_bundles = '|'
     for progress_item in cart.items
+      assign rc_bundle_id = progress_item.properties._rc_bundle
+      if rc_bundle_id != blank
+        assign rc_bundle_token = '|' | append: rc_bundle_id | append: '|'
+        if rc_progress_bundles contains rc_bundle_token
+          continue
+        endif
+        assign rc_progress_bundles = rc_progress_bundles | append: rc_bundle_id | append: '|'
+        assign bundle_quantity = progress_item.quantity | times: 1
+        assign progress_current = progress_current | plus: bundle_quantity
+        continue
+      endif
       assign product_type_lower = progress_item.product.type | downcase
       if non_meal_types contains product_type_lower
         continue
