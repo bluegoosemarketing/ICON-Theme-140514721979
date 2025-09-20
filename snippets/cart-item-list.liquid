@@ -102,6 +102,48 @@
               {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
+
+          {%- comment -%} Fallback: read selling plan from the true parent line (cm-recharge puts plan on parent) {%- endcomment -%}
+          {%- if rc_bundle_subscription_frequency == '' -%}
+            {%- assign parent_sp = nil -%}
+            {%- for li in cart.items -%}
+              {%- if li.product and li.product.handle == rc_bundle_handle and li.variant and li.variant.id == rc_bundle_variant_id -%}
+                {%- if li.selling_plan_allocation -%}
+                  {%- assign parent_sp = li.selling_plan_allocation.selling_plan -%}
+                  {%- if parent_sp and rc_bundle_subscription_name == '' -%}
+                    {%- assign rc_bundle_subscription_name = parent_sp.name -%}
+                  {%- endif -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endfor -%}
+
+            {%- if parent_sp == nil and rc_bundle_variant_id == 0 -%}
+              {%- for li in cart.items -%}
+                {%- if li.product and li.product.handle == rc_bundle_handle and li.selling_plan_allocation -%}
+                  {%- assign parent_sp = li.selling_plan_allocation.selling_plan -%}
+                  {%- if parent_sp and rc_bundle_subscription_name == '' -%}
+                    {%- assign rc_bundle_subscription_name = parent_sp.name -%}
+                  {%- endif -%}
+                  {%- break -%}
+                {%- endif -%}
+              {%- endfor -%}
+            {%- endif -%}
+          
+            {%- if parent_sp -%}
+              {%- assign first_option = parent_sp.options | first -%}
+              {%- if first_option and first_option.value != blank -%}
+                {%- assign rc_bundle_subscription_frequency = first_option.value -%}
+              {%- else -%}
+                {%- assign ic = parent_sp.delivery_policy.interval_count -%}
+                {%- assign iu = parent_sp.delivery_policy.interval | replace: '_', ' ' | strip -%}
+                {%- if ic and iu -%}
+                  {%- assign iu_title = iu | capitalize -%}
+                  {%- assign rc_bundle_subscription_frequency = ic | append: ' ' | append: iu_title | append: '(s)' -%}
+                {%- endif -%}
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
           
           {%- comment -%} V2: Combine the lists, with proteins first {%- endcomment -%}
           {%- assign rc_bundle_contents_raw = protein_list_raw | append: sides_list_raw -%}
@@ -251,17 +293,16 @@
 
           assign subscription_frequency = ''
           if item.selling_plan_allocation
-            assign selling_plan = item.selling_plan_allocation.selling_plan
-            assign first_option = selling_plan.options | first
+            assign sp = item.selling_plan_allocation.selling_plan
+            assign first_option = sp.options | first
             if first_option and first_option.value != blank
               assign subscription_frequency = first_option.value
             else
-              assign delivery_policy = selling_plan.delivery_policy
-              if delivery_policy and delivery_policy.interval_count and delivery_policy.interval
-                assign interval_count = delivery_policy.interval_count
-                assign interval_unit = delivery_policy.interval | replace: '_', ' ' | strip
-                assign interval_unit_label = interval_unit | capitalize
-                assign subscription_frequency = interval_count | append: ' ' | append: interval_unit_label | append: '(s)'
+              assign ic = sp.delivery_policy.interval_count
+              assign iu = sp.delivery_policy.interval
+              if ic and iu
+                assign iu_title = iu | capitalize
+                assign subscription_frequency = ic | append: ' ' | append: iu_title | append: '(s)'
               endif
             endif
           endif
