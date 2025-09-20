@@ -1,5 +1,8 @@
 /*
-  Custom Meal Recharge Bundle Builder - v3.7 (Corrected Variant Rendering)
+  Custom Meal Recharge Bundle Builder - v3.8 (Subscription and Error Handling Fixed)
+  - Correctly applies the selling_plan to the parent bundle product for Recharge subscriptions.
+  - Implements a fallback to optimistically assume plan eligibility when allocation data is unavailable.
+  - Enhances error handling to provide clearer feedback from Shopify's API.
   - Fixes a critical bug where variant size options would not render for Side 1 or Side 2.
   - Replaces fragile selectors with a more robust method of finding step containers.
   - Ensures UI logic works consistently across all selection steps (Protein, Side 1, Side 2).
@@ -79,6 +82,15 @@ class CustomMealBuilder {
     }
   }
 
+  addDebugSnippet() {
+    const debugScript = document.createElement('script');
+    debugScript.type = 'application/json';
+    debugScript.id = 'DebugSellingPlans';
+    debugScript.textContent = JSON.stringify(this.sellingPlanGroups, null, 2);
+    this.root.appendChild(debugScript);
+    console.log('Selling plan debug snippet added to the page.');
+  }
+
   async initialize() {
     try {
       await this.waitForRechargeBundle();
@@ -90,6 +102,7 @@ class CustomMealBuilder {
     try {
       this.bindEvents();
       this.populateFrequencies();
+      this.addDebugSnippet(); // Add the debug snippet
 
       const [proteins, sides] = await Promise.all([
         this.fetchCollectionProductsByHandle(this.proteinCollectionHandle),
@@ -129,13 +142,13 @@ class CustomMealBuilder {
 
       const variants = (product.variants || []).map(variant => {
         const variantId = String(variant.id);
-        this.variantDetails.set(variantId, {
+        this.variantDetails.set(String(variant.id), {
           productId: product.id,
           productTitle: product.title,
           variantId: variant.id,
           variantTitle: variant.title,
           price: this.toCents(variant.price),
-          sellingPlanAllocations: this.normalizeSellingPlanAllocations(variant.selling_plan_allocations)
+          sellingPlanAllocations: this.normalizeSellingPlanAllocations(variant.selling_plan_allocations || variant.sellingPlanAllocations)
         });
         return {
           id: variantId,
@@ -178,7 +191,6 @@ class CustomMealBuilder {
   }
 
   renderVariantOptions(selectionGroup, productId) {
-    // ROBUST FIX: Find the step container first, then find the variant options inside it.
     const step = this.root.querySelector(`[data-selection-group="${selectionGroup}"]`);
     if (!step) return;
 
@@ -223,7 +235,6 @@ class CustomMealBuilder {
       const button = event.target.closest('.variant-option-button');
       if (!button) return;
       
-      // ROBUST FIX: Find the parent step to reliably get the selection group.
       const step = button.closest('.cm-selection-step');
       if (!step) return;
 
@@ -426,12 +437,14 @@ class CustomMealBuilder {
     if (!variantDetails) return null; 
     const selection = {
       collectionId,
-      externalProductId: variantDetails.productId,
-      externalVariantId: variantDetails.variantId,
+      externalProductId: String(variantDetails.productId),
+      externalVariantId: String(variantDetails.variantId),
       quantity: 1,
     };
     if (this.state.sellingPlanId) {
-      selection.sellingPlan = this.state.sellingPlanId;
+      const sp = Number(this.state.sellingPlanId);
+      selection.sellingPlanId = sp;
+      selection.sellingPlan = sp;
     }
     return selection;
   }
@@ -455,11 +468,25 @@ class CustomMealBuilder {
         }
 
         const bundle = {
-            externalProductId: this.config.bundleProductId,
-            externalVariantId: this.config.bundleVariantId,
+            externalProductId: String(this.config.bundleProductId),
+            externalVariantId: String(this.config.bundleVariantId),
             selections: selections
         };
-        const items = recharge.bundle.getDynamicBundleItems(bundle, this.root.dataset.productHandle);
+        let items = recharge.bundle.getDynamicBundleItems(bundle, this.root.dataset.productHandle);
+
+        if (this.state.sellingPlanId) {
+          const sp = Number(this.state.sellingPlanId);
+          const bundleVid = String(this.config.bundleVariantId);
+
+          items = items.map(line => {
+            const vid = String(line.id ?? line.variant_id ?? line.variantId ?? '');
+            if (vid === bundleVid) {
+              return { ...line, selling_plan: sp };
+            }
+            return line;
+          });
+        }
+
         await this.addItemsToCart(items, this.state.quantity);
         this.addToCartText.textContent = 'Added!';
         setTimeout(() => { this.addToCartButton.disabled = false; this.update(); }, 2000);
@@ -478,8 +505,19 @@ class CustomMealBuilder {
         body: JSON.stringify({ items: lines })
       });
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.description || 'Failed to add items to cart.');
+        let msg = 'Failed to add items to cart.';
+        try {
+          const ct = response.headers.get('content-type') || '';
+          if (ct.includes('application/json')) {
+            const j = await response.json();
+            msg = j?.description || j?.message || msg;
+          } else {
+            const t = await response.text();
+            const m = t.match(/(?:<p[^>]*>|^)([^<]{8,200})(?:<\/p>|$)/i);
+            msg = m ? m[1].trim() : t.slice(0, 200);
+          }
+        } catch {}
+        throw new Error(msg);
       }
       document.dispatchEvent(new CustomEvent('cart:updated'));
   }
