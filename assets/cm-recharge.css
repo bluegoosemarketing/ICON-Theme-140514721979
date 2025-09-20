@@ -38,29 +38,22 @@
 }
 
 body.template-product.template-suffix--cm-recharge .collection-page__main {
-  display: flex;
-  flex-direction: column;
   height: 100%;
-  min-height: 0;
-  /* match the shell: the main column should scroll, not the page */
-  overflow-y: auto;
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  overflow-y: auto;      /* match shell */
+  min-width: 0;
+  padding: 0 1.5rem  max(0.5rem, env(safe-area-inset-bottom)) 1.5rem;
 }
 
 body.template-product.template-suffix--cm-recharge .collection-page__layout {
   align-items: flex-start;
 }
 
-/* B. Stop making the entire sidebar sticky (let the inner cart area scroll) */
 body.template-product.template-suffix--cm-recharge .collection-page__sidebar {
-  /* full-height column managed by the shell */
   height: 100%;
   overflow: hidden;      /* inner cart scrolls */
   align-self: stretch;
 }
 
-/* C. Ensure the inner cart can actually scroll */
-/* the scrollable region inside the sidebar column */
 body.template-product.template-suffix--cm-recharge .cart-sidebar-section-wrapper,
 body.template-product.template-suffix--cm-recharge .cart-sidebar {
   height: 100%;
