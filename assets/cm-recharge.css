@@ -65,15 +65,19 @@ body.template-product.template-suffix--cm-recharge .cart-sidebar {
   height: 100%;
   display: flex;
   flex-direction: column;
-  min-height: 0;
 }
 
-body.template-product.template-suffix--cm-recharge .cart-sidebar__content,
-body.template-product.template-suffix--cm-recharge .cart,
-body.template-product.template-suffix--cm-recharge .cart-drawer__content {
-  height: 100%;
+body.template-product.template-suffix--cm-recharge .cart-sidebar__content {
+  flex: 1 1 auto;             /* fill remaining space under the header */
+  min-height: 0;              /* critical: prevent overflow calc bug */
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
+}
+
+/* keep header/footer static within the column */
+body.template-product.template-suffix--cm-recharge .cart-sidebar__header,
+body.template-product.template-suffix--cm-recharge .cart-sidebar__footer {
+  flex: 0 0 auto;
 }
 
 body.template-product.template-suffix--cm-recharge .cart-empty-box {
