@@ -172,6 +172,36 @@
   })();
 </script>
 
+<script>
+  (function() {
+    const setHeaderOffsets = function() {
+      const header = document.querySelector('#shopify-section-header-collections') || document.querySelector('#shopify-section-header');
+      if (!header) {
+        return;
+      }
+      var height = header.getBoundingClientRect().height;
+      document.documentElement.style.setProperty('--header-offset', height + 'px');
+      document.documentElement.style.setProperty('--dynamic-header-h', height + 'px');
+    };
+
+    const registerListeners = function() {
+      if (!window.__cmRechargeHeaderOffsetListenersRegistered) {
+        window.__cmRechargeHeaderOffsetListenersRegistered = true;
+        window.addEventListener('resize', setHeaderOffsets);
+        document.addEventListener('shopify:section:load', setHeaderOffsets);
+        document.addEventListener('shopify:section:reorder', setHeaderOffsets);
+      }
+      setHeaderOffsets();
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', registerListeners);
+    } else {
+      registerListeners();
+    }
+  })();
+</script>
+
 <link rel="stylesheet" href="{{ 'cm-recharge.css' | asset_url }}">
 <script src="{{ 'cm-recharge.js' | asset_url }}" defer="defer"></script>
 

@@ -152,37 +152,39 @@
     <div class="cart-sidebar__header">
       <h2 class="cart-sidebar__title">{{ 'cart.general.title' | t }}</h2>
     </div>
-    {%- if cart.item_count > 0 -%}
-      <div class="cart-progress cart-progress--green">
-        <p class="cart-progress__text" aria-live="polite">{{ progress_message | strip }}</p>
-        <div class="cart-progress__bar" role="progressbar" aria-label="Meal progress toward order minimum" aria-valuenow="{{ progress_current }}" aria-valuemin="0" aria-valuemax="{{ progress_target }}" aria-valuetext="{{ progress_current }} of {{ progress_target }} meals">
-          <div class="cart-progress__bar-inner" style="width: {{ progress_percentage }}%;"></div>
+    <div class="cart-sidebar__content">
+      {%- if cart.item_count > 0 -%}
+        <div class="cart-progress cart-progress--green">
+          <p class="cart-progress__text" aria-live="polite">{{ progress_message | strip }}</p>
+          <div class="cart-progress__bar" role="progressbar" aria-label="Meal progress toward order minimum" aria-valuenow="{{ progress_current }}" aria-valuemin="0" aria-valuemax="{{ progress_target }}" aria-valuetext="{{ progress_current }} of {{ progress_target }} meals">
+            <div class="cart-progress__bar-inner" style="width: {{ progress_percentage }}%;"></div>
+          </div>
         </div>
-      </div>
-    {%- endif -%}
-    
-    {% render 'cart-item-list', context: 'sidebar' %}
+      {%- endif -%}
 
-    {% if cart.item_count > 0 %}
-      <div class="cart-sidebar__footer">
-                  <div class="cart-sidebar__summary">
+      {% render 'cart-item-list', context: 'sidebar' %}
+
+      {% if cart.item_count > 0 %}
+        <div class="cart-sidebar__footer">
+          <div class="cart-sidebar__summary">
             <span class="cart-sidebar__summary-label">{{ 'cart.general.subtotal' | t }}</span>
             <span class="cart-sidebar__summary-value">
               {%- if cart.total_discount > 0 -%}<del class="money">{{ cart.original_total_price | money }}</del>{%- endif -%}
               <span class="money"><span style="display:none" class="tdf-cart-total-flag"></span>{{ cart.total_price | money }}</span>
             </span>
           </div>
-        <p class="cart-drawer__subtext">{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}</p>
-        <div class="cart-sidebar__actions">
-           <a href="{{ checkout_url }}" class="btn cart-sidebar__checkout-btn">
-            Proceed to Checkout
-          </a>
+          <p class="cart-drawer__subtext">{{ 'cart.general.taxes_and_shipping_at_checkout' | t }}</p>
+          <div class="cart-sidebar__actions">
+             <a href="{{ checkout_url }}" class="btn cart-sidebar__checkout-btn">
+              Proceed to Checkout
+            </a>
+          </div>
+          <div class="cart-drawer__continue-action">
+            <a href="{{ routes.cart_url }}" class="cart-drawer__secondary-link">View Full Cart</a>
+          </div>
         </div>
-        <div class="cart-drawer__continue-action">
-          <a href="{{ routes.cart_url }}" class="cart-drawer__secondary-link">View Full Cart</a>
-        </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
     <div class="cart-sidebar__loader-overlay">
       <div class="cart-sidebar__spinner"></div>
     </div>
