@@ -180,8 +180,13 @@
         return;
       }
       var height = header.getBoundingClientRect().height;
+      
+      // --- START: CORRECTED SCRIPT ---
+      // This now sets ALL the necessary variables for the layout CSS to work.
+      document.documentElement.style.setProperty('--app-header-min-height', height + 'px');
       document.documentElement.style.setProperty('--header-offset', height + 'px');
       document.documentElement.style.setProperty('--dynamic-header-h', height + 'px');
+      // --- END: CORRECTED SCRIPT ---
     };
 
     const registerListeners = function() {

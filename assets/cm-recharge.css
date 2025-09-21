@@ -284,3 +284,60 @@
   .cm-product-card-visual { width: 80px; }
   .cm-product-card-visual__image { width: 64px; height: 64px; }
 }
+
+/*
+ * =================================================================
+ * === START: DEFINITIVE FIX FOR EXTRA SCROLL (DATA-CONFIRMED) ===
+ * =================================================================
+ * This rule targets the specific `select.visually-hidden` element
+ * that the console diagnosis identified as the cause of the unwanted
+ * page height.
+ *
+ * By forcing its position to `fixed`, we remove it from the
+ * document's layout flow entirely, eliminating the extra scroll
+ * space it creates.
+ * =================================================================
+*/
+body.template-product.template-suffix--cm-recharge select[id^="cm-side"][id$="__main"].visually-hidden {
+  position: fixed !important; /* Takes the element out of the document's scroll height calculation. */
+  top: -1000px !important;    /* Moves it far off-screen. */
+  left: -1000px !important;
+  width: 1px !important;      /* Ensures it takes up no space. */
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  pointer-events: none !important; /* Prevents any accidental interaction. */
+}
+
+/*
+ * =================================================================
+ * === START: DEFINITIVE LAYOUT FIX V3 (CONTEXT OVERRIDE) ========
+ * =================================================================
+ * PROBLEM: The theme's default page structure (body.flexbox-wrapper)
+ * conflicts with this page's app-style layout. This override forces
+ * the page's main containers to fill the viewport height correctly,
+ * allowing the two-column grid to function as designed.
+ * =================================================================
+*/
+
+/* Force the body to be a fixed height and prevent it from scrolling */
+html,
+body.template-product.template-suffix--cm-recharge {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* Force the main containers to stretch and fill the body's height */
+body.template-product.template-suffix--cm-recharge #PageContainer,
+body.template-product.template-suffix--cm-recharge #main-body,
+body.template-product.template-suffix--cm-recharge #main,
+body.template-product.template-suffix--cm-recharge .container--collection-page {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure our layout grid itself grows to fill the final container */
+body.template-product.template-suffix--cm-recharge .collection-page__layout {
+  flex-grow: 1;
+}
