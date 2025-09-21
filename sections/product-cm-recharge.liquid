@@ -23,8 +23,8 @@
   data-side-collection-id="{{ side_collection.id | default: '' }}"
 >
   <div class="cm-recharge__inner pad-safe-bottom">
-    <div class="product-main cm-recharge__main container">
-      <div class="product-main__layout cm-recharge__layout">
+    <div class="cm-recharge__main container">
+      <div class="cm-recharge__layout">
       {% liquid
         assign hero_media = product.selected_or_first_available_variant.featured_media | default: product.featured_media
         if hero_media == blank and product.media.size > 0
@@ -33,9 +33,9 @@
       %}
 
       <!-- Wrapper for Left Column Content -->
-      <div class="product-main__visuals-wrapper cm-recharge__visuals">
+      <div class="cm-recharge__visuals">
         <!-- LEFT: Media / Hero Image -->
-        <section class="product-main__gallery cm-recharge__media card card--soft">
+        <section class="cm-recharge__media card card--soft">
           {% if hero_media %}
             {% assign hero_alt = hero_media.alt | default: product.title %}
             <div class="cm-recharge__media-frame">
@@ -61,7 +61,7 @@
 
 
       <!-- RIGHT: Builder Panel -->
-      <section class="product-main__info-column cm-recharge__panel">
+      <section class="cm-recharge__panel">
         <div class="cm-recharge__intro">
           <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
           <div class="product-price--placeholder">

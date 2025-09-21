@@ -37,87 +37,6 @@
   margin-top: 2.5rem;
 }
 
-body.template-product.template-suffix--cm-recharge .collection-page__layout {
-  height: calc(100vh - var(--dynamic-header-h, var(--header-offset, 64px)));
-  overflow: hidden;
-  min-height: 0;
-  align-items: flex-start;
-}
-
-body.template-product.template-suffix--cm-recharge .collection-page__main {
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-  min-width: 0;
-  height: 100%;
-  padding: 0 1.5rem;
-  padding-bottom: max(0.5rem, env(safe-area-inset-bottom, 0));
-}
-
-body.template-product.template-suffix--cm-recharge .collection-page__sidebar {
-  height: 100%;
-  overflow: hidden;
-  align-self: stretch;
-}
-
-body.template-product.template-suffix--cm-recharge .cart-sidebar-section-wrapper,
-body.template-product.template-suffix--cm-recharge .cart-sidebar {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-
-body.template-product.template-suffix--cm-recharge .cart-sidebar__content {
-  flex: 1 1 auto;             /* fill remaining space under the header */
-  min-height: 0;              /* critical: prevent overflow calc bug */
-  overflow-y: auto;
-  -webkit-overflow-scrolling: touch;
-}
-
-/* keep header/footer static within the column */
-body.template-product.template-suffix--cm-recharge .cart-sidebar__header,
-body.template-product.template-suffix--cm-recharge .cart-sidebar__footer {
-  flex: 0 0 auto;
-}
-
-body.template-product.template-suffix--cm-recharge .cart-empty-box {
-  min-height: 0 !important;
-}
-
-body.template-product.template-suffix--cm-recharge .cm-recharge,
-body.template-product.template-suffix--cm-recharge .cm-recharge__inner,
-body.template-product.template-suffix--cm-recharge .cm-recharge__footer {
-  min-height: 0 !important;
-  height: auto !important;
-  overflow: visible !important;
-}
-
-@media (max-width: 991px) {
-  body.template-product.template-suffix--cm-recharge .collection-page__layout {
-    height: auto;
-    overflow: visible;
-  }
-
-  body.template-product.template-suffix--cm-recharge .collection-page__main {
-    overflow: visible;
-    height: auto;
-  }
-
-  body.template-product.template-suffix--cm-recharge .collection-page__sidebar {
-    height: auto;
-    overflow: visible;
-  }
-
-  body.template-product.template-suffix--cm-recharge .cart-sidebar-section-wrapper,
-  body.template-product.template-suffix--cm-recharge .cart-sidebar,
-  body.template-product.template-suffix--cm-recharge .cart-sidebar__content,
-  body.template-product.template-suffix--cm-recharge .cart,
-  body.template-product.template-suffix--cm-recharge .cart-drawer__content {
-    height: auto;
-    overflow: visible;
-  }
-}
-
 /* --- Main Layout --- */
 /* Final Width Fix: Remove horizontal constraints from the theme's .container class */
 .cm-recharge__main.container {
@@ -332,7 +251,7 @@ body.template-product.template-suffix--cm-recharge .cm-recharge__footer {
 /* --- Responsive Overrides --- */
 @media (min-width: 1024px) {
   /* Safety: keep the exact 45/55 split used on the legacy PDP */
-  .product-main__layout.cm-recharge__layout {
+  .cm-recharge__layout {
     display: grid;
     grid-template-columns: 45fr 55fr !important;
     grid-template-areas: "visuals panel";
