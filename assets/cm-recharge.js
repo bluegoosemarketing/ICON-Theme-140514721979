@@ -1,38 +1,34 @@
 /*
-  Custom Meal Recharge Bundle Builder - v3.8 (Subscription and Error Handling Fixed)
-  - Correctly applies the selling_plan to the parent bundle product for Recharge subscriptions.
-  - Implements a fallback to optimistically assume plan eligibility when allocation data is unavailable.
-  - Enhances error handling to provide clearer feedback from Shopify's API.
-  - Fixes a critical bug where variant size options would not render for Side 1 or Side 2.
-  - Replaces fragile selectors with a more robust method of finding step containers.
-  - Ensures UI logic works consistently across all selection steps (Protein, Side 1, Side 2).
+  Custom Meal Recharge Bundle Builder - v4.4 (Definitive Unit Logic Fix)
+  - REWRITTEN: getVariantUnitInfo now has a robust fallback system. If no override or explicit unit is found, it now correctly defaults BOTH proteins AND sides to "oz". This fixes the issue where side items were not displaying their unit.
+  - The function correctly prioritizes overrides (e.g., for rice/cups) over all other logic.
+  - REWRITTEN: renderVariantOptions now correctly joins the amount and unit into the button's text for all items.
+  - Macro calculations remain accurate by using the fractionMap to convert display values to ounces for the backend.
 */
 
-const CM_UNIT_DEFINITIONS = [
-  {
-    key: 'OZ',
-    keywords: ['oz', 'ounce', 'ounces'],
-    displaySingular: 'oz',
-    displayPlural: 'oz'
-  },
-  {
-    key: 'C',
-    keywords: ['cup', 'cups'],
-    displaySingular: 'cup',
-    displayPlural: 'cups'
-  },
-  {
-    key: 'EA',
-    keywords: ['ea', 'each'],
-    displaySingular: 'ea',
-    displayPlural: 'ea'
-  },
-  {
-    key: 'SL',
-    keywords: ['slice', 'slices', 'sl'],
-    displaySingular: 'slice',
-    displayPlural: 'slices'
+const CM_UNIT_OVERRIDES = {
+  byTitle: {
+    'Beyond Meat Vegan Patty': { unit: 'EA', fractionMap: null },
+    'Black Bean Vegan Patty': { unit: 'EA', fractionMap: null },
+    'Turkey Bacon': { unit: 'SL', fractionMap: null },
+    'Home Style Protein Pancakes': { unit: 'EA', fractionMap: null },
+    'Brown Rice': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Gluten Free Penne Pasta': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Jasmine Saffron Rice': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Kyoto Blend Veggies': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Quinoa': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Red Quinoa': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Quinoa Rice Blend': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'White Rice': { unit: 'C', fractionMap: { '1/4': 1, '1/2': 2, '1': 4, '1.5': 6, '2': 8 } },
+    'Oatmeal': { unit: 'C', fractionMap: { '1/2': 2, '1': 4, '2': 8 } }
   }
+};
+
+const CM_UNIT_DEFINITIONS = [
+  { key: 'OZ', keywords: ['oz', 'ounce', 'ounces'], displaySingular: 'oz', displayPlural: 'oz' },
+  { key: 'C', keywords: ['cup', 'cups'], displaySingular: 'c', displayPlural: 'c' },
+  { key: 'EA', keywords: ['ea', 'each'], displaySingular: 'ea', displayPlural: 'ea' },
+  { key: 'SL', keywords: ['slice', 'slices', 'sl'], displaySingular: 'sl', displayPlural: 'sl' }
 ];
 
 const CM_UNICODE_FRACTIONS = {
@@ -275,19 +271,22 @@ class CustomMealBuilder {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'variant-option-button';
-        button.textContent = variant.amountLabel || variant.title;
+        
+        // Correctly combine amount and unit into the button's text content.
+        const buttonText = [variant.amountLabel, variant.unitLabel].filter(Boolean).join('').trim();
+        button.textContent = buttonText || variant.title;
+        
         button.dataset.variantId = variant.id;
-        if (variant.unitLabel) {
-          button.dataset.unit = variant.unitLabel;
-        } else {
-          button.removeAttribute('data-unit');
-        }
         if (variant.unitKey) {
           button.dataset.unitKey = variant.unitKey;
         }
         if (variant.displayLabel) {
           button.setAttribute('aria-label', variant.displayLabel);
         }
+
+        // No longer need the data-unit attribute for CSS pseudo-elements.
+        button.removeAttribute('data-unit');
+        
         container.appendChild(button);
       });
     }
@@ -396,122 +395,83 @@ class CustomMealBuilder {
   }
 
   getVariantUnitInfo(product, variant, groupType = '') {
-    const title = (variant.title || '').trim();
-    let amountLabel = title;
-    let numericValue = this.parseQuantityString(title);
-    let unitPattern = null;
-
-    const optionStrings = [];
-    if (Array.isArray(variant.options)) {
-      variant.options.forEach(value => {
-        optionStrings.push({ value, source: 'variantOption' });
-      });
+    const variantTitle = (variant.title || '').trim();
+    const productTitle = (product.title || '').trim();
+    let override = null;
+  
+    // Step 1: Check for an override with flexible, case-insensitive matching.
+    const overrideKeys = Object.keys(CM_UNIT_OVERRIDES.byTitle).sort((a, b) => b.length - a.length);
+    for (const key of overrideKeys) {
+      if (productTitle.toLowerCase().includes(key.toLowerCase())) {
+        override = CM_UNIT_OVERRIDES.byTitle[key];
+        break;
+      }
     }
-    if (Array.isArray(product?.options)) {
-      product.options.forEach(opt => {
-        if (opt && typeof opt.name === 'string') {
-          optionStrings.push({ value: opt.name, source: 'productOptionName' });
-        }
-      });
+  
+    // Step 2: If an override is found, use its rules exclusively. This is the highest priority.
+    if (override) {
+      const unitPattern = CM_UNIT_DEFINITIONS.find(def => def.key === override.unit);
+      if (!unitPattern) return { amountLabel: variantTitle, displayUnit: '', unitKey: '', fullLabel: variantTitle, numericValue: this.parseQuantityString(variantTitle) };
+      
+      const amountLabel = variantTitle;
+      
+      let numericValueForMacro = this.parseQuantityString(amountLabel);
+      if (override.fractionMap && override.fractionMap[amountLabel]) {
+        numericValueForMacro = override.fractionMap[amountLabel];
+      } else if (!override.fractionMap) {
+        numericValueForMacro = this.parseQuantityString(amountLabel) || 1;
+      }
+      
+      return {
+        amountLabel: amountLabel,
+        displayUnit: unitPattern.displaySingular,
+        unitKey: unitPattern.key,
+        fullLabel: `${amountLabel} ${unitPattern.displaySingular}`.trim(),
+        numericValue: numericValueForMacro
+      };
     }
-    if (product?.title) optionStrings.push({ value: product.title, source: 'productTitle' });
-
-    const directMatch = this.matchUnitInText(title);
+  
+    // Step 3: If no override, parse the variant title for a unit like "4oz".
+    const directMatch = this.matchUnitInText(variantTitle);
     if (directMatch && directMatch.pattern) {
-      unitPattern = directMatch.pattern;
-      if (directMatch.amountLabel) {
-        amountLabel = directMatch.amountLabel;
-        numericValue = directMatch.numericValue ?? this.parseQuantityString(directMatch.amountLabel);
-      }
+        const { pattern, amountLabel } = directMatch;
+        return {
+            amountLabel: amountLabel || variantTitle,
+            displayUnit: pattern.displaySingular,
+            unitKey: pattern.key,
+            fullLabel: `${amountLabel || variantTitle} ${pattern.displaySingular}`.trim(),
+            numericValue: this.parseQuantityString(amountLabel || variantTitle)
+        };
     }
-
-    if (!unitPattern) {
-      const optionMatch = this.matchUnitFromStrings(optionStrings);
-      if (optionMatch && optionMatch.pattern) {
-        unitPattern = optionMatch.pattern;
-        if (!directMatch || !directMatch.amountLabel) {
-          const optionAmount = optionMatch.amountLabel || amountLabel;
-          const variantHasNumeric = /[0-9]/.test(title);
-          const shouldUseOptionAmount = optionMatch.source !== 'productTitle' || !variantHasNumeric;
-          if (optionAmount && shouldUseOptionAmount) {
-            amountLabel = optionAmount;
-            numericValue = optionMatch.numericValue ?? this.parseQuantityString(optionAmount);
-          }
-        }
-      }
-    }
-
-    if (!unitPattern && groupType === 'protein') {
-      unitPattern = CM_UNIT_DEFINITIONS.find(def => def.key === 'OZ');
-    }
-
-    const displayUnit = unitPattern ? this.pluralizeUnit(unitPattern, numericValue) : '';
-    const normalizedAmount = amountLabel || title || '';
-    const fullLabel = displayUnit && normalizedAmount
-      ? `${normalizedAmount} ${displayUnit}`.trim()
-      : (unitPattern && !normalizedAmount ? unitPattern.displaySingular : (title || normalizedAmount));
-
+  
+    // Step 4: If still no unit found, default to "oz". This catches sides with variants like "2", "4", "6".
+    const ozPattern = CM_UNIT_DEFINITIONS.find(def => def.key === 'OZ');
     return {
-      amountLabel: normalizedAmount,
-      displayUnit,
-      unitKey: unitPattern?.key || '',
-      fullLabel: fullLabel || normalizedAmount,
-      numericValue: numericValue ?? this.parseQuantityString(normalizedAmount)
+      amountLabel: variantTitle,
+      displayUnit: ozPattern.displaySingular,
+      unitKey: ozPattern.key,
+      fullLabel: `${variantTitle} ${ozPattern.displaySingular}`.trim(),
+      numericValue: this.parseQuantityString(variantTitle)
     };
   }
 
-  matchUnitFromStrings(values = []) {
-    for (const entry of values) {
-      if (!entry) continue;
-      const value = typeof entry === 'string' ? entry : entry.value;
-      const source = typeof entry === 'object' && entry ? entry.source : undefined;
-      if (!value) continue;
-      const match = this.matchUnitInText(value);
-      if (match && match.pattern) return { ...match, source };
-    }
-    return null;
-  }
 
   matchUnitInText(text) {
     if (!text || typeof text !== 'string') return null;
-    const cleaned = text.replace(/\(s\)/gi, 's');
-    const lower = cleaned.toLowerCase();
-
+    const cleanedText = text.replace(/\(s\)/gi, 's').toLowerCase();
+  
     for (const definition of CM_UNIT_DEFINITIONS) {
       for (const keyword of definition.keywords) {
-        const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-        const regexWithAmount = new RegExp(`([0-9\s\./-]+)\s*${escaped}(?:\b|$)`, 'i');
-        const matchWithAmount = lower.match(regexWithAmount);
-        if (matchWithAmount) {
-          const rawAmount = matchWithAmount[1] ? matchWithAmount[1].trim() : '';
-          return {
-            pattern: definition,
-            amountLabel: rawAmount,
-            matchedWord: keyword,
-            numericValue: rawAmount ? this.parseQuantityString(rawAmount) : null
-          };
-        }
-
-        const regexPrefix = new RegExp(`${escaped}\s*([0-9\s\./-]+)`, 'i');
-        const prefixMatch = lower.match(regexPrefix);
-        if (prefixMatch) {
-          const rawAmount = prefixMatch[1] ? prefixMatch[1].trim() : '';
-          return {
-            pattern: definition,
-            amountLabel: rawAmount,
-            matchedWord: keyword,
-            numericValue: rawAmount ? this.parseQuantityString(rawAmount) : null
-          };
-        }
-
-        const regexStandalone = new RegExp(`\\b${escaped}\\b`, 'i');
-        if (regexStandalone.test(lower)) {
-          return {
-            pattern: definition,
-            amountLabel: '',
-            matchedWord: keyword,
-            numericValue: null
-          };
+        if (cleanedText.endsWith(keyword)) {
+          const amountPart = cleanedText.substring(0, cleanedText.length - keyword.length).trim();
+          // Ensure the part before the keyword is numeric or a fraction to avoid false positives.
+          if (amountPart && !isNaN(this.parseQuantityString(amountPart))) {
+            return {
+              pattern: definition,
+              amountLabel: amountPart,
+              matchedWord: keyword
+            };
+          }
         }
       }
     }
@@ -561,13 +521,14 @@ class CustomMealBuilder {
 
   pluralizeUnit(definition, quantity) {
     if (!definition) return '';
-    if (quantity === null || Number.isNaN(quantity)) {
+    const num = this.parseQuantityString(String(quantity));
+    if (num === null || Number.isNaN(num)) {
       return definition.displayPlural || definition.displaySingular;
     }
-    if (Math.abs(quantity - 1) < 0.0001) {
+    if (Math.abs(num - 1) < 0.0001) {
       return definition.displaySingular;
     }
-    return quantity > 1 ? (definition.displayPlural || definition.displaySingular) : definition.displaySingular;
+    return num > 1 ? (definition.displayPlural || definition.displaySingular) : definition.displaySingular;
   }
 
   normalizeIngredientName(name) {
@@ -716,41 +677,54 @@ class CustomMealBuilder {
 
   buildParentLineProperties(commonProps = {}) {
     const properties = { ...commonProps };
+    const macroProps = {};
     const quantityKeyUsage = new Map();
 
     const selections = [
-      { label: 'Protein', select: this.proteinSelect },
-      { label: 'Side 1', select: this.side1Select },
-      { label: 'Side 2', select: this.side2Select }
+      { id: 'protein', select: this.proteinSelect },
+      { id: 'side_1', select: this.side1Select },
+      { id: 'side_2', select: this.side2Select }
     ];
 
-    selections.forEach(({ label, select }) => {
+    selections.forEach(({ id, select }) => {
       if (!select) return;
       const variantId = select.value;
       if (!variantId) return;
+
       const details = this.variantDetails.get(String(variantId));
       if (!details) return;
 
       const ingredientName = this.normalizeIngredientName(details.productTitle);
-      if (ingredientName) {
-        properties[label] = ingredientName;
-      }
-
       const amountLabel = (details.amountLabel || '').trim();
       const unitKey = (details.unitKey || '').trim();
+      const unitInfo = CM_UNIT_DEFINITIONS.find(u => u.key === unitKey);
+      const displayUnit = unitInfo ? unitInfo.displaySingular : '';
+      
+      const key_prefix = `_rc_cm_${id}`;
+      if (ingredientName) {
+        properties[`${key_prefix}_name`] = ingredientName;
+      }
+      if (amountLabel) {
+        properties[`${key_prefix}_qty`] = amountLabel;
+      }
+      if (displayUnit) {
+        properties[`${key_prefix}_unit`] = displayUnit;
+      }
+      properties[`${key_prefix}_display`] = `${amountLabel}${displayUnit} ${ingredientName}`;
 
+      // Legacy macro props
       if (ingredientName && amountLabel && unitKey) {
         const baseKey = this.buildQuantityKey(ingredientName, unitKey);
         if (baseKey) {
           const usageCount = quantityKeyUsage.get(baseKey) || 0;
-          const finalKey = usageCount === 0 ? baseKey : `${baseKey} ${usageCount}`;
+          const finalKey = usageCount === 0 ? baseKey : `${baseKey} ${usageCount + 1}`;
           quantityKeyUsage.set(baseKey, usageCount + 1);
-          properties[finalKey] = amountLabel;
+          macroProps[finalKey] = amountLabel;
         }
       }
     });
 
-    return properties;
+    return { ...properties, ...macroProps };
   }
 
   async handleAddToCart(event) {
@@ -775,7 +749,6 @@ class CustomMealBuilder {
       const parentVariantId = this.config.bundleVariantId;
       const planId = this.state.sellingPlanId;
 
-      // 1) Build bundle token and line items
       const bundleId = crypto.randomUUID();
       const commonProps = {
         _rc_bundle: bundleId,
@@ -789,7 +762,6 @@ class CustomMealBuilder {
         properties: this.buildParentLineProperties(commonProps)
       };
 
-      // Only add selling_plan if one is selected
       if (planId) {
         parentLine.selling_plan = planId;
       }
@@ -797,7 +769,7 @@ class CustomMealBuilder {
       const childLines = childVariants.map(({ id, quantity }) => ({
         id,
         quantity,
-        properties: { ...commonProps } // children: NO selling_plan
+        properties: { ...commonProps }
       }));
 
       const payload = { items: [parentLine, ...childLines] };
