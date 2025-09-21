@@ -180,8 +180,23 @@
   font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 .variant-option-button::after {
-  content: 'oz'; margin-left: 4px; font-weight: 400; font-size: 0.8em;
-  color: inherit; opacity: 0.9;
+  content: attr(data-unit);
+  margin-left: 4px;
+  font-weight: 400;
+  font-size: 0.8em;
+  color: inherit;
+  opacity: 0.9;
+}
+
+.variant-option-button:not([data-unit]),
+.variant-option-button[data-unit=""] {
+  --has-unit: 0;
+}
+
+.variant-option-button:not([data-unit])::after,
+.variant-option-button[data-unit=""]::after {
+  content: '';
+  margin-left: 0;
 }
 
 /* --- Utilities & Original Elements --- */

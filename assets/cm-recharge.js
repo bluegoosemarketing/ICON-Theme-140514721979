@@ -8,6 +8,54 @@
   - Ensures UI logic works consistently across all selection steps (Protein, Side 1, Side 2).
 */
 
+const CM_UNIT_DEFINITIONS = [
+  {
+    key: 'OZ',
+    keywords: ['oz', 'ounce', 'ounces'],
+    displaySingular: 'oz',
+    displayPlural: 'oz'
+  },
+  {
+    key: 'C',
+    keywords: ['cup', 'cups'],
+    displaySingular: 'cup',
+    displayPlural: 'cups'
+  },
+  {
+    key: 'EA',
+    keywords: ['ea', 'each'],
+    displaySingular: 'ea',
+    displayPlural: 'ea'
+  },
+  {
+    key: 'SL',
+    keywords: ['slice', 'slices', 'sl'],
+    displaySingular: 'slice',
+    displayPlural: 'slices'
+  }
+];
+
+const CM_UNICODE_FRACTIONS = {
+  '¼': 0.25,
+  '½': 0.5,
+  '¾': 0.75,
+  '⅓': 1 / 3,
+  '⅔': 2 / 3,
+  '⅛': 0.125,
+  '⅜': 0.375,
+  '⅝': 0.625,
+  '⅞': 0.875,
+  '⅕': 0.2,
+  '⅖': 0.4,
+  '⅗': 0.6,
+  '⅘': 0.8,
+  '⅙': 1 / 6,
+  '⅚': 5 / 6,
+  '⅐': 1 / 7,
+  '⅑': 1 / 9,
+  '⅒': 0.1
+};
+
 class CustomMealBuilder {
   constructor(element) {
     this.root = element;
@@ -109,8 +157,8 @@ class CustomMealBuilder {
         this.fetchCollectionProductsByHandle(this.sideCollectionHandle)
       ]);
 
-      this.productData.protein = this.processProductData(proteins);
-      this.productData.side = this.processProductData(sides);
+      this.productData.protein = this.processProductData(proteins, 'protein');
+      this.productData.side = this.processProductData(sides, 'side');
 
       this.populateProductSelect(this.proteinProductSelect, this.productData.protein, 'protein');
       this.populateProductSelect(this.side1ProductSelect, this.productData.side, 'side');
@@ -136,24 +184,37 @@ class CustomMealBuilder {
     }
   }
   
-  processProductData(products) {
+  processProductData(products, groupType = '') {
     return products.map(product => {
       this.productImageData.set(String(product.id), (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src);
 
       const variants = (product.variants || []).map(variant => {
         const variantId = String(variant.id);
-        this.variantDetails.set(String(variant.id), {
+        const unitInfo = this.getVariantUnitInfo(product, variant, groupType);
+        const priceInCents = this.toCents(variant.price);
+
+        this.variantDetails.set(variantId, {
           productId: product.id,
           productTitle: product.title,
           variantId: variant.id,
           variantTitle: variant.title,
-          price: this.toCents(variant.price),
+          displayLabel: unitInfo.fullLabel,
+          amountLabel: unitInfo.amountLabel,
+          unitLabel: unitInfo.displayUnit,
+          unitKey: unitInfo.unitKey,
+          numericQuantity: unitInfo.numericValue,
+          price: priceInCents,
           sellingPlanAllocations: this.normalizeSellingPlanAllocations(variant.selling_plan_allocations || variant.sellingPlanAllocations)
         });
+
         return {
           id: variantId,
           title: variant.title,
-          price: this.toCents(variant.price)
+          price: priceInCents,
+          displayLabel: unitInfo.fullLabel,
+          amountLabel: unitInfo.amountLabel,
+          unitLabel: unitInfo.displayUnit,
+          unitKey: unitInfo.unitKey
         };
       });
       return { id: product.id, title: product.title, variants };
@@ -214,8 +275,19 @@ class CustomMealBuilder {
         const button = document.createElement('button');
         button.type = 'button';
         button.className = 'variant-option-button';
-        button.textContent = variant.title;
+        button.textContent = variant.amountLabel || variant.title;
         button.dataset.variantId = variant.id;
+        if (variant.unitLabel) {
+          button.dataset.unit = variant.unitLabel;
+        } else {
+          button.removeAttribute('data-unit');
+        }
+        if (variant.unitKey) {
+          button.dataset.unitKey = variant.unitKey;
+        }
+        if (variant.displayLabel) {
+          button.setAttribute('aria-label', variant.displayLabel);
+        }
         container.appendChild(button);
       });
     }
@@ -323,6 +395,203 @@ class CustomMealBuilder {
     }
   }
 
+  getVariantUnitInfo(product, variant, groupType = '') {
+    const title = (variant.title || '').trim();
+    let amountLabel = title;
+    let numericValue = this.parseQuantityString(title);
+    let unitPattern = null;
+
+    const optionStrings = [];
+    if (Array.isArray(variant.options)) {
+      variant.options.forEach(value => {
+        optionStrings.push({ value, source: 'variantOption' });
+      });
+    }
+    if (Array.isArray(product?.options)) {
+      product.options.forEach(opt => {
+        if (opt && typeof opt.name === 'string') {
+          optionStrings.push({ value: opt.name, source: 'productOptionName' });
+        }
+      });
+    }
+    if (product?.title) optionStrings.push({ value: product.title, source: 'productTitle' });
+
+    const directMatch = this.matchUnitInText(title);
+    if (directMatch && directMatch.pattern) {
+      unitPattern = directMatch.pattern;
+      if (directMatch.amountLabel) {
+        amountLabel = directMatch.amountLabel;
+        numericValue = directMatch.numericValue ?? this.parseQuantityString(directMatch.amountLabel);
+      }
+    }
+
+    if (!unitPattern) {
+      const optionMatch = this.matchUnitFromStrings(optionStrings);
+      if (optionMatch && optionMatch.pattern) {
+        unitPattern = optionMatch.pattern;
+        if (!directMatch || !directMatch.amountLabel) {
+          const optionAmount = optionMatch.amountLabel || amountLabel;
+          const variantHasNumeric = /[0-9]/.test(title);
+          const shouldUseOptionAmount = optionMatch.source !== 'productTitle' || !variantHasNumeric;
+          if (optionAmount && shouldUseOptionAmount) {
+            amountLabel = optionAmount;
+            numericValue = optionMatch.numericValue ?? this.parseQuantityString(optionAmount);
+          }
+        }
+      }
+    }
+
+    if (!unitPattern && groupType === 'protein') {
+      unitPattern = CM_UNIT_DEFINITIONS.find(def => def.key === 'OZ');
+    }
+
+    const displayUnit = unitPattern ? this.pluralizeUnit(unitPattern, numericValue) : '';
+    const normalizedAmount = amountLabel || title || '';
+    const fullLabel = displayUnit && normalizedAmount
+      ? `${normalizedAmount} ${displayUnit}`.trim()
+      : (unitPattern && !normalizedAmount ? unitPattern.displaySingular : (title || normalizedAmount));
+
+    return {
+      amountLabel: normalizedAmount,
+      displayUnit,
+      unitKey: unitPattern?.key || '',
+      fullLabel: fullLabel || normalizedAmount,
+      numericValue: numericValue ?? this.parseQuantityString(normalizedAmount)
+    };
+  }
+
+  matchUnitFromStrings(values = []) {
+    for (const entry of values) {
+      if (!entry) continue;
+      const value = typeof entry === 'string' ? entry : entry.value;
+      const source = typeof entry === 'object' && entry ? entry.source : undefined;
+      if (!value) continue;
+      const match = this.matchUnitInText(value);
+      if (match && match.pattern) return { ...match, source };
+    }
+    return null;
+  }
+
+  matchUnitInText(text) {
+    if (!text || typeof text !== 'string') return null;
+    const cleaned = text.replace(/\(s\)/gi, 's');
+    const lower = cleaned.toLowerCase();
+
+    for (const definition of CM_UNIT_DEFINITIONS) {
+      for (const keyword of definition.keywords) {
+        const escaped = keyword.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        const regexWithAmount = new RegExp(`([0-9\s\./-]+)\s*${escaped}(?:\b|$)`, 'i');
+        const matchWithAmount = lower.match(regexWithAmount);
+        if (matchWithAmount) {
+          const rawAmount = matchWithAmount[1] ? matchWithAmount[1].trim() : '';
+          return {
+            pattern: definition,
+            amountLabel: rawAmount,
+            matchedWord: keyword,
+            numericValue: rawAmount ? this.parseQuantityString(rawAmount) : null
+          };
+        }
+
+        const regexPrefix = new RegExp(`${escaped}\s*([0-9\s\./-]+)`, 'i');
+        const prefixMatch = lower.match(regexPrefix);
+        if (prefixMatch) {
+          const rawAmount = prefixMatch[1] ? prefixMatch[1].trim() : '';
+          return {
+            pattern: definition,
+            amountLabel: rawAmount,
+            matchedWord: keyword,
+            numericValue: rawAmount ? this.parseQuantityString(rawAmount) : null
+          };
+        }
+
+        const regexStandalone = new RegExp(`\\b${escaped}\\b`, 'i');
+        if (regexStandalone.test(lower)) {
+          return {
+            pattern: definition,
+            amountLabel: '',
+            matchedWord: keyword,
+            numericValue: null
+          };
+        }
+      }
+    }
+    return null;
+  }
+
+  parseQuantityString(value) {
+    if (value === null || value === undefined) return null;
+    const stringValue = String(value).trim();
+    if (!stringValue) return null;
+
+    const replacedFractions = stringValue.split('').map(char => {
+      if (CM_UNICODE_FRACTIONS[char] !== undefined) {
+        return ` ${CM_UNICODE_FRACTIONS[char]} `;
+      }
+      return char;
+    }).join('');
+
+    const normalized = replacedFractions
+      .replace(/-/g, ' ')
+      .replace(/[^0-9./\s]/g, ' ')
+      .replace(/\s+/g, ' ')
+      .trim();
+
+    if (!normalized) return null;
+
+    let total = 0;
+    let hasValue = false;
+    normalized.split(' ').forEach(part => {
+      if (!part) return;
+      hasValue = true;
+      if (part.includes('/')) {
+        const [num, den] = part.split('/').map(Number);
+        if (!Number.isNaN(num) && !Number.isNaN(den) && den !== 0) {
+          total += num / den;
+        }
+      } else {
+        const num = Number(part);
+        if (!Number.isNaN(num)) {
+          total += num;
+        }
+      }
+    });
+
+    return hasValue ? total : null;
+  }
+
+  pluralizeUnit(definition, quantity) {
+    if (!definition) return '';
+    if (quantity === null || Number.isNaN(quantity)) {
+      return definition.displayPlural || definition.displaySingular;
+    }
+    if (Math.abs(quantity - 1) < 0.0001) {
+      return definition.displaySingular;
+    }
+    return quantity > 1 ? (definition.displayPlural || definition.displaySingular) : definition.displaySingular;
+  }
+
+  normalizeIngredientName(name) {
+    if (!name) return '';
+    let normalized = String(name);
+    normalized = normalized.replace(/\(([^)]+)\)/g, (match, inner) => {
+      const innerLower = inner.toLowerCase();
+      const hasUnitKeyword = CM_UNIT_DEFINITIONS.some(def =>
+        def.keywords.some(keyword => innerLower.includes(keyword))
+      );
+      return hasUnitKeyword ? '' : match;
+    });
+    normalized = normalized.replace(/(?:\s*\d[\d./\s-]*)?\s*(oz|ounce|ounces|cup|cups|ea|each|slice|slices|sl)\s*$/i, '');
+    return normalized.replace(/\s{2,}/g, ' ').trim();
+  }
+
+  buildQuantityKey(name, unitKey) {
+    if (!name || !unitKey) return '';
+    let base = String(name).toUpperCase().replace(/[^A-Z0-9 ]+/g, ' ').replace(/\s{2,}/g, ' ').trim();
+    if (base === 'CHICKEN BREAST') base = 'CHICKEN';
+    if (!base) return '';
+    return `${base} ${unitKey}`.trim();
+  }
+
   waitForRechargeBundle(timeout = 10000, interval = 50) {
     return new Promise((resolve, reject) => {
       const start = Date.now();
@@ -364,9 +633,10 @@ class CustomMealBuilder {
 
     const productTitle = (details.productTitle || '').trim();
     const variantTitle = (details.variantTitle || '').trim();
-    const normalizedVariantTitle = variantTitle && variantTitle.toLowerCase() !== 'default title'
-      ? variantTitle
-      : '';
+    const variantDisplayLabel = (details.displayLabel || '').trim();
+
+    const normalizedVariantTitle = variantDisplayLabel
+      || (variantTitle && variantTitle.toLowerCase() !== 'default title' ? variantTitle : '');
 
     if (!productTitle && !normalizedVariantTitle) return '';
     if (!productTitle) return normalizedVariantTitle;
@@ -434,7 +704,7 @@ class CustomMealBuilder {
   }
   
   buildSelection(variantDetails, collectionId) {
-    if (!variantDetails) return null; 
+    if (!variantDetails) return null;
     const selection = {
       collectionId,
       externalProductId: String(variantDetails.productId),
@@ -442,6 +712,45 @@ class CustomMealBuilder {
       quantity: 1,
     };
     return selection;
+  }
+
+  buildParentLineProperties(commonProps = {}) {
+    const properties = { ...commonProps };
+    const quantityKeyUsage = new Map();
+
+    const selections = [
+      { label: 'Protein', select: this.proteinSelect },
+      { label: 'Side 1', select: this.side1Select },
+      { label: 'Side 2', select: this.side2Select }
+    ];
+
+    selections.forEach(({ label, select }) => {
+      if (!select) return;
+      const variantId = select.value;
+      if (!variantId) return;
+      const details = this.variantDetails.get(String(variantId));
+      if (!details) return;
+
+      const ingredientName = this.normalizeIngredientName(details.productTitle);
+      if (ingredientName) {
+        properties[label] = ingredientName;
+      }
+
+      const amountLabel = (details.amountLabel || '').trim();
+      const unitKey = (details.unitKey || '').trim();
+
+      if (ingredientName && amountLabel && unitKey) {
+        const baseKey = this.buildQuantityKey(ingredientName, unitKey);
+        if (baseKey) {
+          const usageCount = quantityKeyUsage.get(baseKey) || 0;
+          const finalKey = usageCount === 0 ? baseKey : `${baseKey} ${usageCount}`;
+          quantityKeyUsage.set(baseKey, usageCount + 1);
+          properties[finalKey] = amountLabel;
+        }
+      }
+    });
+
+    return properties;
   }
 
   async handleAddToCart(event) {
@@ -477,7 +786,7 @@ class CustomMealBuilder {
       const parentLine = {
         id: parentVariantId,
         quantity: 1,
-        properties: { ...commonProps }
+        properties: this.buildParentLineProperties(commonProps)
       };
 
       // Only add selling_plan if one is selected
