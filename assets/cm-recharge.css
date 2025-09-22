@@ -356,3 +356,24 @@ body.template-product.template-suffix--cm-recharge .container--collection-page {
 body.template-product.template-suffix--cm-recharge .collection-page__layout {
   flex-grow: 1;
 }
+
+/*
+ * Cart Sidebar Layout Fix
+ * Keeps the footer pinned to the bottom of the sidebar and restores
+ * the expected full-height flex behaviour from the legacy PDP layout.
+ */
+body.template-product.template-suffix--cm-recharge .cart-sidebar-section-wrapper,
+body.template-product.template-suffix--cm-recharge .cart-sidebar {
+  display: flex;
+  flex-direction: column;
+}
+
+body.template-product.template-suffix--cm-recharge .cart-sidebar__content {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 auto;
+}
+
+body.template-product.template-suffix--cm-recharge .cart-sidebar__footer {
+  margin-top: auto;
+}
