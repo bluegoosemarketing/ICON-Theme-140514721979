@@ -247,14 +247,9 @@
   object-fit: contain !important;
   background: transparent;
   border-radius: 12px;
-  border: none;
-  box-shadow: none;
-}
-.cm-recharge__cta .integrated-quantity { display: flex; height: 48px; }
-.cm-recharge__cta .integrated-quantity__button { width: 48px; background-color: var(--brand-accent); border: 1px solid var(--brand-accent); color: #fff; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; }
-.cm-recharge__cta .integrated-quantity__button[data-qty-minus] { border-radius: 8px 0 0 8px; }
-.cm-recharge__cta .integrated-quantity__button[data-qty-plus] { border-radius: 0 8px 8px 0; }
-.cm-recharge__cta .integrated-quantity__input { width: 52px; text-align: center; border: 1px solid #ced4da; border-left: none; border-right: none; background: #fff !important; color: #111 !important; font-weight: 600; -moz-appearance: textfield; height:100%; }
+  border: none; 
+  box-shadow: none; 
+} 
 
 /* --- Optional Polish & Final Overrides --- */
 /* Trim bottom rhythm on the right column’s last block */

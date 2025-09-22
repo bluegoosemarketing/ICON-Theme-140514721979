@@ -67,6 +67,7 @@ class CustomMealBuilder {
     this.side1ProductSelect = this.root.querySelector('[data-product-select="side1"]');
     this.side2ProductSelect = this.root.querySelector('[data-product-select="side2"]');
     this.frequencySelect = this.root.querySelector('[data-frequency-select]');
+    this.quantityText = this.root.querySelector('[data-qty-text]'); // ADD THIS LINE
     this.quantityInput = this.root.querySelector('[data-qty-input]');
     this.priceDisplay = this.root.querySelector('[data-total-price]');
     this.addToCartButton = this.root.querySelector('[data-add-to-cart-button]');
@@ -627,6 +628,7 @@ class CustomMealBuilder {
     const qty = parseInt(this.quantityInput.value, 10);
     this.state.quantity = !isNaN(qty) && qty > 0 ? qty : 1;
     this.quantityInput.value = this.state.quantity;
+    if (this.quantityText) this.quantityText.textContent = this.state.quantity; // ADD THIS LINE
     this.state.sellingPlanId = this.frequencySelect.value || null;
     this.calculatePrice();
     this.validate();
