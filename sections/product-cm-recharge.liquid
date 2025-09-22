@@ -17,6 +17,7 @@
   data-product-handle="{{ product.handle }}"
   data-bundle-product-id="{{ product.id }}"
   data-bundle-variant-id="{{ product.selected_or_first_available_variant.id }}"
+  data-base-fee-cents="{{ product.selected_or_first_available_variant.price }}"
   data-protein-collection-handle="{{ section.settings.protein_collection_handle }}"
   data-side-collection-handle="{{ section.settings.side_collection_handle }}"
   data-protein-collection-id="{{ protein_collection.id | default: '' }}"

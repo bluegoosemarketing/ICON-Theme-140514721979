@@ -1,11 +1,18 @@
 {%- comment -%}
   ==========================================================================
-  REVISION: V26 - DEFINITIVE UX: Tooltip Badge
-  - REVERTED & ENHANCED: Based on feedback, the split-badge has been
-    removed. Reverted to the visually preferred single red promo badge.
-  - ADDED: A pure CSS tooltip has been added to the badge. On hover/tap,
-    it reveals detailed promotional info ("Applies to today's order...")
-    without cluttering the UI, providing the best of both worlds.
+  REVISION: V27 - BUNDLE UNIT DISPLAY FIX
+  - MODIFIED: The Recharge Custom Meal (rc_bundle) rendering logic has
+    been completely rewritten to support variable units (oz, c, ea, sl).
+  - REMOVED: The old logic that manually parsed variant titles and
+    hard-coded "oz" has been removed.
+  - ADDED: The template now first finds the parent bundle line item, which
+    contains new structured properties (e.g., `_rc_cm_protein_name`,
+    `_rc_cm_protein_qty`, `_rc_cm_protein_unit`) set by `cm-recharge.js`.
+  - ADDED: A new rendering loop iterates through the components (protein,
+    side_1, side_2) and displays them using this structured data, ensuring
+    the correct quantity and unit are always shown.
+  - ADDED: A fallback to the old rendering logic is included to gracefully
+    handle any custom meals that were added to a cart before this update.
   ==========================================================================
 {%- endcomment -%}
 {%- liquid
@@ -38,153 +45,39 @@
           {%- assign rc_bundle_remove_parts = '' -%}
           {%- assign rc_bundle_subscription_name = '' -%}
           {%- assign rc_bundle_subscription_frequency = '' -%}
-          {%- assign rc_bundle_primary_key = '' -%}
+          {%- assign rc_bundle_primary_key = item.key -%}
+          {%- assign rc_bundle_parent_props = '' -%}
           
-          {%- comment -%} V2: Initialize separate lists for sorting protein first {%- endcomment -%}
-          {%- assign protein_list_raw = '' -%}
-          {%- assign sides_list_raw = '' -%}
-
-          {%- for inner_item in cart.items -%}
-            {%- if inner_item.properties._rc_bundle == rc_bundle_id -%}
-              {%- assign is_parent_line = false -%}
-              {%- if inner_item.variant and inner_item.variant.id == rc_bundle_variant_id and inner_item.product and inner_item.product.handle == rc_bundle_handle -%}
-                {%- assign is_parent_line = true -%}
-              {%- endif -%}
-              {%- if is_parent_line -%}
-                {% continue %}
-              {%- endif -%}
-              {%- assign rc_bundle_price = rc_bundle_price | plus: inner_item.final_line_price -%}
-              {%- assign rc_bundle_original_total = rc_bundle_original_total | plus: inner_item.original_line_price -%}
+          {%- for sib in cart.items -%}
+            {%- if sib.properties._rc_bundle == rc_bundle_id -%}
+              {%- assign rc_bundle_price = rc_bundle_price | plus: sib.final_line_price -%}
+              {%- assign rc_bundle_original_total = rc_bundle_original_total | plus: sib.original_line_price -%}
+              
               {%- assign compare_each = inner_item.selling_plan_allocation.compare_at_price | default: 0 -%}
               {%- assign compare_total = compare_each | times: inner_item.quantity -%}
               {%- assign rc_bundle_compare_total = rc_bundle_compare_total | plus: compare_total -%}
-              
-              {%- if inner_item.selling_plan_allocation -%}
-                {%- assign inner_selling_plan = inner_item.selling_plan_allocation.selling_plan -%}
-                {%- if rc_bundle_subscription_name == '' and inner_selling_plan -%}
-                  {%- assign rc_bundle_subscription_name = inner_selling_plan.name -%}
-                {%- endif -%}
-                {%- if rc_bundle_subscription_frequency == '' and inner_selling_plan -%}
-                  {%- assign first_option = inner_selling_plan.options | first -%}
-                  {%- if first_option and first_option.value != blank -%}
-                    {%- assign rc_bundle_subscription_frequency = first_option.value -%}
-                  {%- else -%}
-                    {%- assign delivery_policy = inner_selling_plan.delivery_policy -%}
-                    {%- if delivery_policy and delivery_policy.interval_count and delivery_policy.interval -%}
-                      {%- assign interval_count = delivery_policy.interval_count -%}
-                      {%- assign interval_unit = delivery_policy.interval | replace: '_', ' ' | strip -%}
-                      {%- assign interval_unit_label = interval_unit | capitalize -%}
-                      {%- assign rc_bundle_subscription_frequency = interval_count | append: ' ' | append: interval_unit_label | append: '(s)' -%}
-                    {%- endif -%}
+
+              {%- assign rc_bundle_remove_parts = rc_bundle_remove_parts | append: '&updates[' | append: sib.key | append: ']=0' -%}
+
+              {%- comment %} Check if this sibling is the designated parent line item to get its properties and subscription info {% endcomment %}
+              {%- if sib.product.handle == rc_bundle_handle and sib.variant.id == rc_bundle_variant_id -%}
+                {%- assign rc_bundle_parent_props = sib.properties -%}
+                {%- if sib.selling_plan_allocation -%}
+                  {%- assign parent_sp = sib.selling_plan_allocation.selling_plan -%}
+                  {%- if parent_sp and rc_bundle_subscription_name == '' -%}{%- assign rc_bundle_subscription_name = parent_sp.name -%}{%- endif -%}
+                  
+                  {%- assign freq = '' -%}
+                  {%- if parent_sp.delivery_policy -%}
+                    {%- assign ic = parent_sp.delivery_policy.interval_count -%}
+                    {%- assign iu = parent_sp.delivery_policy.interval | replace: '_',' ' | strip | capitalize -%}
+                    {%- if ic and iu != '' -%}{%- assign freq = ic | append: ' ' | append: iu | append: 's' -%}{%- endif -%}
                   {%- endif -%}
+                  {%- if rc_bundle_subscription_frequency == '' and freq != '' -%}{%- assign rc_bundle_subscription_frequency = freq -%}{%- endif -%}
                 {%- endif -%}
-              {%- endif -%}
-
-              {%- assign ounces = inner_item.variant.title | strip -%}
-              {%- assign prod_name = inner_item.product.title 
-                   | replace: ' OZ', '' 
-                   | replace: ' Oz', '' 
-                   | replace: ' oz', '' 
-                   | strip -%}
-              {%- assign friendly = ounces | append: 'oz ' | append: prod_name -%}
-
-              {%- comment -%} V2: Check product's collection to determine if it's a protein {%- endcomment -%}
-              {%- assign is_protein = false -%}
-              {%- for c in inner_item.product.collections -%}
-                {%- if c.handle == 'recharge-cm-proteins' -%}
-                  {%- assign is_protein = true -%}
-                  {%- break -%}
-                {%- endif -%}
-              {%- endfor -%}
-
-              {%- if is_protein -%}
-                {%- assign protein_list_raw = protein_list_raw | append: '||' | append: friendly -%}
-              {%- else -%}
-                {%- assign sides_list_raw = sides_list_raw | append: '||' | append: friendly -%}
-              {%- endif -%}
-
-              {%- assign rc_bundle_remove_parts = rc_bundle_remove_parts | append: '&' | append: 'updates[' | append: inner_item.key | append: ']=0' -%}
-              {%- if rc_bundle_primary_key == '' -%}
-                {%- assign rc_bundle_primary_key = inner_item.key -%}
               {%- endif -%}
             {%- endif -%}
           {%- endfor -%}
-
-          {%- comment -%} Fallback: read selling plan from the true parent line (cm-recharge puts plan on parent) {%- endcomment -%}
-          {%- if rc_bundle_subscription_frequency == '' -%}
-            {%- assign parent_sp = nil -%}
-            {%- for li in cart.items -%}
-              {%- if li.product and li.product.handle == rc_bundle_handle and li.variant and li.variant.id == rc_bundle_variant_id -%}
-                {%- if li.selling_plan_allocation -%}
-                  {%- assign parent_sp = li.selling_plan_allocation.selling_plan -%}
-                  {%- if parent_sp and rc_bundle_subscription_name == '' -%}
-                    {%- assign rc_bundle_subscription_name = parent_sp.name -%}
-                  {%- endif -%}
-                  {%- break -%}
-                {%- endif -%}
-              {%- endif -%}
-            {%- endfor -%}
-
-            {%- if parent_sp == nil and rc_bundle_variant_id == 0 -%}
-              {%- for li in cart.items -%}
-                {%- if li.product and li.product.handle == rc_bundle_handle and li.selling_plan_allocation -%}
-                  {%- assign parent_sp = li.selling_plan_allocation.selling_plan -%}
-                  {%- if parent_sp and rc_bundle_subscription_name == '' -%}
-                    {%- assign rc_bundle_subscription_name = parent_sp.name -%}
-                  {%- endif -%}
-                  {%- break -%}
-                {%- endif -%}
-              {%- endfor -%}
-            {%- endif -%}
-          
-            {%- comment -%} Compute frequency from parent_sp with robust fallbacks {%- endcomment -%}
-            {%- assign freq = '' -%}
-            {%- if parent_sp -%}
-              {%- assign opt = parent_sp.options | first -%}
-              {%- assign opt_val = '' -%}
-              {%- if opt and opt.value -%}
-                {%- assign opt_val = opt.value | strip -%}
-              {%- endif -%}
-            
-              {%- assign opt_is_numeric = opt_val | remove: '0' | remove: '1' | remove: '2' | remove: '3' | remove: '4' | remove: '5' | remove: '6' | remove: '7' | remove: '8' | remove: '9' -%}
-              {%- if opt_val != '' and opt_is_numeric == '' -%}
-                {% comment %} option is numeric-only like "19758128" → ignore and parse name {% endcomment %}
-                {%- assign opt_val = '' -%}
-              {%- endif -%}
-            
-              {%- if opt_val != '' -%}
-                {%- assign freq = opt_val -%}
-              {%- elsif parent_sp.name -%}
-                {% comment %} parse: "Delivery every 1 week" → "1 Week(s)" {% endcomment %}
-                {%- assign name_down = parent_sp.name | downcase -%}
-                {%- if name_down contains 'every ' -%}
-                  {%- assign after = name_down | split: 'every ' | last -%}
-                  {%- assign parts = after | split: ' ' -%}
-                  {%- assign ic = parts[0] | strip -%}
-                  {%- assign iu = parts[1] | strip -%}
-                  {%- assign iu_title = iu
-                     | replace: 'weeks','Week' | replace: 'week','Week'
-                     | replace: 'months','Month' | replace: 'month','Month'
-                     | replace: 'days','Day' | replace: 'day','Day' -%}
-                  {%- assign freq = ic | append: ' ' | append: iu_title | append: '(s)' -%}
-                {%- endif -%}
-              {%- elsif parent_sp.delivery_policy -%}
-                {%- assign ic = parent_sp.delivery_policy.interval_count -%}
-                {%- assign iu = parent_sp.delivery_policy.interval | replace: '_',' ' | strip -%}
-                {%- if ic and iu -%}
-                  {%- assign iu_title = iu | capitalize -%}
-                  {%- assign freq = ic | append: ' ' | append: iu_title | append: '(s)' -%}
-                {%- endif -%}
-              {%- endif -%}
-            {%- endif -%}
-            
-            {%- if rc_bundle_subscription_frequency == '' and freq != '' -%}
-              {%- assign rc_bundle_subscription_frequency = freq -%}
-            {%- endif -%}
-          {%- endif -%}
-          
-          {%- comment -%} V2: Combine the lists, with proteins first {%- endcomment -%}
-          {%- assign rc_bundle_contents_raw = protein_list_raw | append: sides_list_raw -%}
+          {%- comment -%} END: REWRITTEN BUNDLE DATA AGGREGATION {%- endcomment -%}
 
           {%- assign rc_bundle_remove_query = rc_bundle_remove_parts | remove_first: '&' -%}
           {%- if rc_bundle_remove_query != '' -%}
@@ -195,6 +88,8 @@
           {%- if rc_bundle_compare_total == 0 -%}
             {%- assign rc_bundle_compare_total = rc_bundle_original_total -%}
           {%- endif -%}
+          
+          {%- assign rc_bundle_variant = nil -%}
           {%- if rc_bundle_product and rc_bundle_variant_id > 0 -%}
             {%- for variant in rc_bundle_product.variants -%}
               {%- if variant.id == rc_bundle_variant_id -%}
@@ -203,7 +98,12 @@
               {%- endif -%}
             {%- endfor -%}
           {%- endif -%}
-          {%- assign rc_bundle_contents_list = rc_bundle_contents_raw | remove_first: '||' | split: '||' -%}
+          
+          {%- assign has_new_props = false -%}
+          {%- if rc_bundle_parent_props._rc_cm_protein_name != blank -%}
+              {%- assign has_new_props = true -%}
+          {%- endif -%}
+
           {%- if rc_bundle_primary_key == '' -%}
             {%- assign rc_bundle_primary_key = item.key -%}
           {%- endif -%}
@@ -276,19 +176,40 @@
                   </div>
                 {%- endif -%}
 
-                {%- if rc_bundle_contents_list.size > 0 and rc_bundle_contents_list[0] != '' -%}
-                  <ul class="{{ class_prefix }}__properties {{ class_prefix }}__properties--custom">
-                    {%- for label in rc_bundle_contents_list -%}
-                      {%- assign parts = label | split: 'oz ' -%}
-                      {%- assign oz  = parts[0] -%}
-                      {%- assign name = parts[1] -%}
-                      <li class="{{ class_prefix }}__property ingredient-line">
-                        <strong class="ingredient-oz">{{ oz }}oz</strong>
-                        <span class="ingredient-name"> {{ name }}</span>
-                      </li>
+                <ul class="{{ class_prefix }}__properties {{ class_prefix }}__properties--custom">
+                  {%- if has_new_props -%}
+                    {%- comment -%} NEW LOGIC: Read structured properties from parent line item {%- endcomment -%}
+                    {%- assign components = 'protein,side_1,side_2' | split: ',' -%}
+                    {%- for comp in components -%}
+                        {%- assign name_key = '_rc_cm_' | append: comp | append: '_name' -%}
+                        {%- assign qty_key = '_rc_cm_' | append: comp | append: '_qty' -%}
+                        {%- assign unit_key = '_rc_cm_' | append: comp | append: '_unit' -%}
+                        {%- assign name = rc_bundle_parent_props[name_key] -%}
+
+                        {%- if name != blank -%}
+                            {%- assign qty = rc_bundle_parent_props[qty_key] -%}
+                            {%- assign unit = rc_bundle_parent_props[unit_key] -%}
+                            <li class="{{ class_prefix }}__property ingredient-line">
+                              <strong class="ingredient-oz">{{ qty }}{{ unit }}</strong>
+                              <span class="ingredient-name"> {{ name }}</span>
+                            </li>
+                        {%- endif -%}
                     {%- endfor -%}
-                  </ul>
-                {%- endif -%}
+                  {%- else -%}
+                      {%- comment -%} FALLBACK LOGIC: For items added before the JS update {%- endcomment -%}
+                      {%- if rc_bundle_contents_list.size > 0 and rc_bundle_contents_list[0] != '' -%}
+                        {%- for label in rc_bundle_contents_list -%}
+                          {%- assign parts = label | split: 'oz ' -%}
+                          {%- assign oz  = parts[0] -%}
+                          {%- assign name = parts[1] -%}
+                          <li class="{{ class_prefix }}__property ingredient-line">
+                            <strong class="ingredient-oz">{{ oz }}oz</strong>
+                            <span class="ingredient-name"> {{ name }}</span>
+                          </li>
+                        {%- endfor -%}
+                      {%- endif -%}
+                  {%- endif -%}
+                </ul>
               </div>
 
             </div>

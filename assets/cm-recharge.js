@@ -85,6 +85,7 @@ class CustomMealBuilder {
     this.sectionId = this.root.dataset.sectionId || '';
     this.bundleProductId = this.root.dataset.bundleProductId;
     this.bundleVariantId = this.root.dataset.bundleVariantId;
+    this.baseFeeCents = parseInt(this.root.dataset.baseFeeCents, 10) || 0;
     this.proteinCollectionHandle = this.root.dataset.proteinCollectionHandle || '';
     this.sideCollectionHandle = this.root.dataset.sideCollectionHandle || '';
     this.proteinCollectionId = this.root.dataset.proteinCollectionId;
@@ -640,7 +641,16 @@ class CustomMealBuilder {
       const option = select.options[select.selectedIndex];
       return option ? Number(option.dataset.price) || 0 : 0;
     };
-    const linePrice = getPrice(this.proteinSelect) + getPrice(this.side1Select) + getPrice(this.side2Select);
+
+    const hasProtein = !!this.proteinSelect.value;
+    const hasSide1 = !!this.side1Select.value;
+    
+    // Use the dynamic fee only when a valid meal is being built
+    const baseFee = (hasProtein && hasSide1) ? this.baseFeeCents : 0;
+
+    const componentsPrice = getPrice(this.proteinSelect) + getPrice(this.side1Select) + getPrice(this.side2Select);
+    const linePrice = componentsPrice + baseFee;
+
     this.state.totalPrice = linePrice * this.state.quantity;
     this.priceDisplay.textContent = this.formatMoney(this.state.totalPrice);
   }
