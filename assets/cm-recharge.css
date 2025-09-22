@@ -284,6 +284,8 @@
 @media (max-width: 1023px) {
   .cm-recharge__layout {
     padding-inline: 0 !important; /* Keep vertical rhythm, no side gutters */
+    padding-left: 1.5rem !important; /* Add horizontal padding for mobile */
+    padding-right: 1.5rem !important; /* Add horizontal padding for mobile */
   }
   .cm-recharge__media { order: -1; position: static; top: auto; }
   .cm-recharge__panel { padding-top: 0; }
