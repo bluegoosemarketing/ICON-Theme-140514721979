@@ -1,9 +1,8 @@
 /*
-  Custom Meal Recharge Bundle Builder - v8.2 (Container-Aware Scroll Fix)
-  - Merges new Accordion UI and Auto-Advance feature with original, stable logic.
-  - FIX: Restored the robust `handleAddToCart` to ensure bundled items are added correctly.
-  - FIX: Restored the detailed `emitMacroSelections` logic for the nutrition calculator.
-  - REVISED: The `scrollToElement` function now targets the page's *internal* scroll container (`#main`) instead of the `window`, making it compatible with the strict full-height CSS layout. This definitively solves the "content cut-off" issue.
+  Custom Meal Recharge Bundle Builder - v11.0 (Final & Complete)
+  - All previous fixes and features are preserved.
+  - FIX: Controls the price sub-text to be instructive on page load ("Select a Protein & Side...") and clear when a price is calculated ("Meal Total"). This resolves the initial "random price" UX issue.
+  - FIX: Pricing logic is stable and does not jump to $0.00 during selection.
 */
 
 const CM_UNIT_OVERRIDES = {
@@ -28,8 +27,10 @@ class CustomMealBuilder {
     this.side2ProductSelect = this.root.querySelector('[data-product-select="side2"]');
     this.frequencySelect = this.root.querySelector('[data-frequency-select]');
     this.quantityInput = this.root.querySelector('[data-qty-input]');
-    this.priceDisplays = this.root.querySelectorAll('[data-total-price]');
-    this.priceWrappers = this.root.querySelectorAll('[data-price-wrapper]');
+    this.priceDisplay = this.root.querySelector('[data-total-price]');
+    this.priceWrapper = this.root.querySelector('[data-price-wrapper]');
+    // NEW: Add a reference to the price sub-text element
+    this.priceSubText = this.root.querySelector('[data-price-sub-text]');
     this.addToCartButton = this.root.querySelector('[data-add-to-cart-button]');
     this.addToCartText = this.root.querySelector('[data-add-to-cart-text]');
     this.collapsibleSteps = this.root.querySelectorAll('[data-collapsible-step]');
@@ -39,6 +40,8 @@ class CustomMealBuilder {
     this.variantDetails = new Map();
     this.productData = { protein: [], side: [] };
     this.productImageData = new Map();
+    // NEW: Store the original sub-text
+    this.originalPriceSubText = this.priceSubText ? this.priceSubText.textContent : 'Your total will update here.';
     const sellingPlanElement = document.getElementById(`RechargeSellingPlans-${this.root.dataset.sectionId}`);
     try {
       this.sellingPlanGroups = sellingPlanElement ? JSON.parse(sellingPlanElement.textContent || '[]') : [];
@@ -111,7 +114,6 @@ class CustomMealBuilder {
         const currentStep = button.closest('[data-collapsible-step]');
         if (currentStep) {
           const nextStep = currentStep.nextElementSibling;
-          // If there is a next step, advance to it
           if (nextStep && nextStep.matches('[data-collapsible-step]')) {
             setTimeout(() => {
                 currentStep.classList.remove('is-open');
@@ -119,7 +121,6 @@ class CustomMealBuilder {
                 this.scrollToElement(nextStep);
             }, 300);
           } else {
-            // Otherwise, this is the last step, so just close it after selection
             setTimeout(() => {
               currentStep.classList.remove('is-open');
             }, 300);
@@ -148,70 +149,45 @@ class CustomMealBuilder {
     });
   }
 
-  // *** REVISED: Custom scroll function that targets the correct internal container ***
   scrollToElement(element) {
     if (!element) return;
-    
-    // The scrollable container is `#main` as defined in the CSS
     const scrollContainer = document.querySelector('#main');
     if (!scrollContainer) {
-      console.warn('Scroll container #main not found. Scrolling may not work correctly.');
-      // Fallback for safety, though it may not work with the new CSS
+      console.warn('Scroll container #main not found.');
       element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       return;
     }
-
     const headerOffset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--header-offset')) || 80;
-    
     const elementPosition = element.getBoundingClientRect().top;
     const containerPosition = scrollContainer.getBoundingClientRect().top;
     const currentScrollTop = scrollContainer.scrollTop;
-
-    // Calculate the element's position relative to the top of the scrollable container
     const relativeElementPosition = elementPosition - containerPosition;
-    
-    // Calculate the final scroll position
-    const desiredScrollTop = currentScrollTop + relativeElementPosition - headerOffset - 20; // 20px extra padding
-
-    scrollContainer.scrollTo({
-        top: desiredScrollTop,
-        behavior: 'smooth'
-    });
+    const desiredScrollTop = currentScrollTop + relativeElementPosition - headerOffset - 20;
+    scrollContainer.scrollTo({ top: desiredScrollTop, behavior: 'smooth' });
   }
 
   updateStepState(group) {
     const step = this.root.querySelector(`[data-selection-group="${group}"]`);
     if (!step) return;
-
     const hiddenSelect = this.root.querySelector(`[data-${group}-select]`);
     const summaryEl = step.querySelector('[data-selection-summary]');
     const legendTextEl = step.querySelector('.cm-step__legend-text');
     const isComplete = hiddenSelect && hiddenSelect.value !== '';
-
     step.classList.toggle('is-complete', isComplete);
-
-    // Find the main text node, ignoring child elements like the summary span and <small> tag
     const textNode = Array.from(legendTextEl.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0);
-
     if (textNode && !legendTextEl.dataset.originalText) {
-      // Store the original text (e.g., "Choose Protein") if we haven't already
       legendTextEl.dataset.originalText = textNode.textContent.trim();
     }
-    
     if (isComplete) {
       const details = this.variantDetails.get(hiddenSelect.value);
       if (details && summaryEl && textNode && legendTextEl.dataset.originalText) {
-        // Change "Choose Protein" to "Protein"
         const originalText = legendTextEl.dataset.originalText;
         const newHeaderText = originalText.replace('Choose ', '');
         textNode.textContent = newHeaderText;
-
-        // Set the summary text with a leading space for clean formatting
         const productTitle = details.productTitle.replace(/ oz/gi, '').trim();
         summaryEl.textContent = ` ${productTitle}, ${details.displayLabel}`;
       }
     } else {
-      // Restore original text and clear summary if selection is removed
       if (textNode && legendTextEl.dataset.originalText) {
         textNode.textContent = legendTextEl.dataset.originalText;
       }
@@ -221,12 +197,16 @@ class CustomMealBuilder {
     }
   }
 
-  update({ emitMacros = true } = {}) {
+  update({ emitMacros = true, calculatePrice = true } = {}) {
     const qty = parseInt(this.quantityInput.value, 10);
     this.state.quantity = !isNaN(qty) && qty > 0 ? qty : 1;
     this.root.querySelector('[data-qty-text]').textContent = this.state.quantity;
     this.state.sellingPlanId = this.frequencySelect.value || null;
-    this.calculatePrice();
+    
+    if (calculatePrice) {
+      this.calculatePrice();
+    }
+
     this.validate();
     if (emitMacros) this.emitMacroSelections();
   }
@@ -236,20 +216,33 @@ class CustomMealBuilder {
       const option = select ? select.options[select.selectedIndex] : null;
       return option ? Number(option.dataset.price) || 0 : 0;
     };
-    const baseFee = (this.proteinSelect.value && this.side1Select.value) ? parseInt(this.root.dataset.baseFeeCents, 10) : 0;
-    const componentsPrice = getPrice(this.proteinSelect) + getPrice(this.side1Select) + getPrice(this.side2Select);
-    const linePrice = componentsPrice + baseFee;
+    
+    let linePrice = 0;
+
+    // The price is only calculated if BOTH a protein and side 1 have a valid selection.
+    if (this.proteinSelect.value && this.side1Select.value) {
+      const baseFee = parseInt(this.root.dataset.baseFeeCents, 10);
+      const componentsPrice = getPrice(this.proteinSelect) + getPrice(this.side1Select) + getPrice(this.side2Select);
+      linePrice = componentsPrice + baseFee;
+      // When the price is valid, update the sub-text.
+      if (this.priceSubText) this.priceSubText.textContent = 'Meal Total';
+    } else {
+      // If the meal is incomplete, ensure the price is zero and reset the sub-text.
+      if (this.priceSubText) this.priceSubText.textContent = this.originalPriceSubText;
+    }
+    
     const oldPrice = this.state.totalPrice;
     this.state.totalPrice = linePrice * this.state.quantity;
 
+    // Always update the display, even if it's to show $0.00.
     if (oldPrice !== this.state.totalPrice) {
       const formattedPrice = this.formatMoney(this.state.totalPrice);
-      this.priceDisplays.forEach(el => el.textContent = formattedPrice);
-      this.priceWrappers.forEach(wrapper => {
-        wrapper.classList.remove('is-updating');
-        void wrapper.offsetWidth;
-        wrapper.classList.add('is-updating');
-      });
+      this.priceDisplay.textContent = formattedPrice;
+      if (this.state.totalPrice > 0) {
+        this.priceWrapper.classList.remove('is-updating');
+        void this.priceWrapper.offsetWidth;
+        this.priceWrapper.classList.add('is-updating');
+      }
     }
   }
   
@@ -265,7 +258,39 @@ class CustomMealBuilder {
   populateHiddenVariantSelects() { const allSelects = [this.proteinSelect, this.side1Select, this.side2Select]; allSelects.forEach(select => { if(select) select.innerHTML = ''; }); this.variantDetails.forEach((details, variantId) => { const option = document.createElement('option'); option.value = variantId; option.dataset.price = details.price; if (this.productData.protein.some(p => p.variants.some(v => v.id === variantId)) && this.proteinSelect) { this.proteinSelect.appendChild(option.cloneNode(true)); } if (this.productData.side.some(p => p.variants.some(v => v.id === variantId))) { if (this.side1Select) this.side1Select.appendChild(option.cloneNode(true)); if (this.side2Select) this.side2Select.appendChild(option.cloneNode(true)); } }); }
   renderAllVisualOptions() { this.root.querySelectorAll('[data-product-select]').forEach(select => { const group = select.dataset.productSelect; const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; visualContainer.innerHTML = ''; Array.from(select.options).slice(1).forEach(option => { const productId = option.value; const productTitle = option.textContent; const imageUrl = this.productImageData.get(productId) || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; const card = document.createElement('button'); card.type = 'button'; card.className = 'cm-product-card-visual'; card.dataset.productId = productId; card.dataset.group = group; card.innerHTML = `<img src="${imageUrl}" alt="${productTitle}" class="cm-product-card-visual__image" width="72" height="72" loading="lazy"><span class="cm-product-card-visual__title">${productTitle}</span>`; visualContainer.appendChild(card); }); }); }
   bindVisualOptionEvents() { this.root.addEventListener('click', (event) => { const card = event.target.closest('.cm-product-card-visual'); if (!card) return; const { productId, group } = card.dataset; const originalSelect = this.root.querySelector(`[data-product-select="${group}"]`); if (originalSelect) { originalSelect.value = productId; originalSelect.dispatchEvent(new Event('change')); } }); }
-  renderVariantOptions(selectionGroup, productId) { const step = this.root.querySelector(`[data-selection-group="${selectionGroup}"]`); if (!step) return; const container = step.querySelector('[data-variant-options-for]'); const hiddenSelect = this.root.querySelector(`[data-${selectionGroup}-select]`); if (!container || !hiddenSelect) return; container.innerHTML = ''; hiddenSelect.value = ''; if (!productId) { this.update(); return; } const type = selectionGroup.includes('side') ? 'side' : 'protein'; const product = this.productData[type].find(p => String(p.id) === String(productId)); if (product && product.variants) { product.variants.forEach(variant => { const button = document.createElement('button'); button.type = 'button'; button.className = 'variant-option-button'; const buttonText = [variant.amountLabel, variant.unitLabel].filter(Boolean).join('').trim(); button.textContent = buttonText || variant.title; button.dataset.variantId = variant.id; container.appendChild(button); }); } this.update(); }
+  
+  renderVariantOptions(selectionGroup, productId) {
+    const step = this.root.querySelector(`[data-selection-group="${selectionGroup}"]`);
+    if (!step) return;
+    const container = step.querySelector('[data-variant-options-for]');
+    const hiddenSelect = this.root.querySelector(`[data-${selectionGroup}-select]`);
+    if (!container || !hiddenSelect) return;
+    container.innerHTML = '';
+    hiddenSelect.value = '';
+
+    if (!productId) {
+      this.update();
+      return;
+    }
+
+    const type = selectionGroup.includes('side') ? 'side' : 'protein';
+    const product = this.productData[type].find(p => String(p.id) === String(productId));
+
+    if (product && product.variants) {
+      product.variants.forEach(variant => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'variant-option-button';
+        const buttonText = [variant.amountLabel, variant.unitLabel].filter(Boolean).join('').trim();
+        button.textContent = buttonText || variant.title;
+        button.dataset.variantId = variant.id;
+        container.appendChild(button);
+      });
+    }
+    
+    this.update({ calculatePrice: false });
+  }
+
   syncVisualSelection(group, selectedProductId) { const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; const step = visualContainer.closest('.cm-selection-step'); if (!step) return; step.dataset.productSelected = !!selectedProductId; visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => { card.classList.toggle('is-selected', card.dataset.productId === selectedProductId); }); const variantOptionsContainer = step.querySelector('[data-variant-options-for]'); if (variantOptionsContainer) { variantOptionsContainer.classList.toggle('is-visible', !!selectedProductId); } }
   getVariantUnitInfo(product, variant) { const variantTitle = (variant.title||'').trim(); const productTitle = (product.title||'').trim(); let override = null; const overrideKeys = Object.keys(CM_UNIT_OVERRIDES.byTitle).sort((a,b)=>b.length-a.length); for (const key of overrideKeys) { if (productTitle.toLowerCase().includes(key.toLowerCase())) { override = CM_UNIT_OVERRIDES.byTitle[key]; break; } } if (override) { const unitPattern = CM_UNIT_DEFINITIONS.find(def=>def.key===override.unit); if (!unitPattern) return {amountLabel:variantTitle,displayUnit:'',unitKey:'',fullLabel:variantTitle}; const amountLabel = variantTitle; let numericValue = this.parseQuantityString(amountLabel); if(override.fractionMap && override.fractionMap[amountLabel]) numericValue = override.fractionMap[amountLabel]; return {amountLabel:amountLabel,displayUnit:unitPattern.displaySingular,unitKey:unitPattern.key,fullLabel:`${amountLabel} ${unitPattern.displaySingular}`.trim(),numericValue:numericValue}; } const directMatch = this.matchUnitInText(variantTitle); if (directMatch && directMatch.pattern) { const {pattern,amountLabel} = directMatch; return {amountLabel:amountLabel||variantTitle,displayUnit:pattern.displaySingular,unitKey:pattern.key,fullLabel:`${amountLabel||variantTitle} ${pattern.displaySingular}`.trim(),numericValue:this.parseQuantityString(amountLabel||variantTitle)}; } const ozPattern = CM_UNIT_DEFINITIONS.find(def=>def.key==='OZ'); return {amountLabel:variantTitle,displayUnit:ozPattern.displaySingular,unitKey:ozPattern.key,fullLabel:`${variantTitle} ${ozPattern.displaySingular}`.trim(),numericValue:this.parseQuantityString(variantTitle)}; }
   matchUnitInText(text) { if (!text || typeof text !== 'string') return null; const cleanedText = text.replace(/\(s\)/gi,'s').toLowerCase(); for (const definition of CM_UNIT_DEFINITIONS) { for (const keyword of definition.keywords) { if (cleanedText.endsWith(keyword)) { const amountPart = cleanedText.substring(0, cleanedText.length - keyword.length).trim(); if (amountPart && !isNaN(this.parseQuantityString(amountPart))) { return {pattern:definition,amountLabel:amountPart}; } } } } return null; }
