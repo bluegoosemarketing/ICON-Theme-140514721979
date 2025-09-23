@@ -111,11 +111,17 @@ class CustomMealBuilder {
         const currentStep = button.closest('[data-collapsible-step]');
         if (currentStep) {
           const nextStep = currentStep.nextElementSibling;
+          // If there is a next step, advance to it
           if (nextStep && nextStep.matches('[data-collapsible-step]')) {
             setTimeout(() => {
                 currentStep.classList.remove('is-open');
                 nextStep.classList.add('is-open');
                 this.scrollToElement(nextStep);
+            }, 300);
+          } else {
+            // Otherwise, this is the last step, so just close it after selection
+            setTimeout(() => {
+              currentStep.classList.remove('is-open');
             }, 300);
           }
         }
@@ -184,19 +190,34 @@ class CustomMealBuilder {
 
     step.classList.toggle('is-complete', isComplete);
 
-    if (legendTextEl && !legendTextEl.dataset.originalText) {
-      const originalText = legendTextEl.cloneNode(true);
-      legendTextEl.dataset.originalText = originalText.innerHTML;
+    // Find the main text node, ignoring child elements like the summary span and <small> tag
+    const textNode = Array.from(legendTextEl.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0);
+
+    if (textNode && !legendTextEl.dataset.originalText) {
+      // Store the original text (e.g., "Choose Protein") if we haven't already
+      legendTextEl.dataset.originalText = textNode.textContent.trim();
     }
     
     if (isComplete) {
       const details = this.variantDetails.get(hiddenSelect.value);
-      if (details && summaryEl) {
+      if (details && summaryEl && textNode && legendTextEl.dataset.originalText) {
+        // Change "Choose Protein" to "Protein"
+        const originalText = legendTextEl.dataset.originalText;
+        const newHeaderText = originalText.replace('Choose ', '');
+        textNode.textContent = newHeaderText;
+
+        // Set the summary text with a leading space for clean formatting
         const productTitle = details.productTitle.replace(/ oz/gi, '').trim();
-        summaryEl.textContent = `: ${productTitle}, ${details.displayLabel}`;
+        summaryEl.textContent = ` ${productTitle}, ${details.displayLabel}`;
       }
     } else {
-      if (summaryEl) summaryEl.textContent = '';
+      // Restore original text and clear summary if selection is removed
+      if (textNode && legendTextEl.dataset.originalText) {
+        textNode.textContent = legendTextEl.dataset.originalText;
+      }
+      if (summaryEl) {
+        summaryEl.textContent = '';
+      }
     }
   }
 
