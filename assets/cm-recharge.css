@@ -1,273 +1,65 @@
 /*
  * File: assets/cm-recharge.css
- * Version: 4.8 (Variant Visibility Fix)
- * Description: Final polished UI for the custom meal builder.
- * - Replaces large cards with a compact, token-based design (circular image + label).
- * - Uses flexbox for a tight, flowing layout of options.
- * - Preserves all existing functionality.
+ * Version: 7.2 (Definitive Layout & Scroll Fix)
+ * Description: Reinstates the original, strict full-height layout to remove extra space, and designates a specific internal element for scrolling.
+ * - RESTORED: The strict `height: 100%` and `overflow: hidden` rules on the body to guarantee a full-screen app layout.
+ * - NEW: Explicitly sets the `#main` container to handle its own scrolling (`overflow-y: auto`), allowing the JS to target it correctly.
 */
 
-/* === Width normalization to match legacy PDP ===
-   Kill the default .page-width left/right padding for THIS section only.
-   This makes the inner grid hit the same visual edges as the legacy PDP. */
+/* --- Keyframe Animations --- */
+@keyframes price-update-flash {
+  0% { background-color: rgba(46, 191, 122, 0.15); }
+  100% { background-color: transparent; }
+}
+
+/* --- Structural Helpers & Width Normalization --- */
 .section--cm-recharge > .page-width {
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
-
-/* --- Structural Helpers --- */
-.cm-recharge {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
 .cm-recharge__inner {
   display: flex;
   flex-direction: column;
   flex: 1 1 auto;
-  min-height: 0;
 }
 
-.cm-recharge__main {
-  flex: 1 0 auto;
-}
-
-.cm-recharge__footer {
-  margin-top: 2.5rem;
-}
-
-/* --- Main Layout --- */
-/* Final Width Fix: Remove horizontal constraints from the theme's .container class */
+/* --- Main Layout & Mobile Order Fix --- */
 .cm-recharge__main.container {
   max-width: none !important;
   padding-left: 0 !important;
   padding-right: 0 !important;
 }
-.cm-recharge__main { padding: 1.5rem 0; }
 .cm-recharge__layout {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
-  /* The layout should not add any horizontal padding—grid handles spacing */
-  padding-left: 0 !important;
-  padding-right: 0 !important;
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
-}
-.cm-recharge__visuals {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  min-width: 0; /* Prevents wide children (e.g., nutrition table) from breaking the grid layout. */
-  align-items: stretch;
-}
-.cm-recharge__panel {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding-top: 0.5rem;
+  padding: 1.5rem 0;
 }
 
-/* --- Header & Description --- */
-.cm-recharge__intro .h2 { font-size: 2.25rem !important; font-weight: 800 !important; margin-bottom: 1rem; }
-.cm-recharge__intro .product-price--placeholder { margin-bottom: 1.5rem; }
-.cm-recharge__description { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef; }
-
-/* --- Step-by-Step Form Layout --- */
-.cm-recharge__form { display: flex; flex-direction: column; gap: 1rem; }
-.cm-selection-step {
-  border: none; padding: 1.5rem; margin: 0;
-  border-radius: 12px; background-color: #f8f9fa; border: 1px solid #e9ecef;
-}
-.cm-step__legend {
-  display: flex; align-items: center; gap: 0.75rem; font-size: 1.1rem;
-  font-weight: 700; color: #212529; padding: 0; margin: 0 0 1rem 0; width: 100%;
-}
-.cm-step__legend > span {
-  display: flex; align-items: center; justify-content: center; width: 28px; height: 28px;
-  background-color: var(--brand-accent); color: #fff; border-radius: 50%;
-  font-size: 0.9rem; line-height: 1;
-}
-.cm-step__legend small { font-weight: 500; font-size: 0.9rem; color: #6c757d; }
-.cm-step__label { font-size: 1.1rem; font-weight: 700; color: #212529; margin-bottom: 0.75rem; display: block; }
-
-
-/* === NEW: COMPACT TOKEN UI === */
-.cm-visual-options {
-  display: flex; /* Changed from grid to flex */
-  flex-wrap: wrap; /* Allows options to flow naturally */
-  gap: 0.5rem 1rem; /* Tighter spacing: 8px vertical, 16px horizontal */
-  min-height: auto; /* No longer need a fixed min-height */
-  padding-top: 0.25rem;
+/* Mobile-first: Define the logical order */
+@media (max-width: 1023px) {
+  .cm-recharge__layout {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+  }
+  .cm-recharge__visuals { order: 1; }
+  .cm-recharge__panel { order: 2; }
+  /* Individual children of panel */
+  .cm-recharge__intro { order: 1; }
+  .cm-recharge__form { order: 2; }
+  /* Individual children of visuals */
+  .cm-recharge__media { order: 1; }
+  .cm-recharge-macro-container { order: 2; }
 }
 
-.cm-product-card-visual {
-  /* This is now just a transparent wrapper for the image and title */
-  background-color: transparent;
-  border: none;
-  border-radius: 12px;
-  cursor: pointer;
-  padding: 0.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.65rem; /* Space between image and title */
-  transition: transform 0.2s ease-in-out;
-  width: 90px; /* Constrain width to encourage wrapping */
-}
-.cm-product-card-visual:hover {
-  transform: translateY(-3px);
-}
-
-.cm-product-card-visual__image {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  object-fit: cover;
-  background-color: #fff;
-  border: 3px solid #e9ecef; /* Default border */
-  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
-  transition: all 0.2s ease-in-out;
-}
-.cm-product-card-visual:hover .cm-product-card-visual__image {
-  border-color: #ced4da;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.08);
-}
-.cm-product-card-visual.is-selected .cm-product-card-visual__image {
-  border-color: var(--brand-accent);
-  box-shadow: 0 4px 12px rgba(46, 191, 122, 0.3);
-}
-
-.cm-product-card-visual__title {
-  font-size: 0.8rem;
-  font-weight: 500;
-  color: #495057;
-  line-height: 1.3;
-  text-align: center;
-  transition: all 0.2s ease-in-out;
-}
-.cm-product-card-visual.is-selected .cm-product-card-visual__title {
-  font-weight: 700;
-  color: var(--brand-accent-darker, #25a268);
-}
-
-/* === Variant Option Buttons (Ounce Selection) === */
-.variant-options {
-  display: none; /* Hide by default */
-  flex-wrap: wrap; 
-  gap: 0.5rem; 
-  margin-top: 1rem; 
-  padding-top: 1rem;
-  border-top: 1px dashed #ced4da;
-}
-/* Primary gate: works when the step wrapper carries the data flag */
-.cm-selection-step[data-product-selected="true"] .variant-options {
-  display: flex;
-}
-/* Fallback/JS Hook: forces visibility, ensuring sides appear */
-.cm-selection-step .variant-options.is-visible {
-  display: flex !important;
-}
-.variant-option-button {
-  appearance: none; -webkit-appearance: none; background-color: #fff; border: 1px solid #ced4da;
-  border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.9rem; font-weight: 500;
-  color: #495057; cursor: pointer; transition: all 0.2s ease; line-height: 1.2;
-}
-.variant-option-button:hover { border-color: #adb5bd; background-color: #f1f3f5; }
-.variant-option-button.is-selected {
-  background-color: var(--brand-accent); border-color: var(--brand-accent); color: #ffffff;
-  font-weight: 600; box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-.variant-option-button::after {
-  content: attr(data-unit);
-  margin-left: 4px;
-  font-weight: 400;
-  font-size: 0.8em;
-  color: inherit;
-  opacity: 0.9;
-}
-
-.variant-option-button:not([data-unit]),
-.variant-option-button[data-unit=""] {
-  --has-unit: 0;
-}
-
-.variant-option-button:not([data-unit])::after,
-.variant-option-button[data-unit=""]::after {
-  content: '';
-  margin-left: 0;
-}
-
-/* --- Utilities & Original Elements --- */
-.visually-hidden { position: absolute !important; height: 1px; width: 1px; overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap; }
-.cm-recharge__form .field > .label { display: none; }
-.cm-recharge__form .field { padding: 0; }
-
-/* --- CTA, Quantity, & Media --- */
-.cm-recharge__cta { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; align-items: center; margin-top: 1.5rem; }
-.cm-recharge__cta .product-card__add-btn { width: 100% !important; height: 48px; }
-.cm-recharge__error { color: #c01923; margin-top: 0.75rem; font-size: 0.9rem; font-weight: 500; }
-.cm-recharge__media {
-  align-self: stretch;
-  position: relative;
-  top: auto;
-  padding: 0;
-  background: transparent;
-  border: none;
-  box-shadow: none;
-}
-/* Match standard PDP hero frame */
-.cm-recharge__media-frame {
-  border: 1px solid #e9ecef;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,.05);
-}
-.cm-recharge__media-frame,
-.cm-recharge__media-placeholder,
-.cm-recharge__media-generic {
-  border-radius: 12px;
-  border: 1px solid #e9ecef;
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-/* Ensure the inner image behaves like product-main__gallery-image */
-.cm-recharge__image {
-  display: block;
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-}
-.cm-recharge__media img {
-  display: block;
-  width: 100%;
-  height: auto !important;
-  object-fit: contain !important;
-  background: transparent;
-  border-radius: 12px;
-  border: none; 
-  box-shadow: none; 
-} 
-
-/* --- Optional Polish & Final Overrides --- */
-/* Trim bottom rhythm on the right column’s last block */
-.cm-recharge__panel > *:last-child { margin-bottom: 0; }
-/* Keep the section from adding bottom padding beyond the PDP norm */
-#product-cm-recharge.section--cm-recharge { padding-bottom: 0; }
-
-
-/* --- Responsive Overrides --- */
+/* Desktop: Grid layout */
 @media (min-width: 1024px) {
-  /* Safety: keep the exact 45/55 split used on the legacy PDP */
   .cm-recharge__layout {
     display: grid;
     grid-template-columns: 45fr 55fr !important;
     grid-template-areas: "visuals panel";
     gap: 3rem;
     align-items: flex-start;
-    padding: 1.5rem 0; /* Vertical rhythm, no horizontal gutters */
   }
   .cm-recharge__visuals {
     grid-area: visuals;
@@ -277,62 +69,146 @@
   }
   .cm-recharge__panel {
     grid-area: panel;
-    padding-top: 0;
   }
 }
 
-@media (max-width: 1023px) {
-  .cm-recharge__layout {
-    padding-inline: 0 !important; /* Keep vertical rhythm, no side gutters */
-    padding-left: 1.5rem !important; /* Add horizontal padding for mobile */
-    padding-right: 1.5rem !important; /* Add horizontal padding for mobile */
-  }
-  .cm-recharge__media { order: -1; position: static; top: auto; }
-  .cm-recharge__panel { padding-top: 0; }
+/* --- Components --- */
+.cm-recharge__visuals, .cm-recharge__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
-@media (max-width: 480px) {
-  .cm-recharge__intro .h2 { font-size: 1.75rem !important; }
-  .cm-selection-step { padding: 1rem; }
-  .cm-product-card-visual { width: 80px; }
-  .cm-product-card-visual__image { width: 64px; height: 64px; }
+.cm-recharge__intro .h2 { font-size: 2.25rem !important; font-weight: 800 !important; margin-bottom: 1rem; }
+.product-price--placeholder.is-updating {
+  animation: price-update-flash 0.6s ease-out;
+}
+.cm-recharge__description { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef; }
+
+/* --- Accordion Form Styling --- */
+.cm-recharge__form { display: flex; flex-direction: column; gap: 1rem; }
+.cm-selection-step, .cm-selection-step--standalone {
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease;
+}
+.cm-selection-step--standalone { padding: 1.5rem; }
+
+.cm-selection-step.is-open { box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
+.cm-selection-step.is-complete { border-color: rgba(46, 191, 122, 0.4); }
+
+.cm-step__legend {
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 0.75rem; font-size: 1.1rem; font-weight: 700; color: #212529;
+  padding: 1.5rem; margin: 0; width: 100%; cursor: pointer;
+  -webkit-appearance: none; appearance: none; background: transparent;
+  border: none; text-align: left;
+}
+.cm-selection-step.is-complete > .cm-step__legend {
+  background-color: #f1fffa;
+}
+.cm-step__legend-main { display: flex; align-items: center; gap: 0.75rem; }
+.cm-step__legend-text { display: flex; flex-direction: column; }
+.cm-step__legend > .cm-step__legend-main > span {
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; background-color: var(--brand-accent);
+  color: #fff; border-radius: 50%; font-size: 0.9rem; line-height: 1;
+  transition: background-color 0.2s ease;
+}
+.cm-selection-step.is-complete > .cm-step__legend > .cm-step__legend-main > span {
+  background-color: var(--brand-accent-darker, #25a268);
+}
+.cm-step__legend small { font-weight: 500; font-size: 0.9rem; color: #6c757d; }
+.cm-step__selection-summary {
+  font-size: 0.9rem; font-weight: 600; color: var(--brand-accent-darker, #25a268);
+  padding-top: 2px;
 }
 
-/*
+.cm-step__chevron {
+  margin-left: auto; transition: transform 0.3s ease; color: #6c757d;
+}
+.cm-selection-step.is-open > .cm-step__legend .cm-step__chevron { transform: rotate(180deg); }
+
+.cm-step__collapsible-content {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.3s ease;
+  padding: 0 1.5rem;
+}
+.cm-selection-step.is-open > .cm-step__collapsible-content {
+  max-height: 1500px; transition: max-height 0.5s ease-in;
+  padding: 0 1.5rem 1.5rem;
+}
+
+/* --- Visual Options & Buttons --- */
+.cm-visual-options { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
+.cm-product-card-visual {
+  background: transparent; border: none; cursor: pointer; padding: 0.5rem;
+  display: flex; flex-direction: column; align-items: center; gap: 0.65rem;
+  transition: transform 0.2s ease-in-out; width: 90px;
+}
+.cm-product-card-visual:hover { transform: translateY(-3px); }
+.cm-product-card-visual__image {
+  width: 72px; height: 72px; border-radius: 50%; object-fit: cover;
+  background: #fff; border: 3px solid #e9ecef;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06); transition: all 0.2s ease-in-out;
+}
+.cm-product-card-visual.is-selected .cm-product-card-visual__image {
+  border-color: var(--brand-accent);
+}
+.cm-product-card-visual__title {
+  font-size: 0.8rem; font-weight: 500; color: #495057;
+  line-height: 1.3; text-align: center;
+}
+.cm-product-card-visual.is-selected .cm-product-card-visual__title {
+  font-weight: 700; color: var(--brand-accent-darker, #25a268);
+}
+.variant-options {
+  display: none; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem;
+  padding-top: 1rem; border-top: 1px dashed #ced4da;
+}
+.cm-selection-step[data-product-selected="true"] .variant-options { display: flex; }
+.variant-option-button {
+  background: #fff; border: 1px solid #ced4da; border-radius: 8px;
+  padding: 0.6rem 1rem; font-size: 0.9rem; font-weight: 500;
+  color: #495057; cursor: pointer; transition: all 0.2s ease;
+}
+.variant-option-button:hover { background-color: #f1f3f5; }
+.variant-option-button.is-selected {
+  background-color: var(--brand-accent); border-color: var(--brand-accent);
+  color: #fff; font-weight: 600;
+}
+
+/* --- CTA & Final Elements --- */
+.cm-recharge__cta {
+  display: grid; grid-template-columns: auto 1fr;
+  gap: 0.75rem; align-items: center; margin-top: 1.5rem;
+}
+.cm-recharge__cta .product-card__add-btn:not(:disabled) {
+  transform: scale(1.02);
+  box-shadow: 0 4px 15px rgba(46, 191, 122, 0.25);
+}
+.cm-recharge__error { color: #c01923; margin-top: 0.75rem; font-size: 0.9rem; }
+.cm-recharge__media-frame {
+  border-radius: 12px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+.cm-recharge__image { width: 100%; object-fit: cover; }
+.visually-hidden {
+  position: absolute !important; height: 1px; width: 1px;
+  overflow: hidden; clip: rect(1px, 1px, 1px, 1px); white-space: nowrap;
+}
+
+/* 
  * =================================================================
- * === START: DEFINITIVE FIX FOR EXTRA SCROLL (DATA-CONFIRMED) ===
+ * === START: DEFINITIVE FULL-HEIGHT LAYOUT & SCROLL FIX =========
  * =================================================================
- * This rule targets the specific `select.visually-hidden` element
- * that the console diagnosis identified as the cause of the unwanted
- * page height.
- *
- * By forcing its position to `fixed`, we remove it from the
- * document's layout flow entirely, eliminating the extra scroll
- * space it creates.
+ * This is the original, robust fix. It forces a full-height layout,
+ * preventing any extra scroll space at the bottom of the page.
+ * It works by making an internal element scrollable instead of the
+ * main browser window.
  * =================================================================
 */
-body.template-product.template-suffix--cm-recharge select[id^="cm-side"][id$="__main"].visually-hidden {
-  position: fixed !important; /* Takes the element out of the document's scroll height calculation. */
-  top: -1000px !important;    /* Moves it far off-screen. */
-  left: -1000px !important;
-  width: 1px !important;      /* Ensures it takes up no space. */
-  height: 1px !important;
-  overflow: hidden !important;
-  clip: rect(0 0 0 0) !important;
-  pointer-events: none !important; /* Prevents any accidental interaction. */
-}
 
-/*
- * =================================================================
- * === START: DEFINITIVE LAYOUT FIX V3 (CONTEXT OVERRIDE) ========
- * =================================================================
- * PROBLEM: The theme's default page structure (body.flexbox-wrapper)
- * conflicts with this page's app-style layout. This override forces
- * the page's main containers to fill the viewport height correctly,
- * allowing the two-column grid to function as designed.
- * =================================================================
-*/
-
-/* Force the body to be a fixed height and prevent it from scrolling */
+/* Force the body to a fixed height and prevent it from scrolling */
 html,
 body.template-product.template-suffix--cm-recharge {
   height: 100%;
@@ -342,22 +218,26 @@ body.template-product.template-suffix--cm-recharge {
 /* Force the main containers to stretch and fill the body's height */
 body.template-product.template-suffix--cm-recharge #PageContainer,
 body.template-product.template-suffix--cm-recharge #main-body,
-body.template-product.template-suffix--cm-recharge #main,
-body.template-product.template-suffix--cm-recharge .container--collection-page {
+body.template-product.template-suffix--cm-recharge #main {
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
-/* Ensure our layout grid itself grows to fill the final container */
+/* *** THIS IS THE KEY: Designate #main as the page's scroll container *** */
+body.template-product.template-suffix--cm-recharge #main {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch; /* Adds momentum scrolling on mobile */
+}
+
+/* Ensure our layout grid grows to fill the final container */
 body.template-product.template-suffix--cm-recharge .collection-page__layout {
   flex-grow: 1;
 }
 
 /*
  * Cart Sidebar Layout Fix
- * Keeps the footer pinned to the bottom of the sidebar and restores
- * the expected full-height flex behaviour from the legacy PDP layout.
+ * Restores the expected full-height flex behaviour.
  */
 body.template-product.template-suffix--cm-recharge .cart-sidebar-section-wrapper,
 body.template-product.template-suffix--cm-recharge .cart-sidebar {

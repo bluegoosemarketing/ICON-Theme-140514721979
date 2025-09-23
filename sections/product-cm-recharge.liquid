@@ -1,9 +1,11 @@
 {% comment %}
   **
   * File: sections/product-cm-recharge.liquid
-  * Version: 3.2 (Intuitive Step-by-Step Layout)
-  * Description: Re-structures the form into clear, full-width fieldsets for an intuitive, top-to-bottom user flow.
-  * Preserves all existing functionality and data attributes.
+  * Version: 5.0 (Conversion-Focused UI/UX)
+  * Description: Implements strategic UI enhancements for better guidance and conversion.
+  * - Adds a placeholder in each step's header to display the user's selection for clear feedback.
+  * - Fixes mobile layout order and subscription step padding.
+  * - Optimizes CTA and price display for better visual hierarchy.
   **
 {% endcomment %}
 
@@ -65,7 +67,7 @@
       <section class="cm-recharge__panel">
         <div class="cm-recharge__intro">
           <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
-          <div class="product-price--placeholder">
+          <div class="product-price--placeholder" data-price-wrapper>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
             <div>
               <span class="placeholder-main-text" data-total-price>{{ 0 | money }}</span>
@@ -80,46 +82,79 @@
         <form class="cm-recharge__form" data-cm-form>
 
           <!-- Step 1: Protein Selection -->
-          <fieldset class="cm-selection-step" data-selection-group="protein">
-            <legend class="cm-step__legend"><span>1</span> Choose Protein</legend>
-            <div class="cm-step__content">
-              <div class="select-wrapper visually-hidden">
-                <select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select>
+          <fieldset class="cm-selection-step is-open" data-collapsible-step data-selection-group="protein">
+            <legend class="cm-step__legend" data-collapsible-toggle>
+              <div class="cm-step__legend-main">
+                <span>1</span>
+                <div class="cm-step__legend-text">
+                  Choose Protein
+                  <span class="cm-step__selection-summary" data-selection-summary></span>
+                </div>
               </div>
-              <div class="cm-visual-options" data-visual-options-for="protein"></div>
-              <div class="variant-options" data-variant-options="protein"></div>
-              <select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select>
+              <svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </legend>
+            <div class="cm-step__collapsible-content">
+              <div class="cm-step__content">
+                <div class="select-wrapper visually-hidden">
+                  <select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select>
+                </div>
+                <div class="cm-visual-options" data-visual-options-for="protein"></div>
+                <div class="variant-options" data-variant-options-for="protein"></div>
+                <select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select>
+              </div>
             </div>
           </fieldset>
 
           <!-- Step 2: Side 1 Selection -->
-          <fieldset class="cm-selection-step" data-selection-group="side1">
-            <legend class="cm-step__legend"><span>2</span> Choose Side 1</legend>
-            <div class="cm-step__content">
-              <div class="select-wrapper visually-hidden">
-                <select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select>
+          <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side1">
+            <legend class="cm-step__legend" data-collapsible-toggle>
+              <div class="cm-step__legend-main">
+                <span>2</span>
+                <div class="cm-step__legend-text">
+                  Choose Side 1
+                  <span class="cm-step__selection-summary" data-selection-summary></span>
+                </div>
               </div>
-              <div class="cm-visual-options" data-visual-options-for="side1"></div>
-              <div class="variant-options" data-variant-options-for="side1"></div>
-              <select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select>
+              <svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </legend>
+            <div class="cm-step__collapsible-content">
+              <div class="cm-step__content">
+                <div class="select-wrapper visually-hidden">
+                  <select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select>
+                </div>
+                <div class="cm-visual-options" data-visual-options-for="side1"></div>
+                <div class="variant-options" data-variant-options-for="side1"></div>
+                <select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select>
+              </div>
             </div>
           </fieldset>
 
           <!-- Step 3: Side 2 Selection -->
-          <fieldset class="cm-selection-step" data-selection-group="side2">
-            <legend class="cm-step__legend"><span>3</span> Choose Side 2 <small>(Optional)</small></legend>
-            <div class="cm-step__content">
-              <div class="select-wrapper visually-hidden">
-                <select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select>
+          <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side2">
+            <legend class="cm-step__legend" data-collapsible-toggle>
+              <div class="cm-step__legend-main">
+                <span>3</span>
+                <div class="cm-step__legend-text">
+                   Choose Side 2 <small>(Optional)</small>
+                  <span class="cm-step__selection-summary" data-selection-summary></span>
+                </div>
               </div>
-              <div class="cm-visual-options" data-visual-options-for="side2"></div>
-              <div class="variant-options" data-variant-options-for="side2"></div>
-              <select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select>
+              <svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </legend>
+            <div class="cm-step__collapsible-content">
+              <div class="cm-step__content">
+                <div class="select-wrapper visually-hidden">
+                  <select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select>
+                </div>
+                <div class="cm-visual-options" data-visual-options-for="side2"></div>
+                <div class="variant-options" data-variant-options-for="side2"></div>
+                <select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select>
+              </div>
             </div>
           </fieldset>
           
           <!-- Frequency -->
-          <div class="cm-selection-step">
+          <div class="cm-selection-step--standalone">
             <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
             <div class="select-wrapper">
               <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled>
@@ -178,19 +213,12 @@
   (function() {
     const setHeaderOffsets = function() {
       const header = document.querySelector('#shopify-section-header-collections') || document.querySelector('#shopify-section-header');
-      if (!header) {
-        return;
-      }
+      if (!header) return;
       var height = header.getBoundingClientRect().height;
-      
-      // --- START: CORRECTED SCRIPT ---
-      // This now sets ALL the necessary variables for the layout CSS to work.
       document.documentElement.style.setProperty('--app-header-min-height', height + 'px');
       document.documentElement.style.setProperty('--header-offset', height + 'px');
       document.documentElement.style.setProperty('--dynamic-header-h', height + 'px');
-      // --- END: CORRECTED SCRIPT ---
     };
-
     const registerListeners = function() {
       if (!window.__cmRechargeHeaderOffsetListenersRegistered) {
         window.__cmRechargeHeaderOffsetListenersRegistered = true;
@@ -200,7 +228,6 @@
       }
       setHeaderOffsets();
     };
-
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', registerListeners);
     } else {
