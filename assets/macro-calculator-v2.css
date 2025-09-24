@@ -1,7 +1,10 @@
 /* ==========================================================================
-   V2 Macro Calculator - Merged & Finalized Styles
-   - Combines styles from the legacy 'nutrition-panel-v8' with the
-     newly generated markup for a consistent look and feel.
+   V2 Macro Calculator - FINAL & ROBUST REFACTOR
+   - Strategy: A single, robust, and responsive layout for all screen sizes.
+   - FIX: Eliminates the layout shift and content cut-off bugs entirely by
+     removing the flawed desktop-specific multi-column layout.
+   - ENHANCEMENT: Implements a cleaner, more modern UI for the breakdown
+     that is more intuitive and visually appealing.
    ========================================================================== */
 
 #nutrition-container-v2 {
@@ -70,7 +73,6 @@
   background-color: #f8f9fa;
   text-align: center;
 }
-/* The summary grid doesn't have a border separating it from the footer, so the footer adds it */
 #nutrition-container-v2 .nutrition-panel-v8:not(.nutrition-panel-v8--empty) .panel-footer {
   border-top: 1px solid #e9ecef;
 }
@@ -117,117 +119,121 @@
 #nutrition-container-v2 .panel-body {
   border-top: 1px solid #e9ecef;
   background-color: #ffffff;
-  padding: 1.25rem 1.5rem;
+  padding: 0 1.25rem; /* Horizontal padding only */
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease-out, padding 0.4s ease-out, opacity 0.3s ease-out;
+  opacity: 0;
+  visibility: hidden;
 }
-#nutrition-container-v2 .panel-body.is-hidden {
-  display: none;
+#nutrition-container-v2 .nutrition-panel-v8.is-expanded .panel-body {
+  visibility: visible;
+  max-height: 2000px;
+  transition: max-height 0.5s ease-in, padding 0.4s ease-in, opacity 0.4s 0.1s ease-in;
+  opacity: 1;
+  padding: 1.25rem;
 }
 
-/* --- Ingredient Breakdown Table Styles (from previous patch) --- */
+
+/* --- [REFACTORED] Modern Ingredient Breakdown Styles --- */
 #nutrition-container-v2 .panel-body-title {
   margin: 0 0 1rem 0;
-  font-size: 1rem;
+  font-size: 0.8rem;
   font-weight: 700;
   color: #212529;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
+
 #nutrition-container-v2 .macro-panel__table {
-  width: 100%;
-  overflow-x: auto;
-}
-#nutrition-container-v2 .macro-panel__grid {
-  display: grid;
-  grid-template-columns: minmax(180px, 2fr) repeat(6, minmax(90px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 0.75rem;
-  align-items: stretch;
 }
+
 #nutrition-container-v2 .macro-panel__row {
-  display: contents;
-}
-#nutrition-container-v2 .macro-panel__cell {
-  padding: 0.75rem;
   background-color: #f8f9fa;
   border: 1px solid #e9ecef;
   border-radius: 8px;
-  font-size: 0.9rem;
-  font-weight: 500;
-  color: #1f2937;
+  padding: 1rem;
+}
+
+#nutrition-container-v2 .macro-panel__row--total {
+  background-color: #e0f2fe;
+  border-color: #cfe1f5;
+}
+
+#nutrition-container-v2 .macro-panel__item-header {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-#nutrition-container-v2 .macro-panel__cell--item {
-  justify-content: flex-start;
-  text-align: left;
   flex-direction: column;
-  align-items: flex-start;
-  gap: 0.25rem;
+  margin-bottom: 1rem;
 }
+
 #nutrition-container-v2 .macro-panel__item-role {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.05em;
   color: #6c757d;
+  margin-bottom: 0.1rem;
 }
 #nutrition-container-v2 .macro-panel__item-name {
   font-size: 0.95rem;
   font-weight: 600;
   color: #111827;
+  line-height: 1.3;
 }
 #nutrition-container-v2 .macro-panel__item-quantity {
   font-size: 0.8rem;
   color: #6b7280;
+  margin-top: 0.2rem;
 }
-#nutrition-container-v2 .macro-panel__row--header .macro-panel__cell {
-  background-color: #111827;
-  border-color: #111827;
-  color: #f8f9fa;
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.75rem;
-  letter-spacing: 0.05em;
-}
-#nutrition-container-v2 .macro-panel__row--total .macro-panel__cell {
-  background-color: #e0f2fe;
-  border-color: #cfe1f5;
-  color: #0f172a;
+#nutrition-container-v2 .macro-panel__row--total .macro-panel__item-name {
   font-weight: 700;
+  color: #0f172a;
 }
-#nutrition-container-v2 .macro-panel__value {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.25rem;
+#nutrition-container-v2 .macro-panel__row--total .macro-panel__item-role {
+  color: #334155;
 }
-#nutrition-container-v2 .macro-panel__value strong {
+
+/* Labeled Macros Grid - Now fully responsive */
+#nutrition-container-v2 .ingredient-macros {
+  display: grid;
+  /* Creates a responsive grid that wraps based on available space */
+  grid-template-columns: repeat(auto-fit, minmax(65px, 1fr));
+  gap: 0.75rem 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+}
+#nutrition-container-v2 .macro-panel__row--total .ingredient-macros {
+  border-top-color: #bde0fe;
+}
+
+#nutrition-container-v2 .macro-breakdown-item {
+  text-align: left;
+}
+
+#nutrition-container-v2 .macro-breakdown-item__value {
+  display: block;
   font-size: 1rem;
   font-weight: 700;
   color: #111827;
+  line-height: 1.2;
 }
-#nutrition-container-v2 .macro-panel__value span {
+#nutrition-container-v2 .macro-breakdown-item__label {
+  display: block;
   font-size: 0.7rem;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
   color: #6c757d;
+  white-space: nowrap;
 }
+
 #nutrition-container-v2 .macro-panel__footnote {
   margin-top: 1rem;
   font-size: 0.75rem;
   color: #6c757d;
 }
 
-
 /* --- Empty State --- */
-#nutrition-container-v2 .panel-empty-message {
-  margin: 0;
-  font-size: 0.95rem;
-  line-height: 1.5;
-  color: #495057;
-  text-align: center;
-}
 #nutrition-container-v2 .nutrition-panel-v8--empty {
   border: none;
   background: none;
@@ -237,6 +243,16 @@
   border: 1px solid #e9ecef;
   border-radius: 12px;
   background-color: #f8f9fa;
+  max-height: none;
+  opacity: 1;
+  visibility: visible;
+}
+#nutrition-container-v2 .nutrition-panel-v8--empty .panel-body .panel-empty-message {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: #495057;
+  text-align: center;
 }
 #nutrition-container-v2 .nutrition-panel-v8--empty .panel-body::before {
   content: '';
@@ -246,25 +262,4 @@
   margin: 0 auto 1rem auto;
   background: #e9ecef;
   border-radius: 999px;
-}
-
-
-/* --- Responsive Overrides --- */
-@media (max-width: 1023px) {
-  #nutrition-container-v2 .macro-panel__grid {
-    grid-template-columns: minmax(160px, 2fr) repeat(6, minmax(80px, 1fr));
-  }
-}
-@media (max-width: 640px) {
-  #nutrition-container-v2 .panel-body {
-    padding: 1.25rem 1rem;
-  }
-  #nutrition-container-v2 .macro-panel__grid {
-    grid-template-columns: minmax(160px, 1.5fr) repeat(6, minmax(70px, 1fr));
-    gap: 0.5rem;
-  }
-  #nutrition-container-v2 .macro-panel__cell {
-    padding: 0.6rem;
-    font-size: 0.85rem;
-  }
 }

@@ -496,17 +496,12 @@
     const panel = toggle.closest('.nutrition-panel-v8');
     if (!panel) return;
 
-    const body = panel.querySelector('.panel-body');
-    if (!body) return;
-
-    const nextExpanded = !panel.classList.contains('is-expanded');
-    panel.classList.toggle('is-expanded', nextExpanded);
-    body.classList.toggle('is-hidden', !nextExpanded);
-
-    toggle.setAttribute('aria-expanded', nextExpanded ? 'true' : 'false');
+    const isExpanded = panel.classList.toggle('is-expanded');
+    
+    toggle.setAttribute('aria-expanded', isExpanded);
     const textNode = toggle.querySelector('.toggle-text');
     if (textNode) {
-      textNode.textContent = nextExpanded ? 'Less Info' : 'More Info';
+      textNode.textContent = isExpanded ? 'Less Info' : 'More Info';
     }
   }
 
@@ -632,8 +627,7 @@
       baseName = rawTitle.slice(0, separatorIndex).trim();
       quantityText = rawTitle.slice(separatorIndex + 3).trim();
     }
-
-    // *** FIX: Restore robust unit stripping for the lookup key ***
+    
     const lookupKey = baseName.toLowerCase().replace(/\s+(ozs?|ounces?|c|cups?|ea|each|unit|slices?|sl|patt(?:y|ies))$/i, '').trim();
     const nutrition = NUTRITION_DATA[lookupKey];
 
@@ -697,63 +691,46 @@
       return `<div class="macro-stat macro-stat--${classSuffix}"><span class="macro-stat__value">${escapeHtml(displayValue)}<\/span><span class="macro-stat__label">${escapeHtml(field.label)}<\/span></div>`;
     }).join('');
 
-    const headerCells = [
-      '<div class="macro-panel__cell macro-panel__cell--item">Item<\/div>'
-    ].concat(MACRO_FIELDS.map(field => `
-      <div class="macro-panel__cell">${escapeHtml(field.label)}<\/div>
-    `));
-
-    const headerRow = `<div class="macro-panel__row macro-panel__row--header">${headerCells.join('')}<\/div>`;
+    const generateMacroBreakdownHtml = (macros, isValid) => {
+        return MACRO_FIELDS.map(field => {
+            const value = isValid ? formatNumber(macros[field.key]) : '--';
+            const suffix = field.suffix || '';
+            const fullLabel = suffix ? `${field.label} (${suffix})` : field.label;
+            return `
+                <div class="macro-breakdown-item">
+                    <span class="macro-breakdown-item__value">${escapeHtml(value)}</span>
+                    <span class="macro-breakdown-item__label">${escapeHtml(fullLabel)}</span>
+                </div>
+            `;
+        }).join('');
+    };
 
     const itemRows = items.map(item => {
       const quantityLabel = item.quantityDisplay || formatQuantityFromAmount(item.amount, item.unit);
-      const cells = [];
-      cells.push(`
-        <div class="macro-panel__cell macro-panel__cell--item">
-          <span class="macro-panel__item-role">${escapeHtml(item.role)}<\/span>
-          <span class="macro-panel__item-name">${escapeHtml(item.name)}<\/span>
-          ${quantityLabel ? `<span class="macro-panel__item-quantity">${escapeHtml(quantityLabel)}<\/span>` : ''}
-        </div>
-      `);
-
-      MACRO_FIELDS.forEach(field => {
-        const value = item.isValid ? formatNumber(item.macros[field.key]) : '--';
-        const suffix = field.suffix;
-        cells.push(`
-          <div class="macro-panel__cell">
-            <div class="macro-panel__value">
-              <strong>${escapeHtml(value)}<\/strong>
-              ${suffix ? `<span>${escapeHtml(suffix)}<\/span>` : ''}
-            </div>
+      const macroBreakdown = generateMacroBreakdownHtml(item.macros, item.isValid);
+      
+      return `
+        <div class="macro-panel__row">
+          <div class="macro-panel__item-header">
+            <span class="macro-panel__item-role">${escapeHtml(item.role)}</span>
+            <span class="macro-panel__item-name">${escapeHtml(item.name)}</span>
+            ${quantityLabel ? `<span class="macro-panel__item-quantity">${escapeHtml(quantityLabel)}</span>` : ''}
           </div>
-        `);
-      });
-
-      return `<div class="macro-panel__row">${cells.join('')}<\/div>`;
+          <div class="ingredient-macros">${macroBreakdown}</div>
+        </div>
+      `;
     }).join('');
-
-    const totalCells = [`
-      <div class="macro-panel__cell macro-panel__cell--item">
-        <span class="macro-panel__item-role">Totals<\/span>
-        <span class="macro-panel__item-name">Combined Meal<\/span>
-      </div>
-    `];
-
-    MACRO_FIELDS.forEach(field => {
-      const value = formatNumber(totals[field.key]);
-      const suffix = field.suffix;
-      totalCells.push(`
-        <div class="macro-panel__cell">
-          <div class="macro-panel__value">
-            <strong>${escapeHtml(value)}<\/strong>
-            ${suffix ? `<span>${escapeHtml(suffix)}<\/span>` : ''}
-          </div>
+    
+    const totalMacroBreakdown = generateMacroBreakdownHtml(totals, true);
+    const totalRow = `
+        <div class="macro-panel__row macro-panel__row--total">
+            <div class="macro-panel__item-header">
+                <span class="macro-panel__item-role">Totals</span>
+                <span class="macro-panel__item-name">Combined Meal</span>
+            </div>
+            <div class="ingredient-macros">${totalMacroBreakdown}</div>
         </div>
-      `);
-    });
-
-    const totalRow = `<div class="macro-panel__row macro-panel__row--total">${totalCells.join('')}<\/div>`;
-    const columnCount = 1 + MACRO_FIELDS.length;
+    `;
 
     container.style.display = 'block';
     container.innerHTML = `
@@ -765,12 +742,11 @@
             <span class="toggle-icon"></span>
           </a>
         </div>
-        <div class="panel-body is-hidden">
+        <div class="panel-body">
           <h4 class="panel-body-title">Ingredient Breakdown</h4>
           <div class="macro-panel__table">
-            <div class="macro-panel__grid" data-columns="${columnCount}">
-              ${headerRow}${itemRows}${totalRow}
-            </div>
+            ${itemRows}
+            ${totalRow}
           </div>
           <p class="macro-panel__footnote">Values are estimates and update as you customize your meal.<\/p>
         </div>
