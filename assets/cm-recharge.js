@@ -255,7 +255,37 @@ class CustomMealBuilder {
 
   processProductData(products, groupType = '') { return products.map(product => { this.productImageData.set(String(product.id), (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src); const variants = (product.variants || []).map(variant => { const variantId = String(variant.id); const unitInfo = this.getVariantUnitInfo(product, variant, groupType); const priceInCents = this.toCents(variant.price); this.variantDetails.set(variantId, { productId: product.id, productTitle: product.title, variantId: variant.id, variantTitle: variant.title, displayLabel: unitInfo.fullLabel, amountLabel: unitInfo.amountLabel, unitLabel: unitInfo.displayUnit, unitKey: unitInfo.unitKey, numericQuantity: unitInfo.numericValue, price: priceInCents }); return { id: variantId, title: variant.title, price: priceInCents, displayLabel: unitInfo.fullLabel, amountLabel: unitInfo.amountLabel, unitLabel: unitInfo.displayUnit, unitKey: unitInfo.unitKey }; }); return { id: product.id, title: product.title, variants }; }).filter(p => p.variants.length > 0); }
   populateProductSelect(selectElement, products, type) { if (!selectElement) return; selectElement.innerHTML = `<option value="">Choose a ${type}...</option>`; products.forEach(product => { const option = document.createElement('option'); option.value = product.id; option.textContent = product.title.replace(/ oz/gi, '').trim(); selectElement.appendChild(option); }); selectElement.disabled = false; }
-  populateHiddenVariantSelects() { const allSelects = [this.proteinSelect, this.side1Select, this.side2Select]; allSelects.forEach(select => { if(select) select.innerHTML = ''; }); this.variantDetails.forEach((details, variantId) => { const option = document.createElement('option'); option.value = variantId; option.dataset.price = details.price; if (this.productData.protein.some(p => p.variants.some(v => v.id === variantId)) && this.proteinSelect) { this.proteinSelect.appendChild(option.cloneNode(true)); } if (this.productData.side.some(p => p.variants.some(v => v.id === variantId))) { if (this.side1Select) this.side1Select.appendChild(option.cloneNode(true)); if (this.side2Select) this.side2Select.appendChild(option.cloneNode(true)); } }); }
+  populateHiddenVariantSelects() {
+    const hiddenSelects = [this.proteinSelect, this.side1Select, this.side2Select];
+
+    hiddenSelects.forEach(select => {
+      if (!select) return;
+      select.innerHTML = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.dataset.price = 0;
+      select.appendChild(placeholder);
+    });
+
+    this.variantDetails.forEach((details, variantId) => {
+      const option = document.createElement('option');
+      option.value = variantId;
+      option.dataset.price = details.price;
+
+      if (this.productData.protein.some(p => p.variants.some(v => v.id === variantId)) && this.proteinSelect) {
+        this.proteinSelect.appendChild(option.cloneNode(true));
+      }
+
+      if (this.productData.side.some(p => p.variants.some(v => v.id === variantId))) {
+        if (this.side1Select) this.side1Select.appendChild(option.cloneNode(true));
+        if (this.side2Select) this.side2Select.appendChild(option.cloneNode(true));
+      }
+    });
+
+    hiddenSelects.forEach(select => {
+      if (select) select.value = '';
+    });
+  }
   renderAllVisualOptions() { this.root.querySelectorAll('[data-product-select]').forEach(select => { const group = select.dataset.productSelect; const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; visualContainer.innerHTML = ''; Array.from(select.options).slice(1).forEach(option => { const productId = option.value; const productTitle = option.textContent; const imageUrl = this.productImageData.get(productId) || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; const card = document.createElement('button'); card.type = 'button'; card.className = 'cm-product-card-visual'; card.dataset.productId = productId; card.dataset.group = group; card.innerHTML = `<img src="${imageUrl}" alt="${productTitle}" class="cm-product-card-visual__image" width="72" height="72" loading="lazy"><span class="cm-product-card-visual__title">${productTitle}</span>`; visualContainer.appendChild(card); }); }); }
   bindVisualOptionEvents() { this.root.addEventListener('click', (event) => { const card = event.target.closest('.cm-product-card-visual'); if (!card) return; const { productId, group } = card.dataset; const originalSelect = this.root.querySelector(`[data-product-select="${group}"]`); if (originalSelect) { originalSelect.value = productId; originalSelect.dispatchEvent(new Event('change')); } }); }
   
@@ -288,7 +318,7 @@ class CustomMealBuilder {
       });
     }
     
-    this.update({ calculatePrice: false });
+    this.update();
   }
 
   syncVisualSelection(group, selectedProductId) { const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; const step = visualContainer.closest('.cm-selection-step'); if (!step) return; step.dataset.productSelected = !!selectedProductId; visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => { card.classList.toggle('is-selected', card.dataset.productId === selectedProductId); }); const variantOptionsContainer = step.querySelector('[data-variant-options-for]'); if (variantOptionsContainer) { variantOptionsContainer.classList.toggle('is-visible', !!selectedProductId); } }
