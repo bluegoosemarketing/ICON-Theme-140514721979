@@ -633,8 +633,8 @@
       quantityText = rawTitle.slice(separatorIndex + 3).trim();
     }
 
-    // *** FIX: Clean the base name to remove " OZ" before lookup ***
-    const lookupKey = baseName.toLowerCase().replace(/\s+oz$/, '').trim();
+    // *** FIX: Restore robust unit stripping for the lookup key ***
+    const lookupKey = baseName.toLowerCase().replace(/\s+(ozs?|ounces?|c|cups?|ea|each|unit|slices?|sl|patt(?:y|ies))$/i, '').trim();
     const nutrition = NUTRITION_DATA[lookupKey];
 
     if (!nutrition) {
