@@ -80,7 +80,7 @@
   .cm-recharge__visuals {
     grid-area: visuals;
     position: sticky;
-    top: 1.5rem;
+    top: calc(var(--header-offset, 0px) + 1.5rem);
   }
   .cm-recharge__panel {
     grid-area: panel;
