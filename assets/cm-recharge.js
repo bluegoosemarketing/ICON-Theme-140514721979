@@ -34,7 +34,10 @@ class CustomMealBuilder {
     this.addToCartButton = this.root.querySelector('[data-add-to-cart-button]');
     this.addToCartText = this.root.querySelector('[data-add-to-cart-text]');
     this.collapsibleSteps = this.root.querySelectorAll('[data-collapsible-step]');
-    
+    this.desktopNutritionSlot = this.root.querySelector('[data-desktop-nutrition-slot]');
+    this.mobileNutritionSlot = this.root.querySelector('[data-mobile-nutrition-slot]');
+    this.nutritionBlock = this.root.querySelector('[data-nutrition-block]');
+
     // Data & State
     this.state = { quantity: 1, sellingPlanId: null, totalPrice: 0, isLoading: true };
     this.variantDetails = new Map();
@@ -78,9 +81,10 @@ class CustomMealBuilder {
       this.populateHiddenVariantSelects();
       this.renderAllVisualOptions();
       this.bindVisualOptionEvents();
-      
+
       this.state.isLoading = false;
       this.update({ emitMacros: false });
+      this.setupResponsiveNutritionPlacement();
     } catch (error) { console.error('Failed to initialize Custom Meal Builder:', error); this.showError('Could not load meal options. Please refresh.'); }
   }
 
@@ -147,6 +151,47 @@ class CustomMealBuilder {
         this.collapsibleSteps.forEach(step => step.classList.remove('is-open'));
         if (!isOpen) currentStep.classList.add('is-open');
     });
+  }
+
+  setupResponsiveNutritionPlacement() {
+    if (!this.nutritionBlock) return;
+
+    const moveToSlot = (slot) => {
+      if (!slot) return;
+      if (slot.contains(this.nutritionBlock)) return;
+      slot.appendChild(this.nutritionBlock);
+    };
+
+    const applyPlacement = (isDesktop) => {
+      if (isDesktop) {
+        if (this.desktopNutritionSlot) {
+          moveToSlot(this.desktopNutritionSlot);
+        } else {
+          moveToSlot(this.mobileNutritionSlot);
+        }
+      } else {
+        if (this.mobileNutritionSlot) {
+          moveToSlot(this.mobileNutritionSlot);
+        } else {
+          moveToSlot(this.desktopNutritionSlot);
+        }
+      }
+    };
+
+    if (!this._nutritionMediaQuery) {
+      const mediaQuery = window.matchMedia('(min-width: 1024px)');
+      const handleChange = (event) => applyPlacement(event.matches);
+      applyPlacement(mediaQuery.matches);
+      if (typeof mediaQuery.addEventListener === 'function') {
+        mediaQuery.addEventListener('change', handleChange);
+      } else if (typeof mediaQuery.addListener === 'function') {
+        mediaQuery.addListener(handleChange);
+      }
+      this._nutritionMediaQuery = mediaQuery;
+      this._nutritionMediaQueryHandler = handleChange;
+    } else {
+      applyPlacement(this._nutritionMediaQuery.matches);
+    }
   }
 
   scrollToElement(element) {

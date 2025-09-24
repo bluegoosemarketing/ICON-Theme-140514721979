@@ -1,10 +1,10 @@
 /*
  * File: assets/cm-recharge.css
- * Version: 9.2 (Final & Complete)
- * Description: Uses a robust two-column layout to fix component visibility.
- * - Desktop styles use a simple two-column grid for visuals and panel.
- * - Mobile styles use flexbox `order` for the logical flow: Panel (Title, Form) -> Visuals (Image, Nutrition).
- * - All component and full-height layout styles are present and correct.
+ * Version: 9.3 (Mobile Flow Update)
+ * Description: Maintains the desktop grid while re-ordering the mobile flow.
+ * - Mobile presents hero -> configuration -> nutrition snapshot -> purchase actions.
+ * - Desktop keeps the two-column layout with nutrition tucked beneath the hero.
+ * - Nutrition shells allow JS to relocate the macro card between desktop & mobile slots.
 */
 
 /* --- Keyframe Animations --- */
@@ -25,12 +25,42 @@
   gap: 1.5rem;
   padding: 1.5rem; /* Base padding for mobile */
 }
+.cm-recharge__visuals {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+.cm-recharge__nutrition-shell {
+  display: block;
+}
+.cm-recharge__nutrition-shell:empty {
+  display: none;
+}
+.cm-recharge__nutrition-shell #nutrition-container-v2 {
+  margin-top: 0;
+}
+.cm-recharge__nutrition-shell--mobile {
+  margin-top: 1rem;
+}
+.cm-recharge__nutrition-shell--mobile .nutrition-panel-v8 {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+.cm-recharge__nutrition-shell--mobile .panel-footer {
+  background-color: #fff;
+}
+
+@media (max-width: 1023px) {
+  .cm-recharge__nutrition-shell--mobile {
+    margin-left: -0.75rem;
+    margin-right: -0.75rem;
+  }
+}
 
 /* --- Mobile-First Layout Order --- */
 @media (max-width: 1023px) {
-  .cm-recharge__panel { order: 1; } /* Contains Title and Form */
-  .cm-recharge__visuals { order: 2; } /* Contains Image and Nutrition */
-  
+  .cm-recharge__visuals { order: 1; } /* Hero image first */
+  .cm-recharge__panel { order: 2; } /* Title and form follow */
+
   /* Within the panel, ensure title comes before the form */
   .cm-recharge__panel { display: flex; flex-direction: column; gap: 1.5rem; }
   .cm-recharge__intro { order: 1; }
@@ -51,15 +81,15 @@
     grid-area: visuals;
     position: sticky;
     top: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
   }
   .cm-recharge__panel {
     grid-area: panel;
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+  }
+  .cm-recharge__nutrition-shell--mobile {
+    display: none;
   }
 }
 

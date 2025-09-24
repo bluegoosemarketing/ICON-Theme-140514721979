@@ -54,8 +54,13 @@
               </div>
             {% endif %}
           </section>
-          
-          <div id="nutrition-container-v2" class="cm-recharge-macro-container nutrition-container-v8"></div>
+          <div class="cm-recharge__nutrition-shell" data-desktop-nutrition-slot>
+            <div
+              id="nutrition-container-v2"
+              class="cm-recharge-macro-container nutrition-container-v8"
+              data-nutrition-block
+            ></div>
+          </div>
         </div>
 
         <!-- RIGHT COLUMN (Panel) -->
@@ -88,6 +93,8 @@
               <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>3</span><div class="cm-step__legend-text">Choose Side 2 <small>(Optional)</small><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
               <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side2"></div><div class="variant-options" data-variant-options-for="side2"></div><select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select></div></div>
             </fieldset>
+
+            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
 
             <div class="cm-selection-step--standalone">
               <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
