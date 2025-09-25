@@ -321,7 +321,7 @@
       });
 
       this.input.addEventListener('input', () => this.sync());
-      this.input.addEventListener('change', () => this.sync());
+      this.input.addEventListener('change', () => this.sync({ emitChange: false }));
     }
 
     adjust(delta) {
@@ -330,17 +330,20 @@
       if (nextValue === currentValue) return;
 
       this.input.value = nextValue;
-      this.sync();
+      this.sync({ emitChange: true });
     }
 
-    sync() {
+    sync(options = {}) {
+      const { emitChange = false } = options;
       const value = Math.max(1, parseInt(this.input.value, 10) || 1);
       this.input.value = value;
       if (this.text) {
         this.text.textContent = value;
       }
 
-      this.input.dispatchEvent(new Event('change', { bubbles: true }));
+      if (emitChange) {
+        this.input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
     }
   }
 </script>
