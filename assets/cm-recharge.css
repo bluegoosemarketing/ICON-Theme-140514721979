@@ -153,12 +153,6 @@
 }
 .cm-recharge__badge-icon { font-size: 1rem; line-height: 1; }
 .cm-recharge__badge-text { white-space: normal; }
-.cm-recharge__nutrition-heading {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #1f2933;
-  margin-bottom: 0.75rem;
-}
 .cm-recharge__nutrition-shell .nutrition-container-v8 { margin-top: 0; }
 .cm-recharge__nutrition-shell .nutrition-panel-v8 {
   background: #ffffff;
@@ -171,7 +165,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
-  padding: 1.25rem;
+  padding: 0;
 }
 .cm-recharge__nutrition-shell .macro-stat {
   flex: 1 1 calc(33% - 0.5rem);
@@ -260,6 +254,13 @@
   clip: rect(0 0 0 0);
   clip-path: inset(50%);
   pointer-events: none;
+}
+
+@media (max-width: 63.9375rem) {
+  .cm-recharge__cta-block { order: 2; }
+  .cm-cadence { order: 3; }
+  .cm-recharge__badges { order: 4; }
+  .cm-recharge__nutrition-shell--mobile { order: 5; margin-top: 1.25rem; }
 }
 .cm-recharge__cta-block {
   display: flex;

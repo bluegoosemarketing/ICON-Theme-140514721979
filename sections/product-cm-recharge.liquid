@@ -55,7 +55,6 @@
             {% endif %}
           </section>
           <div class="cm-recharge__nutrition-shell" data-desktop-nutrition-slot>
-            <div class="cm-recharge__nutrition-heading" aria-hidden="true">Performance-focused nutrition you can count on.</div>
             <div
               id="nutrition-container-v2"
               class="cm-recharge-macro-container nutrition-container-v8"
@@ -104,16 +103,22 @@
               <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Fresh, never frozen">❄️</span><span class="cm-recharge__badge-text">Fresh, Never Frozen</span></div>
             </div>
 
-            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot>
-              <div class="cm-recharge__nutrition-heading" aria-hidden="true">Performance-focused nutrition you can count on.</div>
-            </div>
+            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
 
             <div class="cm-cadence" data-cadence-block>
               <div class="cm-cadence__header">
                 <p class="cm-cadence__title">Delivery cadence</p>
-                <p class="cm-cadence__note" data-cadence-note>Default is weekly. You can change cadence anytime.</p>
+                <p
+                  class="cm-cadence__note"
+                  data-cadence-note
+                  data-default-note="Default is weekly. You can change cadence anytime."
+                  data-one-time-note="One-time purchase selected. Subscribe anytime for recurring deliveries."
+                >
+                  Default is weekly. You can change cadence anytime.
+                </p>
               </div>
               <div class="cm-cadence__pills" data-cadence-pills>
+                <button type="button" class="cm-cadence__pill" data-cadence-option="one-time">One-Time</button>
                 <button type="button" class="cm-cadence__pill" data-cadence-option="weekly">Weekly</button>
                 <button type="button" class="cm-cadence__pill" data-cadence-option="biweekly">Every 2 Weeks</button>
               </div>
@@ -186,10 +191,13 @@
       var pills = root.querySelector('[data-cadence-pills]');
       if (!frequencySelect || !pills || frequencySelect.dataset.cadenceInitialized === 'true') return;
 
+      var oneTimeButton = pills.querySelector('[data-cadence-option="one-time"]');
       var weeklyButton = pills.querySelector('[data-cadence-option="weekly"]');
       var biweeklyButton = pills.querySelector('[data-cadence-option="biweekly"]');
       var cadenceNote = root.querySelector('[data-cadence-note]');
       var cadenceBlock = root.querySelector('[data-cadence-block]');
+      var cadenceNoteDefault = cadenceNote ? (cadenceNote.dataset.defaultNote || cadenceNote.textContent) : '';
+      var cadenceNoteOneTime = cadenceNote ? (cadenceNote.dataset.oneTimeNote || '') : '';
 
       function findOptionByWeeks(weeks) {
         var options = Array.prototype.slice.call(frequencySelect.options || []);
@@ -200,11 +208,24 @@
         }) || null;
       }
 
-      function setActiveButton(button) {
+      function setActiveButton(button, mode) {
         Array.prototype.forEach.call(pills.querySelectorAll('.cm-cadence__pill'), function(el) {
           el.classList.toggle('is-active', el === button);
           el.setAttribute('aria-pressed', el === button ? 'true' : 'false');
         });
+
+        if (!cadenceNote) return;
+
+        if (mode === 'one-time') {
+          cadenceNote.textContent = cadenceNoteOneTime || cadenceNoteDefault;
+          cadenceNote.classList.remove('is-muted');
+        } else if (mode === 'weekly' || mode === 'biweekly') {
+          cadenceNote.textContent = cadenceNoteDefault;
+          cadenceNote.classList.remove('is-muted');
+        } else {
+          cadenceNote.textContent = cadenceNoteDefault;
+          cadenceNote.classList.remove('is-muted');
+        }
       }
 
       function syncFromSelect() {
@@ -213,16 +234,18 @@
           setActiveButton(null);
           return;
         }
-        if (weeklyOption && selectedOption.value === weeklyOption.value) {
-          setActiveButton(weeklyButton);
+        if (selectedOption.value === '' && oneTimeButton) {
+          setActiveButton(oneTimeButton, 'one-time');
+        } else if (weeklyOption && selectedOption.value === weeklyOption.value) {
+          setActiveButton(weeklyButton, 'weekly');
         } else if (biweeklyOption && selectedOption.value === biweeklyOption.value) {
-          setActiveButton(biweeklyButton);
+          setActiveButton(biweeklyButton, 'biweekly');
         } else {
           setActiveButton(null);
         }
       }
 
-      function attachButton(button, option) {
+      function attachButton(button, option, mode) {
         if (!button) return;
         if (!option) {
           button.setAttribute('hidden', 'hidden');
@@ -232,7 +255,16 @@
         button.addEventListener('click', function() {
           if (frequencySelect.disabled) return;
           dispatchNativeChange(frequencySelect, option.value);
-          setActiveButton(button);
+          setActiveButton(button, mode);
+        });
+      }
+
+      function attachOneTimeButton(button) {
+        if (!button) return;
+        button.addEventListener('click', function() {
+          if (frequencySelect.disabled) return;
+          dispatchNativeChange(frequencySelect, '');
+          setActiveButton(button, 'one-time');
         });
       }
 
@@ -242,23 +274,29 @@
         weeklyOption = findOptionByWeeks(1);
         biweeklyOption = findOptionByWeeks(2);
 
+        attachOneTimeButton(oneTimeButton);
+        attachButton(weeklyButton, weeklyOption, 'weekly');
+        attachButton(biweeklyButton, biweeklyOption, 'biweekly');
+
         if (!weeklyOption && !biweeklyOption) {
-          pills.classList.add('is-hidden');
-          if (cadenceNote) cadenceNote.classList.add('is-muted');
-          if (cadenceBlock) cadenceBlock.classList.add('is-hidden');
-          return;
-        }
-
-        attachButton(weeklyButton, weeklyOption);
-        attachButton(biweeklyButton, biweeklyOption);
-
-        if (weeklyOption) {
-          var shouldDefaultToWeekly = !frequencySelect.value || frequencySelect.selectedIndex === 0;
-          if (shouldDefaultToWeekly || frequencySelect.value !== weeklyOption.value) {
-            dispatchNativeChange(frequencySelect, weeklyOption.value);
+          if (oneTimeButton) {
+            setActiveButton(oneTimeButton, 'one-time');
+            dispatchNativeChange(frequencySelect, '');
+          } else {
+            pills.classList.add('is-hidden');
+            if (cadenceNote) cadenceNote.classList.add('is-muted');
+            if (cadenceBlock) cadenceBlock.classList.add('is-hidden');
+            return;
           }
-        } else if (biweeklyOption && (!frequencySelect.value || frequencySelect.selectedIndex === 0)) {
-          dispatchNativeChange(frequencySelect, biweeklyOption.value);
+        } else {
+          if (weeklyOption) {
+            var shouldDefaultToWeekly = !frequencySelect.value || frequencySelect.selectedIndex === 0;
+            if (shouldDefaultToWeekly || frequencySelect.value !== weeklyOption.value) {
+              dispatchNativeChange(frequencySelect, weeklyOption.value);
+            }
+          } else if (biweeklyOption && (!frequencySelect.value || frequencySelect.selectedIndex === 0)) {
+            dispatchNativeChange(frequencySelect, biweeklyOption.value);
+          }
         }
 
         syncFromSelect();
