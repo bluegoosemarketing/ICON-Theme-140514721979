@@ -1,31 +1,38 @@
 /**
  * =================================================================================================================
- * PRO DEV REVISION V4: LIVE PAGE DYNAMIC PRICE ENGINE (CENTRALIZED LOGIC)
+ * PRO DEV REVISION V5: UNIVERSAL DYNAMIC PRICE ENGINE
  *
- * DIAGNOSIS: Previous versions contained redundant click handlers for quantity buttons.
+ * DIAGNOSIS: The previous price engine was hard-coded to require the '.bold_option_total' element,
+ *            causing it to fail on any product not using Bold Product Options.
  *
- * THE FIX (HOLISTIC JAVASCRIPT REFACTOR):
- *  1. REMOVED REDUNDANCY: The dedicated click listeners on the quantity buttons have been removed.
- *  2. CENTRALIZED EVENT MODEL: This script now relies exclusively on the 'change' event from the quantity
- *     input. A new global script (`product-quantity.js`) is now the single source of truth for managing
- *     quantity input state and dispatching this 'change' event.
- *  3. INCREASED ROBUSTNESS: By listening to a single, reliable event, we prevent race conditions and conflicts,
- *     making the pricing engine more stable and easier to debug.
+ * THE FIX (HOLISTIC REWRITE):
+ *  1. UNIVERSAL COMPATIBILITY: The script no longer aborts if Bold elements are missing. Instead, it
+ *     gracefully handles their absence.
+ *  2. CONDITIONAL LOGIC: It checks for the '.bold_option_total' container. If found, it includes Bold's
+ *     extra costs in the calculation. If not found, it calculates a simple `basePrice * quantity`.
+ *  3. SINGLE SOURCE OF TRUTH: This one script now correctly calculates prices for ALL product types,
+ *     dramatically simplifying theme logic and maintenance. It is now the definitive price engine.
  *
- * WHY: This architecture ensures that logic is not duplicated. The quantity handler handles quantity, and the
- *      price engine handles price calculations. This separation of concerns is a professional standard.
+ * WHY: This solution is robust and scalable. It fixes the immediate bug and prevents future issues by
+ *      no longer making unsafe assumptions about which apps are active on a given product.
  * =================================================================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
-  // --- 1. Element Selection & Validation ---
-  const priceDisplayElement = document.querySelector('.product-main__price span[data-product-price]');
-  const quantityInput = document.querySelector('.integrated-quantity__input[name="quantity"]');
-  const boldTotalContainer = document.querySelector('.bold_option_total');
+  // --- 1. Element Selection ---
+  // We target elements within the main product container to avoid conflicts.
+  const productMainContainer = document.querySelector('.product-main');
+  if (!productMainContainer) return;
+
+  const priceDisplayElement = productMainContainer.querySelector('.product-main__price span[data-product-price]');
+  const quantityInput = productMainContainer.querySelector('.integrated-quantity__input[name="quantity"]');
   const productJsonScript = document.querySelector('script[data-product-json]');
 
-  // If any critical element is missing, exit immediately to prevent errors.
-  if (!priceDisplayElement || !quantityInput || !boldTotalContainer || !productJsonScript) {
-    console.log('Dynamic Price Engine: One or more critical elements not found on the page. Aborting.');
+  // This element is now OPTIONAL.
+  const boldTotalContainer = productMainContainer.querySelector('.bold_option_total');
+
+  // Critical elements must exist to proceed.
+  if (!priceDisplayElement || !quantityInput || !productJsonScript) {
+    console.warn('Universal Price Engine: Missing critical elements (price, quantity, or product JSON). Aborting.');
     return;
   }
 
@@ -33,19 +40,13 @@ document.addEventListener('DOMContentLoaded', () => {
   let basePriceInCents = 0;
   try {
     const productData = JSON.parse(productJsonScript.textContent);
-    // Use the first available variant's price as the base price.
-    basePriceInCents = productData?.variants?.[0]?.price || 0;
+    basePriceInCents = productData?.selected_or_first_available_variant?.price || productData?.variants?.[0]?.price || 0;
   } catch (e) {
-    console.error('Dynamic Price Engine: Failed to parse product JSON.', e);
-    // As a fallback, try to parse the initial text content of the price display
-    basePriceInCents = parseMoneyToCents(priceDisplayElement.textContent);
+    console.error('Universal Price Engine: Failed to parse product JSON.', e);
+    return; // Exit if we can't get a base price.
   }
 
-  if (basePriceInCents === 0) {
-      console.warn('Dynamic Price Engine: Base price is zero. Calculations may be incorrect.');
-  }
-
-  // --- 3. Helper Functions ---
+  // --- 3. Helper Functions (unchanged) ---
   const parseMoneyToCents = (text) => {
     if (typeof text !== 'string') return 0;
     const sanitized = text.replace(/[^0-9.]/g, '');
@@ -66,33 +67,39 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // --- 4. The Core Price Calculation and Update Function ---
   const updateCombinedPrice = () => {
-    const extrasPriceText = boldTotalContainer.querySelector('span')?.textContent || boldTotalContainer.textContent;
-    const extrasInCents = parseMoneyToCents(extrasPriceText);
+    let extrasInCents = 0;
+    // ** THE CORE FIX **: Only read from Bold container if it exists.
+    if (boldTotalContainer) {
+      const extrasPriceText = boldTotalContainer.querySelector('span')?.textContent || boldTotalContainer.textContent;
+      extrasInCents = parseMoneyToCents(extrasPriceText);
+    }
 
     const quantity = parseInt(quantityInput.value, 10) || 1;
+    const finalTotalInCents = (basePriceInCents + extrasInCents) * quantity;
 
-    const singleItemTotalInCents = basePriceInCents + extrasInCents;
-    const finalTotalInCents = singleItemTotalInCents * quantity;
-
-    // Update the text content of the correct price display element
     priceDisplayElement.textContent = formatMoney(finalTotalInCents);
   };
 
   // --- 5. Event Listeners & Observers ---
-  const observer = new MutationObserver(updateCombinedPrice);
-  observer.observe(boldTotalContainer, {
-    childList: true,
-    subtree: true,
-    characterData: true,
-  });
-
-  // Listen for a single, reliable "change" event on the quantity input.
+  // Listen for the 'change' event dispatched by our robust delegated quantity script.
   quantityInput.addEventListener('change', updateCombinedPrice);
 
+  // If the Bold container exists, observe it for changes.
+  if (boldTotalContainer) {
+    const observer = new MutationObserver(updateCombinedPrice);
+    observer.observe(boldTotalContainer, {
+      childList: true,
+      subtree: true,
+      characterData: true,
+    });
+  }
+  
+  // Also listen to Bold's specific events if available.
   if (window.BOLD?.options?.app?.on) {
     BOLD.options.app.on('option_changed', updateCombinedPrice);
   }
 
   // --- 6. Initial Execution ---
+  // Run once on page load to set the initial price correctly.
   updateCombinedPrice();
 });

@@ -247,99 +247,13 @@
   document.addEventListener('DOMContentLoaded', () => {
     const sectionEl = document.querySelector('.product-main[data-section-id="{{ section.id }}"]');
     if (!sectionEl) return;
-    const productJsonElement = document.querySelector('script[data-product-json]');
-    if (productJsonElement) {
-      try {
-        const productData = JSON.parse(productJsonElement.textContent);
-        if (productData.handle === 'custom-meals' || productData.handle === 'custom-breakfast') {
-          new DynamicPriceUpdater(sectionEl);
-        }
-      } catch (e) { console.error("Could not initialize dynamic pricing", e); }
-    }
+    
+    // The DynamicPriceUpdater has been removed from here and is now handled globally
+    // by the universal 'bold-combined-price.js' script.
+
+    // The AjaxFormHandler remains as it handles the add-to-cart functionality.
     new AjaxFormHandler(sectionEl);
   });
-
-  class DynamicPriceUpdater {
-    constructor(sectionEl) {
-      this.elements = {
-        priceDisplay: sectionEl.querySelector('.product-main__price span[data-product-price]'),
-        priceParent: sectionEl.querySelector('.product-main__price'),
-        quantityInput: sectionEl.querySelector('.integrated-quantity__input[name="quantity"]'),
-        quantityContainer: sectionEl.querySelector('.integrated-quantity'),
-        boldContainer: sectionEl.querySelector('.product-main__form'),
-      };
-      if (Object.values(this.elements).some(el => !el)) return;
-      this.hasInteracted = false;
-      this.basePriceInCents = {{ product.first_available_variant.price }};
-      this.moneyFormat = {{ shop.money_format | json }};
-      this.setInitialPlaceholder();
-      this.initBoldObserver();
-    }
-    updatePrice() {
-  if (!this.hasInteracted) {
-    this.hasInteracted = true;
-    // switch header to LIVE mode on first real calc
-    this.elements.priceParent.classList.remove('price--placeholder');
-    this.elements.priceParent.classList.add('price--live');
-    this.elements.priceDisplay.className = '';
-  }
-  if (!this.elements.boldTotal) return;
-  const extrasText = this.elements.boldTotal.querySelector('span')?.textContent || '0';
-  const extrasInCents = this.parseMoneyToCents(extrasText);
-  const quantity = parseInt(this.elements.quantityInput.value, 10) || 1;
-  const totalInCents = (this.basePriceInCents + extrasInCents) * quantity;
-  this.elements.priceDisplay.innerHTML =
-    this.formatMoney(totalInCents) + '<span class="price-note">updates as you choose</span>';
-}
-
-setInitialPlaceholder() {
-  this.elements.priceParent.classList.add('price--placeholder');
-  this.elements.priceDisplay.className = 'product-price--placeholder';
-  this.elements.priceDisplay.innerHTML = `
-    <div style="display:flex;gap:.75rem;align-items:flex-start">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
-           fill="none" stroke="currentColor" stroke-width="2"
-           stroke-linecap="round" stroke-linejoin="round">
-        <rect x="3" y="2" width="18" height="20" rx="2" ry="2"></rect>
-        <line x1="8" y1="6" x2="16" y2="6"></line>
-        <line x1="8" y1="10" x2="10" y2="10"></line>
-        <line x1="12" y1="10" x2="14" y2="10"></line>
-        <line x1="8" y1="14" x2="10" y2="14"></line>
-        <line x1="12" y1="14" x2="14" y2="14"></line>
-        <line x1="8" y1="18" x2="10" y2="18"></line>
-        <line x1="12" y1="18" x2="14" y2="18"></line>
-      </svg>
-      <div>
-        <span class="placeholder-main-text">Starting at ${this.formatMoney(this.basePriceInCents)}</span>
-        <span class="placeholder-sub-text">Your total will update here</span>
-      </div>
-    </div>
-  `;
-}
-    initBoldObserver() {
-      const boldObserver = new MutationObserver((mutations, observer) => {
-        const boldTotalEl = this.elements.boldContainer.querySelector('.bold_option_total');
-        if (boldTotalEl) {
-          this.elements.boldTotal = boldTotalEl;
-          this.attachListeners();
-          observer.disconnect();
-        }
-      });
-      boldObserver.observe(this.elements.boldContainer, { childList: true, subtree: true });
-    }
-    attachListeners() {
-      const handleInteraction = () => this.updatePrice();
-      // This now relies on the global product-quantity.js to dispatch the 'change' event.
-      this.elements.quantityInput.addEventListener('change', handleInteraction);
-      const boldPriceObserver = new MutationObserver(handleInteraction);
-      boldPriceObserver.observe(this.elements.boldTotal, { childList: true, subtree: true, characterData: true });
-      if (window.BOLD?.options?.app?.on) {
-        BOLD.options.app.on('option_changed', handleInteraction);
-      }
-    }
-    parseMoneyToCents(t){if("string"!=typeof t)return 0;const e=t.replace(/[^0-9.]/g,""),s=parseFloat(e);return isNaN(s)?0:Math.round(100*s)}
-    formatMoney(t){if(!this.moneyFormat)return`$${(t/100).toFixed(2)}`;const e=(t/100).toFixed(2);return this.moneyFormat.replace(/\{\{\s*amount\s*\}\}/,e).replace(".00","")}
-  }
 
   class AjaxFormHandler {
     constructor(sectionEl) {
