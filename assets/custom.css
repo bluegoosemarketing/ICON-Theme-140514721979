@@ -122,18 +122,24 @@ body.collection-menu-open {
 .collection-page__layout {
   display: grid;
   grid-template-columns: 1fr 380px;
-  height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
+  height: calc(
+    100dvh - var(--app-header-min-height) - var(--collection-funnel-header-height, 0px) - var(--app-footer-min-height)
+  );
 }
 
 @supports not (height: 100dvh) {
   .collection-page__layout {
-    height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+    height: calc(
+      100svh - var(--app-header-min-height) - var(--collection-funnel-header-height, 0px) - var(--app-footer-min-height)
+    );
   }
 }
 
 @supports not (height: 100svh) {
   .collection-page__layout {
-    height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+    height: calc(
+      100vh - var(--app-header-min-height) - var(--collection-funnel-header-height, 0px) - var(--app-footer-min-height)
+    );
   }
 }
 
@@ -501,18 +507,24 @@ ol.product-grid {
 body.template-suffix--meal-plans .collection-page__main { padding-left: 0; padding-right: 0; }
 body.template-suffix--meal-plans .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
 body[class*="template-suffix--meal-plans"] .collection-page__layout {
-  height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
+  height: calc(
+    100dvh - var(--app-header-min-height) - var(--collection-funnel-header-height, 0px) - var(--app-footer-min-height)
+  );
 }
 
 @supports not (height: 100dvh) {
   body[class*="template-suffix--meal-plans"] .collection-page__layout {
-    height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+    height: calc(
+      100svh - var(--app-header-min-height) - var(--collection-funnel-header-height, 0px) - var(--app-footer-min-height)
+    );
   }
 }
 
 @supports not (height: 100svh) {
   body[class*="template-suffix--meal-plans"] .collection-page__layout {
-    height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+    height: calc(
+      100vh - var(--app-header-min-height) - var(--collection-funnel-header-height, 0px) - var(--app-footer-min-height)
+    );
   }
 }
 
@@ -795,7 +807,7 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 .cart-sidebar {
   background-color: #fdfdfd !important; box-shadow: -2px 0 10px rgba(0, 0, 0, 0.03) !important;
   border-radius: 0 !important; display: flex !important; flex-direction: column !important;
-  height: 100% !important; min-height: 100vh !important; overflow: hidden !important; flex: 1 1 auto !important;
+  height: 100% !important; min-height: 100% !important; overflow: hidden !important; flex: 1 1 auto !important;
 }
 .cart-sidebar__header {
   padding: 1.25rem 1.5rem !important; border-bottom: 1px solid #f0f0f0 !important; flex-shrink: 0;
@@ -4099,6 +4111,7 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
      This default is only used where no header var exists. */
   --app-header-min-height: var(--header-offset, 64px);
   --app-footer-min-height: 0px;
+  --collection-funnel-header-height: 0px;
 }
 
 /* Use the most accurate unit available, with safe fallbacks */
