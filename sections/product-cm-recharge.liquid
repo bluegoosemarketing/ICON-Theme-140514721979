@@ -55,6 +55,7 @@
             {% endif %}
           </section>
           <div class="cm-recharge__nutrition-shell" data-desktop-nutrition-slot>
+            <div class="cm-recharge__nutrition-heading" aria-hidden="true">Performance-focused nutrition you can count on.</div>
             <div
               id="nutrition-container-v2"
               class="cm-recharge-macro-container nutrition-container-v8"
@@ -66,7 +67,7 @@
         <!-- RIGHT COLUMN (Panel) -->
         <section class="cm-recharge__panel">
           <div class="cm-recharge__intro">
-            <h1 class="cm-recharge__title h2">{{ product.title | escape }}</h1>
+            <h1 class="cm-recharge__title h2">Custom Meal (Build Your Own)</h1>
             <div class="product-price--placeholder" data-price-wrapper>
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
               <div>
@@ -75,45 +76,69 @@
                 <span class="placeholder-sub-text" data-price-sub-text>Select a Protein & Side to see price</span>
               </div>
             </div>
+            <p class="cm-recharge__short-description">Build your perfect meal with chef-prepared proteins and sides, made fresh and delivered nationwide.</p>
             {%- if product.description != blank -%}
               <div class="cm-recharge__description rte">{{ product.description }}</div>
             {%- endif -%}
           </div>
 
           <form class="cm-recharge__form" data-cm-form>
-            <fieldset class="cm-selection-step is-open" data-collapsible-step data-selection-group="protein">
-              <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>1</span><div class="cm-step__legend-text">Choose Protein<span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
-              <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="protein"></div><div class="variant-options" data-variant-options-for="protein"></div><select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select></div></div>
-            </fieldset>
-            <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side1">
-              <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>2</span><div class="cm-step__legend-text">Choose Side 1<span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
-              <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side1"></div><div class="variant-options" data-variant-options-for="side1"></div><select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select></div></div>
-            </fieldset>
-            <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side2">
-              <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>3</span><div class="cm-step__legend-text">Choose Side 2 <small>(Optional)</small><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
-              <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side2"></div><div class="variant-options" data-variant-options-for="side2"></div><select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select></div></div>
-            </fieldset>
+            <div class="cm-recharge__config-stack">
+              <fieldset class="cm-selection-step is-open" data-collapsible-step data-selection-group="protein">
+                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>1</span><div class="cm-step__legend-text">Choose Protein<span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
+                <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="protein"></div><div class="variant-options" data-variant-options-for="protein"></div><select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select></div></div>
+              </fieldset>
+              <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side1">
+                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>2</span><div class="cm-step__legend-text">Choose Side 1<span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
+                <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side1"></div><div class="variant-options" data-variant-options-for="side1"></div><select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select></div></div>
+              </fieldset>
+              <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side2">
+                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>3</span><div class="cm-step__legend-text">Choose Side 2 <small>(Optional)</small><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
+                <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side2"></div><div class="variant-options" data-variant-options-for="side2"></div><select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select></div></div>
+              </fieldset>
+            </div>
 
-            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
+            <div class="cm-recharge__badges" aria-hidden="true">
+              <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Chef prepared">✅</span><span class="cm-recharge__badge-text">Chef-Prepared</span></div>
+              <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Delivered nationwide">🚚</span><span class="cm-recharge__badge-text">Delivered Nationwide</span></div>
+              <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Fresh, never frozen">❄️</span><span class="cm-recharge__badge-text">Fresh, Never Frozen</span></div>
+            </div>
 
-            <div class="cm-selection-step--standalone">
-              <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery Frequency</label>
-              <div class="select-wrapper">
-                <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled><option value="">Loading frequencies...</option></select>
-                <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot>
+              <div class="cm-recharge__nutrition-heading" aria-hidden="true">Performance-focused nutrition you can count on.</div>
+            </div>
+
+            <div class="cm-cadence" data-cadence-block>
+              <div class="cm-cadence__header">
+                <p class="cm-cadence__title">Delivery cadence</p>
+                <p class="cm-cadence__note" data-cadence-note>Default is weekly. You can change cadence anytime.</p>
+              </div>
+              <div class="cm-cadence__pills" data-cadence-pills>
+                <button type="button" class="cm-cadence__pill" data-cadence-option="weekly">Weekly</button>
+                <button type="button" class="cm-cadence__pill" data-cadence-option="biweekly">Every 2 Weeks</button>
+              </div>
+              <div class="cm-selection-step--standalone cm-cadence__native">
+                <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery cadence</label>
+                <div class="select-wrapper">
+                  <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled><option value="">Loading frequencies...</option></select>
+                  <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
               </div>
             </div>
 
-            <div class="cm-recharge__cta">
-              <div class="integrated-quantity" data-quantity-wrapper>
-                <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
-                <span class="integrated-quantity__text" data-qty-text>1</span>
-                <input class="integrated-quantity__input" type="number" name="quantity" min="1" value="1" data-qty-input>
-                <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
+            <div class="cm-recharge__cta-block">
+              <p class="cm-recharge__cta-copy">Trusted by 100,000+ athletes and busy professionals nationwide.</p>
+              <div class="cm-recharge__cta">
+                <div class="integrated-quantity" data-quantity-wrapper>
+                  <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
+                  <span class="integrated-quantity__text" data-qty-text>1</span>
+                  <input class="integrated-quantity__input" type="number" name="quantity" min="1" value="1" data-qty-input>
+                  <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
+                </div>
+                <button type="submit" class="product-card__add-btn" data-add-to-cart-button disabled>
+                  <span data-add-to-cart-text>Select Options</span>
+                </button>
               </div>
-              <button type="submit" class="product-card__add-btn" data-add-to-cart-button disabled>
-                <span data-add-to-cart-text>Select Options</span>
-              </button>
             </div>
 
             <div class="cm-recharge__error" data-error-message></div>
@@ -138,6 +163,135 @@
 
 <script>
   (function() { const setHeaderOffsets = function() { const header = document.querySelector('#shopify-section-header-collections') || document.querySelector('#shopify-section-header'); if (!header) return; var height = header.getBoundingClientRect().height; document.documentElement.style.setProperty('--app-header-min-height', height + 'px'); document.documentElement.style.setProperty('--header-offset', height + 'px'); document.documentElement.style.setProperty('--dynamic-header-h', height + 'px'); }; const registerListeners = function() { if (!window.__cmRechargeHeaderOffsetListenersRegistered) { window.__cmRechargeHeaderOffsetListenersRegistered = true; window.addEventListener('resize', setHeaderOffsets); document.addEventListener('shopify:section:load', setHeaderOffsets); document.addEventListener('shopify:section:reorder', setHeaderOffsets); } setHeaderOffsets(); }; if (document.readyState === 'loading') { document.addEventListener('DOMContentLoaded', registerListeners); } else { registerListeners(); } })();
+</script>
+
+<script>
+  (function() {
+    var rootId = 'cm-recharge-root-{{ section.id }}';
+
+    function dispatchNativeChange(select, value) {
+      if (!select) return;
+      if (typeof value !== 'undefined') {
+        select.value = value;
+      }
+      var event = new Event('change', { bubbles: true });
+      select.dispatchEvent(event);
+    }
+
+    function initializeCadenceControls() {
+      var root = document.getElementById(rootId);
+      if (!root) return;
+
+      var frequencySelect = root.querySelector('[data-frequency-select]');
+      var pills = root.querySelector('[data-cadence-pills]');
+      if (!frequencySelect || !pills || frequencySelect.dataset.cadenceInitialized === 'true') return;
+
+      var weeklyButton = pills.querySelector('[data-cadence-option="weekly"]');
+      var biweeklyButton = pills.querySelector('[data-cadence-option="biweekly"]');
+      var cadenceNote = root.querySelector('[data-cadence-note]');
+      var cadenceBlock = root.querySelector('[data-cadence-block]');
+
+      function findOptionByWeeks(weeks) {
+        var options = Array.prototype.slice.call(frequencySelect.options || []);
+        return options.find(function(option) {
+          if (!option || !option.value) return false;
+          var text = option.textContent || '';
+          return new RegExp('\\b' + weeks + '\\b', 'i').test(text) && /week/i.test(text);
+        }) || null;
+      }
+
+      function setActiveButton(button) {
+        Array.prototype.forEach.call(pills.querySelectorAll('.cm-cadence__pill'), function(el) {
+          el.classList.toggle('is-active', el === button);
+          el.setAttribute('aria-pressed', el === button ? 'true' : 'false');
+        });
+      }
+
+      function syncFromSelect() {
+        var selectedOption = frequencySelect.options[frequencySelect.selectedIndex];
+        if (!selectedOption) {
+          setActiveButton(null);
+          return;
+        }
+        if (weeklyOption && selectedOption.value === weeklyOption.value) {
+          setActiveButton(weeklyButton);
+        } else if (biweeklyOption && selectedOption.value === biweeklyOption.value) {
+          setActiveButton(biweeklyButton);
+        } else {
+          setActiveButton(null);
+        }
+      }
+
+      function attachButton(button, option) {
+        if (!button) return;
+        if (!option) {
+          button.setAttribute('hidden', 'hidden');
+          return;
+        }
+        button.removeAttribute('hidden');
+        button.addEventListener('click', function() {
+          if (frequencySelect.disabled) return;
+          dispatchNativeChange(frequencySelect, option.value);
+          setActiveButton(button);
+        });
+      }
+
+      function setup() {
+        frequencySelect.dataset.cadenceInitialized = 'true';
+
+        weeklyOption = findOptionByWeeks(1);
+        biweeklyOption = findOptionByWeeks(2);
+
+        if (!weeklyOption && !biweeklyOption) {
+          pills.classList.add('is-hidden');
+          if (cadenceNote) cadenceNote.classList.add('is-muted');
+          if (cadenceBlock) cadenceBlock.classList.add('is-hidden');
+          return;
+        }
+
+        attachButton(weeklyButton, weeklyOption);
+        attachButton(biweeklyButton, biweeklyOption);
+
+        if (weeklyOption) {
+          var shouldDefaultToWeekly = !frequencySelect.value || frequencySelect.selectedIndex === 0;
+          if (shouldDefaultToWeekly || frequencySelect.value !== weeklyOption.value) {
+            dispatchNativeChange(frequencySelect, weeklyOption.value);
+          }
+        } else if (biweeklyOption && (!frequencySelect.value || frequencySelect.selectedIndex === 0)) {
+          dispatchNativeChange(frequencySelect, biweeklyOption.value);
+        }
+
+        syncFromSelect();
+        frequencySelect.addEventListener('change', syncFromSelect);
+      }
+
+      var weeklyOption = null;
+      var biweeklyOption = null;
+
+      function waitForPlans(iteration) {
+        iteration = iteration || 0;
+        if (frequencySelect.options.length <= 1 && iteration < 120) {
+          window.requestAnimationFrame(function() { waitForPlans(iteration + 1); });
+          return;
+        }
+        setup();
+      }
+
+      waitForPlans();
+    }
+
+    function handleReady() {
+      initializeCadenceControls();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', handleReady);
+    } else {
+      handleReady();
+    }
+
+    document.addEventListener('shopify:section:load', handleReady);
+  })();
 </script>
 
 <link rel="stylesheet" href="{{ 'cm-recharge.css' | asset_url }}">
