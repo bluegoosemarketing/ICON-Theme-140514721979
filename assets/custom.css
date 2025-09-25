@@ -1658,6 +1658,25 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   margin-top: 2px;
 }
 
+/* Builder-specific refinements */
+body.template-product.template-suffix--cm-recharge .product-price--placeholder {
+  max-width: 100% !important;
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+  border-radius: 16px !important;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
+}
+body.template-product.template-suffix--cm-recharge .product-price--placeholder svg {
+  color: #1f2933 !important;
+}
+body.template-product.template-suffix--cm-recharge .placeholder-main-text {
+  font-size: 1.35rem !important;
+}
+body.template-product.template-suffix--cm-recharge .placeholder-sub-text {
+  font-size: 0.85rem !important;
+  color: #4b5563 !important;
+}
+
 /* ==========================================================================
    COLLECTION HEADER V8.4 - Color override for The Slate & Green Theme
    ========================================================================== */
