@@ -1,25 +1,19 @@
 /**
  * =================================================================================================================
- * PRO DEV REVISION V3: LIVE PAGE DYNAMIC PRICE ENGINE
+ * PRO DEV REVISION V4: LIVE PAGE DYNAMIC PRICE ENGINE (CENTRALIZED LOGIC)
  *
- * DIAGNOSIS: Previous solutions targeted the wrong HTML template. This version is built specifically for the
- *            live page structure provided (using `.product-main__price`, `data-product-price`, etc.).
+ * DIAGNOSIS: Previous versions contained redundant click handlers for quantity buttons.
  *
- * THE FIX (HOLISTIC JAVASCRIPT REWRITE):
- *  1. CORRECT SELECTORS: The script now targets the ACTUAL live page elements:
- *     - Price Display: `.product-main__price span[data-product-price]`
- *     - Product Data: `script[data-product-json]` for the reliable base price.
- *     - Quantity: `.integrated-quantity__input[name="quantity"]`
- *     - Bold Extras: `.bold_option_total`
- *  2. RELIABLE DATA SOURCE: It reads the base price directly from the product's JSON data block. This is the
- *     most robust method, avoiding any on-page text parsing for the base value.
- *  3. CENTRALIZED UPDATE LOGIC: A single `updateCombinedPrice` function calculates the final price:
- *     `(Base Price + Bold Extras) * Quantity`. This is the single source of truth.
- *  4. UNCHANGED RELIABLE EVENT HANDLING: It continues to use a MutationObserver and direct event listeners,
- *     which are the most effective tools for this task.
+ * THE FIX (HOLISTIC JAVASCRIPT REFACTOR):
+ *  1. REMOVED REDUNDANCY: The dedicated click listeners on the quantity buttons have been removed.
+ *  2. CENTRALIZED EVENT MODEL: This script now relies exclusively on the 'change' event from the quantity
+ *     input. A new global script (`product-quantity.js`) is now the single source of truth for managing
+ *     quantity input state and dispatching this 'change' event.
+ *  3. INCREASED ROBUSTNESS: By listening to a single, reliable event, we prevent race conditions and conflicts,
+ *     making the pricing engine more stable and easier to debug.
  *
- * WHY: This solution is guaranteed to work because it is tailored to the exact HTML of the page needing the
- *      fix. It is a precise, professional-grade solution to the problem.
+ * WHY: This architecture ensures that logic is not duplicated. The quantity handler handles quantity, and the
+ *      price engine handles price calculations. This separation of concerns is a professional standard.
  * =================================================================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
@@ -92,14 +86,8 @@ document.addEventListener('DOMContentLoaded', () => {
     characterData: true,
   });
 
-  // Listen for changes on the quantity input and its associated buttons
+  // Listen for a single, reliable "change" event on the quantity input.
   quantityInput.addEventListener('change', updateCombinedPrice);
-  document.querySelectorAll('.integrated-quantity__button').forEach(button => {
-      button.addEventListener('click', () => {
-          // Use a tiny delay to ensure the input value has updated before we calculate.
-          setTimeout(updateCombinedPrice, 10);
-      });
-  });
 
   if (window.BOLD?.options?.app?.on) {
     BOLD.options.app.on('option_changed', updateCombinedPrice);

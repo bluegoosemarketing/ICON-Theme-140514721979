@@ -329,9 +329,7 @@ setInitialPlaceholder() {
     }
     attachListeners() {
       const handleInteraction = () => this.updatePrice();
-      this.elements.quantityContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.integrated-quantity__button')) setTimeout(handleInteraction, 10);
-      });
+      // This now relies on the global product-quantity.js to dispatch the 'change' event.
       this.elements.quantityInput.addEventListener('change', handleInteraction);
       const boldPriceObserver = new MutationObserver(handleInteraction);
       boldPriceObserver.observe(this.elements.boldTotal, { childList: true, subtree: true, characterData: true });
