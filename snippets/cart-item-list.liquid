@@ -189,9 +189,11 @@
                         {%- if name != blank -%}
                             {%- assign qty = rc_bundle_parent_props[qty_key] -%}
                             {%- assign unit = rc_bundle_parent_props[unit_key] -%}
-                            <li class="{{ class_prefix }}__property ingredient-line">
-                              <strong class="ingredient-oz">{{ qty }}{{ unit }}</strong>
-                              <span class="ingredient-name"> {{ name }}</span>
+                            <li class="{{ class_prefix }}__property">
+                              <span class="ingredient-line {{ class_prefix }}__property-value">
+                                <span class="ingredient-qty">{{ qty }}{{ unit }}</span>
+                                <span class="ingredient-name">{{ name }}</span>
+                              </span>
                             </li>
                         {%- endif -%}
                     {%- endfor -%}
@@ -202,9 +204,11 @@
                           {%- assign parts = label | split: 'oz ' -%}
                           {%- assign oz  = parts[0] -%}
                           {%- assign name = parts[1] -%}
-                          <li class="{{ class_prefix }}__property ingredient-line">
-                            <strong class="ingredient-oz">{{ oz }}oz</strong>
-                            <span class="ingredient-name"> {{ name }}</span>
+                          <li class="{{ class_prefix }}__property">
+                            <span class="ingredient-line {{ class_prefix }}__property-value">
+                              <span class="ingredient-qty">{{ oz }}oz</span>
+                              <span class="ingredient-name">{{ name }}</span>
+                            </span>
                           </li>
                         {%- endfor -%}
                       {%- endif -%}
