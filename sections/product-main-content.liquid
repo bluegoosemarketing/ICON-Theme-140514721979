@@ -247,12 +247,13 @@
   document.addEventListener('DOMContentLoaded', () => {
     const sectionEl = document.querySelector('.product-main[data-section-id="{{ section.id }}"]');
     if (!sectionEl) return;
-    
+
     // The DynamicPriceUpdater has been removed from here and is now handled globally
     // by the universal 'bold-combined-price.js' script.
 
     // The AjaxFormHandler remains as it handles the add-to-cart functionality.
     new AjaxFormHandler(sectionEl);
+    new IntegratedQuantityController(sectionEl);
   });
 
   class AjaxFormHandler {
@@ -289,6 +290,57 @@
     revert() {
       this.addButton.classList.remove('is-added');
       this.addButton.disabled = false;
+    }
+  }
+
+  class IntegratedQuantityController {
+    constructor(sectionEl) {
+      this.wrap = sectionEl.querySelector('.integrated-quantity');
+      if (!this.wrap) return;
+
+      this.input = this.wrap.querySelector('.integrated-quantity__input[name="quantity"]');
+      this.text  = this.wrap.querySelector('.integrated-quantity__text');
+      this.minus = this.wrap.querySelector('[name="minus"], [data-qty-minus]');
+      this.plus  = this.wrap.querySelector('[name="plus"], [data-qty-plus]');
+
+      if (!this.input) return;
+
+      this.bindEvents();
+      this.sync();
+    }
+
+    bindEvents() {
+      this.minus?.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.adjust(-1);
+      });
+
+      this.plus?.addEventListener('click', (event) => {
+        event.preventDefault();
+        this.adjust(1);
+      });
+
+      this.input.addEventListener('input', () => this.sync());
+      this.input.addEventListener('change', () => this.sync());
+    }
+
+    adjust(delta) {
+      const currentValue = parseInt(this.input.value, 10) || 1;
+      const nextValue = Math.max(1, currentValue + delta);
+      if (nextValue === currentValue) return;
+
+      this.input.value = nextValue;
+      this.sync();
+    }
+
+    sync() {
+      const value = Math.max(1, parseInt(this.input.value, 10) || 1);
+      this.input.value = value;
+      if (this.text) {
+        this.text.textContent = value;
+      }
+
+      this.input.dispatchEvent(new Event('change', { bubbles: true }));
     }
   }
 </script>
