@@ -535,60 +535,6 @@ document.addEventListener('DOMContentLoaded', () => {
   })("", "TriplePixel", localStorage);
   /* << TriplePixel :: end */
 </script>
-<script>
-/**
- * Delegated quantity handler:
- * - Works for any .integrated-quantity rendered now or later
- * - Coexists with product-card.js, Recharge, etc.
- */
-(function () {
-  if (window.__ICON_QTY_DELEGATE) return;
-  window.__ICON_QTY_DELEGATE = true;
-
-  // Helper: find closest quantity wrapper from a click target
-  const closestQty = (el) => el && el.closest && el.closest('.integrated-quantity');
-
-  // Sync input + label + notify listeners (e.g., price engine)
-  const sync = (wrap) => {
-    const input = wrap.querySelector('.integrated-quantity__input[name="quantity"]');
-    const label = wrap.querySelector('.integrated-quantity__text');
-    if (!input) return;
-    const v = Math.max(1, parseInt(input.value, 10) || 1);
-    input.value = v;
-    if (label) label.textContent = v;
-    input.dispatchEvent(new Event('change', { bubbles: true }));
-  };
-
-  // Clicks on + / − (delegated)
-  document.addEventListener('click', (e) => {
-    const isPlus  = e.target.closest && e.target.closest('[name="plus"], [data-qty-plus]');
-    const isMinus = e.target.closest && e.target.closest('[name="minus"], [data-qty-minus]');
-    if (!isPlus && !isMinus) return;
-
-    const wrap = closestQty(e.target);
-    if (!wrap) return;
-
-    const input = wrap.querySelector('.integrated-quantity__input[name="quantity"]');
-    if (!input) return;
-
-    const current = parseInt(input.value, 10) || 1;
-    input.value = isPlus ? current + 1 : Math.max(1, current - 1);
-    sync(wrap);
-  });
-
-  // When user types directly in the number box
-  document.addEventListener('input', (e) => {
-    if (!e.target.matches('.integrated-quantity__input[name="quantity"]')) return;
-    const wrap = closestQty(e.target);
-    if (wrap) sync(wrap);
-  });
-
-  // Initialize any existing qty blocks on first load
-  document.querySelectorAll('.integrated-quantity').forEach(sync);
-})();
-</script>
-
-{{ 'product-quantity.js' | asset_url | script_tag }}
 
 </body>
 
