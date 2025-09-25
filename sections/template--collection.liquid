@@ -706,19 +706,21 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  const setHeaderOffset = () => {
+  const updateLayoutOffsets = () => {
     const header =
       document.querySelector('#shopify-section-header') ||
       document.querySelector('#shopify-section-header-collections');
-    if (header) {
-      document.documentElement.style.setProperty(
-        '--header-offset',
-        `${header.getBoundingClientRect().height}px`
-      );
-    }
+    const headerHeight = header ? `${header.getBoundingClientRect().height}px` : '0px';
+    document.documentElement.style.setProperty('--header-offset', headerHeight);
+
+    const funnelHeader = document.querySelector('.collection-header-section-v8');
+    const funnelHeight = funnelHeader ? `${funnelHeader.getBoundingClientRect().height}px` : '0px';
+    document.documentElement.style.setProperty('--collection-funnel-header-height', funnelHeight);
   };
-  setHeaderOffset();
-  window.addEventListener('resize', setHeaderOffset);
+  updateLayoutOffsets();
+  window.addEventListener('resize', updateLayoutOffsets);
+  document.addEventListener('shopify:section:load', updateLayoutOffsets);
+  document.addEventListener('shopify:section:reorder', updateLayoutOffsets);
 });
 </script>
 
