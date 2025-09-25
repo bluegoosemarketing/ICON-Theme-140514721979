@@ -19,34 +19,43 @@
  */
 document.addEventListener('DOMContentLoaded', () => {
   // --- 1. Element Selection ---
-  // We target elements within the main product container to avoid conflicts.
-  const productMainContainer = document.querySelector('.product-main');
-  if (!productMainContainer) return;
+  // Support both the modern product-main layout and the legacy custom-meals template.
+  const priceDisplayElement =
+    document.querySelector('.product-main__price span[data-product-price]') ||
+    document.querySelector('#combined-price-display');
 
-  const priceDisplayElement = productMainContainer.querySelector('.product-main__price span[data-product-price]');
-  const quantityInput = productMainContainer.querySelector('.integrated-quantity__input[name="quantity"]');
-  const productJsonScript = document.querySelector('script[data-product-json]');
-
-  // This element is now OPTIONAL.
-  const boldTotalContainer = productMainContainer.querySelector('.bold_option_total');
-
-  // Critical elements must exist to proceed.
-  if (!priceDisplayElement || !quantityInput || !productJsonScript) {
-    console.warn('Universal Price Engine: Missing critical elements (price, quantity, or product JSON). Aborting.');
+  if (!priceDisplayElement) {
+    console.warn('Universal Price Engine: No price display element found. Aborting.');
     return;
   }
 
-  // --- 2. Data Initialization ---
-  let basePriceInCents = 0;
-  try {
-    const productData = JSON.parse(productJsonScript.textContent);
-    basePriceInCents = productData?.selected_or_first_available_variant?.price || productData?.variants?.[0]?.price || 0;
-  } catch (e) {
-    console.error('Universal Price Engine: Failed to parse product JSON.', e);
-    return; // Exit if we can't get a base price.
+  const productContext =
+    priceDisplayElement.closest('.product-main') ||
+    priceDisplayElement.closest('#product-box') ||
+    priceDisplayElement.closest('form[action^="/cart/add"]') ||
+    priceDisplayElement.closest('form') ||
+    document;
+
+  const quantityInput =
+    productContext.querySelector('.integrated-quantity__input[name="quantity"]') ||
+    productContext.querySelector('input[name="quantity"]');
+
+  if (!quantityInput) {
+    console.warn('Universal Price Engine: Quantity input not found. Aborting.');
+    return;
   }
 
-  // --- 3. Helper Functions (unchanged) ---
+  // Bold totals may or may not exist depending on the template/app usage.
+  const boldTotalContainer = productContext.querySelector('.bold_option_total');
+
+  // --- 2. Data Initialization ---
+  const basePriceContainer = productContext.querySelector('#base-price-container');
+  const productJsonScript =
+    productContext.querySelector('script[data-product-json]') ||
+    document.querySelector('script[data-product-json]') ||
+    productContext.querySelector('.product-json') ||
+    document.querySelector('.product-json');
+
   const parseMoneyToCents = (text) => {
     if (typeof text !== 'string') return 0;
     const sanitized = text.replace(/[^0-9.]/g, '');
@@ -54,6 +63,32 @@ document.addEventListener('DOMContentLoaded', () => {
     return isNaN(asFloat) ? 0 : Math.round(asFloat * 100);
   };
 
+  let basePriceInCents = 0;
+
+  if (basePriceContainer?.dataset?.basePrice) {
+    basePriceInCents = parseInt(basePriceContainer.dataset.basePrice, 10) || 0;
+  } else if (productJsonScript) {
+    try {
+      const productData = JSON.parse(productJsonScript.textContent);
+      basePriceInCents =
+        productData?.selected_or_first_available_variant?.price ||
+        productData?.variants?.[0]?.price ||
+        0;
+    } catch (e) {
+      console.error('Universal Price Engine: Failed to parse product JSON.', e);
+    }
+  }
+
+  if (!basePriceInCents) {
+    basePriceInCents = parseMoneyToCents(priceDisplayElement.textContent);
+  }
+
+  if (!basePriceInCents) {
+    console.warn('Universal Price Engine: Unable to determine base price. Aborting.');
+    return;
+  }
+
+  // --- 3. Helper Functions (unchanged) ---
   const formatMoney = (cents) => {
     if (window.Shopify && typeof window.Shopify.formatMoney === 'function') {
       try {
@@ -77,12 +112,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const quantity = parseInt(quantityInput.value, 10) || 1;
     const finalTotalInCents = (basePriceInCents + extrasInCents) * quantity;
 
-    priceDisplayElement.textContent = formatMoney(finalTotalInCents);
+    if (priceDisplayElement.tagName === 'INPUT') {
+      priceDisplayElement.value = formatMoney(finalTotalInCents);
+    } else {
+      priceDisplayElement.textContent = formatMoney(finalTotalInCents);
+    }
   };
 
   // --- 5. Event Listeners & Observers ---
   // Listen for the 'change' event dispatched by our robust delegated quantity script.
   quantityInput.addEventListener('change', updateCombinedPrice);
+  quantityInput.addEventListener('input', updateCombinedPrice);
 
   // If the Bold container exists, observe it for changes.
   if (boldTotalContainer) {
