@@ -494,15 +494,15 @@ document.addEventListener('DOMContentLoaded', function() {
     'heat-none': { key: 'filter.p.m.meal.heat', value: 'None' },
     'heat-medium': { key: 'filter.p.m.meal.heat', value: 'Medium' },
     'heat-hot': { key: 'filter.p.m.meal.heat', value: 'Hot' },
-    'keto': { key: 'filter.p.tag', values: ['Diet_Keto', 'Diet-Keto', 'Diet Keto', 'Keto'] },
-    'paleo': { key: 'filter.p.tag', values: ['Diet_Paleo', 'Diet-Paleo', 'Diet Paleo', 'Paleo'] },
-    'vegan': { key: 'filter.p.tag', values: ['Diet_Vegan', 'Diet-Vegan', 'Diet Vegan', 'Vegan'] },
-    'vegetarian': { key: 'filter.p.tag', values: ['Diet_Vegetarian', 'Diet-Vegetarian', 'Diet Vegetarian', 'Vegetarian'] },
+    'keto': { key: 'filter.p.tag', value: 'Diet_Keto', values: ['Diet-Keto', 'Diet Keto', 'Keto'] },
+    'paleo': { key: 'filter.p.tag', value: 'Diet_Paleo', values: ['Diet-Paleo', 'Diet Paleo', 'Paleo'] },
+    'vegan': { key: 'filter.p.tag', value: 'Diet_Vegan', values: ['Diet-Vegan', 'Diet Vegan', 'Vegan'] },
+    'vegetarian': { key: 'filter.p.tag', value: 'Diet_Vegetarian', values: ['Diet-Vegetarian', 'Diet Vegetarian', 'Vegetarian'] },
     'high-protein': { key: 'filter.p.m.diet.high_protein', value: '1' },
     'low-calorie': { key: 'filter.p.m.diet.low_calorie', value: '1' },
     'low-fat': { key: 'filter.p.m.diet.low_fat', value: '1' },
-    'dairy-free': { key: 'filter.p.tag', values: ['Diet_Dairy-Free', 'Diet_Dairy_Free', 'Diet Dairy-Free', 'Diet Dairy Free', 'Dairy-Free', 'Dairy_Free', 'Dairy Free'] },
-    'gluten-free': { key: 'filter.p.tag', values: ['Diet_Gluten-Free', 'Diet_Gluten_Free', 'Diet Gluten-Free', 'Diet Gluten Free', 'Gluten-Free', 'Gluten_Free', 'Gluten Free'] },
+    'dairy-free': { key: 'filter.p.tag', value: 'Diet_Dairy-Free', values: ['Diet_Dairy_Free', 'Diet Dairy-Free', 'Diet Dairy Free', 'Dairy-Free', 'Dairy_Free', 'Dairy Free'] },
+    'gluten-free': { key: 'filter.p.tag', value: 'Diet_Gluten-Free', values: ['Diet_Gluten_Free', 'Diet Gluten-Free', 'Diet Gluten Free', 'Gluten-Free', 'Gluten_Free', 'Gluten Free'] },
     'nut-free': { key: 'filter.p.m.diet.nutfree', value: '1' },
     'breakfast': { key: 'filter.p.m.meal.meal', value: 'Breakfast' },
     'lunch-dinner': { key: 'filter.p.m.meal.meal', value: 'Lunch/Dinner' },
@@ -512,14 +512,17 @@ document.addEventListener('DOMContentLoaded', function() {
     'large': { key: 'filter.p.m.meal.size', value: 'Large' }
   };
 
-  const getFilterValues = (filter) => {
+  const getFilterMatchValues = (filter) => {
     if (!filter) return [];
-    const values = Array.isArray(filter.values)
-      ? filter.values
-      : filter.value
-        ? [filter.value]
-        : [];
-    return [...new Set(values.filter(Boolean))];
+    const values = [filter.value, ...(Array.isArray(filter.values) ? filter.values : [])].filter(Boolean);
+    return [...new Set(values)];
+  };
+
+  const getFilterCanonicalValues = (filter) => {
+    if (!filter) return [];
+    if (filter.value) return [filter.value];
+    if (Array.isArray(filter.values) && filter.values.length) return [filter.values[0]];
+    return [];
   };
   
   function applyActiveFilterStateToButtons() {
@@ -553,7 +556,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const filter = filterMap[id];
           if (!filter) return;
           const selectedValues = currentParams.getAll(filter.key);
-          const filterValues = getFilterValues(filter);
+          const filterValues = getFilterMatchValues(filter);
           if (filterValues.some(value => selectedValues.includes(value))) {
             link.classList.add('is-active-filter');
           }
@@ -569,10 +572,12 @@ document.addEventListener('DOMContentLoaded', function() {
       if (forceClose || isOpen) {
         desktopPanel.classList.remove('is-open');
         desktopToggle.setAttribute('aria-expanded', 'false');
+        desktopPanel.setAttribute('aria-hidden', 'true');
       } else {
         buildDesktopFilters();
         desktopPanel.classList.add('is-open');
         desktopToggle.setAttribute('aria-expanded', 'true');
+        desktopPanel.setAttribute('aria-hidden', 'false');
       }
     }
     desktopToggle.addEventListener('click', () => toggleDesktopPanel());
@@ -603,7 +608,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const id = link.dataset.filter;
         const filter = filterMap[id];
         if (!filter) return;
-        getFilterValues(filter).forEach(value => newParams.append(filter.key, value));
+        getFilterCanonicalValues(filter).forEach(value => newParams.append(filter.key, value));
       });
       window.location.href = `${window.location.pathname}?${newParams.toString()}`;
     });
@@ -650,7 +655,7 @@ document.addEventListener('DOMContentLoaded', function() {
           const filter = filterMap[id];
           if (!filter) return;
           const selectedValues = currentParams.getAll(filter.key);
-          const filterValues = getFilterValues(filter);
+          const filterValues = getFilterMatchValues(filter);
           if (filterValues.some(value => selectedValues.includes(value))) {
             link.classList.add('is-active-filter');
           }
@@ -686,7 +691,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const id = link.dataset.filter;
         const filter = filterMap[id];
         if (!filter) return;
-        getFilterValues(filter).forEach(value => newParams.append(filter.key, value));
+        getFilterCanonicalValues(filter).forEach(value => newParams.append(filter.key, value));
       });
       const newUrl = `${window.location.pathname}?${newParams.toString()}`;
       if (`?${newParams.toString()}` !== window.location.search) {
