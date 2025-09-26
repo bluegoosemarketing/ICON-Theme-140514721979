@@ -181,9 +181,9 @@
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/tile-boxes.png",
-            "link": "shopify://pages/meal-boxes",
+            "link": "shopify://pages/mealplans",
             "title": "Meal Plans",
-            "description": "<p><a href=\"/pages/meal-boxes\" title=\"Meal Boxes\">Shop Now →</a></p>"
+            "description": "<p><a href=\"/pages/mealplans\" title=\"Meal Plans\">Shop Now →</a></p>"
           }
         },
         "16572160171dcb979c-2": {

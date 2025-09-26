@@ -56,8 +56,9 @@
                                 <nav>
                                     <ul class="{% if block.settings.menu_title == blank %}footer__block-heading-blank{% endif %}">
                                         {% for link in linklists[footer_linklist].links %}
+                                            {% assign normalized_footer_link = link.url | replace: 'contact-us', 'contact' %}
                                             <li {% if link.object.tags and link.object.tags.size > 0 %} class="children"{% endif %}>
-                                                <a href="{{link.url}}">{{link.title}}</a>
+                                                <a href="{{ normalized_footer_link }}">{{link.title}}</a>
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -79,8 +80,9 @@
                                     <nav>
                                         <ul>
                                             {% for link in linklists[footer_linklist].links %}
+                                                {% assign normalized_footer_link = link.url | replace: 'contact-us', 'contact' %}
                                                 <li {% if link.object.tags and link.object.tags.size > 0 %} class="children"{% endif %}>
-                                                    <a href="{{link.url}}">{{link.title}}</a>
+                                                    <a href="{{ normalized_footer_link }}">{{link.title}}</a>
                                                 </li>
                                             {% endfor %}
                                         </ul>
