@@ -3901,6 +3901,62 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 .ingredient-name { font-weight: 500; }
 
 /* ==========================================================================
+   Legacy Custom Meals Cart Sidebar Alignment Fix (V1)
+   - Targeted to the legacy custom meals product template (body class contains
+     `product-custom-meals`). Ensures the ingredient list in the cart sidebar
+     mirrors the spacing and typography used on modern collection/cart views.
+   ========================================================================== */
+body[class*='product-custom-meals'] .cart-sidebar__properties,
+body[class*='product-custom-meals'] .cart-sidebar__properties--custom,
+body[class*='product-custom-meals'] .cart-drawer__properties,
+body[class*='product-custom-meals'] .cart-drawer__properties--custom {
+  margin-top: 0.5rem !important;
+  padding: 0 !important;
+  list-style: none !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0.25rem !important;
+  align-items: flex-start !important;
+}
+
+body[class*='product-custom-meals'] .cart-sidebar__property,
+body[class*='product-custom-meals'] .cart-drawer__property {
+  font-size: 0.875rem !important;
+  line-height: 1.3 !important;
+  margin: 0 0 5px !important;
+  color: #495057 !important;
+}
+
+body[class*='product-custom-meals'] .cart-sidebar__property:last-child,
+body[class*='product-custom-meals'] .cart-drawer__property:last-child {
+  margin-bottom: 0 !important;
+}
+
+body[class*='product-custom-meals'] .cart-sidebar__property .ingredient-line,
+body[class*='product-custom-meals'] .cart-drawer__property .ingredient-line {
+  display: inline-flex !important;
+  align-items: baseline !important;
+  gap: 0.35rem !important;
+  flex-wrap: nowrap !important;
+}
+
+body[class*='product-custom-meals'] .cart-sidebar__property .ingredient-qty,
+body[class*='product-custom-meals'] .cart-drawer__property .ingredient-qty {
+  min-width: 2.5ch;
+  text-align: right;
+  display: inline-block;
+  font-size: 0.875rem !important;
+  color: #121212 !important;
+  font-variant-numeric: tabular-nums;
+}
+
+body[class*='product-custom-meals'] .cart-sidebar__property .ingredient-name,
+body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
+  font-weight: 500 !important;
+  color: #495057 !important;
+}
+
+/* ==========================================================================
    BOGO PROMO BANNER V8 (GRADIENT BORDER UI)
    ========================================================================== */
 
