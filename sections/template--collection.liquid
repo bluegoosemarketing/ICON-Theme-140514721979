@@ -490,19 +490,60 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
+  function getPathTags() {
+    const parts = location.pathname.split('/').filter(Boolean);
+    const idx = parts.indexOf('collections');
+    if (idx >= 0 && parts[idx + 2]) {
+      return parts[idx + 2].split('+').filter(Boolean);
+    }
+    return [];
+  }
+
+  function buildTaggedPath(newTags, params = new URLSearchParams(location.search)) {
+    const parts = location.pathname.split('/').filter(Boolean);
+    const idx = parts.indexOf('collections');
+    const handle = idx >= 0 ? parts[idx + 1] : 'all';
+    const tagSegment = newTags.length ? '/' + newTags.join('+') : '';
+    const queryString = params.toString();
+    return `/collections/${handle}${tagSegment}${queryString ? `?${queryString}` : ''}`;
+  }
+
+  function getPreservedParams() {
+    const preserved = new URLSearchParams();
+    const current = new URLSearchParams(window.location.search);
+    current.forEach((value, key) => {
+      if (!key.startsWith('filter.')) {
+        preserved.append(key, value);
+      }
+    });
+    return preserved;
+  }
+
+  function applyDietTag(tag) {
+    const tags = new Set(getPathTags());
+    if (tags.has(tag)) {
+      tags.delete(tag);
+    } else {
+      tags.add(tag);
+    }
+    const params = getPreservedParams();
+    location.href = buildTaggedPath([...tags], params);
+  }
+  window.applyDietTag = applyDietTag;
+
   const filterMap = {
     'heat-none': { key: 'filter.p.m.meal.heat', value: 'None' },
     'heat-medium': { key: 'filter.p.m.meal.heat', value: 'Medium' },
     'heat-hot': { key: 'filter.p.m.meal.heat', value: 'Hot' },
-    'keto': { key: 'filter.p.tag', value: 'Diet_Keto', values: ['Diet-Keto', 'Diet Keto', 'Keto'] },
-    'paleo': { key: 'filter.p.tag', value: 'Diet_Paleo', values: ['Diet-Paleo', 'Diet Paleo', 'Paleo'] },
-    'vegan': { key: 'filter.p.tag', value: 'Diet_Vegan', values: ['Diet-Vegan', 'Diet Vegan', 'Vegan'] },
-    'vegetarian': { key: 'filter.p.tag', value: 'Diet_Vegetarian', values: ['Diet-Vegetarian', 'Diet Vegetarian', 'Vegetarian'] },
+    'keto': { type: 'tag-path', pathTag: 'Diet_Keto', values: ['Diet-Keto', 'Diet Keto', 'Keto'] },
+    'paleo': { type: 'tag-path', pathTag: 'Diet_Paleo', values: ['Diet-Paleo', 'Diet Paleo', 'Paleo'] },
+    'vegan': { type: 'tag-path', pathTag: 'Diet_Vegan', values: ['Diet-Vegan', 'Diet Vegan', 'Vegan'] },
+    'vegetarian': { type: 'tag-path', pathTag: 'Diet_Vegetarian', values: ['Diet-Vegetarian', 'Diet Vegetarian', 'Vegetarian'] },
     'high-protein': { key: 'filter.p.m.diet.high_protein', value: '1' },
     'low-calorie': { key: 'filter.p.m.diet.low_calorie', value: '1' },
     'low-fat': { key: 'filter.p.m.diet.low_fat', value: '1' },
-    'dairy-free': { key: 'filter.p.tag', value: 'Diet_Dairy-Free', values: ['Diet_Dairy_Free', 'Diet Dairy-Free', 'Diet Dairy Free', 'Dairy-Free', 'Dairy_Free', 'Dairy Free'] },
-    'gluten-free': { key: 'filter.p.tag', value: 'Diet_Gluten-Free', values: ['Diet_Gluten_Free', 'Diet Gluten-Free', 'Diet Gluten Free', 'Gluten-Free', 'Gluten_Free', 'Gluten Free'] },
+    'dairy-free': { type: 'tag-path', pathTag: 'Diet_Dairy-Free', values: ['Diet_Dairy_Free', 'Diet Dairy-Free', 'Diet Dairy Free', 'Dairy-Free', 'Dairy_Free', 'Dairy Free'] },
+    'gluten-free': { type: 'tag-path', pathTag: 'Diet_Gluten-Free', values: ['Diet_Gluten_Free', 'Diet Gluten-Free', 'Diet Gluten Free', 'Gluten-Free', 'Gluten_Free', 'Gluten Free'] },
     'nut-free': { key: 'filter.p.m.diet.nutfree', value: '1' },
     'breakfast': { key: 'filter.p.m.meal.meal', value: 'Breakfast' },
     'lunch-dinner': { key: 'filter.p.m.meal.meal', value: 'Lunch/Dinner' },
@@ -514,19 +555,26 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const getFilterMatchValues = (filter) => {
     if (!filter) return [];
+    if (filter.type === 'tag-path') {
+      const values = [filter.pathTag, ...(Array.isArray(filter.values) ? filter.values : [])].filter(Boolean);
+      return [...new Set(values)];
+    }
     const values = [filter.value, ...(Array.isArray(filter.values) ? filter.values : [])].filter(Boolean);
     return [...new Set(values)];
   };
 
   const getFilterCanonicalValues = (filter) => {
     if (!filter) return [];
+    if (filter.type === 'tag-path') return [];
     if (filter.value) return [filter.value];
     if (Array.isArray(filter.values) && filter.values.length) return [filter.values[0]];
     return [];
   };
-  
+
   function applyActiveFilterStateToButtons() {
-    const isActive = window.location.search.includes('filter.');
+    const hasQueryFilters = window.location.search.includes('filter.');
+    const hasPathTags = getPathTags().length > 0;
+    const isActive = hasQueryFilters || hasPathTags;
     document.querySelectorAll('.filter-toggle-btn-base').forEach(btn => btn.classList.toggle('is-active-filter', isActive));
     document.querySelectorAll('.mobile-controls__action-item').forEach(btn => btn.classList.toggle('is-active-filter', isActive));
   }
@@ -543,6 +591,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildDesktopFilters() {
       const sourceNav = document.querySelector('.collection-filter-nav--source');
       const currentParams = new URLSearchParams(window.location.search);
+      const currentTags = getPathTags();
       desktopContent.innerHTML = '';
       sourceNav.querySelectorAll('details').forEach(detail => {
         const groupContainer = document.createElement('div');
@@ -555,7 +604,9 @@ document.addEventListener('DOMContentLoaded', function() {
           const id = link.dataset.filter;
           const filter = filterMap[id];
           if (!filter) return;
-          const selectedValues = currentParams.getAll(filter.key);
+          const selectedValues = filter.type === 'tag-path'
+            ? currentTags
+            : (filter.key ? currentParams.getAll(filter.key) : []);
           const filterValues = getFilterMatchValues(filter);
           if (filterValues.some(value => selectedValues.includes(value))) {
             link.classList.add('is-active-filter');
@@ -604,17 +655,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
     desktopApplyBtn.addEventListener('click', () => {
       const newParams = new URLSearchParams();
+      const selectedTags = new Set();
       desktopPanel.querySelectorAll('a.is-active-filter').forEach(link => {
         const id = link.dataset.filter;
         const filter = filterMap[id];
         if (!filter) return;
+        if (filter.type === 'tag-path') {
+          if (filter.pathTag) selectedTags.add(filter.pathTag);
+          return;
+        }
+        if (!filter.key) return;
         getFilterCanonicalValues(filter).forEach(value => newParams.append(filter.key, value));
       });
-      window.location.href = `${window.location.pathname}?${newParams.toString()}`;
+      const finalParams = getPreservedParams();
+      newParams.forEach((value, key) => finalParams.append(key, value));
+      const targetUrl = buildTaggedPath([...selectedTags], finalParams);
+      window.location.href = targetUrl;
     });
 
     desktopClearBtn.addEventListener('click', () => {
-      window.location.href = window.location.pathname;
+      const params = getPreservedParams();
+      window.location.href = buildTaggedPath([], params);
     });
 
     document.addEventListener('click', e => {
@@ -642,6 +703,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function buildMobileFilters() {
       const sourceNav = document.querySelector('.collection-filter-nav--source');
       const currentParams = new URLSearchParams(window.location.search);
+      const currentTags = getPathTags();
       mobileDrawerContent.innerHTML = '';
       sourceNav.querySelectorAll('details').forEach(detail => {
         const groupContainer = document.createElement('div');
@@ -654,7 +716,9 @@ document.addEventListener('DOMContentLoaded', function() {
           const id = link.dataset.filter;
           const filter = filterMap[id];
           if (!filter) return;
-          const selectedValues = currentParams.getAll(filter.key);
+          const selectedValues = filter.type === 'tag-path'
+            ? currentTags
+            : (filter.key ? currentParams.getAll(filter.key) : []);
           const filterValues = getFilterMatchValues(filter);
           if (filterValues.some(value => selectedValues.includes(value))) {
             link.classList.add('is-active-filter');
@@ -687,15 +751,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     mobileDrawerApplyBtn.addEventListener('click', () => {
       const newParams = new URLSearchParams();
+      const selectedTags = new Set();
       mobileDrawer.querySelectorAll('a.is-active-filter').forEach(link => {
         const id = link.dataset.filter;
         const filter = filterMap[id];
         if (!filter) return;
+        if (filter.type === 'tag-path') {
+          if (filter.pathTag) selectedTags.add(filter.pathTag);
+          return;
+        }
+        if (!filter.key) return;
         getFilterCanonicalValues(filter).forEach(value => newParams.append(filter.key, value));
       });
-      const newUrl = `${window.location.pathname}?${newParams.toString()}`;
-      if (`?${newParams.toString()}` !== window.location.search) {
-        window.location.href = newUrl;
+      const finalParams = getPreservedParams();
+      newParams.forEach((value, key) => finalParams.append(key, value));
+      const targetUrl = buildTaggedPath([...selectedTags], finalParams);
+      const currentUrl = `${window.location.pathname}${window.location.search}`;
+      if (targetUrl !== currentUrl) {
+        window.location.href = targetUrl;
       } else {
         closeMobileDrawer();
       }
