@@ -51,12 +51,28 @@
         <h3 class="product-card__title">{{ liquidObject.title }}</h3>
       </a>
       
+      {%- assign diet_keto_value = liquidObject.metafields.diet.keto | append: '' | downcase -%}
+      {%- assign diet_gluten_free_value = liquidObject.metafields.diet['gluten-free'] | default: liquidObject.metafields.diet['gluten_free'] | append: '' | downcase -%}
+      {%- assign diet_dairy_free_value = liquidObject.metafields.diet['dairy-free'] | default: liquidObject.metafields.diet['dairy_free'] | append: '' | downcase -%}
+      {%- assign diet_vegetarian_value = liquidObject.metafields.diet.vegetarian | append: '' | downcase -%}
+      {%- assign diet_paleo_value = liquidObject.metafields.diet.paleo | append: '' | downcase -%}
+
       {%- capture diet_tags_html -%}
-        {%- if liquidObject.metafields.diet.keto == true -%}<span class="diet-tag" data-tag="keto">Keto</span>{%- endif -%}
-        {%- if liquidObject.metafields.diet['gluten-free'] == true -%}<span class="diet-tag" data-tag="gluten-free">Gluten-Free</span>{%- endif -%}
-        {%- if liquidObject.metafields.diet['dairy-free'] == true -%}<span class="diet-tag" data-tag="dairy-free">Dairy-Free</span>{%- endif -%}
-        {%- if liquidObject.metafields.diet.vegetarian == true -%}<span class="diet-tag" data-tag="vegetarian">Vegetarian</span>{%- endif -%}
-        {%- if liquidObject.metafields.diet.paleo == true -%}<span class="diet-tag" data-tag="paleo">Paleo</span>{%- endif -%}
+        {%- if liquidObject.metafields.diet.keto == true or diet_keto_value == 'true' or diet_keto_value == '1' or diet_keto_value == 'yes' -%}
+          <span class="diet-tag" data-tag="keto">Keto</span>
+        {%- endif -%}
+        {%- if liquidObject.metafields.diet['gluten-free'] == true or diet_gluten_free_value == 'true' or diet_gluten_free_value == '1' or diet_gluten_free_value == 'yes' -%}
+          <span class="diet-tag" data-tag="gluten-free">Gluten-Free</span>
+        {%- endif -%}
+        {%- if liquidObject.metafields.diet['dairy-free'] == true or diet_dairy_free_value == 'true' or diet_dairy_free_value == '1' or diet_dairy_free_value == 'yes' -%}
+          <span class="diet-tag" data-tag="dairy-free">Dairy-Free</span>
+        {%- endif -%}
+        {%- if liquidObject.metafields.diet.vegetarian == true or diet_vegetarian_value == 'true' or diet_vegetarian_value == '1' or diet_vegetarian_value == 'yes' -%}
+          <span class="diet-tag" data-tag="vegetarian">Vegetarian</span>
+        {%- endif -%}
+        {%- if liquidObject.metafields.diet.paleo == true or diet_paleo_value == 'true' or diet_paleo_value == '1' or diet_paleo_value == 'yes' -%}
+          <span class="diet-tag" data-tag="paleo">Paleo</span>
+        {%- endif -%}
       {%- endcapture -%}
       
       {%- if diet_tags_html != blank -%}
