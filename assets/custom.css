@@ -809,6 +809,19 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   border-radius: 0 !important; display: flex !important; flex-direction: column !important;
   height: 100% !important; min-height: 100% !important; overflow: hidden !important; flex: 1 1 auto !important;
 }
+.cart-sidebar__content {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+}
+.cart-sidebar__body {
+  display: flex !important;
+  flex-direction: column !important;
+  flex: 1 1 auto !important;
+  min-height: 0 !important;
+  -webkit-overflow-scrolling: touch;
+}
 .cart-sidebar__header {
   padding: 1.25rem 1.5rem !important; border-bottom: 1px solid #f0f0f0 !important; flex-shrink: 0;
   background: linear-gradient(to bottom, var(--brand-subtle-bg-start), var(--brand-subtle-bg-end)) !important;
@@ -819,7 +832,7 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   font-size: 1.2rem !important; font-weight: 700 !important; line-height: 1.2 !important;
   margin: 0 !important; color: var(--brand-text) !important;
 }
-.cart-drawer__body, .cart-sidebar__content {
+.cart-drawer__body, .cart-sidebar__body {
   flex-grow: 1 !important; flex-shrink: 1 !important; min-height: 0 !important;
   overflow-y: auto !important; overflow-x: hidden !important; padding: 0 !important;
 }
@@ -827,13 +840,13 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   overflow-y: scroll !important;
   -webkit-overflow-scrolling: touch;
 }
-.cart-drawer__body::-webkit-scrollbar, .cart-sidebar__content::-webkit-scrollbar { width: 8px !important; }
-.cart-drawer__body::-webkit-scrollbar-track, .cart-sidebar__content::-webkit-scrollbar-track { background: transparent !important; }
-.cart-drawer__body::-webkit-scrollbar-thumb, .cart-sidebar__content::-webkit-scrollbar-thumb {
+.cart-drawer__body::-webkit-scrollbar, .cart-sidebar__body::-webkit-scrollbar { width: 8px !important; }
+.cart-drawer__body::-webkit-scrollbar-track, .cart-sidebar__body::-webkit-scrollbar-track { background: transparent !important; }
+.cart-drawer__body::-webkit-scrollbar-thumb, .cart-sidebar__body::-webkit-scrollbar-thumb {
   background-color: #ced4da !important; border-radius: 4px !important; border: 2px solid #fff !important;
   background-clip: content-box !important;
 }
-.cart-drawer__body::-webkit-scrollbar-thumb:hover, .cart-sidebar__content::-webkit-scrollbar-thumb:hover { background-color: #adb5bd !important; }
+.cart-drawer__body::-webkit-scrollbar-thumb:hover, .cart-sidebar__body::-webkit-scrollbar-thumb:hover { background-color: #adb5bd !important; }
 .cart-drawer__items, .cart-sidebar__items { list-style: none !important; margin: 0 !important; padding: 0 !important; }
 
 .cart-drawer__item, .cart-sidebar__item {

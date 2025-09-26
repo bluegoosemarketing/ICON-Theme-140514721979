@@ -153,16 +153,18 @@
       <h2 class="cart-sidebar__title">{{ 'cart.general.title' | t }}</h2>
     </div>
     <div class="cart-sidebar__content">
-      {%- if cart.item_count > 0 -%}
-        <div class="cart-progress cart-progress--green">
-          <p class="cart-progress__text" aria-live="polite">{{ progress_message | strip }}</p>
-          <div class="cart-progress__bar" role="progressbar" aria-label="Meal progress toward order minimum" aria-valuenow="{{ progress_current }}" aria-valuemin="0" aria-valuemax="{{ progress_target }}" aria-valuetext="{{ progress_current }} of {{ progress_target }} meals">
-            <div class="cart-progress__bar-inner" style="width: {{ progress_percentage }}%;"></div>
+      <div class="cart-sidebar__body">
+        {%- if cart.item_count > 0 -%}
+          <div class="cart-progress cart-progress--green">
+            <p class="cart-progress__text" aria-live="polite">{{ progress_message | strip }}</p>
+            <div class="cart-progress__bar" role="progressbar" aria-label="Meal progress toward order minimum" aria-valuenow="{{ progress_current }}" aria-valuemin="0" aria-valuemax="{{ progress_target }}" aria-valuetext="{{ progress_current }} of {{ progress_target }} meals">
+              <div class="cart-progress__bar-inner" style="width: {{ progress_percentage }}%;"></div>
+            </div>
           </div>
-        </div>
-      {%- endif -%}
+        {%- endif -%}
 
-      {% render 'cart-item-list', context: 'sidebar' %}
+        {% render 'cart-item-list', context: 'sidebar' %}
+      </div>
 
       {% if cart.item_count > 0 %}
         <div class="cart-sidebar__footer">
