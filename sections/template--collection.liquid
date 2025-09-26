@@ -494,15 +494,15 @@ document.addEventListener('DOMContentLoaded', function() {
     'heat-none': { key: 'filter.p.m.meal.heat', value: 'None' },
     'heat-medium': { key: 'filter.p.m.meal.heat', value: 'Medium' },
     'heat-hot': { key: 'filter.p.m.meal.heat', value: 'Hot' },
-    'keto': { key: 'filter.p.tag', value: 'Diet_Keto' },
-    'paleo': { key: 'filter.p.tag', value: 'Diet_Paleo' },
-    'vegan': { key: 'filter.p.tag', value: 'Diet_Vegan' },
-    'vegetarian': { key: 'filter.p.tag', value: 'Diet_Vegetarian' },
+    'keto': { key: 'filter.p.tag', values: ['Diet_Keto', 'Diet-Keto', 'Diet Keto', 'Keto'] },
+    'paleo': { key: 'filter.p.tag', values: ['Diet_Paleo', 'Diet-Paleo', 'Diet Paleo', 'Paleo'] },
+    'vegan': { key: 'filter.p.tag', values: ['Diet_Vegan', 'Diet-Vegan', 'Diet Vegan', 'Vegan'] },
+    'vegetarian': { key: 'filter.p.tag', values: ['Diet_Vegetarian', 'Diet-Vegetarian', 'Diet Vegetarian', 'Vegetarian'] },
     'high-protein': { key: 'filter.p.m.diet.high_protein', value: '1' },
     'low-calorie': { key: 'filter.p.m.diet.low_calorie', value: '1' },
     'low-fat': { key: 'filter.p.m.diet.low_fat', value: '1' },
-    'dairy-free': { key: 'filter.p.tag', value: 'Diet_Dairy-Free' },
-    'gluten-free': { key: 'filter.p.tag', value: 'Diet_Gluten-Free' },
+    'dairy-free': { key: 'filter.p.tag', values: ['Diet_Dairy-Free', 'Diet_Dairy_Free', 'Diet Dairy-Free', 'Diet Dairy Free', 'Dairy-Free', 'Dairy_Free', 'Dairy Free'] },
+    'gluten-free': { key: 'filter.p.tag', values: ['Diet_Gluten-Free', 'Diet_Gluten_Free', 'Diet Gluten-Free', 'Diet Gluten Free', 'Gluten-Free', 'Gluten_Free', 'Gluten Free'] },
     'nut-free': { key: 'filter.p.m.diet.nutfree', value: '1' },
     'breakfast': { key: 'filter.p.m.meal.meal', value: 'Breakfast' },
     'lunch-dinner': { key: 'filter.p.m.meal.meal', value: 'Lunch/Dinner' },
@@ -510,6 +510,16 @@ document.addEventListener('DOMContentLoaded', function() {
     'no-pork': { key: 'filter.p.m.diet.pork', value: '0' },
     'regular': { key: 'filter.p.m.meal.size', value: 'Regular' },
     'large': { key: 'filter.p.m.meal.size', value: 'Large' }
+  };
+
+  const getFilterValues = (filter) => {
+    if (!filter) return [];
+    const values = Array.isArray(filter.values)
+      ? filter.values
+      : filter.value
+        ? [filter.value]
+        : [];
+    return [...new Set(values.filter(Boolean))];
   };
   
   function applyActiveFilterStateToButtons() {
@@ -541,7 +551,10 @@ document.addEventListener('DOMContentLoaded', function() {
         list.querySelectorAll('a[data-filter]').forEach(link => {
           const id = link.dataset.filter;
           const filter = filterMap[id];
-          if (filter && currentParams.getAll(filter.key).includes(filter.value)) {
+          if (!filter) return;
+          const selectedValues = currentParams.getAll(filter.key);
+          const filterValues = getFilterValues(filter);
+          if (filterValues.some(value => selectedValues.includes(value))) {
             link.classList.add('is-active-filter');
           }
         });
@@ -589,7 +602,8 @@ document.addEventListener('DOMContentLoaded', function() {
       desktopPanel.querySelectorAll('a.is-active-filter').forEach(link => {
         const id = link.dataset.filter;
         const filter = filterMap[id];
-        if (filter) newParams.append(filter.key, filter.value);
+        if (!filter) return;
+        getFilterValues(filter).forEach(value => newParams.append(filter.key, value));
       });
       window.location.href = `${window.location.pathname}?${newParams.toString()}`;
     });
@@ -634,7 +648,10 @@ document.addEventListener('DOMContentLoaded', function() {
         list.querySelectorAll('a[data-filter]').forEach(link => {
           const id = link.dataset.filter;
           const filter = filterMap[id];
-          if (filter && currentParams.getAll(filter.key).includes(filter.value)) {
+          if (!filter) return;
+          const selectedValues = currentParams.getAll(filter.key);
+          const filterValues = getFilterValues(filter);
+          if (filterValues.some(value => selectedValues.includes(value))) {
             link.classList.add('is-active-filter');
           }
           if (link.previousElementSibling?.tagName === 'HR') {
@@ -668,7 +685,8 @@ document.addEventListener('DOMContentLoaded', function() {
       mobileDrawer.querySelectorAll('a.is-active-filter').forEach(link => {
         const id = link.dataset.filter;
         const filter = filterMap[id];
-        if (filter) newParams.append(filter.key, filter.value);
+        if (!filter) return;
+        getFilterValues(filter).forEach(value => newParams.append(filter.key, value));
       });
       const newUrl = `${window.location.pathname}?${newParams.toString()}`;
       if (`?${newParams.toString()}` !== window.location.search) {
