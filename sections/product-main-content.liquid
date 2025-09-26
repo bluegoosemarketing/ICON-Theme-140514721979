@@ -200,7 +200,12 @@
           {% endif %}
         </h1>
         <div class="reviews-placeholder"><span class="yotpo-display-wrapper"></span></div>
-        <div class="product-main__price"><span data-product-price>{{ current_variant.price | money }}</span></div>
+        <div class="product-main__price"{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %} data-legacy-pricing="true"{% endif %}>
+          <span
+            data-product-price
+            {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}data-base-price="{{ current_variant.price }}"{% endif %}
+          >{{ current_variant.price | money }}</span>
+        </div>
       </div>
       {%- if product.description != blank -%}<div class="product-description rte">{{ product.description }}</div>{%- endif -%}
       {%- form 'product', product, class: 'product-main__form', data-product-form: '' -%}
@@ -242,6 +247,9 @@
 </div>
 {%- render 'footer-minimal-ordering' -%}
 <script type="application/json" data-product-json>{{ product | json }}</script>
+{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
+  <script src="{{ 'legacy-dynamic-price.js' | asset_url }}" defer></script>
+{% endif %}
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
