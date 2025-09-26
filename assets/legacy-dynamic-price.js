@@ -3,13 +3,18 @@
     const priceBlock = document.querySelector('.product-main__price[data-legacy-pricing="true"]');
     if (!priceBlock) return;
 
-    const sectionEl    = priceBlock.closest('.product-main');
+    const sectionEl    = priceBlock.closest('.product-main') || document;
     const priceDisplay = priceBlock.querySelector('[data-product-price]');
-    const qtyInput     = sectionEl?.querySelector('.integrated-quantity__input[name="quantity"]');
-    const qtyContainer = sectionEl?.querySelector('.integrated-quantity');
-    const formEl       = sectionEl?.querySelector('.product-main__form');
+    // Quantity is OPTIONAL on this template. Fall back to 1 and don’t early-return if absent.
+    const qtyInput =
+      sectionEl.querySelector('.integrated-quantity__input[name="quantity"]') ||
+      sectionEl.querySelector('input[name="quantity"]') ||
+      null;
+    const qtyContainer = sectionEl.querySelector('.integrated-quantity') || null;
+    // Bold may inject outside the form; widen the scope to the whole section.
+    const formEl       = sectionEl.querySelector('.product-main__form') || sectionEl;
 
-    if (!sectionEl || !priceDisplay || !qtyInput || !qtyContainer || !formEl) return;
+    if (!sectionEl || !priceDisplay || !formEl) return;
 
     const moneyFormat = (window.Shopify && window.Shopify.money_format) || '';
     const basePriceCents = Number(priceDisplay.getAttribute('data-base-price')) || 0;
@@ -36,12 +41,29 @@
       return moneyFormat.replace(/\{\{\s*amount\s*\}\}/, amt).replace('.00', '');
     };
 
-    let boldTotalEl = formEl.querySelector('.bold_option_total');
+    // Bold total can use a few different hooks across themes/versions.
+    const BOLD_TOTAL_SELECTORS = [
+      '.bold_option_total',
+      '.bold-options-total',
+      '.bold_option_price_total',
+      '#bold_option_total'
+    ];
+    const findBoldTotal = () => {
+      for (const sel of BOLD_TOTAL_SELECTORS) {
+        const el = sectionEl.querySelector(sel);
+        if (el) return el;
+      }
+      return null;
+    };
+    let boldTotalEl = findBoldTotal();
 
     const update = () => {
-      const extrasText = boldTotalEl?.querySelector('span')?.textContent || '0';
+      const extrasText =
+        (boldTotalEl?.querySelector('span')?.textContent) ||
+        (boldTotalEl?.textContent) ||
+        '0';
       const extras = parseMoneyToCents(extrasText);
-      const qty = parseInt(qtyInput.value, 10) || 1;
+      const qty = qtyInput ? (parseInt(qtyInput.value, 10) || 1) : 1;
       const total = (basePriceCents + extras) * qty;
       goLive();
       priceDisplay.innerHTML = `${formatMoney(total)}<span class="price-note">updates as you choose</span>`;
@@ -61,11 +83,17 @@
         window.BOLD.options.app.on('option_changed', update);
       }
 
+      // Quantity listeners are optional
       const debounced = () => setTimeout(update, 10);
-      qtyContainer.addEventListener('click', (e) => {
-        if (e.target.closest('.integrated-quantity__button')) debounced();
-      });
-      qtyInput.addEventListener('change', update);
+      if (qtyContainer) {
+        qtyContainer.addEventListener('click', (e) => {
+          if (e.target.closest('.integrated-quantity__button')) debounced();
+        });
+      }
+      if (qtyInput) {
+        qtyInput.addEventListener('change', update);
+        qtyInput.addEventListener('input', update);
+      }
 
       update(); // initial render
     };
@@ -73,15 +101,16 @@
     if (boldTotalEl) {
       wireBold();
     } else {
+      // Watch the entire section for Bold’s late injection.
       const appearObs = new MutationObserver(() => {
-        const found = formEl.querySelector('.bold_option_total');
+        const found = findBoldTotal();
         if (found) {
           boldTotalEl = found;
           wireBold();
           appearObs.disconnect();
         }
       });
-      appearObs.observe(formEl, { childList: true, subtree: true });
+      appearObs.observe(sectionEl, { childList: true, subtree: true });
     }
   });
 })();
