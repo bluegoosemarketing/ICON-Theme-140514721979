@@ -47,7 +47,7 @@
 -%}
 
 
-<product-form-controller class="meal-plan-premium-layout" data-section-id="{{ section.id }}" data-promo-active="{{ promo_active }}">
+<product-form-controller class="meal-plan-premium-layout product-main" data-section-id="{{ section.id }}" data-promo-active="{{ promo_active }}">
   <div class="meal-plan-hero-container">
     <div class="meal-plan-hero-grid">
 
@@ -64,6 +64,13 @@
               {%- endif -%}
             </h1>
             <span class="meal-plan-hero__tag">Meal Plan</span>
+          </div>
+
+          <div class="product-main__price" data-legacy-pricing="true">
+            <span
+              data-product-price
+              data-base-price="{{ current_variant.price }}"
+            >{{ current_variant.price | money }}</span>
           </div>
 
           {%- if hero_hook != blank -%}
@@ -124,7 +131,7 @@
 
       <div class="meal-plan-hero__form">
         <div class="meal-plan-form-card">
-          <form method="post" action="/cart/add" accept-charset="UTF-8" class="product-form-recharge" data-product-form>
+          <form method="post" action="/cart/add" accept-charset="UTF-8" class="product-form-recharge product-main__form" data-product-form>
 
             <div class="form-step" data-order="1">
               <label for="Option-{{ section.id }}-0" class="form-step__label">
@@ -222,6 +229,8 @@
 </product-form-controller>
 
 {%- render 'footer-minimal-ordering' -%}
+
+<script src="{{ 'legacy-dynamic-price.js' | asset_url }}" defer></script>
 
 <script>
 class ProductFormController extends HTMLElement {

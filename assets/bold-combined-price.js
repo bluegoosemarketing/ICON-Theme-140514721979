@@ -18,6 +18,8 @@
  * =================================================================================================================
  */
 document.addEventListener('DOMContentLoaded', () => {
+  // Skip on legacy templates that use their own section-scoped pricing.
+  if (document.querySelector('.product-main__price[data-legacy-pricing="true"]')) return;
   // --- 1. Element Selection ---
   // Support both the modern product-main layout and the legacy custom-meals template.
   const priceDisplayElement =
