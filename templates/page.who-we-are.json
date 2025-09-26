@@ -252,9 +252,9 @@
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/tile-meal-boxes_541990e7-4374-40cd-adca-f7eec55e47dc.jpg",
-            "link": "shopify://collections/subscription-boxes",
+            "link": "shopify://pages/mealplans",
             "title": "Meal Boxes",
-            "description": "<p>Pre-made or build-a-box options for different goals. Subscribe & save 5%</p><p><a href=\"/collections/subscription-boxes\" title=\"Subscription Boxes\">Learn More →</a></p>"
+            "description": "<p>Pre-made or build-a-box options for different goals. Subscribe & save 5%</p><p><a href=\"/pages/mealplans\" title=\"Meal Plans\">Learn More →</a></p>"
           }
         },
         "165298673729ab82e8-1": {
@@ -302,7 +302,7 @@
         "subheading": "We've also got snacks and more!",
         "title": "",
         "text_block": "<p>From protein-packed popcorn, butters, and bread to waygu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
-        "button_link": "shopify://pages/snacksandmore",
+        "button_link": "shopify://pages/snacks-more",
         "button_label": "Shop Snacks & More"
       }
     },

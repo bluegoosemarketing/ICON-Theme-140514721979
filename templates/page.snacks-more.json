@@ -147,7 +147,7 @@
           "disabled": true,
           "settings": {
             "image": "shopify://shop_images/tile-sauces.jpg",
-            "link": "shopify://collections/sauce",
+            "link": "shopify://collections/cpg-sauces",
             "title": "Sauces",
             "description": ""
           }
@@ -168,7 +168,7 @@
           "disabled": true,
           "settings": {
             "image": "shopify://shop_images/tile-wag-strips.jpg",
-            "link": "shopify://collections/wagstrips",
+            "link": "shopify://collections/cpg-wag-strips",
             "title": "Wag Strips",
             "description": ""
           }
@@ -237,7 +237,7 @@
         "subheading": "40 Calories or less",
         "title": "ICON Sauces",
         "text": "<p>Bring out the best in BBQ sauce without all the junk! Sauces that  taste great and are great for you!</p>",
-        "button_link": "shopify://collections/sauce",
+        "button_link": "shopify://collections/cpg-sauces",
         "button_label": "Shop Sauces"
       }
     },
