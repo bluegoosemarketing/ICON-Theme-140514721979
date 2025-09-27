@@ -490,26 +490,21 @@
   border-color: var(--brand-accent-darker, #25a268) !important;
 }
 
-/* --- THE FINAL, SURGICAL FIX --- */
-/* This ultra-specific selector chain is guaranteed to override the theme's generic button styles during the :active and :focus states, preventing the red/grey flash. */
-.cm-recharge__panel .cm-recharge__form .variant-option-button:active,
-.cm-recharge__panel .cm-recharge__form .variant-option-button:focus {
+/* --- THE DEFINITIVE ACTIVE STATE FIX (v2) --- */
+/*
+ * Shopify's core theme CSS applies very aggressive :active/:focus rules to *all* buttons, including
+ * our custom variant pills.  Even with !important flags the global selector "body button:not(...)"
+ * was winning due to its high specificity.  By anchoring the override to the cm-recharge product
+ * shell (template-product + template-suffix--cm-recharge + local wrappers) we boost specificity
+ * beyond the theme rule while keeping the scope isolated to this experience.
+ */
+body.template-product.template-suffix--cm-recharge .cm-recharge.product.product-template .cm-recharge__panel .cm-recharge__form .variant-option-button:is(:active, :focus, :focus-visible) {
   background-color: var(--brand-accent) !important;
   border-color: var(--brand-accent) !important;
   color: #fff !important;
-  box-shadow: none !important;
+  box-shadow: none !important; /* Prevent the theme's forced glow */
   outline: none !important;
-}
-
-/* --- THE CRITICAL FIX --- */
-/* This highly specific selector surgically overrides the theme's generic button:active style, preventing the red/grey flash. */
-.cm-recharge .variant-option-button:active,
-.cm-recharge .variant-option-button:focus {
-  background-color: var(--brand-accent) !important;
-  border-color: var(--brand-accent) !important;
-  color: #fff !important;
-  box-shadow: none !important; /* Prevents the theme's blue focus ring */
-  outline: none !important;    /* Prevents the default browser outline */
+  font-weight: 600; /* Match the visual weight of the persistent selected state */
 }
 
 /* CTA, Media, & Final Elements */
