@@ -16,6 +16,7 @@
   assign current_variant = product.selected_or_first_available_variant
   assign included_meals = product.metafields.custom.included_meals.value | default: product.metafields.custom.meal_plan_products.value
   assign has_subscriptions = false
+  assign uses_legacy_pricing = false
 
   assign hero_hook     = product.metafields.plan.hook_line
   assign stat_cards    = product.metafields.plan.stat_cards_json.value
@@ -26,6 +27,10 @@
 
   if product.selling_plan_groups.size > 0
     assign has_subscriptions = true
+  endif
+
+  if product.handle == 'custom-meals' or product.handle == 'custom-breakfast'
+    assign uses_legacy_pricing = true
   endif
 
   if features_list == blank
@@ -66,12 +71,14 @@
             <span class="meal-plan-hero__tag">Meal Plan</span>
           </div>
 
-          <div class="product-main__price" data-legacy-pricing="true">
-            <span
-              data-product-price
-              data-base-price="{{ current_variant.price }}"
-            >{{ current_variant.price | money }}</span>
-          </div>
+          {%- if uses_legacy_pricing -%}
+            <div class="product-main__price" data-legacy-pricing="true">
+              <span
+                data-product-price
+                data-base-price="{{ current_variant.price }}"
+              >{{ current_variant.price | money }}</span>
+            </div>
+          {%- endif -%}
 
           {%- if hero_hook != blank -%}
             <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
