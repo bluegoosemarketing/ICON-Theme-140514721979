@@ -1,10 +1,10 @@
 {% comment %}
   **
   * File: sections/product-cm-recharge.liquid
-  * Version: 8.1 (Layout & Style Enhancement)
-  * Description: Re-architected the CTA and cadence section for a more modern, world-class UI.
-  * - NEW: Grouped cadence & CTA into a new bordered container.
-  * - NEW: Moved badges to be below the CTA block for better flow.
+  * Version: 8.2 (Mobile UX & Layout Polish)
+  * Description: Optimized the mobile experience for a more intuitive user flow.
+  * - MOVED: Relocated the mobile nutrition panel to appear after the primary CTA block.
+  * - This creates a more logical flow: Build -> Finalize -> Review Nutrition -> Trust Signals.
   **
 {% endcomment %}
 
@@ -94,9 +94,7 @@
               </fieldset>
             </div>
 
-            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
-
-            <!-- NEW: Actions Group for better layout and styling control -->
+            <!-- Actions Group for better layout and styling control -->
             <div class="cm-recharge__actions-group">
               <div class="cm-cadence" data-cadence-block>
                 <div class="cm-cadence__header">
@@ -139,9 +137,11 @@
               </div>
             </div>
 
+            <!-- MOVED & OPTIMIZED: Nutrition shell is now after the primary actions on mobile for a better UX flow. -->
+            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
+
             <p class="cm-recharge__cta-copy">Trusted by 100,000+ athletes and busy professionals nationwide.</p>
 
-            <!-- MOVED: Badges are now below the actions for better visual flow -->
             <div class="cm-recharge__badges" aria-hidden="true">
               <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Chef prepared">✅</span><span class="cm-recharge__badge-text">Chef-Prepared</span></div>
               <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Delivered nationwide">🚚</span><span class="cm-recharge__badge-text">Delivered Nationwide</span></div>

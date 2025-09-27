@@ -58,10 +58,7 @@
 }
 
 @media (max-width: 1023px) {
-  .cm-recharge__nutrition-shell--mobile {
-    margin-left: -0.75rem;
-    margin-right: -0.75rem;
-  }
+  /* No special rules needed now that the HTML is restructured */
 }
 
 /* --- Mobile-First Layout Order --- */
