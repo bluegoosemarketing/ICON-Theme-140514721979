@@ -1,10 +1,11 @@
 /*
  * File: assets/cm-recharge.css
- * Version: 9.3 (Mobile Flow Update)
- * Description: Maintains the desktop grid while re-ordering the mobile flow.
- * - Mobile presents hero -> configuration -> nutrition snapshot -> purchase actions.
- * - Desktop keeps the two-column layout with nutrition tucked beneath the hero.
- * - Nutrition shells allow JS to relocate the macro card between desktop & mobile slots.
+ * Version: 9.4 (UI Polish & Enhancement Update)
+ * Description: Implements several UI/UX refinements for a more polished, world-class feel.
+ * - Reduced main panel border-radius for a sharper, more modern look.
+ * - Corrected the "completed" step styling to ensure the border appears correctly around the full perimeter.
+ * - Enhanced typographic hierarchy and made the dynamic price more prominent.
+ * - Smoothed out accordion transitions and tightened padding for a cleaner layout.
 */
 
 /* --- Keyframe Animations --- */
@@ -27,7 +28,7 @@
 }
 .cm-recharge__panel {
   background: #ffffff;
-  border-radius: 24px;
+  border-radius: 16px; /* MODIFIED: Reduced from 24px for a sharper, more modern look */
   box-shadow: 0 20px 45px rgba(15, 23, 42, 0.08);
 }
 .cm-recharge__visuals {
@@ -130,9 +131,45 @@
 }
 
 /* --- General Components --- */
-.cm-recharge__intro { gap: 0.75rem; display: flex; flex-direction: column; }
-.cm-recharge__intro .h2 { font-size: 2.25rem !important; font-weight: 800 !important; margin-bottom: 0; }
-.cm-recharge .product-price--placeholder.is-updating { animation: price-update-flash 0.6s ease-out; }
+/* MODIFIED: Added border and refined spacing for better visual flow */
+.cm-recharge__intro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem; /* Tightened gap to group title and price */
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e9ecef; /* The new subtle separator line */
+}
+
+.cm-recharge__intro .h2 { font-size: 2rem !important; font-weight: 800 !important; margin-bottom: 0; }
+
+/* Polished price display with balanced typography and branded accent */
+.cm-recharge__price {
+  display: flex;
+  align-items: baseline;
+  gap: 0.65rem;
+  padding: 0.5rem 0;
+  margin-bottom: 0.5rem; /* Adds a bit of space before the description text */
+}
+
+.cm-recharge__price-value {
+  font-size: 1.75rem; /* Reduced size for perfect balance with the title */
+  font-weight: 700;
+  color: var(--brand-accent-darker, #25a268);
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.cm-recharge__price-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6c757d;
+  transition: color 0.2s ease;
+  transform: translateY(-1px);
+}
+
+.cm-recharge__price.is-updating .cm-recharge__price-value {
+  animation: price-update-flash 0.6s ease-out;
+}
 .cm-recharge__short-description { margin: 0; font-size: 0.95rem; line-height: 1.5; color: #495057; }
 .cm-recharge__description { margin-top: 1.25rem; padding-top: 1.25rem; border-top: 1px solid #e9ecef; }
 .cm-recharge__form { display: flex; flex-direction: column; gap: 1.25rem; }
@@ -280,23 +317,132 @@
   color: #1f2933;
 }
 
-/* --- Accordion Form Styling --- */
-.cm-selection-step, .cm-selection-step--standalone { border-radius: 12px; border: 1px solid #e9ecef; background-color: #f8f9fa; transition: box-shadow 0.2s ease-in-out, border-color 0.2s ease; }
-.cm-selection-step--standalone { padding: 1.5rem; }
-.cm-selection-step.is-open { box-shadow: 0 4px 12px rgba(0,0,0,0.04); }
-.cm-selection-step.is-complete { border-color: rgba(46, 191, 122, 0.4); }
-.cm-step__legend { display: flex; align-items: center; justify-content: space-between; gap: 0.75rem; font-size: 1.1rem; font-weight: 700; color: #212529; padding: 1.5rem; margin: 0; width: 100%; cursor: pointer; -webkit-appearance: none; appearance: none; background: transparent; border: none; text-align: left; }
-.cm-selection-step.is-complete > .cm-step__legend { background-color: #f1fffa; }
-.cm-step__legend-main { display: flex; align-items: center; gap: 0.75rem; }
-.cm-step__legend-text { display: flex; flex-direction: column; }
-.cm-step__legend > .cm-step__legend-main > span { display: flex; align-items: center; justify-content: center; width: 28px; height: 28px; background-color: var(--brand-accent); color: #fff; border-radius: 50%; font-size: 0.9rem; line-height: 1; transition: background-color 0.2s ease; }
-.cm-selection-step.is-complete > .cm-step__legend > .cm-step__legend-main > span { background-color: var(--brand-accent-darker, #25a268); }
+/* --- Accordion Form Styling (v2 - Aesthetic Polish) --- */
+.cm-selection-step, .cm-selection-step--standalone {
+  border-radius: 12px;
+  border: 1px solid #e9ecef;
+  background-color: #f8f9fa;
+  transition: box-shadow 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.cm-selection-step--standalone { padding: 1.25rem; }
+.cm-selection-step.is-open {
+  box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  border-color: #e0e0e0;
+}
+
+/* NEW: Refined "is-complete" state styling */
+.cm-selection-step.is-complete {
+  background-color: #f6fef9;
+  border-color: var(--brand-accent, #2ebf7a);
+}
+
+.cm-step__legend {
+  position: relative; /* Required for the ::before pseudo-element */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #212529;
+  padding: 1.25rem;
+  margin: 0;
+  width: 100%;
+  cursor: pointer;
+  -webkit-appearance: none;
+  appearance: none;
+  background: transparent;
+  border: none;
+  text-align: left;
+}
+
+/* NEW: This pseudo-element creates the "border cutout" effect by matching the parent background color */
+.cm-selection-step.is-complete > .cm-step__legend::before {
+  content: '';
+  position: absolute;
+  top: -1px; /* Sits on top of the parent's border */
+  left: 45px; /* Adjust to align with where text starts */
+  right: 45px; /* Adjust to give space for the chevron */
+  height: 2px;
+  background-color: #f6fef9; /* Must match the parent's complete background color */
+  z-index: 1; /* Sits above the border but below the content */
+}
+
+.cm-step__legend-main {
+  position: relative; /* Ensures content is on top of the ::before pseudo-element */
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.cm-step__legend-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.cm-step__legend > .cm-step__legend-main > span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--brand-accent);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  line-height: 1;
+  transition: background-color 0.2s ease;
+}
+
+.cm-selection-step.is-complete > .cm-step__legend > .cm-step__legend-main > span {
+  background-color: var(--brand-accent-darker, #25a268);
+}
+
 .cm-step__legend small { font-weight: 500; font-size: 0.9rem; color: #6c757d; }
-.cm-step__selection-summary { font-size: 0.9rem; font-weight: 600; color: var(--brand-accent-darker, #25a268); padding-top: 2px; }
-.cm-step__chevron { margin-left: auto; transition: transform 0.3s ease; color: #6c757d; }
+
+/* NEW: De-emphasize the original title when complete */
+.cm-selection-step.is-complete .cm-step__legend-title {
+  font-size: 1rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+/* NEW: Make the user's selection the primary visual element */
+.cm-step__selection-summary {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: transparent; /* Hide by default */
+  padding-top: 2px;
+  line-height: 1.2;
+  transition: all 0.2s ease;
+}
+.cm-selection-step.is-complete .cm-step__selection-summary {
+  color: var(--brand-accent-darker, #25a268);
+}
+
+.cm-step__chevron {
+  position: relative; /* Ensure chevron is on top */
+  z-index: 2;
+  margin-left: auto;
+  transition: transform 0.3s ease;
+  color: #6c757d;
+}
+
 .cm-selection-step.is-open > .cm-step__legend .cm-step__chevron { transform: rotate(180deg); }
-.cm-step__collapsible-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out, padding 0.3s ease; padding: 0 1.5rem; }
-.cm-selection-step.is-open > .cm-step__collapsible-content { max-height: 1500px; transition: max-height 0.5s ease-in; padding: 0 1.5rem 1.5rem; }
+
+.cm-step__collapsible-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease-in-out, padding 0.35s ease-in-out;
+  padding: 0 1.25rem;
+}
+.cm-selection-step.is-open > .cm-step__collapsible-content {
+  max-height: 1500px;
+  transition: max-height 0.4s ease-in-out;
+  padding: 0 1.25rem 1.25rem;
+}
 
 /* Visual Options & Buttons */
 .cm-visual-options { display: flex; flex-wrap: wrap; gap: 0.5rem 1rem; }
@@ -308,9 +454,63 @@
 .cm-product-card-visual.is-selected .cm-product-card-visual__title { font-weight: 700; color: var(--brand-accent-darker, #25a268); }
 .cm-recharge .variant-options { display: none; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; padding-top: 1rem; border-top: 1px dashed #ced4da; }
 .cm-recharge .cm-selection-step[data-product-selected="true"] .variant-options { display: flex; }
-.variant-option-button { background: #fff; border: 1px solid #ced4da; border-radius: 8px; padding: 0.6rem 1rem; font-size: 0.9rem; font-weight: 500; color: #495057; cursor: pointer; transition: all 0.2s ease; }
-.variant-option-button:hover { background-color: #f1f3f5; }
-.variant-option-button.is-selected { background-color: var(--brand-accent); border-color: var(--brand-accent); color: #fff; font-weight: 600; }
+/* --- Definitive Variant Button Styles (v4 - Final) --- */
+
+/* Default State */
+.variant-option-button {
+  background-color: #fff;
+  border: 1px solid #ced4da;
+  border-radius: 8px;
+  padding: 0.6rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #495057;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-shadow: none; /* Reset any theme box-shadow */
+}
+
+/* Default Hover State (for unselected buttons) */
+.variant-option-button:hover {
+  background-color: #f1f3f5;
+  color: #212529;
+}
+
+/* Selected State */
+.variant-option-button.is-selected {
+  background-color: var(--brand-accent) !important;
+  border-color: var(--brand-accent) !important;
+  color: #fff !important;
+  font-weight: 600;
+}
+
+/* Hover State for an ALREADY selected button */
+.variant-option-button.is-selected:hover {
+  background-color: var(--brand-accent-darker, #25a268) !important;
+  border-color: var(--brand-accent-darker, #25a268) !important;
+}
+
+/* --- THE FINAL, SURGICAL FIX --- */
+/* This ultra-specific selector chain is guaranteed to override the theme's generic button styles during the :active and :focus states, preventing the red/grey flash. */
+.cm-recharge__panel .cm-recharge__form .variant-option-button:active,
+.cm-recharge__panel .cm-recharge__form .variant-option-button:focus {
+  background-color: var(--brand-accent) !important;
+  border-color: var(--brand-accent) !important;
+  color: #fff !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* --- THE CRITICAL FIX --- */
+/* This highly specific selector surgically overrides the theme's generic button:active style, preventing the red/grey flash. */
+.cm-recharge .variant-option-button:active,
+.cm-recharge .variant-option-button:focus {
+  background-color: var(--brand-accent) !important;
+  border-color: var(--brand-accent) !important;
+  color: #fff !important;
+  box-shadow: none !important; /* Prevents the theme's blue focus ring */
+  outline: none !important;    /* Prevents the default browser outline */
+}
 
 /* CTA, Media, & Final Elements */
 .cm-recharge__cta { display: grid; grid-template-columns: auto 1fr; gap: 0.75rem; align-items: center; margin-top: 0; }

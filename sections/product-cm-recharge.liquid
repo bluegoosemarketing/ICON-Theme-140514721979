@@ -66,14 +66,10 @@
         <!-- RIGHT COLUMN (Panel) -->
         <section class="cm-recharge__panel">
           <div class="cm-recharge__intro">
-            <h1 class="cm-recharge__title h2">Custom Meal (Build Your Own)</h1>
-            <div class="product-price--placeholder" data-price-wrapper>
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24" 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="2" width="16" height="20" rx="2" ry="2"></rect><line x1="8" y1="6" x2="16" y2="6"></line><line x1="16" y1="14" x2="16" y2="18"></line><line x1="12" y1="14" x2="12" y2="18"></line><line x1="8" y1="14" x2="8" y2="18"></line><line x1="8" y1="10" x2="16" y2="10"></line></svg>
-              <div>
-                <span class="placeholder-main-text" data-total-price>{{ 0 | money }}</span>
-                <!-- MODIFIED: More instructive initial text -->
-                <span class="placeholder-sub-text" data-price-sub-text>Select a Protein & Side to see price</span>
-              </div>
+            <h1 class="cm-recharge__title h2">{{ section.settings.custom_title | default: "Custom Meal (Build Your Own)" }}</h1>
+            <div class="cm-recharge__price" data-price-wrapper>
+              <span class="cm-recharge__price-value" data-total-price>{{ 0 | money }}</span>
+              <span class="cm-recharge__price-label" data-price-sub-text>Select a Protein & Side to see price</span>
             </div>
             <p class="cm-recharge__short-description">Build your perfect meal with chef-prepared proteins and sides, made fresh and delivered nationwide.</p>
             {%- if product.description != blank -%}
@@ -84,15 +80,15 @@
           <form class="cm-recharge__form" data-cm-form>
             <div class="cm-recharge__config-stack">
               <fieldset class="cm-selection-step is-open" data-collapsible-step data-selection-group="protein">
-                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>1</span><div class="cm-step__legend-text">Choose Protein<span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
+                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>1</span><div class="cm-step__legend-text"><span class="cm-step__legend-title">Choose Protein</span><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
                 <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-protein-{{ section.id }}" data-product-select="protein" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="protein"></div><div class="variant-options" data-variant-options-for="protein"></div><select class="visually-hidden" id="cm-protein-{{ section.id }}" name="protein" data-protein-select></select></div></div>
               </fieldset>
               <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side1">
-                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>2</span><div class="cm-step__legend-text">Choose Side 1<span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
+                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>2</span><div class="cm-step__legend-text"><span class="cm-step__legend-title">Choose Side 1</span><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
                 <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side1-{{ section.id }}" data-product-select="side1" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side1"></div><div class="variant-options" data-variant-options-for="side1"></div><select class="visually-hidden" id="cm-side1-{{ section.id }}" name="side1" data-side1-select></select></div></div>
               </fieldset>
               <fieldset class="cm-selection-step" data-collapsible-step data-selection-group="side2">
-                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>3</span><div class="cm-step__legend-text">Choose Side 2 <small>(Optional)</small><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
+                <legend class="cm-step__legend" data-collapsible-toggle><div class="cm-step__legend-main"><span>3</span><div class="cm-step__legend-text"><span class="cm-step__legend-title">Choose Side 2 <small>(Optional)</small></span><span class="cm-step__selection-summary" data-selection-summary></span></div></div><svg class="cm-step__chevron" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></legend>
                 <div class="cm-step__collapsible-content"><div class="cm-step__content"><div class="select-wrapper visually-hidden"><select id="cm-product-side2-{{ section.id }}" data-product-select="side2" disabled><option value="">Loading...</option></select></div><div class="cm-visual-options" data-visual-options-for="side2"></div><div class="variant-options" data-variant-options-for="side2"></div><select class="visually-hidden" id="cm-side2-{{ section.id }}" name="side2" data-side2-select></select></div></div>
               </fieldset>
             </div>
@@ -339,6 +335,16 @@
 {
   "name": "Custom Meal Recharge",
   "settings": [
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "custom_title",
+      "label": "Custom Page Title",
+      "default": "Custom Meal"
+    },
     { "type": "header", "content": "Collection Handles" },
     { "type": "text", "id": "protein_collection_handle", "label": "Protein Collection Handle", "default": "recharge-cm-proteins" },
     { "type": "text", "id": "side_collection_handle", "label": "Sides Collection Handle", "default": "recharge-cm-sides" }

@@ -217,24 +217,26 @@ class CustomMealBuilder {
     const hiddenSelect = this.root.querySelector(`[data-${group}-select]`);
     const summaryEl = step.querySelector('[data-selection-summary]');
     const legendTextEl = step.querySelector('.cm-step__legend-text');
+    const legendTitleEl = legendTextEl.querySelector('.cm-step__legend-title');
     const isComplete = hiddenSelect && hiddenSelect.value !== '';
     step.classList.toggle('is-complete', isComplete);
-    const textNode = Array.from(legendTextEl.childNodes).find(node => node.nodeType === Node.TEXT_NODE && node.textContent.trim().length > 0);
-    if (textNode && !legendTextEl.dataset.originalText) {
-      legendTextEl.dataset.originalText = textNode.textContent.trim();
+
+    if (legendTitleEl && !legendTitleEl.dataset.originalText) {
+      legendTitleEl.dataset.originalText = legendTitleEl.innerHTML.trim();
     }
+
     if (isComplete) {
       const details = this.variantDetails.get(hiddenSelect.value);
-      if (details && summaryEl && textNode && legendTextEl.dataset.originalText) {
-        const originalText = legendTextEl.dataset.originalText;
+      if (details && summaryEl && legendTitleEl && legendTitleEl.dataset.originalText) {
+        const originalText = legendTitleEl.dataset.originalText;
         const newHeaderText = originalText.replace('Choose ', '');
-        textNode.textContent = newHeaderText;
+        legendTitleEl.innerHTML = newHeaderText;
         const productTitle = details.productTitle.replace(/ oz/gi, '').trim();
         summaryEl.textContent = ` ${productTitle}, ${details.displayLabel}`;
       }
     } else {
-      if (textNode && legendTextEl.dataset.originalText) {
-        textNode.textContent = legendTextEl.dataset.originalText;
+      if (legendTitleEl && legendTitleEl.dataset.originalText) {
+        legendTitleEl.innerHTML = legendTitleEl.dataset.originalText;
       }
       if (summaryEl) {
         summaryEl.textContent = '';
