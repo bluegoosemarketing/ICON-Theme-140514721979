@@ -32,6 +32,7 @@ class CustomMealBuilder {
     // NEW: Add a reference to the price sub-text element
     this.priceSubText = this.root.querySelector('[data-price-sub-text]');
     this.addToCartButton = this.root.querySelector('[data-add-to-cart-button]');
+    this.actionsGroup = this.form.querySelector('.cm-recharge__actions-group');
     this.addToCartText = this.root.querySelector('[data-add-to-cart-text]');
     this.collapsibleSteps = this.root.querySelectorAll('[data-collapsible-step]');
     this.desktopNutritionSlot = this.root.querySelector('[data-desktop-nutrition-slot]');
@@ -298,6 +299,11 @@ class CustomMealBuilder {
     const canSubmit = hasSelections && !this.state.isLoading;
     this.addToCartButton.disabled = !canSubmit;
     this.addToCartText.textContent = this.state.isLoading ? 'Loading...' : (canSubmit ? 'Add to Cart' : 'Select Options');
+
+    // NEW: Toggle the 'is-actionable' class based on whether the user has made the required selections.
+    if (this.actionsGroup) {
+      this.actionsGroup.classList.toggle('is-actionable', hasSelections);
+    }
   }
 
   processProductData(products, groupType = '') { return products.map(product => { this.productImageData.set(String(product.id), (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src); const variants = (product.variants || []).map(variant => { const variantId = String(variant.id); const unitInfo = this.getVariantUnitInfo(product, variant, groupType); const priceInCents = this.toCents(variant.price); this.variantDetails.set(variantId, { productId: product.id, productTitle: product.title, variantId: variant.id, variantTitle: variant.title, displayLabel: unitInfo.fullLabel, amountLabel: unitInfo.amountLabel, unitLabel: unitInfo.displayUnit, unitKey: unitInfo.unitKey, numericQuantity: unitInfo.numericValue, price: priceInCents }); return { id: variantId, title: variant.title, price: priceInCents, displayLabel: unitInfo.fullLabel, amountLabel: unitInfo.amountLabel, unitLabel: unitInfo.displayUnit, unitKey: unitInfo.unitKey }; }); return { id: product.id, title: product.title, variants }; }).filter(p => p.variants.length > 0); }

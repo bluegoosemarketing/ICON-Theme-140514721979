@@ -1,9 +1,10 @@
 {% comment %}
   **
   * File: sections/product-cm-recharge.liquid
-  * Version: 8.0 (Final & Complete)
-  * Description: All features implemented and bugs fixed.
-  * - FIX: Updated the initial price sub-text to be more instructive for the user.
+  * Version: 8.1 (Layout & Style Enhancement)
+  * Description: Re-architected the CTA and cadence section for a more modern, world-class UI.
+  * - NEW: Grouped cadence & CTA into a new bordered container.
+  * - NEW: Moved badges to be below the CTA block for better flow.
   **
 {% endcomment %}
 
@@ -93,53 +94,58 @@
               </fieldset>
             </div>
 
+            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
+
+            <!-- NEW: Actions Group for better layout and styling control -->
+            <div class="cm-recharge__actions-group">
+              <div class="cm-cadence" data-cadence-block>
+                <div class="cm-cadence__header">
+                  <p class="cm-cadence__title">Delivery cadence</p>
+                  <p
+                    class="cm-cadence__note"
+                    data-cadence-note
+                    data-default-note="Default is weekly. You can change cadence anytime."
+                    data-one-time-note="One-time purchase selected. Subscribe anytime for recurring deliveries."
+                  >
+                    Default is weekly. You can change cadence anytime.
+                  </p>
+                </div>
+                <div class="cm-cadence__pills" data-cadence-pills>
+                  <button type="button" class="cm-cadence__pill" data-cadence-option="one-time">One-Time</button>
+                  <button type="button" class="cm-cadence__pill" data-cadence-option="weekly">Weekly</button>
+                  <button type="button" class="cm-cadence__pill" data-cadence-option="biweekly">Every 2 Weeks</button>
+                </div>
+                <div class="cm-selection-step--standalone cm-cadence__native">
+                  <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery cadence</label>
+                  <div class="select-wrapper">
+                    <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled><option value="">Loading frequencies...</option></select>
+                    <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                  </div>
+                </div>
+              </div>
+
+              <div class="cm-recharge__cta-block">
+                <div class="cm-recharge__cta">
+                  <div class="integrated-quantity" data-quantity-wrapper>
+                    <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
+                    <span class="integrated-quantity__text" data-qty-text>1</span>
+                    <input class="integrated-quantity__input" type="number" name="quantity" min="1" value="1" data-qty-input>
+                    <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
+                  </div>
+                  <button type="submit" class="product-card__add-btn" data-add-to-cart-button disabled>
+                    <span data-add-to-cart-text>Select Options</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <p class="cm-recharge__cta-copy">Trusted by 100,000+ athletes and busy professionals nationwide.</p>
+
+            <!-- MOVED: Badges are now below the actions for better visual flow -->
             <div class="cm-recharge__badges" aria-hidden="true">
               <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Chef prepared">✅</span><span class="cm-recharge__badge-text">Chef-Prepared</span></div>
               <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Delivered nationwide">🚚</span><span class="cm-recharge__badge-text">Delivered Nationwide</span></div>
               <div class="cm-recharge__badge"><span class="cm-recharge__badge-icon" role="img" aria-label="Fresh, never frozen">❄️</span><span class="cm-recharge__badge-text">Fresh, Never Frozen</span></div>
-            </div>
-
-            <div class="cm-recharge__nutrition-shell cm-recharge__nutrition-shell--mobile" data-mobile-nutrition-slot></div>
-
-            <div class="cm-cadence" data-cadence-block>
-              <div class="cm-cadence__header">
-                <p class="cm-cadence__title">Delivery cadence</p>
-                <p
-                  class="cm-cadence__note"
-                  data-cadence-note
-                  data-default-note="Default is weekly. You can change cadence anytime."
-                  data-one-time-note="One-time purchase selected. Subscribe anytime for recurring deliveries."
-                >
-                  Default is weekly. You can change cadence anytime.
-                </p>
-              </div>
-              <div class="cm-cadence__pills" data-cadence-pills>
-                <button type="button" class="cm-cadence__pill" data-cadence-option="one-time">One-Time</button>
-                <button type="button" class="cm-cadence__pill" data-cadence-option="weekly">Weekly</button>
-                <button type="button" class="cm-cadence__pill" data-cadence-option="biweekly">Every 2 Weeks</button>
-              </div>
-              <div class="cm-selection-step--standalone cm-cadence__native">
-                <label class="cm-step__label" for="cm-frequency-{{ section.id }}">Delivery cadence</label>
-                <div class="select-wrapper">
-                  <select id="cm-frequency-{{ section.id }}" name="frequency" data-frequency-select disabled><option value="">Loading frequencies...</option></select>
-                  <svg class="select-wrapper__arrow" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
-                </div>
-              </div>
-            </div>
-
-            <div class="cm-recharge__cta-block">
-              <p class="cm-recharge__cta-copy">Trusted by 100,000+ athletes and busy professionals nationwide.</p>
-              <div class="cm-recharge__cta">
-                <div class="integrated-quantity" data-quantity-wrapper>
-                  <button type="button" class="integrated-quantity__button" data-qty-minus aria-label="Decrease quantity">−</button>
-                  <span class="integrated-quantity__text" data-qty-text>1</span>
-                  <input class="integrated-quantity__input" type="number" name="quantity" min="1" value="1" data-qty-input>
-                  <button type="button" class="integrated-quantity__button" data-qty-plus aria-label="Increase quantity">+</button>
-                </div>
-                <button type="submit" class="product-card__add-btn" data-add-to-cart-button disabled>
-                  <span data-add-to-cart-text>Select Options</span>
-                </button>
-              </div>
             </div>
 
             <div class="cm-recharge__error" data-error-message></div>
