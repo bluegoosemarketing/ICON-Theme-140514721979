@@ -1,0 +1,70 @@
+{%- comment -%}
+Usage:
+  {% render 'icon', name: 'restaurant' %}
+  {% render 'icon', name: 'home-smile', size: '24', class: 'text-red-600', stroke_width: 1.75, title: 'Home delivery' %}
+
+Params:
+  name          (required) : icon key ('restaurant' | 'home-smile' | 'star' | 'question-answer')
+  size          (optional) : number or string; defaults to '1em' (accepts '24', '1.25em', '24px')
+  class         (optional) : string of classes
+  stroke_width  (optional) : defaults to 1.8
+  title         (optional) : accessible title; if provided, icon is announced by AT; otherwise aria-hidden
+  decorative    (optional) : boolean; if true, forces aria-hidden (overrides title)
+{%- endcomment -%}
+
+{%- liquid
+  assign _name = name | default: ''
+  assign _size = size | default: '1em'
+  assign _stroke = stroke_width | default: 1.8
+  assign _class = class | default: ''
+  assign _decor = decorative | default: false
+  assign _title = title
+
+  capture _title_id
+    echo 'icon-' | append: _name | append: '-' | append: section.id | append: '-' | append: forloop.index0
+  endcapture
+
+  # Determine accessibility attrs
+  assign _role = 'img'
+  assign _aria_hidden = 'true'
+  assign _aria_labelledby = ''
+  if _decor == true
+    assign _aria_hidden = 'true'
+  elsif _title and _title != ''
+    assign _aria_hidden = 'false'
+    assign _aria_labelledby = _title_id
+  endif
+-%}
+
+{%- case _name -%}
+  {%- when 'restaurant' -%}
+    {%- render 'icon-restaurant',
+      size: _size, class: _class, stroke_width: _stroke,
+      title: _title, title_id: _title_id,
+      aria_hidden: _aria_hidden, aria_labelledby: _aria_labelledby, role: _role
+    -%}
+  {%- when 'home-smile' -%}
+    {%- render 'icon-home-smile',
+      size: _size, class: _class, stroke_width: _stroke,
+      title: _title, title_id: _title_id,
+      aria_hidden: _aria_hidden, aria_labelledby: _aria_labelledby, role: _role
+    -%}
+  {%- when 'star' -%}
+    {%- render 'icon-star',
+      size: _size, class: _class, stroke_width: _stroke,
+      title: _title, title_id: _title_id,
+      aria_hidden: _aria_hidden, aria_labelledby: _aria_labelledby, role: _role
+    -%}
+  {%- when 'question-answer' -%}
+    {%- render 'icon-question-answer',
+      size: _size, class: _class, stroke_width: _stroke,
+      title: _title, title_id: _title_id,
+      aria_hidden: _aria_hidden, aria_labelledby: _aria_labelledby, role: _role
+    -%}
+  {%- else -%}
+    {%- render 'icon-fallback',
+      size: _size, class: _class, stroke_width: _stroke,
+      title: _title, title_id: _title_id,
+      aria_hidden: _aria_hidden, aria_labelledby: _aria_labelledby, role: _role
+    -%}
+{%- endcase -%}
