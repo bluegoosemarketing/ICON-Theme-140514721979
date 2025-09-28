@@ -43,7 +43,7 @@
   .hiw-v4__inner {
     max-width: var(--container-max, 1200px);
     margin-inline: auto;
-    padding-inline: var(--container-gutter, var(--gutter));
+    padding-inline: var(--container-gutter, clamp(16px, 5vw, 40px));
   }
   .hiw-v4__section {
     padding-block: clamp(var(--space-l), 8vw, var(--space-xxl));
@@ -129,24 +129,81 @@
     gap: var(--space-xs);
     align-items: start;
   }
-  .hiw-v4-icon-nav__eyebrow {
-    font-size: 0.7rem;
-    letter-spacing: 0.18em;
+  .hiw-v4-icon-nav__bar {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding-block: var(--space-s);
+    color: var(--color-heading);
+    background: var(--color-surface, #fff);
+  }
+  .hiw-v4-icon-nav__bar::before,
+  .hiw-v4-icon-nav__bar::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--color-border, #e9ecef);
+  }
+  .hiw-v4-icon-nav__bar::before { top: 0; }
+  .hiw-v4-icon-nav__bar::after { bottom: 0; }
+  .hiw-v4-icon-nav__bar-label {
+    justify-self: start;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     font-weight: 700;
-    color: var(--color-heading);
-    opacity: 0.72;
+    opacity: 0.68;
     display: inline-flex;
     align-items: center;
-    gap: 0.4rem;
+    gap: .5rem;
   }
-  .hiw-v4-icon-nav__eyebrow::before {
-    content: '';
-    display: block;
+  .hiw-v4-icon-nav__bar-label::before {
+    content: "";
+    display: inline-block;
     width: 1.25rem;
     height: 2px;
-    background-color: currentColor;
-    opacity: 0.35;
+    background: currentColor;
+    opacity: .35;
+  }
+  .hiw-v4-icon-nav__bar-top {
+    justify-self: end;
+    font-size: .78rem;
+    font-weight: 600;
+    color: var(--color-heading);
+    opacity: .55;
+    text-decoration: none !important;
+    background-image: none !important;
+    padding: .25rem .5rem;
+    border-radius: 999px;
+    transition: opacity .2s ease, background-color .2s ease;
+  }
+  .hiw-v4-icon-nav__bar-top:hover {
+    opacity: .85;
+    background: var(--color-surface-alt, #f8f9fa);
+  }
+  .hiw-v4-icon-nav.is-stuck .hiw-v4-icon-nav__bar {
+    position: sticky;
+    top: var(--sticky-offset, 64px);
+    z-index: 6;
+    backdrop-filter: saturate(120%) blur(6px);
+    -webkit-backdrop-filter: saturate(120%) blur(6px);
+    background: color-mix(in oklab, var(--color-surface, #fff) 85%, transparent);
+    border-bottom: 1px solid var(--color-border, #e9ecef);
+    padding-block: calc(var(--space-s) - 2px);
+  }
+  .hiw-v4-icon-nav.is-stuck .hiw-v4-icon-nav__bar-top {
+    opacity: .8;
+  }
+  @media (max-width: 699px) {
+    .hiw-v4-icon-nav__bar-label { display: none; }
+    .hiw-v4-icon-nav__bar-top {
+      justify-self: start;
+      border: 1px solid var(--color-border, #e9ecef);
+    }
   }
   .hiw-v4-icon-nav__grid {
     display: grid;
@@ -345,6 +402,8 @@
 
 <section id="hiw">
 
+  <div id="top"></div>
+
   {% comment %} HERO {% endcomment %}
   <div class="hiw-v4-hero">
     <div class="hiw-v4__inner">
@@ -379,7 +438,10 @@
     {%- assign icon_blocks = section.blocks | where: "type", "icon_link" -%}
     {% if icon_blocks.size > 0 %}
       <nav class="hiw-v4-icon-nav" aria-label="Jump to section">
-        <p class="hiw-v4-icon-nav__eyebrow">Jump to section</p>
+        <div class="hiw-v4-icon-nav__bar" id="hiw-jump-bar">
+          <span class="hiw-v4-icon-nav__bar-label">Jump to section</span>
+          <a href="#top" class="hiw-v4-icon-nav__bar-top" aria-label="Back to top">Top</a>
+        </div>
         <div class="hiw-v4-icon-nav__grid">
           {% for block in icon_blocks %}
             <a href="{{ block.settings.link | default: '#' }}" class="hiw-v4-icon-nav__item" {{ block.shopify_attributes }}>
@@ -601,6 +663,33 @@
       </div>
     </div>
   {% endif %}
+
+  <script>
+  (function() {
+    const nav = document.querySelector('.hiw-v4-icon-nav');
+    const bar = document.getElementById('hiw-jump-bar');
+    if (!nav || !bar || !('IntersectionObserver' in window)) return;
+
+    const sentry = document.createElement('div');
+    sentry.style.position = 'absolute';
+    sentry.style.top = '-1px';
+    sentry.style.height = '1px';
+    sentry.style.width = '1px';
+    bar.prepend(sentry);
+
+    const io = new IntersectionObserver((entries) => {
+      const e = entries[0];
+      if (!e) return;
+      if (e.intersectionRatio < 1) {
+        nav.classList.add('is-stuck');
+      } else {
+        nav.classList.remove('is-stuck');
+      }
+    }, { threshold: [1] });
+
+    io.observe(bar);
+  })();
+  </script>
 
 </section>
 
