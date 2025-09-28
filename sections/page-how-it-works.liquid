@@ -1,6 +1,7 @@
 {% comment %} /sections/page-how-it-works.liquid - V2 Polished {% endcomment %}
 <style>
   .how-it-works-page {
+    --space-xs: 0.75rem;
     --space-s: 1rem;
     --space-m: 1.5rem;
     --space-l: 2.5rem;
@@ -27,23 +28,42 @@
     text-underline-offset: 3px;
   }
 
-  .how-it-works-page > section {
-    padding-block: var(--space-xl);
-    border-bottom: 1px solid var(--color-border);
-  }
-  
-  .how-it-works-page > section:first-child {
-     padding-block-start: var(--space-l);
+  .how-it-works-page__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-inline: clamp(1.5rem, 5vw, 3.5rem);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xl);
   }
 
   @media (max-width: 768px) {
-    .how-it-works-page > section {
-      padding-block: var(--space-l);
+    .how-it-works-page__inner {
+      padding-inline: clamp(1rem, 6vw, 1.5rem);
+      gap: var(--space-l);
     }
   }
 
-  .how-it-works-page > section:last-of-type {
+  .how-it-works-page__section {
+    padding-block: clamp(var(--space-l), 6vw, var(--space-xxl));
+    border-bottom: 1px solid var(--color-border);
+    scroll-margin-top: 120px;
+  }
+
+  .how-it-works-page__section:first-child {
+     padding-block-start: clamp(var(--space-m), 5vw, var(--space-xl));
+  }
+
+  .how-it-works-page__section:last-of-type {
     border-bottom: none;
+    padding-block-end: clamp(var(--space-l), 6vw, var(--space-xxl));
+  }
+
+  @media (max-width: 768px) {
+    .how-it-works-page__section {
+      padding-block: var(--space-xl);
+    }
   }
   
   .page-width--narrow {
@@ -72,20 +92,31 @@
     font-size: 1.125rem;
     line-height: 1.7;
     max-width: 65ch;
+    display: grid;
+    gap: var(--space-xs);
   }
   .how-it-works-page .rte > p:last-child {
     margin-bottom: 0;
   }
 
+  .how-it-works-page .page-width--narrow {
+    margin-inline: auto;
+    display: grid;
+    gap: var(--space-m);
+    justify-items: center;
+  }
+
   /* --- Section: Hero --- */
   .hiw-hero {
+    display: grid;
+    justify-items: center;
     text-align: center;
+    gap: var(--space-xl);
   }
   .hiw-hero .rte {
     margin-inline: auto;
   }
   .hiw-hero__media-container {
-    margin-bottom: var(--space-l);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -105,7 +136,7 @@
     width: 100%;
     max-width: 800px;
     margin-inline: auto;
-    margin-block-start: var(--space-l);
+    margin-block-start: 0;
     border-radius: 12px;
     overflow: hidden;
     background-color: #000;
@@ -120,7 +151,7 @@
   .hiw-icon-links__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: var(--space-m);
+    gap: clamp(var(--space-m), 4vw, var(--space-xl));
     text-align: center;
   }
   .hiw-icon-links__item {
@@ -128,16 +159,17 @@
     flex-direction: column;
     align-items: center;
     gap: var(--space-s);
-    padding: var(--space-m);
+    padding: clamp(var(--space-m), 3vw, var(--space-l));
     background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 12px;
+    border-radius: 16px;
     transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.05);
   }
   .hiw-icon-links__item:hover {
     transform: translateY(-4px);
     border-color: transparent;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 16px 32px rgba(0,0,0,0.1);
   }
   .hiw-icon-links__icon {
     width: 48px;
@@ -159,20 +191,27 @@
   .hiw-title-block .how-it-works-page__heading {
     margin-bottom: var(--space-m);
   }
+  .hiw-title-block .btn {
+    margin-top: var(--space-m);
+  }
 
   /* --- Section: "How We..." Process Grid --- */
   .hiw-process__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-l);
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: clamp(var(--space-l), 5vw, var(--space-xxl));
     text-align: center;
+    margin-top: clamp(var(--space-m), 3vw, var(--space-xl));
   }
   .hiw-process__card {
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: var(--space-m);
-    border-radius: 12px;
+    gap: var(--space-m);
+    padding: clamp(var(--space-m), 3vw, var(--space-l));
+    border-radius: 16px;
+    background-color: var(--color-surface);
+    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.06);
   }
   .hiw-process__card-icon {
     height: 120px;
@@ -180,7 +219,6 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: center;
-    margin-bottom: var(--space-m);
   }
   .hiw-process__card-title {
     font-size: 1.5rem;
@@ -189,7 +227,7 @@
   }
   .hiw-process__card .rte {
     font-size: 1rem;
-    line-height: 1.6;
+    line-height: 1.65;
     margin: 0 auto;
   }
 
@@ -197,8 +235,13 @@
   .hiw-cta {
     text-align: center;
     background-color: var(--color-surface-alt);
-    padding: var(--space-xl);
-    border-radius: 12px;
+    padding: clamp(var(--space-xl), 5vw, var(--space-xxl));
+    border-radius: 24px;
+    box-shadow: 0 24px 50px rgba(0,0,0,0.08);
+  }
+  .hiw-cta.how-it-works-page__section {
+    border: none;
+    padding-block: 0;
   }
   .hiw-cta .how-it-works-page__heading {
     margin-bottom: var(--space-m);
@@ -215,21 +258,25 @@
   .hiw-category__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: var(--space-l);
+    gap: clamp(var(--space-l), 5vw, var(--space-xxl));
   }
   .hiw-category__card {
     background-color: #fff;
-    border-radius: 16px;
+    border-radius: 20px;
     overflow: hidden;
     text-align: center;
     text-decoration: none;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    box-shadow: 0 10px 28px rgba(0,0,0,0.05);
     border: 1px solid var(--color-border);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
   .hiw-category__card:hover {
     transform: translateY(-6px);
-    box-shadow: 0 12px 28px rgba(0,0,0,0.07);
+    border-color: transparent;
+    box-shadow: 0 18px 38px rgba(0,0,0,0.08);
   }
   .hiw-category__card-media {
     aspect-ratio: 1 / 1;
@@ -241,7 +288,10 @@
     object-fit: cover;
   }
   .hiw-category__card-content {
-    padding: var(--space-m);
+    padding: clamp(var(--space-m), 3vw, var(--space-l));
+    display: grid;
+    gap: var(--space-s);
+    flex: 1;
   }
   .hiw-category__card-title {
     font-size: 1.25rem;
@@ -259,7 +309,7 @@
   .hiw-feature-row {
     display: grid;
     grid-template-columns: 1fr;
-    gap: var(--space-l);
+    gap: var(--space-xl);
     align-items: center;
   }
   @media (min-width: 769px) {
@@ -291,12 +341,19 @@
     height: 100%;
     object-fit: cover;
   }
+  .hiw-feature-row__content {
+    display: grid;
+    gap: var(--space-m);
+    max-width: 520px;
+    justify-items: start;
+  }
   .hiw-feature-row__content .how-it-works-page__heading {
     font-size: clamp(1.75rem, 4vw, 2.25rem);
-    margin-bottom: var(--space-m);
+    margin: 0;
   }
   .hiw-feature-row__content .btn {
-    margin-top: var(--space-l);
+    margin-top: var(--space-s);
+    justify-self: start;
   }
 
   /* --- Section: Food Safety --- */
@@ -305,6 +362,9 @@
     flex-direction: column;
     gap: var(--space-xxl);
     margin-top: var(--space-xxl);
+  }
+  .hiw-food-safety__details .how-it-works-page__heading {
+    font-size: clamp(1.5rem, 3.5vw, 2.1rem);
   }
   @media (max-width: 768px) {
     .hiw-food-safety__details {
@@ -318,6 +378,9 @@
     max-width: 800px;
     margin-inline: auto;
   }
+  .hiw-faq .hiw-title-block {
+    margin-bottom: var(--space-l);
+  }
   .hiw-faq__item {
     border-bottom: 1px solid var(--color-border);
   }
@@ -328,7 +391,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: var(--space-m) 0;
+    padding: clamp(var(--space-m), 3vw, var(--space-l)) 0;
     font-size: 1.2rem;
     font-weight: 600;
     cursor: pointer;
@@ -349,7 +412,8 @@
     transform: rotate(45deg);
   }
   .hiw-faq__answer {
-    padding-bottom: var(--space-m);
+    padding-top: var(--space-xs);
+    padding-bottom: clamp(var(--space-m), 3vw, var(--space-l));
   }
   .hiw-faq__answer .rte {
     font-size: 1rem;
@@ -357,9 +421,9 @@
 </style>
 
 <div class="how-it-works-page">
-  <div class="page-width">
+  <div class="how-it-works-page__inner page-width">
     {% comment %} HERO SECTION {% endcomment %}
-    <section class="hiw-hero">
+    <section class="hiw-hero how-it-works-page__section">
       {% if section.settings.hero_image != blank %}
         <div class="hiw-hero__media-container">
           <div class="hiw-hero__media">
@@ -376,7 +440,7 @@
           <h1 class="how-it-works-page__heading">{{ section.settings.hero_heading | escape }}</h1>
         {% endif %}
         {% if section.settings.hero_text != blank %}
-          <div class="rte" style="margin-top: var(--space-m);">{{ section.settings.hero_text }}</div>
+          <div class="rte">{{ section.settings.hero_text }}</div>
         {% endif %}
       </div>
       
@@ -396,7 +460,7 @@
     {% comment %} ICON LINKS SECTION {% endcomment %}
     {% assign icon_blocks = section.blocks | where: "type", "icon_link" %}
     {% if icon_blocks.size > 0 %}
-      <section class="hiw-icon-links">
+      <section class="hiw-icon-links how-it-works-page__section">
         <div class="hiw-icon-links__grid">
           {% for block in icon_blocks %}
             <a href="{{ block.settings.link }}" class="hiw-icon-links__item" {{ block.shopify_attributes }}>
@@ -413,7 +477,7 @@
     {% endif %}
 
     {% comment %} "HOW WE..." PROCESS SECTION {% endcomment %}
-    <section id="offer" class="hiw-process">
+    <section id="offer" class="hiw-process how-it-works-page__section">
       {% if section.settings.process_heading != blank %}
         <div class="hiw-title-block page-width--narrow">
           <h2 class="how-it-works-page__heading">{{ section.settings.process_heading | escape }}</h2>
@@ -421,7 +485,7 @@
       {% endif %}
       {% assign process_blocks = section.blocks | where: "type", "process_step" %}
       {% if process_blocks.size > 0 %}
-        <div class="hiw-process__grid" style="margin-top: var(--space-l);">
+        <div class="hiw-process__grid">
           {% for block in process_blocks %}
             <div class="hiw-process__card" {{ block.shopify_attributes }}>
               {% if block.settings.image != blank %}
@@ -443,7 +507,7 @@
     </section>
 
     {% comment %} CTA SECTION {% endcomment %}
-    <section class="hiw-cta">
+    <section class="hiw-cta how-it-works-page__section">
       <div class="page-width--narrow">
         {% if section.settings.cta_heading != blank %}
           <h2 class="how-it-works-page__heading">{{ section.settings.cta_heading | escape }}</h2>
@@ -460,7 +524,7 @@
     {% comment %} CATEGORY TILES SECTION {% endcomment %}
     {% assign category_blocks = section.blocks | where: "type", "category_tile" %}
     {% if category_blocks.size > 0 %}
-      <section class="hiw-category">
+      <section class="hiw-category how-it-works-page__section">
         <div class="hiw-category__grid">
           {% for block in category_blocks %}
             <a href="{{ block.settings.link }}" class="hiw-category__card" {{ block.shopify_attributes }}>
@@ -484,7 +548,7 @@
     {% endif %}
 
     {% comment %} SNACKS & MORE SECTION {% endcomment %}
-    <section>
+    <section class="how-it-works-page__section">
       <div class="hiw-feature-row">
         <div class="hiw-feature-row__media">
           {% if section.settings.snacks_image != blank %}
@@ -506,7 +570,7 @@
     </section>
 
     {% comment %} ENVIRONMENT SECTION {% endcomment %}
-    <section>
+    <section class="how-it-works-page__section">
       <div class="hiw-feature-row hiw-feature-row--reversed">
         <div class="hiw-feature-row__media">
           {% if section.settings.env_image != blank %}
@@ -525,7 +589,7 @@
     </section>
 
     {% comment %} DELIVERY / PICKUP SECTION {% endcomment %}
-    <section id="delivery" class="hiw-title-block">
+    <section id="delivery" class="hiw-title-block how-it-works-page__section">
       <div class="page-width--narrow">
         {% if section.settings.delivery_heading != blank %}
           <h2 class="how-it-works-page__heading">{{ section.settings.delivery_heading | escape }}</h2>
@@ -534,13 +598,13 @@
           <div class="rte">{{ section.settings.delivery_text }}</div>
         {% endif %}
         {% if section.settings.delivery_button_label != blank and section.settings.delivery_button_link != blank %}
-          <a href="{{ section.settings.delivery_button_link }}" class="btn" style="margin-top: var(--space-l);">{{ section.settings.delivery_button_label | escape }}</a>
+          <a href="{{ section.settings.delivery_button_link }}" class="btn">{{ section.settings.delivery_button_label | escape }}</a>
         {% endif %}
       </div>
     </section>
 
     {% comment %} HEAT & EAT SECTION {% endcomment %}
-    <section class="hiw-title-block">
+    <section class="hiw-title-block how-it-works-page__section">
       <div class="page-width--narrow">
         {% if section.settings.heat_heading != blank %}
           <h2 class="how-it-works-page__heading">{{ section.settings.heat_heading | escape }}</h2>
@@ -549,13 +613,13 @@
           <div class="rte">{{ section.settings.heat_text }}</div>
         {% endif %}
         {% if section.settings.heat_button_label != blank and section.settings.heat_button_link != blank %}
-          <a href="{{ section.settings.heat_button_link }}" class="btn" style="margin-top: var(--space-l);">{{ section.settings.heat_button_label | escape }}</a>
+          <a href="{{ section.settings.heat_button_link }}" class="btn">{{ section.settings.heat_button_label | escape }}</a>
         {% endif %}
       </div>
     </section>
 
     {% comment %} FOOD SAFETY SECTION {% endcomment %}
-    <section id="foodsafety" class="hiw-food-safety">
+    <section id="foodsafety" class="hiw-food-safety how-it-works-page__section">
       <div class="hiw-title-block page-width--narrow">
         {% if section.settings.safety_subheading != blank %}
           <h3 class="how-it-works-page__subheading">{{ section.settings.safety_subheading | escape }}</h3>
@@ -580,7 +644,7 @@
               </div>
               <div class="hiw-feature-row__content">
                 {% if block.settings.title != blank %}
-                  <h3 class="how-it-works-page__heading" style="font-size: 2rem;">{{ block.settings.title | escape }}</h3>
+                  <h3 class="how-it-works-page__heading">{{ block.settings.title | escape }}</h3>
                 {% endif %}
                 {% if block.settings.text != blank %}
                   <div class="rte">{{ block.settings.text }}</div>
@@ -595,9 +659,9 @@
     {% comment %} FAQ SECTION {% endcomment %}
     {% assign faq_blocks = section.blocks | where: "type", "faq_item" %}
     {% if faq_blocks.size > 0 %}
-      <section id="faq" class="hiw-faq">
+      <section id="faq" class="hiw-faq how-it-works-page__section">
         <div class="page-width--narrow">
-          <div class="hiw-title-block" style="margin-bottom: var(--space-l);">
+          <div class="hiw-title-block">
             <h2 class="how-it-works-page__heading">{{ 'general.faq.title' | t }}</h2>
           </div>
           {% for block in faq_blocks %}
