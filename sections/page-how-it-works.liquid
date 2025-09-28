@@ -41,9 +41,9 @@
 
   /* --- LAYOUT PRIMITIVES --- */
   .hiw-v4__inner {
-    max-width: var(--container-max);
+    max-width: var(--container-max, 1200px);
     margin-inline: auto;
-    padding-inline: var(--gutter);
+    padding-inline: var(--container-gutter, var(--gutter));
   }
   .hiw-v4__section {
     padding-block: clamp(var(--space-l), 8vw, var(--space-xxl));
@@ -153,23 +153,37 @@
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: var(--space-s);
     padding-block: var(--space-m);
-    border-top: 1px solid var(--color-border);
-    border-bottom: 1px solid var(--color-border);
+    border-top: 1px solid var(--color-border, #e9ecef);
+    border-bottom: 1px solid var(--color-border, #e9ecef);
+    background: var(--color-surface, #fff);
   }
   .hiw-v4-icon-nav__item {
     display: flex;
     align-items: center;
     gap: var(--space-s);
     padding: var(--space-s);
-    text-decoration: none;
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
     border-radius: 8px;
     transition: background-color 0.2s ease;
+    color: var(--color-heading);
   }
-  .hiw-v4-icon-nav__item:hover { background-color: var(--color-surface-alt); }
+  .hiw-v4-icon-nav a,
+  .hiw-v4-icon-nav a:link,
+  .hiw-v4-icon-nav a:visited,
+  .hiw-v4-icon-nav a:hover,
+  .hiw-v4-icon-nav a:active,
+  .hiw-v4-icon-nav a:focus {
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  .hiw-v4-icon-nav__item:hover { background-color: var(--color-surface-alt, #f8f9fa); }
   .hiw-v4-icon-nav__item:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
-    background-color: var(--color-surface-alt);
+    background-color: var(--color-surface-alt, #f8f9fa);
   }
   .hiw-v4-icon-nav__icon {
     width: 32px;
@@ -182,7 +196,11 @@
     height: 100%;
     display: block;
   }
-  .hiw-v4-icon-nav__label { font-weight: 600; color: var(--color-heading); }
+  .hiw-v4-icon-nav__label {
+    font-weight: 600;
+    color: var(--color-heading);
+    text-decoration: none !important;
+  }
 
   /* --- [V4] GUIDED PROCESS --- */
 .hiw-v4-process__header {
