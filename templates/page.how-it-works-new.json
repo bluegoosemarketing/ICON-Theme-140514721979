@@ -11,7 +11,7 @@
         "process_heading": "How We Cook, Pack, & Ship",
         "cta_heading": "Shop Meals, Snacks, & more",
         "cta_text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
-        "cta_button_label": "Shop Our Weekly Menu",
+        "cta_button_label": "Shop This Week’s Menu",
         "cta_button_link": "shopify://collections/signature-menu",
         "snacks_image": "shopify://shop_images/tile-snacks.jpg",
         "snacks_subheading": "We've also got snacks and more!",
@@ -45,6 +45,7 @@
         "category_menu",
         "category_custom",
         "category_bulk",
+        "category_snacks",
         "safety_facility",
         "safety_usda",
         "safety_sourcing",
@@ -141,6 +142,15 @@
             "title": "Bulk Items",
             "text": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p>",
             "link": "shopify://collections/bulk-items"
+          }
+        },
+        "category_snacks": {
+          "type": "category_tile",
+          "settings": {
+            "image": "shopify://shop_images/tile-snacks.jpg",
+            "title": "Snacks & More",
+            "text": "<p>Protein popcorn, butters, breads, coffee, sauces, seasonings & more.</p>",
+            "link": "shopify://pages/snacks-more"
           }
         },
         "safety_facility": {

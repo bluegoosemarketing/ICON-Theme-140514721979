@@ -146,58 +146,61 @@
   .hiw-v4-icon-nav__label { font-weight: 600; color: var(--color-heading); }
 
   /* --- [V4] GUIDED PROCESS --- */
-  .hiw-v4-process__grid {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-xl);
-    padding-top: 60px; /* Make space for the stamp image */
+.hiw-v4-process__header {
+  margin-bottom: var(--space-xl);
+}
+.hiw-v4__stamp-image {
+  position: relative;
+  margin-inline: auto;
+  margin-bottom: var(--space-m);
+  width: clamp(100px, 15vw, 140px);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  overflow: hidden;
+  background-color: var(--color-surface);
+  padding: 6px;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+}
+.hiw-v4__stamp-image img {
+  border-radius: 50%;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.hiw-v4-process__steps {
+  display: grid;
+  gap: var(--space-xl);
+}
+@media (min-width: 900px) {
+  .hiw-v4-process__steps {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
-  @media(min-width: 900px) {
-    .hiw-v4-process__grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
-    }
-  }
-  .hiw-v4__stamp-image {
-    position: absolute;
-    top: 0;
-    left: 0;
-    transform: translateY(-50%);
-    width: clamp(100px, 15vw, 140px);
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    overflow: hidden;
-    background-color: var(--color-surface); /* Match page background */
-    padding: 6px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-    z-index: 5;
-  }
-  .hiw-v4__stamp-image img {
-    border-radius: 50%;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  .hiw-v4-process__title-wrapper { text-align: left; }
-  @media(min-width: 900px) {
-    .hiw-v4-process__title-wrapper { position: sticky; top: var(--space-l); align-self: start; }
-  }
-  .hiw-v4-process__steps { display: grid; gap: var(--space-xl); }
-  .hiw-v4-process__step {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: var(--space-m);
-    align-items: start;
-  }
-  .hiw-v4-process__step-number {
-    font-size: 3rem;
-    font-weight: 800;
-    color: var(--color-accent);
-    line-height: 1;
-  }
-  .hiw-v4-process__step-icon { width: 64px; height: 64px; margin-bottom: var(--space-s); }
-  .hiw-v4-process__step-icon img { width: 100%; height: 100%; object-fit: contain; }
-  .hiw-v4-process__step .rte { font-size: 0.95rem; }
+}
+.hiw-v4-process__step {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: var(--space-m);
+  align-items: start;
+}
+.hiw-v4-process__step-number {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--color-accent);
+  line-height: 1;
+}
+.hiw-v4-process__step-icon {
+  width: 64px;
+  height: 64px;
+  margin-bottom: var(--space-s);
+}
+.hiw-v4-process__step-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+.hiw-v4-process__step .rte {
+  font-size: 0.95rem;
+}
 
   /* --- [V4] CTA --- */
   .hiw-v4-cta {
@@ -206,7 +209,10 @@
     border-radius: 20px;
     padding: clamp(var(--space-l), 6vw, var(--space-xl));
   }
-  .hiw-v4-cta h2 { color: inherit; }
+  .hiw-v4-cta h2 {
+  color: #FFFFFF !important; /* Force white color for visibility */
+  font-size: clamp(28px,4.2vw,40px);
+}
   .hiw-v4-cta .btn { --color-button-background: var(--color-surface); --color-button-text: var(--color-heading); }
 
   /* --- [V4] CATEGORY TILES --- */
@@ -257,6 +263,27 @@
   .hiw-v4-faq__item[open] > summary .hiw-v4-faq__icon { transform: rotate(45deg); }
   .hiw-v4-faq__answer { padding-bottom: var(--space-l); }
   .hiw-v4-faq__answer .rte { font-size: 1rem; max-width: none; }
+
+  /* --- [V4] STYLE FIXES --- */
+  /* 1) Hero eyebrow visibility */
+  .hiw-v4-hero .hiw-v4-subheading {
+    display: inline-block;
+    color: var(--color-hero-text);
+    background: rgba(255,255,255,.08);
+    border: 1px solid rgba(255,255,255,.18);
+    padding: .25rem .6rem;
+    border-radius: 9999px;
+  }
+  
+  /* 6) Neutralize underlined red links inside cards */
+  .hiw-v4-card__content .rte a {
+    color: var(--color-heading);
+    text-decoration: none;
+  }
+  .hiw-v4-card__content .rte a:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
 </style>
 
 <section id="hiw">
@@ -312,41 +339,39 @@
   </div>
 
   {% comment %} GUIDED PROCESS {% endcomment %}
-  {%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
-  {% if process_blocks.size > 0 %}
-    <div id="offer" class="hiw-v4__section">
-      <div class="hiw-v4__inner">
-        <div class="hiw-v4-process__grid">
-          {% if section.settings.hero_image != blank %}
-            <div class="hiw-v4__stamp-image">
-              {{ section.settings.hero_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 225, 300' }}
-            </div>
-          {% endif %}
-          <div class="hiw-v4-process__title-wrapper">
-            <h2>{{ section.settings.process_heading | escape }}</h2>
+{%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
+{% if process_blocks.size > 0 %}
+  <div id="offer" class="hiw-v4__section">
+    <div class="hiw-v4__inner">
+      <div class="hiw-v4-process__header hiw-v4__centered-content">
+        {% if section.settings.hero_image != blank %}
+          <div class="hiw-v4__stamp-image">
+            {{ section.settings.hero_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 225, 300' }}
           </div>
-          <div class="hiw-v4-process__steps">
-            {% for block in process_blocks %}
-              <div class="hiw-v4-process__step" {{ block.shopify_attributes }}>
-                <span class="hiw-v4-process__step-number">0{{ forloop.index }}</span>
-                <div>
-                  {% if block.settings.image != blank %}
-                    <div class="hiw-v4-process__step-icon">
-                      {{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}
-                    </div>
-                  {% endif %}
-                  <h3>{{ block.settings.title | escape }}</h3>
-                  {% if block.settings.text != blank %}
-                    <div class="rte">{{ block.settings.text }}</div>
-                  {% endif %}
+        {% endif %}
+        <h2>{{ section.settings.process_heading | escape }}</h2>
+      </div>
+      <div class="hiw-v4-process__steps">
+        {% for block in process_blocks %}
+          <div class="hiw-v4-process__step" {{ block.shopify_attributes }}>
+            <span class="hiw-v4-process__step-number">0{{ forloop.index }}</span>
+            <div>
+              {% if block.settings.image != blank %}
+                <div class="hiw-v4-process__step-icon">
+                  {{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}
                 </div>
-              </div>
-            {% endfor %}
+              {% endif %}
+              <h3>{{ block.settings.title | escape }}</h3>
+              {% if block.settings.text != blank %}
+                <div class="rte">{{ block.settings.text }}</div>
+              {% endif %}
+            </div>
           </div>
-        </div>
+        {% endfor %}
       </div>
     </div>
-  {% endif %}
+  </div>
+{% endif %}
 
   {% comment %} LARGE CTA {% endcomment %}
   {% if section.settings.cta_heading != blank %}
@@ -397,16 +422,18 @@
   <div class="hiw-v4__section">
     <div class="hiw-v4__inner">
       <div class="hiw-v4-stack--xl">
-        <div class="hiw-v4-feature">
-          <div class="hiw-v4-feature__media">
-            {% if section.settings.snacks_image != blank %}{{ section.settings.snacks_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+        {% if section.settings.show_snacks_feature %}
+          <div class="hiw-v4-feature">
+            <div class="hiw-v4-feature__media">
+              {% if section.settings.snacks_image != blank %}{{ section.settings.snacks_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
+            </div>
+            <div class="hiw-v4-feature__content">
+              {% if section.settings.snacks_subheading != blank %}<p class="hiw-v4-subheading">{{ section.settings.snacks_subheading | escape }}</p>{% endif %}
+              {% if section.settings.snacks_text != blank %}<div class="rte">{{ section.settings.snacks_text }}</div>{% endif %}
+              {% if section.settings.snacks_button_label != blank and section.settings.snacks_button_link != blank %}<a href="{{ section.settings.snacks_button_link }}" class="btn">{{ section.settings.snacks_button_label | escape }}</a>{% endif %}
+            </div>
           </div>
-          <div class="hiw-v4-feature__content">
-            {% if section.settings.snacks_subheading != blank %}<p class="hiw-v4-subheading">{{ section.settings.snacks_subheading | escape }}</p>{% endif %}
-            {% if section.settings.snacks_text != blank %}<div class="rte">{{ section.settings.snacks_text }}</div>{% endif %}
-            {% if section.settings.snacks_button_label != blank and section.settings.snacks_button_link != blank %}<a href="{{ section.settings.snacks_button_link }}" class="btn">{{ section.settings.snacks_button_label | escape }}</a>{% endif %}
-          </div>
-        </div>
+        {% endif %}
         <div class="hiw-v4-feature hiw-v4-feature--reversed">
           <div class="hiw-v4-feature__media">
             {% if section.settings.env_image != blank %}{{ section.settings.env_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
@@ -542,6 +569,7 @@
     { "type": "text", "id": "cta_button_label", "label": "Button label", "default": "Shop Our Weekly Menu" },
     { "type": "url", "id": "cta_button_link", "label": "Button link" },
     { "type": "header", "content": "Snacks & More Section" },
+    { "type": "checkbox", "id": "show_snacks_feature", "label": "Show separate Snacks & More feature section", "default": false },
     { "type": "image_picker", "id": "snacks_image", "label": "Image" },
     { "type": "text", "id": "snacks_subheading", "label": "Subheading", "default": "We've also got snacks and more!" },
     { "type": "richtext", "id": "snacks_text", "label": "Text", "default": "<p>From protein-packed popcorn, butters, and bread to wagyu beef strips, sauces, coffee and seasonings... we've got something for you!</p>" },
@@ -584,7 +612,7 @@
       ]
     },
     {
-      "type": "category_tile", "name": "Category Tile", "limit": 4,
+      "type": "category_tile", "name": "Category Tile", "limit": 5,
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Image" },
         { "type": "text", "id": "title", "label": "Title", "default": "Category Title" },
