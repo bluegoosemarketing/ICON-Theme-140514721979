@@ -124,6 +124,30 @@
   .hiw-v4-hero__video iframe { width: 100%; height: 100%; border: 0; }
 
   /* --- [V4] ICON NAV --- */
+  .hiw-v4-icon-nav {
+    display: grid;
+    gap: var(--space-xs);
+    align-items: start;
+  }
+  .hiw-v4-icon-nav__eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: var(--color-heading);
+    opacity: 0.72;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+  .hiw-v4-icon-nav__eyebrow::before {
+    content: '';
+    display: block;
+    width: 1.25rem;
+    height: 2px;
+    background-color: currentColor;
+    opacity: 0.35;
+  }
   .hiw-v4-icon-nav__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
@@ -142,7 +166,22 @@
     transition: background-color 0.2s ease;
   }
   .hiw-v4-icon-nav__item:hover { background-color: var(--color-surface-alt); }
-  .hiw-v4-icon-nav__icon { width: 32px; height: 32px; color: var(--color-accent); flex-shrink: 0; }
+  .hiw-v4-icon-nav__item:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 3px;
+    background-color: var(--color-surface-alt);
+  }
+  .hiw-v4-icon-nav__icon {
+    width: 32px;
+    height: 32px;
+    color: var(--color-accent);
+    flex-shrink: 0;
+  }
+  .hiw-v4-icon-nav__icon svg {
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
   .hiw-v4-icon-nav__label { font-weight: 600; color: var(--color-heading); }
 
   /* --- [V4] GUIDED PROCESS --- */
@@ -321,20 +360,44 @@
     {% comment %} ICON NAV {% endcomment %}
     {%- assign icon_blocks = section.blocks | where: "type", "icon_link" -%}
     {% if icon_blocks.size > 0 %}
-      <div class="hiw-v4-icon-nav">
+      <nav class="hiw-v4-icon-nav" aria-label="Jump to section">
+        <p class="hiw-v4-icon-nav__eyebrow">Jump to section</p>
         <div class="hiw-v4-icon-nav__grid">
           {% for block in icon_blocks %}
             <a href="{{ block.settings.link | default: '#' }}" class="hiw-v4-icon-nav__item" {{ block.shopify_attributes }}>
               {% if block.settings.icon != 'none' and block.settings.icon != blank %}
                 <div class="hiw-v4-icon-nav__icon">
-                  {% render 'icon', name: block.settings.icon %}
+                  {% case block.settings.icon %}
+                    {% when 'restaurant' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 17h18" />
+                        <path d="M5 17a7 7 0 0 1 14 0" />
+                        <path d="M12 3v3" />
+                        <path d="M9 21h6" />
+                      </svg>
+                    {% when 'home-smile' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M3 10.5L12 3l9 7.5" />
+                        <path d="M5 10.5V21h5v-5h4v5h5V10.5" />
+                        <path d="M9.5 15a2.5 2.5 0 0 0 5 0" />
+                      </svg>
+                    {% when 'star' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 3.5l2.38 4.82 5.32.77-3.85 3.75.91 5.29L12 15.9l-4.76 2.53.91-5.29-3.85-3.75 5.32-.77L12 3.5z" />
+                      </svg>
+                    {% when 'question-answer' %}
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M5 4h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z" />
+                        <path d="M15 12.5V18a2 2 0 0 0 2 2h1l3 3v-7a2 2 0 0 0-2-2h-4" />
+                      </svg>
+                  {% endcase %}
                 </div>
               {% endif %}
               <span class="hiw-v4-icon-nav__label">{{ block.settings.label | escape }}</span>
             </a>
           {% endfor %}
         </div>
-      </div>
+      </nav>
     {% endif %}
   </div>
 
