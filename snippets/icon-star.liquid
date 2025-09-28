@@ -1,0 +1,11 @@
+{%- assign _size = size | default: '1em' -%}
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{{ _size }}" height="{{ _size }}" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="{{ stroke_width | default: 1.8 }}"
+     stroke-linecap="round" stroke-linejoin="round"
+     class="{{ class }}" role="{{ role | default: 'img' }}"
+     {% if aria_hidden == 'true' %}aria-hidden="true"{% endif %}
+     {% if aria_labelledby and aria_labelledby != '' %}aria-labelledby="{{ aria_labelledby }}"{% endif %}>
+  {%- if title and title != '' -%}<title id="{{ title_id }}">{{ title }}</title>{%- endif -%}
+  <path d="M12 3.5l2.9 5.88 6.5.95-4.7 4.58 1.1 6.44L12 18.9 6.2 21.35l1.1-6.44L2.6 10.33l6.5-.95L12 3.5z"/>
+</svg>

@@ -1,0 +1,13 @@
+{%- assign _size = size | default: '1em' -%}
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{{ _size }}" height="{{ _size }}" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="{{ stroke_width | default: 1.8 }}"
+     stroke-linecap="round" stroke-linejoin="round"
+     class="{{ class }}" role="{{ role | default: 'img' }}"
+     {% if aria_hidden == 'true' %}aria-hidden="true"{% endif %}
+     {% if aria_labelledby and aria_labelledby != '' %}aria-labelledby="{{ aria_labelledby }}"{% endif %}>
+  {%- if title and title != '' -%}<title id="{{ title_id }}">{{ title }}</title>{%- endif -%}
+  <circle cx="12" cy="12" r="9" />
+  <path d="M12 16v-1.5c0-1.4 2-1.8 2-3.5a2 2 0 1 0-4 0" />
+  <circle cx="12" cy="18" r="0.75" />
+</svg>

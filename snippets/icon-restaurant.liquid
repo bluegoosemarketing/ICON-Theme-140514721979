@@ -1,0 +1,15 @@
+{%- assign _size = size | default: '1em' -%}
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{{ _size }}" height="{{ _size }}" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="{{ stroke_width | default: 1.8 }}"
+     stroke-linecap="round" stroke-linejoin="round"
+     class="{{ class }}" role="{{ role | default: 'img' }}"
+     {% if aria_hidden == 'true' %}aria-hidden="true"{% endif %}
+     {% if aria_labelledby and aria_labelledby != '' %}aria-labelledby="{{ aria_labelledby }}"{% endif %}>
+  {%- if title and title != '' -%}<title id="{{ title_id }}">{{ title }}</title>{%- endif -%}
+  <!-- Cloche / serving dish -->
+  <path d="M3 17h18" />
+  <path d="M5 17a7 7 0 0 1 14 0" />
+  <path d="M12 6v2" />
+  <path d="M10 6h4" />
+</svg>

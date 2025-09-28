@@ -1,0 +1,16 @@
+{%- assign _size = size | default: '1em' -%}
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="{{ _size }}" height="{{ _size }}" viewBox="0 0 24 24"
+     fill="none" stroke="currentColor" stroke-width="{{ stroke_width | default: 1.8 }}"
+     stroke-linecap="round" stroke-linejoin="round"
+     class="{{ class }}" role="{{ role | default: 'img' }}"
+     {% if aria_hidden == 'true' %}aria-hidden="true"{% endif %}
+     {% if aria_labelledby and aria_labelledby != '' %}aria-labelledby="{{ aria_labelledby }}"{% endif %}>
+  {%- if title and title != '' -%}<title id="{{ title_id }}">{{ title }}</title>{%- endif -%}
+  <!-- Two bubbles -->
+  <path d="M15 14h-6l-4 4V6a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v6" />
+  <path d="M17 16h2a2 2 0 0 0 2-2v-1" />
+  <circle cx="8.5" cy="8.5" r="0.75" />
+  <circle cx="12" cy="8.5" r="0.75" />
+  <circle cx="15.5" cy="8.5" r="0.75" />
+</svg>
