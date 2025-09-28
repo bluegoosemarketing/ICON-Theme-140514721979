@@ -1,0 +1,184 @@
+{
+  "sections": {
+    "main": {
+      "type": "page-how-it-works",
+      "settings": {
+        "hero_subheading": "Our ICONIC Process",
+        "hero_heading": "How Does Icon Meals Work?",
+        "hero_text": "<p><strong>From our chef-inspired creations to heat-and-eat meals delivered fresh to your door. </strong>ICON Meals is an industry leader in fresh, clean, USDA inspected meals that help you save money, get back precious time, and helps you reach those health goals... or just stop eating junk every day!</p>",
+        "hero_image": "shopify://shop_images/tile-icon-employee.png",
+        "hero_video_id": "evc_-Fpgr1o",
+        "process_heading": "How We Cook, Pack, & Ship",
+        "cta_heading": "Shop Meals, Snacks, & more",
+        "cta_text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
+        "cta_button_label": "Shop Our Weekly Menu",
+        "cta_button_link": "shopify://collections/signature-menu",
+        "snacks_image": "shopify://shop_images/tile-snacks.jpg",
+        "snacks_subheading": "We've also got snacks and more!",
+        "snacks_text": "<p>From protein-packed popcorn, butters, and bread to wagyu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
+        "snacks_button_label": "Shop Snacks & More",
+        "snacks_button_link": "shopify://pages/snacks-more",
+        "env_image": "shopify://shop_images/bg-meals-dark-01_fc9e47ad-243b-4070-b145-f6035d7fa1ee.jpg",
+        "env_heading": "We Care About The Environment!",
+        "env_text": "<p>Each meal is plated in a 100% recyclable, microwave-safe food container and delivered in a recyclable corrugated box containing a special environmentally safe thermal liner. We also use dry ice to make sure your meals are in optimal condition. We designed it this way on purpose and are always looking for ways to further reduce our carbon footprint.</p>",
+        "delivery_heading": "Delivery Or Pick Up options",
+        "delivery_text": "<p>It get's better! We can deliver your order direct to your door or schedule a local pick up if you live in or around the Dallas/Fort Worth, Texas area. (We can feel the excuses fading away...)</p>",
+        "delivery_button_label": "Visit Our Store Locator →",
+        "delivery_button_link": "https://iconmeals.com/apps/store-locator",
+        "heat_heading": "Heat & Eat In Minutes",
+        "heat_text": "<p>Heat up your meals (microwave or oven) for a quick and healthy meal without the fuss of cooking. That's it! In just minutes you can have a delicious, chef prepared meal ready for you to enjoy. Simple, convenient, fresh, and affordable.</p>",
+        "heat_button_label": "See This Week's Menu →",
+        "heat_button_link": "shopify://collections/signature-menu",
+        "safety_subheading": "The Industry Leader in",
+        "safety_heading": "Food Safety",
+        "safety_text": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>"
+      },
+      "block_order": [
+        "icon_link_offer",
+        "icon_link_delivery",
+        "icon_link_safety",
+        "icon_link_faq",
+        "process_cook",
+        "process_pack",
+        "process_ship",
+        "category_plans",
+        "category_menu",
+        "category_custom",
+        "category_bulk",
+        "safety_facility",
+        "safety_usda",
+        "safety_sourcing",
+        "safety_training"
+      ],
+      "blocks": {
+        "icon_link_offer": {
+          "type": "icon_link",
+          "settings": {
+            "icon": "restaurant",
+            "label": "What We Offer ↓",
+            "link": "#offer"
+          }
+        },
+        "icon_link_delivery": {
+          "type": "icon_link",
+          "settings": {
+            "icon": "home-smile",
+            "label": "Delivery/Local ↓",
+            "link": "#delivery"
+          }
+        },
+        "icon_link_safety": {
+          "type": "icon_link",
+          "settings": {
+            "icon": "star",
+            "label": "Food Safety ↓",
+            "link": "#foodsafety"
+          }
+        },
+        "icon_link_faq": {
+          "type": "icon_link",
+          "settings": {
+            "icon": "question-answer",
+            "label": "FAQ",
+            "link": "#faq"
+          }
+        },
+        "process_cook": {
+          "type": "process_step",
+          "settings": {
+            "image": "shopify://shop_images/download_5.webp",
+            "title": "How We Cook",
+            "text": "<p>All of our meals pass through rigorous food & safety inspection tests daily and are prepared fresh in a <strong>USDA certified kitchen</strong> ensuring you the safest cooking process in the industry.</p>"
+          }
+        },
+        "process_pack": {
+          "type": "process_step",
+          "settings": {
+            "image": "shopify://shop_images/download_6.webp",
+            "title": "How We Pack",
+            "text": "<p>ICON is an industry leader utilizing vacuum seal technology. Each meal is plated in a 100% recyclable microwave-safe food container and vacuum-sealed to retain freshness.</p>"
+          }
+        },
+        "process_ship": {
+          "type": "process_step",
+          "settings": {
+            "image": "shopify://shop_images/download_7.webp",
+            "title": "How We Ship",
+            "text": "<p>All your meals are delivered in a recyclable corrugated box with a special environmentally safe thermal liner and dry ice to make sure your meals are in optimal condition.</p>"
+          }
+        },
+        "category_plans": {
+          "type": "category_tile",
+          "settings": {
+            "image": "shopify://shop_images/tile-meal-boxes_541990e7-4374-40cd-adca-f7eec55e47dc.jpg",
+            "title": "Meal Plans",
+            "text": "<p>Pre-made or build-a-plan options for different goals. Subscribe & save.</p>",
+            "link": "shopify://pages/mealplans"
+          }
+        },
+        "category_menu": {
+          "type": "category_tile",
+          "settings": {
+            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "title": "Weekly Menu",
+            "text": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p>",
+            "link": "shopify://collections/signature-menu"
+          }
+        },
+        "category_custom": {
+          "type": "category_tile",
+          "settings": {
+            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "title": "Custom Meals",
+            "text": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your needs.</p>",
+            "link": "shopify://products/custom-meals"
+          }
+        },
+        "category_bulk": {
+          "type": "category_tile",
+          "settings": {
+            "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "title": "Bulk Items",
+            "text": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p>",
+            "link": "shopify://collections/bulk-items"
+          }
+        },
+        "safety_facility": {
+          "type": "safety_feature",
+          "settings": {
+            "image": "shopify://shop_images/food-safety-washing-hands_4a067655-cfc7-4677-81e6-4ba97e062d3d.jpg",
+            "title": "State of the art facility",
+            "text": "<p>With nearly 30,000 sqft. of facility space in Texas, we have and continue to make investments in leading edge cook/chill technology and conveyor plating systems. Each and every one of our meals is packed and sealed in a 38 degree cold packaging room to maintain ultimate freshness of our product.</p>"
+          }
+        },
+        "safety_usda": {
+          "type": "safety_feature",
+          "settings": {
+            "image": "shopify://shop_images/food-safety-vacuum.jpg",
+            "title": "USDA Certified",
+            "text": "<p>Not all food-prep companies are created equal! We are inspected daily by the <strong>USDA (U.S. Department of Agriculture)</strong>. All of our label claims and Nutrition Fact statements are <strong>FDA compliant </strong>and have been lab tested by a third party guaranteeing accuracy. We are a <strong>HACCP and USDA compliant facility </strong>(Hazard Analysis & Critical Control Points) following documented and state approved SOP’s and SSOP’s (Standard Operating Procedures and Sanitation Standard Operating Procedures).</p>"
+          }
+        },
+        "safety_sourcing": {
+          "type": "safety_feature",
+          "settings": {
+            "image": "shopify://shop_images/food-safety-chopping-food.jpg",
+            "title": "Sourcing Top Quality Products",
+            "text": "<p><strong>Quality and safety are top priority in our kitchens.</strong> Our food products are carefully sourced and received each day, from the highest quality food purveyors in town, including local farms. Regular quality assurance visits to all suppliers are made by our Culinary Officers and purchasing partners in order to ensure compliance. Always fresh, never frozen, our meals are prepared from scratch every day under the supervision of our Culinary Officers and in-house Dietitian.</p>"
+          }
+        },
+        "safety_training": {
+          "type": "safety_feature",
+          "settings": {
+            "image": "shopify://shop_images/team-icon-certifications-training.jpg",
+            "title": "TRAINING, CERTIFICATIONS AND INSPECTIONS",
+            "text": "<p>We are a licensed food manufacturer and state inspected Texas meat & poultry facility. There are a lot of ready-made meal companies out there, but the majority of these businesses are not legally able to sell meals wholesale; however most of the wholesale accounts aren’t aware of the laws preventing these sales or benefits of doing business with a certified kitchen.<br/><br/>All foods are handled and prepared by trained employees wearing hair protection and gloves. Color-coded food preparation equipment and utensils ensure food ingredients are at minimized risk of cross-contamination. ICON Meals is audited regularly by local, state and national agencies to ensure compliance. We pride ourselves in attaining the highest audit scores. Our Department of Health Inspection results are available upon request. To ensure all meals remain at the optimum temperature during transport and upon delivery, we designed our own thermally-insulated cooler bag, which is packed with dry ice and sealed shut to ensure no tampering and that client’s meals arrive safely.</p>"
+          }
+        }
+      }
+    }
+  },
+  "order": [
+    "main"
+  ]
+}

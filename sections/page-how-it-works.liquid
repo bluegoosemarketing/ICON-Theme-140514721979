@@ -1,0 +1,1022 @@
+{% comment %} /sections/page-how-it-works.liquid - V2 Polished {% endcomment %}
+<style>
+  .how-it-works-page {
+    --space-s: 1rem;
+    --space-m: 1.5rem;
+    --space-l: 2.5rem;
+    --space-xl: 4.5rem;
+    --space-xxl: 6rem;
+    --color-text: {{ section.settings.color_text | default: '#3d4246' }};
+    --color-heading: {{ section.settings.color_heading | default: '#212529' }};
+    --color-accent: {{ section.settings.color_accent | default: '#c8102e' }};
+    --color-border: #e9ecef;
+    --color-surface: #ffffff;
+    --color-surface-alt: #f8f9fa;
+  }
+
+  .how-it-works-page {
+    color: var(--color-text);
+  }
+
+  .how-it-works-page a {
+    text-decoration: none !important;
+  }
+  .how-it-works-page .rte a {
+    color: var(--color-accent) !important;
+    text-decoration: underline !important;
+    text-underline-offset: 3px;
+  }
+
+  .how-it-works-page > section {
+    padding-block: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+  
+  .how-it-works-page > section:first-child {
+     padding-block-start: var(--space-l);
+  }
+
+  @media (max-width: 768px) {
+    .how-it-works-page > section {
+      padding-block: var(--space-l);
+    }
+  }
+
+  .how-it-works-page > section:last-of-type {
+    border-bottom: none;
+  }
+  
+  .page-width--narrow {
+    max-width: 80ch;
+    margin-inline: auto;
+  }
+
+  .how-it-works-page__heading {
+    color: var(--color-heading);
+    font-size: clamp(2rem, 5vw, 2.75rem);
+    line-height: 1.2;
+    margin: 0;
+    font-weight: 800;
+  }
+
+  .how-it-works-page__subheading {
+    font-size: clamp(0.9rem, 2vw, 1rem);
+    color: var(--color-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: var(--space-s);
+  }
+
+  .how-it-works-page .rte {
+    font-size: 1.125rem;
+    line-height: 1.7;
+    max-width: 65ch;
+  }
+  .how-it-works-page .rte > p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* --- Section: Hero --- */
+  .hiw-hero {
+    text-align: center;
+  }
+  .hiw-hero .rte {
+    margin-inline: auto;
+  }
+  .hiw-hero__media-container {
+    margin-bottom: var(--space-l);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 250px;
+  }
+  .hiw-hero__media {
+    max-width: 320px;
+    width: 100%;
+  }
+  .hiw-hero__media img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+  .hiw-hero__video-wrapper {
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    max-width: 800px;
+    margin-inline: auto;
+    margin-block-start: var(--space-l);
+    border-radius: 12px;
+    overflow: hidden;
+    background-color: #000;
+  }
+  .hiw-hero__video-wrapper iframe {
+    width: 100%;
+    height: 100%;
+    border: 0;
+  }
+
+  /* --- Section: Icon Links --- */
+  .hiw-icon-links__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-m);
+    text-align: center;
+  }
+  .hiw-icon-links__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-s);
+    padding: var(--space-m);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: 12px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  }
+  .hiw-icon-links__item:hover {
+    transform: translateY(-4px);
+    border-color: transparent;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  }
+  .hiw-icon-links__icon {
+    width: 48px;
+    height: 48px;
+    color: var(--color-accent);
+  }
+  .hiw-icon-links__label {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--color-text) !important;
+  }
+
+  /* --- Section: Generic Title Block --- */
+  .hiw-title-block {
+    text-align: center;
+    max-width: 70ch;
+    margin-inline: auto;
+  }
+  .hiw-title-block .how-it-works-page__heading {
+    margin-bottom: var(--space-m);
+  }
+
+  /* --- Section: "How We..." Process Grid --- */
+  .hiw-process__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-l);
+    text-align: center;
+  }
+  .hiw-process__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--space-m);
+    border-radius: 12px;
+  }
+  .hiw-process__card-icon {
+    height: 120px;
+    width: 120px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin-bottom: var(--space-m);
+  }
+  .hiw-process__card-title {
+    font-size: 1.5rem;
+    color: var(--color-heading);
+    margin: 0 0 var(--space-s) 0;
+  }
+  .hiw-process__card .rte {
+    font-size: 1rem;
+    line-height: 1.6;
+    margin: 0 auto;
+  }
+
+  /* --- Section: CTA --- */
+  .hiw-cta {
+    text-align: center;
+    background-color: var(--color-surface-alt);
+    padding: var(--space-xl);
+    border-radius: 12px;
+  }
+  .hiw-cta .how-it-works-page__heading {
+    margin-bottom: var(--space-m);
+  }
+  .hiw-cta .rte {
+    margin-inline: auto;
+    margin-bottom: var(--space-l);
+  }
+  .hiw-cta .btn {
+    margin-top: 0;
+  }
+
+  /* --- Section: Category Grid --- */
+  .hiw-category__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-l);
+  }
+  .hiw-category__card {
+    background-color: #fff;
+    border-radius: 16px;
+    overflow: hidden;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.02);
+    border: 1px solid var(--color-border);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .hiw-category__card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.07);
+  }
+  .hiw-category__card-media {
+    aspect-ratio: 1 / 1;
+    background-color: var(--color-surface-alt);
+  }
+  .hiw-category__card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hiw-category__card-content {
+    padding: var(--space-m);
+  }
+  .hiw-category__card-title {
+    font-size: 1.25rem;
+    color: var(--color-heading);
+    margin: 0 0 var(--space-xs) 0;
+  }
+  .hiw-category__card .rte {
+    color: var(--color-text);
+    font-size: 1rem;
+    line-height: 1.5;
+    margin: 0 auto;
+  }
+
+  /* --- Section: Feature Row (Snacks, Safety Details) --- */
+  .hiw-feature-row {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-l);
+    align-items: center;
+  }
+  @media (min-width: 769px) {
+    .hiw-feature-row {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--space-xxl);
+    }
+    .hiw-feature-row--reversed .hiw-feature-row__content {
+      grid-area: content;
+    }
+    .hiw-feature-row--reversed .hiw-feature-row__media {
+      grid-area: media;
+    }
+    .hiw-feature-row:not(.hiw-feature-row--reversed) {
+      grid-template-areas: "media content";
+    }
+     .hiw-feature-row--reversed {
+      grid-template-areas: "content media";
+    }
+  }
+  .hiw-feature-row__media {
+    aspect-ratio: 4 / 3;
+    background-color: var(--color-surface-alt);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+  .hiw-feature-row__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hiw-feature-row__content .how-it-works-page__heading {
+    font-size: clamp(1.75rem, 4vw, 2.25rem);
+    margin-bottom: var(--space-m);
+  }
+  .hiw-feature-row__content .btn {
+    margin-top: var(--space-l);
+  }
+
+  /* --- Section: Food Safety --- */
+  .hiw-food-safety__details {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xxl);
+    margin-top: var(--space-xxl);
+  }
+  @media (max-width: 768px) {
+    .hiw-food-safety__details {
+      gap: var(--space-xl);
+      margin-top: var(--space-xl);
+    }
+  }
+
+  /* --- Section: FAQ --- */
+  .hiw-faq {
+    max-width: 800px;
+    margin-inline: auto;
+  }
+  .hiw-faq__item {
+    border-bottom: 1px solid var(--color-border);
+  }
+  .hiw-faq__item:first-of-type {
+    border-top: 1px solid var(--color-border);
+  }
+  .hiw-faq__item summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-m) 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    cursor: pointer;
+    list-style: none;
+    color: var(--color-heading);
+  }
+  .hiw-faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .hiw-faq__icon {
+    width: 20px;
+    height: 20px;
+    transition: transform 0.2s ease;
+    flex-shrink: 0;
+    margin-left: var(--space-m);
+  }
+  .hiw-faq__item[open] > summary .hiw-faq__icon {
+    transform: rotate(45deg);
+  }
+  .hiw-faq__answer {
+    padding-bottom: var(--space-m);
+  }
+  .hiw-faq__answer .rte {
+    font-size: 1rem;
+  }
+</style>
+
+<div class="how-it-works-page">
+  <div class="page-width">
+    {% comment %} HERO SECTION {% endcomment %}
+    <section class="hiw-hero">
+      {% if section.settings.hero_image != blank %}
+        <div class="hiw-hero__media-container">
+          <div class="hiw-hero__media">
+            {{ section.settings.hero_image | image_url: width: 640 | image_tag: loading: 'eager', widths: '320, 480, 640', fetchpriority: 'high' }}
+          </div>
+        </div>
+      {% endif %}
+
+      <div class="page-width--narrow">
+        {% if section.settings.hero_subheading != blank %}
+          <h2 class="how-it-works-page__subheading">{{ section.settings.hero_subheading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.hero_heading != blank %}
+          <h1 class="how-it-works-page__heading">{{ section.settings.hero_heading | escape }}</h1>
+        {% endif %}
+        {% if section.settings.hero_text != blank %}
+          <div class="rte" style="margin-top: var(--space-m);">{{ section.settings.hero_text }}</div>
+        {% endif %}
+      </div>
+      
+      {% if section.settings.hero_video_id != blank %}
+        <div class="hiw-hero__video-wrapper">
+          <iframe 
+            src="https://www.youtube.com/embed/{{ section.settings.hero_video_id }}?&autoplay=0&mute=1&controls=1&loop=1&playlist={{ section.settings.hero_video_id }}" 
+            title="YouTube video player" 
+            frameborder="0" 
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+            allowfullscreen>
+          </iframe>
+        </div>
+      {% endif %}
+    </section>
+
+    {% comment %} ICON LINKS SECTION {% endcomment %}
+    {% assign icon_blocks = section.blocks | where: "type", "icon_link" %}
+    {% if icon_blocks.size > 0 %}
+      <section class="hiw-icon-links">
+        <div class="hiw-icon-links__grid">
+          {% for block in icon_blocks %}
+            <a href="{{ block.settings.link }}" class="hiw-icon-links__item" {{ block.shopify_attributes }}>
+              {% if block.settings.icon != 'none' %}
+                <div class="hiw-icon-links__icon">
+                  {% render 'icons', icon: block.settings.icon %}
+                </div>
+              {% endif %}
+              <span class="hiw-icon-links__label">{{ block.settings.label | escape }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% comment %} "HOW WE..." PROCESS SECTION {% endcomment %}
+    <section id="offer" class="hiw-process">
+      {% if section.settings.process_heading != blank %}
+        <div class="hiw-title-block page-width--narrow">
+          <h2 class="how-it-works-page__heading">{{ section.settings.process_heading | escape }}</h2>
+        </div>
+      {% endif %}
+      {% assign process_blocks = section.blocks | where: "type", "process_step" %}
+      {% if process_blocks.size > 0 %}
+        <div class="hiw-process__grid" style="margin-top: var(--space-l);">
+          {% for block in process_blocks %}
+            <div class="hiw-process__card" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <div class="hiw-process__card-icon" style="background-image: url('{{ block.settings.image | image_url: width: 240 }}')">
+                </div>
+              {% endif %}
+              <div class="hiw-process__card-content">
+                {% if block.settings.title != blank %}
+                  <h3 class="hiw-process__card-title">{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <div class="rte">{{ block.settings.text }}</div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    {% comment %} CTA SECTION {% endcomment %}
+    <section class="hiw-cta">
+      <div class="page-width--narrow">
+        {% if section.settings.cta_heading != blank %}
+          <h2 class="how-it-works-page__heading">{{ section.settings.cta_heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.cta_text != blank %}
+          <div class="rte">{{ section.settings.cta_text }}</div>
+        {% endif %}
+        {% if section.settings.cta_button_label != blank and section.settings.cta_button_link != blank %}
+          <a href="{{ section.settings.cta_button_link }}" class="btn">{{ section.settings.cta_button_label | escape }}</a>
+        {% endif %}
+      </div>
+    </section>
+
+    {% comment %} CATEGORY TILES SECTION {% endcomment %}
+    {% assign category_blocks = section.blocks | where: "type", "category_tile" %}
+    {% if category_blocks.size > 0 %}
+      <section class="hiw-category">
+        <div class="hiw-category__grid">
+          {% for block in category_blocks %}
+            <a href="{{ block.settings.link }}" class="hiw-category__card" {{ block.shopify_attributes }}>
+              {% if block.settings.image != blank %}
+                <div class="hiw-category__card-media">
+                  {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', widths: '250, 400, 500' }}
+                </div>
+              {% endif %}
+              <div class="hiw-category__card-content">
+                {% if block.settings.title != blank %}
+                  <h3 class="hiw-category__card-title">{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <div class="rte">{{ block.settings.text }}</div>
+                {% endif %}
+              </div>
+            </a>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+
+    {% comment %} SNACKS & MORE SECTION {% endcomment %}
+    <section>
+      <div class="hiw-feature-row">
+        <div class="hiw-feature-row__media">
+          {% if section.settings.snacks_image != blank %}
+            {{ section.settings.snacks_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000' }}
+          {% endif %}
+        </div>
+        <div class="hiw-feature-row__content">
+          {% if section.settings.snacks_subheading != blank %}
+            <h3 class="how-it-works-page__subheading">{{ section.settings.snacks_subheading | escape }}</h3>
+          {% endif %}
+          {% if section.settings.snacks_text != blank %}
+            <div class="rte">{{ section.settings.snacks_text }}</div>
+          {% endif %}
+          {% if section.settings.snacks_button_label != blank and section.settings.snacks_button_link != blank %}
+            <a href="{{ section.settings.snacks_button_link }}" class="btn">{{ section.settings.snacks_button_label | escape }}</a>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    {% comment %} ENVIRONMENT SECTION {% endcomment %}
+    <section>
+      <div class="hiw-feature-row hiw-feature-row--reversed">
+        <div class="hiw-feature-row__media">
+          {% if section.settings.env_image != blank %}
+            {{ section.settings.env_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000' }}
+          {% endif %}
+        </div>
+        <div class="hiw-feature-row__content">
+          {% if section.settings.env_heading != blank %}
+            <h2 class="how-it-works-page__heading">{{ section.settings.env_heading | escape }}</h2>
+          {% endif %}
+          {% if section.settings.env_text != blank %}
+            <div class="rte">{{ section.settings.env_text }}</div>
+          {% endif %}
+        </div>
+      </div>
+    </section>
+
+    {% comment %} DELIVERY / PICKUP SECTION {% endcomment %}
+    <section id="delivery" class="hiw-title-block">
+      <div class="page-width--narrow">
+        {% if section.settings.delivery_heading != blank %}
+          <h2 class="how-it-works-page__heading">{{ section.settings.delivery_heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.delivery_text != blank %}
+          <div class="rte">{{ section.settings.delivery_text }}</div>
+        {% endif %}
+        {% if section.settings.delivery_button_label != blank and section.settings.delivery_button_link != blank %}
+          <a href="{{ section.settings.delivery_button_link }}" class="btn" style="margin-top: var(--space-l);">{{ section.settings.delivery_button_label | escape }}</a>
+        {% endif %}
+      </div>
+    </section>
+
+    {% comment %} HEAT & EAT SECTION {% endcomment %}
+    <section class="hiw-title-block">
+      <div class="page-width--narrow">
+        {% if section.settings.heat_heading != blank %}
+          <h2 class="how-it-works-page__heading">{{ section.settings.heat_heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.heat_text != blank %}
+          <div class="rte">{{ section.settings.heat_text }}</div>
+        {% endif %}
+        {% if section.settings.heat_button_label != blank and section.settings.heat_button_link != blank %}
+          <a href="{{ section.settings.heat_button_link }}" class="btn" style="margin-top: var(--space-l);">{{ section.settings.heat_button_label | escape }}</a>
+        {% endif %}
+      </div>
+    </section>
+
+    {% comment %} FOOD SAFETY SECTION {% endcomment %}
+    <section id="foodsafety" class="hiw-food-safety">
+      <div class="hiw-title-block page-width--narrow">
+        {% if section.settings.safety_subheading != blank %}
+          <h3 class="how-it-works-page__subheading">{{ section.settings.safety_subheading | escape }}</h3>
+        {% endif %}
+        {% if section.settings.safety_heading != blank %}
+          <h2 class="how-it-works-page__heading">{{ section.settings.safety_heading | escape }}</h2>
+        {% endif %}
+        {% if section.settings.safety_text != blank %}
+          <div class="rte">{{ section.settings.safety_text }}</div>
+        {% endif %}
+      </div>
+      {% assign safety_blocks = section.blocks | where: "type", "safety_feature" %}
+      {% if safety_blocks.size > 0 %}
+        <div class="hiw-food-safety__details">
+          {% for block in safety_blocks %}
+            {% assign is_even = forloop.index | modulo: 2 %}
+            <div class="hiw-feature-row {% if is_even == 0 %}hiw-feature-row--reversed{% endif %}" {{ block.shopify_attributes }}>
+              <div class="hiw-feature-row__media">
+                {% if block.settings.image != blank %}
+                  {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '400, 600, 800, 1000' }}
+                {% endif %}
+              </div>
+              <div class="hiw-feature-row__content">
+                {% if block.settings.title != blank %}
+                  <h3 class="how-it-works-page__heading" style="font-size: 2rem;">{{ block.settings.title | escape }}</h3>
+                {% endif %}
+                {% if block.settings.text != blank %}
+                  <div class="rte">{{ block.settings.text }}</div>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    </section>
+
+    {% comment %} FAQ SECTION {% endcomment %}
+    {% assign faq_blocks = section.blocks | where: "type", "faq_item" %}
+    {% if faq_blocks.size > 0 %}
+      <section id="faq" class="hiw-faq">
+        <div class="page-width--narrow">
+          <div class="hiw-title-block" style="margin-bottom: var(--space-l);">
+            <h2 class="how-it-works-page__heading">{{ 'general.faq.title' | t }}</h2>
+          </div>
+          {% for block in faq_blocks %}
+            <details class="hiw-faq__item" {{ block.shopify_attributes }}>
+              <summary>
+                {{ block.settings.question | escape }}
+                <svg class="hiw-faq__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </summary>
+              <div class="hiw-faq__answer">
+                <div class="rte">{{ block.settings.answer }}</div>
+              </div>
+            </details>
+          {% endfor %}
+        </div>
+      </section>
+    {% endif %}
+  </div>
+</div>
+
+{% if faq_blocks.size > 0 %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {% for block in faq_blocks %}
+        {
+          "@type": "Question",
+          "name": {{ block.settings.question | json }},
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": {{ block.settings.answer | strip_html | json }}
+          }
+        }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }
+  </script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Page - How It Works",
+  "tag": "section",
+  "class": "section",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "color_text",
+      "label": "Text",
+      "default": "#212529"
+    },
+    {
+      "type": "color",
+      "id": "color_heading",
+      "label": "Headings",
+      "default": "#212529"
+    },
+    {
+      "type": "color",
+      "id": "color_accent",
+      "label": "Accent",
+      "default": "#333333"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Top Image (Floating Team Member)"
+    },
+    {
+      "type": "text",
+      "id": "hero_subheading",
+      "label": "Subheading",
+      "default": "Our ICONIC Process"
+    },
+    {
+      "type": "text",
+      "id": "hero_heading",
+      "label": "Heading (H1)",
+      "default": "How Does Icon Meals Work?"
+    },
+    {
+      "type": "richtext",
+      "id": "hero_text",
+      "label": "Text",
+      "default": "<p>From our chef-inspired creations to heat-and-eat meals delivered fresh to your door. ICON Meals is an industry leader in fresh, clean, USDA inspected meals that help you save money, get back precious time, and helps you reach those health goals... or just stop eating junk every day!</p>"
+    },
+    {
+      "type": "text",
+      "id": "hero_video_id",
+      "label": "YouTube Video ID",
+      "info": "Paste only the ID from the YouTube URL (e.g., evc_-Fpgr1o)"
+    },
+    {
+      "type": "header",
+      "content": "'How We...' Process Section"
+    },
+    {
+      "type": "text",
+      "id": "process_heading",
+      "label": "Heading",
+      "default": "How We Cook, Pack, & Ship"
+    },
+    {
+      "type": "header",
+      "content": "CTA Section"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "Heading",
+      "default": "Shop Meals, Snacks, & more"
+    },
+    {
+      "type": "richtext",
+      "id": "cta_text",
+      "label": "Text",
+      "default": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. Are you ready for all this goodness?</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_button_label",
+      "label": "Button label",
+      "default": "Shop Our Weekly Menu"
+    },
+    {
+      "type": "url",
+      "id": "cta_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Snacks & More Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "snacks_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "snacks_subheading",
+      "label": "Subheading",
+      "default": "We've also got snacks and more!"
+    },
+    {
+      "type": "richtext",
+      "id": "snacks_text",
+      "label": "Text",
+      "default": "<p>From protein-packed popcorn, butters, and bread to wagyu beef strips, sauces, coffee and seasonings... we've got something for you!</p>"
+    },
+    {
+      "type": "text",
+      "id": "snacks_button_label",
+      "label": "Button label",
+      "default": "Shop Snacks & More"
+    },
+    {
+      "type": "url",
+      "id": "snacks_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Environment Section"
+    },
+    {
+      "type": "image_picker",
+      "id": "env_image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "env_heading",
+      "label": "Heading",
+      "default": "We Care About The Environment!"
+    },
+    {
+      "type": "richtext",
+      "id": "env_text",
+      "label": "Text",
+      "default": "<p>Each meal is plated in a 100% recyclable, microwave-safe food container and delivered in a recyclable corrugated box containing a special environmentally safe thermal liner. We also use dry ice to make sure your meals are in optimal condition. We designed it this way on purpose and are always looking for ways to further reduce our carbon footprint.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Delivery/Pick Up Section"
+    },
+    {
+      "type": "text",
+      "id": "delivery_heading",
+      "label": "Heading",
+      "default": "Delivery Or Pick Up options"
+    },
+    {
+      "type": "richtext",
+      "id": "delivery_text",
+      "label": "Text",
+      "default": "<p>It get's better! We can deliver your order direct to your door or schedule a local pick up if you live in or around the Dallas/Fort Worth, Texas area. (We can feel the excuses fading away...)</p>"
+    },
+    {
+      "type": "text",
+      "id": "delivery_button_label",
+      "label": "Button label",
+      "default": "Visit Our Store Locator →"
+    },
+    {
+      "type": "url",
+      "id": "delivery_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Heat & Eat Section"
+    },
+    {
+      "type": "text",
+      "id": "heat_heading",
+      "label": "Heading",
+      "default": "Heat & Eat In Minutes"
+    },
+    {
+      "type": "richtext",
+      "id": "heat_text",
+      "label": "Text",
+      "default": "<p>Heat up your meals (microwave or oven) for a quick and healthy meal without the fuss of cooking. That's it! In just minutes you can have a delicious, chef prepared meal ready for you to enjoy. Simple, convenient, fresh, and affordable.</p>"
+    },
+    {
+      "type": "text",
+      "id": "heat_button_label",
+      "label": "Button label",
+      "default": "See This Week's Menu →"
+    },
+    {
+      "type": "url",
+      "id": "heat_button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Food Safety Banner"
+    },
+    {
+      "type": "text",
+      "id": "safety_subheading",
+      "label": "Subheading",
+      "default": "The Industry Leader in"
+    },
+    {
+      "type": "text",
+      "id": "safety_heading",
+      "label": "Heading",
+      "default": "Food Safety"
+    },
+    {
+      "type": "richtext",
+      "id": "safety_text",
+      "label": "Text",
+      "default": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "icon_link",
+      "name": "Icon Link",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "restaurant", "label": "Restaurant" },
+            { "value": "home-smile", "label": "Home" },
+            { "value": "star", "label": "Star" },
+            { "value": "question-answer", "label": "Question/Answer" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Link Label"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "process_step",
+      "name": "Process Step",
+      "limit": 3,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Icon Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Process Step"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Explain this step of the process.</p>"
+        }
+      ]
+    },
+    {
+      "type": "category_tile",
+      "name": "Category Tile",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Category Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>A short description of this category.</p>"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Link"
+        }
+      ]
+    },
+    {
+      "type": "safety_feature",
+      "name": "Food Safety Feature",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Safety Feature"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>Describe the safety feature in detail here.</p>"
+        }
+      ]
+    },
+    {
+      "type": "faq_item",
+      "name": "FAQ Item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "question",
+          "label": "Question",
+          "default": "Frequently Asked Question"
+        },
+        {
+          "type": "richtext",
+          "id": "answer",
+          "label": "Answer",
+          "default": "<p>The answer to the question goes here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Page - How It Works",
+      "blocks": [
+        { "type": "icon_link" },
+        { "type": "icon_link" },
+        { "type": "icon_link" },
+        { "type": "icon_link" },
+        { "type": "process_step" },
+        { "type": "process_step" },
+        { "type": "process_step" },
+        { "type": "category_tile" },
+        { "type": "category_tile" },
+        { "type": "category_tile" },
+        { "type": "category_tile" },
+        { "type": "safety_feature" },
+        { "type": "safety_feature" },
+        { "type": "safety_feature" },
+        { "type": "safety_feature" },
+        { "type": "faq_item" },
+        { "type": "faq_item" }
+      ]
+    }
+  ]
+}
+{% endschema %}
