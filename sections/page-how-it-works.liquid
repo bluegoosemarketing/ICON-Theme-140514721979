@@ -1,20 +1,18 @@
 {% comment %}
-  /sections/page-how-it-works.liquid - V3.1 Corrected by Gemini
+  /sections/page-how-it-works.liquid - V4 Final by Gemini
 
-  This version corrects a critical Liquid syntax error and removes all inline styles,
-  implementing the full V3 redesign in a stable, production-ready format.
+  This version implements the final design feedback: removing the staff image from the hero
+  and repurposing it as a "stamp" on the process section below. This file is complete,
+  corrected, and adheres to all original requirements.
 
   QA CHECKLIST:
   [x] All styles are strictly scoped under the unique #hiw ID.
   [x] All original schema settings and block IDs have been preserved and re-mapped.
-  [x] Layout uses a variety of techniques (full-bleed, inset, sticky) for dynamic flow.
-  [x] Vertical rhythm is maintained with a consistent spacing scale.
-  [x] All media is cleanly clipped, responsive, and uses object-fit.
-  [x] FAQ remains an accessible accordion with refined styling.
-  [x] One H1 is present; heading hierarchy is semantic.
+  [x] Layout uses a variety of techniques for dynamic flow.
+  [x] Hero image has been removed from the hero and repurposed as a "stamp" on the process section.
+  [x] All previous Liquid syntax errors and inline styles have been fixed and removed.
+  [x] Vertical rhythm, responsive behavior, and accessibility are maintained.
   [x] Theme styles are neutralized locally; no global overrides or :has().
-  [x] CRITICAL: Liquid syntax error in 'modulo' filter is fixed.
-  [x] CRITICAL: All inline 'style' attributes have been removed and replaced with classes.
 {% endcomment %}
 
 <style>
@@ -42,29 +40,29 @@
   #hiw *, #hiw *::before, #hiw *::after { box-shadow: none; }
 
   /* --- LAYOUT PRIMITIVES --- */
-  .hiw-v3__inner {
+  .hiw-v4__inner {
     max-width: var(--container-max);
     margin-inline: auto;
     padding-inline: var(--gutter);
   }
-  .hiw-v3__section {
+  .hiw-v4__section {
     padding-block: clamp(var(--space-l), 8vw, var(--space-xxl));
   }
-  .hiw-v3__section--alt-bg {
+  .hiw-v4__section--alt-bg {
     background-color: var(--color-surface-alt);
   }
-  .hiw-v3-grid--2col {
+  .hiw-v4-grid--2col {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-xl);
     align-items: start;
   }
   @media (min-width: 768px) {
-    .hiw-v3-grid--2col {
+    .hiw-v4-grid--2col {
       grid-template-columns: 1fr 1fr;
     }
   }
-  .hiw-v3-stack--xl {
+  .hiw-v4-stack--xl {
     display: grid;
     gap: clamp(var(--space-xl), 8vw, var(--space-xxl));
   }
@@ -79,7 +77,7 @@
   #hiw h1 { font-size: clamp(34px, 5vw, 48px); letter-spacing: -0.04em; }
   #hiw h2 { font-size: clamp(30px, 4vw, 40px); letter-spacing: -0.02em; }
   #hiw h3 { font-size: clamp(22px, 3.5vw, 28px); letter-spacing: -0.01em; }
-  .hiw-v3-subheading {
+  .hiw-v4-subheading {
     color: var(--color-accent);
     font-size: clamp(0.8rem, 2vw, 0.9rem);
     font-weight: 700;
@@ -89,52 +87,44 @@
   #hiw .rte { max-width: 65ch; display: grid; gap: var(--space-s); line-height: 1.65; }
   #hiw .rte p { margin: 0; }
   #hiw .rte a { color: var(--color-accent); text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
-  .hiw-v3__centered-content { text-align: center; max-width: 70ch; margin-inline: auto; display: grid; justify-items: center; gap: var(--space-m); }
+  .hiw-v4__centered-content { text-align: center; max-width: 70ch; margin-inline: auto; display: grid; justify-items: center; gap: var(--space-m); }
+  .hiw-v4__section-header { margin-bottom: var(--space-xl); }
 
   /* --- MEDIA DEFAULTS --- */
   #hiw img, #hiw iframe { max-width: 100%; display: block; }
   
-  /* --- [V3] HERO --- */
-  .hiw-v3-hero {
+  /* --- [V4] HERO --- */
+  .hiw-v4-hero {
     background-color: var(--color-hero-bg);
     color: var(--color-hero-text);
     padding-block: clamp(var(--space-l), 10vw, var(--space-xxl));
   }
-  .hiw-v3-hero__grid {
+  .hiw-v4-hero__grid {
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-l);
     align-items: center;
   }
   @media (min-width: 900px) {
-    .hiw-v3-hero__grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr);
+    .hiw-v4-hero__grid {
+      grid-template-columns: 1fr 1fr;
       gap: var(--space-xl);
     }
   }
-  .hiw-v3-hero, .hiw-v3-hero .rte { color: var(--color-hero-text) !important; }
-  .hiw-v3-hero__content h1 { color: var(--color-hero-text) !important; }
-  .hiw-v3-hero__content { display: grid; gap: var(--space-m); }
-  .hiw-v3-hero__media { position: relative; }
-  .hiw-v3-hero__staff-image {
-    width: clamp(140px, 30vw, 200px); /* A bit larger */
-    aspect-ratio: 1/1;
-    border-radius: 50%;
-    overflow: hidden;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-  }
-  .hiw-v3-hero__staff-image img { width: 100%; height: 100%; object-fit: cover; }
-  .hiw-v3-hero__video {
+  .hiw-v4-hero, .hiw-v4-hero .rte { color: var(--color-hero-text) !important; }
+  .hiw-v4-hero__content h1 { color: var(--color-hero-text) !important; }
+  .hiw-v4-hero__content { display: grid; gap: var(--space-m); }
+  .hiw-v4-hero__video {
     width: 100%;
     aspect-ratio: 16 / 9;
     border-radius: 16px;
     overflow: hidden;
     background-color: #000;
   }
-  .hiw-v3-hero__video iframe { width: 100%; height: 100%; border: 0; }
+  .hiw-v4-hero__video iframe { width: 100%; height: 100%; border: 0; }
 
-  /* --- [V3] ICON NAV --- */
-  .hiw-v3-icon-nav__grid {
+  /* --- [V4] ICON NAV --- */
+  .hiw-v4-icon-nav__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
     gap: var(--space-s);
@@ -142,7 +132,7 @@
     border-top: 1px solid var(--color-border);
     border-bottom: 1px solid var(--color-border);
   }
-  .hiw-v3-icon-nav__item {
+  .hiw-v4-icon-nav__item {
     display: flex;
     align-items: center;
     gap: var(--space-s);
@@ -151,72 +141,81 @@
     border-radius: 8px;
     transition: background-color 0.2s ease;
   }
-  .hiw-v3-icon-nav__item:hover { background-color: var(--color-surface-alt); }
-  .hiw-v3-icon-nav__icon { width: 32px; height: 32px; color: var(--color-accent); flex-shrink: 0; }
-  .hiw-v3-icon-nav__label { font-weight: 600; color: var(--color-heading); }
+  .hiw-v4-icon-nav__item:hover { background-color: var(--color-surface-alt); }
+  .hiw-v4-icon-nav__icon { width: 32px; height: 32px; color: var(--color-accent); flex-shrink: 0; }
+  .hiw-v4-icon-nav__label { font-weight: 600; color: var(--color-heading); }
 
-  /* --- [V3] GUIDED PROCESS --- */
-  .hiw-v3-process__grid {
+  /* --- [V4] GUIDED PROCESS --- */
+  .hiw-v4-process__grid {
+    position: relative;
     display: grid;
     grid-template-columns: 1fr;
     gap: var(--space-xl);
+    padding-top: 60px; /* Make space for the stamp image */
   }
   @media(min-width: 900px) {
-    .hiw-v3-process__grid {
+    .hiw-v4-process__grid {
       grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
     }
   }
-  .hiw-v3-process__title-wrapper {
-    text-align: left;
+  .hiw-v4__stamp-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateY(-50%);
+    width: clamp(100px, 15vw, 140px);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--color-surface); /* Match page background */
+    padding: 6px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+    z-index: 5;
   }
+  .hiw-v4__stamp-image img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hiw-v4-process__title-wrapper { text-align: left; }
   @media(min-width: 900px) {
-    .hiw-v3-process__title-wrapper {
-      position: sticky;
-      top: var(--space-l);
-      align-self: start;
-    }
+    .hiw-v4-process__title-wrapper { position: sticky; top: var(--space-l); align-self: start; }
   }
-  .hiw-v3-process__steps { display: grid; gap: var(--space-xl); }
-  .hiw-v3-process__step {
+  .hiw-v4-process__steps { display: grid; gap: var(--space-xl); }
+  .hiw-v4-process__step {
     display: grid;
     grid-template-columns: auto 1fr;
     gap: var(--space-m);
     align-items: start;
   }
-  .hiw-v3-process__step-number {
+  .hiw-v4-process__step-number {
     font-size: 3rem;
     font-weight: 800;
     color: var(--color-accent);
     line-height: 1;
   }
-  .hiw-v3-process__step-icon {
-    width: 64px;
-    height: 64px;
-    margin-bottom: var(--space-s);
-  }
-  .hiw-v3-process__step-icon img { width: 100%; height: 100%; object-fit: contain; }
-  .hiw-v3-process__step .rte { font-size: 0.95rem; }
+  .hiw-v4-process__step-icon { width: 64px; height: 64px; margin-bottom: var(--space-s); }
+  .hiw-v4-process__step-icon img { width: 100%; height: 100%; object-fit: contain; }
+  .hiw-v4-process__step .rte { font-size: 0.95rem; }
 
-  /* --- [V3] CTA --- */
-  .hiw-v3-cta {
+  /* --- [V4] CTA --- */
+  .hiw-v4-cta {
     background-color: var(--color-accent);
     color: var(--color-hero-text);
     border-radius: 20px;
     padding: clamp(var(--space-l), 6vw, var(--space-xl));
   }
-  .hiw-v3-cta h2 { color: inherit; }
-  .hiw-v3-cta .btn {
-    --color-button-background: var(--color-surface);
-    --color-button-text: var(--color-heading);
-  }
+  .hiw-v4-cta h2 { color: inherit; }
+  .hiw-v4-cta .btn { --color-button-background: var(--color-surface); --color-button-text: var(--color-heading); }
 
-  /* --- [V3] CATEGORY TILES --- */
-  .hiw-v3-categories__grid {
+  /* --- [V4] CATEGORY TILES --- */
+  .hiw-v4-categories__grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
     gap: var(--space-l);
   }
-  .hiw-v3-card {
+  .hiw-v4-card {
     display: flex;
     flex-direction: column;
     background-color: var(--color-surface);
@@ -226,64 +225,58 @@
     box-shadow: 0 4px 6px rgba(0,0,0,0.02), 0 10px 20px rgba(0,0,0,0.06);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .hiw-v3-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.04), 0 20px 30px rgba(0,0,0,0.08); }
-  .hiw-v3-card__media { aspect-ratio: 1 / 1; background-color: var(--color-surface-alt); }
-  .hiw-v3-card__media img { width: 100%; height: 100%; object-fit: cover; }
-  .hiw-v3-card__content { padding: var(--space-l); text-align: center; display: grid; justify-items: center; gap: var(--space-s); flex-grow: 1; }
-  .hiw-v3-card .rte { font-size: 0.95rem; }
+  .hiw-v4-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.04), 0 20px 30px rgba(0,0,0,0.08); }
+  .hiw-v4-card__media { aspect-ratio: 1 / 1; background-color: var(--color-surface-alt); }
+  .hiw-v4-card__media img { width: 100%; height: 100%; object-fit: cover; }
+  .hiw-v4-card__content { padding: var(--space-l); text-align: center; display: grid; justify-items: center; gap: var(--space-s); flex-grow: 1; }
+  .hiw-v4-card .rte { font-size: 0.95rem; }
 
-  /* --- [V3] FEATURE ROW --- */
-  .hiw-v3-feature {
+  /* --- [V4] FEATURE ROW --- */
+  .hiw-v4-feature {
     display: grid; grid-template-columns: 1fr; gap: var(--space-l); align-items: center;
   }
   @media (min-width: 768px) {
-    .hiw-v3-feature { grid-template-columns: repeat(2, 1fr); gap: var(--space-xl); }
-    .hiw-v3-feature--reversed .hiw-v3-feature__content { grid-column: 1; grid-row: 1; }
-    .hiw-v3-feature--reversed .hiw-v3-feature__media { grid-column: 2; }
+    .hiw-v4-feature { grid-template-columns: repeat(2, 1fr); gap: var(--space-xl); }
+    .hiw-v4-feature--reversed .hiw-v4-feature__content { grid-column: 1; grid-row: 1; }
   }
-  .hiw-v3-feature__media { aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background-color: var(--color-surface-alt); }
-  .hiw-v3-feature__media img { width: 100%; height: 100%; object-fit: cover; }
-  .hiw-v3-feature__content { display: grid; justify-items: start; text-align: left; gap: var(--space-m); }
-  .hiw-v3-feature__content .btn { margin-top: var(--space-s); }
+  .hiw-v4-feature__media { aspect-ratio: 4 / 3; border-radius: 16px; overflow: hidden; background-color: var(--color-surface-alt); }
+  .hiw-v4-feature__media img { width: 100%; height: 100%; object-fit: cover; }
+  .hiw-v4-feature__content { display: grid; justify-items: start; text-align: left; gap: var(--space-m); }
+  .hiw-v4-feature__content .btn { margin-top: var(--space-s); }
   
-  /* --- [V3] FOOD SAFETY --- */
-  .hiw-v3-food-safety__features { display: grid; gap: clamp(var(--space-xl), 8vw, var(--space-xxl)); }
+  /* --- [V4] FOOD SAFETY --- */
+  .hiw-v4-food-safety__features { display: grid; gap: clamp(var(--space-xl), 8vw, var(--space-xxl)); }
   
-  /* --- [V3] FAQ --- */
-  .hiw-v3-faq { max-width: 820px; margin-inline: auto; }
-  .hiw-v3-faq__list { margin-top: var(--space-l); border-top: 1px solid var(--color-border); }
-  .hiw-v3-faq__item { border-bottom: 1px solid var(--color-border); }
-  .hiw-v3-faq__item summary { display: flex; justify-content: space-between; align-items: center; gap: var(--space-m); padding: var(--space-m) 0; font-size: clamp(1rem, 3vw, 1.1rem); font-weight: 600; color: var(--color-heading); cursor: pointer; list-style: none; }
-  .hiw-v3-faq__item summary::-webkit-details-marker { display: none; }
-  .hiw-v3-faq__icon { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.25s ease; }
-  .hiw-v3-faq__item[open] > summary .hiw-v3-faq__icon { transform: rotate(45deg); }
-  .hiw-v3-faq__answer { padding-bottom: var(--space-l); }
-  .hiw-v3-faq__answer .rte { font-size: 1rem; max-width: none; }
+  /* --- [V4] FAQ --- */
+  .hiw-v4-faq { max-width: 820px; margin-inline: auto; }
+  .hiw-v4-faq__list { margin-top: var(--space-l); border-top: 1px solid var(--color-border); }
+  .hiw-v4-faq__item { border-bottom: 1px solid var(--color-border); }
+  .hiw-v4-faq__item summary { display: flex; justify-content: space-between; align-items: center; gap: var(--space-m); padding: var(--space-m) 0; font-size: clamp(1rem, 3vw, 1.1rem); font-weight: 600; color: var(--color-heading); cursor: pointer; list-style: none; }
+  .hiw-v4-faq__item summary::-webkit-details-marker { display: none; }
+  .hiw-v4-faq__icon { width: 20px; height: 20px; flex-shrink: 0; transition: transform 0.25s ease; }
+  .hiw-v4-faq__item[open] > summary .hiw-v4-faq__icon { transform: rotate(45deg); }
+  .hiw-v4-faq__answer { padding-bottom: var(--space-l); }
+  .hiw-v4-faq__answer .rte { font-size: 1rem; max-width: none; }
 </style>
 
 <section id="hiw">
 
   {% comment %} HERO {% endcomment %}
-  <div class="hiw-v3-hero">
-    <div class="hiw-v3__inner">
-      <div class="hiw-v3-hero__grid">
-        <div class="hiw-v3-hero__content">
-          {% if section.settings.hero_image != blank %}
-            <div class="hiw-v3-hero__staff-image">
-              {{ section.settings.hero_image | image_url: width: 400 | image_tag: loading: 'eager', fetchpriority: 'high', widths: '200, 300, 400' }}
-            </div>
-          {% endif %}
+  <div class="hiw-v4-hero">
+    <div class="hiw-v4__inner">
+      <div class="hiw-v4-hero__grid">
+        <div class="hiw-v4-hero__content">
           {% if section.settings.hero_subheading != blank %}
-            <p class="hiw-v3-subheading">{{ section.settings.hero_subheading | escape }}</p>
+            <p class="hiw-v4-subheading">{{ section.settings.hero_subheading | escape }}</p>
           {% endif %}
           <h1>{{ section.settings.hero_heading | escape }}</h1>
           {% if section.settings.hero_text != blank %}
             <div class="rte">{{ section.settings.hero_text }}</div>
           {% endif %}
         </div>
-        <div class="hiw-v3-hero__media">
+        <div class="hiw-v4-hero__media">
           {% if section.settings.hero_video_id != blank %}
-            <div class="hiw-v3-hero__video">
+            <div class="hiw-v4-hero__video">
               <iframe
                 src="https://www.youtube.com/embed/{{ section.settings.hero_video_id }}?&autoplay=0&mute=1&controls=1&loop=1&playlist={{ section.settings.hero_video_id }}"
                 title="How It Works Video"
@@ -297,20 +290,20 @@
     </div>
   </div>
 
-  <div class="hiw-v3__inner">
+  <div class="hiw-v4__inner">
     {% comment %} ICON NAV {% endcomment %}
     {%- assign icon_blocks = section.blocks | where: "type", "icon_link" -%}
     {% if icon_blocks.size > 0 %}
-      <div class="hiw-v3-icon-nav">
-        <div class="hiw-v3-icon-nav__grid">
+      <div class="hiw-v4-icon-nav">
+        <div class="hiw-v4-icon-nav__grid">
           {% for block in icon_blocks %}
-            <a href="{{ block.settings.link | default: '#' }}" class="hiw-v3-icon-nav__item" {{ block.shopify_attributes }}>
+            <a href="{{ block.settings.link | default: '#' }}" class="hiw-v4-icon-nav__item" {{ block.shopify_attributes }}>
               {% if block.settings.icon != 'none' and block.settings.icon != blank %}
-                <div class="hiw-v3-icon-nav__icon">
+                <div class="hiw-v4-icon-nav__icon">
                   {% render 'icon', name: block.settings.icon %}
                 </div>
               {% endif %}
-              <span class="hiw-v3-icon-nav__label">{{ block.settings.label | escape }}</span>
+              <span class="hiw-v4-icon-nav__label">{{ block.settings.label | escape }}</span>
             </a>
           {% endfor %}
         </div>
@@ -321,19 +314,24 @@
   {% comment %} GUIDED PROCESS {% endcomment %}
   {%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
   {% if process_blocks.size > 0 %}
-    <div id="offer" class="hiw-v3__section">
-      <div class="hiw-v3__inner">
-        <div class="hiw-v3-process__grid">
-          <div class="hiw-v3-process__title-wrapper">
+    <div id="offer" class="hiw-v4__section">
+      <div class="hiw-v4__inner">
+        <div class="hiw-v4-process__grid">
+          {% if section.settings.hero_image != blank %}
+            <div class="hiw-v4__stamp-image">
+              {{ section.settings.hero_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 225, 300' }}
+            </div>
+          {% endif %}
+          <div class="hiw-v4-process__title-wrapper">
             <h2>{{ section.settings.process_heading | escape }}</h2>
           </div>
-          <div class="hiw-v3-process__steps">
+          <div class="hiw-v4-process__steps">
             {% for block in process_blocks %}
-              <div class="hiw-v3-process__step" {{ block.shopify_attributes }}>
-                <span class="hiw-v3-process__step-number">0{{ forloop.index }}</span>
+              <div class="hiw-v4-process__step" {{ block.shopify_attributes }}>
+                <span class="hiw-v4-process__step-number">0{{ forloop.index }}</span>
                 <div>
                   {% if block.settings.image != blank %}
-                    <div class="hiw-v3-process__step-icon">
+                    <div class="hiw-v4-process__step-icon">
                       {{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}
                     </div>
                   {% endif %}
@@ -352,9 +350,9 @@
 
   {% comment %} LARGE CTA {% endcomment %}
   {% if section.settings.cta_heading != blank %}
-    <div class="hiw-v3__section">
-      <div class="hiw-v3__inner">
-        <div class="hiw-v3-cta hiw-v3__centered-content">
+    <div class="hiw-v4__section">
+      <div class="hiw-v4__inner">
+        <div class="hiw-v4-cta hiw-v4__centered-content">
           <h2>{{ section.settings.cta_heading | escape }}</h2>
           {% if section.settings.cta_text != blank %}
             <div class="rte">{{ section.settings.cta_text }}</div>
@@ -370,19 +368,19 @@
   {% comment %} CATEGORY TILES {% endcomment %}
   {%- assign category_blocks = section.blocks | where: "type", "category_tile" -%}
   {% if category_blocks.size > 0 %}
-    <div class="hiw-v3__section hiw-v3__section--alt-bg">
-      <div class="hiw-v3__inner">
-        <div class="hiw-v3-categories__grid">
+    <div class="hiw-v4__section hiw-v4__section--alt-bg">
+      <div class="hiw-v4__inner">
+        <div class="hiw-v4-categories__grid">
           {% for block in category_blocks %}
-            <a href="{{ block.settings.link | default: '#' }}" class="hiw-v3-card" {{ block.shopify_attributes }}>
-              <div class="hiw-v3-card__media">
+            <a href="{{ block.settings.link | default: '#' }}" class="hiw-v4-card" {{ block.shopify_attributes }}>
+              <div class="hiw-v4-card__media">
                 {% if block.settings.image != blank %}
                   {{ block.settings.image | image_url: width: 520 | image_tag: loading: 'lazy', widths: '260, 390, 520' }}
                 {% else %}
                   {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
                 {% endif %}
               </div>
-              <div class="hiw-v3-card__content">
+              <div class="hiw-v4-card__content">
                 <h3>{{ block.settings.title | escape }}</h3>
                 {% if block.settings.text != blank %}
                   <div class="rte">{{ block.settings.text }}</div>
@@ -396,24 +394,24 @@
   {% endif %}
 
   {% comment %} SNACKS & MORE + ENVIRONMENT {% endcomment %}
-  <div class="hiw-v3__section">
-    <div class="hiw-v3__inner">
-      <div class="hiw-v3-stack--xl">
-        <div class="hiw-v3-feature">
-          <div class="hiw-v3-feature__media">
+  <div class="hiw-v4__section">
+    <div class="hiw-v4__inner">
+      <div class="hiw-v4-stack--xl">
+        <div class="hiw-v4-feature">
+          <div class="hiw-v4-feature__media">
             {% if section.settings.snacks_image != blank %}{{ section.settings.snacks_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
           </div>
-          <div class="hiw-v3-feature__content">
-            {% if section.settings.snacks_subheading != blank %}<p class="hiw-v3-subheading">{{ section.settings.snacks_subheading | escape }}</p>{% endif %}
+          <div class="hiw-v4-feature__content">
+            {% if section.settings.snacks_subheading != blank %}<p class="hiw-v4-subheading">{{ section.settings.snacks_subheading | escape }}</p>{% endif %}
             {% if section.settings.snacks_text != blank %}<div class="rte">{{ section.settings.snacks_text }}</div>{% endif %}
             {% if section.settings.snacks_button_label != blank and section.settings.snacks_button_link != blank %}<a href="{{ section.settings.snacks_button_link }}" class="btn">{{ section.settings.snacks_button_label | escape }}</a>{% endif %}
           </div>
         </div>
-        <div class="hiw-v3-feature hiw-v3-feature--reversed">
-          <div class="hiw-v3-feature__media">
+        <div class="hiw-v4-feature hiw-v4-feature--reversed">
+          <div class="hiw-v4-feature__media">
             {% if section.settings.env_image != blank %}{{ section.settings.env_image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
           </div>
-          <div class="hiw-v3-feature__content">
+          <div class="hiw-v4-feature__content">
             {% if section.settings.env_heading != blank %}<h2>{{ section.settings.env_heading | escape }}</h2>{% endif %}
             {% if section.settings.env_text != blank %}<div class="rte">{{ section.settings.env_text }}</div>{% endif %}
           </div>
@@ -423,18 +421,18 @@
   </div>
 
   {% comment %} DELIVERY & HEAT/EAT {% endcomment %}
-  <div id="delivery" class="hiw-v3__section hiw-v3__section--alt-bg">
-    <div class="hiw-v3__inner">
-      <div class="hiw-v3-grid--2col">
+  <div id="delivery" class="hiw-v4__section hiw-v4__section--alt-bg">
+    <div class="hiw-v4__inner">
+      <div class="hiw-v4-grid--2col">
         {% if section.settings.delivery_heading != blank %}
-          <div class="hiw-v3__centered-content">
+          <div class="hiw-v4__centered-content">
             <h2>{{ section.settings.delivery_heading | escape }}</h2>
             {% if section.settings.delivery_text != blank %}<div class="rte">{{ section.settings.delivery_text }}</div>{% endif %}
             {% if section.settings.delivery_button_label != blank and section.settings.delivery_button_link != blank %}<a href="{{ section.settings.delivery_button_link }}" class="btn">{{ section.settings.delivery_button_label | escape }}</a>{% endif %}
           </div>
         {% endif %}
         {% if section.settings.heat_heading != blank %}
-          <div class="hiw-v3__centered-content">
+          <div class="hiw-v4__centered-content">
             <h2>{{ section.settings.heat_heading | escape }}</h2>
             {% if section.settings.heat_text != blank %}<div class="rte">{{ section.settings.heat_text }}</div>{% endif %}
             {% if section.settings.heat_button_label != blank and section.settings.heat_button_link != blank %}<a href="{{ section.settings.heat_button_link }}" class="btn">{{ section.settings.heat_button_label | escape }}</a>{% endif %}
@@ -447,20 +445,20 @@
   {% comment %} FOOD SAFETY {% endcomment %}
   {%- assign safety_blocks = section.blocks | where: "type", "safety_feature" -%}
   {% if safety_blocks.size > 0 %}
-    <div id="foodsafety" class="hiw-v3__section">
-      <div class="hiw-v3__inner">
-        <div class="hiw-v3__centered-content" style="margin-bottom: var(--space-xl);">
-          {% if section.settings.safety_subheading != blank %}<p class="hiw-v3-subheading">{{ section.settings.safety_subheading | escape }}</p>{% endif %}
+    <div id="foodsafety" class="hiw-v4__section">
+      <div class="hiw-v4__inner">
+        <div class="hiw-v4__centered-content hiw-v4__section-header">
+          {% if section.settings.safety_subheading != blank %}<p class="hiw-v4-subheading">{{ section.settings.safety_subheading | escape }}</p>{% endif %}
           <h2>{{ section.settings.safety_heading | escape }}</h2>
           {% if section.settings.safety_text != blank %}<div class="rte">{{ section.settings.safety_text }}</div>{% endif %}
         </div>
-        <div class="hiw-v3-food-safety__features">
+        <div class="hiw-v4-food-safety__features">
           {% for block in safety_blocks %}
-            <div class="hiw-v3-feature {% cycle '', 'hiw-v3-feature--reversed' %}" {{ block.shopify_attributes }}>
-              <div class="hiw-v3-feature__media">
+            <div class="hiw-v4-feature {% cycle '', 'hiw-v4-feature--reversed' %}" {{ block.shopify_attributes }}>
+              <div class="hiw-v4-feature__media">
                 {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
               </div>
-              <div class="hiw-v3-feature__content">
+              <div class="hiw-v4-feature__content">
                 <h3>{{ block.settings.title | escape }}</h3>
                 {% if block.settings.text != blank %}<div class="rte">{{ block.settings.text }}</div>{% endif %}
               </div>
@@ -474,20 +472,20 @@
   {% comment %} FAQ {% endcomment %}
   {%- assign faq_blocks = section.blocks | where: "type", "faq_item" -%}
   {% if faq_blocks.size > 0 %}
-    <div id="faq" class="hiw-v3__section hiw-v3__section--alt-bg">
-      <div class="hiw-v3__inner">
-        <div class="hiw-v3-faq">
-          <div class="hiw-v3__centered-content">
+    <div id="faq" class="hiw-v4__section hiw-v4__section--alt-bg">
+      <div class="hiw-v4__inner">
+        <div class="hiw-v4-faq">
+          <div class="hiw-v4__centered-content">
             <h2>{{ 'sections.faq.title' | t | default: "Frequently Asked Questions" }}</h2>
           </div>
-          <div class="hiw-v3-faq__list">
+          <div class="hiw-v4-faq__list">
             {% for block in faq_blocks %}
-              <details class="hiw-v3-faq__item" {{ block.shopify_attributes }}>
+              <details class="hiw-v4-faq__item" {{ block.shopify_attributes }}>
                 <summary>
                   <span>{{ block.settings.question | escape }}</span>
-                  <svg class="hiw-v3-faq__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  <svg class="hiw-v4-faq__icon" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5V19M5 12H19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </summary>
-                <div class="hiw-v3-faq__answer"><div class="rte">{{ block.settings.answer }}</div></div>
+                <div class="hiw-v4-faq__answer"><div class="rte">{{ block.settings.answer }}</div></div>
               </details>
             {% endfor %}
           </div>
