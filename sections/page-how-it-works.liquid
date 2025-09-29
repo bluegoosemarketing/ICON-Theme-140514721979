@@ -581,7 +581,10 @@
       if section.settings.bg_artwork_1 != blank or section.settings.bg_artwork_2 != blank or section.settings.bg_artwork_3 != blank or section.settings.bg_artwork_4 != blank
         assign has_artwork_images = true
       endif
-      assign show_artwork_layer = enable_artwork and has_artwork_images
+      assign show_artwork_layer = false
+      if enable_artwork and has_artwork_images
+        assign show_artwork_layer = true
+      endif
     -%}
     {%- assign artwork_section_classes = 'hiw-v4__section' -%}
     {%- if show_artwork_layer -%}
