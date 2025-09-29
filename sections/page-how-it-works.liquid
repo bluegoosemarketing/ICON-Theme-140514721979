@@ -246,14 +246,25 @@
 .hiw-v4-artwork-layer {
   position: absolute;
   inset: 0;
-  z-index: 0;                 /* was -1 (hidden behind parent bg) */
-  opacity: var(--artwork-opacity, 0.15);
+  z-index: 0;
   pointer-events: none;
-  background-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
-  background-size: 60%, 60%, 60%, 60%;
-  background-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
-  background-repeat: no-repeat;
+
+  /* Use images as masks */
+  -webkit-mask-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 60%, 60%, 60%, 60%;
+  -webkit-mask-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
+
+  mask-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
+  mask-repeat: no-repeat;
+  mask-size: 60%, 60%, 60%, 60%;
+  mask-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
+
+  /* Tint color for doodles */
+  background-color: #e0e0e0; /* light grey */
+  opacity: 0.3; /* adjust intensity */
 }
+
 
 /* ensure content sits above the artwork */
 .hiw-v4__section--with-artwork > .hiw-v4__inner {
@@ -280,21 +291,13 @@
     display: block;
     object-fit: contain;
   }
-  .hiw-v4-artwork__item--1 { top: -5%; left: -8%; transform: rotate(-15deg); }
-  .hiw-v4-artwork__item--2 { bottom: -10%; right: -10%; transform: rotate(20deg); }
-  .hiw-v4-artwork__item--3 { top: 15%; right: -5%; transform: rotate(5deg) scaleX(-1); }
-  .hiw-v4-artwork__item--4 { bottom: 20%; left: -6%; transform: rotate(-25deg) scaleY(-1); }
-
-  @media (max-width: 768px) {
-    .hiw-v4-artwork__item { width: clamp(150px, 40vw, 250px); }
-    .hiw-v4-artwork__item--1 { top: 0; left: -15%; }
-    .hiw-v4-artwork__item--2 { bottom: 0; right: -20%; }
-    .hiw-v4-artwork__item--3, .hiw-v4-artwork__item--4 { display: none; }
-    .hiw-v4-artwork-layer--masked {
-      mask-image: radial-gradient(ellipse 100% 100% at center, transparent 10%, black 60%);
-      -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 10%, black 60%);
-    }
-  }
+  .hiw-v4-artwork__item,
+.hiw-v4-artwork__item--1,
+.hiw-v4-artwork__item--2,
+.hiw-v4-artwork__item--3,
+.hiw-v4-artwork__item--4 {
+  display: none !important; /* ensure they don’t render at all */
+}
 
   /* --- [V4] GUIDED PROCESS --- */
   .hiw-v4-process__header {
@@ -580,26 +583,6 @@
 
       {%- if enable_artwork -%}
         <div class="hiw-v4-artwork-layer {% if artwork_positioning == 'edges' %}hiw-v4-artwork-layer--masked{% endif %}">
-          {% if section.settings.bg_artwork_1 != blank %}
-            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--1">
-              {{ section.settings.bg_artwork_1 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
-            </div>
-          {% endif %}
-          {% if section.settings.bg_artwork_2 != blank %}
-            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--2">
-              {{ section.settings.bg_artwork_2 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
-            </div>
-          {% endif %}
-          {% if section.settings.bg_artwork_3 != blank %}
-            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--3">
-              {{ section.settings.bg_artwork_3 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
-            </div>
-          {% endif %}
-          {% if section.settings.bg_artwork_4 != blank %}
-            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--4">
-              {{ section.settings.bg_artwork_4 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
-            </div>
-          {% endif %}
         </div>
       {%- endif -%}
 
