@@ -129,103 +129,6 @@
     gap: var(--space-xs);
     align-items: start;
   }
-  .hiw-v4-icon-nav__bar {
-    position: relative;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    align-items: center;
-    gap: 1rem;
-    padding-block: var(--space-s);
-    color: var(--color-heading);
-    background: var(--color-surface, #fff);
-  }
-  .hiw-v4-icon-nav__bar::before,
-  .hiw-v4-icon-nav__bar::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 1px;
-    background: var(--color-border, #e9ecef);
-  }
-  .hiw-v4-icon-nav__bar::before { top: 0; }
-  .hiw-v4-icon-nav__bar::after { bottom: 0; }
-  .hiw-v4-icon-nav__bar-label {
-    justify-self: start;
-    font-size: 0.72rem;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    font-weight: 700;
-    opacity: 0.68;
-    display: inline-flex;
-    align-items: center;
-    gap: .5rem;
-  }
-  .hiw-v4-icon-nav__bar-label::before {
-    content: "";
-    display: inline-block;
-    width: 1.25rem;
-    height: 2px;
-    background: currentColor;
-    opacity: .35;
-  }
-  .hiw-v4-icon-nav__bar-top {
-    justify-self: end;
-    font-size: .78rem;
-    font-weight: 600;
-    color: var(--color-heading);
-    opacity: .55;
-    text-decoration: none !important;
-    background-image: none !important;
-    padding: .25rem .5rem;
-    border-radius: 999px;
-    transition: opacity .2s ease, background-color .2s ease;
-  }
-  .hiw-v4-icon-nav__bar-top:hover {
-    opacity: .85;
-    background: var(--color-surface-alt, #f8f9fa);
-  }
-  .hiw-v4-icon-nav.is-stuck .hiw-v4-icon-nav__bar {
-    position: sticky;
-    top: var(--sticky-offset, 64px);
-    z-index: 6;
-    backdrop-filter: saturate(120%) blur(6px);
-    -webkit-backdrop-filter: saturate(120%) blur(6px);
-    background: color-mix(in oklab, var(--color-surface, #fff) 85%, transparent);
-    border-bottom: 1px solid var(--color-border, #e9ecef);
-    padding-block: calc(var(--space-s) - 2px);
-  }
-  .hiw-v4-icon-nav.is-stuck .hiw-v4-icon-nav__bar-top {
-    opacity: .8;
-  }
-  @media (max-width: 699px) {
-    .hiw-v4-icon-nav__bar-label { display: none; }
-    .hiw-v4-icon-nav__bar-top {
-      justify-self: start;
-      border: 1px solid var(--color-border, #e9ecef);
-    }
-  }
-  .hiw-v4-icon-nav__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: var(--space-s);
-    padding-block: var(--space-m);
-    border-top: 1px solid var(--color-border, #e9ecef);
-    border-bottom: 1px solid var(--color-border, #e9ecef);
-    background: var(--color-surface, #fff);
-  }
-  .hiw-v4-icon-nav__item {
-    display: flex;
-    align-items: center;
-    gap: var(--space-s);
-    padding: var(--space-s);
-    text-decoration: none !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    border-radius: 8px;
-    transition: background-color 0.2s ease;
-    color: var(--color-heading);
-  }
   .hiw-v4-icon-nav a,
   .hiw-v4-icon-nav a:link,
   .hiw-v4-icon-nav a:visited,
@@ -236,98 +139,208 @@
     background-image: none !important;
     box-shadow: none !important;
   }
-  .hiw-v4-icon-nav__item:hover { background-color: var(--color-surface-alt, #f8f9fa); }
+  /* ---------- Centered micro-header (balanced, quiet) ---------- */
+  .hiw-v4-icon-nav__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding-block: var(--space-s);
+    color: var(--color-heading);
+    background: var(--color-surface, #fff);
+    position: relative;
+    justify-content: center;
+  }
+  .hiw-v4-icon-nav__header::before,
+  .hiw-v4-icon-nav__header::after {
+    content: "";
+    height: 1px;
+    background: var(--color-border, #e9ecef);
+    flex: 1 1 auto;
+  }
+  .hiw-v4-icon-nav__title {
+    flex: 0 0 auto;
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 700;
+    opacity: 0.68;
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+  }
+  .hiw-v4-icon-nav__title::before {
+    content: "";
+    display: inline-block;
+    width: 1.25rem;
+    height: 2px;
+    background: currentColor;
+    opacity: .35;
+  }
+  /* ---------- Grid wrapper ---------- */
+  .hiw-v4-icon-nav__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-s);
+    padding-block: var(--space-m);
+    border-top: 1px solid var(--color-border, #e9ecef);
+    border-bottom: 1px solid var(--color-border, #e9ecef);
+    background: var(--color-surface, #fff);
+  }
+  /* ---------- Cardified items ---------- */
+  .hiw-v4-icon-nav__item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px 16px;
+    text-decoration: none !important;
+    color: var(--color-heading);
+    border-radius: 12px;
+    border: 1px solid var(--color-border, #e9ecef);
+    background: var(--color-surface, #fff);
+    transition: transform .06s ease, box-shadow .2s ease, background-color .2s ease, border-color .2s ease;
+    cursor: pointer;
+  }
+  .hiw-v4-icon-nav__item:hover {
+    background: var(--color-surface, #fff);
+    border-color: transparent;
+    box-shadow: 0 8px 22px rgba(0,0,0,.06);
+    transform: translateY(-1px);
+  }
   .hiw-v4-icon-nav__item:focus-visible {
     outline: 2px solid var(--color-accent);
     outline-offset: 3px;
-    background-color: var(--color-surface-alt, #f8f9fa);
+    box-shadow: 0 0 0 4px color-mix(in oklab, var(--color-accent) 24%, transparent);
   }
   .hiw-v4-icon-nav__icon {
-    width: 32px;
-    height: 32px;
-    color: var(--color-accent);
+    width: 40px;
+    height: 40px;
     flex-shrink: 0;
+    color: var(--color-accent);
+    background: var(--color-surface-alt, #f8f9fa);
+    border-radius: 10px;
+    display: grid;
+    place-items: center;
   }
   .hiw-v4-icon-nav__icon svg {
-    width: 100%;
-    height: 100%;
+    width: 22px;
+    height: 22px;
     display: block;
   }
   .hiw-v4-icon-nav__label {
-    font-weight: 600;
+    font-weight: 700;
     color: var(--color-heading);
-    text-decoration: none !important;
+    line-height: 1.25;
   }
-
+  @media (max-width: 699px) {
+    .hiw-v4-icon-nav__item { padding: 12px 14px; }
+    .hiw-v4-icon-nav__icon { width: 36px; height: 36px; border-radius: 8px; }
+  }
+  
   /* --- [V4] GUIDED PROCESS --- */
-.hiw-v4-process__header {
-  margin-bottom: var(--space-xl);
-}
-.hiw-v4__stamp-image {
-  position: relative;
-  margin-inline: auto;
-  margin-bottom: var(--space-m);
-  width: clamp(100px, 15vw, 140px);
-  aspect-ratio: 1/1;
-  border-radius: 50%;
-  overflow: hidden;
-  background-color: var(--color-surface);
-  padding: 6px;
-  box-shadow: 0 8px 25px rgba(0,0,0,0.1);
-}
-.hiw-v4__stamp-image img {
-  border-radius: 50%;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.hiw-v4-process__steps {
-  display: grid;
-  gap: var(--space-xl);
-}
-@media (min-width: 900px) {
-  .hiw-v4-process__steps {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+  .hiw-v4-process__header {
+    margin-bottom: var(--space-xl);
   }
-}
-.hiw-v4-process__step {
-  display: grid;
-  grid-template-columns: auto 1fr;
-  gap: var(--space-m);
-  align-items: start;
-}
-.hiw-v4-process__step-number {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--color-accent);
-  line-height: 1;
-}
-.hiw-v4-process__step-icon {
-  width: 64px;
-  height: 64px;
-  margin-bottom: var(--space-s);
-}
-.hiw-v4-process__step-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-}
-.hiw-v4-process__step .rte {
-  font-size: 0.95rem;
-}
+  .hiw-v4__stamp-image {
+    position: relative;
+    margin-inline: auto;
+    margin-bottom: var(--space-m);
+    width: clamp(100px, 15vw, 140px);
+    aspect-ratio: 1/1;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: var(--color-surface);
+    padding: 6px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+  }
+  .hiw-v4__stamp-image img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  .hiw-v4-process__steps {
+    display: grid;
+    gap: var(--space-l);
+  }
+  @media (min-width: 900px) {
+    .hiw-v4-process__steps {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: var(--space-l);
+    }
+  }
+  /* FEEDBACK 1: Make process steps feel more "unified and intentional" */
+  .hiw-v4-process__step {
+    background-color: var(--color-surface-alt);
+    border: 1px solid var(--color-border);
+    border-radius: 16px;
+    padding: var(--space-l);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .hiw-v4-process__step-header {
+    display: flex;
+    align-items: center;
+    gap: var(--space-m);
+    margin-bottom: var(--space-s);
+  }
+  .hiw-v4-process__step-number {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--color-accent);
+    line-height: 1;
+  }
+  .hiw-v4-process__step-icon {
+    width: 64px;
+    height: 64px;
+  }
+  .hiw-v4-process__step-icon img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+  .hiw-v4-process__step h3 {
+    margin-block: var(--space-s) var(--space-xs);
+  }
+  .hiw-v4-process__step .rte {
+    font-size: 0.95rem;
+    max-width: 45ch;
+    margin-inline: auto;
+  }
 
   /* --- [V4] CTA --- */
   .hiw-v4-cta {
-    background-color: var(--color-accent);
+    background-color: #212529; /* Darker background for contrast */
     color: var(--color-hero-text);
     border-radius: 20px;
     padding: clamp(var(--space-l), 6vw, var(--space-xl));
   }
   .hiw-v4-cta h2 {
-  color: #FFFFFF !important; /* Force white color for visibility */
-  font-size: clamp(28px,4.2vw,40px);
-}
-  .hiw-v4-cta .btn { --color-button-background: var(--color-surface); --color-button-text: var(--color-heading); }
+    color: #FFFFFF !important;
+    font-size: clamp(28px,4.2vw,40px);
+  }
+  .hiw-v4-cta .rte {
+    color: #adb5bd; /* Softer text color */
+  }
+  /* FEEDBACK 2: Make CTA button stronger */
+  .hiw-v4-cta .btn {
+    background-color: var(--color-accent) !important;
+    color: #ffffff !important;
+    border: none !important;
+    border-radius: 8px !important;
+    padding: var(--space-s) var(--space-l) !important;
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.05em !important;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.2) !important;
+    transition: transform 0.2s ease, filter 0.2s ease;
+  }
+  .hiw-v4-cta .btn:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.1);
+  }
 
   /* --- [V4] CATEGORY TILES --- */
   .hiw-v4-categories__grid {
@@ -350,6 +363,17 @@
   .hiw-v4-card__media img { width: 100%; height: 100%; object-fit: cover; }
   .hiw-v4-card__content { padding: var(--space-l); text-align: center; display: grid; justify-items: center; gap: var(--space-s); flex-grow: 1; }
   .hiw-v4-card .rte { font-size: 0.95rem; }
+  
+  /* FEEDBACK 3: Neutralize unwanted theme link styles inside cards */
+  a.hiw-v4-card .hiw-v4-card__content * {
+    color: var(--color-text) !important;
+    text-decoration: none !important;
+    background: none !important;
+  }
+  a.hiw-v4-card:hover .hiw-v4-card__content * {
+    color: var(--color-text) !important; 
+  }
+
 
   /* --- [V4] FEATURE ROW --- */
   .hiw-v4-feature {
@@ -379,7 +403,6 @@
   .hiw-v4-faq__answer .rte { font-size: 1rem; max-width: none; }
 
   /* --- [V4] STYLE FIXES --- */
-  /* 1) Hero eyebrow visibility */
   .hiw-v4-hero .hiw-v4-subheading {
     display: inline-block;
     color: var(--color-hero-text);
@@ -388,16 +411,7 @@
     padding: .25rem .6rem;
     border-radius: 9999px;
   }
-  
-  /* 6) Neutralize underlined red links inside cards */
-  .hiw-v4-card__content .rte a {
-    color: var(--color-heading);
-    text-decoration: none;
-  }
-  .hiw-v4-card__content .rte a:hover {
-    text-decoration: underline;
-    text-underline-offset: 2px;
-  }
+
 </style>
 
 <section id="hiw">
@@ -438,9 +452,8 @@
     {%- assign icon_blocks = section.blocks | where: "type", "icon_link" -%}
     {% if icon_blocks.size > 0 %}
       <nav class="hiw-v4-icon-nav" aria-label="Jump to section">
-        <div class="hiw-v4-icon-nav__bar" id="hiw-jump-bar">
-          <span class="hiw-v4-icon-nav__bar-label">Jump to section</span>
-          <a href="#top" class="hiw-v4-icon-nav__bar-top" aria-label="Back to top">Top</a>
+        <div class="hiw-v4-icon-nav__header">
+          <span class="hiw-v4-icon-nav__title">Jump to section</span>
         </div>
         <div class="hiw-v4-icon-nav__grid">
           {% for block in icon_blocks %}
@@ -449,27 +462,13 @@
                 <div class="hiw-v4-icon-nav__icon">
                   {% case block.settings.icon %}
                     {% when 'restaurant' %}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M3 17h18" />
-                        <path d="M5 17a7 7 0 0 1 14 0" />
-                        <path d="M12 3v3" />
-                        <path d="M9 21h6" />
-                      </svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17h18" /><path d="M5 17a7 7 0 0 1 14 0" /><path d="M12 3v3" /><path d="M9 21h6" /></svg>
                     {% when 'home-smile' %}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M3 10.5L12 3l9 7.5" />
-                        <path d="M5 10.5V21h5v-5h4v5h5V10.5" />
-                        <path d="M9.5 15a2.5 2.5 0 0 0 5 0" />
-                      </svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5" /><path d="M5 10.5V21h5v-5h4v5h5V10.5" /><path d="M9.5 15a2.5 2.5 0 0 0 5 0" /></svg>
                     {% when 'star' %}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M12 3.5l2.38 4.82 5.32.77-3.85 3.75.91 5.29L12 15.9l-4.76 2.53.91-5.29-3.85-3.75 5.32-.77L12 3.5z" />
-                      </svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.38 4.82 5.32.77-3.85 3.75.91 5.29L12 15.9l-4.76 2.53.91-5.29-3.85-3.75 5.32-.77L12 3.5z" /></svg>
                     {% when 'question-answer' %}
-                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M5 4h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z" />
-                        <path d="M15 12.5V18a2 2 0 0 0 2 2h1l3 3v-7a2 2 0 0 0-2-2h-4" />
-                      </svg>
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z" /><path d="M15 12.5V18a2 2 0 0 0 2 2h1l3 3v-7a2 2 0 0 0-2-2h-4" /></svg>
                   {% endcase %}
                 </div>
               {% endif %}
@@ -482,39 +481,39 @@
   </div>
 
   {% comment %} GUIDED PROCESS {% endcomment %}
-{%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
-{% if process_blocks.size > 0 %}
-  <div id="offer" class="hiw-v4__section">
-    <div class="hiw-v4__inner">
-      <div class="hiw-v4-process__header hiw-v4__centered-content">
-        {% if section.settings.hero_image != blank %}
-          <div class="hiw-v4__stamp-image">
-            {{ section.settings.hero_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 225, 300' }}
-          </div>
-        {% endif %}
-        <h2>{{ section.settings.process_heading | escape }}</h2>
-      </div>
-      <div class="hiw-v4-process__steps">
-        {% for block in process_blocks %}
-          <div class="hiw-v4-process__step" {{ block.shopify_attributes }}>
-            <span class="hiw-v4-process__step-number">0{{ forloop.index }}</span>
-            <div>
-              {% if block.settings.image != blank %}
-                <div class="hiw-v4-process__step-icon">
-                  {{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}
-                </div>
-              {% endif %}
+  {%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
+  {% if process_blocks.size > 0 %}
+    <div id="offer" class="hiw-v4__section">
+      <div class="hiw-v4__inner">
+        <div class="hiw-v4-process__header hiw-v4__centered-content">
+          {% if section.settings.hero_image != blank %}
+            <div class="hiw-v4__stamp-image">
+              {{ section.settings.hero_image | image_url: width: 300 | image_tag: loading: 'lazy', widths: '150, 225, 300' }}
+            </div>
+          {% endif %}
+          <h2>{{ section.settings.process_heading | escape }}</h2>
+        </div>
+        <div class="hiw-v4-process__steps">
+          {% for block in process_blocks %}
+            <div class="hiw-v4-process__step" {{ block.shopify_attributes }}>
+              <div class="hiw-v4-process__step-header">
+                <span class="hiw-v4-process__step-number">0{{ forloop.index }}</span>
+                {% if block.settings.image != blank %}
+                  <div class="hiw-v4-process__step-icon">
+                    {{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}
+                  </div>
+                {% endif %}
+              </div>
               <h3>{{ block.settings.title | escape }}</h3>
               {% if block.settings.text != blank %}
                 <div class="rte">{{ block.settings.text }}</div>
               {% endif %}
             </div>
-          </div>
-        {% endfor %}
+          {% endfor %}
+        </div>
       </div>
     </div>
-  </div>
-{% endif %}
+  {% endif %}
 
   {% comment %} LARGE CTA {% endcomment %}
   {% if section.settings.cta_heading != blank %}
@@ -663,33 +662,6 @@
       </div>
     </div>
   {% endif %}
-
-  <script>
-  (function() {
-    const nav = document.querySelector('.hiw-v4-icon-nav');
-    const bar = document.getElementById('hiw-jump-bar');
-    if (!nav || !bar || !('IntersectionObserver' in window)) return;
-
-    const sentry = document.createElement('div');
-    sentry.style.position = 'absolute';
-    sentry.style.top = '-1px';
-    sentry.style.height = '1px';
-    sentry.style.width = '1px';
-    bar.prepend(sentry);
-
-    const io = new IntersectionObserver((entries) => {
-      const e = entries[0];
-      if (!e) return;
-      if (e.intersectionRatio < 1) {
-        nav.classList.add('is-stuck');
-      } else {
-        nav.classList.remove('is-stuck');
-      }
-    }, { threshold: [1] });
-
-    io.observe(bar);
-  })();
-  </script>
 
 </section>
 
