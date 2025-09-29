@@ -252,36 +252,63 @@
     pointer-events: none;
     background-color: var(--hiw-artwork-tint, #e0e0e0);
     opacity: var(--hiw-artwork-opacity, 0.2);
-  
-    /* The first image slot provides the tiling doodle pattern. */
+
+    /* Provide defaults so missing artwork slots gracefully fall back. */
     --hiw-artwork-mask-1: none;
-  
+    --hiw-artwork-mask-2: var(--hiw-artwork-mask-1);
+    --hiw-artwork-mask-3: var(--hiw-artwork-mask-1);
+    --hiw-artwork-mask-4: var(--hiw-artwork-mask-1);
+    --hiw-artwork-tile-size: clamp(350px, 30vw, 600px);
+
     /* This gradient creates the fade. For 'luminance' mode, black=transparent and white=opaque. */
     --hiw-artwork-fade-mask: radial-gradient(
-      circle at center, 
-      black 0%, 
+      circle at center,
+      black 0%,
       black clamp(15%, 35vw, 40%),  /* Defines the clear zone in the center */
       white 100%                    /* Fades to fully visible at the edges */
     );
-  
-    /* Combine the fade gradient and the doodle pattern. 'intersect' shows doodles only where the gradient is white. */
-    -webkit-mask-image: var(--hiw-artwork-fade-mask), var(--hiw-artwork-mask-1);
-    mask-image: var(--hiw-artwork-fade-mask), var(--hiw-artwork-mask-1);
-    
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-    
+
+    /*
+      Arrange the four artwork tiles in a checkerboard pattern so each row is offset
+      from the one above/below. The fade mask is applied last to soften the edges.
+    */
+    -webkit-mask-image: var(--hiw-artwork-mask-1), var(--hiw-artwork-mask-2), var(--hiw-artwork-mask-3), var(--hiw-artwork-mask-4), var(--hiw-artwork-fade-mask);
+    mask-image: var(--hiw-artwork-mask-1), var(--hiw-artwork-mask-2), var(--hiw-artwork-mask-3), var(--hiw-artwork-mask-4), var(--hiw-artwork-fade-mask);
+
+    -webkit-mask-composite: source-over, source-over, source-over, source-in;
+    mask-composite: add, add, add, intersect;
+
     /* CRITICAL: 'luminance' mode is required for your white-on-black images to work correctly. */
     -webkit-mask-mode: luminance;
     mask-mode: luminance;
-    
-    /* Apply properties to each mask layer: [gradient], [pattern] */
-    -webkit-mask-position: center, center;
-    mask-position: center, center;
-    -webkit-mask-repeat: no-repeat, repeat; /* Gradient does not repeat, pattern does for seamless coverage. */
-    mask-repeat: no-repeat, repeat;
-    -webkit-mask-size: 100% 100%, clamp(350px, 30vw, 600px); /* Controls the size of each doodle tile. */
-    mask-size: 100% 100%, clamp(350px, 30vw, 600px);
+
+    /* Apply properties to each mask layer: [tile1], [tile2], [tile3], [tile4], [fade] */
+    -webkit-mask-position:
+      0 0,
+      calc(var(--hiw-artwork-tile-size) * 0.5) 0,
+      0 calc(var(--hiw-artwork-tile-size) * 0.5),
+      calc(var(--hiw-artwork-tile-size) * 0.5) calc(var(--hiw-artwork-tile-size) * 0.5),
+      center;
+    mask-position:
+      0 0,
+      calc(var(--hiw-artwork-tile-size) * 0.5) 0,
+      0 calc(var(--hiw-artwork-tile-size) * 0.5),
+      calc(var(--hiw-artwork-tile-size) * 0.5) calc(var(--hiw-artwork-tile-size) * 0.5),
+      center;
+    -webkit-mask-repeat: repeat, repeat, repeat, repeat, no-repeat; /* Fade does not repeat. */
+    mask-repeat: repeat, repeat, repeat, repeat, no-repeat;
+    -webkit-mask-size:
+      var(--hiw-artwork-tile-size),
+      var(--hiw-artwork-tile-size),
+      var(--hiw-artwork-tile-size),
+      var(--hiw-artwork-tile-size),
+      100% 100%;
+    mask-size:
+      var(--hiw-artwork-tile-size),
+      var(--hiw-artwork-tile-size),
+      var(--hiw-artwork-tile-size),
+      var(--hiw-artwork-tile-size),
+      100% 100%;
   }
   
   /* ensure content sits above the artwork */
