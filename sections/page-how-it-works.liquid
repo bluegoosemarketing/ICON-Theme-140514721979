@@ -26,6 +26,8 @@
     --color-surface-alt: #f8f9fa;
     --color-hero-bg: #1a1a1a;
     --color-hero-text: #fdfdfd;
+    --hiw-artwork-tint: #e0e0e0;
+    --hiw-artwork-opacity: 0.2;
 
     --space-xs: 0.75rem; --space-s: 1rem; --space-m: 1.5rem; --space-l: 2.5rem; --space-xl: 4.5rem; --space-xxl: 6rem;
     --container-max: var(--page-width, 1200px);
@@ -240,6 +242,7 @@
 .hiw-v4__section--with-artwork {
   position: relative;
   z-index: 0; /* create stacking context */
+  overflow: hidden;
 }
 
 /* artwork sits above the parent's background but below content */
@@ -248,23 +251,36 @@
   inset: 0;
   z-index: 0;
   pointer-events: none;
+  background-color: var(--hiw-artwork-tint, #e0e0e0);
+  opacity: var(--hiw-artwork-opacity, 0.2);
 
-  /* Use images as masks */
-  -webkit-mask-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
-  -webkit-mask-repeat: no-repeat;
-  -webkit-mask-size: 60%, 60%, 60%, 60%;
-  -webkit-mask-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
+  --hiw-artwork-mask-1: none;
+  --hiw-artwork-mask-2: none;
+  --hiw-artwork-mask-3: none;
+  --hiw-artwork-mask-4: none;
 
-  mask-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
+  --hiw-artwork-mask-size-1: clamp(220px, 36vw, 440px);
+  --hiw-artwork-mask-size-2: clamp(220px, 36vw, 440px);
+  --hiw-artwork-mask-size-3: clamp(220px, 36vw, 440px);
+  --hiw-artwork-mask-size-4: clamp(220px, 36vw, 440px);
+
+  --hiw-artwork-mask-position-1: top -18% left -14%;
+  --hiw-artwork-mask-position-2: top -18% right -14%;
+  --hiw-artwork-mask-position-3: bottom -18% left -14%;
+  --hiw-artwork-mask-position-4: bottom -18% right -14%;
+
+  mask-image: var(--hiw-artwork-mask-1), var(--hiw-artwork-mask-2), var(--hiw-artwork-mask-3), var(--hiw-artwork-mask-4);
+  -webkit-mask-image: var(--hiw-artwork-mask-1), var(--hiw-artwork-mask-2), var(--hiw-artwork-mask-3), var(--hiw-artwork-mask-4);
   mask-repeat: no-repeat;
-  mask-size: 60%, 60%, 60%, 60%;
-  mask-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
-
-  /* Tint color for doodles */
-  background-color: #e0e0e0; /* light grey */
-  opacity: 0.3; /* adjust intensity */
+  -webkit-mask-repeat: no-repeat;
+  mask-mode: luminance;
+  -webkit-mask-mode: luminance;
+  mask-type: luminance;
+  -webkit-mask-size: var(--hiw-artwork-mask-size-1), var(--hiw-artwork-mask-size-2), var(--hiw-artwork-mask-size-3), var(--hiw-artwork-mask-size-4);
+  mask-size: var(--hiw-artwork-mask-size-1), var(--hiw-artwork-mask-size-2), var(--hiw-artwork-mask-size-3), var(--hiw-artwork-mask-size-4);
+  -webkit-mask-position: var(--hiw-artwork-mask-position-1), var(--hiw-artwork-mask-position-2), var(--hiw-artwork-mask-position-3), var(--hiw-artwork-mask-position-4);
+  mask-position: var(--hiw-artwork-mask-position-1), var(--hiw-artwork-mask-position-2), var(--hiw-artwork-mask-position-3), var(--hiw-artwork-mask-position-4);
 }
-
 
 /* ensure content sits above the artwork */
 .hiw-v4__section--with-artwork > .hiw-v4__inner {
@@ -272,31 +288,26 @@
   z-index: 1;
 }
 
-.hiw-v4__section--blend-screen .hiw-v4-artwork-layer {
-  mix-blend-mode: screen;
+.hiw-v4__section--art-full .hiw-v4-artwork-layer {
+  --hiw-artwork-mask-size-1: clamp(320px, 48vw, 560px);
+  --hiw-artwork-mask-size-2: clamp(320px, 48vw, 560px);
+  --hiw-artwork-mask-size-3: clamp(320px, 48vw, 560px);
+  --hiw-artwork-mask-size-4: clamp(320px, 48vw, 560px);
+  --hiw-artwork-mask-position-1: top -26% left -6%;
+  --hiw-artwork-mask-position-2: top -26% right -6%;
+  --hiw-artwork-mask-position-3: bottom -26% left -6%;
+  --hiw-artwork-mask-position-4: bottom -26% right -6%;
 }
 
-  .hiw-v4-artwork-layer--masked {
-    mask-image: radial-gradient(ellipse 80% 100% at center, transparent 30%, black 75%);
-    -webkit-mask-image: radial-gradient(ellipse 80% 100% at center, transparent 30%, black 75%);
-  }
-  .hiw-v4-artwork__item {
-    position: absolute;
-    max-width: 400px;
-    width: clamp(200px, 30vw, 400px);
-  }
-  .hiw-v4-artwork__item img {
-    width: 100%;
-    height: auto;
-    display: block;
-    object-fit: contain;
-  }
-  .hiw-v4-artwork__item,
-.hiw-v4-artwork__item--1,
-.hiw-v4-artwork__item--2,
-.hiw-v4-artwork__item--3,
-.hiw-v4-artwork__item--4 {
-  display: none !important; /* ensure they don’t render at all */
+.hiw-v4__section--art-edges .hiw-v4-artwork-layer {
+  --hiw-artwork-mask-size-1: clamp(200px, 30vw, 380px);
+  --hiw-artwork-mask-size-2: clamp(200px, 30vw, 380px);
+  --hiw-artwork-mask-size-3: clamp(200px, 30vw, 380px);
+  --hiw-artwork-mask-size-4: clamp(200px, 30vw, 380px);
+  --hiw-artwork-mask-position-1: top -20% left -18%;
+  --hiw-artwork-mask-position-2: top -20% right -18%;
+  --hiw-artwork-mask-position-3: bottom -20% left -18%;
+  --hiw-artwork-mask-position-4: bottom -20% right -18%;
 }
 
   /* --- [V4] GUIDED PROCESS --- */
@@ -563,28 +574,45 @@
   {% if process_blocks.size > 0 %}
     {%- liquid
       assign enable_artwork = section.settings.enable_bg_artwork
-      assign artwork_opacity = section.settings.bg_artwork_opacity | divided_by: 100.0
-      assign artwork_positioning = section.settings.bg_artwork_positioning
+      assign artwork_opacity_setting = section.settings.bg_artwork_opacity | default: 15
+      assign artwork_opacity = artwork_opacity_setting | divided_by: 100.0
+      assign artwork_positioning = section.settings.bg_artwork_positioning | default: 'edges'
+      assign has_artwork_images = false
+      if section.settings.bg_artwork_1 != blank or section.settings.bg_artwork_2 != blank or section.settings.bg_artwork_3 != blank or section.settings.bg_artwork_4 != blank
+        assign has_artwork_images = true
+      endif
+      assign show_artwork_layer = enable_artwork and has_artwork_images
     -%}
     {%- assign artwork_section_classes = 'hiw-v4__section' -%}
-{% if enable_artwork %}
-  {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--with-artwork' -%}
-{% endif %}
-{% if enable_blend_mode %}
-  {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--blend-screen' -%}
-{% endif %}
-{% if artwork_positioning != blank %}
-  {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--art-' | append: artwork_positioning -%}
-{% endif %}
-<div id="offer" class="{{ artwork_section_classes }}"{% if artwork_styles != '' %} style="{{ artwork_styles }}"{% endif %}>
-  {% if enable_artwork %}
-    <div class="hiw-v4-artwork-layer" aria-hidden="true"></div>
-  {% endif %}
-
-      {%- if enable_artwork -%}
-        <div class="hiw-v4-artwork-layer {% if artwork_positioning == 'edges' %}hiw-v4-artwork-layer--masked{% endif %}">
-        </div>
+    {%- if show_artwork_layer -%}
+      {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--with-artwork' -%}
+      {%- if artwork_positioning != blank -%}
+        {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--art-' | append: artwork_positioning -%}
       {%- endif -%}
+    {%- endif -%}
+    {%- assign artwork_layer_styles = '' -%}
+    {%- if show_artwork_layer -%}
+      {%- capture artwork_layer_styles_capture -%}
+--hiw-artwork-opacity: {{ artwork_opacity }};
+{% if section.settings.bg_artwork_1 != blank %}
+--hiw-artwork-mask-1: url({{ section.settings.bg_artwork_1 | image_url: width: 1600 }});
+{% endif %}
+{% if section.settings.bg_artwork_2 != blank %}
+--hiw-artwork-mask-2: url({{ section.settings.bg_artwork_2 | image_url: width: 1600 }});
+{% endif %}
+{% if section.settings.bg_artwork_3 != blank %}
+--hiw-artwork-mask-3: url({{ section.settings.bg_artwork_3 | image_url: width: 1600 }});
+{% endif %}
+{% if section.settings.bg_artwork_4 != blank %}
+--hiw-artwork-mask-4: url({{ section.settings.bg_artwork_4 | image_url: width: 1600 }});
+{% endif %}
+      {%- endcapture -%}
+      {%- assign artwork_layer_styles = artwork_layer_styles_capture | strip | strip_newlines -%}
+    {%- endif -%}
+    <div id="offer" class="{{ artwork_section_classes }}">
+      {% if show_artwork_layer %}
+        <div class="hiw-v4-artwork-layer" aria-hidden="true"{% if artwork_layer_styles != blank %} style="{{ artwork_layer_styles }}"{% endif %}></div>
+      {% endif %}
 
       <div class="hiw-v4__inner">
         <div class="hiw-v4-process__header hiw-v4__centered-content">
