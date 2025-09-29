@@ -364,15 +364,38 @@
   .hiw-v4-card__content { padding: var(--space-l); text-align: center; display: grid; justify-items: center; gap: var(--space-s); flex-grow: 1; }
   .hiw-v4-card .rte { font-size: 0.95rem; }
   
-  /* FEEDBACK 3: Neutralize unwanted theme link styles inside cards */
-  a.hiw-v4-card .hiw-v4-card__content * {
-    color: var(--color-text) !important;
-    text-decoration: none !important;
-    background: none !important;
-  }
-  a.hiw-v4-card:hover .hiw-v4-card__content * {
-    color: var(--color-text) !important; 
-  }
+/* FEEDBACK 3: Neutralize unwanted theme link styles inside cards */
+a.hiw-v4-card,
+a.hiw-v4-card:link,
+a.hiw-v4-card:visited,
+a.hiw-v4-card:hover,
+a.hiw-v4-card:active,
+a.hiw-v4-card:focus {
+  /* Kill the ancestor underline + theme link color on the card anchor itself */
+  color: var(--color-text) !important;
+  text-decoration: none !important;        /* stops underline propagation */
+  background-image: none !important;       /* kills bg-image underlines */
+  box-shadow: none !important;             /* kills faux underline shadows */
+  border-bottom: 0 !important;             /* kills border-based underlines */
+}
+
+/* Keep all descendants inside the card clean */
+a.hiw-v4-card .hiw-v4-card__content,
+a.hiw-v4-card .hiw-v4-card__content * {
+  color: var(--color-text) !important;
+  text-decoration: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
+
+/* Do not re-introduce styling on hover */
+a.hiw-v4-card:hover .hiw-v4-card__content,
+a.hiw-v4-card:hover .hiw-v4-card__content * {
+  color: var(--color-text) !important;
+  text-decoration: none !important;
+  background-image: none !important;
+  box-shadow: none !important;
+}
 
 
   /* --- [V4] FEATURE ROW --- */
