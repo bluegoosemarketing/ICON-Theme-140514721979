@@ -236,6 +236,66 @@
     .hiw-v4-icon-nav__icon { width: 36px; height: 36px; border-radius: 8px; }
   }
   
+  /* --- [V4] BACKGROUND ARTWORK --- */
+.hiw-v4__section--with-artwork {
+  position: relative;
+  z-index: 0; /* create stacking context */
+}
+
+/* artwork sits above the parent's background but below content */
+.hiw-v4-artwork-layer {
+  position: absolute;
+  inset: 0;
+  z-index: 0;                 /* was -1 (hidden behind parent bg) */
+  opacity: var(--artwork-opacity, 0.15);
+  pointer-events: none;
+  background-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
+  background-size: 60%, 60%, 60%, 60%;
+  background-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
+  background-repeat: no-repeat;
+}
+
+/* ensure content sits above the artwork */
+.hiw-v4__section--with-artwork > .hiw-v4__inner {
+  position: relative;
+  z-index: 1;
+}
+
+.hiw-v4__section--blend-screen .hiw-v4-artwork-layer {
+  mix-blend-mode: screen;
+}
+
+  .hiw-v4-artwork-layer--masked {
+    mask-image: radial-gradient(ellipse 80% 100% at center, transparent 30%, black 75%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 100% at center, transparent 30%, black 75%);
+  }
+  .hiw-v4-artwork__item {
+    position: absolute;
+    max-width: 400px;
+    width: clamp(200px, 30vw, 400px);
+  }
+  .hiw-v4-artwork__item img {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: contain;
+  }
+  .hiw-v4-artwork__item--1 { top: -5%; left: -8%; transform: rotate(-15deg); }
+  .hiw-v4-artwork__item--2 { bottom: -10%; right: -10%; transform: rotate(20deg); }
+  .hiw-v4-artwork__item--3 { top: 15%; right: -5%; transform: rotate(5deg) scaleX(-1); }
+  .hiw-v4-artwork__item--4 { bottom: 20%; left: -6%; transform: rotate(-25deg) scaleY(-1); }
+
+  @media (max-width: 768px) {
+    .hiw-v4-artwork__item { width: clamp(150px, 40vw, 250px); }
+    .hiw-v4-artwork__item--1 { top: 0; left: -15%; }
+    .hiw-v4-artwork__item--2 { bottom: 0; right: -20%; }
+    .hiw-v4-artwork__item--3, .hiw-v4-artwork__item--4 { display: none; }
+    .hiw-v4-artwork-layer--masked {
+      mask-image: radial-gradient(ellipse 100% 100% at center, transparent 10%, black 60%);
+      -webkit-mask-image: radial-gradient(ellipse 100% 100% at center, transparent 10%, black 60%);
+    }
+  }
+
   /* --- [V4] GUIDED PROCESS --- */
   .hiw-v4-process__header {
     margin-bottom: var(--space-xl);
@@ -268,7 +328,6 @@
       gap: var(--space-l);
     }
   }
-  /* FEEDBACK 1: Make process steps feel more "unified and intentional" */
   .hiw-v4-process__step {
     background-color: var(--color-surface-alt);
     border: 1px solid var(--color-border);
@@ -311,7 +370,7 @@
 
   /* --- [V4] CTA --- */
   .hiw-v4-cta {
-    background-color: #212529; /* Darker background for contrast */
+    background-color: #212529;
     color: var(--color-hero-text);
     border-radius: 20px;
     padding: clamp(var(--space-l), 6vw, var(--space-xl));
@@ -321,9 +380,8 @@
     font-size: clamp(28px,4.2vw,40px);
   }
   .hiw-v4-cta .rte {
-    color: #adb5bd; /* Softer text color */
+    color: #adb5bd;
   }
-  /* FEEDBACK 2: Make CTA button stronger */
   .hiw-v4-cta .btn {
     background-color: var(--color-accent) !important;
     color: #ffffff !important;
@@ -364,39 +422,33 @@
   .hiw-v4-card__content { padding: var(--space-l); text-align: center; display: grid; justify-items: center; gap: var(--space-s); flex-grow: 1; }
   .hiw-v4-card .rte { font-size: 0.95rem; }
   
-/* FEEDBACK 3: Neutralize unwanted theme link styles inside cards */
-a.hiw-v4-card,
-a.hiw-v4-card:link,
-a.hiw-v4-card:visited,
-a.hiw-v4-card:hover,
-a.hiw-v4-card:active,
-a.hiw-v4-card:focus {
-  /* Kill the ancestor underline + theme link color on the card anchor itself */
-  color: var(--color-text) !important;
-  text-decoration: none !important;        /* stops underline propagation */
-  background-image: none !important;       /* kills bg-image underlines */
-  box-shadow: none !important;             /* kills faux underline shadows */
-  border-bottom: 0 !important;             /* kills border-based underlines */
-}
-
-/* Keep all descendants inside the card clean */
-a.hiw-v4-card .hiw-v4-card__content,
-a.hiw-v4-card .hiw-v4-card__content * {
-  color: var(--color-text) !important;
-  text-decoration: none !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
-/* Do not re-introduce styling on hover */
-a.hiw-v4-card:hover .hiw-v4-card__content,
-a.hiw-v4-card:hover .hiw-v4-card__content * {
-  color: var(--color-text) !important;
-  text-decoration: none !important;
-  background-image: none !important;
-  box-shadow: none !important;
-}
-
+  /* FEEDBACK 3: Neutralize unwanted theme link styles inside cards */
+  a.hiw-v4-card,
+  a.hiw-v4-card:link,
+  a.hiw-v4-card:visited,
+  a.hiw-v4-card:hover,
+  a.hiw-v4-card:active,
+  a.hiw-v4-card:focus {
+    color: var(--color-text) !important;
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+    border-bottom: 0 !important;
+  }
+  a.hiw-v4-card .hiw-v4-card__content,
+  a.hiw-v4-card .hiw-v4-card__content * {
+    color: var(--color-text) !important;
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
+  a.hiw-v4-card:hover .hiw-v4-card__content,
+  a.hiw-v4-card:hover .hiw-v4-card__content * {
+    color: var(--color-text) !important;
+    text-decoration: none !important;
+    background-image: none !important;
+    box-shadow: none !important;
+  }
 
   /* --- [V4] FEATURE ROW --- */
   .hiw-v4-feature {
@@ -506,7 +558,51 @@ a.hiw-v4-card:hover .hiw-v4-card__content * {
   {% comment %} GUIDED PROCESS {% endcomment %}
   {%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
   {% if process_blocks.size > 0 %}
-    <div id="offer" class="hiw-v4__section">
+    {%- liquid
+      assign enable_artwork = section.settings.enable_bg_artwork
+      assign artwork_opacity = section.settings.bg_artwork_opacity | divided_by: 100.0
+      assign artwork_positioning = section.settings.bg_artwork_positioning
+    -%}
+    {%- assign artwork_section_classes = 'hiw-v4__section' -%}
+{% if enable_artwork %}
+  {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--with-artwork' -%}
+{% endif %}
+{% if enable_blend_mode %}
+  {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--blend-screen' -%}
+{% endif %}
+{% if artwork_positioning != blank %}
+  {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--art-' | append: artwork_positioning -%}
+{% endif %}
+<div id="offer" class="{{ artwork_section_classes }}"{% if artwork_styles != '' %} style="{{ artwork_styles }}"{% endif %}>
+  {% if enable_artwork %}
+    <div class="hiw-v4-artwork-layer" aria-hidden="true"></div>
+  {% endif %}
+
+      {%- if enable_artwork -%}
+        <div class="hiw-v4-artwork-layer {% if artwork_positioning == 'edges' %}hiw-v4-artwork-layer--masked{% endif %}">
+          {% if section.settings.bg_artwork_1 != blank %}
+            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--1">
+              {{ section.settings.bg_artwork_1 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
+            </div>
+          {% endif %}
+          {% if section.settings.bg_artwork_2 != blank %}
+            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--2">
+              {{ section.settings.bg_artwork_2 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
+            </div>
+          {% endif %}
+          {% if section.settings.bg_artwork_3 != blank %}
+            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--3">
+              {{ section.settings.bg_artwork_3 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
+            </div>
+          {% endif %}
+          {% if section.settings.bg_artwork_4 != blank %}
+            <div class="hiw-v4-artwork__item hiw-v4-artwork__item--4">
+              {{ section.settings.bg_artwork_4 | image_url: width: 800 | image_tag: loading: 'lazy', widths: '200, 400, 600, 800', alt: '' }}
+            </div>
+          {% endif %}
+        </div>
+      {%- endif -%}
+
       <div class="hiw-v4__inner">
         <div class="hiw-v4-process__header hiw-v4__centered-content">
           {% if section.settings.hero_image != blank %}
@@ -728,6 +824,56 @@ a.hiw-v4-card:hover .hiw-v4-card__content * {
     { "type": "text", "id": "hero_video_id", "label": "YouTube Video ID", "info": "Paste only the ID from the YouTube URL (e.g., evc_-Fpgr1o)" },
     { "type": "header", "content": "'How We...' Process Section" },
     { "type": "text", "id": "process_heading", "label": "Heading", "default": "How We Cook, Pack, & Ship" },
+    {
+      "type": "header",
+      "content": "Background Artwork"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_bg_artwork",
+      "label": "Enable Background Artwork",
+      "default": false
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_artwork_1",
+      "label": "Artwork Image 1"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_artwork_2",
+      "label": "Artwork Image 2"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_artwork_3",
+      "label": "Artwork Image 3"
+    },
+    {
+      "type": "image_picker",
+      "id": "bg_artwork_4",
+      "label": "Artwork Image 4"
+    },
+    {
+      "type": "range",
+      "id": "bg_artwork_opacity",
+      "label": "Artwork Opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 15
+    },
+    {
+      "type": "select",
+      "id": "bg_artwork_positioning",
+      "label": "Artwork Positioning",
+      "options": [
+        { "value": "edges", "label": "Edge-focused (fade toward center)" },
+        { "value": "full", "label": "Full spread" }
+      ],
+      "default": "edges"
+    },
     { "type": "header", "content": "CTA Section" },
     { "type": "text", "id": "cta_heading", "label": "Heading", "default": "Shop Meals, Snacks, & more" },
     { "type": "richtext", "id": "cta_text", "label": "Text", "default": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. Are you ready for all this goodness?</p>" },
