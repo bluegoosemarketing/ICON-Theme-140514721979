@@ -15,6 +15,39 @@
   [x] Theme styles are neutralized locally; no global overrides or :has().
 {% endcomment %}
 
+{%- liquid
+  assign enable_artwork = section.settings.enable_bg_artwork
+  assign artwork_opacity = section.settings.bg_artwork_opacity | divided_by: 100.0
+  assign artwork_positioning = section.settings.bg_artwork_positioning
+  assign enable_blend_mode = section.settings.enable_blend_mode
+  assign artwork_bg_color = section.settings.bg_artwork_bg_color
+
+  assign art1_url = section.settings.bg_artwork_1 | image_url: width: 2000
+  assign art2_url = section.settings.bg_artwork_2 | image_url: width: 2000
+  assign art3_url = section.settings.bg_artwork_3 | image_url: width: 2000
+  assign art4_url = section.settings.bg_artwork_4 | image_url: width: 2000
+
+  assign artwork_styles = ''
+  if enable_artwork
+    assign artwork_styles = artwork_styles | append: '--artwork-opacity:' | append: artwork_opacity | append: ';'
+    if artwork_bg_color != blank
+      assign artwork_styles = artwork_styles | append: 'background-color:' | append: artwork_bg_color | append: ';'
+    endif
+    if section.settings.bg_artwork_1 != blank
+      assign artwork_styles = artwork_styles | append: '--artwork-img-1:url(' | append: art1_url | json | append: ');'
+    endif
+    if section.settings.bg_artwork_2 != blank
+      assign artwork_styles = artwork_styles | append: '--artwork-img-2:url(' | append: art2_url | json | append: ');'
+    endif
+    if section.settings.bg_artwork_3 != blank
+      assign artwork_styles = artwork_styles | append: '--artwork-img-3:url(' | append: art3_url | json | append: ');'
+    endif
+    if section.settings.bg_artwork_4 != blank
+      assign artwork_styles = artwork_styles | append: '--artwork-img-4:url(' | append: art4_url | json | append: ');'
+    endif
+  endif
+-%}
+
 <style>
   #hiw {
     /* --- TOKENS & CONFIGURATION --- */
@@ -50,6 +83,33 @@
   }
   .hiw-v4__section--alt-bg {
     background-color: var(--color-surface-alt);
+  }
+  .hiw-v4__section--with-artwork {
+    position: relative;
+    z-index: 0; /* create stacking context */
+  }
+
+  /* artwork sits above the parent's background but below content */
+  .hiw-v4-artwork-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;                 /* was -1 (hidden behind parent bg) */
+    opacity: var(--artwork-opacity, 0.15);
+    pointer-events: none;
+    background-image: var(--artwork-img-1, none), var(--artwork-img-2, none), var(--artwork-img-3, none), var(--artwork-img-4, none);
+    background-size: 60%, 60%, 60%, 60%;
+    background-position: top -10% left -15%, top -10% right -15%, bottom -10% left -15%, bottom -10% right -15%;
+    background-repeat: no-repeat;
+  }
+
+  /* ensure content sits above the artwork */
+  .hiw-v4__section--with-artwork > .hiw-v4__inner {
+    position: relative;
+    z-index: 1;
+  }
+
+  .hiw-v4__section--blend-screen .hiw-v4-artwork-layer {
+    mix-blend-mode: screen;
   }
   .hiw-v4-grid--2col {
     display: grid;
@@ -506,7 +566,20 @@ a.hiw-v4-card:hover .hiw-v4-card__content * {
   {% comment %} GUIDED PROCESS {% endcomment %}
   {%- assign process_blocks = section.blocks | where: "type", "process_step" -%}
   {% if process_blocks.size > 0 %}
-    <div id="offer" class="hiw-v4__section">
+    {%- assign artwork_section_classes = 'hiw-v4__section' -%}
+    {% if enable_artwork %}
+      {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--with-artwork' -%}
+    {% endif %}
+    {% if enable_blend_mode %}
+      {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--blend-screen' -%}
+    {% endif %}
+    {% if artwork_positioning != blank %}
+      {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--art-' | append: artwork_positioning -%}
+    {% endif %}
+    <div id="offer" class="{{ artwork_section_classes }}"{% if artwork_styles != '' %} style="{{ artwork_styles }}"{% endif %}>
+      {% if enable_artwork %}
+        <div class="hiw-v4-artwork-layer" aria-hidden="true"></div>
+      {% endif %}
       <div class="hiw-v4__inner">
         <div class="hiw-v4-process__header hiw-v4__centered-content">
           {% if section.settings.hero_image != blank %}
