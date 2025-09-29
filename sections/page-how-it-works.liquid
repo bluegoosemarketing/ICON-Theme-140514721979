@@ -237,78 +237,63 @@
     .hiw-v4-icon-nav__item { padding: 12px 14px; }
     .hiw-v4-icon-nav__icon { width: 36px; height: 36px; border-radius: 8px; }
   }
-  
+
   /* --- [V4] BACKGROUND ARTWORK --- */
-.hiw-v4__section--with-artwork {
-  position: relative;
-  z-index: 0; /* create stacking context */
-  overflow: hidden;
-}
-
-/* artwork sits above the parent's background but below content */
-.hiw-v4-artwork-layer {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-color: var(--hiw-artwork-tint, #e0e0e0);
-  opacity: var(--hiw-artwork-opacity, 0.2);
-
-  --hiw-artwork-mask-1: none;
-  --hiw-artwork-mask-2: none;
-  --hiw-artwork-mask-3: none;
-  --hiw-artwork-mask-4: none;
-
-  --hiw-artwork-mask-size-1: clamp(220px, 36vw, 440px);
-  --hiw-artwork-mask-size-2: clamp(220px, 36vw, 440px);
-  --hiw-artwork-mask-size-3: clamp(220px, 36vw, 440px);
-  --hiw-artwork-mask-size-4: clamp(220px, 36vw, 440px);
-
-  --hiw-artwork-mask-position-1: top -18% left -14%;
-  --hiw-artwork-mask-position-2: top -18% right -14%;
-  --hiw-artwork-mask-position-3: bottom -18% left -14%;
-  --hiw-artwork-mask-position-4: bottom -18% right -14%;
-
-  mask-image: var(--hiw-artwork-mask-1), var(--hiw-artwork-mask-2), var(--hiw-artwork-mask-3), var(--hiw-artwork-mask-4);
-  -webkit-mask-image: var(--hiw-artwork-mask-1), var(--hiw-artwork-mask-2), var(--hiw-artwork-mask-3), var(--hiw-artwork-mask-4);
-  mask-repeat: no-repeat;
-  -webkit-mask-repeat: no-repeat;
-  mask-mode: luminance;
-  -webkit-mask-mode: luminance;
-  mask-type: luminance;
-  -webkit-mask-size: var(--hiw-artwork-mask-size-1), var(--hiw-artwork-mask-size-2), var(--hiw-artwork-mask-size-3), var(--hiw-artwork-mask-size-4);
-  mask-size: var(--hiw-artwork-mask-size-1), var(--hiw-artwork-mask-size-2), var(--hiw-artwork-mask-size-3), var(--hiw-artwork-mask-size-4);
-  -webkit-mask-position: var(--hiw-artwork-mask-position-1), var(--hiw-artwork-mask-position-2), var(--hiw-artwork-mask-position-3), var(--hiw-artwork-mask-position-4);
-  mask-position: var(--hiw-artwork-mask-position-1), var(--hiw-artwork-mask-position-2), var(--hiw-artwork-mask-position-3), var(--hiw-artwork-mask-position-4);
-}
-
-/* ensure content sits above the artwork */
-.hiw-v4__section--with-artwork > .hiw-v4__inner {
-  position: relative;
-  z-index: 1;
-}
-
-.hiw-v4__section--art-full .hiw-v4-artwork-layer {
-  --hiw-artwork-mask-size-1: clamp(320px, 48vw, 560px);
-  --hiw-artwork-mask-size-2: clamp(320px, 48vw, 560px);
-  --hiw-artwork-mask-size-3: clamp(320px, 48vw, 560px);
-  --hiw-artwork-mask-size-4: clamp(320px, 48vw, 560px);
-  --hiw-artwork-mask-position-1: top -26% left -6%;
-  --hiw-artwork-mask-position-2: top -26% right -6%;
-  --hiw-artwork-mask-position-3: bottom -26% left -6%;
-  --hiw-artwork-mask-position-4: bottom -26% right -6%;
-}
-
-.hiw-v4__section--art-edges .hiw-v4-artwork-layer {
-  --hiw-artwork-mask-size-1: clamp(200px, 30vw, 380px);
-  --hiw-artwork-mask-size-2: clamp(200px, 30vw, 380px);
-  --hiw-artwork-mask-size-3: clamp(200px, 30vw, 380px);
-  --hiw-artwork-mask-size-4: clamp(200px, 30vw, 380px);
-  --hiw-artwork-mask-position-1: top -20% left -18%;
-  --hiw-artwork-mask-position-2: top -20% right -18%;
-  --hiw-artwork-mask-position-3: bottom -20% left -18%;
-  --hiw-artwork-mask-position-4: bottom -20% right -18%;
-}
+  .hiw-v4__section--with-artwork {
+    position: relative;
+    z-index: 0; /* create stacking context */
+    overflow: hidden;
+  }
+  
+    .hiw-v4-artwork-layer {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    background-color: var(--hiw-artwork-tint, #e0e0e0);
+    opacity: var(--hiw-artwork-opacity, 0.2);
+  
+    /* The first image slot provides the tiling doodle pattern. */
+    --hiw-artwork-mask-1: none;
+  
+    /* This gradient creates the fade. For 'luminance' mode, black=transparent and white=opaque. */
+    --hiw-artwork-fade-mask: radial-gradient(
+      circle at center, 
+      black 0%, 
+      black clamp(15%, 35vw, 40%),  /* Defines the clear zone in the center */
+      white 100%                    /* Fades to fully visible at the edges */
+    );
+  
+    /* Combine the fade gradient and the doodle pattern. 'intersect' shows doodles only where the gradient is white. */
+    -webkit-mask-image: var(--hiw-artwork-fade-mask), var(--hiw-artwork-mask-1);
+    mask-image: var(--hiw-artwork-fade-mask), var(--hiw-artwork-mask-1);
+    
+    -webkit-mask-composite: source-in;
+    mask-composite: intersect;
+    
+    /* CRITICAL: 'luminance' mode is required for your white-on-black images to work correctly. */
+    -webkit-mask-mode: luminance;
+    mask-mode: luminance;
+    
+    /* Apply properties to each mask layer: [gradient], [pattern] */
+    -webkit-mask-position: center, center;
+    mask-position: center, center;
+    -webkit-mask-repeat: no-repeat, repeat; /* Gradient does not repeat, pattern does for seamless coverage. */
+    mask-repeat: no-repeat, repeat;
+    -webkit-mask-size: 100% 100%, clamp(350px, 30vw, 600px); /* Controls the size of each doodle tile. */
+    mask-size: 100% 100%, clamp(350px, 30vw, 600px);
+  }
+  
+  /* ensure content sits above the artwork */
+  .hiw-v4__section--with-artwork > .hiw-v4__inner {
+    position: relative;
+    z-index: 1;
+  }
+  
+  /* 'Full spread' setting works by replacing the fade gradient with a solid white (fully opaque) one. */
+  .hiw-v4__section--art-full .hiw-v4-artwork-layer {
+    --hiw-artwork-fade-mask: linear-gradient(white, white);
+  }
 
   /* --- [V4] GUIDED PROCESS --- */
   .hiw-v4-process__header {
@@ -317,8 +302,7 @@
   .hiw-v4__stamp-image {
     position: relative;
     margin-inline: auto;
-    margin-bottom: var(--space-m);
-    width: clamp(100px, 15vw, 140px);
+    width: clamp(200px, 15vw, 200px);
     aspect-ratio: 1/1;
     border-radius: 50%;
     overflow: hidden;
@@ -500,7 +484,6 @@
     padding: .25rem .6rem;
     border-radius: 9999px;
   }
-
 </style>
 
 <section id="hiw">
