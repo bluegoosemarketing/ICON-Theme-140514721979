@@ -20,6 +20,8 @@
         "cta_text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
         "cta_button_label": "Shop This Week’s Menu",
         "cta_button_link": "shopify://collections/signature-menu",
+        "product_features_heading": "A Meal For Every Goal",
+        "product_features_subheading": "<p>Whether you're looking for chef-crafted convenience or complete control over your macros, we have the perfect solution for you.</p>",
         "snacks_image": "shopify://shop_images/tile-snacks.jpg",
         "snacks_subheading": "We've also got snacks and more!",
         "snacks_text": "<p>From protein-packed popcorn, butters, and bread to wagyu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
@@ -48,10 +50,10 @@
         "process_cook",
         "process_pack",
         "process_ship",
-        "category_plans",
-        "category_menu",
-        "category_custom",
-        "category_bulk",
+        "product_feature_signature",
+        "product_feature_custom",
+        "product_feature_plans",
+        "product_feature_bulk",
         "category_snacks",
         "safety_facility",
         "safety_usda",
@@ -115,40 +117,52 @@
             "text": "<p>All your meals are delivered in a recyclable corrugated box with a special environmentally safe thermal liner and dry ice to make sure your meals are in optimal condition.</p>"
           }
         },
-        "category_plans": {
-          "type": "category_tile",
-          "settings": {
-            "image": "shopify://shop_images/tile-meal-boxes_541990e7-4374-40cd-adca-f7eec55e47dc.jpg",
-            "title": "Meal Plans",
-            "text": "<p>Pre-made or build-a-plan options for different goals. Subscribe & save.</p>",
-            "link": "shopify://pages/mealplans"
-          }
-        },
-        "category_menu": {
-          "type": "category_tile",
+        "product_feature_signature": {
+          "type": "product_feature",
           "settings": {
             "image": "shopify://shop_images/tile-lose-weight.jpg",
-            "title": "Weekly Menu",
-            "text": "<p>Choose from a variety of chef-inspired meals for your every day lifestyle.</p>",
-            "link": "shopify://collections/signature-menu"
+            "subheading": "Chef-Crafted Convenience",
+            "title": "Signature Meals",
+            "text": "<p>Maximum flavor, zero guesswork. Our Signature Meals are perfectly portioned, ready-to-eat creations designed by our chefs to make healthy eating effortless and delicious.</p>",
+            "benefits_list": "No Prep, No Cleanup\nPerfectly Balanced Macros\nNew & Exciting Flavors Weekly",
+            "button_label": "Shop Signature Meals",
+            "button_link": "shopify://collections/signature-menu"
           }
         },
-        "category_custom": {
-          "type": "category_tile",
+        "product_feature_custom": {
+          "type": "product_feature",
           "settings": {
             "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "subheading": "Your Goals, Your Way",
             "title": "Custom Meals",
-            "text": "<p>Build your own custom meals for breakfast, lunch, or dinner to fit your needs.</p>",
-            "link": "shopify://products/custom-meals"
+            "text": "<p>You're in the driver's seat. Build your meals from scratch by choosing your favorite proteins, carbs, and veggies in the exact portions you need to hit your personal macros.</p>",
+            "benefits_list": "Total Macro Control\nPick Only the Ingredients You Love\nPerfect for Specific & Evolving Diets",
+            "button_label": "Build Your Custom Meal",
+            "button_link": "shopify://products/custom-meals"
           }
         },
-        "category_bulk": {
-          "type": "category_tile",
+        "product_feature_plans": {
+          "type": "product_feature",
+          "settings": {
+            "image": "shopify://shop_images/tile-meal-boxes_541990e7-4374-40cd-adca-f7eec55e47dc.jpg",
+            "subheading": "Results Made Simple",
+            "title": "Meal Plans & Boxes",
+            "text": "<p>Put your nutrition on autopilot. Our curated meal plans and boxes are designed to help you achieve specific goals, from weight loss to muscle gain. Subscribe and save time and money.</p>",
+            "benefits_list": "Subscribe & Save On Every Order\nCurated by Dietitians for Your Goals\nUnbox a Full Week of Nutrition",
+            "button_label": "Explore Meal Plans",
+            "button_link": "shopify://pages/mealplans"
+          }
+        },
+        "product_feature_bulk": {
+          "type": "product_feature",
           "settings": {
             "image": "shopify://shop_images/tile-bulk-items.jpg",
+            "subheading": "The Foundation Of Your Kitchen",
             "title": "Bulk Items",
-            "text": "<p>Pick your favorite proteins, veggies, or carbs by the pound.</p>",
-            "link": "shopify://collections/bulk-items"
+            "text": "<p>Stock your fridge with the premium, cooked-to-perfection building blocks of healthy eating. Perfect for family meal prep or supplementing your weekly menu.</p>",
+            "benefits_list": "Cost-Effective & Convenient\nPerfect for Family Meal Prep\nPremium Proteins, Carbs & Veggies",
+            "button_label": "Shop Bulk Items",
+            "button_link": "shopify://collections/bulk-items"
           }
         },
         "category_snacks": {
