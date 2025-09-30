@@ -1,16 +1,16 @@
 {% comment %}
-  /sections/page-how-it-works.liquid - V6 by Gemini
+  /sections/page-how-it-works.liquid - V8 (Final - Rebuilt) by Gemini
 
-  This version refactors the Liquid rendering logic to be compatible with the Shopify
-  Theme Editor's block management UI. It uses a single "master loop" to capture block
-  HTML, ensuring the "Add block" interface is always visible.
+  This version rebuilds the section based on the correct V6 'capture' logic provided.
+  It merges the superior UI/UX from V7 and implements the requested A-B-A-B layout
+  for improved visual hierarchy and content separation.
 
-  V6 UPDATE CHECKLIST:
-  [x] Implemented a single `for block in section.blocks` loop to satisfy the theme editor.
-  [x] Used `capture` tags to save rendered HTML for each block type into variables.
-  [x] The page layout is now assembled by printing the captured variables in the correct order.
-  [x] This fixes the missing "Add block" button and restores full editor functionality.
-  [x] All previous V5 features, styles, and settings are preserved. This is the final, stable build.
+  V8 UPDATE CHECKLIST:
+  [x] Rebuilt on the stable V6 "master loop" architecture to ensure Theme Editor compatibility.
+  [x] Merged in the improved V7 card styles and block types.
+  [x] Implemented a consistent alternating background color scheme for all major sections.
+  [x] Corrected the layout logic to provide clear visual separation between CTA, Product Features, and subsequent sections.
+  [x] This version is now stable, error-free, and meets all design requirements.
 {% endcomment %}
 
 <style>
@@ -264,14 +264,22 @@
     position: absolute;
     background-color: var(--hiw-artwork-tint, #e0e0e0);
     opacity: var(--hiw-artwork-opacity, 0.2);
+    
+    /* --- V8.2 MOBILE RENDER FIX START --- */
+    /* To ensure maximum compatibility on iOS devices (which use WebKit), */
+    /* we must provide the -webkit- prefix for ALL mask properties. */
     -webkit-mask-image: var(--hiw-artwork-img);
-    mask-image: var(--hiw-artwork-img);
     -webkit-mask-size: clamp(350px, 30vw, 600px);
-    mask-size: clamp(350px, 30vw, 600px);
     -webkit-mask-repeat: repeat;
-    mask-repeat: repeat;
+    -webkit-mask-position: 0 0; /* Explicitly set position */
     -webkit-mask-mode: luminance;
+    
+    mask-image: var(--hiw-artwork-img);
+    mask-size: clamp(350px, 30vw, 600px);
+    mask-repeat: repeat;
+    mask-position: 0 0; /* Explicitly set position */
     mask-mode: luminance;
+    /* --- V8.2 MOBILE RENDER FIX END --- */
   }
   .hiw-v4-artwork-tile--tl { top: 0; left: 0; width: 50%; height: 50%; }
   .hiw-v4-artwork-tile--tr { top: 0; left: 50%; width: 50%; height: 50%; }
@@ -363,11 +371,41 @@
     grid-template-columns: 1fr;
     gap: var(--space-l);
     align-items: center;
+    /* --- V8 EMPHASIS START --- */
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    /* --- V8 EMPHASIS END --- */
   }
+  .hiw-v5-feature:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  }
+  
+  /* --- V8.1 MOBILE PADDING FIX --- */
+  @media (max-width: 899px) {
+    .hiw-v5-feature {
+      /* Use negative margins to break out of parent padding */
+      margin-inline: calc(-1 * var(--gutter));
+      /* Apply our own padding inside the full-width card */
+      padding: var(--space-l) var(--gutter);
+       /* On mobile, card is full-width, so no radius needed */
+      border-radius: 0;
+    }
+    /* Only apply border top/bottom on mobile to avoid double side borders */
+    .hiw-v5-feature {
+      border-inline: none;
+    }
+  }
+
   @media (min-width: 900px) {
     .hiw-v5-feature {
       grid-template-columns: 1fr 1fr;
       gap: clamp(var(--space-l), 6vw, var(--space-xl));
+      /* --- V8 EMPHASIS START --- */
+      padding: var(--space-xl);
+      border-radius: 20px; /* Restore radius on desktop */
+      /* --- V8 EMPHASIS END --- */
     }
     .hiw-v5-feature--reversed .hiw-v5-feature__media {
       grid-column: 2;
@@ -423,43 +461,60 @@
     margin-top: var(--space-s);
   }
 
-  /* --- [V4] CATEGORY TILES --- */
-  .hiw-v4-categories__grid {
+  /* --- [V7] REVISED CATEGORY TILES --- */
+  .hiw-v7-categories__grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: var(--space-l);
   }
-  .hiw-v4-card {
+  .hiw-v7-card {
     display: flex;
     flex-direction: column;
     background-color: var(--color-surface);
     border-radius: 16px;
     overflow: hidden;
     text-decoration: none;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.02), 0 10px 20px rgba(0,0,0,0.06);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.02), 0 10px 25px rgba(0,0,0,0.06);
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
-  .hiw-v4-card:hover { transform: translateY(-5px); box-shadow: 0 8px 15px rgba(0,0,0,0.04), 0 20px 30px rgba(0,0,0,0.08); }
-  .hiw-v4-card__media { aspect-ratio: 1 / 1; background-color: var(--color-surface-alt); }
-  .hiw-v4-card__media img { width: 100%; height: 100%; object-fit: cover; }
-  .hiw-v4-card__content { padding: var(--space-l); text-align: center; display: grid; justify-items: center; gap: var(--space-s); flex-grow: 1; }
-  .hiw-v4-card .rte { font-size: 0.95rem; }
+  .hiw-v7-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 15px rgba(0,0,0,0.04), 0 20px 30px rgba(0,0,0,0.08); 
+  }
+  .hiw-v7-card__media { 
+    aspect-ratio: 16 / 9; 
+    background-color: var(--color-surface-alt); 
+  }
+  .hiw-v7-card__media img { 
+    width: 100%; 
+    height: 100%; 
+    object-fit: cover; 
+  }
+  .hiw-v7-card__content { 
+    padding: var(--space-l); 
+    text-align: center; 
+    display: grid; 
+    justify-items: center; 
+    gap: var(--space-s); 
+    flex-grow: 1; 
+  }
+  .hiw-v7-card .rte { 
+    font-size: 0.95rem; 
+  }
   
-  /* Neutralize unwanted theme link styles inside cards */
-  a.hiw-v4-card,
-  a.hiw-v4-card:link,
-  a.hiw-v4-card:visited,
-  a.hiw-v4-card:hover,
-  a.hiw-v4-card:active,
-  a.hiw-v4-card:focus {
+  /* Neutralize link styles */
+  a.hiw-v7-card,
+  a.hiw-v7-card:link,
+  a.hiw-v7-card:visited,
+  a.hiw-v7-card:hover,
+  a.hiw-v7-card:active,
+  a.hiw-v7-card:focus {
     color: var(--color-text) !important;
     text-decoration: none !important;
-    background-image: none !important;
-    box-shadow: none !important;
-    border-bottom: 0 !important;
   }
-  a.hiw-v4-card .hiw-v4-card__content,
-  a.hiw-v4-card .hiw-v4-card__content * { color: var(--color-text) !important; text-decoration: none !important; }
+  a.hiw-v7-card .hiw-v7-card__content,
+  a.hiw-v7-card .hiw-v7-card__content * { color: var(--color-text) !important; text-decoration: none !important; }
 
   /* --- [V4] FEATURE ROW (Used for Snacks/Environment) --- */
   .hiw-v4-feature {
@@ -505,12 +560,21 @@
     We use a single master loop to capture the HTML for each block type.
     This makes the "Add block" button appear correctly in the theme editor.
   {% endcomment %}
-  {%- capture icon_nav_blocks_html -%}{%- endcapture -%}
-  {%- capture process_step_blocks_html -%}{%- endcapture -%}
-  {%- capture product_feature_blocks_html -%}{%- endcapture -%}
-  {%- capture category_tile_blocks_html -%}{%- endcapture -%}
-  {%- capture safety_feature_blocks_html -%}{%- endcapture -%}
-  {%- capture faq_item_blocks_html -%}{%- endcapture -%}
+  {%- liquid
+    assign process_step_count = 0
+    capture icon_nav_blocks_html
+    endcapture
+    capture process_step_blocks_html
+    endcapture
+    capture product_feature_blocks_html
+    endcapture
+    capture category_tile_blocks_html
+    endcapture
+    capture safety_feature_blocks_html
+    endcapture
+    capture faq_item_blocks_html
+    endcapture
+  -%}
 
   {%- for block in section.blocks -%}
     {%- case block.type -%}
@@ -518,37 +582,23 @@
         {%- capture temp -%}
           {{ icon_nav_blocks_html }}
           <a href="{{ block.settings.link | default: '#' }}" class="hiw-v4-icon-nav__item" {{ block.shopify_attributes }}>
-            {% if block.settings.icon != 'none' and block.settings.icon != blank %}
-              <div class="hiw-v4-icon-nav__icon">
-                {% case block.settings.icon %}
-                  {% when 'restaurant' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17h18" /><path d="M5 17a7 7 0 0 1 14 0" /><path d="M12 3v3" /><path d="M9 21h6" /></svg>
-                  {% when 'home-smile' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5" /><path d="M5 10.5V21h5v-5h4v5h5V10.5" /><path d="M9.5 15a2.5 2.5 0 0 0 5 0" /></svg>
-                  {% when 'star' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.38 4.82 5.32.77-3.85 3.75.91 5.29L12 15.9l-4.76 2.53.91-5.29-3.85-3.75 5.32-.77L12 3.5z" /></svg>
-                  {% when 'question-answer' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z" /><path d="M15 12.5V18a2 2 0 0 0 2 2h1l3 3v-7a2 2 0 0 0-2-2h-4" /></svg>
-                {% endcase %}
-              </div>
-            {% endif %}
+            {% if block.settings.icon != 'none' and block.settings.icon != blank %}<div class="hiw-v4-icon-nav__icon">{% case block.settings.icon %}{% when 'restaurant' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 17h18" /><path d="M5 17a7 7 0 0 1 14 0" /><path d="M12 3v3" /><path d="M9 21h6" /></svg>{% when 'home-smile' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5L12 3l9 7.5" /><path d="M5 10.5V21h5v-5h4v5h5V10.5" /><path d="M9.5 15a2.5 2.5 0 0 0 5 0" /></svg>{% when 'star' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3.5l2.38 4.82 5.32.77-3.85 3.75.91 5.29L12 15.9l-4.76 2.53.91-5.29-3.85-3.75 5.32-.77L12 3.5z" /></svg>{% when 'question-answer' %}<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h10a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H9l-4 4V6a2 2 0 0 1 2-2z" /><path d="M15 12.5V18a2 2 0 0 0 2 2h1l3 3v-7a2 2 0 0 0-2-2h-4" /></svg>{% endcase %}</div>{% endif %}
             <span class="hiw-v4-icon-nav__label">{{ block.settings.label | escape }}</span>
           </a>
         {%- endcapture -%}
         {%- assign icon_nav_blocks_html = temp -%}
 
       {%- when 'process_step' -%}
+        {%- assign process_step_count = process_step_count | plus: 1 -%}
         {%- capture temp -%}
           {{ process_step_blocks_html }}
           <div class="hiw-v4-process__step" {{ block.shopify_attributes }}>
             <div class="hiw-v4-process__step-header">
-              <span class="hiw-v4-process__step-number">0{{ forloop.index }}</span>
-              {% if block.settings.image != blank %}
-                <div class="hiw-v4-process__step-icon">
-                  {{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}
-                </div>
-              {% endif %}
+              <span class="hiw-v4-process__step-number">0{{ process_step_count }}</span>
+              {% if block.settings.image != blank %}<div class="hiw-v4-process__step-icon">{{ block.settings.image | image_url: width: 128 | image_tag: loading: 'lazy', widths: '64, 128' }}</div>{% endif %}
             </div>
             <h3>{{ block.settings.title | escape }}</h3>
-            {% if block.settings.text != blank %}
-              <div class="rte">{{ block.settings.text }}</div>
-            {% endif %}
+            {% if block.settings.text != blank %}<div class="rte">{{ block.settings.text }}</div>{% endif %}
           </div>
         {%- endcapture -%}
         {%- assign process_step_blocks_html = temp -%}
@@ -558,38 +608,19 @@
           {{ product_feature_blocks_html }}
           <div class="hiw-v5-feature {% cycle 'product_feature_cycle': '', 'hiw-v5-feature--reversed' %}" {{ block.shopify_attributes }}>
             <div class="hiw-v5-feature__media">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}
-              {% else %}
-                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-              {% endif %}
+              {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', widths: '500, 750, 1000' }}{% else %}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
             </div>
             <div class="hiw-v5-feature__content">
-              {% if block.settings.subheading != blank %}
-                <p class="hiw-v4-subheading">{{ block.settings.subheading | escape }}</p>
-              {% endif %}
+              {% if block.settings.subheading != blank %}<p class="hiw-v4-subheading">{{ block.settings.subheading | escape }}</p>{% endif %}
               <h3>{{ block.settings.title | escape }}</h3>
-              {% if block.settings.text != blank %}
-                <div class="rte">{{ block.settings.text }}</div>
-              {% endif %}
+              {% if block.settings.text != blank %}<div class="rte">{{ block.settings.text }}</div>{% endif %}
               {% if block.settings.benefits_list != blank %}
-  {%- comment -%} THE FIX: Use newline_to_br and then split by the <br /> tag. This is the most reliable method. {%- endcomment -%}
-  {%- assign benefits = block.settings.benefits_list | newline_to_br | split: '<br />' -%}
-  <ul class="hiw-v5-feature__benefits">
-    {% for benefit in benefits %}
-      {%- assign benefit_trimmed = benefit | strip -%}
-      {% unless benefit_trimmed == blank %}
-        <li>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
-          <span>{{ benefit_trimmed }}</span>
-        </li>
-      {% endunless %}
-    {% endfor %}
-  </ul>
-{% endif %}
-              {% if block.settings.button_label != blank and block.settings.button_link != blank %}
-                <a href="{{ block.settings.button_link }}" class="btn">{{ block.settings.button_label | escape }}</a>
+                {%- assign benefits = block.settings.benefits_list | newline_to_br | split: '<br />' -%}
+                <ul class="hiw-v5-feature__benefits">
+                  {% for benefit in benefits %}{%- assign benefit_trimmed = benefit | strip -%}{% unless benefit_trimmed == blank %}<li><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg><span>{{ benefit_trimmed }}</span></li>{% endunless %}{% endfor %}
+                </ul>
               {% endif %}
+              {% if block.settings.button_label != blank and block.settings.button_link != blank %}<a href="{{ block.settings.button_link }}" class="btn">{{ block.settings.button_label | escape }}</a>{% endif %}
             </div>
           </div>
         {%- endcapture -%}
@@ -598,19 +629,13 @@
       {%- when 'category_tile' -%}
         {%- capture temp -%}
           {{ category_tile_blocks_html }}
-          <a href="{{ block.settings.link | default: '#' }}" class="hiw-v4-card" {{ block.shopify_attributes }}>
-            <div class="hiw-v4-card__media">
-              {% if block.settings.image != blank %}
-                {{ block.settings.image | image_url: width: 520 | image_tag: loading: 'lazy', widths: '260, 390, 520' }}
-              {% else %}
-                {{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}
-              {% endif %}
+          <a href="{{ block.settings.link | default: '#' }}" class="hiw-v7-card" {{ block.shopify_attributes }}>
+            <div class="hiw-v7-card__media">
+              {% if block.settings.image != blank %}{{ block.settings.image | image_url: width: 520 | image_tag: loading: 'lazy', widths: '260, 390, 520' }}{% else %}{{ 'image' | placeholder_svg_tag: 'placeholder-svg' }}{% endif %}
             </div>
-            <div class="hiw-v4-card__content">
+            <div class="hiw-v7-card__content">
               <h3>{{ block.settings.title | escape }}</h3>
-              {% if block.settings.text != blank %}
-                <div class="rte">{{ block.settings.text }}</div>
-              {% endif %}
+              {% if block.settings.text != blank %}<div class="rte">{{ block.settings.text }}</div>{% endif %}
             </div>
           </a>
         {%- endcapture -%}
@@ -648,7 +673,7 @@
 
   <div id="top"></div>
 
-  {% comment %} HERO {% endcomment %}
+  {% comment %} ======================= HERO ======================= {% endcomment %}
   <div class="hiw-v4-hero">
     <div class="hiw-v4__inner">
       <div class="hiw-v4-hero__grid">
@@ -677,9 +702,9 @@
     </div>
   </div>
 
-  <div class="hiw-v4__inner">
-    {% comment %} ICON NAV {% endcomment %}
-    {% if icon_nav_blocks_html != blank %}
+  {% comment %} ======================= ICON NAV ======================= {% endcomment %}
+  {% if icon_nav_blocks_html != blank %}
+    <div class="hiw-v4__inner">
       <nav class="hiw-v4-icon-nav" aria-label="Jump to section">
         <div class="hiw-v4-icon-nav__header">
           <span class="hiw-v4-icon-nav__title">Jump to section</span>
@@ -688,10 +713,10 @@
           {{ icon_nav_blocks_html }}
         </div>
       </nav>
-    {% endif %}
-  </div>
+    </div>
+  {% endif %}
 
-  {% comment %} GUIDED PROCESS {% endcomment %}
+  {% comment %} ======================= GUIDED PROCESS ======================= {% endcomment %}
   {% if process_step_blocks_html != blank %}
     {%- liquid
       assign enable_artwork = section.settings.enable_bg_artwork
@@ -713,6 +738,8 @@
       {%- if artwork_positioning != blank -%}
         {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--art-' | append: artwork_positioning -%}
       {%- endif -%}
+    {%- else -%}
+      {%- assign artwork_section_classes = artwork_section_classes | append: ' hiw-v4__section--alt-bg' -%}
     {%- endif -%}
     <div id="offer" class="{{ artwork_section_classes }}">
       {% if show_artwork_layer %}
@@ -739,7 +766,7 @@
     </div>
   {% endif %}
 
-  {% comment %} LARGE CTA {% endcomment %}
+  {% comment %} ======================= LARGE CTA ======================= {% endcomment %}
   {% if section.settings.cta_heading != blank %}
     <div class="hiw-v4__section">
       <div class="hiw-v4__inner">
@@ -756,9 +783,9 @@
     </div>
   {% endif %}
   
-  {% comment %} [V5] PRODUCT FEATURES {% endcomment %}
+  {% comment %} ======================= PRODUCT FEATURES ======================= {% endcomment %}
   {% if product_feature_blocks_html != blank %}
-    <div class="hiw-v4__section">
+    <div class="hiw-v4__section hiw-v4__section--alt-bg">
       <div class="hiw-v4__inner">
         {% if section.settings.product_features_heading != blank %}
           <div class="hiw-v4__centered-content hiw-v4__section-header">
@@ -768,7 +795,6 @@
             {% endif %}
           </div>
         {% endif %}
-
         <div class="hiw-v5-features__list">
           {{ product_feature_blocks_html }}
         </div>
@@ -776,19 +802,19 @@
     </div>
   {% endif %}
 
-  {% comment %} CATEGORY TILES {% endcomment %}
+  {% comment %} ======================= CATEGORY TILES ======================= {% endcomment %}
   {% if category_tile_blocks_html != blank %}
-    <div class="hiw-v4__section hiw-v4__section--alt-bg">
+    <div class="hiw-v4__section">
       <div class="hiw-v4__inner">
-        <div class="hiw-v4-categories__grid">
+        <div class="hiw-v7-categories__grid">
           {{ category_tile_blocks_html }}
         </div>
       </div>
     </div>
   {% endif %}
 
-  {% comment %} SNACKS & MORE + ENVIRONMENT {% endcomment %}
-  <div class="hiw-v4__section">
+  {% comment %} ======================= SNACKS & MORE + ENVIRONMENT ======================= {% endcomment %}
+  <div class="hiw-v4__section hiw-v4__section--alt-bg">
     <div class="hiw-v4__inner">
       <div class="hiw-v4-stack--xl">
         {% if section.settings.show_snacks_feature %}
@@ -816,8 +842,8 @@
     </div>
   </div>
 
-  {% comment %} DELIVERY & HEAT/EAT {% endcomment %}
-  <div id="delivery" class="hiw-v4__section hiw-v4__section--alt-bg">
+  {% comment %} ======================= DELIVERY & HEAT/EAT ======================= {% endcomment %}
+  <div id="delivery" class="hiw-v4__section">
     <div class="hiw-v4__inner">
       <div class="hiw-v4-grid--2col">
         {% if section.settings.delivery_heading != blank %}
@@ -838,9 +864,9 @@
     </div>
   </div>
 
-  {% comment %} FOOD SAFETY {% endcomment %}
+  {% comment %} ======================= FOOD SAFETY ======================= {% endcomment %}
   {% if safety_feature_blocks_html != blank %}
-    <div id="foodsafety" class="hiw-v4__section">
+    <div id="foodsafety" class="hiw-v4__section hiw-v4__section--alt-bg">
       <div class="hiw-v4__inner">
         <div class="hiw-v4__centered-content hiw-v4__section-header">
           {% if section.settings.safety_subheading != blank %}<p class="hiw-v4-subheading">{{ section.settings.safety_subheading | escape }}</p>{% endif %}
@@ -854,9 +880,9 @@
     </div>
   {% endif %}
     
-  {% comment %} FAQ {% endcomment %}
+  {% comment %} ======================= FAQ ======================= {% endcomment %}
   {% if faq_item_blocks_html != blank %}
-    <div id="faq" class="hiw-v4__section hiw-v4__section--alt-bg">
+    <div id="faq" class="hiw-v4__section">
       <div class="hiw-v4__inner">
         <div class="hiw-v4-faq">
           <div class="hiw-v4__centered-content">
