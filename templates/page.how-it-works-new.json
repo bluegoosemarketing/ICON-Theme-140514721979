@@ -1,65 +1,16 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
   "sections": {
     "main": {
       "type": "page-how-it-works",
-      "settings": {
-        "hero_subheading": "Our ICONIC Process",
-        "hero_heading": "How Does Icon Meals Work?",
-        "hero_text": "<p><strong>From our chef-inspired creations to heat-and-eat meals delivered fresh to your door. </strong>ICON Meals is an industry leader in fresh, clean, USDA inspected meals that help you save money, get back precious time, and helps you reach those health goals... or just stop eating junk every day!</p>",
-        "hero_image": "shopify://shop_images/tile-icon-employee.png",
-        "hero_video_id": "evc_-Fpgr1o",
-        "process_heading": "How We Cook, Pack, & Ship",
-        "enable_bg_artwork": true,
-        "bg_artwork_1": "shopify://shop_images/artwork-image-1.png",
-        "bg_artwork_2": "shopify://shop_images/artwork-image-2.png",
-        "bg_artwork_3": "shopify://shop_images/artwork-image-3.png",
-        "bg_artwork_4": "shopify://shop_images/artwork-image-4.png",
-        "bg_artwork_opacity": 15,
-        "bg_artwork_positioning": "edges",
-        "cta_heading": "Shop Meals, Snacks, & more",
-        "cta_text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
-        "cta_button_label": "Shop This Week’s Menu",
-        "cta_button_link": "shopify://collections/signature-menu",
-        "product_features_heading": "A Meal For Every Goal",
-        "product_features_subheading": "<p>Whether you're looking for chef-crafted convenience or complete control over your macros, we have the perfect solution for you.</p>",
-        "snacks_image": "shopify://shop_images/tile-snacks.jpg",
-        "snacks_subheading": "We've also got snacks and more!",
-        "snacks_text": "<p>From protein-packed popcorn, butters, and bread to wagyu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
-        "snacks_button_label": "Shop Snacks & More",
-        "snacks_button_link": "shopify://pages/snacks-more",
-        "env_image": "shopify://shop_images/bg-meals-dark-01_fc9e47ad-243b-4070-b145-f6035d7fa1ee.jpg",
-        "env_heading": "We Care About The Environment!",
-        "env_text": "<p>Each meal is plated in a 100% recyclable, microwave-safe food container and delivered in a recyclable corrugated box containing a special environmentally safe thermal liner. We also use dry ice to make sure your meals are in optimal condition. We designed it this way on purpose and are always looking for ways to further reduce our carbon footprint.</p>",
-        "delivery_heading": "Delivery Or Pick Up options",
-        "delivery_text": "<p>It get's better! We can deliver your order direct to your door or schedule a local pick up if you live in or around the Dallas/Fort Worth, Texas area. (We can feel the excuses fading away...)</p>",
-        "delivery_button_label": "Visit Our Store Locator →",
-        "delivery_button_link": "https://iconmeals.com/apps/store-locator",
-        "heat_heading": "Heat & Eat In Minutes",
-        "heat_text": "<p>Heat up your meals (microwave or oven) for a quick and healthy meal without the fuss of cooking. That's it! In just minutes you can have a delicious, chef prepared meal ready for you to enjoy. Simple, convenient, fresh, and affordable.</p>",
-        "heat_button_label": "See This Week's Menu →",
-        "heat_button_link": "shopify://collections/signature-menu",
-        "safety_subheading": "The Industry Leader in",
-        "safety_heading": "Food Safety",
-        "safety_text": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>"
-      },
-      "block_order": [
-        "icon_link_offer",
-        "icon_link_delivery",
-        "icon_link_safety",
-        "icon_link_faq",
-        "process_cook",
-        "process_pack",
-        "process_ship",
-        "product_feature_signature",
-        "product_feature_custom",
-        "product_feature_plans",
-        "product_feature_bulk",
-        "category_snacks",
-        "safety_facility",
-        "safety_usda",
-        "safety_sourcing",
-        "safety_training"
-      ],
       "blocks": {
         "icon_link_offer": {
           "type": "icon_link",
@@ -168,10 +119,19 @@
         "category_snacks": {
           "type": "category_tile",
           "settings": {
-            "image": "shopify://shop_images/tile-snacks.jpg",
-            "title": "Snacks & More",
-            "text": "<p>Protein popcorn, butters, breads, coffee, sauces, seasonings & more.</p>",
-            "link": "shopify://pages/snacks-more"
+            "image": "shopify://shop_images/protein-popcorn-savory-starter-pack_900x_40c5eb81-f3d1-4ddf-8832-aff04fb74eb2.webp",
+            "title": "Protein Popcorn",
+            "text": "<p>The ORIGINAL Protein Popcorn, and still the best. Choose from our lineup of sweet and savory flavors. </p>",
+            "link": "shopify://collections/proteinpopcorn"
+          }
+        },
+        "category_tile_GyBgCC": {
+          "type": "category_tile",
+          "settings": {
+            "image": "shopify://shop_images/Seasoning.jpg",
+            "title": "ICON Flavors",
+            "text": "<p>Crank up the FLAVOR with our in-house line of healthy seasonings. Perfect for Custom Meals, or to cook with at the house.</p>",
+            "link": "shopify://collections/seasonings"
           }
         },
         "safety_facility": {
@@ -206,6 +166,69 @@
             "text": "<p>We are a licensed food manufacturer and state inspected Texas meat & poultry facility. There are a lot of ready-made meal companies out there, but the majority of these businesses are not legally able to sell meals wholesale; however most of the wholesale accounts aren’t aware of the laws preventing these sales or benefits of doing business with a certified kitchen.<br/><br/>All foods are handled and prepared by trained employees wearing hair protection and gloves. Color-coded food preparation equipment and utensils ensure food ingredients are at minimized risk of cross-contamination. ICON Meals is audited regularly by local, state and national agencies to ensure compliance. We pride ourselves in attaining the highest audit scores. Our Department of Health Inspection results are available upon request. To ensure all meals remain at the optimum temperature during transport and upon delivery, we designed our own thermally-insulated cooler bag, which is packed with dry ice and sealed shut to ensure no tampering and that client’s meals arrive safely.</p>"
           }
         }
+      },
+      "block_order": [
+        "icon_link_offer",
+        "icon_link_delivery",
+        "icon_link_safety",
+        "icon_link_faq",
+        "process_cook",
+        "process_pack",
+        "process_ship",
+        "product_feature_signature",
+        "product_feature_custom",
+        "product_feature_plans",
+        "product_feature_bulk",
+        "category_snacks",
+        "category_tile_GyBgCC",
+        "safety_facility",
+        "safety_usda",
+        "safety_sourcing",
+        "safety_training"
+      ],
+      "settings": {
+        "color_text": "#212529",
+        "color_heading": "#212529",
+        "color_accent": "#333333",
+        "hero_image": "shopify://shop_images/tile-icon-employee.png",
+        "hero_subheading": "Our ICONIC Process",
+        "hero_heading": "How Does Icon Meals Work?",
+        "hero_text": "<p><strong>From our chef-inspired creations to heat-and-eat meals delivered fresh to your door. </strong>ICON Meals is an industry leader in fresh, clean, USDA inspected meals that help you save money, get back precious time, and helps you reach those health goals... or just stop eating junk every day!</p>",
+        "hero_video_id": "evc_-Fpgr1o",
+        "process_heading": "How We Cook, Pack, & Ship",
+        "enable_bg_artwork": true,
+        "bg_artwork_1": "shopify://shop_images/ChatGPT_Image_Sep_29_2025_07_32_28_AM_1.png",
+        "bg_artwork_2": "shopify://shop_images/ChatGPT_Image_Sep_29_2025_07_27_26_AM_1.png",
+        "bg_artwork_3": "shopify://shop_images/ICON-Meals_Pattern1_1.jpg",
+        "bg_artwork_4": "shopify://shop_images/ICON-Meals_Pattern2_1.jpg",
+        "bg_artwork_opacity": 25,
+        "bg_artwork_positioning": "edges",
+        "cta_heading": "Shop Meals, Snacks, & more",
+        "cta_text": "<p>Decisions... decisions... decisions. Get started with our weekly menu, build your very own custom meals, save time with our pre-made boxes, dive into bulk items, or load up on our famous snacks, seasonings, sauces, and more. <em>Are you ready for all this goodness?</em></p>",
+        "cta_button_label": "Shop This Week’s Menu",
+        "cta_button_link": "shopify://collections/signature-menu",
+        "product_features_heading": "A Meal For Every Goal",
+        "product_features_subheading": "<p>Whether you're looking for chef-crafted convenience or complete control over your macros, we have the perfect solution for you.</p>",
+        "show_snacks_feature": false,
+        "snacks_image": "shopify://shop_images/tile-snacks.jpg",
+        "snacks_subheading": "We've also got snacks and more!",
+        "snacks_text": "<p>From protein-packed popcorn, butters, and bread to wagyu beef strips, sauces, coffee and seasonings... we've got something for you!</p>",
+        "snacks_button_label": "Shop Snacks & More",
+        "snacks_button_link": "shopify://pages/snacks-more",
+        "env_image": "shopify://shop_images/bg-meals-dark-01_fc9e47ad-243b-4070-b145-f6035d7fa1ee.jpg",
+        "env_heading": "We Care About The Environment!",
+        "env_text": "<p>Each meal is plated in a 100% recyclable, microwave-safe food container and delivered in a recyclable corrugated box containing a special environmentally safe thermal liner. We also use dry ice to make sure your meals are in optimal condition. We designed it this way on purpose and are always looking for ways to further reduce our carbon footprint.</p>",
+        "delivery_heading": "Delivery Or Pick Up options",
+        "delivery_text": "<p>It get's better! We can deliver your order direct to your door or schedule a local pick up if you live in or around the Dallas/Fort Worth, Texas area. (We can feel the excuses fading away...)</p>",
+        "delivery_button_label": "Visit Our Store Locator →",
+        "delivery_button_link": "https://iconmeals.com/apps/store-locator",
+        "heat_heading": "Heat & Eat In Minutes",
+        "heat_text": "<p>Heat up your meals (microwave or oven) for a quick and healthy meal without the fuss of cooking. That's it! In just minutes you can have a delicious, chef prepared meal ready for you to enjoy. Simple, convenient, fresh, and affordable.</p>",
+        "heat_button_label": "See This Week's Menu →",
+        "heat_button_link": "shopify://collections/signature-menu",
+        "safety_subheading": "The Industry Leader in",
+        "safety_heading": "Food Safety",
+        "safety_text": "<p>What makes ICON Meals the BEST when it comes to food safety with our USDA certified kitchen.</p>"
       }
     }
   },
