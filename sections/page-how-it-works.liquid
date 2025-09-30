@@ -26,7 +26,7 @@
     --color-surface-alt: #f8f9fa;
     --color-hero-bg: #1a1a1a;
     --color-hero-text: #fdfdfd;
-    --hiw-artwork-tint: #e0e0e0;
+    --hiw-artwork-tint: #7a0e21ff; /* A dark, warm, desaturated version of your brand red */
     --hiw-artwork-opacity: 0.2;
 
     --space-xs: 0.75rem; --space-s: 1rem; --space-m: 1.5rem; --space-l: 2.5rem; --space-xl: 4.5rem; --space-xxl: 6rem;
@@ -239,63 +239,94 @@
   }
 
   /* --- [V4] BACKGROUND ARTWORK --- */
-  .hiw-v4__section--with-artwork {
-    position: relative;
-    z-index: 0; /* create stacking context */
-    overflow: hidden;
-  }
-  
-    .hiw-v4-artwork-layer {
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    background-color: var(--hiw-artwork-tint, #e0e0e0);
-    opacity: var(--hiw-artwork-opacity, 0.2);
-  
-    /* The first image slot provides the tiling doodle pattern. */
-    --hiw-artwork-mask-1: none;
-  
-    /* This gradient creates the fade. For 'luminance' mode, black=transparent and white=opaque. */
-    --hiw-artwork-fade-mask: radial-gradient(
-      circle at center, 
-      black 0%, 
-      black clamp(15%, 35vw, 40%),  /* Defines the clear zone in the center */
-      white 100%                    /* Fades to fully visible at the edges */
-    );
-  
-    /* Combine the fade gradient and the doodle pattern. 'intersect' shows doodles only where the gradient is white. */
-    -webkit-mask-image: var(--hiw-artwork-fade-mask), var(--hiw-artwork-mask-1);
-    mask-image: var(--hiw-artwork-fade-mask), var(--hiw-artwork-mask-1);
-    
-    -webkit-mask-composite: source-in;
-    mask-composite: intersect;
-    
-    /* CRITICAL: 'luminance' mode is required for your white-on-black images to work correctly. */
-    -webkit-mask-mode: luminance;
-    mask-mode: luminance;
-    
-    /* Apply properties to each mask layer: [gradient], [pattern] */
-    -webkit-mask-position: center, center;
-    mask-position: center, center;
-    -webkit-mask-repeat: no-repeat, repeat; /* Gradient does not repeat, pattern does for seamless coverage. */
-    mask-repeat: no-repeat, repeat;
-    -webkit-mask-size: 100% 100%, clamp(350px, 30vw, 600px); /* Controls the size of each doodle tile. */
-    mask-size: 100% 100%, clamp(350px, 30vw, 600px);
-  }
-  
-  /* ensure content sits above the artwork */
-  .hiw-v4__section--with-artwork > .hiw-v4__inner {
-    position: relative;
-    z-index: 1;
-  }
-  
-  /* 'Full spread' setting works by replacing the fade gradient with a solid white (fully opaque) one. */
-  .hiw-v4__section--art-full .hiw-v4-artwork-layer {
-    --hiw-artwork-fade-mask: linear-gradient(white, white);
-  }
+.hiw-v4__section--with-artwork {
+  position: relative;
+  z-index: 0;
+  overflow: hidden;
+  background-color: var(--color-surface-alt);
+}
 
-  /* --- [V4] GUIDED PROCESS --- */
+/* This is the main container for the grid */
+.hiw-v4-artwork-layer {
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+}
+
+/* 
+  THE DEFINITIVE FIX:
+  Each tile is a simple, repeating mask. 
+  We physically place them into a 2x2 grid instead of overlapping them.
+*/
+.hiw-v4-artwork-tile {
+  position: absolute;
+  background-color: var(--hiw-artwork-tint, #e0e0e0);
+  opacity: var(--hiw-artwork-opacity, 0.2);
+
+  -webkit-mask-image: var(--hiw-artwork-img);
+  mask-image: var(--hiw-artwork-img);
+  
+  -webkit-mask-size: clamp(350px, 30vw, 600px);
+  mask-size: clamp(350px, 30vw, 600px);
+  
+  -webkit-mask-repeat: repeat;
+  mask-repeat: repeat;
+  
+  -webkit-mask-mode: luminance;
+  mask-mode: luminance;
+}
+
+/* We explicitly define the size and position for each of the four grid quadrants. */
+.hiw-v4-artwork-tile--tl { /* Top-Left */
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 50%;
+}
+.hiw-v4-artwork-tile--tr { /* Top-Right */
+  top: 0;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+}
+.hiw-v4-artwork-tile--bl { /* Bottom-Left */
+  top: 50%;
+  left: 0;
+  width: 50%;
+  height: 50%;
+}
+.hiw-v4-artwork-tile--br { /* Bottom-Right */
+  top: 50%;
+  left: 50%;
+  width: 50%;
+  height: 50%;
+}
+
+/* The parent container provides the fade effect, which works correctly */
+.hiw-v4-artwork-layer::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background-image: radial-gradient(
+    circle at center,
+    var(--color-surface-alt) 0%,
+    var(--color-surface-alt) clamp(15%, 35vw, 40%),
+    transparent 100%
+  );
+}
+
+.hiw-v4__section--art-full .hiw-v4-artwork-layer::after {
+  display: none;
+}
+
+.hiw-v4__section--with-artwork > .hiw-v4__inner {
+  position: relative;
+  z-index: 1;
+}
+
+    /* --- [V4] GUIDED PROCESS --- */
   .hiw-v4-process__header {
     margin-bottom: var(--space-xl);
   }
@@ -306,10 +337,11 @@
     aspect-ratio: 1/1;
     border-radius: 50%;
     overflow: hidden;
-    background-color: var(--color-surface);
-    padding: 6px;
+    /* background-color: var(--color-surface); -- REMOVED */
+    /* padding: 6px;                          -- REMOVED */
     box-shadow: 0 8px 25px rgba(0,0,0,0.1);
   }
+
   .hiw-v4__stamp-image img {
     border-radius: 50%;
     width: 100%;
@@ -327,14 +359,23 @@
     }
   }
   .hiw-v4-process__step {
-    background-color: var(--color-surface-alt);
-    border: 1px solid var(--color-border);
+    /* 1. Change background to pure white for crisp contrast */
+    background-color: var(--color-surface); 
+    
+    /* 2. The border now provides a clean, sharp edge */
+    border: 1px solid var(--color-border); 
+
+    /* 3. Add a soft, modern shadow to "lift" the card off the page */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.02), 0 10px 25px rgba(0,0,0,0.06);
+
+    /* --- Unchanged properties below --- */
     border-radius: 16px;
     padding: var(--space-l);
     text-align: center;
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: all 0.3s ease; /* Bonus: Adds smooth transitions for future hover effects */
   }
   .hiw-v4-process__step-header {
     display: flex;
@@ -580,24 +621,65 @@
     {%- if show_artwork_layer -%}
       {%- capture artwork_layer_styles_capture -%}
 --hiw-artwork-opacity: {{ artwork_opacity }};
-{% if section.settings.bg_artwork_1 != blank %}
---hiw-artwork-mask-1: url({{ section.settings.bg_artwork_1 | image_url: width: 1600 }});
-{% endif %}
-{% if section.settings.bg_artwork_2 != blank %}
---hiw-artwork-mask-2: url({{ section.settings.bg_artwork_2 | image_url: width: 1600 }});
-{% endif %}
-{% if section.settings.bg_artwork_3 != blank %}
---hiw-artwork-mask-3: url({{ section.settings.bg_artwork_3 | image_url: width: 1600 }});
-{% endif %}
-{% if section.settings.bg_artwork_4 != blank %}
---hiw-artwork-mask-4: url({{ section.settings.bg_artwork_4 | image_url: width: 1600 }});
-{% endif %}
+      {% if section.settings.bg_artwork_1 != blank %}
+--hiw-artwork-img-1: url({{ section.settings.bg_artwork_1 | image_url: width: 800 }});
+      {% endif %}
+      {% if section.settings.bg_artwork_2 != blank %}
+--hiw-artwork-img-2: url({{ section.settings.bg_artwork_2 | image_url: width: 800 }});
+      {% endif %}
+      {% if section.settings.bg_artwork_3 != blank %}
+--hiw-artwork-img-3: url({{ section.settings.bg_artwork_3 | image_url: width: 800 }});
+      {% endif %}
+      {% if section.settings.bg_artwork_4 != blank %}
+--hiw-artwork-img-4: url({{ section.settings.bg_artwork_4 | image_url: width: 800 }});
+      {% endif %}
       {%- endcapture -%}
       {%- assign artwork_layer_styles = artwork_layer_styles_capture | strip | strip_newlines -%}
     {%- endif -%}
-    <div id="offer" class="{{ artwork_section_classes }}">
+        <div id="offer" class="{{ artwork_section_classes }}">
       {% if show_artwork_layer %}
-        <div class="hiw-v4-artwork-layer" aria-hidden="true"{% if artwork_layer_styles != blank %} style="{{ artwork_layer_styles }}"{% endif %}></div>
+        <div class="hiw-v4-artwork-layer" aria-hidden="true">
+          {%- comment -%}
+            THE FIX: We render four divs and use specific classes 
+            to place them into a non-overlapping 2x2 grid.
+          {%- endcomment -%}
+          {% if section.settings.bg_artwork_1 != blank %}
+            <div
+              class="hiw-v4-artwork-tile hiw-v4-artwork-tile--tl"
+              style="
+                --hiw-artwork-opacity: {{ artwork_opacity }};
+                --hiw-artwork-img: url({{ section.settings.bg_artwork_1 | image_url: width: 600 }});
+              "
+            ></div>
+          {% endif %}
+          {% if section.settings.bg_artwork_2 != blank %}
+            <div
+              class="hiw-v4-artwork-tile hiw-v4-artwork-tile--tr"
+              style="
+                --hiw-artwork-opacity: {{ artwork_opacity }};
+                --hiw-artwork-img: url({{ section.settings.bg_artwork_2 | image_url: width: 600 }});
+              "
+            ></div>
+          {% endif %}
+          {% if section.settings.bg_artwork_3 != blank %}
+            <div
+              class="hiw-v4-artwork-tile hiw-v4-artwork-tile--bl"
+              style="
+                --hiw-artwork-opacity: {{ artwork_opacity }};
+                --hiw-artwork-img: url({{ section.settings.bg_artwork_3 | image_url: width: 600 }});
+              "
+            ></div>
+          {% endif %}
+          {% if section.settings.bg_artwork_4 != blank %}
+            <div
+              class="hiw-v4-artwork-tile hiw-v4-artwork-tile--br"
+              style="
+                --hiw-artwork-opacity: {{ artwork_opacity }};
+                --hiw-artwork-img: url({{ section.settings.bg_artwork_4 | image_url: width: 600 }});
+              "
+            ></div>
+          {% endif %}
+        </div>
       {% endif %}
 
       <div class="hiw-v4__inner">
