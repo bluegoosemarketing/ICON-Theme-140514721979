@@ -1,8 +1,99 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
 {
-  "name": "START40 v2",
   "sections": {
     "main": {
-      "type": "start40-landing-page"
+      "type": "start40-landing-page",
+      "blocks": {
+        "meal_card_YT6i8D": {
+          "type": "meal_card",
+          "settings": {
+            "featured_product": "the-titan-breakfast-burrito",
+            "macros": "P: 53g | C: 45g | F: 28g"
+          }
+        },
+        "meal_card_6rYMPc": {
+          "type": "meal_card",
+          "settings": {
+            "featured_product": "salmon-saffron-rice-green-beans",
+            "macros": "P: 31g | C: 26g | F: 10g"
+          }
+        },
+        "meal_card_8B4ngx": {
+          "type": "meal_card",
+          "settings": {
+            "featured_product": "cheeseburger-mix-up",
+            "macros": "P: 49g | C: 14g | F: 26g"
+          }
+        },
+        "meal_card_haPMTK": {
+          "type": "meal_card",
+          "settings": {
+            "featured_product": "fried-rice-w-chicken",
+            "macros": "P: 46g | C: 23g | F: 10g"
+          }
+        },
+        "meal_card_wG7q3A": {
+          "type": "meal_card",
+          "settings": {
+            "featured_product": "ground-bison-cheesy-ravioli",
+            "macros": "P: 54g | C: 55g | F: 33g"
+          }
+        },
+        "meal_card_LntxgF": {
+          "type": "meal_card",
+          "settings": {
+            "featured_product": "beef-medallions-saffron-rice-and-green-beans",
+            "macros": "P: 38g | C: 40g | F: 5g"
+          }
+        }
+      },
+      "block_order": [
+        "meal_card_YT6i8D",
+        "meal_card_6rYMPc",
+        "meal_card_8B4ngx",
+        "meal_card_haPMTK",
+        "meal_card_wG7q3A",
+        "meal_card_LntxgF"
+      ],
+      "settings": {
+        "video_url": "https://cdn.shopify.com/videos/c/o/v/689c1bc2dcfe47c4b2ef54df340bbb7c.mov",
+        "image": "shopify://shop_images/Custom-Meals_v1.jpg",
+        "hero_overlay_color": "#000000",
+        "hero_overlay_opacity": 55,
+        "show_hero_container": true,
+        "hero_container_opacity": 70,
+        "hero_container_blur": 14,
+        "headline": "HEALTHY MEALS, MADE EASY.",
+        "subheadline": "Save 40% On Your First Order of Fresh, Chef-Prepared Meals.",
+        "button_text": "SHOP 40% OFF NOW",
+        "button_link": "/discount/START40?redirect=/collections/signature-menu",
+        "seen_in_text": "AS SEEN IN",
+        "logo_1": "shopify://shop_images/logo-ufc_8bab60ad-a7f6-4579-b5c4-4e0aa58a82bd.webp",
+        "logo_2": "shopify://shop_images/absolute-recomp.webp",
+        "review_text": "4.5/5 on Trustpilot",
+        "gallery_headline": "Finally, Healthy Food You’ll Crave.",
+        "gallery_button_text": "BROWSE THE MENU",
+        "gallery_button_link": "/discount/START40?redirect=/collections/signature-menu",
+        "vp1_image": "shopify://shop_images/ICON-Meals_Vacum-Sealed.jpg",
+        "vp1_headline": "Stop Wasting Time & Money.",
+        "vp1_text": "Save time on shopping, cooking, and cleaning. Our customers save an average of 8 hours and $22 per week. Get back to what matters most.",
+        "vp2_image": "shopify://shop_images/ICON-Meals_USDA-In-House-Cooked.jpg",
+        "vp2_headline": "Unmatched Quality & Freshness.",
+        "vp2_text": "We are a USDA-certified kitchen, ensuring the highest standards. Our meals are vacuum-sealed to lock in freshness, arriving at your door ready to eat.",
+        "faq_headline": "Frequently Asked Questions",
+        "final_cta_headline": "Ready to Take Back Your Time?",
+        "final_cta_subheadline": "Get 40% off your first order and discover how easy healthy eating can be.",
+        "final_cta_button_text": "YES, I WANT 40% OFF",
+        "final_cta_button_link": "/discount/START40?redirect=/collections/signature-menu"
+      }
     }
   },
   "order": [
