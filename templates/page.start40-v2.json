@@ -1,0 +1,11 @@
+{
+  "name": "START40 v2",
+  "sections": {
+    "main": {
+      "type": "start40-landing-page"
+    }
+  },
+  "order": [
+    "main"
+  ]
+}
