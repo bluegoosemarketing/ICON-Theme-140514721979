@@ -41,7 +41,24 @@
   "nutrition": {
     "@type": "NutritionInformation",
     {% assign m = product.metafields.macros %}
-    {% if m.macros_calories != blank %}"calories": {{ m.macros_calories | append: ' calories' | json }}{% endif %}{% if m.macros_protein != blank %}{% if m.macros_calories != blank %}, {% endif %}"proteinContent": {{ m.macros_protein | append: ' g' | json }}{% endif %}{% if m.macros_carbs != blank %}{% if m.macros_calories != blank or m.macros_protein != blank %}, {% endif %}"carbohydrateContent": {{ m.macros_carbs | append: ' g' | json }}{% endif %}{% if m.macros_fats != blank %}{% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank %}, {% endif %}"fatContent": {{ m.macros_fats | append: ' g' | json }}{% endif %}{% if m.macros_fiber != blank %}{% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank or m.macros_fats != blank %}, {% endif %}"fiberContent": {{ m.macros_fiber | append: ' g' | json }}{% endif %}{% if m.macros_sodium != blank %}{% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank or m.macros_fats != blank or m.macros_fiber != blank %}, {% endif %}"sodiumContent": {{ m.macros_sodium | append: ' mg' | json }}{% endif %}
+    {% if m.macros_calories != blank %}
+      "calories": {{ m.macros_calories | append: ' calories' | json }}
+    {% endif %}
+    {% if m.macros_protein != blank %}
+      {% if m.macros_calories != blank %}, {% endif %}"proteinContent": {{ m.macros_protein | append: ' g' | json }}
+    {% endif %}
+    {% if m.macros_carbs != blank %}
+      {% if m.macros_calories != blank or m.macros_protein != blank %}, {% endif %}"carbohydrateContent": {{ m.macros_carbs | append: ' g' | json }}
+    {% endif %}
+    {% if m.macros_fats != blank %}
+      {% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank %}, {% endif %}"fatContent": {{ m.macros_fats | append: ' g' | json }}
+    {% endif %}
+    {% if m.macros_fiber != blank %}
+      {% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank or m.macros_fats != blank %}, {% endif %}"fiberContent": {{ m.macros_fiber | append: ' g' | json }}
+    {% endif %}
+    {% if m.macros_sodium != blank %}
+      {% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank or m.macros_fats != blank or m.macros_fiber != blank %}, {% endif %}"sodiumContent": {{ m.macros_sodium | append: ' mg' | json }}
+    {% endif %}
   },
   "offers": {
     "@type": "Offer",
@@ -524,7 +541,7 @@
       "type": "richtext",
       "id": "default_heating_instructions",
       "label": "Default heating instructions",
-      "default": ""
+      "default": "<p>Microwave: Peel back film and heat 90–120 seconds (stir midway if needed).</p><p>Oven: 350°F for 8–12 minutes.</p><p>Air Fryer: 350°F for 6–8 minutes.</p>"
     },
     {
       "type": "richtext",
