@@ -39,9 +39,13 @@
 		document.documentElement.className = document.documentElement.className.replace('no-js', 'js');
 	</script>
 
-	{% if page_description %}
-	<meta name="description" content="{{ page_description | escape }}">
-	{% endif %}
+        {% if template contains 'product' %}
+          <meta name="description" content="{{ page_description | default: (product.description | strip_html | truncatewords: 30) | escape }}">
+        {% else %}
+          {% if page_description %}
+            <meta name="description" content="{{ page_description | escape }}">
+          {% endif %}
+        {% endif %}
 
 	{% if template contains 'product' %}
 		<meta name="viewport" content="width=device-width, initial-scale=1">
