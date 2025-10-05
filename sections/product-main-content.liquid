@@ -28,6 +28,32 @@
   endif
 -%}
 
+{% if template contains 'product' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org/",
+  "@type": "Product",
+  "name": {{ product.title | json }},
+  "image": [{% for image in product.images %}{{ image | image_url: width: 1200 | json }}{% unless forloop.last %}, {% endunless %}{% endfor %}],
+  "description": {{ product.description | strip_html | json }},
+  "sku": {{ product.selected_or_first_available_variant.sku | json }},
+  "brand": { "@type": "Brand", "name": "ICON Meals" },
+  "nutrition": {
+    "@type": "NutritionInformation",
+    {% assign m = product.metafields.macros %}
+    {% if m.macros_calories != blank %}"calories": {{ (m.macros_calories | append: ' calories') | json }}{% endif %}{% if m.macros_protein != blank %}{% if m.macros_calories != blank %}, {% endif %}"proteinContent": {{ (m.macros_protein | append: ' g') | json }}{% endif %}{% if m.macros_carbs != blank %}{% if m.macros_calories != blank or m.macros_protein != blank %}, {% endif %}"carbohydrateContent": {{ (m.macros_carbs | append: ' g') | json }}{% endif %}{% if m.macros_fats != blank %}{% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank %}, {% endif %}"fatContent": {{ (m.macros_fats | append: ' g') | json }}{% endif %}{% if m.macros_fiber != blank %}{% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank or m.macros_fats != blank %}, {% endif %}"fiberContent": {{ (m.macros_fiber | append: ' g') | json }}{% endif %}{% if m.macros_sodium != blank %}{% if m.macros_calories != blank or m.macros_protein != blank or m.macros_carbs != blank or m.macros_fats != blank or m.macros_fiber != blank %}, {% endif %}"sodiumContent": {{ (m.macros_sodium | append: ' mg') | json }}{% endif %}
+  },
+  "offers": {
+    "@type": "Offer",
+    "url": {{ request.origin | append: product.url | json }},
+    "priceCurrency": {{ localization.country.currency.iso_code | default: cart.currency.iso_code | default: shop.currency | json }},
+    "price": {{ current_variant.price | divided_by: 100.0 | json }},
+    "itemCondition": "https://schema.org/NewCondition"
+  }
+}
+</script>
+{% endif %}
+
 <style>
   :root{
     --macro-color-calories:#6c757d; --macro-color-protein:#2a9d8f; --macro-color-carbs:#e9c46a;
@@ -40,10 +66,12 @@
   .product-main__header{order:1;display:flex;flex-direction:column;gap:0.35rem;} /* reduced gap here */
   .product-main__gallery{order:2;}
   .product-macros-block{order:3;}
-  .product-description{order:4;}
+  .product-highlights{order:4;}
+  #nutrition-container{order:9;}
+  .product-description{order:5;}
   .product-main__form{order:6;}
-  .product-accordion{order:7;}
-  #nutrition-container{order:8;}
+  .product-visible-details{order:7;}
+  .product-reviews{order:8;}
 
   .product-main__title{
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;
@@ -98,24 +126,84 @@
   /* Actions */
   .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
 
-  /* Accordion */
-  .product-accordion__item{border-bottom:1px solid #e9ecef;}
-  .product-accordion__item:first-child{border-top:1px solid #dee2e6;padding-top:1.5rem;}
-  .product-accordion__item summary{
-    padding:1rem 0;font-weight:600;font-size:1rem;color:#343a40;cursor:pointer;list-style:none;
-    display:flex;justify-content:space-between;align-items:center;transition:color .2s ease;
+  .product-highlights{
+    margin-top:1rem;
+    border:1px solid #e9ecef;
+    border-radius:12px;
+    background:#fff;
+    padding:1.25rem 1.5rem;
   }
-  .product-accordion__item summary:hover{color:#212529;}
-  .product-accordion__item summary::-webkit-details-marker{display:none;}
-  .product-accordion__toggle-icon{width:16px;height:16px;transition:transform .25s ease;color:#6c757d;}
-  .product-accordion__item[open]>summary .product-accordion__toggle-icon{transform:rotate(180deg);}
-  .product-accordion__content{padding-bottom:1.5rem;color:#495057;line-height:1.6;}
-  .product-accordion__content ul,.product-accordion__content ol{padding-left:1.25rem;}
+  .product-highlights ul{
+    margin:0;
+    padding-left:1.25rem;
+    display:flex;
+    flex-direction:column;
+    gap:.5rem;
+  }
+  .product-highlights li{
+    font-size:.95rem;
+    color:#212529;
+    line-height:1.5;
+  }
+
+  .product-visible-details{
+    display:flex;
+    flex-direction:column;
+    gap:1.5rem;
+    margin-top:2rem;
+  }
+  .product-detail-block{
+    border:1px solid #e9ecef;
+    border-radius:12px;
+    background:#fff;
+    padding:1.5rem;
+  }
+  .product-detail-block h3,
+  .product-detail-block h2{
+    margin:0 0 .75rem;
+    font-size:1.25rem;
+    font-weight:700;
+    color:#1f2937;
+  }
+  .product-detail-block .rte{
+    color:#495057;
+    line-height:1.6;
+  }
+  .meal-component{margin-bottom:1rem;}
+  .meal-component:last-child{margin-bottom:0;}
+  .meal-component strong{
+    display:block;
+    margin-bottom:.25rem;
+    color:#212529;
+  }
+  .meal-component p{
+    margin:0;
+    color:#495057;
+    line-height:1.5;
+  }
+
+  .product-reviews{
+    margin-top:2.5rem;
+    border:1px solid #e9ecef;
+    border-radius:12px;
+    background:#fff;
+    padding:2rem 1.75rem;
+  }
+  .product-reviews h2{
+    margin:0 0 1rem;
+    font-size:1.5rem;
+    font-weight:700;
+    color:#1f2937;
+  }
+  .product-reviews .rte{
+    color:#495057;
+    line-height:1.6;
+  }
 
   /* Desktop refinements */
   @media (min-width:1024px){
     .product-main__visuals-wrapper,.product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
-    .product-main__header,.product-main__gallery,.product-macros-block,.product-description,.product-main__form,.product-accordion,#nutrition-container{order:initial;}
+    .product-main__header,.product-main__gallery,.product-macros-block,.product-highlights,.product-description,.product-main__form,.product-visible-details,.product-reviews,#nutrition-container{order:initial;}
     .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
     .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
     .product-main__info-column{grid-area:info;}
@@ -185,6 +273,16 @@
             {%- if macros.macros_sodium != blank -%}<div class="macro-stat macro-stat--sodium"><span class="macro-stat__value">{{ macros.macros_sodium }}mg</span><span class="macro-stat__label">Sodium</span></div>{%- endif -%}
           </div>
         {%- endif -%}
+        {%- assign ingredient_highlights = product.metafields.custom.ingredient_highlights -%}
+        {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
+          <div class="product-highlights">
+            <ul>
+              {%- for item in ingredient_highlights.value -%}
+                <li>{{ item }}</li>
+              {%- endfor -%}
+            </ul>
+          </div>
+        {%- endif -%}
         <div id="nutrition-container"></div>
       </div>
     
@@ -237,10 +335,70 @@
           </button>
         </div>
       {%- endform -%}
-      <div class="product-accordion">
-        {%- if nutrition.ingredients != blank -%}<details class="product-accordion__item"><summary>Ingredients <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="product-accordion__content rte">{{ nutrition.ingredients }}</div></details>{%- endif -%}
-        {%- if nutrition.allergens != blank -%}<details class="product-accordion__item"><summary>Allergens <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="product-accordion__content rte">{{ nutrition.allergens }}</div></details>{%- endif -%}
-        {%- if nutrition.instructions != blank -%}<details class="product-accordion__item"><summary>Heating Instructions <svg class="product-accordion__toggle-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg></summary><div class="product-accordion__content rte">{{ nutrition.instructions }}</div></details>{%- endif -%}
+      {%- assign structured_ingredients = product.metafields.custom.structured_ingredients -%}
+      {%- assign instructions_html = '' -%}
+      {%- if nutrition.instructions != blank -%}
+        {%- assign instructions_html = nutrition.instructions -%}
+      {%- elsif section.settings.default_heating_instructions != blank -%}
+        {%- assign instructions_html = section.settings.default_heating_instructions -%}
+      {%- endif -%}
+      {%- assign faq_html = '' -%}
+      {%- if product.metafields.custom.faq_section != blank -%}
+        {%- assign faq_html = product.metafields.custom.faq_section -%}
+      {%- elsif section.settings.default_faq != blank -%}
+        {%- assign faq_html = section.settings.default_faq -%}
+      {%- endif -%}
+
+      <div class="product-visible-details">
+        {%- if structured_ingredients and structured_ingredients.value != blank -%}
+          <section class="product-detail-block">
+            <h3>What's Inside</h3>
+            {%- for component in structured_ingredients.value -%}
+              <div class="meal-component">
+                <strong>{{ component.component_name }}:</strong>
+                <p>{{ component.ingredient_list }}</p>
+              </div>
+            {%- endfor -%}
+          </section>
+        {%- endif -%}
+
+        {%- if nutrition.ingredients != blank -%}
+          <section class="product-detail-block">
+            <h3>Ingredients</h3>
+            <div class="rte">{{ nutrition.ingredients }}</div>
+          </section>
+        {%- endif -%}
+
+        {%- if nutrition.allergens != blank -%}
+          <section class="product-detail-block">
+            <h3>Allergens</h3>
+            <div class="rte">{{ nutrition.allergens }}</div>
+          </section>
+        {%- endif -%}
+
+        {%- if instructions_html != blank -%}
+          <section class="product-detail-block">
+            <h3>Heating Instructions</h3>
+            <div class="rte">{{ instructions_html }}</div>
+          </section>
+        {%- endif -%}
+
+        {%- if faq_html != blank -%}
+          <section class="product-detail-block product-faq">
+            <h2>Frequently Asked Questions</h2>
+            <div class="rte">{{ faq_html }}</div>
+          </section>
+        {%- endif -%}
+      </div>
+
+      <div class="product-reviews">
+        <h2>Customer Reviews</h2>
+        {% comment %} Theme App Blocks can render the full review widget here {% endcomment %}
+        {%- for block in section.blocks -%}
+          <div {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- endfor -%}
       </div>
     </div>
   </div>
@@ -360,6 +518,27 @@
 {
   "name": "Product Main Content",
   "tag": "section",
-  "class": "product-main-content-section"
+  "class": "product-main-content-section",
+  "settings": [
+    {
+      "type": "richtext",
+      "id": "default_heating_instructions",
+      "label": "Default heating instructions",
+      "default": ""
+    },
+    {
+      "type": "richtext",
+      "id": "default_faq",
+      "label": "Default FAQ content",
+      "default": ""
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app",
+      "name": "App block"
+    }
+  ],
+  "max_blocks": 6
 }
 {% endschema %}
