@@ -71,7 +71,7 @@
         "product_feature_signature": {
           "type": "product_feature",
           "settings": {
-            "image": "shopify://shop_images/tile-lose-weight.jpg",
+            "image": "shopify://shop_images/ICON-Meals_Signature-Meals.jpg",
             "subheading": "Chef-Crafted Convenience",
             "title": "Signature Meals",
             "text": "<p>Maximum flavor, zero guesswork. Our Signature Meals are perfectly portioned, ready-to-eat creations designed by our chefs to make healthy eating effortless and delicious.</p>",
@@ -83,7 +83,7 @@
         "product_feature_custom": {
           "type": "product_feature",
           "settings": {
-            "image": "shopify://shop_images/tile-custom-meals.jpg",
+            "image": "shopify://shop_images/ICON-Meals_Custom-Meals.jpg",
             "subheading": "Your Goals, Your Way",
             "title": "Custom Meals",
             "text": "<p>You're in the driver's seat. Build your meals from scratch by choosing your favorite proteins, carbs, and veggies in the exact portions you need to hit your personal macros.</p>",
