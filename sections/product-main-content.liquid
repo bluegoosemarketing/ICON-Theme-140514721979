@@ -70,6 +70,7 @@
   }
 }
 </script>
+
 {% endif %}
 
 <style>
@@ -257,12 +258,18 @@
           >{{ current_variant.price | money }}</span>
         </div>
       </div>
-      {%- if product.description != blank or (ingredient_highlights and ingredient_highlights.value != blank) -%}
+      </div>
+      {%- assign has_highlights = false -%}
+      {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
+        {%- assign has_highlights = true -%}
+      {%- endif -%}
+
+      {%- if product.description != blank or has_highlights -%}
         <div class="product-summary-card" role="region" aria-label="Product summary">
           {%- if product.description != blank -%}
             <div class="product-description rte">{{ product.description }}</div>
           {%- endif -%}
-          {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
+          {%- if has_highlights -%}
             <div class="product-highlights">
               <h3 class="product-highlights__title">Ingredient Highlights</h3>
               <ul>
