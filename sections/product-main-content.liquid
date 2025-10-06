@@ -2,20 +2,15 @@
 <!--
 ************************************************************************************
 *
-*  Product Page - Main Content (v18.0 - DEFINITIVE HIERARCHY & UX)
+*  Product Page - Main Content (v19.0 - FINAL POLISH & CLEANUP)
 *  --------------------------------------------------------------------------------
-*  - DIAGNOSIS: The "What's Inside" and "Full Ingredients" sections were redundant
-*    and confusingly labeled.
-*  - THE FIX (EXPERT UX REFINEMENT):
-*    1. NESTED STRUCTURE: The "Full Ingredients" list is now a collapsible
-*       dropdown nested *inside* the "What's Inside" card. This creates a clear
-*       and logical information hierarchy.
-*    2. CLARIFIED LABELS: The main section is "What's Inside" (the simple
-*       breakdown), and the dropdown trigger is now clearly labeled "View Full
-*       Ingredient List," eliminating user confusion.
-*    3. INTEGRATED STYLING: The new dropdown is styled as a subtle, elegant
-*       expander, feeling like a natural extension of the "What's Inside" card
-*       rather than a separate block. This is the final, world-class version.
+*  - DIAGNOSIS: User requested the removal of the customer reviews section for a
+*    cleaner launch and preserved all recent labeling and logic improvements.
+*  - THE FIX (FINAL VERSION):
+*    1. REVIEWS REMOVED: The entire "Customer Reviews" block has been cleanly
+*       removed from both the HTML structure and the stylesheet.
+*    2. LOGIC PRESERVED: Retains the fallback for the ingredients list and all
+*       finalized labeling for a robust and user-friendly experience.
 *
 ************************************************************************************
 -->
@@ -106,7 +101,7 @@
   #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;color:#212529!important;letter-spacing:-0.02em;margin:0;}
   #product-main-{{ section.id }} .product-main__price{display:flex;flex-direction:row;align-items:center;gap:.5rem;font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;}
   #product-main-{{ section.id }} .product-main__price.price--live{background:transparent;border:0;padding:0;font-weight:800;font-size:1.75rem;color:#111827;}
-#product-main-{{ section.id }} .product-main__price.price--live .price-note{font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;}
+  #product-main-{{ section.id }} .product-main__price.price--live .price-note{font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;}
   #product-main-{{ section.id }} .product-description{margin:0;color:#24303f;font-size:1.02rem;line-height:1.7;}
   #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid #e9ecef;}
   #product-main-{{ section.id }} .product-highlights__title{margin:0 0 1rem;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#343a40;}
@@ -151,32 +146,14 @@
   #product-main-{{ section.id }} .meal-component strong{display:block;margin-bottom:.35rem;color:#212529;font-weight:600;}
   #product-main-{{ section.id }} .meal-component p{margin:0;color:#495057;line-height:1.5;}
 
-  /* --- DEFINITIVE FIX: Styles for the nested "Full Ingredients" dropdown --- */
-  #product-main-{{ section.id }} .full-ingredients-collapsible {
-    margin-top: 1.5rem;
-    padding-top: 1.5rem;
-    border-top: 1px solid #e9ecef;
-  }
-  #product-main-{{ section.id }} .full-ingredients-collapsible summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    cursor: pointer;
-    list-style: none;
-    font-weight: 600;
-    color: #495057;
-    transition: color 0.2s ease;
-  }
+  #product-main-{{ section.id }} .full-ingredients-collapsible {margin-top:1.5rem;padding-top:1.5rem;border-top:1px solid #e9ecef;}
+  #product-main-{{ section.id }} .full-ingredients-collapsible summary {display:flex;justify-content:space-between;align-items:center;cursor:pointer;list-style:none;font-weight:600;color:#495057;transition:color 0.2s ease;}
   #product-main-{{ section.id }} .full-ingredients-collapsible summary:hover {color: #212529;}
   #product-main-{{ section.id }} .full-ingredients-collapsible summary::-webkit-details-marker {display: none;}
   #product-main-{{ section.id }} .full-ingredients-collapsible[open] > summary {margin-bottom: 1rem;}
   #product-main-{{ section.id }} .full-ingredients-collapsible .collapsible-icon {width: 1rem; height: 1rem; transition: transform 0.2s ease-in-out;}
   #product-main-{{ section.id }} .full-ingredients-collapsible[open] > summary .collapsible-icon {transform: rotate(180deg);}
-  #product-main-{{ section.id }} .full-ingredients-collapsible .rte {font-size: 0.9rem; color: #6c757d;} /* Slightly smaller text for the legal list */
-
-  /* Reviews Block */
-  #product-main-{{ section.id }} .product-reviews{border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:2rem 1.75rem;}
-  #product-main-{{ section.id }} .product-reviews h2{margin:0 0 1rem;font-size:1.5rem;font-weight:700;color:#1f2937;}
+  #product-main-{{ section.id }} .full-ingredients-collapsible .rte {font-size: 0.9rem; color: #6c757d;}
 
   /* Desktop Layout */
   @media (min-width:1024px){
@@ -345,16 +322,6 @@
             <div class="rte">{{ instructions_html }}</div>
           </section>
         {%- endif -%}
-      </div>
-
-      <div class="product-reviews">
-        <h2>Customer Reviews</h2>
-        {% comment %} Theme App Blocks can render the full review widget here {% endcomment %}
-        {%- for block in section.blocks -%}
-          <div {{ block.shopify_attributes }}>
-            {% render block %}
-          </div>
-        {%- endfor -%}
       </div>
     </div>
   </div>
