@@ -317,6 +317,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 	</script>
 	{% render 'structured-data' %}
 
+        <script defer src="{{ 'app-viewport.js' | asset_url }}"></script>
         <script defer type="module" src="{{ 'theme.js' | asset_url }}"></script>
         <script defer nomodule src="{{ 'theme.legacy.js' | asset_url }}"></script>
   <script defer src="{{ 'cart-preview-sidebar.js' | asset_url }}"></script>

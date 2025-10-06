@@ -103,6 +103,7 @@ button.btn.benefitbadge.badgeallergen { background-color: #eec877; }
   --page-background: #f0f2f5;
   --color-body: #f0f2f5;
   --color-bg: #f0f2f5;
+  --app-viewport-height: 100dvh;
 }
 
 body,
@@ -123,23 +124,20 @@ body.collection-menu-open {
   display: grid;
   grid-template-columns: 1fr 380px;
   height: calc(
-    100dvh - var(--app-header-min-height) - var(--app-footer-min-height)
+    var(--app-viewport-height, 100dvh) - var(--app-header-min-height) -
+    var(--app-footer-min-height)
   );
 }
 
 @supports not (height: 100dvh) {
-  .collection-page__layout {
-    height: calc(
-      100svh - var(--app-header-min-height) - var(--app-footer-min-height)
-    );
+  :root {
+    --app-viewport-height: 100svh;
   }
 }
 
 @supports not (height: 100svh) {
-  .collection-page__layout {
-    height: calc(
-      100vh - var(--app-header-min-height) - var(--app-footer-min-height)
-    );
+  :root {
+    --app-viewport-height: 100vh;
   }
 }
 
@@ -147,6 +145,12 @@ body.collection-menu-open {
   height: 100%;
   padding-right: 0;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.collection-page__sidebar > .cart-sidebar-section-wrapper {
+  max-height: 100%;
 }
 
 .collection-page__main {
@@ -804,11 +808,11 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   line-height: 0; color: #6c757d; border-radius: 50%; transition: all 0.2s ease;
 }
 .cart-drawer__close-btn:hover { color: var(--brand-text); background-color: #e9ecef; }
-.cart-sidebar-section-wrapper { position: relative; height: 100%; display: flex !important; flex-direction: column !important; }
+.cart-sidebar-section-wrapper { position: relative; height: 100%; max-height: 100%; display: flex !important; flex-direction: column !important; }
 .cart-sidebar {
   background-color: #fdfdfd !important; box-shadow: -2px 0 10px rgba(0, 0, 0, 0.03) !important;
   border-radius: 0 !important; display: flex !important; flex-direction: column !important;
-  height: 100% !important; min-height: 100% !important; overflow: hidden !important; flex: 1 1 auto !important;
+  height: 100% !important; max-height: 100% !important; min-height: 0 !important; overflow: hidden !important; flex: 1 1 auto !important;
 }
 .cart-sidebar__content {
   display: flex !important;
@@ -4224,20 +4228,20 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
 /* Use the most accurate unit available, with safe fallbacks */
 .full-viewport {
   /* modern browsers */
-  min-height: calc(100dvh - var(--app-header-min-height) - var(--app-footer-min-height));
+  min-height: calc(var(--app-viewport-height, 100dvh) - var(--app-header-min-height) - var(--app-footer-min-height));
 }
 
 @supports not (height: 100dvh) {
   .full-viewport {
     /* static/“small” viewport on Safari to avoid URL-bar jump */
-    min-height: calc(100svh - var(--app-header-min-height) - var(--app-footer-min-height));
+    min-height: calc(var(--app-viewport-height, 100svh) - var(--app-header-min-height) - var(--app-footer-min-height));
   }
 }
 
 @supports not (height: 100svh) {
   .full-viewport {
     /* legacy fallback */
-    min-height: calc(100vh - var(--app-header-min-height) - var(--app-footer-min-height));
+    min-height: calc(var(--app-viewport-height, 100vh) - var(--app-header-min-height) - var(--app-footer-min-height));
   }
 }
 
