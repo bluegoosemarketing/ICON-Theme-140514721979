@@ -4255,18 +4255,20 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
    Ensures product pages use the document scroll instead of a nested panel,
    preventing bounce/overscroll artifacts and stray blank space.
    ========================================================================== */
-body.template-product .collection-page__layout {
-  height: auto;
-  min-height: 0;
-}
+@media (max-width: 991px) {
+  body.template-product .collection-page__layout {
+    height: auto;
+    min-height: 0;
+  }
 
-body.template-product .collection-page__main {
-  height: auto;
-  overflow: visible;
-}
+  body.template-product .collection-page__main {
+    height: auto;
+    overflow: visible;
+  }
 
-body.template-product .collection-page__sidebar {
-  height: auto;
-  overflow: visible;
+  body.template-product .collection-page__sidebar {
+    height: auto;
+    overflow: visible;
+  }
 }
 
