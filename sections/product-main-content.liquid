@@ -26,6 +26,7 @@
   if macros.macros_calories != blank or macros.macros_protein != blank or macros.macros_carbs != blank or macros.macros_fats != blank or macros.macros_fiber != blank or macros.macros_sodium != blank
     assign macros_exist = true
   endif
+  assign ingredient_highlights = product.metafields.custom.ingredient_highlights
 -%}
 
 {% if template contains 'product' %}
@@ -73,206 +74,150 @@
 
 <style>
   :root{
-    --macro-color-calories:#6c757d; --macro-color-protein:#2a9d8f; --macro-color-carbs:#e9c46a;
-    --macro-color-fats:#8ab17d; --macro-color-fiber:#b58db6; --macro-color-sodium:#f4a261;
+    --macro-color-calories:#6c757d;
+    --macro-color-protein:#2a9d8f;
+    --macro-color-carbs:#e9c46a;
+    --macro-color-fats:#8ab17d;
+    --macro-color-fiber:#b58db6;
+    --macro-color-sodium:#f4a261;
+  }
+
+  #product-main-{{ section.id }}{
+    --macro-color-calories:#6c757d;
+    --macro-color-protein:#2a9d8f;
+    --macro-color-carbs:#e9c46a;
+    --macro-color-fats:#8ab17d;
+    --macro-color-fiber:#b58db6;
+    --macro-color-sodium:#f4a261;
   }
 
   /* Layout */
-  .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 1.2rem;}
-  .product-main__visuals-wrapper,.product-main__info-column{display:contents;}
-  .product-main__header{order:1;display:flex;flex-direction:column;gap:0.35rem;} /* reduced gap here */
-  .product-main__gallery{order:2;}
-  .product-macros-block{order:3;}
-  .product-highlights{order:4;}
-  #nutrition-container{order:9;}
-  .product-description{order:5;}
-  .product-main__form{order:6;}
-  .product-visible-details{order:7;}
-  .product-reviews{order:8;}
+  #product-main-{{ section.id }} .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 1.2rem;}
+  #product-main-{{ section.id }} .product-main__visuals-wrapper,#product-main-{{ section.id }} .product-main__info-column{display:contents;}
+  #product-main-{{ section.id }} .product-main__header{order:1;display:flex;flex-direction:column;gap:0.35rem;}
+  #product-main-{{ section.id }} .product-main__gallery{order:2;}
+  #product-main-{{ section.id }} .product-macros-block{order:3;}
+  #product-main-{{ section.id }} #nutrition-container{order:9;}
+  #product-main-{{ section.id }} .product-main__form{order:6;}
+  #product-main-{{ section.id }} .product-visible-details{order:7;}
+  #product-main-{{ section.id }} .product-reviews{order:8;}
 
-  .product-main__title{
+  #product-main-{{ section.id }} .product-main__title{
     font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;
     font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;
     color:#212529!important;letter-spacing:-0.02em;margin:0;
   }
 
-  /* Price block: stacked below title */
-  .product-main__price{
+  #product-main-{{ section.id }} .product-main__price{
     display:flex;flex-direction:row;align-items:center;gap:.5rem;
     font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;
   }
 
-  /* Placeholder mode */
-  .product-main__price.price--placeholder{
+  #product-main-{{ section.id }} .product-main__price.price--placeholder{
     background:#f8f9fa;border:1px solid #e9ecef;border-radius:10px;
     padding:.75rem 1rem;
   }
-  .product-main__price.price--placeholder svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px;}
-  .product-main__price .placeholder-main-text{display:block;font-weight:700;color:#1f2937;}
-  .product-main__price .placeholder-sub-text{display:block;font-size:.875rem;color:#6b7280;margin-top:2px;}
+  #product-main-{{ section.id }} .product-main__price.price--placeholder svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px;}
+  #product-main-{{ section.id }} .product-main__price .placeholder-main-text{display:block;font-weight:700;color:#1f2937;}
+  #product-main-{{ section.id }} .product-main__price .placeholder-sub-text{display:block;font-size:.875rem;color:#6b7280;margin-top:2px;}
 
-  /* Live mode */
-  .product-main__price.price--live{
+  #product-main-{{ section.id }} .product-main__price.price--live{
     background:transparent;border:0;padding:0;
     font-weight:800;font-size:1.75rem;color:#111827;
   }
-  .product-main__price.price--live .price-note{
+  #product-main-{{ section.id }} .product-main__price.price--live .price-note{
     font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;
   }
 
-  /* Media image */
-  .product-main__gallery-image{
+  #product-main-{{ section.id }} .product-main__gallery-image{
     width:100%;height:auto;border-radius:12px;border:1px solid #e9ecef;
     box-shadow:0 4px 12px rgba(0,0,0,.05);
   }
 
-  /* Macros grid */
-  .product-macros-block{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #e9ecef;border-radius:12px;overflow:hidden;}
-  .macro-stat{padding:1rem .5rem;text-align:center;background-color:#f8f9fa;border-right:1px solid #e9ecef;border-bottom:1px solid #e9ecef;border-top-width:4px;border-top-style:solid;}
-  .macro-stat:nth-child(3n){border-right:none;}
-  .macro-stat:nth-last-child(-n+3),.macro-stat:last-child{border-bottom:none;}
-  .macro-stat--calories{border-top-color:var(--macro-color-calories);}
-  .macro-stat--protein{border-top-color:var(--macro-color-protein);}
-  .macro-stat--carbs{border-top-color:var(--macro-color-carbs);}
-  .macro-stat--fats{border-top-color:var(--macro-color-fats);}
-  .macro-stat--fiber{border-top-color:var(--macro-color-fiber);}
-  .macro-stat--sodium{border-top-color:var(--macro-color-sodium);}
-  .macro-stat__value{font-size:1.1rem;font-weight:700;color:#212529;line-height:1.2;display:block;margin-bottom:.25rem;}
-  .macro-stat__label{font-size:.7rem;color:#6c757d;text-transform:uppercase;letter-spacing:.05em;display:block;}
+  #product-main-{{ section.id }} .product-macros-block{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #e9ecef;border-radius:12px;overflow:hidden;}
+  #product-main-{{ section.id }} .macro-stat{padding:1rem .5rem;text-align:center;background-color:#f8f9fa;border-right:1px solid #e9ecef;border-bottom:1px solid #e9ecef;border-top-width:4px;border-top-style:solid;}
+  #product-main-{{ section.id }} .macro-stat:nth-child(3n){border-right:none;}
+  #product-main-{{ section.id }} .macro-stat:nth-last-child(-n+3),#product-main-{{ section.id }} .macro-stat:last-child{border-bottom:none;}
+  #product-main-{{ section.id }} .macro-stat--calories{border-top-color:var(--macro-color-calories);}
+  #product-main-{{ section.id }} .macro-stat--protein{border-top-color:var(--macro-color-protein);}
+  #product-main-{{ section.id }} .macro-stat--carbs{border-top-color:var(--macro-color-carbs);}
+  #product-main-{{ section.id }} .macro-stat--fats{border-top-color:var(--macro-color-fats);}
+  #product-main-{{ section.id }} .macro-stat--fiber{border-top-color:var(--macro-color-fiber);}
+  #product-main-{{ section.id }} .macro-stat--sodium{border-top-color:var(--macro-color-sodium);}
+  #product-main-{{ section.id }} .macro-stat__value{font-size:1.1rem;font-weight:700;color:#212529;line-height:1.2;display:block;margin-bottom:.25rem;}
+  #product-main-{{ section.id }} .macro-stat__label{font-size:.7rem;color:#6c757d;text-transform:uppercase;letter-spacing:.05em;display:block;}
 
-  /* Actions */
-  .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
+  #product-main-{{ section.id }} .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
 
-  .product-highlights{
-    margin-top:1rem;
+  #product-main-{{ section.id }} .product-summary-card{
+    margin-top:.5rem;
     border:1px solid #e9ecef;
-    border-radius:12px;
+    border-radius:14px;
     background:#fff;
-    padding:1.25rem 1.5rem;
-  }
-  .product-highlights ul{
-    margin:0;
-    padding-left:1.25rem;
-    display:flex;
-    flex-direction:column;
-    gap:.5rem;
-  }
-  .product-highlights li{
-    font-size:.95rem;
-    color:#212529;
-    line-height:1.5;
-  }
-
-  .product-visible-details{
+    box-shadow:0 24px 48px -32px rgba(15,23,42,.28);
+    padding:1.75rem 1.75rem 1.5rem;
     display:flex;
     flex-direction:column;
     gap:1.5rem;
-    margin-top:2rem;
   }
-  .product-detail-block{
-    border:1px solid #e9ecef;
-    border-radius:12px;
-    background:#fff;
-    padding:1.5rem;
-  }
-  .product-detail-block h3,
-  .product-detail-block h2{
-    margin:0 0 .75rem;
-    font-size:1.25rem;
-    font-weight:700;
-    color:#1f2937;
-  }
-  .product-detail-block .rte{
-    color:#495057;
-    line-height:1.6;
-  }
-  .meal-component{margin-bottom:1rem;}
-  .meal-component:last-child{margin-bottom:0;}
-  .meal-component strong{
-    display:block;
-    margin-bottom:.25rem;
-    color:#212529;
-  }
-  .meal-component p{
+  #product-main-{{ section.id }} .product-summary-card .product-description{
     margin:0;
-    color:#495057;
-    line-height:1.5;
+    color:#24303f;
+    font-size:1.02rem;
+    line-height:1.7;
   }
+  #product-main-{{ section.id }} .product-summary-card .product-description p{margin:0 0 1rem;}
+  #product-main-{{ section.id }} .product-summary-card .product-description p:last-child{margin-bottom:0;}
 
-  .product-reviews{
-    margin-top:2.5rem;
-    border:1px solid #e9ecef;
-    border-radius:12px;
-    background:#fff;
-    padding:2rem 1.75rem;
-  }
-  .product-reviews h2{
-    margin:0 0 1rem;
-    font-size:1.5rem;
-    font-weight:700;
-    color:#1f2937;
-  }
-  .product-reviews .rte{
-    color:#495057;
-    line-height:1.6;
-  }
+  #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid #e9ecef;}
+  #product-main-{{ section.id }} .product-highlights__title{margin:0 0 .75rem;font-size:.95rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#475569;}
+  #product-main-{{ section.id }} .product-highlights ul{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;}
+  #product-main-{{ section.id }} .product-highlights li{font-size:.97rem;color:#2c3a4b;line-height:1.55;}
 
-  /* Desktop refinements */
+  #product-main-{{ section.id }} .product-visible-details{display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem;}
+  #product-main-{{ section.id }} .product-detail-block{border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:1.5rem;}
+  #product-main-{{ section.id }} .product-detail-block h3,
+  #product-main-{{ section.id }} .product-detail-block h2{margin:0 0 .75rem;font-size:1.25rem;font-weight:700;color:#1f2937;}
+  #product-main-{{ section.id }} .product-detail-block .rte{color:#495057;line-height:1.6;}
+  #product-main-{{ section.id }} .meal-component{margin-bottom:1rem;}
+  #product-main-{{ section.id }} .meal-component:last-child{margin-bottom:0;}
+  #product-main-{{ section.id }} .meal-component strong{display:block;margin-bottom:.25rem;color:#212529;}
+  #product-main-{{ section.id }} .meal-component p{margin:0;color:#495057;line-height:1.5;}
+
+  #product-main-{{ section.id }} .product-reviews{margin-top:2.5rem;border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:2rem 1.75rem;}
+  #product-main-{{ section.id }} .product-reviews h2{margin:0 0 1rem;font-size:1.5rem;font-weight:700;color:#1f2937;}
+  #product-main-{{ section.id }} .product-reviews .rte{color:#495057;line-height:1.6;}
+
   @media (min-width:1024px){
-    .product-main__visuals-wrapper,.product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
-    .product-main__header,.product-main__gallery,.product-macros-block,.product-highlights,.product-description,.product-main__form,.product-visible-details,.product-reviews,#nutrition-container{order:initial;}
-    .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
-    .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
-    .product-main__info-column{grid-area:info;}
-    .product-main__title{font-size:2.25rem!important;}
-    .product-main__price.price--live{font-size:1.75rem;}
-    .macro-stat__value{font-size:1.25rem;}
-    .macro-stat__label{font-size:.75rem;}
+    #product-main-{{ section.id }} .product-main__visuals-wrapper,#product-main-{{ section.id }} .product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
+    #product-main-{{ section.id }} .product-main__header,#product-main-{{ section.id }} .product-main__gallery,#product-main-{{ section.id }} .product-macros-block,#product-main-{{ section.id }} .product-summary-card,#product-main-{{ section.id }} .product-main__form,#product-main-{{ section.id }} .product-visible-details,#product-main-{{ section.id }} .product-reviews,#product-main-{{ section.id }} #nutrition-container{order:initial;}
+    #product-main-{{ section.id }} .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
+    #product-main-{{ section.id }} .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
+    #product-main-{{ section.id }} .product-main__info-column{grid-area:info;}
+    #product-main-{{ section.id }} .product-main__title{font-size:2.25rem!important;}
+    #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.75rem;}
+    #product-main-{{ section.id }} .macro-stat__value{font-size:1.25rem;}
+    #product-main-{{ section.id }} .macro-stat__label{font-size:.75rem;}
+    #product-main-{{ section.id }} .product-summary-card{padding:2rem 2rem 1.75rem;}
   }
 
-  /* Mobile tweak */
   @media (max-width:1023px){
-    .product-main__price.price--live{font-size:1.5rem;}
+    #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.5rem;}
+    #product-main-{{ section.id }} .product-summary-card{padding:1.5rem;margin-inline:0.25rem;}
   }
 
-  /* Mobile alignment fix for title + price */
-@media (max-width: 767px) {
-  /* Give the whole header a shared gutter so children align */
-  .product-main__header {
-    padding-inline: 16px;
-    gap: 0.35rem; /* keep the tighter spacing */
-    align-items: stretch; /* let children span the header width */
+  @media (max-width:767px){
+    #product-main-{{ section.id }} .product-main__header{padding-inline:16px;gap:0.35rem;align-items:stretch;}
+    #product-main-{{ section.id }} .product-main__price{width:100%;max-width:none;margin:0;}
+    #product-main-{{ section.id }} .product-main__price.price--placeholder{padding:0.75rem 1rem;border-radius:10px;}
+    #product-main-{{ section.id }} .product-main__price.price--placeholder svg{width:22px;height:22px;margin-top:1px;flex:0 0 22px;}
+    #product-main-{{ section.id }} .placeholder-main-text{line-height:1.15;}
+    #product-main-{{ section.id }} .product-summary-card{margin-inline:0;padding:1.5rem 1.375rem;}
   }
-
-  /* Let the price block fill that header width and lose the desktop cap */
-  .product-main__price {
-    width: 100%;
-    max-width: none;    /* override the 380px cap */
-    margin: 0;          /* no accidental centering */
-  }
-
-  /* Keep the placeholder style but make it feel lighter/tighter on mobile */
-  .product-main__price.price--placeholder {
-    padding: 0.75rem 1rem;         /* slightly tighter inner padding */
-    border-radius: 10px;
-  }
-
-  /* Nudge icon/text rhythm so first text line visually aligns with title */
-  .product-main__price.price--placeholder svg {
-    width: 22px;
-    height: 22px;
-    margin-top: 1px;    /* small optical adjustment */
-    flex: 0 0 22px;
-  }
-
-  .placeholder-main-text {
-    line-height: 1.15;
-  }
-}
 
 </style>
 
-<div class="product-main" data-section-id="{{ section.id }}">
+<div id="product-main-{{ section.id }}" class="product-main" data-section-id="{{ section.id }}">
   <div class="product-main__layout">
     <div class="product-main__visuals-wrapper">
       <div class="product-main__gallery">
@@ -290,19 +235,9 @@
             {%- if macros.macros_sodium != blank -%}<div class="macro-stat macro-stat--sodium"><span class="macro-stat__value">{{ macros.macros_sodium }}mg</span><span class="macro-stat__label">Sodium</span></div>{%- endif -%}
           </div>
         {%- endif -%}
-        {%- assign ingredient_highlights = product.metafields.custom.ingredient_highlights -%}
-        {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
-          <div class="product-highlights">
-            <ul>
-              {%- for item in ingredient_highlights.value -%}
-                <li>{{ item }}</li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
         <div id="nutrition-container"></div>
       </div>
-    
+
     <div class="product-main__info-column">
       <div class="product-main__header">
         <h1 class="product-main__title">
@@ -322,7 +257,23 @@
           >{{ current_variant.price | money }}</span>
         </div>
       </div>
-      {%- if product.description != blank -%}<div class="product-description rte">{{ product.description }}</div>{%- endif -%}
+      {%- if product.description != blank or (ingredient_highlights and ingredient_highlights.value != blank) -%}
+        <div class="product-summary-card" role="region" aria-label="Product summary">
+          {%- if product.description != blank -%}
+            <div class="product-description rte">{{ product.description }}</div>
+          {%- endif -%}
+          {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
+            <div class="product-highlights">
+              <h3 class="product-highlights__title">Ingredient Highlights</h3>
+              <ul>
+                {%- for item in ingredient_highlights.value -%}
+                  <li>{{ item }}</li>
+                {%- endfor -%}
+              </ul>
+            </div>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
       {%- form 'product', product, class: 'product-main__form', data-product-form: '' -%}
         <div class="product-main__options">
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-variant-id>
