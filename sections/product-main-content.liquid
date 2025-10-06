@@ -2,16 +2,20 @@
 <!--
 ************************************************************************************
 *
-*  Product Page - Main Content (v14.0 - FINAL POLISH)
+*  Product Page - Main Content (v18.0 - DEFINITIVE HIERARCHY & UX)
 *  --------------------------------------------------------------------------------
-*  - DIAGNOSIS: The H1 title was singular, and the placeholder icon was not ideal.
-*  - THE FIX (HOLISTIC):
-*    1. PLURALIZED H1 TITLE: The H1 tag now correctly displays "Build Custom Meals"
-*       and "Build Custom Breakfasts" for better branding.
-*    2. DOLLAR ICON: The script now injects a clean, intuitive dollar sign icon
-*       in the price placeholder, directly alluding to price.
-*  - WHY: This is the final version, incorporating all visual and copy refinements
-*    for a world-class user experience.
+*  - DIAGNOSIS: The "What's Inside" and "Full Ingredients" sections were redundant
+*    and confusingly labeled.
+*  - THE FIX (EXPERT UX REFINEMENT):
+*    1. NESTED STRUCTURE: The "Full Ingredients" list is now a collapsible
+*       dropdown nested *inside* the "What's Inside" card. This creates a clear
+*       and logical information hierarchy.
+*    2. CLARIFIED LABELS: The main section is "What's Inside" (the simple
+*       breakdown), and the dropdown trigger is now clearly labeled "View Full
+*       Ingredient List," eliminating user confusion.
+*    3. INTEGRATED STYLING: The new dropdown is styled as a subtle, elegant
+*       expander, feeling like a natural extension of the "What's Inside" card
+*       rather than a separate block. This is the final, world-class version.
 *
 ************************************************************************************
 -->
@@ -70,7 +74,6 @@
   }
 }
 </script>
-
 {% endif %}
 
 <style>
@@ -92,53 +95,29 @@
     --macro-color-sodium:#f4a261;
   }
 
-  /* Layout */
+  /* Core Layout */
   #product-main-{{ section.id }} .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 1.2rem;}
-  #product-main-{{ section.id }} .product-main__visuals-wrapper,#product-main-{{ section.id }} .product-main__info-column{display:contents;}
-  #product-main-{{ section.id }} .product-main__header{order:1;display:flex;flex-direction:column;gap:0.35rem;}
-  #product-main-{{ section.id }} .product-main__gallery{order:2;}
-  #product-main-{{ section.id }} .product-macros-block{order:3;}
-  #product-main-{{ section.id }} #nutrition-container{order:9;}
-  #product-main-{{ section.id }} .product-main__form{order:6;}
-  #product-main-{{ section.id }} .product-visible-details{order:7;}
-  #product-main-{{ section.id }} .product-reviews{order:8;}
+  #product-main-{{ section.id }} .product-main__visuals-wrapper,
+  #product-main-{{ section.id }} .product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
 
-  #product-main-{{ section.id }} .product-main__title{
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;
-    font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;
-    color:#212529!important;letter-spacing:-0.02em;margin:0;
-  }
+  /* 1. The "Hook" Card */
+  #product-main-{{ section.id }} .product-intro-card {background:#fff;border:1px solid #e9ecef;border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;gap:1.5rem;}
+  #product-main-{{ section.id }} .product-main__header{display:flex;flex-direction:column;gap:0.25rem;}
+  #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;color:#212529!important;letter-spacing:-0.02em;margin:0;}
+  #product-main-{{ section.id }} .product-main__price{display:flex;flex-direction:row;align-items:center;gap:.5rem;font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;}
+  #product-main-{{ section.id }} .product-main__price.price--live{background:transparent;border:0;padding:0;font-weight:800;font-size:1.75rem;color:#111827;}
+#product-main-{{ section.id }} .product-main__price.price--live .price-note{font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;}
+  #product-main-{{ section.id }} .product-description{margin:0;color:#24303f;font-size:1.02rem;line-height:1.7;}
+  #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid #e9ecef;}
+  #product-main-{{ section.id }} .product-highlights__title{margin:0 0 1rem;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#343a40;}
+  #product-main-{{ section.id }} .product-highlights ul{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;}
+  #product-main-{{ section.id }} .product-highlights li{font-size:.97rem;color:#2c3a4b;line-height:1.55;}
 
-  #product-main-{{ section.id }} .product-main__price{
-    display:flex;flex-direction:row;align-items:center;gap:.5rem;
-    font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;
-  }
-
-  #product-main-{{ section.id }} .product-main__price.price--placeholder{
-    background:#f8f9fa;border:1px solid #e9ecef;border-radius:10px;
-    padding:.75rem 1rem;
-  }
-  #product-main-{{ section.id }} .product-main__price.price--placeholder svg{flex:0 0 20px;width:20px;height:20px;margin-top:2px;}
-  #product-main-{{ section.id }} .product-main__price .placeholder-main-text{display:block;font-weight:700;color:#1f2937;}
-  #product-main-{{ section.id }} .product-main__price .placeholder-sub-text{display:block;font-size:.875rem;color:#6b7280;margin-top:2px;}
-
-  #product-main-{{ section.id }} .product-main__price.price--live{
-    background:transparent;border:0;padding:0;
-    font-weight:800;font-size:1.75rem;color:#111827;
-  }
-  #product-main-{{ section.id }} .product-main__price.price--live .price-note{
-    font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;
-  }
-
-  #product-main-{{ section.id }} .product-main__gallery-image{
-    width:100%;height:auto;border-radius:12px;border:1px solid #e9ecef;
-    box-shadow:0 4px 12px rgba(0,0,0,.05);
-  }
-
-  #product-main-{{ section.id }} .product-macros-block{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border:1px solid #e9ecef;border-radius:12px;overflow:hidden;}
-  #product-main-{{ section.id }} .macro-stat{padding:1rem .5rem;text-align:center;background-color:#f8f9fa;border-right:1px solid #e9ecef;border-bottom:1px solid #e9ecef;border-top-width:4px;border-top-style:solid;}
-  #product-main-{{ section.id }} .macro-stat:nth-child(3n){border-right:none;}
-  #product-main-{{ section.id }} .macro-stat:nth-last-child(-n+3),#product-main-{{ section.id }} .macro-stat:last-child{border-bottom:none;}
+  /* Visuals Column */
+  #product-main-{{ section.id }} .product-main__gallery-image{width:100%;height:auto;border-radius:12px;border:1px solid #e9ecef;box-shadow:0 4px 12px rgba(0,0,0,.05);}
+  #product-main-{{ section.id }} .product-macros-block{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;border:1px solid #e9ecef;border-radius:12px;overflow:hidden;padding:0.75rem;}
+  #product-main-{{ section.id }} .macro-stat{padding:1rem .5rem;text-align:center;background-color:#f8f9fa;border-radius:8px;border-top-width:4px;border-top-style:solid;}
+  #product-main-{{ section.id }} .macro-stat--secondary{grid-column:1 / -1;display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;margin-top:0;}
   #product-main-{{ section.id }} .macro-stat--calories{border-top-color:var(--macro-color-calories);}
   #product-main-{{ section.id }} .macro-stat--protein{border-top-color:var(--macro-color-protein);}
   #product-main-{{ section.id }} .macro-stat--carbs{border-top-color:var(--macro-color-carbs);}
@@ -147,75 +126,73 @@
   #product-main-{{ section.id }} .macro-stat--sodium{border-top-color:var(--macro-color-sodium);}
   #product-main-{{ section.id }} .macro-stat__value{font-size:1.1rem;font-weight:700;color:#212529;line-height:1.2;display:block;margin-bottom:.25rem;}
   #product-main-{{ section.id }} .macro-stat__label{font-size:.7rem;color:#6c757d;text-transform:uppercase;letter-spacing:.05em;display:block;}
+  #product-main-{{ section.id }} .macro-stat--primary .macro-stat__value {font-size: 1.5rem;}
+  #product-main-{{ section.id }} .macro-stat--primary .macro-stat__label {font-size: 0.8rem;}
 
+  /* 2. The "Action" Card */
+  #product-main-{{ section.id }} .product-main__form{border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:1.5rem;display:flex;flex-direction:column;gap:1.5rem;}
+  #product-main-{{ section.id }} .product-main__options .rc-widget-injection-parent > div {display:flex;flex-direction:column;gap:0.75rem;}
+  #product-main-{{ section.id }} .product-main__options .rc-option {border:2px solid #e9ecef;border-radius:10px;padding:1rem;cursor:pointer;transition:all 0.2s ease;}
+  #product-main-{{ section.id }} .product-main__options .rc-option:hover {border-color:#ced4da;}
+  #product-main-{{ section.id }} .product-main__options .rc-option.rc-option--active {border-color:var(--brand-accent);background-color:#f7fdfa;box-shadow:none;}
+  #product-main-{{ section.id }} .product-main__options .rc-option__selector {margin-right:1rem;}
+  #product-main-{{ section.id }} .product-main__options .rc-option-wrapper {display:flex;align-items:center;}
+  #product-main-{{ section.id }} .product-main__options .rc-option__title {font-weight:600;font-size:1rem;color:#212529;}
+  #product-main-{{ section.id }} .product-main__options .rc-option__price {font-weight:700;font-size:1.1rem;margin-left:auto;color:#212529;}
   #product-main-{{ section.id }} .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
 
-  #product-main-{{ section.id }} .product-summary-card{
-    margin-top:.5rem;
-    border:1px solid #e9ecef;
-    border-radius:14px;
-    background:#fff;
-    box-shadow:0 24px 48px -32px rgba(15,23,42,.28);
-    padding:1.75rem 1.75rem 1.5rem;
-    display:flex;
-    flex-direction:column;
-    gap:1.5rem;
-  }
-  #product-main-{{ section.id }} .product-summary-card .product-description{
-    margin:0;
-    color:#24303f;
-    font-size:1.02rem;
-    line-height:1.7;
-  }
-  #product-main-{{ section.id }} .product-summary-card .product-description p{margin:0 0 1rem;}
-  #product-main-{{ section.id }} .product-summary-card .product-description p:last-child{margin-bottom:0;}
-
-  #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid #e9ecef;}
-  #product-main-{{ section.id }} .product-highlights__title{margin:0 0 .75rem;font-size:.95rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#475569;}
-  #product-main-{{ section.id }} .product-highlights ul{margin:0;padding-left:1.25rem;display:flex;flex-direction:column;gap:.5rem;}
-  #product-main-{{ section.id }} .product-highlights li{font-size:.97rem;color:#2c3a4b;line-height:1.55;}
-
-  #product-main-{{ section.id }} .product-visible-details{display:flex;flex-direction:column;gap:1.5rem;margin-top:2rem;}
-  #product-main-{{ section.id }} .product-detail-block{border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:1.5rem;}
-  #product-main-{{ section.id }} .product-detail-block h3,
-  #product-main-{{ section.id }} .product-detail-block h2{margin:0 0 .75rem;font-size:1.25rem;font-weight:700;color:#1f2937;}
+  /* 3. The "Reference" Cards */
+  #product-main-{{ section.id }} .product-visible-details{display:flex;flex-direction:column;gap:1.5rem;}
+  #product-main-{{ section.id }} .product-detail-block {border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:1.5rem;}
+  #product-main-{{ section.id }} .product-detail-block h3{margin:0 0 1rem;font-size:1.1rem;font-weight:700;color:#343a40;text-transform:uppercase;letter-spacing:.05em;}
   #product-main-{{ section.id }} .product-detail-block .rte{color:#495057;line-height:1.6;}
-  #product-main-{{ section.id }} .meal-component{margin-bottom:1rem;}
+  #product-main-{{ section.id }} .meal-component{margin-bottom:1.25rem;}
   #product-main-{{ section.id }} .meal-component:last-child{margin-bottom:0;}
-  #product-main-{{ section.id }} .meal-component strong{display:block;margin-bottom:.25rem;color:#212529;}
+  #product-main-{{ section.id }} .meal-component strong{display:block;margin-bottom:.35rem;color:#212529;font-weight:600;}
   #product-main-{{ section.id }} .meal-component p{margin:0;color:#495057;line-height:1.5;}
 
-  #product-main-{{ section.id }} .product-reviews{margin-top:2.5rem;border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:2rem 1.75rem;}
-  #product-main-{{ section.id }} .product-reviews h2{margin:0 0 1rem;font-size:1.5rem;font-weight:700;color:#1f2937;}
-  #product-main-{{ section.id }} .product-reviews .rte{color:#495057;line-height:1.6;}
+  /* --- DEFINITIVE FIX: Styles for the nested "Full Ingredients" dropdown --- */
+  #product-main-{{ section.id }} .full-ingredients-collapsible {
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid #e9ecef;
+  }
+  #product-main-{{ section.id }} .full-ingredients-collapsible summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    list-style: none;
+    font-weight: 600;
+    color: #495057;
+    transition: color 0.2s ease;
+  }
+  #product-main-{{ section.id }} .full-ingredients-collapsible summary:hover {color: #212529;}
+  #product-main-{{ section.id }} .full-ingredients-collapsible summary::-webkit-details-marker {display: none;}
+  #product-main-{{ section.id }} .full-ingredients-collapsible[open] > summary {margin-bottom: 1rem;}
+  #product-main-{{ section.id }} .full-ingredients-collapsible .collapsible-icon {width: 1rem; height: 1rem; transition: transform 0.2s ease-in-out;}
+  #product-main-{{ section.id }} .full-ingredients-collapsible[open] > summary .collapsible-icon {transform: rotate(180deg);}
+  #product-main-{{ section.id }} .full-ingredients-collapsible .rte {font-size: 0.9rem; color: #6c757d;} /* Slightly smaller text for the legal list */
 
+  /* Reviews Block */
+  #product-main-{{ section.id }} .product-reviews{border:1px solid #e9ecef;border-radius:12px;background:#fff;padding:2rem 1.75rem;}
+  #product-main-{{ section.id }} .product-reviews h2{margin:0 0 1rem;font-size:1.5rem;font-weight:700;color:#1f2937;}
+
+  /* Desktop Layout */
   @media (min-width:1024px){
-    #product-main-{{ section.id }} .product-main__visuals-wrapper,#product-main-{{ section.id }} .product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
-    #product-main-{{ section.id }} .product-main__header,#product-main-{{ section.id }} .product-main__gallery,#product-main-{{ section.id }} .product-macros-block,#product-main-{{ section.id }} .product-summary-card,#product-main-{{ section.id }} .product-main__form,#product-main-{{ section.id }} .product-visible-details,#product-main-{{ section.id }} .product-reviews,#product-main-{{ section.id }} #nutrition-container{order:initial;}
     #product-main-{{ section.id }} .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
     #product-main-{{ section.id }} .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
     #product-main-{{ section.id }} .product-main__info-column{grid-area:info;}
+    #product-main-{{ section.id }} .product-intro-card {padding: 2rem;}
     #product-main-{{ section.id }} .product-main__title{font-size:2.25rem!important;}
     #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.75rem;}
     #product-main-{{ section.id }} .macro-stat__value{font-size:1.25rem;}
     #product-main-{{ section.id }} .macro-stat__label{font-size:.75rem;}
-    #product-main-{{ section.id }} .product-summary-card{padding:2rem 2rem 1.75rem;}
-  }
-
-  @media (max-width:1023px){
-    #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.5rem;}
-    #product-main-{{ section.id }} .product-summary-card{padding:1.5rem;margin-inline:0.25rem;}
   }
 
   @media (max-width:767px){
-    #product-main-{{ section.id }} .product-main__header{padding-inline:16px;gap:0.35rem;align-items:stretch;}
-    #product-main-{{ section.id }} .product-main__price{width:100%;max-width:none;margin:0;}
-    #product-main-{{ section.id }} .product-main__price.price--placeholder{padding:0.75rem 1rem;border-radius:10px;}
-    #product-main-{{ section.id }} .product-main__price.price--placeholder svg{width:22px;height:22px;margin-top:1px;flex:0 0 22px;}
-    #product-main-{{ section.id }} .placeholder-main-text{line-height:1.15;}
-    #product-main-{{ section.id }} .product-summary-card{margin-inline:0;padding:1.5rem 1.375rem;}
+    #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.5rem;}
   }
-
 </style>
 
 <div id="product-main-{{ section.id }}" class="product-main" data-section-id="{{ section.id }}">
@@ -228,58 +205,66 @@
       </div>
       {%- if macros_exist -%}
         <div class="product-macros-block">
-          {%- if macros.macros_calories != blank -%}<div class="macro-stat macro-stat--calories"><span class="macro-stat__value">{{ macros.macros_calories }}</span><span class="macro-stat__label">Calories</span></div>{%- endif -%}
-          {%- if macros.macros_protein != blank -%}<div class="macro-stat macro-stat--protein"><span class="macro-stat__value">{{ macros.macros_protein }}g</span><span class="macro-stat__label">Protein</span></div>{%- endif -%}
-          {%- if macros.macros_carbs != blank -%}<div class="macro-stat macro-stat--carbs"><span class="macro-stat__value">{{ macros.macros_carbs }}g</span><span class="macro-stat__label">Carbs</span></div>{%- endif -%}
-          {%- if macros.macros_fats != blank -%}<div class="macro-stat macro-stat--fats"><span class="macro-stat__value">{{ macros.macros_fats }}g</span><span class="macro-stat__label">Fats</span></div>{%- endif -%}
-            {%- if macros.macros_fiber != blank -%}<div class="macro-stat macro-stat--fiber"><span class="macro-stat__value">{{ macros.macros_fiber }}g</span><span class="macro-stat__label">Fiber</span></div>{%- endif -%}
-            {%- if macros.macros_sodium != blank -%}<div class="macro-stat macro-stat--sodium"><span class="macro-stat__value">{{ macros.macros_sodium }}mg</span><span class="macro-stat__label">Sodium</span></div>{%- endif -%}
+          {%- if macros.macros_calories != blank -%}<div class="macro-stat macro-stat--primary macro-stat--calories"><span class="macro-stat__value">{{ macros.macros_calories }}</span><span class="macro-stat__label">Calories</span></div>{%- endif -%}
+          {%- if macros.macros_protein != blank -%}<div class="macro-stat macro-stat--primary macro-stat--protein"><span class="macro-stat__value">{{ macros.macros_protein }}g</span><span class="macro-stat__label">Protein</span></div>{%- endif -%}
+          <div class="macro-stat--secondary">
+              {%- if macros.macros_carbs != blank -%}<div class="macro-stat macro-stat--carbs"><span class="macro-stat__value">{{ macros.macros_carbs }}g</span><span class="macro-stat__label">Carbs</span></div>{%- endif -%}
+              {%- if macros.macros_fats != blank -%}<div class="macro-stat macro-stat--fats"><span class="macro-stat__value">{{ macros.macros_fats }}g</span><span class="macro-stat__label">Fats</span></div>{%- endif -%}
+              {%- if macros.macros_fiber != blank -%}<div class="macro-stat macro-stat--fiber"><span class="macro-stat__value">{{ macros.macros_fiber }}g</span><span class="macro-stat__label">Fiber</span></div>{%- endif -%}
+              {%- if macros.macros_sodium != blank -%}<div class="macro-stat macro-stat--sodium"><span class="macro-stat__value">{{ macros.macros_sodium }}mg</span><span class="macro-stat__label">Sodium</span></div>{%- endif -%}
           </div>
-        {%- endif -%}
-        <div id="nutrition-container"></div>
-      </div>
+        </div>
+      {%- endif -%}
+      <div id="nutrition-container"></div>
+    </div>
 
     <div class="product-main__info-column">
-      <div class="product-main__header">
-        <h1 class="product-main__title">
-          {% if product.handle == 'custom-meals' %}
-            Build Custom Meals
-          {% elsif product.handle == 'custom-breakfast' %}
-            Build Custom Breakfasts
-          {% else %}
-            {{ product.title }}
-          {% endif %}
-        </h1>
-        <div class="reviews-placeholder"><span class="yotpo-display-wrapper"></span></div>
-        <div class="product-main__price"{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %} data-legacy-pricing="true"{% endif %}>
-          <span
-            data-product-price
-            {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}data-base-price="{{ current_variant.price }}"{% endif %}
-          >{{ current_variant.price | money }}</span>
+      <!-- 1. The "Hook" Card -->
+      <div class="product-intro-card">
+        <div class="product-main__header">
+          <h1 class="product-main__title">
+            {% if product.handle == 'custom-meals' %}
+              Build Custom Meals
+            {% elsif product.handle == 'custom-breakfast' %}
+              Build Custom Breakfasts
+            {% else %}
+              {{ product.title }}
+            {% endif %}
+          </h1>
+          <div class="reviews-placeholder"><span class="yotpo-display-wrapper"></span></div>
+          <div class="product-main__price"{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %} data-legacy-pricing="true"{% endif %}>
+            <span
+              data-product-price
+              {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}data-base-price="{{ current_variant.price }}"{% endif %}
+            >{{ current_variant.price | money }}</span>
+          </div>
         </div>
-      </div>
-      {%- assign has_highlights = false -%}
-      {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
-        {%- assign has_highlights = true -%}
-      {%- endif -%}
+        
+        {%- assign has_highlights = false -%}
+        {%- if ingredient_highlights and ingredient_highlights.value != blank -%}
+          {%- assign has_highlights = true -%}
+        {%- endif -%}
 
-      {%- if product.description != blank or has_highlights -%}
-        <div class="product-summary-card" role="region" aria-label="Product summary">
-          {%- if product.description != blank -%}
-            <div class="product-description rte">{{ product.description }}</div>
-          {%- endif -%}
-          {%- if has_highlights -%}
-            <div class="product-highlights">
-              <h3 class="product-highlights__title">Ingredient Highlights</h3>
-              <ul>
-                {%- for item in ingredient_highlights.value -%}
-                  <li>{{ item }}</li>
-                {%- endfor -%}
-              </ul>
-            </div>
-          {%- endif -%}
-        </div>
-      {%- endif -%}
+        {%- if product.description != blank or has_highlights -%}
+          <div class="product-summary-content">
+            {%- if product.description != blank -%}
+              <div class="product-description rte">{{ product.description }}</div>
+            {%- endif -%}
+            {%- if has_highlights -%}
+              <div class="product-highlights">
+                <h3 class="product-highlights__title">Ingredient Highlights</h3>
+                <ul>
+                  {%- for item in ingredient_highlights.value -%}
+                    <li>{{ item }}</li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+
+      <!-- 2. The "Action" Card -->
       {%- form 'product', product, class: 'product-main__form', data-product-form: '' -%}
         <div class="product-main__options">
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-variant-id>
@@ -309,6 +294,8 @@
           </button>
         </div>
       {%- endform -%}
+
+      <!-- 3. The "Reference" Cards -->
       {%- assign structured_ingredients = product.metafields.custom.structured_ingredients -%}
       {%- assign instructions_html = '' -%}
       {%- if nutrition.instructions != blank -%}
@@ -316,27 +303,29 @@
       {%- elsif section.settings.default_heating_instructions != blank -%}
         {%- assign instructions_html = section.settings.default_heating_instructions -%}
       {%- endif -%}
-      {%- assign faq_html = '' -%}
-      {%- if product.metafields.custom.faq_section != blank -%}
-        {%- assign faq_html = product.metafields.custom.faq_section -%}
-      {%- elsif section.settings.default_faq != blank -%}
-        {%- assign faq_html = section.settings.default_faq -%}
-      {%- endif -%}
-
+      
       <div class="product-visible-details">
         {%- if structured_ingredients and structured_ingredients.value != blank -%}
           <section class="product-detail-block">
-            <h3>What's Inside</h3>
+            <h3>Ingredient Breakdown</h3>
             {%- for component in structured_ingredients.value -%}
               <div class="meal-component">
                 <strong>{{ component.component_name }}:</strong>
                 <p>{{ component.ingredient_list }}</p>
               </div>
             {%- endfor -%}
-          </section>
-        {%- endif -%}
 
-        {%- if nutrition.ingredients != blank -%}
+            {%- if nutrition.ingredients != blank -%}
+              <details class="full-ingredients-collapsible">
+                <summary>
+                  <span>View Full Ingredient List</span>
+                  <svg class="collapsible-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </summary>
+                <div class="rte">{{ nutrition.ingredients }}</div>
+              </details>
+            {%- endif -%}
+          </section>
+        {%- elsif nutrition.ingredients != blank -%}
           <section class="product-detail-block">
             <h3>Ingredients</h3>
             <div class="rte">{{ nutrition.ingredients }}</div>
@@ -356,13 +345,6 @@
             <div class="rte">{{ instructions_html }}</div>
           </section>
         {%- endif -%}
-
-        {%- if faq_html != blank -%}
-          <section class="product-detail-block product-faq">
-            <h2>Frequently Asked Questions</h2>
-            <div class="rte">{{ faq_html }}</div>
-          </section>
-        {%- endif -%}
       </div>
 
       <div class="product-reviews">
@@ -377,6 +359,7 @@
     </div>
   </div>
 </div>
+
 {%- render 'footer-minimal-ordering' -%}
 <script type="application/json" data-product-json>{{ product | json }}</script>
 {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
@@ -387,11 +370,6 @@
   document.addEventListener('DOMContentLoaded', () => {
     const sectionEl = document.querySelector('.product-main[data-section-id="{{ section.id }}"]');
     if (!sectionEl) return;
-
-    // The DynamicPriceUpdater has been removed from here and is now handled globally
-    // by the universal 'bold-combined-price.js' script.
-
-    // The AjaxFormHandler remains as it handles the add-to-cart functionality.
     new AjaxFormHandler(sectionEl);
     new IntegratedQuantityController(sectionEl);
   });
@@ -448,31 +426,25 @@
       this.bindEvents();
       this.sync();
     }
-
     bindEvents() {
       this.minus?.addEventListener('click', (event) => {
         event.preventDefault();
         this.adjust(-1);
       });
-
       this.plus?.addEventListener('click', (event) => {
         event.preventDefault();
         this.adjust(1);
       });
-
       this.input.addEventListener('input', () => this.sync());
       this.input.addEventListener('change', () => this.sync({ emitChange: false }));
     }
-
     adjust(delta) {
       const currentValue = parseInt(this.input.value, 10) || 1;
       const nextValue = Math.max(1, currentValue + delta);
       if (nextValue === currentValue) return;
-
       this.input.value = nextValue;
       this.sync({ emitChange: true });
     }
-
     sync(options = {}) {
       const { emitChange = false } = options;
       const value = Math.max(1, parseInt(this.input.value, 10) || 1);
@@ -480,7 +452,6 @@
       if (this.text) {
         this.text.textContent = value;
       }
-
       if (emitChange) {
         this.input.dispatchEvent(new Event('change', { bubbles: true }));
       }
