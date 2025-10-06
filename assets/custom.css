@@ -569,6 +569,7 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   .mobile-controls__icon { width: 20px; height: 20px; flex-shrink: 0; color: var(--brand-text); }
   .mobile-controls__chevron { width: 20px; height: 20px; flex-shrink: 0; color: #adb5bd; }
   .mobile-controls__label { flex-grow: 1; }
+
   
   /* --- WORLD-CLASS MOBILE MENU V8.0 --- */
   .collection-selector { position: static; }
@@ -4244,3 +4245,24 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
 .pad-safe-bottom {
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
 }
+
+/* ==========================================================================
+   PRODUCT DETAIL PAGE - SCROLL CONTAINER FIX (DESKTOP & MOBILE)
+   Ensures product pages use the document scroll instead of a nested panel,
+   preventing bounce/overscroll artifacts and stray blank space.
+   ========================================================================== */
+body.template-product .collection-page__layout {
+  height: auto;
+  min-height: 0;
+}
+
+body.template-product .collection-page__main {
+  height: auto;
+  overflow: visible;
+}
+
+body.template-product .collection-page__sidebar {
+  height: auto;
+  overflow: visible;
+}
+
