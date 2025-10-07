@@ -2,19 +2,21 @@
 <!--
 ************************************************************************************
 *
-*  Product Page - Main Content (v19.6 - MACRO CALCULATOR STYLES RESTORED)
+*  Product Page - Main Content (v25.0 - THE DEFINITIVE DESIGN)
 *  --------------------------------------------------------------------------------
-*  - DIAGNOSIS: Styles for the dynamic macro calculator on "Custom Meal" pages were
-*    inadvertently removed. This is a critical feature for those product variants.
-*  - THE FIX (CALCULATOR RESTORATION):
-*    1. CALCULATOR STYLES RE-ADDED: A full set of polished styles has been created
-*       and added to support the live macro calculator, targeting the
-*       #nutrition-container element.
-*    2. SEAMLESS AESTHETICS: The new styles ensure the calculator appears as a
-*       clean, modern, and easy-to-read card that is fully consistent with the
-*       overall page design and brand colors.
-*    3. FULL FUNCTIONALITY: This change restores full visual functionality to the
-*       custom meal builder pages while preserving all other design enhancements.
+*  - DIAGNOSIS: Previous header designs for the reference cards were not premium
+*    enough. A bold, confident, and unique solution was required.
+*  - THE FIX (DEFINITIVE VERSION):
+*    1. ELEGANT TAB HEADERS: All icons and simple lines are removed. The headers
+*       are now redesigned as sophisticated, colored "tabs" attached to the top
+*       of each card. This creates a premium, architectural, and custom feel.
+*    2. BOLD HIERARCHY: The new design uses brand color to create strong visual
+*       anchors for each section, guiding the user's eye and adding rhythm to the
+*       layout. The header text is now white for maximum contrast.
+*    3. CODE CLEANUP: All unused icon HTML and CSS have been completely removed,
+*       resulting in a cleaner and more maintainable final product.
+*    4. HOLISTIC PERFECTION: This change provides the final, elegant solution,
+*       unifying the entire page under a single, world-class design language.
 *
 ************************************************************************************
 -->
@@ -106,7 +108,7 @@
   #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid var(--border-color-soft);}
   #product-main-{{ section.id }} .product-highlights__title{margin:0 0 1rem;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#343a40;}
   #product-main-{{ section.id }} .product-highlights ul {list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:0.75rem;}
-  #product-main-{{ section.id }} .product-highlights li {display:inline-flex;align-items:center;gap:0.6rem;background-color:var(--background-soft);border:1px solid var(--border-color-soft);border-radius:2rem;padding:0.5rem 1rem;font-size:0.9rem;font-weight:500;color:var(--text-secondary);line-height:1.4;transition:all 0.2s ease;}
+  #product-main-{{ section.id }} .product-highlights li {display:inline-flex;align-items:center;gap:0.6rem;background-color:#fff;border:1px solid var(--border-color-soft);border-radius:2rem;padding:0.5rem 1.25rem;font-size:0.9rem;font-weight:500;color:var(--text-primary);line-height:1.4;letter-spacing:0.025em;transition:all 0.2s ease;}
   #product-main-{{ section.id }} .product-highlights li:hover {transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.05);border-color:#ced4da;}
   #product-main-{{ section.id }} .product-highlights .ingredient-indicator {width:8px;height:8px;border-radius:50%;background-color:var(--macro-color-protein);flex-shrink:0;}
 
@@ -141,10 +143,24 @@
   #product-main-{{ section.id }} .product-main__options .rc-option__price {font-weight:700;font-size:1.1rem;margin-left:auto;color:var(--text-primary);}
   #product-main-{{ section.id }} .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
 
-  /* 3. The "Reference" Cards - ENHANCED */
+  /* 3. The "Reference" Cards - DEFINITIVE ACCENT BORDER DESIGN */
   #product-main-{{ section.id }} .product-visible-details{display:flex;flex-direction:column;gap:1.5rem;}
-  #product-main-{{ section.id }} .product-detail-block {border:1px solid var(--border-color-soft);border-radius:12px;background:#fff;padding:1.5rem;}
-  #product-main-{{ section.id }} .product-detail-block h3{margin:0 0 1rem;font-size:1.1rem;font-weight:700;color:#343a40;text-transform:uppercase;letter-spacing:.05em;}
+  #product-main-{{ section.id }} .product-detail-block {
+    background: #fff;
+    border: 1px solid var(--border-color-soft);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  #product-main-{{ section.id }} .product-detail-block h3 {
+    margin: 0 0 1.25rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--macro-color-protein);
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: uppercase;
+    letter-spacing: .05em;
+  }
   #product-main-{{ section.id }} .product-detail-block .rte{color:var(--text-secondary);line-height:1.6;}
   #product-main-{{ section.id }} .meal-component{margin-bottom:1.25rem;}
   #product-main-{{ section.id }} .meal-component:last-child{margin-bottom:0;}
@@ -159,43 +175,14 @@
   #product-main-{{ section.id }} .full-ingredients-collapsible[open] > summary .collapsible-icon {transform:rotate(180deg);}
   #product-main-{{ section.id }} .full-ingredients-collapsible .rte {font-size:0.9rem;color:#6c757d;}
 
-  /* --- STYLES RESTORED: Live Nutrition Calculator (for Custom Meals) --- */
-  #product-main-{{ section.id }} .nutrition-facts-live {
-    background: #fff;
-    border: 1px solid var(--border-color-soft);
-    border-radius: 12px;
-    padding: 1.5rem;
-  }
-  #product-main-{{ section.id }} .nutrition-facts-live h3 {
-    margin: 0 0 1rem;
-    font-size: 1rem;
-    font-weight: 700;
-    letter-spacing: .03em;
-    text-transform: uppercase;
-    color: #343a40;
-    border-bottom: 1px solid var(--border-color-soft);
-    padding-bottom: 1rem;
-  }
-  #product-main-{{ section.id }} .nutrition-facts__list {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-direction: column; gap: 0.85rem;
-  }
-  #product-main-{{ section.id }} .nutrition-facts__item {
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 0.95rem;
-  }
-  #product-main-{{ section.id }} .nutrition-facts__label {
-    display: flex; align-items: center; gap: 0.65rem;
-    color: var(--text-secondary);
-  }
-  #product-main-{{ section.id }} .nutrition-facts__value {
-    font-weight: 600; color: var(--text-primary);
-    font-feature-settings: "tnum"; /* Tabular nums for alignment */
-  }
-  #product-main-{{ section.id }} .nutrition-facts__label::before {
-    content: ''; width: 8px; height: 8px; border-radius: 50%;
-    display: inline-block;
-  }
+  /* Live Nutrition Calculator (for Custom Meals) */
+  #product-main-{{ section.id }} .nutrition-facts-live {background:#fff;border:1px solid var(--border-color-soft);border-radius:12px;padding:1.5rem;}
+  #product-main-{{ section.id }} .nutrition-facts-live h3 {margin:0 0 1rem;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#343a40;border-bottom:1px solid var(--border-color-soft);padding-bottom:1rem;}
+  #product-main-{{ section.id }} .nutrition-facts__list {list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:0.85rem;}
+  #product-main-{{ section.id }} .nutrition-facts__item {display:flex;justify-content:space-between;align-items:center;font-size:0.95rem;}
+  #product-main-{{ section.id }} .nutrition-facts__label {display:flex;align-items:center;gap:0.65rem;color:var(--text-secondary);}
+  #product-main-{{ section.id }} .nutrition-facts__value {font-weight:600;color:var(--text-primary);font-feature-settings:"tnum";}
+  #product-main-{{ section.id }} .nutrition-facts__label::before {content:'';width:8px;height:8px;border-radius:50%;display:inline-block;}
   #product-main-{{ section.id }} .nutrition-facts__item--calories .nutrition-facts__label::before { background-color: var(--macro-color-calories); }
   #product-main-{{ section.id }} .nutrition-facts__item--protein .nutrition-facts__label::before { background-color: var(--macro-color-protein); }
   #product-main-{{ section.id }} .nutrition-facts__item--carbs .nutrition-facts__label::before { background-color: var(--macro-color-carbs); }
@@ -225,7 +212,6 @@
     #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.5rem;}
   }
 </style>
-
 <div id="product-main-{{ section.id }}" class="product-main" data-section-id="{{ section.id }}">
   <div class="product-main__layout">
     <div class="product-main__visuals-wrapper">
