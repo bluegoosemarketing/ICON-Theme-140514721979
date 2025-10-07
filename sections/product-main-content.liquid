@@ -381,7 +381,7 @@
   </div>
 </div>
 
-{%- section 'product-reviews-fullwidth' -%}
+{%- render 'product-reviews-fullwidth', heading: section.settings.reviews_heading, boxed_container: section.settings.reviews_boxed_container -%}
 {%- render 'footer-minimal-ordering' -%}
 <script type="application/json" data-product-json>{{ product | json }}</script>
 {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
@@ -565,6 +565,18 @@
       "type": "richtext",
       "id": "default_faq",
       "label": "Default FAQ content"
+    },
+    {
+      "type": "text",
+      "id": "reviews_heading",
+      "label": "Reviews heading",
+      "default": "Customer Reviews"
+    },
+    {
+      "type": "checkbox",
+      "id": "reviews_boxed_container",
+      "label": "Box reviews content",
+      "default": true
     }
   ],
   "blocks": [
