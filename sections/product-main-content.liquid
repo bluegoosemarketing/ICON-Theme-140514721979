@@ -251,14 +251,14 @@
             {% endif %}
           </h1>
           <div
-            class="yotpo bottomLine"
+            class="yotpo bottomLine product-review-stars"
             data-product-id="{{ product.id }}"
             data-name="{{ product.title | escape }}"
             data-url="{{ shop.url }}{{ product.url }}"
             {% if product.featured_image %}
               data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
             {% endif %}
-            data-description="{{ product.description | strip_html | escape }}"
+            data-description="{{ product.description | strip_html | truncate: 300 | escape }}"
           ></div>
           <div class="product-main__price"{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %} data-legacy-pricing="true"{% endif %}>
             <span
@@ -386,6 +386,85 @@
 {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
   <script src="{{ 'legacy-dynamic-price.js' | asset_url }}" defer></script>
 {% endif %}
+
+<script>
+(function() {
+  let hasRefreshed = false;
+
+  const refreshWidgets = (force = false) => {
+    if (!window.Yotpo || typeof window.Yotpo.refreshWidgets !== 'function') return;
+    if (hasRefreshed && !force) return;
+    window.Yotpo.refreshWidgets();
+    hasRefreshed = true;
+  };
+
+  const ensureAnchor = () => {
+    const widget = document.querySelector('.yotpo-main-widget, .yotpo.yotpo-main-widget');
+    const existingAnchor = document.getElementById('yotpo-main-widget');
+
+    if (widget) {
+      if (!widget.id) {
+        widget.id = 'yotpo-main-widget';
+      }
+
+      if (existingAnchor && existingAnchor !== widget) {
+        existingAnchor.removeAttribute('id');
+      }
+
+      refreshWidgets();
+      return;
+    }
+
+    if (!existingAnchor) {
+      const anchor = document.createElement('a');
+      anchor.id = 'yotpo-main-widget';
+      anchor.setAttribute('aria-hidden', 'true');
+      anchor.style.display = 'block';
+      anchor.style.position = 'relative';
+      anchor.style.height = '0';
+      const mount = document.querySelector('.product-main-content-section') || document.body;
+      mount.appendChild(anchor);
+    }
+  };
+
+  const wireSmoothScroll = () => {
+    document.addEventListener(
+      'click',
+      function(e) {
+        const link = e.target.closest('.yotpo.bottomLine a[href^="#"]');
+        if (!link) return;
+        const id = link.getAttribute('href');
+        const target = document.querySelector(id);
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      },
+      { passive: false }
+    );
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', ensureAnchor, { once: true });
+  } else {
+    ensureAnchor();
+  }
+
+  document.addEventListener('shopify:section:load', () => {
+    hasRefreshed = false;
+    ensureAnchor();
+    refreshWidgets(true);
+  });
+  let tries = 0;
+  const interval = setInterval(() => {
+    ensureAnchor();
+    if (++tries > 20) clearInterval(interval);
+  }, 300);
+
+  wireSmoothScroll();
+  document.addEventListener('yotpo:widgetLoaded', ensureAnchor);
+})();
+</script>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
