@@ -2,19 +2,19 @@
 <!--
 ************************************************************************************
 *
-*  Product Page - Main Content (v19.4 - FINAL UX REFINEMENT)
+*  Product Page - Main Content (v19.6 - MACRO CALCULATOR STYLES RESTORED)
 *  --------------------------------------------------------------------------------
-*  - DIAGNOSIS: The "check" icon on ingredient pills, while stylistic, carried
-*    unintended psychological implications of interactivity or choice.
-*  - THE FIX (FINAL REFINEMENT):
-*    1. REPLACED ICON: The checkmark icon has been replaced with a small, solid,
-*       brand-colored circle. This acts as a purely decorative and informational
-*       indicator, removing any subconscious user confusion.
-*    2. ENHANCED PSYCHOLOGY: The new indicator serves as a modern bullet point,
-*       denoting inclusion without implying action, which is the correct UX pattern.
-*    3. WORLD-CLASS POLISH: This final, subtle change completes the design,
-*       ensuring every element is deliberate, aesthetically pleasing, and
-*       psychologically sound. All other layouts and styles are preserved.
+*  - DIAGNOSIS: Styles for the dynamic macro calculator on "Custom Meal" pages were
+*    inadvertently removed. This is a critical feature for those product variants.
+*  - THE FIX (CALCULATOR RESTORATION):
+*    1. CALCULATOR STYLES RE-ADDED: A full set of polished styles has been created
+*       and added to support the live macro calculator, targeting the
+*       #nutrition-container element.
+*    2. SEAMLESS AESTHETICS: The new styles ensure the calculator appears as a
+*       clean, modern, and easy-to-read card that is fully consistent with the
+*       overall page design and brand colors.
+*    3. FULL FUNCTIONALITY: This change restores full visual functionality to the
+*       custom meal builder pages while preserving all other design enhancements.
 *
 ************************************************************************************
 -->
@@ -100,41 +100,15 @@
   #product-main-{{ section.id }} .product-main__header{display:flex;flex-direction:column;gap:0.25rem;}
   #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;color:var(--text-primary)!important;letter-spacing:-0.02em;margin:0;}
   #product-main-{{ section.id }} .product-main__price{display:flex;flex-direction:row;align-items:center;gap:.5rem;font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;}
+  #product-main-{{ section.id }} .product-main__price.price--live{background:transparent;border:0;padding:0;font-weight:800;font-size:1.75rem;color:#111827;}
+  #product-main-{{ section.id }} .product-main__price.price--live .price-note{font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;}
   #product-main-{{ section.id }} .product-description{margin:0;color:#24303f;font-size:1.02rem;line-height:1.7;}
   #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid var(--border-color-soft);}
   #product-main-{{ section.id }} .product-highlights__title{margin:0 0 1rem;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#343a40;}
-  /* FINAL INGREDIENT PILL STYLES */
-  #product-main-{{ section.id }} .product-highlights ul {
-    list-style: none; padding: 0; margin: 0;
-    display: flex; flex-wrap: wrap; gap: 0.75rem;
-  }
-  #product-main-{{ section.id }} .product-highlights li {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.6rem;
-    background-color: var(--background-soft);
-    border: 1px solid var(--border-color-soft);
-    border-radius: 2rem;
-    padding: 0.5rem 1rem;
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--text-secondary);
-    line-height: 1.4;
-    transition: all 0.2s ease;
-  }
-  #product-main-{{ section.id }} .product-highlights li:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
-    border-color: #ced4da;
-  }
-  #product-main-{{ section.id }} .product-highlights .ingredient-indicator {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background-color: var(--macro-color-protein);
-    flex-shrink: 0;
-  }
-
+  #product-main-{{ section.id }} .product-highlights ul {list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:0.75rem;}
+  #product-main-{{ section.id }} .product-highlights li {display:inline-flex;align-items:center;gap:0.6rem;background-color:var(--background-soft);border:1px solid var(--border-color-soft);border-radius:2rem;padding:0.5rem 1rem;font-size:0.9rem;font-weight:500;color:var(--text-secondary);line-height:1.4;transition:all 0.2s ease;}
+  #product-main-{{ section.id }} .product-highlights li:hover {transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.05);border-color:#ced4da;}
+  #product-main-{{ section.id }} .product-highlights .ingredient-indicator {width:8px;height:8px;border-radius:50%;background-color:var(--macro-color-protein);flex-shrink:0;}
 
   /* Visuals Column - ENHANCED */
   #product-main-{{ section.id }} .product-main__gallery-image-wrapper {background:#fff;border-radius:12px;border:1px solid var(--border-color-soft);box-shadow:0 4px 12px rgba(0,0,0,.05);padding:0.5rem;position:relative;}
@@ -185,6 +159,50 @@
   #product-main-{{ section.id }} .full-ingredients-collapsible[open] > summary .collapsible-icon {transform:rotate(180deg);}
   #product-main-{{ section.id }} .full-ingredients-collapsible .rte {font-size:0.9rem;color:#6c757d;}
 
+  /* --- STYLES RESTORED: Live Nutrition Calculator (for Custom Meals) --- */
+  #product-main-{{ section.id }} .nutrition-facts-live {
+    background: #fff;
+    border: 1px solid var(--border-color-soft);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  #product-main-{{ section.id }} .nutrition-facts-live h3 {
+    margin: 0 0 1rem;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: .03em;
+    text-transform: uppercase;
+    color: #343a40;
+    border-bottom: 1px solid var(--border-color-soft);
+    padding-bottom: 1rem;
+  }
+  #product-main-{{ section.id }} .nutrition-facts__list {
+    list-style: none; padding: 0; margin: 0;
+    display: flex; flex-direction: column; gap: 0.85rem;
+  }
+  #product-main-{{ section.id }} .nutrition-facts__item {
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 0.95rem;
+  }
+  #product-main-{{ section.id }} .nutrition-facts__label {
+    display: flex; align-items: center; gap: 0.65rem;
+    color: var(--text-secondary);
+  }
+  #product-main-{{ section.id }} .nutrition-facts__value {
+    font-weight: 600; color: var(--text-primary);
+    font-feature-settings: "tnum"; /* Tabular nums for alignment */
+  }
+  #product-main-{{ section.id }} .nutrition-facts__label::before {
+    content: ''; width: 8px; height: 8px; border-radius: 50%;
+    display: inline-block;
+  }
+  #product-main-{{ section.id }} .nutrition-facts__item--calories .nutrition-facts__label::before { background-color: var(--macro-color-calories); }
+  #product-main-{{ section.id }} .nutrition-facts__item--protein .nutrition-facts__label::before { background-color: var(--macro-color-protein); }
+  #product-main-{{ section.id }} .nutrition-facts__item--carbs .nutrition-facts__label::before { background-color: var(--macro-color-carbs); }
+  #product-main-{{ section.id }} .nutrition-facts__item--fats .nutrition-facts__label::before { background-color: var(--macro-color-fats); }
+  #product-main-{{ section.id }} .nutrition-facts__item--fiber .nutrition-facts__label::before { background-color: var(--macro-color-fiber); }
+  #product-main-{{ section.id }} .nutrition-facts__item--sodium .nutrition-facts__label::before { background-color: var(--macro-color-sodium); }
+
   /* Desktop Layout - PRESERVED */
   @media (min-width:1024px){
     #product-main-{{ section.id }} .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
@@ -198,35 +216,12 @@
 
   /* MOBILE HERO STYLES - PRESERVED */
   @media (max-width: 1023px) {
-    #product-main-{{ section.id }} .product-main__layout {
-      padding: 0;
-      gap: 0;
-    }
-    #product-main-{{ section.id }} .product-main__visuals-wrapper {
-      gap: 0;
-      border-bottom: 1px solid var(--border-color-soft);
-      padding-bottom: 1.5rem;
-      background: #fff;
-    }
-    #product-main-{{ section.id }} .product-main__gallery-image-wrapper {
-      border-radius: 0;
-      border-left: 0; border-right: 0; border-top: 0;
-      box-shadow: none;
-      padding: 0;
-    }
-     #product-main-{{ section.id }} .product-main__gallery-image {
-      border-radius: 0;
-    }
-    #product-main-{{ section.id }} .product-macros-block {
-      border: 0;
-      border-radius: 0;
-      padding: 1.5rem 1.2rem 0 1.2rem;
-      background: transparent;
-    }
-    #product-main-{{ section.id }} .product-main__info-column {
-      padding: 1.5rem 1.2rem;
-      background: var(--background-soft);
-    }
+    #product-main-{{ section.id }} .product-main__layout {padding:0;gap:0;}
+    #product-main-{{ section.id }} .product-main__visuals-wrapper {gap:0;border-bottom:1px solid var(--border-color-soft);padding-bottom:1.5rem;background:#fff;}
+    #product-main-{{ section.id }} .product-main__gallery-image-wrapper {border-radius:0;border-left:0;border-right:0;border-top:0;box-shadow:none;padding:0;}
+    #product-main-{{ section.id }} .product-main__gallery-image {border-radius:0;}
+    #product-main-{{ section.id }} .product-macros-block {border:0;border-radius:0;padding:1.5rem 1.2rem 0 1.2rem;background:transparent;}
+    #product-main-{{ section.id }} .product-main__info-column {padding:1.5rem 1.2rem;background:var(--background-soft);}
     #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.5rem;}
   }
 </style>
@@ -253,6 +248,7 @@
           </div>
         </div>
       {%- endif -%}
+      <div id="nutrition-container"></div>
     </div>
 
     <div class="product-main__info-column">
