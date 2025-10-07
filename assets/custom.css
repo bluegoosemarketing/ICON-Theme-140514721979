@@ -628,13 +628,6 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 
 /* RESPONSIVE & MOBILE OVERRIDES */
 @media (max-width: 991px) {
-  .collection-page__layout { grid-template-columns: 1fr; }
-  .collection-page__sidebar { display: none; }
-  body.template-collection .collection-page__main { padding: 0; }
-  body.template-collection .collection-page__main { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
-  body.template-product .collection-page__main { padding: 0; border-right: none; }
-  body.template-product .collection-page__main { padding-bottom: max(0.5rem, env(safe-area-inset-bottom)); }
-  body.template-product .collection-page__layout { padding: 0 0 2rem; }
   body.template-collection .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
   body.template-product .collection-header { padding-left: 1rem; padding-right: 1rem; margin: 0; }
   body.template-collection ol.product-grid { padding: 1.25rem 1rem 0 1rem; }
@@ -4344,13 +4337,36 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
     -webkit-overflow-scrolling: touch;
   }
 
-  /* Let the layout be content-driven; no viewport math on mobile */
+  .collection-page__layout {
+    grid-template-columns: 1fr;
+  }
+
+  .collection-page__sidebar {
+    display: none;
+  }
+
+  body.template-collection .collection-page__main {
+    padding: 0;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+  }
+
+  body.template-product .collection-page__main {
+    padding: 0;
+    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
+    border-right: none;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
   body.template-product .collection-page__layout {
+    padding: 0 0 2rem;
     height: auto !important;
     min-height: 0 !important;
   }
 
-  body.template-product .collection-page__main,
+  /* Let the layout be content-driven; no viewport math on mobile */
+
   body.template-product .collection-page__sidebar {
     height: auto !important;
     min-height: 0 !important;
