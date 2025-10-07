@@ -4334,19 +4334,44 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
    Ensures product pages lean on document scrolling while keeping the
    sidebar constrained to the live viewport height.
    ========================================================================== */
+/* PDP MOBILE: natural document scroll, no nested scroll, no URL-bar jank */
 @media (max-width: 991.98px) {
-  body.template-product .collection-page__layout {
+  html,
+  body.template-product {
     height: auto;
-    min-height: calc(
-      var(--app-viewport-height, 100dvh) - var(--app-header-min-height) -
-      var(--app-footer-min-height)
-    );
+    overflow: auto;
+    overscroll-behavior-y: contain;
+    -webkit-overflow-scrolling: touch;
   }
 
-  body.template-product .collection-page__layout,
+  /* Let the layout be content-driven; no viewport math on mobile */
+  body.template-product .collection-page__layout {
+    height: auto !important;
+    min-height: 0 !important;
+  }
+
   body.template-product .collection-page__main,
   body.template-product .collection-page__sidebar {
-    min-height: 0;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* Sticky media can cause reflow when widgets inject; disable stickiness on mobile */
+  body.template-product [style*="position: sticky"],
+  body.template-product .product-main__media-column,
+  body.template-product .product-media,
+  body.template-product .image-column {
+    position: static !important;
+    top: auto !important;
+  }
+
+  /* Mobile header that’s sticky should respect safe areas */
+  body.template-product .collection-header,
+  body.template-product .product-header,
+  body.template-product .product-main__header {
+    position: sticky;
+    top: max(0px, env(safe-area-inset-top));
   }
 }
 
@@ -4391,6 +4416,8 @@ body.template-product .yotpo.yotpo-main-widget {
 
 body.template-product #yotpo-main-widget {
   scroll-margin-top: 6rem; /* Prevent header overlap */
+}
+
 body.template-product #recharge-bundle-wrapper,
 body.template-product .rc-widget-injection-parent {
   min-height: 56px;
