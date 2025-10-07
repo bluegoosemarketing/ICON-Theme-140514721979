@@ -4257,14 +4257,27 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
 }
 
 /* ==========================================================================
-   PRODUCT DETAIL PAGE - SCROLL CONTAINER FIX (DESKTOP & MOBILE)
-   Ensures product pages use the document scroll instead of a nested panel,
-   preventing bounce/overscroll artifacts and stray blank space.
+   PRODUCT DETAIL PAGE - VIEWPORT STABILITY (DESKTOP & MOBILE)
+   Ensures product pages lean on document scrolling while keeping the
+   sidebar constrained to the live viewport height.
    ========================================================================== */
-@media (max-width: 991px) {
+body.template-product .collection-page__layout {
+  height: auto;
+  min-height: calc(
+    var(--app-viewport-height, 100dvh) - var(--app-header-min-height) -
+    var(--app-footer-min-height)
+  );
+}
+
+body.template-product .collection-page__layout,
+body.template-product .collection-page__main,
+body.template-product .collection-page__sidebar {
+  min-height: 0;
+}
+
+@media (min-width: 992px) {
   body.template-product .collection-page__layout {
-    height: auto;
-    min-height: 0;
+    align-items: flex-start;
   }
 
   body.template-product .collection-page__main {
@@ -4272,9 +4285,18 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
     overflow: visible;
   }
 
-  body.template-product .collection-page__sidebar {
-    height: auto;
-    overflow: visible;
+  body.template-product .collection-page__sidebar,
+  body.template-product .collection-page__sidebar > .cart-sidebar-section-wrapper,
+  body.template-product .collection-page__sidebar .cart-sidebar {
+    height: 100%;
+    max-height: var(--app-viewport-height, 100dvh);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.template-product .collection-page__sidebar .cart-sidebar__body {
+    overflow-y: auto;
   }
 }
 
@@ -4319,5 +4341,8 @@ body.template-product .yotpo.yotpo-main-widget {
 
 body.template-product #yotpo-main-widget {
   scroll-margin-top: 6rem; /* Prevent header overlap */
+body.template-product #recharge-bundle-wrapper,
+body.template-product .rc-widget-injection-parent {
+  min-height: 56px;
 }
 
