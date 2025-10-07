@@ -1,0 +1,36 @@
+{% comment %}
+  PDP Reviews (Full Width)
+  Renders Yotpo main widget at full width within the left column above the footer.
+{% endcomment %}
+
+<section class="pdp-reviews-fullwidth {% if section.settings.boxed_container %}pdp-reviews--boxed{% endif %}" data-section-type="pdp-reviews-fullwidth">
+  <a id="yotpo-main-widget"></a>
+
+  {% if section.settings.heading != blank %}
+    <h2 class="pdp-reviews__heading">{{ section.settings.heading }}</h2>
+  {% endif %}
+
+  <div class="pdp-reviews__container">
+    <div class="yotpo yotpo-main-widget"
+      data-product-id="{{ product.id }}"
+      data-name="{{ product.title | escape }}"
+      data-url="{{ shop.url }}{{ product.url }}"
+      {% if product.featured_image %}
+        data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
+      {% endif %}
+      data-description="{{ product.description | strip_html | truncate: 300 | escape }}">
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "PDP Reviews (Full Width)",
+  "tag": "section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Customer Reviews" },
+    { "type": "checkbox", "id": "boxed_container", "label": "Boxed container (900px max)", "default": true }
+  ],
+  "templates": ["product"]
+}
+{% endschema %}

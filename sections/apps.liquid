@@ -1,7 +1,6 @@
 {% comment %} REMOVED: Conditional '.container--product-page' wrapper to allow this section to live inside the main product grid. {% endcomment %}
 {%- if template.name == 'product' -%}
   {%- if content_for_header contains 'yotpo' -%}
-    <a id="yotpo-main-widget"></a>
   {%- endif -%}
 {%- endif -%}
 <div class="apps-section-wrapper {% if section.settings.include_margins %}has-theme-margins{% endif %}">

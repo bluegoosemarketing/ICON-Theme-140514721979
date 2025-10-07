@@ -381,6 +381,7 @@
   </div>
 </div>
 
+{%- section 'product-reviews-fullwidth' -%}
 {%- render 'footer-minimal-ordering' -%}
 <script type="application/json" data-product-json>{{ product | json }}</script>
 {% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
@@ -389,138 +390,25 @@
 
 <script>
 (function() {
-  const WIDGET_SELECTOR = '.yotpo-main-widget, .yotpo.yotpo-main-widget, .yotpo-widget-instance';
-
-  function findInjectionPoint() {
-    return (
-      document.querySelector('.product-page-additional-sections') ||
-      document.querySelector('#CollectionProductGrid') ||
-      document.querySelector('.product-main__info-column') ||
-      document.body
-    );
-  }
-
-  function insertAfter(referenceNode, newNode) {
-    if (!referenceNode) {
-      document.body.appendChild(newNode);
-      return newNode;
-    }
-
-    if (referenceNode === document.body || referenceNode.parentNode === document.documentElement) {
-      document.body.appendChild(newNode);
-      return newNode;
-    }
-
-    if (referenceNode.parentNode) {
-      return referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-    }
-
-    if (typeof referenceNode.appendChild === 'function') {
-      referenceNode.appendChild(newNode);
-      return newNode;
-    }
-
-    document.body.appendChild(newNode);
-    return newNode;
-  }
-
   function uniqueAnchor() {
     const anchors = Array.from(document.querySelectorAll('#yotpo-main-widget'));
-    if (anchors.length <= 1) {
-      return anchors[0] || null;
+    if (anchors.length > 1) {
+      anchors.slice(1).forEach((anchor) => anchor.remove());
     }
-
-    const keeper = anchors[0];
-    anchors.slice(1).forEach((node) => {
-      if (node && node.parentNode) {
-        node.parentNode.removeChild(node);
-      }
-    });
-    return keeper;
-  }
-
-  function ensureAnchor() {
-    let anchor = uniqueAnchor();
-    if (anchor) {
-      return anchor;
-    }
-
-    anchor = document.createElement('a');
-    anchor.id = 'yotpo-main-widget';
-    anchor.setAttribute('aria-hidden', 'true');
-    anchor.style.display = 'block';
-    anchor.style.position = 'relative';
-    anchor.style.height = '0';
-
-    const target = findInjectionPoint();
-    return insertAfter(target, anchor);
   }
 
   function coerceBottomLineHref() {
-    const wanted = '#yotpo-main-widget';
-    const links = document.querySelectorAll('.yotpo.bottomLine a[href^="#"]');
-    links.forEach((link) => {
-      if (link.getAttribute('href') !== wanted) {
-        link.setAttribute('href', wanted);
-      }
-    });
-  }
-
-  function getWidgets() {
-    return Array.from(document.querySelectorAll(WIDGET_SELECTOR));
-  }
-
-  function widgetExists() {
-    return getWidgets().length > 0;
-  }
-
-  function injectFallbackWidget(anchor) {
-    if (widgetExists()) {
-      return;
-    }
-
-    const mountAnchor = anchor || ensureAnchor();
-    const appsWrapper = document.querySelector('.apps-section-wrapper');
-
-    const fallback = document.createElement('div');
-    fallback.className = 'yotpo yotpo-main-widget';
-    fallback.setAttribute('data-product-id', '{{ product.id }}');
-    fallback.setAttribute('data-name', {{ product.title | json }});
-    fallback.setAttribute('data-url', {{ shop.url | append: product.url | json }});
-    {% if product.featured_image %}
-    fallback.setAttribute('data-image-url', '{{ product.featured_image | image_url: width: 1024 }}');
-    {% endif %}
-    fallback.setAttribute('data-description', {{ product.description | strip_html | truncate: 300 | json }});
-    fallback.dataset.fallbackYotpo = 'true';
-
-    if (appsWrapper) {
-      appsWrapper.appendChild(fallback);
-    } else if (mountAnchor) {
-      insertAfter(mountAnchor, fallback);
-    } else {
-      findInjectionPoint().appendChild(fallback);
-    }
-  }
-
-  function pruneFallbackWidgets() {
-    const widgets = getWidgets();
-    if (widgets.length <= 1) {
-      return;
-    }
-
-    const fallback = widgets.find((node) => node.dataset && node.dataset.fallbackYotpo === 'true');
-    const realWidget = widgets.find((node) => !node.dataset || node.dataset.fallbackYotpo !== 'true');
-
-    if (fallback && realWidget) {
-      fallback.remove();
+    const link = document.querySelector('.yotpo.bottomLine a[href^="#"]');
+    if (link && link.getAttribute('href') !== '#yotpo-main-widget') {
+      link.setAttribute('href', '#yotpo-main-widget');
     }
   }
 
   function hydrateYotpo() {
     if (window.Yotpo) {
-      const refresh = window.Yotpo.refreshWidgets || window.Yotpo.initWidgets;
-      if (typeof refresh === 'function') {
-        refresh.call(window.Yotpo);
+      const fn = window.Yotpo.refreshWidgets || window.Yotpo.initWidgets;
+      if (typeof fn === 'function') {
+        fn.call(window.Yotpo);
       }
     }
   }
@@ -532,49 +420,34 @@
         const link = event.target.closest('.yotpo.bottomLine a[href^="#"]');
         if (!link) return;
 
-        const anchor = ensureAnchor();
-        if (!anchor) return;
+        const target = document.querySelector('#yotpo-main-widget');
+        if (!target) return;
 
         event.preventDefault();
-        anchor.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
       },
       { passive: false }
     );
   }
 
-  function hydrateCycle() {
-    const anchor = ensureAnchor();
-    coerceBottomLineHref();
-    pruneFallbackWidgets();
-
-    if (!widgetExists()) {
-      injectFallbackWidget(anchor);
-    }
-
-    hydrateYotpo();
-  }
-
   function init() {
-    wireSmoothScroll();
-    hydrateCycle();
-
-    let attempts = 0;
-    const poller = setInterval(() => {
-      hydrateCycle();
-      attempts += 1;
-      if (attempts > 20 || widgetExists()) {
-        clearInterval(poller);
-      }
-    }, 300);
+    uniqueAnchor();
+    coerceBottomLineHref();
+    hydrateYotpo();
 
     document.addEventListener('shopify:section:load', () => {
-      hydrateCycle();
+      uniqueAnchor();
+      coerceBottomLineHref();
+      hydrateYotpo();
     });
 
     document.addEventListener('yotpo:widgetLoaded', () => {
-      hydrateCycle();
+      uniqueAnchor();
+      coerceBottomLineHref();
     });
   }
+
+  wireSmoothScroll();
 
   if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init, { once: true });

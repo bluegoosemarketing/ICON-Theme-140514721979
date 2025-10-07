@@ -4419,24 +4419,36 @@ body.template-product .yotpo.bottomLine .yotpo-stars {
   transform: translateY(1px);
 }
 
-/* Full reviews widget container */
-body.template-product .yotpo-main-widget,
-body.template-product .yotpo.yotpo-main-widget {
+body.template-product #recharge-bundle-wrapper,
+body.template-product .rc-widget-injection-parent {
+  min-height: 56px;
+  display: block;
+}
+
+/* PDP Reviews Full Width */
+body.template-product .pdp-reviews-fullwidth {
   margin-top: 2rem;
-  padding-top: 1rem;
-  border-top: 1px solid #eaeaea;
+  margin-bottom: 2rem;
+}
+
+body.template-product .pdp-reviews__heading {
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: var(--brand-text, #212529);
+}
+
+body.template-product .pdp-reviews__container {
+  width: 100%;
+}
+
+body.template-product .pdp-reviews--boxed .pdp-reviews__container {
   max-width: 900px;
   margin-left: auto;
   margin-right: auto;
 }
 
 body.template-product #yotpo-main-widget {
-  scroll-margin-top: 6rem; /* Prevent header overlap */
-}
-
-body.template-product #recharge-bundle-wrapper,
-body.template-product .rc-widget-injection-parent {
-  min-height: 56px;
-  display: block;
+  scroll-margin-top: 6rem;
 }
 
