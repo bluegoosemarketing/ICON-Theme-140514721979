@@ -4300,6 +4300,47 @@ body.template-product .collection-page__sidebar {
   }
 }
 
+/* PDP - Yotpo Reviews Styling ---------------------------------------------- */
+
+body.template-product .product-review-stars {
+  margin-top: 0.4rem;
+  margin-bottom: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+body.template-product .yotpo.bottomLine a {
+  font-family: inherit;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--brand-text, #212529);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+body.template-product .yotpo.bottomLine a:hover {
+  color: var(--brand-accent, #E1261C);
+  text-decoration: underline;
+}
+
+body.template-product .yotpo.bottomLine .yotpo-stars {
+  transform: translateY(1px);
+}
+
+/* Full reviews widget container */
+body.template-product .yotpo-main-widget,
+body.template-product .yotpo.yotpo-main-widget {
+  margin-top: 2rem;
+  padding-top: 1rem;
+  border-top: 1px solid #eaeaea;
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+body.template-product #yotpo-main-widget {
+  scroll-margin-top: 6rem; /* Prevent header overlap */
 body.template-product #recharge-bundle-wrapper,
 body.template-product .rc-widget-injection-parent {
   min-height: 56px;
