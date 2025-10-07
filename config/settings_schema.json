@@ -2359,6 +2359,12 @@
         "type": "text",
         "id": "yotpo_app_key",
         "label": "Yotpo app key"
+      },
+      {
+        "type": "text",
+        "id": "yotpo_star_instance_id",
+        "label": "Yotpo Star Rating (instance id)",
+        "info": "Get this from Yotpo → On-Site Widgets → Star Rating → View Instructions → Get the code."
       }
     ]
   }

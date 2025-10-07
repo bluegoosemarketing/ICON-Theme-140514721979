@@ -2,10 +2,13 @@
    ICON MEALS - CUSTOM STYLESHEET - V17.0 (WORLD-CLASS ANIMATION REFACTOR)
    ========================================================================== */
 
-/* PDP: reserve space for Yotpo bottom line to prevent layout shift */
-body.template-product .yotpo.bottomLine {
-  min-height: 28px;
-  display: block;
+/* PDP title row — accommodate star rating widget */
+body.template-product .product-review-stars {
+  margin-top: 0.25rem;
+  margin-bottom: 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
 }
 
 /* PDP APP-SHELL (DESKTOP) ------------------------------------------------ */
@@ -4393,15 +4396,7 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
 
 /* PDP - Yotpo Reviews Styling ---------------------------------------------- */
 
-body.template-product .product-review-stars {
-  margin-top: 0.4rem;
-  margin-bottom: 0.6rem;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.25rem;
-}
-
-body.template-product .yotpo.bottomLine a {
+body.template-product .product-review-stars a {
   font-family: inherit;
   font-size: 0.95rem;
   font-weight: 500;
@@ -4410,12 +4405,12 @@ body.template-product .yotpo.bottomLine a {
   transition: color 0.25s ease;
 }
 
-body.template-product .yotpo.bottomLine a:hover {
+body.template-product .product-review-stars a:hover {
   color: var(--brand-accent, #E1261C);
   text-decoration: underline;
 }
 
-body.template-product .yotpo.bottomLine .yotpo-stars {
+body.template-product .product-review-stars .yotpo-stars {
   transform: translateY(1px);
 }
 
