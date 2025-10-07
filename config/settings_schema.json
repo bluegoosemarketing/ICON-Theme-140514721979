@@ -2351,5 +2351,15 @@
         "label": "Box 1 savings for 24-meal plan"
       }
     ]
+  },
+  {
+    "name": "Integrations",
+    "settings": [
+      {
+        "type": "text",
+        "id": "yotpo_app_key",
+        "label": "Yotpo app key"
+      }
+    ]
   }
 ]
