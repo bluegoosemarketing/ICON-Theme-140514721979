@@ -1,0 +1,30 @@
+{%- comment -%}
+  PDP Reviews snippet used inside product main content.
+  Mirrors the original section markup while avoiding nested sections.
+{%- endcomment -%}
+{%- assign reviews_heading = heading | default: 'Customer Reviews' -%}
+{%- if boxed_container == nil -%}
+  {%- assign reviews_boxed_container = true -%}
+{%- else -%}
+  {%- assign reviews_boxed_container = boxed_container -%}
+{%- endif -%}
+
+<section class="pdp-reviews-fullwidth{% if reviews_boxed_container %} pdp-reviews--boxed{% endif %}" data-section-type="pdp-reviews-fullwidth">
+  <a id="yotpo-main-widget"></a>
+
+  {%- if reviews_heading != blank -%}
+    <h2 class="pdp-reviews__heading">{{ reviews_heading }}</h2>
+  {%- endif -%}
+
+  <div class="pdp-reviews__container">
+    <div class="yotpo yotpo-main-widget"
+      data-product-id="{{ product.id }}"
+      data-name="{{ product.title | escape }}"
+      data-url="{{ shop.url }}{{ product.url }}"
+      {%- if product.featured_image -%}
+        data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
+      {%- endif -%}
+      data-description="{{ product.description | strip_html | truncate: 300 | escape }}">
+    </div>
+  </div>
+</section>
