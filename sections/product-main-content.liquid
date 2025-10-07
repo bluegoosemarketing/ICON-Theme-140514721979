@@ -250,16 +250,19 @@
               {{ product.title }}
             {% endif %}
           </h1>
-          <div
-            class="yotpo bottomLine product-review-stars"
-            data-product-id="{{ product.id }}"
-            data-name="{{ product.title | escape }}"
-            data-url="{{ shop.url }}{{ product.url }}"
-            {% if product.featured_image %}
-              data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
-            {% endif %}
-            data-description="{{ product.description | strip_html | truncate: 300 | escape }}"
-          ></div>
+          <div class="product-review-stars">
+            <div
+              class="yotpo-widget-instance"
+              data-yotpo-instance-id="{{ settings.yotpo_star_instance_id }}"
+              data-yotpo-product-id="{{ product.id }}"
+              data-yotpo-name="{{ product.title | escape }}"
+              data-yotpo-url="{{ shop.url }}{{ product.url }}"
+              {% if product.featured_image %}
+                data-yotpo-image-url="{{ product.featured_image | image_url: width: 1024 }}"
+              {% endif %}
+              data-yotpo-description="{{ product.description | strip_html | truncate: 300 | escape }}"
+            ></div>
+          </div>
           <div class="product-main__price"{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %} data-legacy-pricing="true"{% endif %}>
             <span
               data-product-price
@@ -397,11 +400,19 @@
     }
   }
 
-  function coerceBottomLineHref() {
-    const link = document.querySelector('.yotpo.bottomLine a[href^="#"]');
-    if (link && link.getAttribute('href') !== '#yotpo-main-widget') {
-      link.setAttribute('href', '#yotpo-main-widget');
-    }
+  function coerceYotpoHref() {
+    const selectors = [
+      '.yotpo.bottomLine a[href^="#"]',
+      '.yotpo-widget-instance a[href^="#"]',
+    ];
+
+    selectors.forEach((selector) => {
+      Array.from(document.querySelectorAll(selector)).forEach((link) => {
+        if (link.getAttribute('href') !== '#yotpo-main-widget') {
+          link.setAttribute('href', '#yotpo-main-widget');
+        }
+      });
+    });
   }
 
   function hydrateYotpo() {
@@ -417,7 +428,9 @@
     document.addEventListener(
       'click',
       (event) => {
-        const link = event.target.closest('.yotpo.bottomLine a[href^="#"]');
+        const link = event.target.closest(
+          '.yotpo.bottomLine a[href^="#"], .yotpo-widget-instance a[href^="#"]'
+        );
         if (!link) return;
 
         const target = document.querySelector('#yotpo-main-widget');
@@ -432,18 +445,18 @@
 
   function init() {
     uniqueAnchor();
-    coerceBottomLineHref();
+    coerceYotpoHref();
     hydrateYotpo();
 
     document.addEventListener('shopify:section:load', () => {
       uniqueAnchor();
-      coerceBottomLineHref();
+      coerceYotpoHref();
       hydrateYotpo();
     });
 
     document.addEventListener('yotpo:widgetLoaded', () => {
       uniqueAnchor();
-      coerceBottomLineHref();
+      coerceYotpoHref();
     });
   }
 
