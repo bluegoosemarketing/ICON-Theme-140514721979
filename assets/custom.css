@@ -8,6 +8,79 @@ body.template-product .yotpo.bottomLine {
   display: block;
 }
 
+/* PDP APP-SHELL (DESKTOP) ------------------------------------------------ */
+@media (min-width: 992px) {
+  html,
+  body.template-product {
+    height: 100%;
+    overflow: hidden; /* the document no longer scrolls on desktop PDP */
+  }
+
+  /* Make top-level wrappers fill the viewport height */
+  body.template-product #PageContainer,
+  body.template-product #main-body,
+  body.template-product main#main {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    min-height: 0; /* allow children to shrink */
+  }
+
+  /* The container grid should fill the remaining space */
+  body.template-product .container--collection-page {
+    flex: 1 1 auto;
+    min-height: 0; /* critical for nested scroll to work */
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* The 2-col layout fills height; columns manage their own overflow */
+  body.template-product .collection-page__layout {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 1fr 380px;
+    gap: 0; /* keep existing border on main */
+    height: calc(var(--app-viewport-height, 100dvh) - var(--app-header-min-height) - var(--app-footer-min-height, 0px));
+  }
+
+  /* MAIN (left) becomes the scrolling region */
+  body.template-product .collection-page__main {
+    height: 100%;
+    min-height: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* already has padding/border in your CSS; leave as-is */
+  }
+
+  /* SIDEBAR (right) capped to viewport with internal flex */
+  body.template-product .collection-page__sidebar {
+    height: 100%;
+    max-height: 100%;
+    min-height: 0;
+    overflow: hidden; /* sidebar itself doesn't scroll */
+    display: flex;
+    flex-direction: column;
+  }
+
+  body.template-product .collection-page__sidebar > .cart-sidebar-section-wrapper,
+  body.template-product .cart-sidebar,
+  body.template-product .cart-sidebar__content {
+    max-height: 100%;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+  }
+
+  body.template-product .cart-sidebar__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto; /* internal scroll region for long cart */
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
 /* ==========================================================================
    WORLD-CLASS ANIMATIONS & LOADERS (V2.1 - DEFINITIVE FIX)
    ========================================================================== */
@@ -4261,42 +4334,19 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
    Ensures product pages lean on document scrolling while keeping the
    sidebar constrained to the live viewport height.
    ========================================================================== */
-body.template-product .collection-page__layout {
-  height: auto;
-  min-height: calc(
-    var(--app-viewport-height, 100dvh) - var(--app-header-min-height) -
-    var(--app-footer-min-height)
-  );
-}
-
-body.template-product .collection-page__layout,
-body.template-product .collection-page__main,
-body.template-product .collection-page__sidebar {
-  min-height: 0;
-}
-
-@media (min-width: 992px) {
+@media (max-width: 991.98px) {
   body.template-product .collection-page__layout {
-    align-items: flex-start;
-  }
-
-  body.template-product .collection-page__main {
     height: auto;
-    overflow: visible;
+    min-height: calc(
+      var(--app-viewport-height, 100dvh) - var(--app-header-min-height) -
+      var(--app-footer-min-height)
+    );
   }
 
-  body.template-product .collection-page__sidebar,
-  body.template-product .collection-page__sidebar > .cart-sidebar-section-wrapper,
-  body.template-product .collection-page__sidebar .cart-sidebar {
-    height: 100%;
-    max-height: var(--app-viewport-height, 100dvh);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
-
-  body.template-product .collection-page__sidebar .cart-sidebar__body {
-    overflow-y: auto;
+  body.template-product .collection-page__layout,
+  body.template-product .collection-page__main,
+  body.template-product .collection-page__sidebar {
+    min-height: 0;
   }
 }
 
@@ -4344,5 +4394,6 @@ body.template-product #yotpo-main-widget {
 body.template-product #recharge-bundle-wrapper,
 body.template-product .rc-widget-injection-parent {
   min-height: 56px;
+  display: block;
 }
 
