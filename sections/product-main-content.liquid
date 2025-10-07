@@ -250,7 +250,16 @@
               {{ product.title }}
             {% endif %}
           </h1>
-          <div class="reviews-placeholder"><span class="yotpo-display-wrapper"></span></div>
+          <div
+            class="yotpo bottomLine"
+            data-product-id="{{ product.id }}"
+            data-name="{{ product.title | escape }}"
+            data-url="{{ shop.url }}{{ product.url }}"
+            {% if product.featured_image %}
+              data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
+            {% endif %}
+            data-description="{{ product.description | strip_html | escape }}"
+          ></div>
           <div class="product-main__price"{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %} data-legacy-pricing="true"{% endif %}>
             <span
               data-product-price

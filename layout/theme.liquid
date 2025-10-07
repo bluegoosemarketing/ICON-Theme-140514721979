@@ -160,6 +160,23 @@
     {{ 'macro-calculator.css' | asset_url | stylesheet_tag }}
     {% endif %}
     <!-- cedriclajato.com end code -->
+  <!-- Yotpo Reviews: global widget loader -->
+  <script>
+    (function () {
+      if (window.__yotpoLoaderInitialized) return;
+      if (window.Yotpo || document.querySelector('script[src*="staticw2.yotpo.com"]')) return;
+      var appKey = {{ settings.yotpo_app_key | json }};
+      if (!appKey) return;
+      var script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = 'https://staticw2.yotpo.com/' + appKey + '/widget.js';
+      var firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode.insertBefore(script, firstScript);
+      window.__yotpoLoaderInitialized = true;
+    })();
+  </script>
+
   <script type="text/javascript">
     (function(c,l,a,r,i,t,y){
         c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};

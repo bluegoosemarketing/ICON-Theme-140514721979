@@ -2,6 +2,12 @@
    ICON MEALS - CUSTOM STYLESHEET - V17.0 (WORLD-CLASS ANIMATION REFACTOR)
    ========================================================================== */
 
+/* PDP: reserve space for Yotpo bottom line to prevent layout shift */
+body.template-product .yotpo.bottomLine {
+  min-height: 28px;
+  display: block;
+}
+
 /* ==========================================================================
    WORLD-CLASS ANIMATIONS & LOADERS (V2.1 - DEFINITIVE FIX)
    ========================================================================== */
