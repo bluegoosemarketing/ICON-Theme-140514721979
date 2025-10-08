@@ -4464,15 +4464,49 @@ body.template-product .rc-widget-injection-parent {
 
 /* PDP Reviews Full Width */
 body.template-product .pdp-reviews-fullwidth {
+  --pdp-reviews-column-padding: 1.5rem;
   margin-top: 2rem;
   margin-bottom: 2rem;
+  margin-left: calc(var(--pdp-reviews-column-padding) * -1);
+  margin-right: calc(var(--pdp-reviews-column-padding) * -1);
+  padding-left: var(--pdp-reviews-column-padding);
+  padding-right: var(--pdp-reviews-column-padding);
+  padding-top: clamp(1.25rem, 3vw, 2rem);
+  padding-bottom: clamp(1.25rem, 3vw, 2rem);
+  background-color: #fff;
+}
+
+body.template-product .pdp-reviews__inner {
+  width: 100%;
+}
+
+body.template-product .pdp-reviews__header {
+  text-align: center;
+  margin: 0 auto 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
 }
 
 body.template-product .pdp-reviews__heading {
-  text-align: center;
-  font-weight: 700;
-  margin-bottom: 1rem;
+  margin: 0;
+  font-family: var(--font-heading-family, 'Montserrat', sans-serif);
+  font-weight: 800;
   color: var(--brand-text, #212529);
+  font-size: clamp(1.5rem, 2.2vw, 1.75rem);
+  letter-spacing: 0.01em;
+}
+
+body.template-product .pdp-reviews__subheading {
+  margin: 0;
+  padding: 0.35rem 0.9rem;
+  border-radius: 999px;
+  font-family: var(--font-body-family, 'Montserrat', sans-serif);
+  font-size: clamp(0.85rem, 1.3vw, 0.95rem);
+  font-weight: 600;
+  color: rgba(33, 37, 41, 0.72);
+  background-color: rgba(33, 37, 41, 0.08);
 }
 
 body.template-product .pdp-reviews__container {
@@ -4487,5 +4521,22 @@ body.template-product .pdp-reviews--boxed .pdp-reviews__container {
 
 body.template-product #yotpo-main-widget {
   scroll-margin-top: 6rem;
+}
+
+@media (max-width: 767px) {
+  body.template-product .pdp-reviews-fullwidth {
+    --pdp-reviews-column-padding: 1rem;
+    padding-top: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  body.template-product .pdp-reviews__header {
+    margin-bottom: 1.5rem;
+    gap: 0.6rem;
+  }
+
+  body.template-product .pdp-reviews__subheading {
+    padding: 0.3rem 0.75rem;
+  }
 }
 
