@@ -3942,7 +3942,7 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 
 /* Responsive product grid layout + mobile two-column view */
 #CollectionProductGrid {
-  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+  padding-top: clamp(1.5rem, 3vw, 1.5rem);
 }
 
 #CollectionProductGrid .product-grid,
