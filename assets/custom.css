@@ -246,6 +246,68 @@ body.template-product #PageContainer .product-purchase-card #recharge-bundle-wra
   min-height: 0;
 }
 
+@media (max-width: 1023px) {
+  body.template-product.template-suffix--recharge-bundle #main-body {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  body.template-product.template-suffix--recharge-bundle #main-body::-webkit-scrollbar {
+    display: none;
+  }
+
+  body.template-product.template-suffix--recharge-bundle #recharge-bundle,
+  body.template-product.template-suffix--recharge-bundle #recharge-bundle-wrapper {
+    width: max-content;
+    min-width: 100%;
+  }
+
+  body.template-product.template-suffix--recharge-bundle #recharge-bundle > *,
+  body.template-product.template-suffix--recharge-bundle #recharge-bundle-wrapper > * {
+    width: max-content;
+  }
+
+  body.template-product.template-suffix--recharge-bundle #recharge-bundle-wrapper .rb-app {
+    min-width: var(--rb-page-width, 1220px);
+  }
+}
+
+@media (min-width: 992px) {
+  body.template-product.template-suffix--recharge-bundle {
+    height: auto;
+    min-height: 100%;
+    overflow: auto;
+  }
+
+  body.template-product.template-suffix--recharge-bundle #PageContainer,
+  body.template-product.template-suffix--recharge-bundle #main-body,
+  body.template-product.template-suffix--recharge-bundle main#main {
+    height: auto;
+    min-height: 0;
+  }
+
+  body.template-product.template-suffix--recharge-bundle .container--collection-page,
+  body.template-product.template-suffix--recharge-bundle .collection-page__layout {
+    height: auto;
+    min-height: 0;
+  }
+
+  body.template-product.template-suffix--recharge-bundle .collection-page__main {
+    height: auto;
+    overflow: visible;
+  }
+
+  body.template-product.template-suffix--recharge-bundle .collection-page__sidebar,
+  body.template-product.template-suffix--recharge-bundle .cart-sidebar,
+  body.template-product.template-suffix--recharge-bundle .cart-sidebar__content,
+  body.template-product.template-suffix--recharge-bundle .cart-sidebar__body {
+    height: auto;
+    max-height: none;
+    overflow: visible;
+  }
+}
+
 body.template-product #PageContainer .product-purchase-card #bundling-app:empty {
   display: none;
 }
