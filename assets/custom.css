@@ -3963,7 +3963,7 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   list-style: none;
   width: 100%;
   justify-items: stretch;
-  padding-block-start: clamp(0.75rem, 2vw, 1.25rem);
+  padding-block-start: clamp(1.25rem, 3vw, 2.25rem);
 }
 
 #CollectionProductGrid .product-grid,
@@ -4034,7 +4034,7 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   #CollectionProductGrid:not(.grid-view--2-col) .product-grid .row,
   .template-search .product-grid,
   .template-search .product-grid .row {
-    grid-template-columns: repeat(3, minmax(18rem, 1fr));
+    grid-template-columns: repeat(3, minmax(19rem, 1fr));
   }
 }
 
@@ -4043,16 +4043,25 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   #CollectionProductGrid:not(.grid-view--2-col) .product-grid .row,
   .template-search .product-grid,
   .template-search .product-grid .row {
-    grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+    grid-template-columns: repeat(3, minmax(19.5rem, 1fr));
   }
 }
 
-@media (min-width: 96.0625rem) {
+@media (min-width: 96.0625rem) and (max-width: 120rem) {
   #CollectionProductGrid:not(.grid-view--2-col) .product-grid,
   #CollectionProductGrid:not(.grid-view--2-col) .product-grid .row,
   .template-search .product-grid,
   .template-search .product-grid .row {
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    grid-template-columns: repeat(4, minmax(19.5rem, 1fr));
+  }
+}
+
+@media (min-width: 120.0625rem) {
+  #CollectionProductGrid:not(.grid-view--2-col) .product-grid,
+  #CollectionProductGrid:not(.grid-view--2-col) .product-grid .row,
+  .template-search .product-grid,
+  .template-search .product-grid .row {
+    grid-template-columns: repeat(5, minmax(19.5rem, 1fr));
   }
 }
 
