@@ -4472,15 +4472,16 @@ body.template-product .rc-widget-injection-parent {
 /* PDP Reviews Full Width */
 body.template-product .pdp-reviews-fullwidth {
   --pdp-reviews-column-padding: 1.5rem;
-  margin-top: 2rem;
+  margin-top: 60px; /* INCREASED: Creates significant space ABOVE the title */
   margin-bottom: 2rem;
   margin-left: calc(var(--pdp-reviews-column-padding) * -1);
   margin-right: calc(var(--pdp-reviews-column-padding) * -1);
   padding-left: var(--pdp-reviews-column-padding);
   padding-right: var(--pdp-reviews-column-padding);
-  padding-top: clamp(1.25rem, 3vw, 2rem);
-  padding-bottom: clamp(1.25rem, 3vw, 2rem);
+  padding-top: clamp(1.2rem, 3vw, 2rem);
+  padding-bottom: clamp(1.2rem, 3vw, 2rem);
   background-color: #fff;
+  border-top: 1px solid #e1e1e1; /* ADDED: Clean visual separator */
 }
 
 body.template-product .pdp-reviews__inner {
@@ -4489,7 +4490,8 @@ body.template-product .pdp-reviews__inner {
 
 body.template-product .pdp-reviews__header {
   text-align: center;
-  margin: 0 auto 2rem;
+  /* CORRECTED: Reduced bottom margin for controlled space BELOW the subtitle */
+  margin: 2rem auto 30px; 
   display: flex;
   flex-direction: column;
   align-items: center;
