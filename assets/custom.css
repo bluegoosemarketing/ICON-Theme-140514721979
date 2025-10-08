@@ -247,8 +247,9 @@ body.template-product #PageContainer .product-purchase-card #recharge-bundle-wra
 }
 
 @media (max-width: 1023px) {
+  /* Stop forcing a horizontal desktop canvas on phones */
   body.template-product.template-suffix--recharge-bundle #main-body {
-    overflow-x: auto;
+    overflow-x: hidden;              /* was: auto */
     overscroll-behavior-x: contain;
     -webkit-overflow-scrolling: touch;
   }
@@ -257,19 +258,22 @@ body.template-product #PageContainer .product-purchase-card #recharge-bundle-wra
     display: none;
   }
 
+  /* Let Recharge size to viewport so its own mobile CSS can apply */
   body.template-product.template-suffix--recharge-bundle #recharge-bundle,
   body.template-product.template-suffix--recharge-bundle #recharge-bundle-wrapper {
-    width: max-content;
+    width: 100%;                     /* was: max-content */
     min-width: 100%;
   }
 
   body.template-product.template-suffix--recharge-bundle #recharge-bundle > *,
   body.template-product.template-suffix--recharge-bundle #recharge-bundle-wrapper > * {
-    width: max-content;
+    width: 100%;                     /* was: max-content */
+    max-width: 100%;
   }
 
+  /* Remove desktop min-width so the widget collapses to 1-column on mobile */
   body.template-product.template-suffix--recharge-bundle #recharge-bundle-wrapper .rb-app {
-    min-width: var(--rb-page-width, 1220px);
+    min-width: auto;                 /* was: var(--rb-page-width, 1220px) */
   }
 }
 
