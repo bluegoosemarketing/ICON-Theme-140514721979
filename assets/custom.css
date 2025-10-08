@@ -198,6 +198,50 @@ body.collection-menu-open {
 }
 
 .container--collection-page { margin: 0 auto; padding: 0; }
+
+/* PDP PURCHASE CARD — RECHARGE WHITESPACE FIX -------------------------------- */
+body.template-product #PageContainer .product-purchase-card {
+  gap: 0.75rem;
+}
+
+body.template-product #PageContainer .product-purchase-card .product-main__options {
+  display: grid;
+  gap: 0.75rem;
+  align-content: start;
+}
+
+body.template-product #PageContainer .product-purchase-card .product-main__options > * {
+  margin: 0;
+}
+
+body.template-product #PageContainer .product-purchase-card .rc-widget-injection-parent {
+  min-height: 3.5rem;
+  margin: 0;
+  padding: 0;
+  transition: min-height 0.2s ease;
+}
+
+body.template-product #PageContainer .product-purchase-card .rc-widget-injection-parent.is-ready,
+body.template-product #PageContainer .product-purchase-card .rc-widget-injection-parent.is-empty {
+  min-height: 0;
+}
+
+body.template-product #PageContainer .product-purchase-card .rc-widget-injection-parent.is-empty {
+  display: none;
+}
+
+body.template-product #PageContainer .product-purchase-card .rc-widget-injection-parent > *,
+body.template-product #PageContainer .product-purchase-card .rc-widget,
+body.template-product #PageContainer .product-purchase-card .rc-inline,
+body.template-product #PageContainer .product-purchase-card .rc-options,
+body.template-product #PageContainer .product-purchase-card .rc-template__legacy {
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+body.template-product #PageContainer .product-purchase-card .product-main__actions {
+  margin-top: 0;
+}
 .collection-wrapper,
 .main-body-wrapper { overflow: visible !important; }
 
