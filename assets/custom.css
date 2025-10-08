@@ -3935,6 +3935,10 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 }
 
 /* Responsive product grid layout + mobile two-column view */
+#CollectionProductGrid {
+  padding-top: clamp(1.5rem, 3vw, 2.5rem);
+}
+
 #CollectionProductGrid .product-grid,
 .template-search .product-grid {
   margin: 0;
@@ -4474,7 +4478,7 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
 
   body.template-collection .collection-page__main,
   body.template-product .collection-page__main {
-    padding: 0;
+    padding: 0 1rem;
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
     border-right: none;
     height: auto !important;
