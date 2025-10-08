@@ -3954,18 +3954,19 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 #CollectionProductGrid .product-grid,
 .template-search .product-grid {
   display: grid !important;
-  grid-template-columns: repeat(auto-fit, minmax(280px, min(100%, 320px)));
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
   gap: clamp(16px, 3vw, 24px);
   margin: 0;
   padding: 0;
   list-style: none;
-  justify-content: center;
+  width: 100%;
+  justify-items: stretch;
 }
 
 #CollectionProductGrid .product-grid > .grid__item,
 .template-search .product-grid > .grid__item {
   width: auto !important;
-  max-width: 100%;
+  max-width: none;
   flex: 0 0 auto !important;
   float: none !important;
   margin: 0;
@@ -3981,18 +3982,25 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 #CollectionProductGrid .product-grid > .grid__item .indiv-product,
 .template-search .product-grid > .grid__item .indiv-product {
   width: 100%;
-  max-width: min(100%, 420px);
-  margin-inline: auto;
+  max-width: none;
+  margin-inline: 0;
 }
 
 #CollectionProductGrid:not(.grid-view--2-col) .product-grid {
-  justify-content: center;
+  justify-content: stretch;
 }
 
 @media (max-width: 1023px) {
   #CollectionProductGrid .product-grid,
   .template-search .product-grid {
     justify-content: stretch;
+  }
+}
+
+@media (max-width: 767px) {
+  #CollectionProductGrid .product-grid,
+  .template-search .product-grid {
+    padding-inline: var(--collection-grid-mobile-gutter, var(--page-gutter, 16px));
   }
 }
 
