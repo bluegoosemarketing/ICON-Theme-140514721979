@@ -1,30 +1,50 @@
 {%- comment -%}
   PDP Reviews snippet used inside product main content.
-  Mirrors the original section markup while avoiding nested sections.
+  Provides the full-width canvas, centered heading, and optional subheading wrapper for the Yotpo widget.
 {%- endcomment -%}
-{%- assign reviews_heading = heading -%}
-{%- if boxed_container == nil -%}
-  {%- assign reviews_boxed_container = true -%}
-{%- else -%}
-  {%- assign reviews_boxed_container = boxed_container -%}
-{%- endif -%}
+{%- liquid
+  assign reviews_heading = heading
+  if reviews_heading == blank and section and section.settings.reviews_heading != blank
+    assign reviews_heading = section.settings.reviews_heading
+  endif
 
-<section class="pdp-reviews-fullwidth{% if reviews_boxed_container %} pdp-reviews--boxed{% endif %}" data-section-type="pdp-reviews-fullwidth" style="background-color: #FFFFFF;">
-  <a id="yotpo-main-widget"></a>
+  assign reviews_subheading = subheading
+  if reviews_subheading == blank and section and section.settings.reviews_subheading != blank
+    assign reviews_subheading = section.settings.reviews_subheading
+  endif
 
-  {%- if reviews_heading != blank -%}
-    <h2 class="pdp-reviews__heading">{{ reviews_heading }}</h2>
-  {%- endif -%}
+  assign reviews_boxed_container = boxed_container
+  if reviews_boxed_container == nil
+    assign reviews_boxed_container = true
+  endif
+-%}
 
-  <div class="pdp-reviews__container">
-    <div class="yotpo yotpo-main-widget"
-      data-product-id="{{ product.id }}"
-      data-name="{{ product.title | escape }}"
-      data-url="{{ shop.url }}{{ product.url }}"
-      {%- if product.featured_image -%}
-        data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
-      {%- endif -%}
-      data-description="{{ product.description | strip_html | truncate: 300 | escape }}">
+<section class="pdp-reviews-fullwidth{% if reviews_boxed_container %} pdp-reviews--boxed{% endif %}" data-section-type="pdp-reviews-fullwidth">
+  <div class="pdp-reviews__inner">
+    <a id="yotpo-main-widget"></a>
+
+    {%- if reviews_heading != blank or reviews_subheading != blank -%}
+      <div class="pdp-reviews__header">
+        {%- if reviews_heading != blank -%}
+          <h2 class="pdp-reviews__heading">{{ reviews_heading }}</h2>
+        {%- endif -%}
+
+        {%- if reviews_subheading != blank -%}
+          <p class="pdp-reviews__subheading">{{ reviews_subheading }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="pdp-reviews__container">
+      <div class="yotpo yotpo-main-widget"
+        data-product-id="{{ product.id }}"
+        data-name="{{ product.title | escape }}"
+        data-url="{{ shop.url }}{{ product.url }}"
+        {%- if product.featured_image -%}
+          data-image-url="{{ product.featured_image | image_url: width: 1024 }}"
+        {%- endif -%}
+        data-description="{{ product.description | strip_html | truncate: 300 | escape }}">
+      </div>
     </div>
   </div>
 </section>
