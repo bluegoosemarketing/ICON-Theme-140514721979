@@ -293,6 +293,7 @@ body.template-product #PageContainer .product-purchase-card #bundling-app:empty 
   padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
   background-color: var(--page-background);
   border-right: 1px solid #dee2e6;
+  box-sizing: border-box;
 }
 
 .collection-header {
@@ -4496,7 +4497,16 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
 
   body.template-product .collection-page__main {
     /* MOBILE FULL-WIDTH FIX: mirror the collection page gutter removal */
-    padding-inline: 0;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  body.template-product .collection-header {
+    margin: 0;
+    padding-left: clamp(1rem, 4vw, 1.5rem);
+    padding-right: clamp(1rem, 4vw, 1.5rem);
+    width: 100%;
+    box-sizing: border-box;
   }
 
   body.template-collection #CollectionProductGrid {
