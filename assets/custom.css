@@ -3950,11 +3950,70 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   margin-bottom: 0;
 }
 
-/* Fix overflow for two-column product grids on mobile */
+/* Responsive product grid layout + mobile two-column view */
+#CollectionProductGrid .product-grid,
+.template-search .product-grid {
+  display: grid !important;
+  grid-template-columns: repeat(auto-fit, minmax(280px, min(100%, 320px)));
+  gap: clamp(16px, 3vw, 24px);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  justify-content: center;
+}
+
+#CollectionProductGrid .product-grid > .grid__item,
+.template-search .product-grid > .grid__item {
+  width: auto !important;
+  max-width: 100%;
+  flex: 0 0 auto !important;
+  float: none !important;
+  margin: 0;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+#CollectionProductGrid .product-grid > .grid__item > *,
+.template-search .product-grid > .grid__item > * {
+  min-width: 0;
+}
+
+#CollectionProductGrid .product-grid > .grid__item .indiv-product,
+.template-search .product-grid > .grid__item .indiv-product {
+  width: 100%;
+  max-width: min(100%, 420px);
+  margin-inline: auto;
+}
+
+#CollectionProductGrid:not(.grid-view--2-col) .product-grid {
+  justify-content: center;
+}
+
+@media (max-width: 1023px) {
+  #CollectionProductGrid .product-grid,
+  .template-search .product-grid {
+    justify-content: stretch;
+  }
+}
+
+@media (max-width: 640px) {
+  #CollectionProductGrid:not(.grid-view--2-col) .product-grid,
+  .template-search .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 @media (max-width: 767px) {
-  .product-grid .row {
-    margin-left: 0;
-    margin-right: 0;
+  #CollectionProductGrid.grid-view--2-col .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(12px, 4vw, 16px);
+    justify-content: stretch;
+  }
+}
+
+@media (max-width: 359px) {
+  #CollectionProductGrid.grid-view--2-col .product-grid {
+    grid-template-columns: 1fr;
   }
 }
 
