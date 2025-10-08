@@ -299,7 +299,7 @@
       </div>
 
       <!-- 2. The "Action" Card -->
-      {%- form 'product', product, class: 'product-main__form', data-product-form: '' -%}
+      {%- form 'product', product, class: 'product-main__form product-purchase-card', data-product-form: '' -%}
         <div class="product-main__options">
           <input type="hidden" name="id" value="{{ current_variant.id }}" data-product-variant-id>
           {%- unless product.has_only_default_variant -%}
@@ -471,11 +471,46 @@
 </script>
 
 <script>
+  function initRechargeGapGuard(root) {
+    if (!root) return;
+    root.querySelectorAll('.product-purchase-card .rc-widget-injection-parent').forEach((slot) => {
+      if (slot.dataset.gapGuard === 'true') return;
+      slot.dataset.gapGuard = 'true';
+      slot.classList.add('is-hydrating');
+
+      const applyState = (forceCollapse = false) => {
+        const hasContent = slot.childElementCount > 0 || slot.textContent.trim() !== '';
+        if (hasContent) {
+          slot.classList.add('is-ready');
+          slot.classList.remove('is-empty', 'is-hydrating');
+        } else if (forceCollapse) {
+          slot.classList.remove('is-ready', 'is-hydrating');
+          slot.classList.add('is-empty');
+        }
+      };
+
+      applyState(false);
+
+      const observer = new MutationObserver(() => {
+        applyState(!slot.classList.contains('is-hydrating'));
+      });
+
+      observer.observe(slot, { childList: true, subtree: true });
+
+      window.setTimeout(() => applyState(true), 1800);
+    });
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
     const sectionEl = document.querySelector('.product-main[data-section-id="{{ section.id }}"]');
     if (!sectionEl) return;
+    initRechargeGapGuard(sectionEl);
     new AjaxFormHandler(sectionEl);
     new IntegratedQuantityController(sectionEl);
+  });
+
+  document.addEventListener('shopify:section:load', (event) => {
+    initRechargeGapGuard(event.target);
   });
 
   class AjaxFormHandler {
