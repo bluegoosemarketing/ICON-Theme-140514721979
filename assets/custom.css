@@ -4539,6 +4539,24 @@ body.template-product #yotpo-main-widget {
     padding-bottom: 1.25rem;
   }
 
+  /*
+    Mobile full-width safeguard ----------------------------------------------------
+    The Yotpo block was able to introduce a horizontal overflow on small viewports
+    because the section relied on fixed negative margins. Those margins did not
+    adapt to the actual viewport width which resulted in a few extra pixels being
+    rendered off-screen and the entire page "wiggling" side-to-side.  By
+    recalculating the bleed using the viewport (50vw) and the element width (50%),
+    we keep the background full-width without exceeding the viewport.  We also cap
+    the internal padding so the text continues to align with the product content.
+  */
+  body.template-product .pdp-reviews-fullwidth {
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    padding-left: max(var(--pdp-reviews-column-padding), calc(50vw - 50%));
+    padding-right: max(var(--pdp-reviews-column-padding), calc(50vw - 50%));
+    overflow-x: hidden;
+  }
+
   body.template-product .pdp-reviews__header {
     margin-bottom: 1.5rem;
     gap: 0.6rem;
@@ -4546,6 +4564,11 @@ body.template-product #yotpo-main-widget {
 
   body.template-product .pdp-reviews__subheading {
     padding: 0.3rem 0.75rem;
+  }
+
+  body.template-product .pdp-reviews__container {
+    max-width: 100%;
+    overflow-x: hidden;
   }
 }
 
