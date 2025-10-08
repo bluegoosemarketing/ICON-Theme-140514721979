@@ -4382,6 +4382,9 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
    ========================================================================== */
 /* PDP MOBILE: natural document scroll, no nested scroll, no URL-bar jank */
 @media (max-width: 991.98px) {
+  /* one source of truth for mobile header height */
+  :root { --header-height-mobile: 48px; }
+
   body.template-product {
     height: auto;
     overflow: auto;
@@ -4389,19 +4392,10 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
     -webkit-overflow-scrolling: touch;
   }
 
-  .collection-page__layout {
-    grid-template-columns: 1fr;
-  }
+  .collection-page__layout { grid-template-columns: 1fr; }
+  .collection-page__sidebar { display: none; }
 
-  .collection-page__sidebar {
-    display: none;
-  }
-
-  body.template-collection .collection-page__main {
-    padding: 0;
-    padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
-  }
-
+  body.template-collection .collection-page__main,
   body.template-product .collection-page__main {
     padding: 0;
     padding-bottom: max(0.5rem, env(safe-area-inset-bottom));
@@ -4417,15 +4411,13 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
     min-height: 0 !important;
   }
 
-  /* Let the layout be content-driven; no viewport math on mobile */
-
   body.template-product .collection-page__sidebar {
     height: auto !important;
     min-height: 0 !important;
     overflow: visible !important;
   }
 
-  /* Sticky media can cause reflow when widgets inject; disable stickiness on mobile */
+  /* Disable sticky media on mobile */
   body.template-product [style*="position: sticky"],
   body.template-product .product-main__media-column,
   body.template-product .product-media,
@@ -4434,8 +4426,28 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
     top: auto !important;
   }
 
-  /* Mobile header that’s sticky should respect safe areas */
-  body.template-product .collection-header,
+  /* Keep the TOP bar (v8) sticky at the top */
+  .collection-header-section-v8 { position: sticky; top: 0; z-index: 20; }
+
+  /* Hide the PDP sticky bar fully behind the top bar */
+  body.template-product .collection-header {
+    position: sticky;
+    /* move it up by the exact height of the top bar */
+    top: calc(-1 * var(--header-height-mobile));
+    height: var(--header-height-mobile);
+    max-height: var(--header-height-mobile);
+    overflow: hidden;          /* prevents peek from wrapping */
+    z-index: 10;               /* below the v8 header */
+  }
+  /* prevent text/icons from forcing extra height */
+  body.template-product .collection-header * {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    min-width: 0;
+  }
+
+  /* Any other sticky headers on PDP should respect safe area at top */
   body.template-product .product-header,
   body.template-product .product-main__header {
     position: sticky;
