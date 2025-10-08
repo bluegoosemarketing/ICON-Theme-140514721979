@@ -4495,11 +4495,28 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
   }
 
   body.template-product .collection-page__main {
-    padding-inline: 1rem;
+    /* MOBILE FULL-WIDTH FIX: mirror the collection page gutter removal */
+    padding-inline: 0;
   }
 
   body.template-collection #CollectionProductGrid {
     padding-inline: var(--collection-grid-mobile-gutter, 1rem);
+  }
+
+  body.template-product #CollectionProductGrid {
+    width: 100%;
+  }
+
+  body.template-product #CollectionProductGrid > .product-grid {
+    margin: 0;
+    padding-inline: 0;
+    width: 100%;
+    max-width: none;
+  }
+
+  body.template-product #CollectionProductGrid > .product-grid > .grid__item {
+    width: 100% !important;
+    max-width: none !important;
   }
 
   body.template-product .collection-page__layout {
