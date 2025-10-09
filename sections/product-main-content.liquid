@@ -32,6 +32,7 @@
     assign macros_exist = true
   endif
   assign ingredient_highlights = product.metafields.custom.ingredient_highlights
+  assign hero_badge = product.metafields.custom.hero_badge
 -%}
 
 {% if template contains 'product' %}
@@ -102,19 +103,31 @@
   #product-main-{{ section.id }} .product-main__info-column{display:flex;flex-direction:column;gap:1.5rem;}
 
   /* 1. The "Hook" Card - ENHANCED */
-  #product-main-{{ section.id }} .product-intro-card {background:#fff;border:1px solid var(--border-color-soft);border-radius:12px;padding:1.5rem;display:flex;flex-direction:column;gap:1.5rem;}
-  #product-main-{{ section.id }} .product-main__header{display:flex;flex-direction:column;gap:0.25rem;}
-  #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:1.75rem!important;font-weight:800!important;line-height:1.2!important;color:var(--text-primary)!important;letter-spacing:-0.02em;margin:0;}
-  #product-main-{{ section.id }} .product-main__price{display:flex;flex-direction:row;align-items:center;gap:.5rem;font-size:1.5rem;font-weight:700;color:#343a40;transition:all .18s ease;}
-  #product-main-{{ section.id }} .product-main__price.price--live{background:transparent;border:0;padding:0;font-weight:800;font-size:1.75rem;color:#111827;}
-  #product-main-{{ section.id }} .product-main__price.price--live .price-note{font-size:.875rem;font-weight:600;color:#6b7280;margin-left:.5rem;}
-  #product-main-{{ section.id }} .product-description{margin:0;color:#24303f;font-size:1.02rem;line-height:1.7;}
-  #product-main-{{ section.id }} .product-highlights{padding-top:1.5rem;border-top:1px solid var(--border-color-soft);}
-  #product-main-{{ section.id }} .product-highlights__title{margin:0 0 1rem;font-size:1rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;color:#343a40;}
-  #product-main-{{ section.id }} .product-highlights ul {list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:0.75rem;}
-  #product-main-{{ section.id }} .product-highlights li {display:inline-flex;align-items:center;gap:0.6rem;background-color:#fff;border:1px solid var(--border-color-soft);border-radius:2rem;padding:0.5rem 1.25rem;font-size:0.9rem;font-weight:500;color:var(--text-primary);line-height:1.4;letter-spacing:0.025em;transition:all 0.2s ease;}
-  #product-main-{{ section.id }} .product-highlights li:hover {transform:translateY(-2px);box-shadow:0 4px 10px rgba(0,0,0,0.05);border-color:#ced4da;}
-  #product-main-{{ section.id }} .product-highlights .ingredient-indicator {width:8px;height:8px;border-radius:50%;background-color:var(--macro-color-protein);flex-shrink:0;}
+  #product-main-{{ section.id }} .product-intro-card {position:relative;overflow:hidden;background:linear-gradient(135deg,#ffffff 0%,#f8fffb 55%,#f0fdfa 100%);border:1px solid rgba(42,157,143,0.14);border-radius:18px;padding:clamp(1.75rem,4vw,2.75rem);display:flex;flex-direction:column;gap:clamp(1.25rem,2.5vw,2rem);box-shadow:0 28px 45px rgba(15,23,42,0.08);}
+  #product-main-{{ section.id }} .product-intro-card::before{content:"";position:absolute;inset:auto -35% 20% auto;width:340px;height:340px;background:radial-gradient(circle at center,rgba(42,157,143,0.18) 0%,rgba(42,157,143,0) 70%);opacity:.9;pointer-events:none;}
+  #product-main-{{ section.id }} .product-intro-card::after{content:"";position:absolute;top:-120px;left:-120px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at center,rgba(236,72,153,0.12) 0%,rgba(236,72,153,0) 70%);pointer-events:none;}
+  #product-main-{{ section.id }} .product-main__header{position:relative;z-index:1;display:flex;flex-direction:column;gap:0.65rem;align-items:flex-start;}
+  #product-main-{{ section.id }} .product-main__eyebrow{display:inline-flex;align-items:center;gap:0.5rem;padding:0.25rem 0.85rem;border-radius:999px;background:rgba(42,157,143,0.12);color:#1f766b;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;}
+  #product-main-{{ section.id }} .product-main__eyebrow::after{content:"";display:block;width:6px;height:6px;border-radius:50%;background:rgba(31,118,107,0.9);}
+  #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(2.2rem,3vw,3rem)!important;font-weight:800!important;line-height:1.05!important;color:#0f172a!important;letter-spacing:-0.025em;margin:0;text-wrap:balance;}
+  #product-main-{{ section.id }} .product-main__price{position:relative;z-index:1;display:inline-flex;align-items:center;gap:0.65rem;padding:0.5rem 1.1rem;border-radius:14px;background:#fff;border:1px solid rgba(15,23,42,0.08);box-shadow:0 10px 25px rgba(15,23,42,0.08);font-size:clamp(1.5rem,2.1vw,2rem);font-weight:800;color:#0f172a;transition:all .2s ease;}
+  #product-main-{{ section.id }} .product-main__price span{display:flex;align-items:center;gap:0.35rem;}
+  #product-main-{{ section.id }} .product-main__price.price--live{background:#fff;border-color:rgba(42,157,143,0.35);box-shadow:0 16px 30px rgba(42,157,143,0.15);color:#0b3a34;}
+  #product-main-{{ section.id }} .product-main__price.price--live .price-note{font-size:0.9rem;font-weight:600;color:#1f766b;margin-left:0;}
+  #product-main-{{ section.id }} .product-summary-content{position:relative;z-index:1;display:flex;flex-direction:column;gap:1.65rem;}
+  #product-main-{{ section.id }} .product-description{margin:0;color:#334155;font-size:clamp(1.05rem,1.5vw,1.22rem);line-height:1.8;font-weight:500;}
+  #product-main-{{ section.id }} .product-description p{margin-bottom:1.1rem;}
+  #product-main-{{ section.id }} .product-description p:last-child{margin-bottom:0;}
+  #product-main-{{ section.id }} .product-summary-content .product-description ul,
+  #product-main-{{ section.id }} .product-summary-content .product-description ol {margin:0;padding-left:1.35rem;}
+  #product-main-{{ section.id }} .product-summary-content .product-description li{margin-bottom:0.75rem;}
+  #product-main-{{ section.id }} .product-summary-content .product-description li:last-child{margin-bottom:0;}
+  #product-main-{{ section.id }} .product-highlights{padding-top:1.25rem;border-top:1px solid rgba(15,23,42,0.08);}
+  #product-main-{{ section.id }} .product-highlights__title{margin:0;font-size:1.05rem;font-weight:750;letter-spacing:0.08em;text-transform:uppercase;color:#0f172a;}
+  #product-main-{{ section.id }} .product-highlights ul {list-style:none;padding:0;margin:0;display:flex;flex-wrap:wrap;gap:0.85rem;}
+  #product-main-{{ section.id }} .product-highlights li {display:inline-flex;align-items:center;gap:0.65rem;background-color:rgba(255,255,255,0.95);border:1px solid rgba(42,157,143,0.2);border-radius:999px;padding:0.55rem 1.35rem;font-size:1rem;font-weight:600;color:#0f172a;line-height:1.4;letter-spacing:0.02em;box-shadow:0 10px 18px rgba(15,23,42,0.06);transition:transform 0.2s ease,box-shadow 0.2s ease,border-color 0.2s ease;}
+  #product-main-{{ section.id }} .product-highlights li:hover {transform:translateY(-3px);box-shadow:0 14px 22px rgba(15,23,42,0.12);border-color:rgba(31,118,107,0.45);}
+  #product-main-{{ section.id }} .product-highlights .ingredient-indicator {width:10px;height:10px;border-radius:50%;background:linear-gradient(135deg,rgba(31,118,107,1) 0%,rgba(42,157,143,0.8) 100%);flex-shrink:0;box-shadow:0 0 0 2px #fff;}
 
   /* Visuals Column - ENHANCED */
   #product-main-{{ section.id }} .product-main__gallery-image-wrapper {background:#fff;border-radius:12px;border:1px solid var(--border-color-soft);box-shadow:0 4px 12px rgba(0,0,0,.05);padding:0.5rem;position:relative;}
@@ -199,8 +212,8 @@
     #product-main-{{ section.id }} .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:3rem;padding:1.5rem 0;}
     #product-main-{{ section.id }} .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
     #product-main-{{ section.id }} .product-main__info-column{grid-area:info;}
-    #product-main-{{ section.id }} .product-intro-card {padding:2rem;}
-    #product-main-{{ section.id }} .product-main__title{font-size:2.25rem!important;}
+    #product-main-{{ section.id }} .product-intro-card {padding:clamp(2.5rem,3vw,3.2rem);}
+    #product-main-{{ section.id }} .product-main__title{font-size:3.15rem!important;}
     #product-main-{{ section.id }} .macro-stat__value{font-size:1.25rem;}
     #product-main-{{ section.id }} .macro-stat__label{font-size:.75rem;}
   }
@@ -213,7 +226,7 @@
     #product-main-{{ section.id }} .product-main__gallery-image {border-radius:0;}
     #product-main-{{ section.id }} .product-macros-block {border:0;border-radius:0;padding:1.5rem var(--product-mobile-gutter) 0 var(--product-mobile-gutter);background:transparent;}
     #product-main-{{ section.id }} .product-main__info-column {padding:1.5rem var(--product-mobile-gutter);background:var(--background-soft);}
-    #product-main-{{ section.id }} .product-main__price.price--live{font-size:1.5rem;}
+    #product-main-{{ section.id }} .product-main__price{width:100%;justify-content:space-between;font-size:clamp(1.4rem,4vw,1.85rem);}
   }
 </style>
 <div id="product-main-{{ section.id }}" class="product-main" data-section-id="{{ section.id }}">
@@ -244,7 +257,24 @@
     <div class="product-main__info-column">
       <!-- 1. The "Hook" Card -->
       <div class="product-intro-card">
+        {%- assign hero_badge_text = '' -%}
+        {%- if hero_badge != blank -%}
+          {%- if hero_badge.value != blank -%}
+            {%- assign hero_badge_text = hero_badge.value -%}
+          {%- else -%}
+            {%- assign hero_badge_text = hero_badge -%}
+          {%- endif -%}
+        {%- endif -%}
+        {%- if hero_badge_text == blank and product.vendor != blank -%}
+          {%- assign hero_badge_text = product.vendor -%}
+        {%- endif -%}
+        {%- if hero_badge_text == blank -%}
+          {%- assign hero_badge_text = 'ICON Meals Favorite' -%}
+        {%- endif -%}
         <div class="product-main__header">
+          {% if hero_badge_text != blank %}
+            <span class="product-main__eyebrow">{{ hero_badge_text }}</span>
+          {% endif %}
           <h1 class="product-main__title">
             {% if product.handle == 'custom-meals' %}
               Build Custom Meals
