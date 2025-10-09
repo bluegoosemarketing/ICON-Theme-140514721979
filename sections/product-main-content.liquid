@@ -474,19 +474,41 @@
   }
 
   function wireSmoothScroll() {
+    const selector = '.yotpo.bottomLine a[href^="#"], .yotpo-widget-instance a[href^="#"]';
+
     document.addEventListener(
       'click',
       (event) => {
-        const link = event.target.closest(
-          '.yotpo.bottomLine a[href^="#"], .yotpo-widget-instance a[href^="#"]'
-        );
+        const link = event.target.closest(selector);
         if (!link) return;
 
-        const target = document.querySelector('#yotpo-main-widget');
+        const targetId = link.getAttribute('href').replace(/^#/, '');
+        if (!targetId) return;
+
+        const target = document.getElementById(targetId);
         if (!target) return;
 
         event.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        const prefersReducedMotion =
+          typeof window.matchMedia === 'function' &&
+          window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        const targetTop = target.getBoundingClientRect().top + window.pageYOffset;
+        const header = document.querySelector('.collection-header');
+        const headerHeight = header ? header.offsetHeight : 0;
+        const offsetTop = Math.max(0, targetTop - headerHeight - 16);
+
+        window.scrollTo({
+          top: offsetTop,
+          behavior: prefersReducedMotion ? 'auto' : 'smooth',
+        });
+
+        if (history.replaceState) {
+          history.replaceState(null, '', `#${targetId}`);
+        } else {
+          window.location.hash = targetId;
+        }
       },
       { passive: false }
     );
