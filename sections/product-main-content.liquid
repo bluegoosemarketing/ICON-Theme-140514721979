@@ -473,29 +473,56 @@
     }
   }
 
+  function manageScrollPadding() {
+    const header = document.querySelector('.collection-header');
+    if (!header) return;
+
+    const setPadding = () => {
+      const headerHeight = header.offsetHeight;
+      document.documentElement.style.scrollPaddingTop = `${headerHeight + 16}px`;
+    };
+
+    setPadding();
+    window.addEventListener('resize', setPadding);
+  }
+
   function wireSmoothScroll() {
-    document.addEventListener(
-      'click',
-      (event) => {
-        const link = event.target.closest(
-          '.yotpo.bottomLine a[href^="#"], .yotpo-widget-instance a[href^="#"]'
-        );
+    const selector = '.yotpo.bottomLine a[href^="#"], .yotpo-widget-instance a[href^="#"]';
+
+    document.addEventListener('click', (event) => {
+        const link = event.target.closest(selector);
         if (!link) return;
 
-        const target = document.querySelector('#yotpo-main-widget');
+        const targetId = link.getAttribute('href').replace(/^#/, '');
+        if (!targetId) return;
+
+        const target = document.getElementById(targetId);
         if (!target) return;
 
         event.preventDefault();
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      },
-      { passive: false }
-    );
+
+        const prefersReducedMotion =
+            typeof window.matchMedia === 'function' &&
+            window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+            
+        target.scrollIntoView({
+            behavior: prefersReducedMotion ? 'auto' : 'smooth',
+            block: 'start'
+        });
+
+        if (history.replaceState) {
+          history.replaceState(null, '', `#${targetId}`);
+        } else {
+          window.location.hash = targetId;
+        }
+    }, { passive: false });
   }
 
   function init() {
     uniqueAnchor();
     coerceYotpoHref();
     hydrateYotpo();
+    manageScrollPadding(); 
 
     document.addEventListener('shopify:section:load', () => {
       uniqueAnchor();
