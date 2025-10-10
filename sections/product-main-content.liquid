@@ -2,10 +2,12 @@
 <!--
 ************************************************************************************
 *
-*  Product Page - Main Content (v25.0 - THE DEFINITIVE DESIGN)
+*  Product Page - Main Content (v25.1 - DEFINITIVE DESIGN + CONVERSION CTA)
 *  --------------------------------------------------------------------------------
 *  - DIAGNOSIS: Previous header designs for the reference cards were not premium
-*    enough. A bold, confident, and unique solution was required.
+*    enough. A bold, confident, and unique solution was required. The primary
+*    Call-to-Action (CTA) block felt stylistically disconnected and lacked the
+*    visual polish of the main product card.
 *  - THE FIX (DEFINITIVE VERSION):
 *    1. ELEGANT TAB HEADERS: All icons and simple lines are removed. The headers
 *       are now redesigned as sophisticated, colored "tabs" attached to the top
@@ -13,9 +15,16 @@
 *    2. BOLD HIERARCHY: The new design uses brand color to create strong visual
 *       anchors for each section, guiding the user's eye and adding rhythm to the
 *       layout. The header text is now white for maximum contrast.
-*    3. CODE CLEANUP: All unused icon HTML and CSS have been completely removed,
+*    3. CONVERSION-OPTIMIZED CTA (NEW): The entire "Action" card has been
+*       redesigned to match the premium aesthetic of the "Hook" card.
+*         - It now features a similar gradient background and shadow treatment.
+*         - Subscription options are large, clear, clickable buttons.
+*         - The active state is highlighted with a bold brand-color border.
+*         - The quantity selector and "Add" button are unified in a final,
+*           high-contrast action step, making the "Add" button the primary focal point.
+*    4. CODE CLEANUP: All unused icon HTML and CSS have been completely removed,
 *       resulting in a cleaner and more maintainable final product.
-*    4. HOLISTIC PERFECTION: This change provides the final, elegant solution,
+*    5. HOLISTIC PERFECTION: This change provides the final, elegant solution,
 *       unifying the entire page under a single, world-class design language.
 *
 ************************************************************************************
@@ -80,6 +89,10 @@
 
 <style>
   :root{
+    --brand-primary: #2a9d8f;
+    --brand-primary-light: #f0fdfa;
+    --brand-primary-border: rgba(42, 157, 143, 0.4);
+    --text-on-brand: #ffffff;
     --macro-color-calories: #6c757d;
     --macro-color-protein: #2a9d8f;
     --macro-color-carbs: #e9c46a;
@@ -146,18 +159,111 @@
   #product-main-{{ section.id }} .macro-stat--primary .macro-stat__value {font-size:1.5rem;}
   #product-main-{{ section.id }} .macro-stat--primary .macro-stat__label {font-size:0.8rem;}
 
-  /* 2. The "Action" Card - ENHANCED */
-  #product-main-{{ section.id }} .product-main__form{border:1px solid var(--border-color-soft);border-radius:12px;background:#fff;padding:1.5rem;display:flex;flex-direction:column;gap:1.5rem;}
-  #product-main-{{ section.id }} .product-main__options .rc-widget-injection-parent > div {display:flex;flex-direction:column;gap:0.75rem;}
-  #product-main-{{ section.id }} .product-main__options .rc-option {border:2px solid var(--border-color-soft);border-radius:10px;padding:1rem;cursor:pointer;transition:all 0.2s ease;}
-  #product-main-{{ section.id }} .product-main__options .rc-option:hover {border-color:#ced4da;background-color:var(--background-soft);}
-  #product-main-{{ section.id }} .product-main__options .rc-option.rc-option--active {border-color:var(--brand-accent)!important;background-color:var(--brand-accent-faded)!important;box-shadow:0 0 0 3px rgba(42,157,143,0.2)!important;}
-  #product-main-{{ section.id }} .product-main__options .rc-option__selector {margin-right:1rem;}
-  #product-main-{{ section.id }} .product-main__options .rc-option-wrapper {display:flex;align-items:center;}
-  #product-main-{{ section.id }} .product-main__options .rc-option__title {font-weight:600;font-size:1rem;color:var(--text-primary);}
-  #product-main-{{ section.id }} .product-main__options .rc-option__price {font-weight:700;font-size:1.1rem;margin-left:auto;color:var(--text-primary);}
-  #product-main-{{ section.id }} .product-main__actions{display:grid;grid-template-columns:120px 1fr;gap:1rem;align-items:center;}
+  /* 2. The "Action" Card - REVISED & CORRECTED */
+  #product-main-{{ section.id }} .product-main__form {
+    border-radius: 18px;
+    background: linear-gradient(135deg, #fdfdfd 0%, #f7fdfb 60%, #f5fbf9 100%);
+    border: 1px solid rgba(42, 157, 143, 0.1);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.07);
+    padding: clamp(1.25rem, 4vw, 2rem);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem; /* CORRECTED SPACING */
+  }
+  #product-main-{{ section.id }} .product-main__options .rc-widget-injection-parent > div {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  #product-main-{{ section.id }} .product-main__options .rc-option {
+    border: 2px solid var(--border-color-soft);
+    border-radius: 12px;
+    padding: 1.25rem;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+    background-color: #fff;
+  }
+  #product-main-{{ section.id }} .product-main__options .rc-option:hover {
+    border-color: var(--brand-primary-border);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+  }
+  #product-main-{{ section.id }} .product-main__options .rc-option.rc-option--active {
+    border-color: var(--brand-primary) !important;
+    background-color: var(--brand-primary-light) !important;
+    box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.15) !important;
+  }
+  #product-main-{{ section.id }} .product-main__options .rc-option__selector { margin-right: 1.15rem; transform: scale(1.1); }
+  #product-main-{{ section.id }} .product-main__options .rc-option-wrapper { display: flex; align-items: center; }
+  #product-main-{{ section.id }} .product-main__options .rc-option__title { font-weight: 700; font-size: 1.1rem; color: var(--text-primary); }
+  #product-main-{{ section.id }} .product-main__options .rc-option__price { font-weight: 800; font-size: 1.15rem; margin-left: auto; color: var(--text-primary); }
 
+  /* Actions Wrapper - Universal Grid Layout */
+  #product-main-{{ section.id }} .product-main__actions {
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 1rem;
+    align-items: stretch; /* This ensures both items fill the height of the row */
+  }
+
+  /* Quantity Selector - REVERTED TO ORIGINAL STYLE */
+#product-main-{{ section.id }} .integrated-quantity {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: var(--brand-primary);
+  border-radius: 8px;
+  color: var(--text-on-brand);
+  height: 50px !important; /* DEFINITIVE FIX: Overrides custom.css */
+  box-sizing: border-box; /* Ensures consistent height */
+}
+  #product-main-{{ section.id }} .integrated-quantity__button {
+    background: transparent;
+    border: none;
+    font-size: 1.5rem;
+    line-height: 1;
+    color: var(--text-on-brand);
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+    padding: 0 1rem;
+  }
+  #product-main-{{ section.id }} .integrated-quantity__button:hover { opacity: 0.8; }
+  #product-main-{{ section.id }} .integrated-quantity__text {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--text-on-brand);
+  }
+  #product-main-{{ section.id }} .integrated-quantity__input { display: none; }
+
+  /* Add to Cart Button - REVERTED TO ORIGINAL STYLE */
+#product-main-{{ section.id }} .product-main-add-to-cart {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  width: 100%;
+  background-color: transparent;
+  color: var(--brand-primary);
+  border: 2px solid var(--brand-primary);
+  border-radius: 8px;
+  height: 50px !important; /* DEFINITIVE FIX: Ensures consistency */
+  padding: 1rem;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  box-sizing: border-box; /* Ensures consistent height */
+}
+  #product-main-{{ section.id }} .product-main-add-to-cart:hover {
+    background-color: var(--brand-primary-light);
+  }
+  #product-main-{{ section.id }} .product-main-add-to-cart svg {
+    stroke: var(--brand-primary);
+    stroke-width: 2.5;
+  }
+  
   /* 3. The "Reference" Cards - DEFINITIVE ACCENT BORDER DESIGN */
   #product-main-{{ section.id }} .product-visible-details{display:flex;flex-direction:column;gap:1.5rem;}
   #product-main-{{ section.id }} .product-detail-block {
@@ -207,7 +313,7 @@
 
   /* Desktop Layout - PRESERVED */
   @media (min-width:1024px){
-    #product-main-{{ section.id }} .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:1.5rem;padding:1.5rem 0;}
+    #product-main-{{ section.id }} .product-main__layout{display:grid;grid-template-columns:45fr 55fr;grid-template-areas:"visuals info";gap:2rem;padding:1.5rem 0;}
     #product-main-{{ section.id }} .product-main__visuals-wrapper{grid-area:visuals;position:sticky;top:1.5rem;}
     #product-main-{{ section.id }} .product-main__info-column{grid-area:info;}
     #product-main-{{ section.id }} .product-intro-card {padding:clamp(2.5rem,3vw,3.2rem);}
@@ -368,7 +474,7 @@
             <button type="button" class="integrated-quantity__button" name="plus" aria-label="{{ 'products.product.quantity_increase' | t }}">＋</button>
           </div>
           <button type="submit" name="add" class="product-card__add-btn alt-focus product-main-add-to-cart" {% unless current_variant.available %}disabled{% endunless %}>
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
             <span data-add-to-cart-text>{%- if current_variant.available -%}Add{%- else -%}{{ 'products.product.sold_out' | t }}{%- endif -%}</span>
           </button>
         </div>
