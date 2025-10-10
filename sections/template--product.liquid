@@ -128,9 +128,27 @@
             </nav>
         </div>
         {% else %}
-        <a href="{{ collection.url | default: routes.root_url }}" class="collection-header__title back-to-collection-link">
+        {%- assign back_to_collection_url = collection.url -%}
+        {%- assign back_to_collection_title = collection.title -%}
+
+        {%- if back_to_collection_url == blank -%}
+          {%- assign bulk_collection = product.collections | where: 'handle', 'bulk-items' | first -%}
+          {%- if bulk_collection -%}
+            {%- assign back_to_collection_url = bulk_collection.url -%}
+            {%- assign back_to_collection_title = bulk_collection.title -%}
+          {%- elsif product.collections.size > 0 -%}
+            {%- assign first_collection = product.collections.first -%}
+            {%- assign back_to_collection_url = first_collection.url -%}
+            {%- assign back_to_collection_title = first_collection.title -%}
+          {%- else -%}
+            {%- assign back_to_collection_url = routes.root_url -%}
+            {%- assign back_to_collection_title = 'Menu' -%}
+          {%- endif -%}
+        {%- endif -%}
+
+        <a href="{{ back_to_collection_url }}" class="collection-header__title back-to-collection-link">
           <svg class="back-arrow-icon" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6 1.41-1.41z"></path></svg>
-          <span>{{ collection.title | default: 'Menu' }}</span>
+          <span>{{ back_to_collection_title | default: 'Menu' }}</span>
         </a>
         {% endif %}
       </div>
