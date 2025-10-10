@@ -87,6 +87,62 @@
 </script>
 {% endif %}
 
+{% unless template.suffix contains 'recharge-bundle' %}
+  <script>
+    (function () {
+      var applyPdpMobileLock = function () {
+        var lockClass = 'pdp-mobile-lock';
+        var optionalWrappers = ['.main-body-wrapper', '#PageContainer', '#MainContent', '.shopify-section--main-product', '.product-template-wrapper'];
+
+        document.documentElement.classList.add(lockClass);
+        document.body.classList.add(lockClass);
+
+        optionalWrappers.forEach(function (selector) {
+          var nodes = document.querySelectorAll(selector);
+          if (nodes && nodes.length) {
+            nodes.forEach(function (node) {
+              node.classList.add(lockClass + '--wrapper');
+            });
+          }
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', applyPdpMobileLock);
+      } else {
+        applyPdpMobileLock();
+      }
+    })();
+  </script>
+{% else %}
+  <script>
+    (function () {
+      var removePdpMobileLock = function () {
+        var lockClass = 'pdp-mobile-lock';
+        var optionalWrappers = ['.main-body-wrapper', '#PageContainer', '#MainContent', '.shopify-section--main-product', '.product-template-wrapper'];
+
+        document.documentElement.classList.remove(lockClass);
+        document.body.classList.remove(lockClass);
+
+        optionalWrappers.forEach(function (selector) {
+          var nodes = document.querySelectorAll(selector);
+          if (nodes && nodes.length) {
+            nodes.forEach(function (node) {
+              node.classList.remove(lockClass + '--wrapper');
+            });
+          }
+        });
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', removePdpMobileLock);
+      } else {
+        removePdpMobileLock();
+      }
+    })();
+  </script>
+{% endunless %}
+
 <style>
   :root{
     --brand-primary: #2a9d8f;
@@ -109,6 +165,33 @@
   #product-main-{{ section.id }} {
     --product-mobile-gutter: clamp(1rem, 4vw, 1.5rem);
   }
+
+  {% unless template.suffix contains 'recharge-bundle' %}
+  @media (max-width: 749px) {
+    html.pdp-mobile-lock,
+    body.pdp-mobile-lock {
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+    }
+
+    body.pdp-mobile-lock #product-main-{{ section.id }} {
+      max-width: 100vw;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+    }
+
+    body.pdp-mobile-lock .main-body-wrapper,
+    body.pdp-mobile-lock #PageContainer,
+    body.pdp-mobile-lock #MainContent,
+    body.pdp-mobile-lock .shopify-section--main-product,
+    body.pdp-mobile-lock .product-template-wrapper,
+    body.pdp-mobile-lock .pdp-mobile-lock--wrapper {
+      max-width: 100vw;
+      overflow-x: hidden;
+      overscroll-behavior-x: none;
+    }
+  }
+  {% endunless %}
 
   /* Core Layout - PRESERVED */
   #product-main-{{ section.id }} .product-main__layout{display:flex;flex-direction:column;gap:1.5rem;padding:1.5rem 1.2rem; max-width: 100%; overflow-x: hidden;}
