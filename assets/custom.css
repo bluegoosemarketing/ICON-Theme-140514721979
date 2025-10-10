@@ -4826,3 +4826,47 @@ body.template-product #yotpo-main-widget {
   }
 }
 
+
+/* === FIX: Ensure product-page collection selector overlays PDP on mobile === */
+@media (max-width: 991px) {
+  /* Give the sticky product-page header a sane base so it doesn't sit over the menu */
+  .product-page-navigation-header,
+  .collection-header {
+    position: sticky;
+    top: 0;
+    z-index: 20; /* below the menu */
+  }
+
+  /* Detach the menu from PDP stacking/overflow contexts */
+  .collection-selector__menu {
+    position: fixed !important;
+    inset: 0 !important;                 /* top:0; right:0; bottom:0; left:0 */
+    z-index: 10020 !important;           /* above everything on PDP */
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* Darken/click-capture overlay below the menu but above page */
+  .collection-selector__overlay {
+    position: fixed !important;
+    inset: 0 !important;
+    z-index: 10010 !important;
+  }
+
+  /* Make sure the main column isn't clipping the menu */
+  .collection-page__main {
+    overflow: visible !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
+}
+
+/* Defensive: if any PDP wrapper was creating a stacking context, neutralize it on mobile */
+@media (max-width: 991px) {
+  [class*="product-"][style*="transform"],
+  .product-main__media-column,
+  .product-media,
+  .image-column {
+    transform: none !important;
+  }
+}
+
