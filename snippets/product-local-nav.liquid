@@ -30,12 +30,37 @@
 
   assign collection_title = fallback_title
   assign collection_url = fallback_url
+  assign matched_handle = ""
+
+  if collection and collection.url
+    assign collection_title = collection.title | default: fallback_title
+    assign collection_url = collection.url | default: fallback_url
+    assign matched_handle = collection.handle | default: ""
+  endif
+
+  assign handle_priority = "bulk-items|signature-menu|proteinpopcorn|butters|proteincoffee"
+  assign handle_priority = handle_priority | split: "|"
+
+  for handle in handle_priority
+    if matched_handle != ""
+      break
+    endif
+
+    for collection in product.collections
+      if collection.handle == handle
+        assign collection_title = collection.title | default: fallback_title
+        assign collection_url = collection.url | default: fallback_url
+        assign matched_handle = handle
+        break
+      endif
+    endfor
+  endfor
 -%}
 
 {%- if product.handle contains 'meal-plan' or product.tags contains 'Meal Plan' or product.tags contains 'Meal Plans' -%}
   {%- assign collection_title = "Meal Plans" -%}
   {%- assign collection_url = "/pages/mealplans" -%}
-{%- else -%}
+{%- elsif matched_handle == "" -%}
   {%- comment -%}
     Loop through product tags to find the first match and set the correct
     collection title and URL. The `break` tag exits the loop after the first match.
