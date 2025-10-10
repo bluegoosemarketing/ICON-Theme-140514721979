@@ -4654,6 +4654,11 @@ body[class*='product-custom-meals'] .cart-drawer__property .ingredient-name {
     overflow: visible !important;
   }
 
+  body.template-product .collection-page__main {
+    overflow: visible !important;
+    -webkit-overflow-scrolling: auto !important;
+  }
+
   /* Disable sticky media on mobile */
   body.template-product [style*="position: sticky"],
   body.template-product .product-main__media-column,
