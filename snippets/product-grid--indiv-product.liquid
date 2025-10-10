@@ -51,32 +51,7 @@
         <h3 class="product-card__title">{{ liquidObject.title }}</h3>
       </a>
       
-      {%- assign product_tags_joined = liquidObject.tags | join: '||' -%}
-      {%- assign product_tags_string = '||' | append: product_tags_joined | append: '||' | downcase -%}
-
-      {%- capture diet_tags_html -%}
-        {%- if product_tags_string contains '||diet_keto||' or product_tags_string contains '||keto||' -%}
-          <span class="diet-tag" data-tag="keto">Keto</span>
-        {%- endif -%}
-        {%- if product_tags_string contains '||diet_gluten-free||' or product_tags_string contains '||diet_gluten_free||' or product_tags_string contains '||gluten-free||' or product_tags_string contains '||gluten_free||' -%}
-          <span class="diet-tag" data-tag="gluten-free">Gluten-Free</span>
-        {%- endif -%}
-        {%- if product_tags_string contains '||diet_dairy-free||' or product_tags_string contains '||diet_dairy_free||' or product_tags_string contains '||dairy-free||' or product_tags_string contains '||dairy_free||' -%}
-          <span class="diet-tag" data-tag="dairy-free">Dairy-Free</span>
-        {%- endif -%}
-        {%- if product_tags_string contains '||diet_vegetarian||' or product_tags_string contains '||vegetarian||' -%}
-          <span class="diet-tag" data-tag="vegetarian">Vegetarian</span>
-        {%- endif -%}
-        {%- if product_tags_string contains '||diet_paleo||' or product_tags_string contains '||paleo||' -%}
-          <span class="diet-tag" data-tag="paleo">Paleo</span>
-        {%- endif -%}
-      {%- endcapture -%}
-      
-      {%- if diet_tags_html != blank -%}
-        <div class="product-card__diet-tags">
-          {{ diet_tags_html }}
-        </div>
-      {%- endif -%}
+      {% render 'diet-tags', prod: liquidObject %}
     </div>
 
     <div class="product-card__footer">

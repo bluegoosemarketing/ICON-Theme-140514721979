@@ -120,6 +120,24 @@
   #product-main-{{ section.id }} .product-intro-card::before{content:"";position:absolute;inset:auto -35% 20% auto;width:340px;height:340px;background:radial-gradient(circle at center,rgba(42,157,143,0.18) 0%,rgba(42,157,143,0) 70%);opacity:.9;pointer-events:none;}
   #product-main-{{ section.id }} .product-intro-card::after{content:"";position:absolute;top:-120px;left:-120px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at center,rgba(236,72,153,0.12) 0%,rgba(236,72,153,0) 70%);pointer-events:none;}
   #product-main-{{ section.id }} .product-main__header{position:relative;z-index:1;display:flex;flex-direction:column;gap:1.25rem;align-items:flex-start;}
+  /* PDP Meta Line (Eyebrow + Diet Tags) */
+  #product-main-{{ section.id }} .product-main__meta-line {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem; /* Creates nice spacing between eyebrow and tags */
+  }
+  /* Override default spacing on the tag wrapper */
+  #product-main-{{ section.id }} .product-main__meta-line .product-card__diet-tags {
+    margin-top: 0;
+  }
+  /* DEFINITIVE FIX: Make diet tags match the eyebrow size on PDP */
+  #product-main-{{ section.id }} .product-main__meta-line .diet-tag {
+    font-size: 0.85rem !important;
+    padding: 0.25rem 0.85rem !important;
+    letter-spacing: 0.08em !important;
+    line-height: 1.4; /* Ensures consistent vertical alignment */
+  }
   #product-main-{{ section.id }} .product-main__eyebrow{display:inline-flex;align-items:center;gap:0.5rem;padding:0.25rem 0.85rem;border-radius:999px;background:rgba(42,157,143,0.12);color:#1f766b;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;}
   #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(2.2rem,3vw,3rem)!important;font-weight:800!important;line-height:1.05!important;color:#0f172a!important;letter-spacing:-0.025em;margin:0;text-wrap:balance;}
   #product-main-{{ section.id }} .product-main__price{position:relative;z-index:1;display:inline-flex;align-items:center;padding:0.6rem 1.25rem;border-radius:999px;background:#fff;border:1px solid rgba(15,23,42,0.1);box-shadow:inset 0 1px 2px rgba(0,0,0,0.05), 0 8px 20px rgba(15,23,42,0.08);font-size:clamp(1.3rem,1.8vw,1.6rem);font-weight:800;color:#0f172a;transition:all .2s ease;}
@@ -389,9 +407,12 @@
           endif
         -%}
         <div class="product-main__header">
-          {% if hero_badge_text != blank %}
-            <span class="product-main__eyebrow">{{ hero_badge_text }}</span>
-          {% endif %}
+          <div class="product-main__meta-line">
+            {% if hero_badge_text != blank %}
+              <span class="product-main__eyebrow">{{ hero_badge_text }}</span>
+            {% endif %}
+            {% render 'diet-tags', prod: product %}
+          </div>
           <h1 class="product-main__title">
             {% if product.handle == 'custom-meals' %}
               Build Custom Meals
