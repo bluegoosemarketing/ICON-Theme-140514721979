@@ -814,110 +814,248 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   .mobile-controls__label { flex-grow: 1; }
 
   
-  /* --- WORLD-CLASS MOBILE MENU V8.0 --- */
-  .collection-selector { position: static; }
-  .collection-selector__overlay {
-    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-    background: rgba(0,0,0,0.4); opacity: 0; pointer-events: none;
-    transition: opacity 0.4s cubic-bezier(0.25, 1, 0.5, 1); z-index: 9998;
-  }
-  .collection-selector[aria-expanded="true"] .collection-selector__overlay { opacity: 1; pointer-events: auto; }
-  .collection-selector__menu {
-    position: fixed !important; top: 0 !important; left: 0 !important;
-    width: 90% !important; max-width: 400px !important; height: 100vh !important;
-    border: none !important; border-radius: 0 !important; box-shadow: 0 0 20px rgba(0,0,0,0.2) !important;
-    z-index: 9999 !important; transform: translateX(-120%);
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.2s ease;
-    display: block !important; overflow: hidden !important; pointer-events: none;
-    opacity: 0; visibility: hidden;
-  }
-  .collection-selector[aria-expanded="true"] .collection-selector__menu {
-    transform: translateX(0);
-    pointer-events: auto;
-    opacity: 1; visibility: visible;
-  }
-  .collection-selector__menu-content-wrapper {
-    position: relative; width: 100%; height: 100%; overflow: hidden; display: block !important;
-  }
-  .collection-selector__menu-main, .collection-selector__menu-sub-panels {
-    position: absolute; top: 0; width: 100%; height: 100%;
-    overflow-y: auto; -webkit-overflow-scrolling: touch;
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
-    padding: 0; box-sizing: border-box;
-  }
-  .collection-selector__menu-main { left: 0; transform: translateX(0); background-color: #ffffff; }
-  .collection-selector__menu-sub-panels { left: 0; transform: translateX(100%); background-color: #f8f9fa; }
-  .collection-selector__menu.is-sub-menu-active .collection-selector__menu-main { transform: translateX(-100%); }
-  .collection-selector__menu.is-sub-menu-active .collection-selector__menu-sub-panels { transform: translateX(0); }
-  
-  .collection-selector__mobile-header {
-    display: flex !important; position: sticky; top: 0; z-index: 10;
-    align-items: center; justify-content: space-between; padding: 0 1rem; min-height: 65px;
-    background-color: inherit; border-bottom: 1px solid #e9ecef;
-  }
-  .collection-selector__menu-main .collection-selector__mobile-header { background-color: #f8f9fa; }
-  .collection-selector__mobile-title {
-    font-size: 1rem; font-weight: 600; color: #6c757d; margin-left: .5rem;
-  }
-  .collection-selector__menu-sub-panels .collection-selector__mobile-title {
-    font-size: 1.1rem; font-weight: 700; color: var(--brand-text);
-    position: absolute; left: 50%; transform: translateX(-50%);
-  }
-  .collection-selector__mobile-back-btn, .collection-selector__mobile-close-btn {
-    background: none; border: none; padding: 0.5rem; cursor: pointer; z-index: 1;
-    border-radius: 50%; transition: background-color 0.2s ease; color: var(--brand-text);
-  }
-  .collection-selector__mobile-back-btn:hover, .collection-selector__mobile-close-btn:hover { background-color: rgba(0,0,0,0.05); }
-  .collection-selector__mobile-back-btn { font-size: 0.9rem; font-weight: 600; color: var(--brand-text); display: flex; align-items: center; gap: 0.25rem; }
-  .collection-selector__mobile-back-btn svg { color: var(--brand-text) !important; }
-  .collection-selector__mobile-close-btn svg { width: 24px; height: 24px; }
-  
-  .collection-selector__menu-main-trigger {
-    border-radius: 0; padding: 1.25rem 1.5rem; border-bottom: 1px solid #f0f0f0;
-    font-size: 1.1rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center;
-    color: var(--brand-text);
-  }
-  .collection-selector__menu-main-trigger::after {
-    content: ''; display: block; width: 8px; height: 8px;
-    border-top: 2px solid #adb5bd; border-right: 2px solid #adb5bd; transform: rotate(45deg);
-  }
-  .collection-selector__menu-main-trigger.is-active::after { border-color: #fff; }
-  .collection-selector__menu-main-trigger .trigger-content {
-    display: flex; flex-direction: column; gap: 0.1rem; align-items: flex-start;
-  }
-  .collection-selector__menu-main-trigger .trigger-title { line-height: 1.2; }
-  .collection-selector__menu-main-trigger .trigger-subtitle {
-    font-size: 0.8rem; font-weight: 400; color: #6c757d; line-height: 1.3;
-    white-space: normal; display: block !important;
-  }
-  .collection-selector__menu-main-trigger.is-active .trigger-subtitle {
-    color: rgba(255, 255, 255, 0.8);
-  }
-  .collection-selector__menu-main-trigger:active .trigger-subtitle {
-    color: rgba(255, 255, 255, 0.8) !important;
+  /* --- MOBILE COLLECTION SELECTOR DRAWER --- */
+  .meal-plans-collection-header .collection-selector__menu { display: none !important; }
+
+  .collection-selector__mobile-container--meal-plans {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
   }
 
-  .collection-selector__menu-sub-panel {
-    display: none; padding: 1.5rem; gap: 0; grid-template-columns: 1fr;
+  .collection-selector__mobile-container--meal-plans.is-open {
+    display: block;
   }
-  .collection-selector__menu-sub-panel.is-active { display: block !important; }
-  .collection-selector__menu-sub-panel ul { list-style: none; padding: 0; margin: 0; }
-  .collection-selector__menu-sub-panel li { margin-bottom: 0.75rem; }
-  .collection-selector__menu-sub-panel a {
-    display: flex; justify-content: space-between; align-items: center;
-    background-color: #ffffff; border: 1px solid #e9ecef; padding: 1.25rem 1rem;
-    border-radius: 12px; font-weight: 600; font-size: 1rem; color: #343a40;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 23, 42, 0.45);
+    opacity: 0;
+    transition: opacity 0.3s ease;
   }
-  .collection-selector__menu-sub-panel a::after {
-    content: ''; display: block; width: 8px; height: 8px;
-    border-top: 2px solid #adb5bd; border-right: 2px solid #adb5bd;
-    transform: rotate(45deg); transition: border-color 0.2s ease;
+
+  .collection-selector__mobile-container--meal-plans.is-open .collection-selector__mobile-overlay {
+    opacity: 1;
   }
-  .collection-selector__menu-header {
-    display: none !important; /* MOBILE FIX: Hide the redundant header on mobile */
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sheet {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: min(88vh, 640px);
+    background: #ffffff;
+    border-radius: 20px 20px 0 0;
+    box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.16);
+    transform: translateY(100%);
+    transition: transform 0.32s cubic-bezier(0.33, 1, 0.68, 1);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
   }
-  
+
+  .collection-selector__mobile-container--meal-plans.is-open .collection-selector__mobile-sheet {
+    transform: translateY(0);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid #e9ecef;
+    min-height: 64px;
+    gap: 0.75rem;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-titles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    flex: 1;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-primary-title {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: var(--brand-text);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-panel-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    display: none;
+  }
+
+  .collection-selector__mobile-container--meal-plans.is-showing-sub .collection-selector__mobile-panel-title {
+    display: inline-block;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-back-btn,
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-close-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: none;
+    background: none;
+    padding: 0.35rem 0.5rem;
+    border-radius: 999px;
+    color: var(--brand-text);
+    font-weight: 600;
+    transition: background-color 0.2s ease, color 0.2s ease;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-back-btn {
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .collection-selector__mobile-container--meal-plans.is-showing-sub .collection-selector__mobile-back-btn {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-back-btn svg,
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-close-btn svg {
+    width: 22px;
+    height: 22px;
+    display: block;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-back-btn:hover,
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-close-btn:hover {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-stage {
+    position: relative;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-main,
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub {
+    position: absolute;
+    inset: 0;
+    padding: 1.25rem;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    transition: transform 0.28s ease;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-main {
+    background: #ffffff;
+    transform: translateX(0);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub {
+    background: #f8f9fa;
+    transform: translateX(100%);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-stage.is-showing-sub .collection-selector__mobile-main {
+    transform: translateX(-100%);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-stage.is-showing-sub .collection-selector__mobile-sub {
+    transform: translateX(0);
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-trigger {
+    width: 100%;
+    border: 1px solid #e9ecef;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+    padding: 1.1rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--brand-text);
+    box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-trigger:hover,
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-trigger:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.1);
+    outline: none;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-trigger-subtitle {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #6c757d;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub-panel {
+    display: none;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub-panel.is-active {
+    display: block;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub-panel ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub-panel a {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.1rem 1.2rem;
+    border-radius: 12px;
+    background: #ffffff;
+    border: 1px solid #e9ecef;
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--brand-text);
+    box-shadow: 0 6px 16px rgba(15, 23, 42, 0.08);
+    text-decoration: none !important;
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sub-panel a::after {
+    content: '';
+    width: 8px;
+    height: 8px;
+    border-top: 2px solid #adb5bd;
+    border-right: 2px solid #adb5bd;
+    transform: rotate(45deg);
+  }
+}
+
+body.collection-selector--lock-scroll {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  overflow: hidden;
 }
 
 /* === BRAND ACCENT OVERRIDES (RED) & CONSOLIDATED FIXES === */
@@ -4829,31 +4967,13 @@ body.template-product #yotpo-main-widget {
 
 /* === FIX: Ensure product-page collection selector overlays PDP on mobile === */
 @media (max-width: 991px) {
-  /* Give the sticky product-page header a sane base so it doesn't sit over the menu */
   .product-page-navigation-header,
   .collection-header {
     position: sticky;
     top: 0;
-    z-index: 20; /* below the menu */
+    z-index: 20;
   }
 
-  /* Detach the menu from PDP stacking/overflow contexts */
-  .collection-selector__menu {
-    position: fixed !important;
-    inset: 0 !important;                 /* top:0; right:0; bottom:0; left:0 */
-    z-index: 10020 !important;           /* above everything on PDP */
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  /* Darken/click-capture overlay below the menu but above page */
-  .collection-selector__overlay {
-    position: fixed !important;
-    inset: 0 !important;
-    z-index: 10010 !important;
-  }
-
-  /* Make sure the main column isn't clipping the menu */
   .collection-page__main {
     overflow: visible !important;
     -webkit-overflow-scrolling: auto !important;
