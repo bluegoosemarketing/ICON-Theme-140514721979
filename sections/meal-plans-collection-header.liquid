@@ -1,417 +1,177 @@
-{% capture menu_json %}
-[
-  {
-    "id": "meals",
-    "title": "Shop Meals",
-    "subtitle": "Signature, Custom & Bulk Prep",
-    "panel_title": "Meals",
-    "links": [
-      { "label": "Signature Meals", "url": "/collections/signature-menu" },
-      { "label": "Custom Meals", "url": "/products/custom-meals" },
-      { "label": "Custom Breakfast", "url": "/products/custom-breakfast" },
-      { "label": "Bulk Items", "url": "/collections/bulk-items" }
-    ]
-  },
-  {
-    "id": "meal-plans",
-    "title": "Meal Plans",
-    "subtitle": "Goal-Focused • 12 or 24 Meals",
-    "panel_title": "Goal-Focused Meal Plans",
-    "links": [
-      { "label": "Build Your Own", "url": "/products/build-your-own-meal-plan" },
-      { "label": "The ICON Plan", "url": "/products/icon-meal-plan" },
-      { "label": "Extreme Protein", "url": "/products/extreme-protein-meal-plan" },
-      { "label": "Get Lean", "url": "/products/get-lean-meal-plan" },
-      { "label": "Lean Lifter", "url": "/products/lean-lifter-meal-plan" },
-      { "label": "Keto", "url": "/products/keto-meal-plan" }
-    ]
-  },
-  {
-    "id": "snacks",
-    "title": "Snacks",
-    "subtitle": "Protein Popcorn & More",
-    "panel_title": "Snacks",
-    "links": [
-      { "label": "Protein Popcorn", "url": "/collections/proteinpopcorn" },
-      { "label": "Protein Butters", "url": "/collections/butters" }
-    ]
-  },
-  {
-    "id": "extras",
-    "title": "Extras",
-    "subtitle": "Upgrade Your Order",
-    "panel_title": "Extras",
-    "links": [
-      { "label": "Protein Coffee", "url": "/collections/proteincoffee" },
-      { "label": "Seasonings", "url": "/collections/seasonings" }
-    ]
-  }
-]
-{% endcapture %}
-{% assign collection_menu_items = menu_json | parse_json %}
+{% comment %}
+  This is the self-contained, working collection selector menu.
+  It includes its own script and does not interfere with the page layout.
+{% endcomment %}
 
 <div class="collection-header">
-  <div class="collection-selector" data-collection-selector aria-expanded="false">
-    <button class="collection-selector__toggle" type="button" data-collection-toggle aria-haspopup="true" aria-expanded="false" aria-controls="CollectionSelectorDesktopMenu">
+  <div class="collection-selector" id="CollectionSelector" aria-expanded="false">
+    <button class="collection-selector__toggle" type="button" aria-haspopup="true" aria-controls="CollectionMenu">
       <span class="collection-header__title">Meal Plans</span>
       <svg class="collection-selector__icon" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
     </button>
-
-    <nav id="CollectionSelectorDesktopMenu" class="collection-selector__menu" data-collection-menu role="navigation" aria-label="Product categories">
+    <div class="collection-selector__overlay"></div>
+    <nav id="CollectionMenu" class="collection-selector__menu" role="navigation" aria-label="Product Categories">
       <div class="collection-selector__menu-content-wrapper">
-        <div class="collection-selector__menu-main" role="list">
-          {% for item in collection_menu_items %}
-            <button type="button" class="collection-selector__menu-main-trigger" data-collection-main-trigger data-panel="{{ item.id }}" data-panel-title="{{ item.panel_title }}">
-              <span class="trigger-content">
-                <span class="trigger-title">{{ item.title }}</span>
-                <span class="trigger-subtitle">{{ item.subtitle }}</span>
-              </span>
+        <div class="collection-selector__menu-main">
+          <div class="collection-selector__mobile-header">
+            <span class="collection-selector__mobile-title">Choose a Category</span>
+            <button class="collection-selector__mobile-close-btn" aria-label="Close menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path></svg>
             </button>
-          {% endfor %}
+          </div>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-meals" data-title="Shop Meals">
+            <span class="trigger-content">
+              <span class="trigger-title">Shop Meals</span>
+              <span class="trigger-subtitle">Signature, Custom & Bulk Prep</span>
+            </span>
+          </button>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-meal-plans" data-title="Meal Plans">
+            <span class="trigger-content">
+              <span class="trigger-title">Meal Plans</span>
+              <span class="trigger-subtitle">Goal-Focused • 12 or 24 Meals</span>
+            </span>
+          </button>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-snacks" data-title="Snacks">
+            <span class="trigger-content">
+              <span class="trigger-title">Snacks</span>
+              <span class="trigger-subtitle">Protein Popcorn & More</span>
+            </span>
+          </button>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-extras" data-title="Extras">
+            <span class="trigger-content">
+              <span class="trigger-title">Extras</span>
+              <span class="trigger-subtitle">Upgrade Your Order</span>
+            </span>
+          </button>
         </div>
         <div class="collection-selector__menu-sub-panels">
-          {% for item in collection_menu_items %}
-            <div class="collection-selector__menu-sub-panel" data-collection-sub-panel data-panel="{{ item.id }}" aria-hidden="true">
-              <h3 class="collection-selector__menu-header">{{ item.panel_title }}</h3>
-              <ul>
-                {% for link in item.links %}
-                  <li><a href="{{ link.url }}" role="menuitem">{{ link.label }}</a></li>
-                {% endfor %}
-              </ul>
-            </div>
-          {% endfor %}
-        </div>
-      </div>
-    </nav>
-
-    <template data-collection-mobile-template>
-      <div class="collection-selector__mobile-container collection-selector__mobile-container--meal-plans" data-mobile-container aria-hidden="true">
-        <div class="collection-selector__mobile-overlay" data-mobile-overlay></div>
-        <div class="collection-selector__mobile-sheet" data-mobile-sheet role="dialog" aria-modal="true" aria-labelledby="CollectionSelectorMobileTitle">
-          <header class="collection-selector__mobile-header">
-            <button type="button" class="collection-selector__mobile-back-btn" data-mobile-back aria-label="Back to categories">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20" aria-hidden="true"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd"></path></svg>
+          <div class="collection-selector__mobile-header">
+            <button class="collection-selector__mobile-back-btn" aria-label="Back to main menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20"><path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd"></path></svg>
               <span>Back</span>
             </button>
-            <div class="collection-selector__mobile-titles">
-              <span class="collection-selector__mobile-primary-title" id="CollectionSelectorMobileTitle">Choose a Category</span>
-              <span class="collection-selector__mobile-panel-title" data-mobile-panel-title></span>
-            </div>
-            <button type="button" class="collection-selector__mobile-close-btn" data-mobile-close aria-label="Close menu">
-              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24" aria-hidden="true"><path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path></svg>
+            <span class="collection-selector__mobile-title" data-panel-title=""></span>
+            <button class="collection-selector__mobile-close-btn" aria-label="Close menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24"><path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7A.996.996 0 1 0 5.7 7.11L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path></svg>
             </button>
-          </header>
-          <div class="collection-selector__mobile-stage" data-mobile-stage>
-            <div class="collection-selector__mobile-main" data-mobile-main>
-              <ul class="collection-selector__mobile-list">
-                {% for item in collection_menu_items %}
-                  <li>
-                    <button type="button" class="collection-selector__mobile-trigger" data-mobile-trigger data-panel="{{ item.id }}" data-panel-title="{{ item.panel_title }}">
-                      <span class="collection-selector__mobile-trigger-title">{{ item.title }}</span>
-                      <span class="collection-selector__mobile-trigger-subtitle">{{ item.subtitle }}</span>
-                    </button>
-                  </li>
-                {% endfor %}
-              </ul>
-            </div>
-            <div class="collection-selector__mobile-sub" data-mobile-sub>
-              {% for item in collection_menu_items %}
-                <div class="collection-selector__mobile-sub-panel" data-panel="{{ item.id }}">
-                  <ul>
-                    {% for link in item.links %}
-                      <li><a href="{{ link.url }}">{{ link.label }}</a></li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% endfor %}
-            </div>
+          </div>
+          <div id="panel-meals" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Meals</h3>
+            <ul>
+              <li><a href="/collections/signature-menu" role="menuitem">Signature Meals</a></li>
+              <li><a href="/products/custom-meals" role="menuitem">Custom Meals</a></li>
+              <li><a href="/products/custom-breakfast" role="menuitem">Custom Breakfast</a></li>
+              <li><a href="/collections/bulk-items" role="menuitem">Bulk Items</a></li>
+            </ul>
+          </div>
+          <div id="panel-meal-plans" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Goal-Focused Meal Plans</h3>
+            <ul>
+              <li><a href="/products/build-your-own-meal-plan" role="menuitem">Build Your Own</a></li>
+              <li><a href="/products/icon-meal-plan" role="menuitem">The ICON Plan</a></li>
+              <li><a href="/products/extreme-protein-meal-plan" role="menuitem">Extreme Protein</a></li>
+              <li><a href="/products/get-lean-meal-plan" role="menuitem">Get Lean</a></li>
+              <li><a href="/products/lean-lifter-meal-plan" role="menuitem">Lean Lifter</a></li>
+              <li><a href="/products/keto-meal-plan" role="menuitem">Keto</a></li>
+            </ul>
+          </div>
+          <div id="panel-snacks" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Snacks</h3>
+            <ul>
+              <li><a href="/collections/proteinpopcorn" role="menuitem">Protein Popcorn</a></li>
+              <li><a href="/collections/butters" role="menuitem">Protein Butters</a></li>
+            </ul>
+          </div>
+          <div id="panel-extras" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Extras</h3>
+            <ul>
+              <li><a href="/collections/proteincoffee" role="menuitem">Protein Coffee</a></li>
+              <li><a href="/collections/seasonings" role="menuitem">Seasonings</a></li>
+            </ul>
           </div>
         </div>
       </div>
-    </template>
+    </nav>
   </div>
 </div>
 
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  const selector = document.querySelector('[data-collection-selector]');
-  if (!selector) return;
+document.addEventListener('DOMContentLoaded', function() {
+  const collectionSelector = document.getElementById('CollectionSelector');
+  if (collectionSelector) {
+    const toggleButton = collectionSelector.querySelector('.collection-selector__toggle');
+    const menu = collectionSelector.querySelector('#CollectionMenu');
+    const mainTriggers = Array.from(menu.querySelectorAll('.collection-selector__menu-main-trigger'));
+    const subPanels = Array.from(menu.querySelectorAll('.collection-selector__menu-sub-panel'));
+    const mobileCloseBtns = menu.querySelectorAll('.collection-selector__mobile-close-btn');
+    const mobileBackBtn = menu.querySelector('.collection-selector__mobile-back-btn');
+    const mobilePanelTitle = menu.querySelector('[data-panel-title]');
+    const overlay = collectionSelector.querySelector('.collection-selector__overlay');
+    let isMobile = window.innerWidth <= 991;
 
-  const toggle = selector.querySelector('[data-collection-toggle]');
-  const desktopMenu = selector.querySelector('[data-collection-menu]');
-  const desktopTriggers = desktopMenu ? Array.from(desktopMenu.querySelectorAll('[data-collection-main-trigger]')) : [];
-  const desktopPanels = desktopMenu ? Array.from(desktopMenu.querySelectorAll('[data-collection-sub-panel]')) : [];
-  const mobileTemplate = selector.querySelector('template[data-collection-mobile-template]');
-  const mediaQuery = window.matchMedia('(max-width: 991px)');
-
-  let isMobile = mediaQuery.matches;
-  let activePanel = desktopTriggers.length ? desktopTriggers[0].dataset.panel : null;
-  let desktopOutsideHandler = null;
-  let focusOutHandler = null;
-  let keydownHandler = null;
-  let mobileUI = null;
-  let lastMobileTrigger = null;
-  let scrollPosition = 0;
-
-  const LOCK_CLASS = 'collection-selector--lock-scroll';
-
-  const setActivePanel = (panelId) => {
-    if (!panelId) return;
-    activePanel = panelId;
-    desktopTriggers.forEach((trigger) => {
-      const isActive = trigger.dataset.panel === panelId;
-      trigger.classList.toggle('is-active', isActive);
-      trigger.setAttribute('aria-expanded', isActive ? 'true' : 'false');
-    });
-    desktopPanels.forEach((panel) => {
-      const isActive = panel.dataset.panel === panelId;
-      panel.classList.toggle('is-active', isActive);
-      panel.setAttribute('aria-hidden', isActive ? 'false' : 'true');
-    });
-  };
-
-  const lockScroll = () => {
-    scrollPosition = window.scrollY || document.documentElement.scrollTop || 0;
-    document.body.classList.add(LOCK_CLASS);
-    document.body.style.top = `-${scrollPosition}px`;
-  };
-
-  const unlockScroll = () => {
-    document.body.classList.remove(LOCK_CLASS);
-    document.body.style.top = '';
-    window.scrollTo(0, scrollPosition || 0);
-  };
-
-  const closeDesktopMenu = () => {
-    selector.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-expanded', 'false');
-    if (desktopOutsideHandler) {
-      document.removeEventListener('mousedown', desktopOutsideHandler);
-      document.removeEventListener('touchstart', desktopOutsideHandler);
-      desktopOutsideHandler = null;
-    }
-    if (focusOutHandler) {
-      document.removeEventListener('focusin', focusOutHandler);
-      focusOutHandler = null;
-    }
-    if (keydownHandler) {
-      document.removeEventListener('keydown', keydownHandler);
-      keydownHandler = null;
-    }
-  };
-
-  const openDesktopMenu = () => {
-    if (!desktopMenu) return;
-    setActivePanel(activePanel || (desktopTriggers[0] && desktopTriggers[0].dataset.panel));
-    selector.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-expanded', 'true');
-
-    desktopOutsideHandler = (event) => {
-      if (!selector.contains(event.target)) {
-        closeDesktopMenu();
-      }
+    const openMenu = () => {
+      collectionSelector.setAttribute('aria-expanded', 'true');
+      if (isMobile) document.body.style.overflow = 'hidden';
     };
-    focusOutHandler = (event) => {
-      if (!selector.contains(event.target)) {
-        closeDesktopMenu();
-      }
-    };
-    keydownHandler = (event) => {
-      if (event.key === 'Escape') {
-        closeDesktopMenu();
-        toggle.focus();
+
+    const closeMenu = () => {
+      collectionSelector.setAttribute('aria-expanded', 'false');
+      if (isMobile) {
+        document.body.style.overflow = '';
+        menu.classList.remove('is-sub-menu-active');
       }
     };
 
-    document.addEventListener('mousedown', desktopOutsideHandler);
-    document.addEventListener('touchstart', desktopOutsideHandler);
-    document.addEventListener('focusin', focusOutHandler);
-    document.addEventListener('keydown', keydownHandler);
-  };
-
-  const ensureMobileUI = () => {
-    if (mobileUI || !mobileTemplate) return mobileUI;
-    const fragment = mobileTemplate.content.cloneNode(true);
-    const container = fragment.querySelector('[data-mobile-container]');
-    if (!container) return null;
-
-    mobileUI = container;
-    mobileUI.overlay = container.querySelector('[data-mobile-overlay]');
-    mobileUI.sheet = container.querySelector('[data-mobile-sheet]');
-    mobileUI.stage = container.querySelector('[data-mobile-stage]');
-    mobileUI.panelTitle = container.querySelector('[data-mobile-panel-title]');
-    mobileUI.triggers = Array.from(container.querySelectorAll('[data-mobile-trigger]'));
-    mobileUI.subPanels = Array.from(container.querySelectorAll('.collection-selector__mobile-sub-panel'));
-    mobileUI.closeButtons = Array.from(container.querySelectorAll('[data-mobile-close]'));
-    mobileUI.backButton = container.querySelector('[data-mobile-back]');
-
-    document.body.appendChild(container);
-
-    mobileUI.triggers.forEach((trigger) => {
-      trigger.addEventListener('click', () => {
-        const panelId = trigger.dataset.panel;
-        const title = trigger.dataset.panelTitle || trigger.textContent.trim();
-        lastMobileTrigger = trigger;
-        showMobilePanel(panelId, title);
-      });
+    const activatePanel = (panelId, triggerEl) => {
+      mainTriggers.forEach(t => t.classList.remove('is-active'));
+      subPanels.forEach(p => p.classList.remove('is-active'));
+      if(triggerEl) triggerEl.classList.add('is-active');
+      const targetPanel = document.getElementById(panelId);
+      if (targetPanel) targetPanel.classList.add('is-active');
+    };
+    
+    toggleButton.addEventListener('click', (e) => {
+      e.stopPropagation();
+      collectionSelector.getAttribute('aria-expanded') === 'true' ? closeMenu() : openMenu();
     });
 
-    mobileUI.subPanels.forEach((panel) => {
-      panel.querySelectorAll('a').forEach((link) => {
-        link.addEventListener('click', () => {
-          closeMobileMenu();
+    mainTriggers.forEach(trigger => {
+      const panelId = trigger.dataset.targetPanel;
+      if (isMobile) {
+        trigger.addEventListener('click', () => {
+          const title = trigger.dataset.title || trigger.querySelector('.trigger-title').textContent.trim();
+          if (mobilePanelTitle) mobilePanelTitle.textContent = title;
+          activatePanel(panelId, trigger);
+          menu.classList.add('is-sub-menu-active');
         });
-      });
-    });
-
-    if (mobileUI.overlay) {
-      mobileUI.overlay.addEventListener('click', () => closeMobileMenu());
-    }
-
-    mobileUI.closeButtons.forEach((btn) => btn.addEventListener('click', () => closeMobileMenu()));
-
-    if (mobileUI.backButton) {
-      mobileUI.backButton.addEventListener('click', () => {
-        resetMobilePanels();
-        if (lastMobileTrigger) {
-          lastMobileTrigger.focus();
-        }
-      });
-    }
-
-    return mobileUI;
-  };
-
-  const resetMobilePanels = () => {
-    if (!mobileUI) return;
-    mobileUI.stage.classList.remove('is-showing-sub');
-    mobileUI.classList.remove('is-showing-sub');
-    mobileUI.subPanels.forEach((panel) => panel.classList.remove('is-active'));
-    if (mobileUI.panelTitle) {
-      mobileUI.panelTitle.textContent = '';
-    }
-  };
-
-  const showMobilePanel = (panelId, title) => {
-    if (!mobileUI) return;
-    mobileUI.subPanels.forEach((panel) => {
-      const isActive = panel.dataset.panel === panelId;
-      panel.classList.toggle('is-active', isActive);
-    });
-    if (mobileUI.panelTitle) {
-      mobileUI.panelTitle.textContent = title || '';
-    }
-    mobileUI.stage.classList.add('is-showing-sub');
-    mobileUI.classList.add('is-showing-sub');
-  };
-
-  const closeMobileMenu = () => {
-    if (!mobileUI || !mobileUI.classList.contains('is-open')) return;
-    mobileUI.classList.remove('is-open');
-    mobileUI.setAttribute('aria-hidden', 'true');
-    unlockScroll();
-    selector.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-expanded', 'false');
-    document.removeEventListener('keydown', handleMobileEscape);
-    resetMobilePanels();
-    toggle.focus();
-  };
-
-  const handleMobileEscape = (event) => {
-    if (event.key === 'Escape') {
-      event.preventDefault();
-      closeMobileMenu();
-    }
-  };
-
-  const openMobileMenu = () => {
-    const ui = ensureMobileUI();
-    if (!ui || ui.classList.contains('is-open')) return;
-
-    selector.setAttribute('aria-expanded', 'true');
-    toggle.setAttribute('aria-expanded', 'true');
-    ui.classList.add('is-open');
-    ui.setAttribute('aria-hidden', 'false');
-    lockScroll();
-    resetMobilePanels();
-    document.addEventListener('keydown', handleMobileEscape);
-
-    window.requestAnimationFrame(() => {
-      if (ui.triggers && ui.triggers.length) {
-        ui.triggers[0].focus();
-      } else if (ui.sheet) {
-        ui.sheet.setAttribute('tabindex', '-1');
-        ui.sheet.focus();
-      }
-    });
-  };
-
-  const handleToggleClick = (event) => {
-    event.preventDefault();
-    if (isMobile) {
-      openMobileMenu();
-    } else {
-      const isExpanded = selector.getAttribute('aria-expanded') === 'true';
-      if (isExpanded) {
-        closeDesktopMenu();
       } else {
-        openDesktopMenu();
-      }
-    }
-  };
-
-  const handleTriggerInteract = (trigger) => {
-    const panelId = trigger.dataset.panel;
-    setActivePanel(panelId);
-  };
-
-  desktopTriggers.forEach((trigger) => {
-    trigger.addEventListener('mouseenter', () => {
-      if (!isMobile) {
-        handleTriggerInteract(trigger);
+        trigger.addEventListener('mouseenter', () => activatePanel(panelId, trigger));
       }
     });
-    trigger.addEventListener('focus', () => {
-      if (!isMobile) {
-        handleTriggerInteract(trigger);
-      }
-    });
-    trigger.addEventListener('click', (event) => {
-      if (!isMobile) {
-        event.preventDefault();
-        handleTriggerInteract(trigger);
-      }
-    });
-  });
 
-  const updateForViewport = () => {
-    isMobile = mediaQuery.matches;
-    selector.setAttribute('aria-expanded', 'false');
-    toggle.setAttribute('aria-expanded', 'false');
-    closeDesktopMenu();
-    if (!isMobile && desktopTriggers.length) {
-      setActivePanel(activePanel || desktopTriggers[0].dataset.panel);
+    if (!isMobile && mainTriggers.length > 0) {
+      activatePanel(mainTriggers[0].dataset.targetPanel, mainTriggers[0]);
     }
-    if (!isMobile && mobileUI && mobileUI.classList.contains('is-open')) {
-      closeMobileMenu();
-    }
-  };
 
-  if (toggle) {
-    toggle.addEventListener('click', handleToggleClick);
+    if(mobileBackBtn) mobileBackBtn.addEventListener('click', () => menu.classList.remove('is-sub-menu-active'));
+    mobileCloseBtns.forEach(btn => btn.addEventListener('click', closeMenu));
+    if (overlay) overlay.addEventListener('click', closeMenu);
+    document.addEventListener('click', (e) => !collectionSelector.contains(e.target) && closeMenu());
+    document.addEventListener('keydown', (e) => e.key === 'Escape' && collectionSelector.getAttribute('aria-expanded') === 'true' && closeMenu());
+
+    window.addEventListener('resize', () => {
+      isMobile = window.innerWidth <= 991;
+      if (!isMobile) closeMenu();
+    });
   }
-
-  updateForViewport();
-  mediaQuery.addEventListener('change', updateForViewport);
 });
 </script>
 
 {% schema %}
-{
-  "name": "MP Collection Header",
-  "class": "meal-plans-collection-header",
-  "settings": []
-}
+  {
+    "name": "MP Collection Header",
+    "class": "meal-plans-collection-header"
+  }
 {% endschema %}

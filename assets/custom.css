@@ -4893,3 +4893,66 @@ body.template-product #yotpo-main-widget {
   }
 }
 
+/* ==========================================================================
+   DEFINITIVE FIX: MEAL PLANS MOBILE MENU OVERRIDE
+   - Targets the bespoke mobile menu from meal-plans-collection-header.liquid
+   - Forces the "sheet" UI into a full-screen flyout experience
+   ========================================================================== */
+
+/* This rule is triggered by the existing script when the menu opens */
+body.collection-selector--lock-scroll {
+  position: fixed;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* 1. The Main Container & Overlay */
+@media (max-width: 991px) {
+  .collection-selector__mobile-container--meal-plans {
+    /* Make it a fixed layer covering the whole screen */
+    position: fixed !important;
+    inset: 0 !important; /* top, right, bottom, left = 0 */
+    z-index: 9999 !important; /* Ensure it's on top of everything */
+  }
+
+  /* Make the dark overlay fill its container */
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-overlay {
+    position: absolute !important;
+    inset: 0 !important;
+    background: rgba(0, 0, 0, 0.5) !important;
+    -webkit-backdrop-filter: blur(2px);
+    backdrop-filter: blur(2px);
+  }
+
+  /* 2. The Menu Panel ("Sheet") */
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-sheet {
+    /* Override the "sheet" style and force it to be full-screen */
+    position: fixed !important;
+    inset: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    top: 0 !important;
+    left: 0 !important;
+    bottom: 0 !important;
+    transform: none !important; /* Ignore any translateX from the script */
+    border-radius: 0 !important; /* Remove rounded corners */
+    box-shadow: none !important;
+    background-color: #ffffff !important;
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden; /* The sheet itself doesn't scroll; inner parts do */
+  }
+
+  /* 3. Inner Content & Scrolling */
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-header {
+    flex-shrink: 0; /* Header should not shrink */
+  }
+
+  .collection-selector__mobile-container--meal-plans .collection-selector__mobile-stage {
+    flex-grow: 1; /* Stage takes up remaining space */
+    min-height: 0;
+    overflow-y: auto; /* THIS is the scrolling container */
+    -webkit-overflow-scrolling: touch;
+  }
+}
