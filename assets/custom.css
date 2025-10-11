@@ -918,32 +918,28 @@ body.template-suffix--meal-plans .collection-selector__toggle {
     display: none !important; /* MOBILE FIX: Hide the redundant header on mobile */
   }
 
-  body.page-title--custom-meals .collection-selector__mobile-portal,
-  body.page-title--custom-breakfast .collection-selector__mobile-portal {
-    position: fixed;
-    inset: 0;
-    z-index: 9998;
-    pointer-events: none;
-  }
+  .collection-selector__mobile-portal {
+  position: fixed;
+  inset: 0;
+  z-index: 9998;
+  pointer-events: none;
+}
 
-  body.page-title--custom-meals .collection-selector__mobile-portal.is-active,
-  body.page-title--custom-breakfast .collection-selector__mobile-portal.is-active {
-    pointer-events: auto;
-  }
+.collection-selector__mobile-portal.is-active {
+  pointer-events: auto;
+}
 
-  body.page-title--custom-meals .collection-selector__mobile-portal.is-active .collection-selector__overlay,
-  body.page-title--custom-breakfast .collection-selector__mobile-portal.is-active .collection-selector__overlay {
-    opacity: 1;
-    pointer-events: auto;
-  }
+.collection-selector__mobile-portal.is-active .collection-selector__overlay {
+  opacity: 1;
+  pointer-events: auto;
+}
 
-  body.page-title--custom-meals .collection-selector__mobile-portal.is-active .collection-selector__menu,
-  body.page-title--custom-breakfast .collection-selector__mobile-portal.is-active .collection-selector__menu {
-    transform: translateX(0);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: auto;
-  }
+.collection-selector__mobile-portal.is-active .collection-selector__menu {
+  transform: translateX(0);
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
 
 }
 

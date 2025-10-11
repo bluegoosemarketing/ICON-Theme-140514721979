@@ -288,7 +288,8 @@
         const mobilePanelTitle = menu.querySelector('[data-panel-title]');
         const overlay = collectionSelector.querySelector('.collection-selector__overlay');
         let isMobile = window.innerWidth <= 991;
-        const isCustomBuilder = {{ product.handle == 'custom-meals' or product.handle == 'custom-breakfast' | json }};
+        const productHandle = {{ product.handle | json }};
+const isCustomBuilder = productHandle === 'custom-meals' || productHandle === 'custom-breakfast';
         let mobilePortal = null;
         let overlayAnchor = null;
         let menuAnchor = null;
