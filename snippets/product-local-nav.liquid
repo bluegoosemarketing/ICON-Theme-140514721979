@@ -227,15 +227,70 @@
         const mobilePanelTitle = menu.querySelector('[data-panel-title]');
         const overlay = collectionSelector.querySelector('.collection-selector__overlay');
         let isMobile = window.innerWidth <= 991;
+        let mobilePortal = null;
+        let overlayAnchor = null;
+        let menuAnchor = null;
+
+        const ensureAnchors = () => {
+            if (!overlayAnchor && overlay?.parentNode) {
+                overlayAnchor = document.createComment('collection-selector__overlay-anchor');
+                overlay.parentNode.insertBefore(overlayAnchor, overlay);
+            }
+            if (!menuAnchor && menu?.parentNode) {
+                menuAnchor = document.createComment('collection-selector__menu-anchor');
+                menu.parentNode.insertBefore(menuAnchor, menu);
+            }
+        };
+
+        const ensureMobilePortal = () => {
+            if (!isMobile || !overlay || !menu) return null;
+            ensureAnchors();
+            if (!mobilePortal) {
+                mobilePortal = document.createElement('div');
+                mobilePortal.className = 'collection-selector__mobile-portal';
+                if (collectionSelector.id) {
+                    mobilePortal.dataset.selectorId = collectionSelector.id;
+                }
+                document.body.appendChild(mobilePortal);
+            }
+            if (!mobilePortal.contains(overlay)) {
+                mobilePortal.appendChild(overlay);
+            }
+            if (!mobilePortal.contains(menu)) {
+                mobilePortal.appendChild(menu);
+            }
+            return mobilePortal;
+        };
+
+        const restoreFromPortal = () => {
+            if (!mobilePortal) return;
+            if (menuAnchor && menuAnchor.parentNode) {
+                menuAnchor.parentNode.insertBefore(menu, menuAnchor);
+            }
+            if (overlayAnchor && overlayAnchor.parentNode) {
+                overlayAnchor.parentNode.insertBefore(overlay, overlayAnchor);
+            }
+            mobilePortal.remove();
+            mobilePortal = null;
+        };
 
         const openMenu = () => {
             collectionSelector.setAttribute('aria-expanded', 'true');
-            if (isMobile) document.body.style.overflow = 'hidden';
+            if (isMobile) {
+                const portal = ensureMobilePortal();
+                if (portal) {
+                    portal.classList.add('is-active');
+                }
+                document.body.style.overflow = 'hidden';
+            }
         };
 
         const closeMenu = () => {
             collectionSelector.setAttribute('aria-expanded', 'false');
             if (isMobile) {
+                if (mobilePortal) {
+                    mobilePortal.classList.remove('is-active');
+                }
                 document.body.style.overflow = '';
                 menu.classList.remove('is-sub-menu-active');
                 subPanels.forEach(p => p.classList.remove('is-active'));
@@ -296,7 +351,11 @@
         }
           
         document.addEventListener('click', (e) => {
-          if (!collectionSelector.contains(e.target)) closeMenu();
+          if (!collectionSelector.contains(e.target)) {
+            if (!mobilePortal || !mobilePortal.contains(e.target)) {
+              closeMenu();
+            }
+          }
         });
         if (overlay) {
           overlay.addEventListener('click', closeMenu);
@@ -304,7 +363,24 @@
         document.addEventListener('keydown', (e) => {
           if (e.key === 'Escape' && collectionSelector.getAttribute('aria-expanded') === 'true') closeMenu();
         });
-        window.addEventListener('resize', () => { isMobile = window.innerWidth <= 991; if (!isMobile) closeMenu(); });
+        const handleResize = () => {
+          const wasMobile = isMobile;
+          isMobile = window.innerWidth <= 991;
+          if (!isMobile) {
+            closeMenu();
+            if (wasMobile) {
+              restoreFromPortal();
+            }
+          } else if (collectionSelector.getAttribute('aria-expanded') === 'true') {
+            const portal = ensureMobilePortal();
+            if (portal) {
+              portal.classList.add('is-active');
+            }
+          }
+        };
+
+        handleResize();
+        window.addEventListener('resize', handleResize);
     }
   });
 </script>
