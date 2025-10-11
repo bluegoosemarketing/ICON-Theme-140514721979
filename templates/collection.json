@@ -10,6 +10,10 @@
 {
   "wrapper": "div.collection-wrapper",
   "sections": {
+    "collection_selector": {
+      "type": "collection-selector",
+      "settings": {}
+    },
     "collection_header": {
       "type": "template--collection-header",
       "blocks": {
@@ -83,6 +87,7 @@
     }
   },
   "order": [
+    "collection_selector",
     "collection_header",
     "product_filtering",
     "main",

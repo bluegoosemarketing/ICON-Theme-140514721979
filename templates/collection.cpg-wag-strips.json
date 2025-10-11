@@ -10,6 +10,10 @@
 {
   "wrapper": "div.collection-wrapper",
   "sections": {
+    "collection_selector": {
+      "type": "collection-selector",
+      "settings": {}
+    },
     "1653587415c5092faf": {
       "type": "text--image-with-text",
       "settings": {
@@ -113,6 +117,7 @@
   "order": [
     "1653587415c5092faf",
     "16535884764a76663d",
+    "collection_selector",
     "collection_header",
     "product_filtering",
     "main"

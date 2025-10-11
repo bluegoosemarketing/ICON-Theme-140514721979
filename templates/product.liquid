@@ -8,6 +8,10 @@
   3. It then calls the other sections, which will now appear correctly inside the main column.
 {% endcomment %}
 
+{% if product.handle == 'custom-meals' or product.handle == 'custom-breakfast' %}
+  {% section 'collection-selector' %}
+{% endif %}
+
 <div class="container--collection-page">
   <div class="collection-page__layout">
     <main class="collection-page__main">
