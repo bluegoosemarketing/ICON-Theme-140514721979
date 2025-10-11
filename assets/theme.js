@@ -14731,12 +14731,18 @@ class QuickAdd extends Component {
 
     this.showCart = () => {
       const cartDrawerTop = document.querySelector('.cart-drawer__top');
-      let cartDrawerStatus = document.querySelector('.js-cart-drawer-status'); // TODO: Translate the string.
-
-      cartDrawerStatus.textContent = `Item added to your cart`;
-      cartDrawerTop.appendChild(cartDrawerStatus);
+      const cartDrawerStatus = document.querySelector('.js-cart-drawer-status'); // TODO: Translate the string.
+      if (cartDrawerStatus) {
+        cartDrawerStatus.textContent = `Item added to your cart`;
+      }
+      if (cartDrawerTop && cartDrawerStatus) {
+        cartDrawerTop.appendChild(cartDrawerStatus);
+      }
       var event = new CustomEvent('cart:open', { detail: { silent: true } });
-      document.querySelector('#cartSlideoutWrapper').dispatchEvent(event);
+      const cartWrapper = document.querySelector('#cartSlideoutWrapper');
+      if (cartWrapper) {
+        cartWrapper.dispatchEvent(event);
+      }
     };
 
     this.showError = text => {
@@ -27263,12 +27269,18 @@ class Product extends Section {
 
     this.showCart = () => {
       const cartDrawerTop = document.querySelector('.cart-drawer__top');
-      let cartDrawerStatus = document.querySelector('.js-cart-drawer-status'); // TODO: Translate the string.
-
-      cartDrawerStatus.textContent = `Item added to your cart`;
-      cartDrawerTop.appendChild(cartDrawerStatus);
+      const cartDrawerStatus = document.querySelector('.js-cart-drawer-status'); // TODO: Translate the string.
+      if (cartDrawerStatus) {
+        cartDrawerStatus.textContent = `Item added to your cart`;
+      }
+      if (cartDrawerTop && cartDrawerStatus) {
+        cartDrawerTop.appendChild(cartDrawerStatus);
+      }
       var event = new CustomEvent('cart:open', { detail: { silent: true } });
-      document.querySelector('#cartSlideoutWrapper').dispatchEvent(event);
+      const cartWrapper = document.querySelector('#cartSlideoutWrapper');
+      if (cartWrapper) {
+        cartWrapper.dispatchEvent(event);
+      }
     };
 
     this.updateCart = async function () {
@@ -29758,3 +29770,248 @@ window.onclick = function(event) {
   
 }
 */
+(function() {
+  const selectorStates = new Map();
+  let openCount = 0;
+
+  const initializeWithin = (scope) => {
+    if (!scope || typeof scope.querySelectorAll !== 'function') return;
+    scope.querySelectorAll('.collection-selector').forEach(initializeSelector);
+  };
+
+  const initializeSelector = (root) => {
+    if (!root || root.dataset.collectionSelectorInitialized === 'true') return;
+    const toggleButton = root.querySelector('.collection-selector__toggle');
+    const menu = root.querySelector('.collection-selector__menu');
+    const overlay = root.querySelector('.collection-selector__overlay');
+    if (!toggleButton || !menu || !overlay) return;
+
+    const mainTriggers = Array.from(menu.querySelectorAll('.collection-selector__menu-main-trigger'));
+    const subPanels = Array.from(menu.querySelectorAll('.collection-selector__menu-sub-panel'));
+    const mobileCloseBtns = Array.from(menu.querySelectorAll('.collection-selector__mobile-close-btn'));
+    const mobileBackBtn = menu.querySelector('.collection-selector__mobile-back-btn');
+    const mobilePanelTitle = menu.querySelector('[data-panel-title]');
+
+    const state = {
+      root,
+      toggleButton,
+      menu,
+      overlay,
+      mainTriggers,
+      subPanels,
+      mobileCloseBtns,
+      mobileBackBtn,
+      mobilePanelTitle,
+      overlayAnchor: null,
+      menuAnchor: null,
+      mobilePortal: null,
+      isMobile: window.innerWidth <= 991,
+      resizeHandler: null,
+      documentClickHandler: null,
+      documentKeyHandler: null
+    };
+
+    const ensureAnchors = () => {
+      if (!state.overlayAnchor && state.overlay.parentNode) {
+        state.overlayAnchor = document.createComment('collection-selector__overlay-anchor');
+        state.overlay.parentNode.insertBefore(state.overlayAnchor, state.overlay);
+      }
+      if (!state.menuAnchor && state.menu.parentNode) {
+        state.menuAnchor = document.createComment('collection-selector__menu-anchor');
+        state.menu.parentNode.insertBefore(state.menuAnchor, state.menu);
+      }
+    };
+
+    const ensureMobilePortal = () => {
+      if (!state.isMobile) return null;
+      ensureAnchors();
+      if (!state.mobilePortal) {
+        const portal = document.createElement('div');
+        portal.className = 'collection-selector__mobile-portal';
+        if (state.root.id) {
+          portal.dataset.selectorId = state.root.id;
+        }
+        document.body.appendChild(portal);
+        state.mobilePortal = portal;
+      }
+      if (!state.mobilePortal.contains(state.overlay)) {
+        state.mobilePortal.appendChild(state.overlay);
+      }
+      if (!state.mobilePortal.contains(state.menu)) {
+        state.mobilePortal.appendChild(state.menu);
+      }
+      return state.mobilePortal;
+    };
+
+    const restoreFromPortal = () => {
+      if (!state.mobilePortal) return;
+      if (state.menuAnchor && state.menuAnchor.parentNode) {
+        state.menuAnchor.parentNode.insertBefore(state.menu, state.menuAnchor);
+      }
+      if (state.overlayAnchor && state.overlayAnchor.parentNode) {
+        state.overlayAnchor.parentNode.insertBefore(state.overlay, state.overlayAnchor);
+      }
+      state.mobilePortal.remove();
+      state.mobilePortal = null;
+    };
+
+    const activatePanel = (panelId, trigger) => {
+      state.mainTriggers.forEach((btn) => btn.classList.toggle('is-active', btn === trigger));
+      state.subPanels.forEach((panel) => panel.classList.toggle('is-active', panel.id === panelId));
+    };
+
+    const closeState = (forceMobile = false) => {
+      if (state.root.getAttribute('aria-expanded') !== 'true') return;
+      state.root.setAttribute('aria-expanded', 'false');
+      const treatAsMobile = (forceMobile || state.isMobile) && state.mobilePortal;
+      if (treatAsMobile) {
+        state.mobilePortal.classList.remove('is-active');
+        if (openCount > 0) {
+          openCount -= 1;
+          if (openCount === 0) {
+            document.body.style.overflow = '';
+          }
+        }
+      }
+      state.menu.classList.remove('is-sub-menu-active');
+      state.mainTriggers.forEach((btn) => btn.classList.remove('is-active'));
+      state.subPanels.forEach((panel) => panel.classList.remove('is-active'));
+    };
+
+    const openState = () => {
+      if (state.root.getAttribute('aria-expanded') === 'true') return;
+      selectorStates.forEach((otherState) => {
+        if (otherState !== state) {
+          otherState.close();
+        }
+      });
+      state.root.setAttribute('aria-expanded', 'true');
+      if (state.isMobile) {
+        const portal = ensureMobilePortal();
+        if (portal) {
+          portal.classList.add('is-active');
+        }
+        if (openCount === 0) {
+          document.body.style.overflow = 'hidden';
+        }
+        openCount += 1;
+      }
+    };
+
+    const handleResize = () => {
+      const wasMobile = state.isMobile;
+      state.isMobile = window.innerWidth <= 991;
+      if (!state.isMobile) {
+        const wasOpen = state.root.getAttribute('aria-expanded') === 'true';
+        if (wasOpen) {
+          closeState(wasMobile);
+        }
+        if (wasMobile) {
+          restoreFromPortal();
+        }
+      } else if (state.root.getAttribute('aria-expanded') === 'true') {
+        const portal = ensureMobilePortal();
+        if (portal) {
+          portal.classList.add('is-active');
+        }
+      }
+    };
+
+    const documentClickHandler = (event) => {
+      const clickedInsideRoot = state.root.contains(event.target);
+      const clickedInsidePortal = state.mobilePortal && state.mobilePortal.contains(event.target);
+      if (!clickedInsideRoot && !clickedInsidePortal) {
+        closeState();
+      }
+    };
+
+    const documentKeyHandler = (event) => {
+      if (event.key === 'Escape') {
+        closeState();
+      }
+    };
+
+    toggleButton.addEventListener('click', (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      if (state.root.getAttribute('aria-expanded') === 'true') {
+        closeState();
+      } else {
+        openState();
+      }
+    });
+
+    state.mainTriggers.forEach((trigger) => {
+      const panelId = trigger.dataset.targetPanel;
+      trigger.addEventListener('click', () => {
+        if (!state.isMobile) return;
+        let title = trigger.dataset.title;
+        if (!title) {
+          const titleNode = trigger.querySelector('.trigger-title');
+          if (titleNode && typeof titleNode.textContent === 'string') {
+            title = titleNode.textContent.trim();
+          }
+        }
+        title = title || '';
+        if (state.mobilePanelTitle) {
+          state.mobilePanelTitle.textContent = title;
+        }
+        activatePanel(panelId, trigger);
+        state.menu.classList.add('is-sub-menu-active');
+      });
+      trigger.addEventListener('mouseenter', () => {
+        if (state.isMobile) return;
+        activatePanel(panelId, trigger);
+      });
+    });
+
+    if (!state.isMobile && state.mainTriggers.length > 0) {
+      const firstTrigger = state.mainTriggers[0];
+      activatePanel(firstTrigger.dataset.targetPanel, firstTrigger);
+    }
+
+    if (state.mobileBackBtn) {
+      state.mobileBackBtn.addEventListener('click', () => {
+        state.menu.classList.remove('is-sub-menu-active');
+        state.mainTriggers.forEach((btn) => btn.classList.remove('is-active'));
+        state.subPanels.forEach((panel) => panel.classList.remove('is-active'));
+      });
+    }
+
+    state.mobileCloseBtns.forEach((btn) => btn.addEventListener('click', () => closeState()));
+    overlay.addEventListener('click', () => closeState());
+
+    state.resizeHandler = handleResize;
+    state.documentClickHandler = documentClickHandler;
+    state.documentKeyHandler = documentKeyHandler;
+
+    window.addEventListener('resize', state.resizeHandler);
+    document.addEventListener('click', state.documentClickHandler);
+    document.addEventListener('keydown', state.documentKeyHandler);
+
+    state.close = closeState;
+    state.restoreFromPortal = restoreFromPortal;
+
+    handleResize();
+
+    root.dataset.collectionSelectorInitialized = 'true';
+    selectorStates.set(root, state);
+  };
+
+  document.addEventListener('DOMContentLoaded', () => initializeWithin(document));
+  document.addEventListener('shopify:section:load', (event) => initializeWithin(event.target));
+  document.addEventListener('shopify:section:unload', (event) => {
+    if (!event.target) return;
+    event.target.querySelectorAll('.collection-selector[data-collection-selector-initialized]').forEach((root) => {
+      const state = selectorStates.get(root);
+      if (!state) return;
+      state.close();
+      state.restoreFromPortal();
+      window.removeEventListener('resize', state.resizeHandler);
+      document.removeEventListener('click', state.documentClickHandler);
+      document.removeEventListener('keydown', state.documentKeyHandler);
+      selectorStates.delete(root);
+      delete root.dataset.collectionSelectorInitialized;
+    });
+  });
+})();

@@ -10,6 +10,10 @@
 {
   "wrapper": "div",
   "sections": {
+    "collection_selector": {
+      "type": "collection-selector",
+      "settings": {}
+    },
     "main": {
       "type": "template--product",
       "settings": {
@@ -244,6 +248,7 @@
     }
   },
   "order": [
+    "collection_selector",
     "main",
     "product-description",
     "165418577993fa8415",

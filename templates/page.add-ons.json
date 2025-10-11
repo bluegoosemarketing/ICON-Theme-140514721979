@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "collection_selector": {
+      "type": "collection-selector",
+      "settings": {}
+    },
     "main": {
       "type": "template--addons",
       "settings": {
@@ -23,6 +27,7 @@
     }
   },
   "order": [
+    "collection_selector",
     "main"
   ]
 }

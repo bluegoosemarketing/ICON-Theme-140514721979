@@ -1,0 +1,157 @@
+{% comment %}
+  Unified collection selector flyout
+  - Extracted from legacy collection and product templates for reuse across collection-style canvases.
+  - Maintains existing class and ID structure to preserve styling and JS hooks.
+{% endcomment %}
+
+{%- liquid
+  assign menu_handle = section.settings.collection_menu
+  assign navigation_menu = linklists[menu_handle]
+
+  assign current_url = nil
+  assign current_title = ''
+
+  if collection
+    assign current_url = collection.url
+    assign current_title = collection.title
+  elsif product
+    assign current_url = product.url
+    assign current_title = product.title
+  elsif page
+    assign current_url = page.url
+    assign current_title = page.title
+  endif
+
+  if navigation_menu and navigation_menu.links != blank and current_url != blank
+    for link in navigation_menu.links
+      if link.url == current_url
+        assign current_title = link.title
+        break
+      endif
+    endfor
+  endif
+
+  if current_title == ''
+    assign current_title = 'Choose a Category'
+  endif
+
+  assign mobile_heading = 'Choose a Category'
+{%- endliquid %}
+
+<div class="collection-header collection-header--selector">
+  <div class="collection-selector" id="CollectionSelector" aria-expanded="false">
+    <button class="collection-selector__toggle" type="button" aria-haspopup="true" aria-controls="CollectionMenu">
+      <span class="collection-header__title">{{ current_title }}</span>
+      <svg class="collection-selector__icon" viewBox="0 0 10 6" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></path>
+      </svg>
+    </button>
+    <div class="collection-selector__overlay"></div>
+    <nav id="CollectionMenu" class="collection-selector__menu" role="navigation" aria-label="Product Categories">
+      <div class="collection-selector__menu-content-wrapper">
+        <div class="collection-selector__menu-main">
+          <div class="collection-selector__mobile-header">
+            <span class="collection-selector__mobile-title">{{ mobile_heading }}</span>
+            <button class="collection-selector__mobile-close-btn" aria-label="Close menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                <path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7a.996.996 0 1 0-1.41 1.41L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path>
+              </svg>
+            </button>
+          </div>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-meals" data-title="Shop Meals">
+            <span class="trigger-content">
+              <span class="trigger-title">Shop Meals</span>
+              <span class="trigger-subtitle">Signature, Custom &amp; Bulk Prep</span>
+            </span>
+          </button>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-meal-plans" data-title="Meal Plans">
+            <span class="trigger-content">
+              <span class="trigger-title">Meal Plans</span>
+              <span class="trigger-subtitle">Goal-Focused • 12 or 24 Meals</span>
+            </span>
+          </button>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-snacks" data-title="Snacks">
+            <span class="trigger-content">
+              <span class="trigger-title">Snacks</span>
+              <span class="trigger-subtitle">Protein Popcorn &amp; More</span>
+            </span>
+          </button>
+          <button class="collection-selector__menu-main-trigger" data-target-panel="panel-extras" data-title="Extras">
+            <span class="trigger-content">
+              <span class="trigger-title">Extras</span>
+              <span class="trigger-subtitle">Upgrade Your Order</span>
+            </span>
+          </button>
+        </div>
+
+        <div class="collection-selector__menu-sub-panels">
+          <div class="collection-selector__mobile-header">
+            <button class="collection-selector__mobile-back-btn" aria-label="Back to main menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" width="20" height="20">
+                <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 0 1-.02 1.06L8.832 10l3.938 3.71a.75.75 0 1 1-1.04 1.08l-4.5-4.25a.75.75 0 0 1 0-1.08l4.5-4.25a.75.75 0 0 1 1.06.02z" clip-rule="evenodd"></path>
+              </svg>
+              <span>Back</span>
+            </button>
+            <span class="collection-selector__mobile-title" data-panel-title></span>
+            <button class="collection-selector__mobile-close-btn" aria-label="Close menu">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="24" height="24">
+                <path d="M18.3 5.71a.996.996 0 0 0-1.41 0L12 10.59 7.11 5.7a.996.996 0 1 0-1.41 1.41L10.59 12 5.7 16.89a.996.996 0 1 0 1.41 1.41L12 13.41l4.89 4.89a.996.996 0 1 0 1.41-1.41L13.41 12l4.89-4.89c.38-.38.38-1.02 0-1.4z"></path>
+              </svg>
+            </button>
+          </div>
+
+          <div id="panel-meals" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Meals</h3>
+            <ul>
+              <li><a href="/collections/signature-menu" role="menuitem">Signature Meals</a></li>
+              <li><a href="/products/custom-meals" role="menuitem">Custom Meals</a></li>
+              <li><a href="/products/custom-breakfast" role="menuitem">Custom Breakfast</a></li>
+              <li><a href="/collections/bulk-items" role="menuitem">Bulk Items</a></li>
+            </ul>
+          </div>
+
+          <div id="panel-meal-plans" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Goal-Focused Meal Plans</h3>
+            <ul>
+              <li><a href="/products/build-your-own-meal-plan" role="menuitem">Build Your Own</a></li>
+              <li><a href="/products/icon-meal-plan" role="menuitem">The ICON Plan</a></li>
+              <li><a href="/products/extreme-protein-meal-plan" role="menuitem">Extreme Protein</a></li>
+              <li><a href="/products/get-lean-meal-plan" role="menuitem">Get Lean</a></li>
+              <li><a href="/products/lean-lifter-meal-plan" role="menuitem">Lean Lifter</a></li>
+              <li><a href="/products/keto-meal-plan" role="menuitem">Keto</a></li>
+            </ul>
+          </div>
+
+          <div id="panel-snacks" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Snacks</h3>
+            <ul>
+              <li><a href="/collections/proteinpopcorn" role="menuitem">Protein Popcorn</a></li>
+              <li><a href="/collections/butters" role="menuitem">Protein Butters</a></li>
+            </ul>
+          </div>
+
+          <div id="panel-extras" class="collection-selector__menu-sub-panel">
+            <h3 class="collection-selector__menu-header">Extras</h3>
+            <ul>
+              <li><a href="/collections/proteincoffee" role="menuitem">Protein Coffee</a></li>
+              <li><a href="/collections/seasonings" role="menuitem">Seasonings</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Collection selector",
+  "settings": [
+    {
+      "type": "link_list",
+      "id": "collection_menu",
+      "label": "Collection selector menu"
+    }
+  ]
+}
+{% endschema %}
