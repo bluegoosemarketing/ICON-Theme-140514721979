@@ -221,7 +221,8 @@
     letter-spacing: 0.08em !important;
     line-height: 1.4; /* Ensures consistent vertical alignment */
   }
-  #product-main-{{ section.id }} .product-main__eyebrow{display:inline-flex;align-items:center;gap:0.5rem;padding:0.25rem 0.85rem;border-radius:999px;background:rgba(42,157,143,0.12);color:#1f766b;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;}
+  #product-main-{{ section.id }} .product-main__eyebrow{display:inline-flex;align-items:center;gap:0.5rem;padding:0.25rem 0.85rem;border-radius:999px;background:rgba(42,157,143,0.12);color:#1f766b;font-weight:700;font-size:0.85rem;letter-spacing:0.08em;text-transform:uppercase;text-decoration:none;}
+  #product-main-{{ section.id }} .product-main__eyebrow:hover,#product-main-{{ section.id }} .product-main__eyebrow:focus{color:#1f766b;text-decoration:none;}
   #product-main-{{ section.id }} .product-main__title{font-family:system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif!important;font-size:clamp(2.2rem,3vw,3rem)!important;font-weight:800!important;line-height:1.05!important;color:#0f172a!important;letter-spacing:-0.025em;margin:0;text-wrap:balance;}
   #product-main-{{ section.id }} .product-main__price{position:relative;z-index:1;display:inline-flex;align-items:center;padding:0.6rem 1.25rem;border-radius:999px;background:#fff;border:1px solid rgba(15,23,42,0.1);box-shadow:inset 0 1px 2px rgba(0,0,0,0.05), 0 8px 20px rgba(15,23,42,0.08);font-size:clamp(1.3rem,1.8vw,1.6rem);font-weight:800;color:#0f172a;transition:all .2s ease;}
   #product-main-{{ section.id }} .product-main__price.price--live{border-color:rgba(42,157,143,0.3);color:#0b3a34;box-shadow:inset 0 1px 2px rgba(42,157,143,0.1), 0 10px 25px rgba(42,157,143,0.12);}
@@ -463,6 +464,7 @@
       <div class="product-intro-card">
         {%- liquid
           assign hero_badge_text = ''
+          assign hero_badge_url = ''
           assign is_custom_product = false
           if product.handle == 'custom-meals' or product.handle == 'custom-breakfast'
             assign is_custom_product = true
@@ -476,23 +478,32 @@
             endif
           else
             assign base_badge_text = ''
+            assign base_badge_url = ''
             if collection.title != blank
               assign base_badge_text = collection.title
+              assign base_badge_url = collection.url
             elsif product.collections.size > 0
-              assign base_badge_text = product.collections.first.title
+              assign first_collection = product.collections.first
+              assign base_badge_text = first_collection.title
+              assign base_badge_url = first_collection.url
             elsif product.vendor != blank
               assign base_badge_text = product.vendor
             endif
 
             if base_badge_text != blank
               assign hero_badge_text = base_badge_text | append: ' • ICON Meals'
+              assign hero_badge_url = base_badge_url
             endif
           endif
         -%}
         <div class="product-main__header">
           <div class="product-main__meta-line">
             {% if hero_badge_text != blank %}
-              <span class="product-main__eyebrow">{{ hero_badge_text }}</span>
+              {% if hero_badge_url != blank %}
+                <a class="product-main__eyebrow" href="{{ hero_badge_url }}">{{ hero_badge_text }}</a>
+              {% else %}
+                <span class="product-main__eyebrow">{{ hero_badge_text }}</span>
+              {% endif %}
             {% endif %}
             {% render 'diet-tags', prod: product %}
           </div>
