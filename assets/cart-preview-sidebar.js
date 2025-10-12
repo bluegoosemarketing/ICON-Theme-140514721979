@@ -312,12 +312,29 @@
     }
   }
 
+  function ensureCartManager() {
+    if (!window.cartManager) {
+      window.cartManager = new CartManager();
+    }
+    return window.cartManager;
+  }
+
   document.addEventListener('DOMContentLoaded', () => {
-    window.cartManager = new CartManager();
+    ensureCartManager();
     if (window.wetheme && window.wetheme.theme) {
       window.wetheme.theme.updateCartDrawer = async function (cart) {
         document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
       };
+    }
+  });
+
+  window.addEventListener('pageshow', (event) => {
+    const navigationEntries = window.performance && typeof window.performance.getEntriesByType === 'function'
+      ? window.performance.getEntriesByType('navigation')
+      : [];
+    const navigationType = navigationEntries && navigationEntries.length ? navigationEntries[0].type : null;
+    if (event.persisted || navigationType === 'back_forward') {
+      ensureCartManager().render();
     }
   });
 })();
