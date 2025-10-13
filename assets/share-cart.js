@@ -23,10 +23,33 @@
     }
   };
 
-  var TOAST_STYLES = '.share-cart-toast{position:fixed;z-index:9999;left:50%;bottom:2rem;transform:translateX(-50%) translateY(100%);padding:0.75rem 1.25rem;border-radius:999px;font-size:0.95rem;font-weight:600;color:#fff;background:#212529;box-shadow:0 10px 25px rgba(0,0,0,0.2);opacity:0;transition:transform 0.3s ease,opacity 0.3s ease;pointer-events:none}'+
-    '.share-cart-toast.is-visible{transform:translateX(-50%) translateY(0);opacity:1}'+
-    '.share-cart-toast.is-error{background:#c53030}'+
-    '.share-cart-toast.is-success{background:#2f9e44}';
+  var TOAST_STYLES =
+    /* TOAST */
+    '.share-cart-toast{position:fixed;z-index:9999;left:50%;bottom:2rem;transform:translateX(-50%) translateY(100%);padding:0.75rem 1.25rem;border-radius:999px;font-size:0.95rem;font-weight:600;color:#fff;background:#212529;box-shadow:0 10px 25px rgba(0,0,0,0.2);opacity:0;transition:transform 0.3s ease,opacity 0.3s ease;pointer-events:none}' +
+    '.share-cart-toast.is-visible{transform:translateX(-50%) translateY(0);opacity:1}' +
+    '.share-cart-toast.is-error{background:#c53030}' +
+    '.share-cart-toast.is-success{background:#2f9e44}' +
+    /* QUIET BUTTON (scoped) */
+    /* base */
+    '.cart-share-btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;width:auto;min-width:0;max-width:100%;padding:.5rem .8rem;border:1px solid var(--btn-quiet-border,#E5E7EB);background:var(--btn-quiet-bg,#fff);color:var(--btn-quiet-fg,#374151);font-weight:600;font-size:.9rem;line-height:1;border-radius:.5rem;box-shadow:none;letter-spacing:.02em;cursor:pointer;}' +
+    '.cart-share-btn:hover{background:var(--btn-quiet-bg-hover,#f9fafb)}' +
+    '.cart-share-btn:focus{outline:2px solid rgba(0,0,0,.08);outline-offset:2px}' +
+    '.cart-share-btn[aria-disabled="true"],.cart-share-btn:disabled{opacity:.5;cursor:not-allowed}' +
+    /* 
+      CORE LAYOUT FIX: Override parent containers that force flex-direction: column.
+      - We use 'row-reverse' because the share button is injected *before* the checkout button.
+        This places the checkout button on the far right and the share button to its left.
+      - 'flex-wrap: wrap' ensures responsiveness on small screens.
+    */
+    '.cart-drawer__actions, .cart-summary__actions { flex-direction: row-reverse !important; flex-wrap: wrap !important; }' +
+    /* Let the main checkout button grow, and keep our button's width fixed. */
+    '.cart-drawer__actions .cart-share-btn, .cart-summary__actions .cart-share-btn { flex-shrink: 0; margin-bottom: .5rem; }' +
+    '.cart-drawer__actions .cart-drawer__checkout-btn, .cart-summary__actions #cart_submit { flex-grow: 1; }' +
+    /* sidebar: make it even subtler (already a column, so just re-order) */
+    '#cart-sidebar .cart-sidebar__actions { display: flex; flex-direction: column; gap: 0.75rem; }' +
+    '#cart-sidebar .cart-share-btn { order: -1; background: transparent; border-color: #E5E7EB; color: #4B5563; }' +
+    /* small screens */
+    '@media (max-width: 768px){.cart-share-btn{padding:.45rem .7rem;font-size:.88rem}}';
 
   function base64Encode(jsonString) {
     return btoa(encodeURIComponent(jsonString).replace(/%([0-9A-F]{2})/g, function (_, match) {
@@ -132,10 +155,10 @@
   ShareCartManager.prototype.createButton = function () {
     var button = document.createElement('button');
     button.type = 'button';
-    button.className = 'btn btn--secondary cart-share-btn';
+    button.className = 'cart-share-btn'; // light, scoped button – no theme full-width
     button.setAttribute('data-share-cart', '');
-    button.textContent = 'Share Cart';
-    button.dataset.defaultText = button.textContent;
+    button.innerHTML = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M18 8a3 3 0 0 0-2.816 1.98L8.91 8.21a3 3 0 1 0 0 3.58l6.274-1.77A3 3 0 1 0 18 8Z"/></svg><span>Share Cart</span>';
+    button.dataset.originalHtml = button.innerHTML;
     button.disabled = true;
     button.setAttribute('aria-disabled', 'true');
     button.addEventListener('click', this.handleButtonClick);
@@ -155,12 +178,12 @@
     for (var i = 0; i < SELECTORS.drawer.containers.length; i++) {
       var candidate = document.querySelector(SELECTORS.drawer.containers[i]);
       if (candidate) {
-        container = candidate;
+        var cs = window.getComputedStyle(candidate);
+        if (cs.display !== 'none' && cs.visibility !== 'hidden') container = candidate;
         break;
       }
     }
     if (!container || container.querySelector('[data-share-cart]')) return;
-    if (isHidden(container)) return;
 
     var button = this.createButton();
     var checkout = container.querySelector(SELECTORS.drawer.checkout);
@@ -173,47 +196,58 @@
 
   ShareCartManager.prototype.injectSidebarButton = function () {
     var host = document.querySelector(SELECTORS.sidebar.host);
-    if (!host || isHidden(host)) return;
-
+    if (!host) return;
+    
+    // Check visibility of the host itself first
+    var hostCs = window.getComputedStyle(host);
+    if (hostCs.display === 'none' || hostCs.visibility === 'hidden') return;
+    
     var existing = host.querySelector('[data-share-cart]');
     if (existing) return;
+    
+    var container = host.querySelector(SELECTORS.sidebar.checkout)?.parentElement || host.querySelector(SELECTORS.sidebar.body);
+    if (!container) return;
+
+    var containerCs = window.getComputedStyle(container);
+    if (containerCs.display === 'none' || containerCs.visibility === 'hidden') return;
 
     var button = this.createButton();
-    var checkout = host.querySelector(SELECTORS.sidebar.checkout);
-    if (checkout && checkout.parentElement) {
-      checkout.parentElement.insertBefore(button, checkout);
-      return;
-    }
-
-    var body = host.querySelector(SELECTORS.sidebar.body);
-    if (body) {
-      body.appendChild(button);
+    var checkout = container.querySelector(SELECTORS.sidebar.checkout);
+    if (checkout) {
+      container.insertBefore(button, checkout);
+    } else {
+      container.appendChild(button);
     }
   };
-
+  
   ShareCartManager.prototype.injectPageButton = function () {
-    var container = document.querySelector(SELECTORS.page.container);
-    if (!container || isHidden(container)) return;
-
-    var actions = container.querySelector(SELECTORS.page.actions);
-    if (actions && !isHidden(actions) && !actions.querySelector('[data-share-cart]')) {
-      var button = this.createButton();
-      var checkout = actions.querySelector(SELECTORS.page.checkout);
-      if (checkout) {
-        actions.insertBefore(button, checkout);
-      } else {
-        actions.appendChild(button);
+    var container = null;
+    var actions = document.querySelector(SELECTORS.page.actions);
+    if (actions) {
+      var actionsCs = window.getComputedStyle(actions);
+      if (actionsCs.display !== 'none' && actionsCs.visibility !== 'hidden') {
+        container = actions;
       }
-      return;
+    }
+    
+    if (!container) {
+      var form = document.querySelector(SELECTORS.page.form);
+      if (form && form.parentElement) {
+        var parentCs = window.getComputedStyle(form.parentElement);
+        if (parentCs.display !== 'none' && parentCs.visibility !== 'hidden') {
+          container = form.parentElement;
+        }
+      }
     }
 
-    var form = document.querySelector(SELECTORS.page.form);
-    if (form) {
-      var parent = form.parentElement;
-      if (parent && !parent.querySelector('[data-share-cart]') && !isHidden(parent)) {
-        var fallbackButton = this.createButton();
-        parent.insertBefore(fallbackButton, form);
-      }
+    if (!container || container.querySelector('[data-share-cart]')) return;
+
+    var button = this.createButton();
+    var checkout = container.querySelector(SELECTORS.page.checkout) || container.querySelector(SELECTORS.page.form);
+    if (checkout) {
+      container.insertBefore(button, checkout);
+    } else {
+      container.appendChild(button);
     }
   };
 
@@ -223,9 +257,10 @@
     if (button.disabled) return;
     var self = this;
 
-    var originalText = button.dataset.defaultText || button.textContent;
+    var originalHtml = button.dataset.originalHtml;
     button.disabled = true;
-    button.textContent = 'Copying…';
+    var textSpan = button.querySelector('span');
+    if(textSpan) textSpan.textContent = 'Copying…';
 
     this.buildShareLink()
       .then(function (link) {
@@ -245,7 +280,7 @@
         self.showToast(message, true);
       })
       .finally(function () {
-        button.textContent = originalText;
+        button.innerHTML = originalHtml;
         if (typeof button.focus === 'function' && document.body.contains(button)) {
           button.focus();
         }
