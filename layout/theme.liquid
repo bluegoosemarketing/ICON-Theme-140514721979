@@ -560,13 +560,86 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 
 <script>
-  (function () {
-    if (!window.location.search || window.location.search.indexOf('shared=') === -1) return;
-    window.__shareCartBoot = true;
-    if (window.ShareCart && typeof window.ShareCart.reconstructIfShared === 'function') {
-      window.ShareCart.reconstructIfShared();
+(function () {
+  // Only run on links with ?shared=
+  var params = new URLSearchParams(location.search);
+  var param = params.get('shared');
+  if (!param) return;
+
+  // Decode (supports base64 and base64url)
+  function b64decode(s){
+    try {
+      s = s.replace(/-/g,'+').replace(/_/g,'/'); // base64url → base64
+      return decodeURIComponent(Array.prototype.map.call(atob(s), function (c) {
+        return '%' + ('00'+c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+    } catch(e){ return null; }
+  }
+
+  function stripSharedParam() {
+    var url = new URL(location.href);
+    url.searchParams.delete('shared');
+    history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+  }
+
+  var json = b64decode(param);
+  if (!json) { stripSharedParam(); return; }
+
+  var items;
+  try { items = JSON.parse(json); } catch(e) { stripSharedParam(); return; }
+  if (!Array.isArray(items) || !items.length) { stripSharedParam(); return; }
+
+  // Sanitize: remove null/empty properties and coerce ids/qty
+  items = items.map(function (it) {
+    var out = { id: Number(it.id), quantity: Number(it.quantity) || 1 };
+    if (it.properties && typeof it.properties === 'object') {
+      var clean = {};
+      Object.keys(it.properties).forEach(function (k) {
+        var v = it.properties[k];
+        if (v !== null && v !== undefined && v !== '') clean[k] = String(v);
+      });
+      if (Object.keys(clean).length) out.properties = clean;
+    }
+    if (it.selling_plan) out.selling_plan = Number(it.selling_plan) || it.selling_plan;
+    return out;
+  });
+
+  // Rebuild the cart (with minimal retries on transient errors)
+  function req(url, opts, retry){
+    return fetch(url, Object.assign({ credentials:'same-origin' }, opts))
+      .then(function(r){
+        if (!r.ok && !retry && (r.status===429 || r.status>=500)) {
+          return new Promise(function(res){ setTimeout(res, 400); })
+            .then(function(){ return req(url, opts, true); });
+        }
+        return r;
+      });
+  }
+
+  (async function(){
+    try {
+      await req('/cart/clear.js', { method:'POST', headers:{ 'Accept':'application/json' } });
+      await req('/cart/add.js', {
+        method:'POST',
+        headers:{ 'Content-Type':'application/json', 'Accept':'application/json' },
+        body: JSON.stringify({ items: items })
+      }).then(async function(r){
+        if (!r.ok) {
+          let msg = 'Unable to add shared cart.';
+          try { const j = await r.json(); msg = j && (j.description || j.message) || msg; } catch(e){}
+          throw new Error(msg);
+        }
+      });
+      // Remove the param to avoid re-firing on back/forward and go to cart
+      stripSharedParam();
+      location.replace('/cart');
+    } catch (e) {
+      // Quietly fail: strip param so the cart page renders normally
+      console.error('[ShareCart] rebuild failed:', e);
+      stripSharedParam();
     }
   })();
+})();
 </script>
 
 </body>
