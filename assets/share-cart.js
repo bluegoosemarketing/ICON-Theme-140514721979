@@ -207,37 +207,43 @@
   };
 
   ShareCartManager.prototype.injectSidebarButton = function () {
-    var host = document.querySelector(SELECTORS.sidebar.host);
-    if (!host) return;
+    var hosts = document.querySelectorAll(SELECTORS.sidebar.host);
+    if (!hosts || !hosts.length) return;
 
-    // Check visibility of the host itself first
-    var hostCs = window.getComputedStyle(host);
-    if (hostCs.display === 'none' || hostCs.visibility === 'hidden') return;
+    for (var i = 0; i < hosts.length; i++) {
+      var host = hosts[i];
+      if (!host) continue;
 
-    var existing = host.querySelector('[data-share-cart]');
-    if (existing) return;
+      var hostCs = window.getComputedStyle(host);
+      if (hostCs.display === 'none' || hostCs.visibility === 'hidden') continue;
 
-    var inlineGroup = host.querySelector('.cart-drawer__continue-action');
-    if (inlineGroup && isHidden(inlineGroup)) {
-      inlineGroup = null;
+      if (host.querySelector('[data-share-cart]')) {
+        continue;
+      }
+
+      var inlineGroup = host.querySelector('.cart-drawer__continue-action');
+      if (inlineGroup && isHidden(inlineGroup)) {
+        inlineGroup = null;
+      }
+
+      if (inlineGroup) {
+        var buttonInline = this.createButton();
+        buttonInline.classList.add('cart-drawer__secondary-link');
+        this.ensureInlineDivider(inlineGroup);
+        inlineGroup.appendChild(buttonInline);
+        continue;
+      }
+
+      var checkout = host.querySelector(SELECTORS.sidebar.checkout);
+      var container = (checkout && checkout.parentElement) || host.querySelector(SELECTORS.sidebar.body);
+      if (!container) continue;
+
+      var containerCs = window.getComputedStyle(container);
+      if (containerCs.display === 'none' || containerCs.visibility === 'hidden') continue;
+
+      var button = this.createButton();
+      container.appendChild(button);
     }
-
-    if (inlineGroup) {
-      var buttonInline = this.createButton();
-      buttonInline.classList.add('cart-drawer__secondary-link');
-      this.ensureInlineDivider(inlineGroup);
-      inlineGroup.appendChild(buttonInline);
-      return;
-    }
-
-    var container = host.querySelector(SELECTORS.sidebar.checkout)?.parentElement || host.querySelector(SELECTORS.sidebar.body);
-    if (!container) return;
-
-    var containerCs = window.getComputedStyle(container);
-    if (containerCs.display === 'none' || containerCs.visibility === 'hidden') return;
-
-    var button = this.createButton();
-    container.appendChild(button);
   };
   
   ShareCartManager.prototype.injectPageButton = function () {
