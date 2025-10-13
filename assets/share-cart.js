@@ -29,27 +29,12 @@
     '.share-cart-toast.is-visible{transform:translateX(-50%) translateY(0);opacity:1}' +
     '.share-cart-toast.is-error{background:#c53030}' +
     '.share-cart-toast.is-success{background:#2f9e44}' +
-    /* QUIET BUTTON (scoped) */
-    /* base */
-    '.cart-share-btn{display:inline-flex;align-items:center;justify-content:center;gap:.4rem;width:auto;min-width:0;max-width:100%;padding:.5rem .8rem;border:1px solid var(--btn-quiet-border,#E5E7EB);background:var(--btn-quiet-bg,#fff);color:var(--btn-quiet-fg,#374151);font-weight:600;font-size:.9rem;line-height:1;border-radius:.5rem;box-shadow:none;letter-spacing:.02em;cursor:pointer;}' +
-    '.cart-share-btn:hover{background:var(--btn-quiet-bg-hover,#f9fafb)}' +
-    '.cart-share-btn:focus{outline:2px solid rgba(0,0,0,.08);outline-offset:2px}' +
-    '.cart-share-btn[aria-disabled="true"],.cart-share-btn:disabled{opacity:.5;cursor:not-allowed}' +
-    /* 
-      CORE LAYOUT FIX: Override parent containers that force flex-direction: column.
-      - We use 'row-reverse' because the share button is injected *before* the checkout button.
-        This places the checkout button on the far right and the share button to its left.
-      - 'flex-wrap: wrap' ensures responsiveness on small screens.
-    */
-    '.cart-drawer__actions, .cart-summary__actions { flex-direction: row-reverse !important; flex-wrap: wrap !important; }' +
-    /* Let the main checkout button grow, and keep our button's width fixed. */
-    '.cart-drawer__actions .cart-share-btn, .cart-summary__actions .cart-share-btn { flex-shrink: 0; margin-bottom: .5rem; }' +
-    '.cart-drawer__actions .cart-drawer__checkout-btn, .cart-summary__actions #cart_submit { flex-grow: 1; }' +
-    /* sidebar: make it even subtler (already a column, so just re-order) */
-    '#cart-sidebar .cart-sidebar__actions { display: flex; flex-direction: column; gap: 0.75rem; }' +
-    '#cart-sidebar .cart-share-btn { order: -1; background: transparent; border-color: #E5E7EB; color: #4B5563; }' +
-    /* small screens */
-    '@media (max-width: 768px){.cart-share-btn{padding:.45rem .7rem;font-size:.88rem}}';
+    /* INLINE TEXT LINK */
+    '.cart-share-link{display:inline-flex;align-items:center;gap:.35rem;background:none;border:0;padding:0;margin:0;font:inherit;font-weight:500;color:#4B5563;text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:3px;cursor:pointer;}' +
+    '.cart-share-link span{pointer-events:none;}' +
+    '.cart-share-link:hover{color:var(--brand-text,#111827);}' +
+    '.cart-share-link[aria-disabled="true"],.cart-share-link:disabled{opacity:.6;cursor:not-allowed;text-decoration:none;}' +
+    '.cart-share-inline-divider{margin:0 .35rem;color:rgba(148,163,184,0.95);display:inline-block;}';
 
   function base64Encode(jsonString) {
     return btoa(encodeURIComponent(jsonString).replace(/%([0-9A-F]{2})/g, function (_, match) {
@@ -155,15 +140,28 @@
   ShareCartManager.prototype.createButton = function () {
     var button = document.createElement('button');
     button.type = 'button';
-    button.className = 'cart-share-btn'; // light, scoped button – no theme full-width
+    button.className = 'cart-share-link';
     button.setAttribute('data-share-cart', '');
-    button.innerHTML = '<svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M18 8a3 3 0 0 0-2.816 1.98L8.91 8.21a3 3 0 1 0 0 3.58l6.274-1.77A3 3 0 1 0 18 8Z"/></svg><span>Share Cart</span>';
+    button.innerHTML = '<span class="cart-share-link__text">Share Cart</span>';
     button.dataset.originalHtml = button.innerHTML;
     button.disabled = true;
     button.setAttribute('aria-disabled', 'true');
     button.addEventListener('click', this.handleButtonClick);
     this.buttons.add(button);
     return button;
+  };
+
+  ShareCartManager.prototype.ensureInlineDivider = function (container) {
+    if (!container) return null;
+    var divider = container.querySelector('.cart-share-inline-divider');
+    if (!divider) {
+      divider = document.createElement('span');
+      divider.className = 'cart-share-inline-divider cart-drawer__secondary-link-divider';
+      divider.setAttribute('aria-hidden', 'true');
+      divider.textContent = '|';
+      container.appendChild(divider);
+    }
+    return divider;
   };
 
   ShareCartManager.prototype.injectAll = function () {
@@ -183,28 +181,55 @@
         break;
       }
     }
-    if (!container || container.querySelector('[data-share-cart]')) return;
+    if (!container) return;
+
+    var inlineGroup = container.querySelector('.cart-drawer__continue-action');
+    if (inlineGroup && isHidden(inlineGroup)) {
+      inlineGroup = null;
+    }
+
+    var target = inlineGroup || container;
+    if (target.querySelector('[data-share-cart]')) return;
 
     var button = this.createButton();
-    var checkout = container.querySelector(SELECTORS.drawer.checkout);
-    if (checkout && checkout.parentElement) {
-      checkout.parentElement.insertBefore(button, checkout);
+    if (inlineGroup) {
+      button.classList.add('cart-drawer__secondary-link');
+      this.ensureInlineDivider(inlineGroup);
+      inlineGroup.appendChild(button);
     } else {
-      container.appendChild(button);
+      var checkout = container.querySelector(SELECTORS.drawer.checkout);
+      if (checkout && checkout.parentElement) {
+        checkout.parentElement.insertBefore(button, checkout);
+      } else {
+        container.appendChild(button);
+      }
     }
   };
 
   ShareCartManager.prototype.injectSidebarButton = function () {
     var host = document.querySelector(SELECTORS.sidebar.host);
     if (!host) return;
-    
+
     // Check visibility of the host itself first
     var hostCs = window.getComputedStyle(host);
     if (hostCs.display === 'none' || hostCs.visibility === 'hidden') return;
-    
+
     var existing = host.querySelector('[data-share-cart]');
     if (existing) return;
-    
+
+    var inlineGroup = host.querySelector('.cart-drawer__continue-action');
+    if (inlineGroup && isHidden(inlineGroup)) {
+      inlineGroup = null;
+    }
+
+    if (inlineGroup) {
+      var buttonInline = this.createButton();
+      buttonInline.classList.add('cart-drawer__secondary-link');
+      this.ensureInlineDivider(inlineGroup);
+      inlineGroup.appendChild(buttonInline);
+      return;
+    }
+
     var container = host.querySelector(SELECTORS.sidebar.checkout)?.parentElement || host.querySelector(SELECTORS.sidebar.body);
     if (!container) return;
 
@@ -212,12 +237,7 @@
     if (containerCs.display === 'none' || containerCs.visibility === 'hidden') return;
 
     var button = this.createButton();
-    var checkout = container.querySelector(SELECTORS.sidebar.checkout);
-    if (checkout) {
-      container.insertBefore(button, checkout);
-    } else {
-      container.appendChild(button);
-    }
+    container.appendChild(button);
   };
   
   ShareCartManager.prototype.injectPageButton = function () {
@@ -243,11 +263,16 @@
     if (!container || container.querySelector('[data-share-cart]')) return;
 
     var button = this.createButton();
-    var checkout = container.querySelector(SELECTORS.page.checkout) || container.querySelector(SELECTORS.page.form);
-    if (checkout) {
-      container.insertBefore(button, checkout);
+    var updateLink = container.querySelector('.cart-summary__update-link');
+    if (updateLink && updateLink.parentElement === container) {
+      updateLink.insertAdjacentElement('afterend', button);
     } else {
-      container.appendChild(button);
+      var checkout = container.querySelector(SELECTORS.page.checkout) || container.querySelector(SELECTORS.page.form);
+      if (checkout && checkout.parentElement) {
+        checkout.parentElement.insertBefore(button, checkout.nextSibling);
+      } else {
+        container.appendChild(button);
+      }
     }
   };
 
@@ -260,7 +285,7 @@
     var originalHtml = button.dataset.originalHtml;
     button.disabled = true;
     var textSpan = button.querySelector('span');
-    if(textSpan) textSpan.textContent = 'Copying…';
+    if (textSpan) textSpan.textContent = 'Copying…';
 
     this.buildShareLink()
       .then(function (link) {

@@ -1272,19 +1272,49 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 }
 
 .cart-drawer__continue-action {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
   text-align: center;
   margin-top: 1rem;
 }
 
-.cart-drawer__secondary-link {
-  background: none !important; border: none !important; padding: 0.25rem !important;
-  margin: 0 !important; font-size: 0.875rem !important; font-weight: 500 !important;
-  color: #495057 !important; text-decoration: none !important; cursor: pointer;
+.cart-sidebar__footer .cart-drawer__continue-action {
+  margin-top: 0.75rem;
+}
+
+.cart-drawer__secondary-link,
+.cart-drawer__continue-action .cart-share-link {
+  background: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  font-size: 0.875rem !important;
+  font-weight: 500 !important;
+  color: #495057 !important;
+  text-decoration: underline !important;
+  text-underline-offset: 3px !important;
+  cursor: pointer;
   transition: color 0.2s ease;
 }
-.cart-drawer__secondary-link:hover {
-  color: #212529 !important; text-decoration: underline !important; text-underline-offset: 3px;
+.cart-sidebar__footer .cart-drawer__continue-action .cart-share-link,
+.cart-sidebar__footer .cart-drawer__continue-action .cart-drawer__secondary-link {
+  font-size: 0.85rem !important;
 }
+.cart-drawer__secondary-link:hover,
+.cart-drawer__continue-action .cart-share-link:hover {
+  color: var(--brand-text) !important;
+}
+
+.cart-drawer__secondary-link-divider,
+.cart-share-inline-divider {
+  display: inline-block;
+  color: #d1d5db;
+  font-weight: 400;
+}
+
 .cart-drawer__continue-btn, .cart-footer__secondary-link { }
 .cart-sidebar__checkout-btn {
   width: 100% !important; background-color: var(--brand-text) !important; border-color: var(--brand-text) !important;
@@ -2407,6 +2437,32 @@ body.template-product.template-suffix--cm-recharge .placeholder-sub-text {
   text-underline-offset: 3px;
 }
 .cart-summary__update-link:hover {
+  color: #212529;
+}
+
+.cart-summary__actions .cart-share-link {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0.25rem auto 0;
+  display: block;
+  width: max-content;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6c757d;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.cart-summary__actions .cart-share-link[aria-disabled="true"],
+.cart-summary__actions .cart-share-link:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.cart-summary__actions .cart-share-link:hover {
   color: #212529;
 }
 
