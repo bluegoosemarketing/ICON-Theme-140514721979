@@ -339,6 +339,7 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
         <script defer nomodule src="{{ 'theme.legacy.js' | asset_url }}"></script>
   <script defer src="{{ 'cart-preview-sidebar.js' | asset_url }}"></script>
   <script defer src="{{ 'min-meal-check.js' | asset_url }}"></script>
+  <script defer src="{{ 'share-cart.js' | asset_url }}"></script>
   <script defer src="{{ 'product-card.js' | asset_url }}"></script>
   {% if settings.enable_free_delivery_promo %}
     <script>
@@ -556,6 +557,16 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   })("", "TriplePixel", localStorage);
   /* << TriplePixel :: end */
+</script>
+
+<script>
+  (function () {
+    if (!window.location.search || window.location.search.indexOf('shared=') === -1) return;
+    window.__shareCartBoot = true;
+    if (window.ShareCart && typeof window.ShareCart.reconstructIfShared === 'function') {
+      window.ShareCart.reconstructIfShared();
+    }
+  })();
 </script>
 
 </body>
