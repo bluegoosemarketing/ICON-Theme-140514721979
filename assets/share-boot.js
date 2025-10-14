@@ -1,6 +1,16 @@
 (function () {
   'use strict';
 
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  if (window.__shareCartInlineRan) {
+    return;
+  }
+
+  window.__shareCartInlineRan = true;
+
   try {
     var global = window;
     var bootState = global.__shareCartBoot = global.__shareCartBoot || {};
