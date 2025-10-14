@@ -7,5 +7,6 @@ dist/
 *.zip
 .env
 .env.*
+!.env.example
 .shopify-cli/cache/
 config/settings_data.json

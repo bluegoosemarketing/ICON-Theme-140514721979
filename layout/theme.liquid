@@ -196,26 +196,12 @@
         var isCartRoute = normalizedPath.indexOf('/cart') === 0;
         if (!isCartRoute) return;
         var hasSharedParam = search.indexOf('shared=') !== -1;
-        var hasShortRoute = normalizedPath.indexOf('/cart/s/') === 0;
-        if (hasSharedParam || hasShortRoute) {
+        if (hasSharedParam) {
           doc.classList.add('share-cart-loading');
         }
       } catch (err) {
         // ignore
       }
-    })();
-  </script>
-
-  {% assign share_cart_token = settings.share_cart_storefront_token | strip %}
-  <script>
-    (function () {
-      var config = window.__SHARE_CART_CONFIG__ = window.__SHARE_CART_CONFIG__ || {};
-      config.metaobjectType = 'shared_cart';
-      config.apiVersion = {{ settings.share_cart_api_version | default: '2024-07' | json }};
-      config.defaultLoadingMessage = {{ 'You have great friends... building your cart now!' | json }};
-      {% if share_cart_token != blank %}
-        config.storefrontToken = {{ share_cart_token | json }};
-      {% endif %}
     })();
   </script>
 
