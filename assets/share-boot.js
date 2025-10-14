@@ -18,9 +18,64 @@
       message: '[data-share-cart-loading-message]',
       spinner: '[data-share-cart-loading-spinner]'
     };
-    var shareCartConfig = global.__SHARE_CART_CONFIG__ || {};
-    var defaultLoadingMessage = shareCartConfig.defaultLoadingMessage || 'You have great friends... building your cart now!';
-    var metaobjectType = shareCartConfig.metaobjectType || 'shared_cart';
+    var loadingMessageDefault = 'You have great friends... building your cart now!';
+    var loadingHideDelay = 1800;
+
+    function setLoadingMessage(message) {
+      var screen = document.querySelector(loadingSelectors.screen);
+      if (!screen) return;
+      var messageNode = screen.querySelector(loadingSelectors.message);
+      if (!messageNode) return;
+      messageNode.textContent = message || loadingMessageDefault;
+    }
+
+    function setSpinnerVisible(visible) {
+      var screen = document.querySelector(loadingSelectors.screen);
+      if (!screen) return;
+      var spinner = screen.querySelector(loadingSelectors.spinner);
+      if (!spinner) return;
+      spinner.style.display = visible ? '' : 'none';
+      spinner.setAttribute('aria-hidden', visible ? 'false' : 'true');
+    }
+
+    function showLoadingScreen(message) {
+      var root = document.documentElement;
+      if (root) {
+        root.classList.add(loadingClassName);
+      }
+      var screen = document.querySelector(loadingSelectors.screen);
+      if (screen) {
+        screen.classList.remove('is-error');
+        screen.setAttribute('aria-hidden', 'false');
+      }
+      setSpinnerVisible(true);
+      setLoadingMessage(message || loadingMessageDefault);
+    }
+
+    function hideLoadingScreen() {
+      var root = document.documentElement;
+      if (root) {
+        root.classList.remove(loadingClassName);
+      }
+      var screen = document.querySelector(loadingSelectors.screen);
+      if (screen) {
+        screen.setAttribute('aria-hidden', 'true');
+        screen.classList.remove('is-error');
+      }
+      setSpinnerVisible(true);
+      setLoadingMessage(loadingMessageDefault);
+    }
+
+    function showLoadingError(message) {
+      var screen = document.querySelector(loadingSelectors.screen);
+      if (screen) {
+        screen.classList.add('is-error');
+        screen.setAttribute('aria-hidden', 'false');
+      }
+      setSpinnerVisible(false);
+      setLoadingMessage(message || 'We could not rebuild this shared cart.');
+      setTimeout(hideLoadingScreen, loadingHideDelay);
+    }
 
     function currentParams() {
       try {
@@ -48,58 +103,6 @@
       if (typeof err === 'string') return err;
       if (err.message) return err.message;
       return String(err);
-    }
-
-    function setLoadingScreenVisible(visible) {
-      var root = document.documentElement;
-      if (!root) return;
-      if (visible) {
-        root.classList.add(loadingClassName);
-      } else {
-        root.classList.remove(loadingClassName);
-      }
-      var screen = document.querySelector(loadingSelectors.screen);
-      if (screen) {
-        screen.setAttribute('aria-hidden', visible ? 'false' : 'true');
-      }
-    }
-
-    function updateLoadingScreen(message, isError) {
-      var screen = document.querySelector(loadingSelectors.screen);
-      if (!screen) return;
-      if (isError) {
-        screen.classList.add('is-error');
-      } else {
-        screen.classList.remove('is-error');
-      }
-      if (message) {
-        var messageNode = screen.querySelector(loadingSelectors.message);
-        if (messageNode) {
-          messageNode.textContent = message;
-        }
-      }
-      var spinner = screen.querySelector(loadingSelectors.spinner);
-      if (spinner) {
-        if (isError) {
-          spinner.style.display = 'none';
-          spinner.setAttribute('aria-hidden', 'true');
-        } else {
-          spinner.style.display = '';
-          spinner.setAttribute('aria-hidden', 'false');
-        }
-      }
-    }
-
-    function handleFlowError(message, context) {
-      updateLoadingScreen(message || 'Unable to rebuild shared cart.', true);
-      if (context && context.type === 'query') {
-        stripSharedParam();
-      } else if (context && context.type === 'short') {
-        stripShortPath();
-      }
-      setTimeout(function () {
-        setLoadingScreenVisible(false);
-      }, 1800);
     }
 
     function normalizeBase64(value) {
@@ -174,25 +177,6 @@
       }
     }
 
-    function stripShortPath() {
-      try {
-        var path = window.location.pathname || '';
-        if (path.toLowerCase().indexOf('/cart/s/') !== 0) return;
-        var newUrl = '/cart';
-        var search = window.location.search || '';
-        if (search) {
-          newUrl += search;
-        }
-        var hash = window.location.hash || '';
-        if (hash) {
-          newUrl += hash;
-        }
-        window.history.replaceState({}, document.title, newUrl);
-      } catch (err) {
-        // Ignore inability to manipulate history
-      }
-    }
-
     function requestWithRetry(url, options, attempt) {
       attempt = attempt || 0;
       return fetch(url, Object.assign({ credentials: 'same-origin' }, options)).then(function (response) {
@@ -205,189 +189,6 @@
         }
         return response;
       });
-    }
-
-    function detectSharedContext(params) {
-      var path = '';
-      try {
-        path = window.location.pathname || '';
-      } catch (err) {
-        path = '';
-      }
-
-      if (params && typeof params.get === 'function') {
-        var sharedValue = params.get('shared');
-        if (sharedValue) {
-          return {
-            type: 'query',
-            value: sharedValue,
-            signature: 'shared:' + signatureFor(sharedValue)
-          };
-        }
-      }
-
-      if (path && path.toLowerCase().indexOf('/cart/s/') === 0) {
-        var match = path.match(/\/cart\/s\/([^/?#]+)/i);
-        if (match && match[1]) {
-          var decoded = null;
-          try {
-            decoded = decodeURIComponent(match[1]);
-          } catch (err) {
-            decoded = match[1];
-          }
-          return {
-            type: 'short',
-            code: decoded,
-            signature: 'short:' + signatureFor(decoded)
-          };
-        }
-      }
-
-      return null;
-    }
-
-    function extractItemsFromCartData(cartData) {
-      if (!cartData || !Array.isArray(cartData.items)) return [];
-      var rawItems = [];
-      for (var i = 0; i < cartData.items.length; i++) {
-        var item = cartData.items[i];
-        if (!item) continue;
-        var variantId = item.variant_id || item.id;
-        var quantity = Number(item.quantity || 0);
-        if (!variantId || !quantity || quantity < 1) continue;
-        var entry = { id: variantId, quantity: quantity };
-        if (item.properties && typeof item.properties === 'object') {
-          entry.properties = item.properties;
-        }
-        var sellingPlanId = null;
-        if (item.selling_plan_allocation && item.selling_plan_allocation.selling_plan && item.selling_plan_allocation.selling_plan.id) {
-          sellingPlanId = item.selling_plan_allocation.selling_plan.id;
-        } else if (item.selling_plan) {
-          sellingPlanId = item.selling_plan;
-        }
-        if (sellingPlanId) {
-          entry.selling_plan = sellingPlanId;
-        }
-        rawItems.push(entry);
-      }
-      return rawItems;
-    }
-
-    function fetchSharedCartByHandle(handle) {
-      if (!handle) {
-        return Promise.reject(new Error('This shared cart link is invalid.'));
-      }
-
-      var token = shareCartConfig.storefrontToken;
-      if (!token) {
-        return Promise.reject(new Error('This shared cart link is currently unavailable.'));
-      }
-
-      var apiVersion = shareCartConfig.apiVersion || '2024-07';
-      var endpoint = shareCartConfig.graphqlEndpoint;
-
-      if (!endpoint) {
-        try {
-          var origin = window.location.origin || (window.location.protocol + '//' + window.location.host);
-          endpoint = origin.replace(/\/$/, '') + '/api/' + apiVersion + '/graphql.json';
-        } catch (err) {
-          endpoint = '/api/' + apiVersion + '/graphql.json';
-        }
-      }
-
-      var query =
-        'query SharedCartByHandle($handle: String!, $type: String!) {' +
-        ' metaobjectByHandle(handle: { type: $type, handle: $handle }) {' +
-        '   id' +
-        '   fields { key value }' +
-        ' }' +
-        '}';
-
-      var body = JSON.stringify({
-        query: query,
-        variables: { handle: handle, type: metaobjectType }
-      });
-
-      return requestWithRetry(endpoint, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-          'X-Shopify-Storefront-Access-Token': token
-        },
-        body: body
-      })
-        .then(function (response) {
-          if (!response.ok) {
-            throw new Error('Unable to load this shared cart.');
-          }
-          return response.json();
-        })
-        .then(function (payload) {
-          if (!payload) {
-            throw new Error('Unable to load this shared cart.');
-          }
-          if (payload.errors && payload.errors.length) {
-            throw new Error(payload.errors[0] && payload.errors[0].message ? payload.errors[0].message : 'Unable to load this shared cart.');
-          }
-          var metaobject = payload.data && payload.data.metaobjectByHandle;
-          if (!metaobject) {
-            throw new Error('This shared cart link could not be found.');
-          }
-          var fieldMap = {};
-          if (Array.isArray(metaobject.fields)) {
-            metaobject.fields.forEach(function (field) {
-              if (!field || !field.key) return;
-              fieldMap[field.key] = field.value;
-            });
-          }
-          var expiration = fieldMap.expiration_date ? Date.parse(fieldMap.expiration_date) : NaN;
-          if (!isNaN(expiration) && expiration < Date.now()) {
-            throw new Error('This shared cart link has expired.');
-          }
-          var rawCart = fieldMap.cart_data;
-          if (!rawCart) {
-            throw new Error('This shared cart is unavailable.');
-          }
-          var parsedCart;
-          try {
-            parsedCart = JSON.parse(rawCart);
-          } catch (err) {
-            throw new Error('We could not read this shared cart.');
-          }
-          var rawItems = extractItemsFromCartData(parsedCart);
-          return sanitizeItems(rawItems);
-        });
-    }
-
-    function beginCartRebuild(sanitized, context) {
-      if (!sanitized || !sanitized.length) {
-        debugLog('No valid shared items after sanitization');
-        handleFlowError('This shared cart is empty.', context);
-        isRunning = false;
-        return;
-      }
-
-      rebuildCart(sanitized)
-        .then(function (result) {
-          debugLog('Cart rebuild complete', result);
-          if (context && context.type === 'query') {
-            stripSharedParam();
-          } else if (context && context.type === 'short') {
-            stripShortPath();
-          }
-          if (!result || !result.partial) {
-            clearNotice();
-          }
-          window.location.replace('/cart');
-        })
-        .catch(function (err) {
-          debugLog('Cart rebuild failed', describeError(err));
-          handleFlowError((err && err.message) || 'Unable to add shared cart.', context);
-        })
-        .finally(function () {
-          isRunning = false;
-        });
     }
 
     function signatureFor(value) {
@@ -496,17 +297,22 @@
         });
     }
 
-    function processSharedParam(sharedValue, context) {
-      if (!sharedValue) {
-        handleFlowError('This shared cart link is invalid.', context);
-        isRunning = false;
+    function processSharedParam(sharedValue) {
+      if (!sharedValue) return;
+      var signature = signatureFor(sharedValue);
+      if (signature && handledSignatures[signature]) {
+        debugLog('Shared param already handled');
         return;
       }
+      handledSignatures[signature] = true;
+
+      showLoadingScreen();
+
       var decoded = decodeSharedPayload(sharedValue);
       if (!decoded) {
         debugLog('Failed to decode shared payload');
-        handleFlowError('This shared cart link is invalid.', context);
-        isRunning = false;
+        stripSharedParam();
+        showLoadingError('We could not read this shared cart.');
         return;
       }
 
@@ -515,30 +321,35 @@
         items = JSON.parse(decoded);
       } catch (err) {
         debugLog('Failed to parse shared payload JSON');
-        handleFlowError('This shared cart link is invalid.', context);
-        isRunning = false;
+        stripSharedParam();
+        showLoadingError('We could not read this shared cart.');
         return;
       }
 
       var sanitized = sanitizeItems(items);
-      beginCartRebuild(sanitized, context);
-    }
-
-    function processSharedCode(code, context) {
-      if (!code) {
-        debugLog('Missing short code for shared cart');
-        handleFlowError('This shared cart link is invalid.', context);
-        isRunning = false;
+      if (!sanitized.length) {
+        debugLog('No valid shared items after sanitization');
+        stripSharedParam();
+        hideLoadingScreen();
         return;
       }
 
-      fetchSharedCartByHandle(code)
-        .then(function (sanitized) {
-          beginCartRebuild(sanitized, context);
+      isRunning = true;
+      rebuildCart(sanitized)
+        .then(function (result) {
+          debugLog('Cart rebuild complete', result);
+          stripSharedParam();
+          if (!result || !result.partial) {
+            clearNotice();
+          }
+          window.location.replace('/cart');
         })
         .catch(function (err) {
-          debugLog('Unable to fetch shared cart by code', describeError(err));
-          handleFlowError((err && err.message) || 'Unable to load this shared cart.', context);
+          debugLog('Cart rebuild failed', describeError(err));
+          stripSharedParam();
+          showLoadingError(describeError(err));
+        })
+        .finally(function () {
           isRunning = false;
         });
     }
@@ -551,30 +362,17 @@
       bootState.debugEnabled = isDebugEnabled();
       debugLog('Boot running via', trigger || 'immediate');
       var params = currentParams();
-      var context = detectSharedContext(params);
-      if (!context || !context.signature) {
-        debugLog('No shared context detected');
-        setLoadingScreenVisible(false);
+      if (!params || !params.get) {
+        debugLog('URLSearchParams unavailable');
         return;
       }
-
-      if (handledSignatures[context.signature]) {
-        debugLog('Shared context already handled');
+      var shared = params.get('shared');
+      if (!shared) {
+        debugLog('No shared param detected');
         return;
       }
-
-      handledSignatures[context.signature] = true;
-      isRunning = true;
-      setLoadingScreenVisible(true);
-      updateLoadingScreen(defaultLoadingMessage, false);
-
-      if (context.type === 'query') {
-        debugLog('Shared param detected');
-        processSharedParam(context.value, context);
-      } else if (context.type === 'short') {
-        debugLog('Short shared cart code detected');
-        processSharedCode(context.code, context);
-      }
+      debugLog('Shared param detected');
+      processSharedParam(shared);
     }
 
     function scheduleInitialRun() {
