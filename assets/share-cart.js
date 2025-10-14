@@ -5,6 +5,49 @@
     return;
   }
 
+  var urlParams = null;
+  try {
+    urlParams = new URLSearchParams(window.location.search);
+  } catch (err) {
+    urlParams = null;
+  }
+
+  var DEBUG_ENABLED = !!(urlParams && urlParams.get('scdebug') === '1');
+
+  function debugLog() {
+    if (!DEBUG_ENABLED) return;
+    if (typeof console === 'undefined' || typeof console.log !== 'function') return;
+    var args = Array.prototype.slice.call(arguments);
+    args.unshift('[ShareCart]');
+    console.log.apply(console, args);
+  }
+
+  function describeNode(node) {
+    if (!node || node.nodeType !== 1) return 'unknown';
+    var name = node.tagName ? node.tagName.toLowerCase() : 'node';
+    var id = node.id ? '#' + node.id : '';
+    var className = '';
+    if (node.className && typeof node.className === 'string') {
+      className = '.' + node.className.trim().replace(/\s+/g, '.');
+    }
+    return name + id + className;
+  }
+
+  function isElementVisible(element) {
+    if (!element || element.nodeType !== 1) return false;
+    var current = element;
+    while (current && current.nodeType === 1) {
+      if (current.hasAttribute('hidden')) return false;
+      var style = window.getComputedStyle(current);
+      if (!style) break;
+      if (style.display === 'none' || style.visibility === 'hidden') {
+        return false;
+      }
+      current = current.parentElement;
+    }
+    return true;
+  }
+
   var SELECTORS = {
     drawer: {
       containers: ['.cart-drawer__actions', '.cart-drawer__footer'],
@@ -12,8 +55,10 @@
     },
     sidebar: {
       host: '#cart-sidebar',
+      hosts: ['#cart-sidebar', '.cart-sidebar', '.cart-sidebar-section-wrapper', '[data-cart-sidebar]'],
       body: '.cart-sidebar__body',
-      checkout: '.cart-sidebar__checkout-btn'
+      checkout: '.cart-sidebar__checkout-btn',
+      inlineGroups: ['.cart-drawer__continue-action', '.cart-sidebar__secondary-actions']
     },
     page: {
       container: '.container--cart-page',
@@ -75,9 +120,7 @@
   }
 
   function isHidden(element) {
-    if (!element || typeof window.getComputedStyle !== 'function') return false;
-    var style = window.getComputedStyle(element);
-    return style && (style.display === 'none' || style.visibility === 'hidden');
+    return !isElementVisible(element);
   }
 
   function ShareCartManager() {
@@ -88,15 +131,19 @@
     this.lastCartFetch = 0;
     this.observer = null;
     this.reconstructing = false;
+    this.visibilityQueue = [];
+    this.externalListenersAttached = false;
     this.handleButtonClick = this.handleButtonClick.bind(this);
     this.scheduleRender = this.scheduleRender.bind(this);
   }
 
   ShareCartManager.prototype.init = function () {
     this.injectStyles();
+    this.consumeBootNotice();
     this.injectAll();
     this.refreshButtonStates();
     this.observe();
+    this.bindExternalListeners();
   };
 
   ShareCartManager.prototype.injectStyles = function () {
@@ -107,13 +154,61 @@
     document.head.appendChild(style);
   };
 
+  ShareCartManager.prototype.consumeBootNotice = function () {
+    var storageKey = 'shareCart:lastNotice';
+    try {
+      var raw = localStorage.getItem(storageKey);
+      if (!raw) return;
+      localStorage.removeItem(storageKey);
+      var payload = null;
+      try {
+        payload = JSON.parse(raw);
+      } catch (err) {
+        payload = null;
+      }
+      if (!payload || !payload.message) return;
+      this.showToast(payload.message, true);
+      debugLog('Toast notice displayed for partial rebuild');
+    } catch (err) {
+      // Ignore storage errors
+    }
+  };
+
   ShareCartManager.prototype.observe = function () {
     if (this.observer) return;
     var self = this;
     this.observer = new MutationObserver(function () {
       self.scheduleRender();
     });
-    this.observer.observe(document.body, { childList: true, subtree: true });
+    if (document.body) {
+      this.observer.observe(document.body, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['class', 'style', 'hidden', 'aria-hidden']
+      });
+    }
+  };
+
+  ShareCartManager.prototype.bindExternalListeners = function () {
+    if (this.externalListenersAttached) return;
+    this.externalListenersAttached = true;
+    var listeners = [
+      [window, 'resize'],
+      [window, 'orientationchange'],
+      [document, 'shopify:section:load'],
+      [document, 'shopify:section:reorder'],
+      [document, 'page:load'],
+      [document, 'page:change'],
+      [document, 'app:loaded']
+    ];
+    var self = this;
+    listeners.forEach(function (entry) {
+      var target = entry[0];
+      var eventName = entry[1];
+      if (!target || typeof target.addEventListener !== 'function') return;
+      target.addEventListener(eventName, self.scheduleRender);
+    });
   };
 
   ShareCartManager.prototype.scheduleRender = function () {
@@ -135,6 +230,25 @@
         self.buttons.delete(button);
       }
     });
+  };
+
+  ShareCartManager.prototype.deferVisibilityCheck = function (element) {
+    if (!element) return;
+    if (!Array.isArray(this.visibilityQueue)) {
+      this.visibilityQueue = [];
+    }
+    if (this.visibilityQueue.indexOf(element) !== -1) {
+      return;
+    }
+    this.visibilityQueue.push(element);
+    var self = this;
+    setTimeout(function () {
+      var index = self.visibilityQueue.indexOf(element);
+      if (index !== -1) {
+        self.visibilityQueue.splice(index, 1);
+      }
+      self.scheduleRender();
+    }, 250);
   };
 
   ShareCartManager.prototype.createButton = function () {
@@ -171,6 +285,79 @@
     this.injectPageButton();
   };
 
+  ShareCartManager.prototype.getSidebarHosts = function () {
+    var selectors = [];
+    if (Array.isArray(SELECTORS.sidebar.hosts)) {
+      selectors = SELECTORS.sidebar.hosts.slice();
+    }
+    if (!selectors.length && SELECTORS.sidebar.host) {
+      selectors.push(SELECTORS.sidebar.host);
+    }
+    var results = [];
+    selectors.forEach(function (selector) {
+      if (!selector) return;
+      var nodes = document.querySelectorAll(selector);
+      for (var i = 0; i < nodes.length; i++) {
+        if (results.indexOf(nodes[i]) === -1) {
+          results.push(nodes[i]);
+        }
+      }
+    });
+    return results;
+  };
+
+  ShareCartManager.prototype.resolveSidebarHost = function (node) {
+    if (!node) return null;
+    if (node.matches && node.matches('.cart-sidebar')) return node;
+    return node.querySelector ? node.querySelector('.cart-sidebar') || node : node;
+  };
+
+  ShareCartManager.prototype.findSidebarInlineGroup = function (host) {
+    if (!host) return null;
+    var selectors = Array.isArray(SELECTORS.sidebar.inlineGroups)
+      ? SELECTORS.sidebar.inlineGroups
+      : [];
+    for (var i = 0; i < selectors.length; i++) {
+      var candidate = host.querySelector(selectors[i]);
+      if (candidate && !isHidden(candidate)) {
+        return candidate;
+      }
+    }
+    return null;
+  };
+
+  ShareCartManager.prototype.ensureSidebarInlineGroup = function (host) {
+    var inlineGroup = this.findSidebarInlineGroup(host);
+    if (inlineGroup) return inlineGroup;
+    if (!host) return null;
+    var footer = host.querySelector('.cart-sidebar__footer');
+    if (!footer || isHidden(footer)) return null;
+    inlineGroup = footer.querySelector('.cart-drawer__continue-action');
+    if (!inlineGroup) {
+      inlineGroup = document.createElement('div');
+      inlineGroup.className = 'cart-drawer__continue-action cart-sidebar__secondary-actions';
+      footer.appendChild(inlineGroup);
+      debugLog('Sidebar injection: created secondary action group', describeNode(footer));
+    }
+    return inlineGroup;
+  };
+
+  ShareCartManager.prototype.findSidebarFallbackContainer = function (host) {
+    if (!host) return null;
+    var selectors = [
+      '.cart-sidebar__footer',
+      '.cart-sidebar__actions',
+      '.cart-sidebar__content'
+    ];
+    for (var i = 0; i < selectors.length; i++) {
+      var target = host.querySelector(selectors[i]);
+      if (target && !isHidden(target)) {
+        return target;
+      }
+    }
+    return null;
+  };
+
   ShareCartManager.prototype.injectDrawerButton = function () {
     var container = null;
     for (var i = 0; i < SELECTORS.drawer.containers.length; i++) {
@@ -181,7 +368,10 @@
         break;
       }
     }
-    if (!container) return;
+    if (!container) {
+      debugLog('Drawer injection: no container available');
+      return;
+    }
 
     var inlineGroup = container.querySelector('.cart-drawer__continue-action');
     if (inlineGroup && isHidden(inlineGroup)) {
@@ -189,39 +379,55 @@
     }
 
     var target = inlineGroup || container;
-    if (target.querySelector('[data-share-cart]')) return;
+    if (target.querySelector('[data-share-cart]')) {
+      debugLog('Drawer injection: share CTA already present', describeNode(target));
+      return;
+    }
 
     var button = this.createButton();
     if (inlineGroup) {
       button.classList.add('cart-drawer__secondary-link');
       this.ensureInlineDivider(inlineGroup);
       inlineGroup.appendChild(button);
+      debugLog('Drawer injection: inserted into inline group', describeNode(inlineGroup));
     } else {
       var checkout = container.querySelector(SELECTORS.drawer.checkout);
       if (checkout && checkout.parentElement) {
         checkout.parentElement.insertBefore(button, checkout);
+        debugLog('Drawer injection: inserted before checkout', describeNode(checkout));
       } else {
         container.appendChild(button);
+        debugLog('Drawer injection: appended to container', describeNode(container));
       }
     }
   };
 
   ShareCartManager.prototype.injectSidebarButton = function () {
-    var hosts = document.querySelectorAll(SELECTORS.sidebar.host);
-    if (!hosts || !hosts.length) return;
+    var hosts = this.getSidebarHosts();
+    if (!hosts || !hosts.length) {
+      debugLog('Sidebar injection: no hosts detected');
+      return;
+    }
 
     for (var i = 0; i < hosts.length; i++) {
-      var host = hosts[i];
+      var rawHost = hosts[i];
+      if (!rawHost) continue;
+
+      var host = this.resolveSidebarHost(rawHost);
       if (!host) continue;
 
-      var hostCs = window.getComputedStyle(host);
-      if (hostCs.display === 'none' || hostCs.visibility === 'hidden') continue;
-
-      if (host.querySelector('[data-share-cart]')) {
+      if (!isElementVisible(host)) {
+        debugLog('Sidebar injection: host hidden, waiting', describeNode(host));
+        this.deferVisibilityCheck(host);
         continue;
       }
 
-      var inlineGroup = host.querySelector('.cart-drawer__continue-action');
+      if (host.querySelector('[data-share-cart]')) {
+        debugLog('Sidebar injection: CTA already present', describeNode(host));
+        continue;
+      }
+
+      var inlineGroup = this.ensureSidebarInlineGroup(host);
       if (inlineGroup && isHidden(inlineGroup)) {
         inlineGroup = null;
       }
@@ -231,18 +437,39 @@
         buttonInline.classList.add('cart-drawer__secondary-link');
         this.ensureInlineDivider(inlineGroup);
         inlineGroup.appendChild(buttonInline);
+        debugLog('Sidebar injection: inserted into inline group', describeNode(inlineGroup));
         continue;
       }
 
       var checkout = host.querySelector(SELECTORS.sidebar.checkout);
-      var container = (checkout && checkout.parentElement) || host.querySelector(SELECTORS.sidebar.body);
-      if (!container) continue;
+      if (checkout) {
+        var container = checkout.closest('.cart-sidebar__actions, .cart-sidebar__footer, .product-form__buttons-group') || checkout.parentElement;
+        if (container && isHidden(container)) {
+          this.deferVisibilityCheck(container);
+          debugLog('Sidebar injection: checkout container hidden', describeNode(container));
+          continue;
+        }
+        var buttonAfterCheckout = this.createButton();
+        buttonAfterCheckout.classList.add('cart-drawer__secondary-link');
+        checkout.insertAdjacentElement('afterend', buttonAfterCheckout);
+        debugLog('Sidebar injection: inserted after checkout button', describeNode(checkout));
+        continue;
+      }
 
-      var containerCs = window.getComputedStyle(container);
-      if (containerCs.display === 'none' || containerCs.visibility === 'hidden') continue;
+      var fallback = this.findSidebarFallbackContainer(host);
+      if (!fallback) {
+        this.deferVisibilityCheck(host);
+        debugLog('Sidebar injection: awaiting fallback container', describeNode(host));
+        continue;
+      }
 
       var button = this.createButton();
-      container.appendChild(button);
+      if (fallback.matches && fallback.matches('.cart-sidebar__actions, .cart-drawer__continue-action')) {
+        button.classList.add('cart-drawer__secondary-link');
+        this.ensureInlineDivider(fallback);
+      }
+      fallback.appendChild(button);
+      debugLog('Sidebar injection: inserted into fallback container', describeNode(fallback));
     }
   };
   
@@ -266,18 +493,29 @@
       }
     }
 
-    if (!container || container.querySelector('[data-share-cart]')) return;
+    if (!container) {
+      debugLog('Page injection: no suitable container');
+      return;
+    }
+
+    if (container.querySelector('[data-share-cart]')) {
+      debugLog('Page injection: CTA already present', describeNode(container));
+      return;
+    }
 
     var button = this.createButton();
     var updateLink = container.querySelector('.cart-summary__update-link');
     if (updateLink && updateLink.parentElement === container) {
       updateLink.insertAdjacentElement('afterend', button);
+      debugLog('Page injection: inserted after update link', describeNode(container));
     } else {
       var checkout = container.querySelector(SELECTORS.page.checkout) || container.querySelector(SELECTORS.page.form);
       if (checkout && checkout.parentElement) {
         checkout.parentElement.insertBefore(button, checkout.nextSibling);
+        debugLog('Page injection: inserted near checkout', describeNode(checkout.parentElement));
       } else {
         container.appendChild(button);
+        debugLog('Page injection: appended to container', describeNode(container));
       }
     }
   };
@@ -454,6 +692,10 @@
   };
 
   ShareCartManager.prototype.reconstructIfShared = function () {
+    if (window.__shareCartBoot && window.__shareCartBoot.initialized) {
+      debugLog('Legacy reconstruction skipped (boot active)');
+      return;
+    }
     if (this.reconstructing) return;
     var search = window.location.search;
     if (!search || search.indexOf('shared=') === -1) return;
@@ -547,7 +789,5 @@
   manager.init();
   window.dispatchEvent(new CustomEvent('sharecart:ready'));
 
-  if (window.__shareCartBoot) {
-    manager.reconstructIfShared();
-  }
+  manager.reconstructIfShared();
 })();
