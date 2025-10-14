@@ -10,22 +10,16 @@
 {
   "wrapper": "div.index-sections",
   "sections": {
-    "hero_section_v17_QKLrxM": {
-      "type": "Hero-Section-V17",
-      "name": "Hero Section V17.0",
+    "hero_section_v19_mneA7r": {
+      "type": "Hero-Section-V19",
+      "name": "Hero Section V19.0",
       "settings": {
-        "credibility_text": "PERFORMANCE NUTRITION",
-        "headline": "FOCUS ON THE WIN.",
-        "subheadline": "We'll handle the meals.",
-        "offer_text_option": "b",
-        "offer_text_a": "Dial in your nutrition with 25% off sitewide. Get free shipping when you stock up with 21+ meals.",
-        "offer_text_b": "Perfectly portioned, macro-friendly meals built for your goals. Ready to eat in minutes.",
-        "cta_button_text": "FUEL YOUR GOALS",
-        "enable_auto_discount": false,
-        "discount_code_apply": "DIALED25",
-        "promo_code": "",
-        "min_height_desktop": 65,
-        "min_height_mobile": 80
+        "credibility_text": "THE ICON STANDARD",
+        "headline": "PERFORMANCE WITHOUT THE PREP",
+        "subheadline": "Delicious meals, dialed-in macros. Just heat, eat, and conquer.",
+        "cta_button_text": "CHOOSE YOUR MEALS",
+        "min_height_desktop": 70,
+        "min_height_mobile": 75
       }
     },
     "black_friday_2024_hero_99phtq": {
@@ -107,17 +101,6 @@
     },
     "1732191728840514d5": {
       "type": "apps",
-      "blocks": {
-        "yotpo_product_reviews_ugc_reviews_carousel_cgM6bR": {
-          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews_carousel/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
-          "settings": {
-            "product": ""
-          }
-        }
-      },
-      "block_order": [
-        "yotpo_product_reviews_ugc_reviews_carousel_cgM6bR"
-      ],
       "settings": {
         "include_margins": true
       }
@@ -215,7 +198,7 @@
     }
   },
   "order": [
-    "hero_section_v17_QKLrxM",
+    "hero_section_v19_mneA7r",
     "black_friday_2024_hero_99phtq",
     "authority_bar_grBYWU",
     "homepage_process_PmGH7t",

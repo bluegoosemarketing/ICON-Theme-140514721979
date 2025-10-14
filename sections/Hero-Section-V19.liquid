@@ -1,0 +1,265 @@
+<!--
+  Hero Section V23.0 — SEO + LCP Optimized
+  Notes:
+  - Single H1 by default; switch to H2 in settings if your theme already renders an H1 elsewhere.
+  - Mobile wrapping fixed with fluid type + no mid-word splits.
+-->
+
+{%- if section.settings.preload_hero -%}
+  {%- comment %}Preload the likely LCP image for faster paint{%- endcomment -%}
+  <link
+    rel="preload"
+    as="image"
+    href="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v1.jpg?v=1760473296' }}"
+    imagesrcset="
+      {{ section.settings.mobile_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_DMobile-Hero_10.14.25_v1.jpg?v=1760473296' }} 767w,
+      {{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v1.jpg?v=1760473296' }} 1200w
+    "
+    imagesizes="(max-width:767px) 100vw, 100vw"
+    fetchpriority="high"
+  >
+{%- endif -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+<section class="hero22-section" id="home-hero" aria-label="ICON Meals homepage hero">
+  <div class="hero22-background">
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcset="{{ section.settings.mobile_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_DMobile-Hero_10.14.25_v1.jpg?v=1760473296' }}"
+        width="768" height="960">
+      <source
+        media="(min-width: 768px)"
+        srcset="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v1.jpg?v=1760473296' }}"
+        width="1920" height="800">
+      <img
+        class="hero22-image"
+        src="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v1.jpg?v=1760473296' }}"
+        alt="{{ section.settings.hero_alt | escape | default: 'Ready-to-eat, macro-friendly meals from ICON Meals' }}"
+        width="1920" height="800"
+        sizes="(max-width:767px) 100vw, 100vw"
+        decoding="async"
+        fetchpriority="high"
+        loading="eager">
+    </picture>
+    <noscript>
+      <img
+        src="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v1.jpg?v=1760473296' }}"
+        alt="{{ section.settings.hero_alt | escape | default: 'Ready-to-eat, macro-friendly meals from ICON Meals' }}"
+        width="1920" height="800" class="hero22-image">
+    </noscript>
+  </div>
+
+  <div class="hero22-content-wrapper">
+    <div class="hero22-page-container">
+      <div class="hero22-content">
+        {%- if section.settings.credibility_text != blank -%}
+          <p class="hero22-credibility-tag">{{ section.settings.credibility_text }}</p>
+        {%- endif -%}
+
+        {%- assign tag = section.settings.heading_tag | default: 'h1' -%}
+        <{{ tag }} class="hero22-headline">
+          {{ section.settings.headline | default: 'PERFORMANCE WITHOUT THE PREP' }}
+        </{{ tag }}>
+
+        <p class="hero22-subheadline">
+          {{ section.settings.subheadline | default: "Ready-to-eat, macro-friendly meals delivered. No subscription required—just heat, eat, and conquer." }}
+        </p>
+
+        <div class="hero22-cta-container">
+          <a
+            href="{{ section.settings.cta_url | default: '/collections/signature-menu' }}"
+            class="hero22-button"
+            aria-label="{{ section.settings.cta_aria | default: 'Choose your meals' }}">
+            {{ section.settings.cta_button_text | default: 'CHOOSE YOUR MEALS' }}
+            <span class="hero22-button-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+/* ──────────────────────────────────
+   HERO SECTION V23.0 (SEO + LCP + Mobile Wrap)
+   ────────────────────────────────── */
+:root{
+  --font-heading-v22:'Inter',sans-serif;
+  --font-body-v22:'Inter',sans-serif;
+
+  --color-text-dark-v22:#111827;
+  --color-text-medium-v22:#374151;
+
+  --color-brand-red-v22:#E63946;
+  --color-brand-red-dark-v22:#C1272D;
+  --color-background-v22:#FFFFFF;
+}
+
+.hero22-section{
+  position:relative !important;
+  width:100% !important;
+  background-color:var(--color-background-v22) !important;
+  overflow:hidden !important;
+  display:flex !important;
+  box-shadow:0 4px 14px rgba(0,0,0,.04);
+  -webkit-text-size-adjust:100%;
+      text-size-adjust:100%;
+}
+
+.hero22-background{ position:absolute !important; inset:0 !important; z-index:1 !important; }
+.hero22-image{
+  width:100% !important; height:100% !important;
+  display:block !important; object-fit:cover !important; object-position:center;
+  /* avoid layout shift: width/height attributes are set on <img> */
+}
+
+.hero22-content-wrapper{
+  position:relative !important; z-index:2 !important; width:100% !important;
+  display:flex !important; align-items:center !important;
+  padding:8vh 0 !important;
+}
+.hero22-page-container{
+  width:100% !important; max-width:1600px !important;
+  margin:0 auto !important; padding:0 40px !important;
+}
+.hero22-content{ text-align:left !important; max-width:50% !important; }
+
+.hero22-credibility-tag{
+  font-family:var(--font-body-v22) !important; font-size:.875rem !important;
+  font-weight:700 !important; color:var(--color-brand-red-v22) !important;
+  text-transform:uppercase !important; letter-spacing:1.5px !important;
+  margin:0 0 16px !important;
+}
+
+/* HEADLINE — fluid type + natural wrap (no mid-word breaks) */
+.hero22-headline{
+  font-family:var(--font-heading-v22) !important;
+  font-size:clamp(2.6rem, 2.2vw + 1.4rem, 4.25rem) !important;
+  font-weight:800 !important; color:var(--color-text-dark-v22) !important;
+  line-height:1.06 !important; text-transform:uppercase !important;
+  letter-spacing:-0.02em !important; margin:0 !important;
+
+  overflow-wrap:normal !important;
+  word-wrap:normal !important;
+  word-break:normal !important;
+  -ms-word-break:normal !important;
+  hyphens:none !important;
+  white-space:normal !important;
+  text-wrap:balance;
+
+  max-inline-size:22ch;
+}
+
+.hero22-subheadline{
+  font-family:var(--font-body-v22) !important;
+  font-size:clamp(1.125rem, .6vw + 1rem, 1.75rem) !important;
+  font-weight:500 !important; color:var(--color-text-medium-v22) !important;
+  line-height:1.45 !important; letter-spacing:-.5px !important;
+  margin:16px 0 32px !important;
+  max-inline-size:38ch !important;
+}
+
+.hero22-cta-container{ display:inline-block; }
+.hero22-button{
+  display:inline-flex !important; align-items:center !important;
+  padding:18px 38px !important; background:var(--color-brand-red-v22) !important;
+  color:#fff !important; text-decoration:none !important;
+  font-family:var(--font-heading-v22) !important; font-size:1rem !important;
+  font-weight:700 !important; text-transform:uppercase !important; letter-spacing:1.25px !important;
+  border-radius:8px !important; border:none !important;
+  transition:all .2s ease !important; cursor:pointer !important;
+  box-shadow:0 4px 14px rgba(0,0,0,.08), 0 5px 15px rgba(230,57,70,.15) !important;
+}
+.hero22-button-arrow{ margin-left:10px !important; transition:transform .2s ease !important; }
+.hero22-button:hover{
+  background:var(--color-brand-red-dark-v22) !important;
+  box-shadow:0 7px 14px rgba(0,0,0,.1), 0 10px 20px rgba(200,40,50,.2) !important;
+  transform:translateY(-2px) !important;
+}
+.hero22-button:focus-visible{
+  outline:2px solid currentColor; outline-offset:3px;
+}
+.hero22-button:hover .hero22-button-arrow{ transform:translateX(4px) !important; }
+
+/* ─── RESPONSIVE LAYOUT ─── */
+@media (min-width:768px){
+  .hero22-section{ min-height: {{ section.settings.min_height_desktop }}vh !important; }
+}
+@media (max-width:1200px){ .hero22-content{ max-width:60% !important; } }
+@media (max-width:990px){ .hero22-content{ max-width:75% !important; } }
+@media (min-width:1600px){ .hero22-content{ max-width:800px !important; } }
+
+/* ─── MOBILE TUNING ─── */
+@media (max-width:767px){
+  .hero22-section{ min-height: {{ section.settings.min_height_mobile }}vh !important; }
+  .hero22-image{ object-position:center !important; }
+  .hero22-content-wrapper{ align-items:flex-start !important; padding:52px 0 !important; }
+  .hero22-page-container{ padding:0 20px !important; }
+  .hero22-content{ text-align:center !important; max-width:100% !important; margin-inline:auto; }
+
+  .hero22-headline{
+    font-size:clamp(2rem, 7vw + .25rem, 2.75rem) !important;
+    letter-spacing:-0.015em !important;
+    max-inline-size:clamp(18ch, 92vw, 26ch) !important;
+    overflow-wrap:normal !important; word-break:normal !important; hyphens:none !important;
+    text-wrap:balance; margin:0 auto 16px !important;
+  }
+
+  .hero22-subheadline{
+    font-size:clamp(1.05rem, 1.2vw + .9rem, 1.25rem) !important;
+    max-inline-size:none !important; margin:12px auto 28px !important;
+  }
+
+  .hero22-cta-container{ display:block; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "[V23] SEO + LCP Hero",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "credibility_text", "label": "Credibility Tag", "default": "THE ICON STANDARD" },
+
+    { "type": "select", "id": "heading_tag", "label": "Heading Tag (SEO)", "default": "h1",
+      "options": [
+        { "value": "h1", "label": "H1 (Use when this is the only H1 on the page)" },
+        { "value": "h2", "label": "H2 (Use if another section outputs the page H1)" }
+      ]
+    },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "PERFORMANCE WITHOUT THE PREP" },
+    { "type": "textarea", "id": "subheadline", "label": "Sub-headline",
+      "default": "Ready-to-eat, macro-friendly meals delivered. No subscription required—just heat, eat, and conquer."
+    },
+
+    { "type": "header", "content": "Images" },
+    { "type": "image_picker", "id": "desktop_image", "label": "Desktop Hero Image (LCP)" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile Hero Image" },
+    { "type": "text", "id": "hero_alt", "label": "Hero Image Alt Text", "default": "Ready-to-eat, macro-friendly meals from ICON Meals" },
+    { "type": "checkbox", "id": "preload_hero", "label": "Preload LCP hero image", "default": true },
+
+    { "type": "header", "content": "Call to Action Button" },
+    { "type": "text", "id": "cta_button_text", "label": "Button Text", "default": "CHOOSE YOUR MEALS" },
+    {
+  "type": "text",
+  "id": "cta_url",
+  "label": "Button Link (URL or path)",
+  "default": "/collections/signature-menu",
+  "info": "Use a full URL (https://...) or an internal path like /collections/signature-menu"
+},
+
+    { "type": "text", "id": "cta_aria", "label": "Button ARIA label", "default": "Choose your meals" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "min_height_desktop", "min": 60, "max": 100, "step": 5, "unit": "vh", "label": "Desktop Minimum Section Height", "default": 70 },
+    { "type": "range", "id": "min_height_mobile", "min": 70, "max": 100, "step": 5, "unit": "vh", "label": "Mobile Minimum Section Height", "default": 90 }
+  ],
+  "presets": [
+    { "name": "[V23] SEO + LCP Hero", "category": "Custom Sections" }
+  ]
+}
+{% endschema %}
