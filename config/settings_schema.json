@@ -2367,5 +2367,63 @@
         "info": "Get this from Yotpo → On-Site Widgets → Star Rating → View Instructions → Get the code."
       }
     ]
+  },
+  {
+    "name": {
+      "en": "Share Cart",
+      "de": "Share Cart",
+      "es": "Share Cart",
+      "fr": "Share Cart",
+      "pt-PT": "Share Cart"
+    },
+    "settings": [
+      {
+        "type": "header",
+        "content": {
+          "en": "Share Cart",
+          "de": "Share Cart",
+          "es": "Share Cart",
+          "fr": "Share Cart",
+          "pt-PT": "Share Cart"
+        }
+      },
+      {
+        "type": "text",
+        "id": "share_cart_storefront_token",
+        "label": {
+          "en": "Storefront API token",
+          "de": "Storefront-API-Token",
+          "es": "Token de API Storefront",
+          "fr": "Jeton API Storefront",
+          "pt-PT": "Token da API Storefront"
+        },
+        "info": {
+          "en": "Required for creating shared cart metaobjects. Generate a Storefront API access token with metaobjects access.",
+          "de": "Erforderlich zum Erstellen von Shared-Cart-Metaobjekten. Generieren Sie einen Storefront-API-Zugriffstoken mit Metaobjektzugriff.",
+          "es": "Necesario para crear metaobjetos de carrito compartido. Genere un token de acceso de Storefront API con acceso a metaobjetos.",
+          "fr": "Nécessaire pour créer des métaobjets de panier partagé. Générez un jeton d'accès Storefront API avec accès aux métaobjets.",
+          "pt-PT": "Necessário para criar metaobjetos de carrinho partilhado. Gere um token de acesso Storefront API com acesso a metaobjetos."
+        }
+      },
+      {
+        "type": "text",
+        "id": "share_cart_api_version",
+        "label": {
+          "en": "Storefront API version",
+          "de": "Storefront-API-Version",
+          "es": "Versión de Storefront API",
+          "fr": "Version de l'API Storefront",
+          "pt-PT": "Versão da Storefront API"
+        },
+        "default": "2024-07",
+        "info": {
+          "en": "Optional override for the Storefront GraphQL endpoint version.",
+          "de": "Optionale Überschreibung für die Version des Storefront GraphQL-Endpunkts.",
+          "es": "Sobrescritura opcional para la versión del endpoint Storefront GraphQL.",
+          "fr": "Remplacement facultatif de la version du point de terminaison Storefront GraphQL.",
+          "pt-PT": "Substituição opcional da versão do endpoint Storefront GraphQL."
+        }
+      }
+    ]
   }
 ]
