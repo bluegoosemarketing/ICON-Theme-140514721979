@@ -156,7 +156,8 @@
 	  	{{ 'theme.min.css' | asset_url | stylesheet_tag }}
 	{% endif %}
 
-	{{ 'custom.css' | asset_url | stylesheet_tag }}
+        {{ 'custom.css' | asset_url | stylesheet_tag }}
+        {{ 'share-boot.css' | asset_url | stylesheet_tag }}
 
 	{% render 'font-links' %}
 
@@ -249,13 +250,26 @@
 </head>
 
 <body
-	id="{{ page_title | handle }}"
-	class="page-title--{{ page_title | handle }} {% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if template.suffix %} template-suffix--{{ template.suffix }}{% endif %} flexbox-wrapper"
-	data-cart-type="{{ settings.cart-type }}"
-	{% if settings.cart-type == 'persistent' %}
-	data-cart-visible="{{ cart_visible }}"
-	{% endif %}
+        id="{{ page_title | handle }}"
+        class="page-title--{{ page_title | handle }} {% if customer %}customer-logged-in {% endif %}template-{{ template | replace: '.', ' ' | truncatewords: 1, '' | handle }}{% if template.suffix %} template-suffix--{{ template.suffix }}{% endif %} flexbox-wrapper"
+        data-cart-type="{{ settings.cart-type }}"
+        {% if settings.cart-type == 'persistent' %}
+        data-cart-visible="{{ cart_visible }}"
+        {% endif %}
 >
+  <div class="share-cart-loading-screen" data-share-cart-loading aria-hidden="true">
+    <div class="share-cart-loading-screen__content">
+      <div class="share-cart-loading-screen__card">
+        <div class="share-cart-loading-screen__spinner" data-share-cart-loading-spinner aria-hidden="false"></div>
+        <p class="share-cart-loading-screen__headline" id="share-cart-loading-headline" data-share-cart-loading-headline>
+          Preparing your ICON cart
+        </p>
+        <p class="share-cart-loading-screen__message" data-share-cart-loading-message role="status" aria-live="polite" aria-describedby="share-cart-loading-headline">
+          You have great friends... building your cart now!
+        </p>
+      </div>
+    </div>
+  </div>
   <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-N4G4X563"
 height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
