@@ -25,11 +25,21 @@
     var loadingClassName = 'share-cart-loading';
     var loadingSelectors = {
       screen: '[data-share-cart-loading]',
+      headline: '[data-share-cart-loading-headline]',
       message: '[data-share-cart-loading-message]',
       spinner: '[data-share-cart-loading-spinner]'
     };
+    var loadingHeadlineDefault = 'Preparing your ICON cart';
     var loadingMessageDefault = 'You have great friends... building your cart now!';
     var loadingHideDelay = 1800;
+
+    function setLoadingHeadline(headline) {
+      var screen = document.querySelector(loadingSelectors.screen);
+      if (!screen) return;
+      var headlineNode = screen.querySelector(loadingSelectors.headline);
+      if (!headlineNode) return;
+      headlineNode.textContent = headline || loadingHeadlineDefault;
+    }
 
     function setLoadingMessage(message) {
       var screen = document.querySelector(loadingSelectors.screen);
@@ -59,6 +69,7 @@
         screen.setAttribute('aria-hidden', 'false');
       }
       setSpinnerVisible(true);
+      setLoadingHeadline(loadingHeadlineDefault);
       setLoadingMessage(message || loadingMessageDefault);
     }
 
@@ -73,6 +84,7 @@
         screen.classList.remove('is-error');
       }
       setSpinnerVisible(true);
+      setLoadingHeadline(loadingHeadlineDefault);
       setLoadingMessage(loadingMessageDefault);
     }
 
@@ -83,6 +95,7 @@
         screen.setAttribute('aria-hidden', 'false');
       }
       setSpinnerVisible(false);
+      setLoadingHeadline('We hit a snag');
       setLoadingMessage(message || 'We could not rebuild this shared cart.');
       setTimeout(hideLoadingScreen, loadingHideDelay);
     }
