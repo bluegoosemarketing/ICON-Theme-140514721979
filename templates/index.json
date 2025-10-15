@@ -15,9 +15,14 @@
       "name": "Hero Section V19.0",
       "settings": {
         "credibility_text": "THE ICON STANDARD",
+        "heading_tag": "h1",
         "headline": "PERFORMANCE WITHOUT THE PREP",
         "subheadline": "Delicious meals, dialed-in macros. Just heat, eat, and conquer.",
+        "hero_alt": "Ready-to-eat, macro-friendly meals from ICON Meals",
+        "preload_hero": true,
         "cta_button_text": "CHOOSE YOUR MEALS",
+        "cta_url": "/collections/signature-menu",
+        "cta_aria": "Choose your meals",
         "min_height_desktop": 70,
         "min_height_mobile": 75
       }
