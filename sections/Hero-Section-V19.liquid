@@ -1,12 +1,12 @@
 <!--
-  Hero Section V23.0 — SEO + LCP Optimized
+  Hero Section V23.3 — SEO + LCP Optimized + Interactive Meal Popup (Final)
+  Author: Gemini (Lead Dev)
   Notes:
-  - Single H1 by default; switch to H2 in settings if your theme already renders an H1 elsewhere.
-  - Mobile wrapping fixed with fluid type + no mid-word splits.
+  - Final fix: Removes the grey modal overlay by setting its background to transparent.
+  - Retains all previous fixes for mobile z-index and JS stability.
 -->
 
 {%- if section.settings.preload_hero -%}
-  {%- comment %}Preload the likely LCP image for faster paint{%- endcomment -%}
   <link
     rel="preload"
     as="image"
@@ -26,6 +26,7 @@
 
 <section class="hero22-section" id="home-hero" aria-label="ICON Meals homepage hero">
   <div class="hero22-background">
+  <div class="hero22-ripple-overlay"></div>
     <picture>
       <source
         media="(max-width: 767px)"
@@ -81,109 +82,195 @@
       </div>
     </div>
   </div>
+
+  <div class="hero22-meal-hotspot" role="button" tabindex="0" aria-label="Show details for Chicken Pasta Bowl"></div>
+
+  <div class="hero22-modal-overlay" id="meal-modal-overlay" aria-hidden="true"></div>
+  <div class="hero22-modal" id="meal-modal" role="dialog" aria-modal="true" aria-labelledby="meal-modal-title" aria-hidden="true">
+    <button type="button" class="hero22-modal-close" aria-label="Close meal details">
+      &times;
+    </button>
+    <div class="hero22-modal-content">
+      <h3 id="meal-modal-title" class="hero22-modal-title">Chicken Pasta Bowl</h3>
+      <div class="hero22-modal-macros">
+        <div class="macro-item"><span>430</span> Calories</div>
+        <div class="macro-item"><span>42g</span> Protein</div>
+        <div class="macro-item"><span>51g</span> Carbs</div>
+        <div class="macro-item"><span>6.0g</span> Fats</div>
+        <div class="macro-item"><span>8g</span> Fiber</div>
+        <div class="macro-item"><span>220mg</span> Sodium</div>
+      </div>
+      <p class="hero22-modal-description">Tender chicken breast and al dente chickpea rotini soak up a rich, herb-forward marinara. Crisp green beans add fresh snap, while a touch of cottage cheese melts in for a creamy finish.</p>
+      <div class="hero22-modal-ingredients">
+        <strong>Main Ingredients:</strong> Tender chicken breast, Chickpea rotini pasta, Rich marinara, Green beans, Creamy cottage cheese.
+      </div>
+      <a href="https://iconmeals.com/collections/signature-menu/products/chicken-pasta-bowl" class="hero22-modal-button">
+        View Meal
+        <span class="hero22-button-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
 </section>
 
 <style>
 /* ──────────────────────────────────
-   HERO SECTION V23.0 (SEO + LCP + Mobile Wrap)
+   HERO SECTION V23.3 (SEO + LCP + Final Fixes)
    ────────────────────────────────── */
 :root{
   --font-heading-v22:'Inter',sans-serif;
   --font-body-v22:'Inter',sans-serif;
-
   --color-text-dark-v22:#111827;
   --color-text-medium-v22:#374151;
-
   --color-brand-red-v22:#E63946;
   --color-brand-red-dark-v22:#C1272D;
   --color-background-v22:#FFFFFF;
 }
-
 .hero22-section{
-  position:relative !important;
-  width:100% !important;
-  background-color:var(--color-background-v22) !important;
-  overflow:hidden !important;
-  display:flex !important;
-  box-shadow:0 4px 14px rgba(0,0,0,.04);
-  -webkit-text-size-adjust:100%;
-      text-size-adjust:100%;
+  position:relative !important; width:100% !important; background-color:var(--color-background-v22) !important;
+  overflow:hidden !important; display:flex !important; box-shadow:0 4px 14px rgba(0,0,0,.04);
+  -webkit-text-size-adjust:100%; text-size-adjust:100%;
 }
-
 .hero22-background{ position:absolute !important; inset:0 !important; z-index:1 !important; }
 .hero22-image{
-  width:100% !important; height:100% !important;
-  display:block !important; object-fit:cover !important; object-position:center;
-  /* avoid layout shift: width/height attributes are set on <img> */
+  width:100% !important; height:100% !important; display:block !important; object-fit:cover !important; object-position:center;
 }
-
 .hero22-content-wrapper{
-  position:relative !important; z-index:2 !important; width:100% !important;
-  display:flex !important; align-items:center !important;
+  position:relative !important; z-index:2 !important; width:100% !important; display:flex !important; align-items:center !important;
   padding:8vh 0 !important;
 }
 .hero22-page-container{
-  width:100% !important; max-width:1600px !important;
-  margin:0 auto !important; padding:0 40px !important;
+  width:100% !important; max-width:1600px !important; margin:0 auto !important; padding:0 40px !important;
 }
 .hero22-content{ text-align:left !important; max-width:50% !important; }
-
 .hero22-credibility-tag{
-  font-family:var(--font-body-v22) !important; font-size:.875rem !important;
-  font-weight:700 !important; color:var(--color-brand-red-v22) !important;
-  text-transform:uppercase !important; letter-spacing:1.5px !important;
-  margin:0 0 16px !important;
+  font-family:var(--font-body-v22) !important; font-size:.875rem !important; font-weight:700 !important; color:var(--color-brand-red-v22) !important;
+  text-transform:uppercase !important; letter-spacing:1.5px !important; margin:0 0 16px !important;
 }
-
-/* HEADLINE — fluid type + natural wrap (no mid-word breaks) */
 .hero22-headline{
-  font-family:var(--font-heading-v22) !important;
-  font-size:clamp(2.6rem, 2.2vw + 1.4rem, 4.25rem) !important;
-  font-weight:800 !important; color:var(--color-text-dark-v22) !important;
-  line-height:1.06 !important; text-transform:uppercase !important;
-  letter-spacing:-0.02em !important; margin:0 !important;
-
-  overflow-wrap:normal !important;
-  word-wrap:normal !important;
-  word-break:normal !important;
-  -ms-word-break:normal !important;
-  hyphens:none !important;
-  white-space:normal !important;
-  text-wrap:balance;
-
-  max-inline-size:22ch;
+  font-family:var(--font-heading-v22) !important; font-size:clamp(2.6rem, 2.2vw + 1.4rem, 4.25rem) !important;
+  font-weight:800 !important; color:var(--color-text-dark-v22) !important; line-height:1.06 !important; text-transform:uppercase !important;
+  letter-spacing:-0.02em !important; margin:0 !important; overflow-wrap:normal !important; word-wrap:normal !important;
+  word-break:normal !important; -ms-word-break:normal !important; hyphens:none !important; white-space:normal !important;
+  text-wrap:balance; max-inline-size:22ch;
 }
-
 .hero22-subheadline{
-  font-family:var(--font-body-v22) !important;
-  font-size:clamp(1.125rem, .6vw + 1rem, 1.75rem) !important;
-  font-weight:500 !important; color:var(--color-text-medium-v22) !important;
-  line-height:1.45 !important; letter-spacing:-.5px !important;
-  margin:16px 0 32px !important;
-  max-inline-size:38ch !important;
+  font-family:var(--font-body-v22) !important; font-size:clamp(1.125rem, .6vw + 1rem, 1.75rem) !important;
+  font-weight:500 !important; color:var(--color-text-medium-v22) !important; line-height:1.45 !important; letter-spacing:-.5px !important;
+  margin:16px 0 32px !important; max-inline-size:38ch !important;
 }
-
-.hero22-cta-container{ display:inline-block; }
+.hero22-cta-container{ position: relative; z-index: 10; display:inline-block; }
 .hero22-button{
-  display:inline-flex !important; align-items:center !important;
-  padding:18px 38px !important; background:var(--color-brand-red-v22) !important;
-  color:#fff !important; text-decoration:none !important;
-  font-family:var(--font-heading-v22) !important; font-size:1rem !important;
+  display:inline-flex !important; align-items:center !important; padding:18px 38px !important; background:var(--color-brand-red-v22) !important;
+  color:#fff !important; text-decoration:none !important; font-family:var(--font-heading-v22) !important; font-size:1rem !important;
   font-weight:700 !important; text-transform:uppercase !important; letter-spacing:1.25px !important;
-  border-radius:8px !important; border:none !important;
-  transition:all .2s ease !important; cursor:pointer !important;
+  border-radius:8px !important; border:none !important; transition:all .2s ease !important; cursor:pointer !important;
   box-shadow:0 4px 14px rgba(0,0,0,.08), 0 5px 15px rgba(230,57,70,.15) !important;
 }
 .hero22-button-arrow{ margin-left:10px !important; transition:transform .2s ease !important; }
 .hero22-button:hover{
-  background:var(--color-brand-red-dark-v22) !important;
+  background:var(--color-brand-red-dark-v22) !important; transform:translateY(-2px) !important;
   box-shadow:0 7px 14px rgba(0,0,0,.1), 0 10px 20px rgba(200,40,50,.2) !important;
-  transform:translateY(-2px) !important;
 }
-.hero22-button:focus-visible{
-  outline:2px solid currentColor; outline-offset:3px;
-}
+.hero22-button:focus-visible{ outline:2px solid currentColor; outline-offset:3px; }
 .hero22-button:hover .hero22-button-arrow{ transform:translateX(4px) !important; }
+
+/* ─── [REVISED] INTERACTIVE MEAL POPUP STYLES ─── */
+.hero22-ripple-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: transparent !important;           /* no default wash */
+  pointer-events: none;
+  clip-path: circle(0% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+  transition: clip-path 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.hero22-ripple-overlay.is-rippling {
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.25) 0%, rgba(230, 57, 70, 0.1) 100%) !important;
+  clip-path: circle(75% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+}
+.hero22-meal-hotspot{
+  position: absolute; z-index: 3;
+  top: 25%; left: 60%;
+  width: 30%; height: 55%;
+  cursor: pointer; border-radius: 30px;
+  background: transparent; border: none; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero22-meal-hotspot:focus-visible {
+  outline: 2px solid var(--color-brand-red-v22);
+  outline-offset: 4px;
+  border-radius: 30px;
+}
+.hero22-modal-overlay{
+  position: fixed; z-index: 998; inset: 0;
+  /* [FINAL FIX] Set background to transparent to remove the grey overlay entirely. */
+  background: transparent;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s 0.3s linear;
+}
+.hero22-modal{
+  position: fixed; z-index: 999;
+  top: 50%; left: 50%;
+  width: 90%; max-width: 620px;
+  background: var(--color-background-v22);
+  border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0; visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  isolation: isolate;
+}
+.hero22-modal-overlay.is-visible{ opacity: 1; visibility: visible; transition-delay: 0s; }
+.hero22-modal.is-visible{
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1; visibility: visible; transition-delay: 0s;
+}
+body.modal-open{ overflow: hidden; }
+.hero22-modal-close{
+  position: absolute; top: 12px; right: 12px;
+  width: 40px; height: 40px;
+  font-size: 2.2rem; line-height: 1; font-weight: 300;
+  color: var(--color-text-medium-v22); background: none; border: none;
+  cursor: pointer; border-radius: 50%; transition: all 0.2s ease;
+}
+.hero22-modal-close:hover{ color: var(--color-text-dark-v22); background: #f3f4f6; }
+.hero22-modal-content{ padding: 40px; text-align: left; }
+.hero22-modal-title{
+  font-family: var(--font-heading-v22); font-weight: 800;
+  font-size: 2rem; color: var(--color-text-dark-v22);
+  margin: 0 0 24px; text-transform: uppercase; letter-spacing: -0.5px;
+}
+.hero22-modal-macros{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px; margin-bottom: 24px; border-bottom: 1px solid #e5e7eb; padding-bottom: 24px;
+}
+.macro-item{
+  font-family: var(--font-body-v22); font-size: 0.9rem;
+  color: var(--color-text-medium-v22); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.macro-item span {
+  display: block; font-size: 1.75rem; font-weight: 700;
+  color: var(--color-text-dark-v22); margin-bottom: 4px;
+}
+.hero22-modal-description, .hero22-modal-ingredients {
+  font-family: var(--font-body-v22); font-size: 1rem;
+  line-height: 1.6; color: var(--color-text-medium-v22); margin: 0 0 16px;
+}
+.hero22-modal-ingredients { margin-bottom: 32px; }
+.hero22-modal-button {
+  display: inline-flex !important; align-items: center !important;
+  padding: 16px 32px !important; background:var(--color-brand-red-v22) !important;
+  color: #fff !important; text-decoration: none !important;
+  font-family: var(--font-heading-v22) !important; font-size: 0.9rem !important;
+  font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 1.25px !important;
+  border-radius: 8px !important; border: none !important;
+  transition: all .2s ease !important; cursor: pointer !important;
+  box-shadow:0 4px 14px rgba(0,0,0,.08), 0 5px 15px rgba(230,57,70,.15) !important;
+}
+.hero22-modal-button:hover {
+  background: var(--color-brand-red-dark-v22) !important;
+  box-shadow:0 7px 14px rgba(0,0,0,.1), 0 10px 20px rgba(200,40,50,.2) !important;
+  transform: translateY(-2px) !important;
+}
+.hero22-modal-button:hover .hero22-button-arrow { transform:translateX(4px) !important; }
 
 /* ─── RESPONSIVE LAYOUT ─── */
 @media (min-width:768px){
@@ -200,23 +287,223 @@
   .hero22-content-wrapper{ align-items:flex-start !important; padding:52px 0 !important; }
   .hero22-page-container{ padding:0 20px !important; }
   .hero22-content{ text-align:center !important; max-width:100% !important; margin-inline:auto; }
-
   .hero22-headline{
-    font-size:clamp(2rem, 7vw + .25rem, 2.75rem) !important;
-    letter-spacing:-0.015em !important;
-    max-inline-size:clamp(18ch, 92vw, 26ch) !important;
-    overflow-wrap:normal !important; word-break:normal !important; hyphens:none !important;
-    text-wrap:balance; margin:0 auto 16px !important;
+    font-size:clamp(2rem, 7vw + .25rem, 2.75rem) !important; letter-spacing:-0.015em !important;
+    max-inline-size:clamp(18ch, 92vw, 26ch) !important; overflow-wrap:normal !important; word-break:normal !important;
+    hyphens:none !important; text-wrap:balance; margin:0 auto 16px !important;
   }
-
   .hero22-subheadline{
-    font-size:clamp(1.05rem, 1.2vw + .9rem, 1.25rem) !important;
-    max-inline-size:none !important; margin:12px auto 28px !important;
+    font-size:clamp(1.05rem, 1.2vw + .9rem, 1.25rem) !important; max-inline-size:none !important; margin:12px auto 28px !important;
+  }
+  .hero22-meal-hotspot{
+    top: 75%; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 120px;
+    z-index: 2;
+  }
+  .hero22-modal-content { padding: 32px 24px; }
+  .hero22-modal-title { font-size: 1.7rem; }
+  .hero22-modal-macros { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .macro-item span { font-size: 1.5rem; }
+}
+/* OVERRIDE THE THEME OVERLAY */
+#meal-modal-overlay{
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Kill the button's default fill/shadow in all states */
+.hero22-meal-hotspot,
+.hero22-meal-hotspot:focus,
+.hero22-meal-hotspot:active,
+.hero22-meal-hotspot:focus-visible {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+.hero22-meal-hotspot::before,
+.hero22-meal-hotspot::after { content: none !important; }
+
+/* When modal is open, disable it entirely */
+body.modal-open .hero22-meal-hotspot { pointer-events: none !important; }
+
+/* Remove the gray box by hiding the hotspot when the modal is open */
+body.modal-open .hero22-meal-hotspot{
+  display: none !important;   /* or visibility:hidden if you prefer to keep layout */
+}
+
+body.modal-open .hero22-ripple-overlay{ display:none !important; }
+
+/* Hotspot: non-native control, no visual feedback from UA */
+.hero22-meal-hotspot{
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+  touch-action: manipulation;              /* no double-tap zoom */
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+
+/* Accessibility focus style if you want one */
+.hero22-meal-hotspot:focus-visible{
+  outline: 2px solid var(--color-brand-red-v22);
+  outline-offset: 4px;
+  border-radius: 30px;
+}
+
+/* When modal opens, hide the hotspot immediately to prevent any paint */
+body.modal-open .hero22-meal-hotspot{ display: none !important; }
+
+/* (You already have this) – also hide ripple when modal is open */
+body.modal-open .hero22-ripple-overlay{ display:none !important; }
+
+
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const heroSection   = document.querySelector('.hero22-section');
+  const mealHotspot   = document.querySelector('.hero22-meal-hotspot');
+  const mealModal     = document.getElementById('meal-modal');
+  const modalOverlay  = document.getElementById('meal-modal-overlay');
+  const closeButton   = document.querySelector('.hero22-modal-close');
+  const rippleOverlay = document.querySelector('.hero22-ripple-overlay');
+
+  if (!heroSection || !mealHotspot || !mealModal || !modalOverlay || !closeButton || !rippleOverlay) {
+    console.error('[Hero V23] Missing required elements.');
+    return;
   }
 
-  .hero22-cta-container{ display:block; }
-}
-</style>
+  let rippleTimeout;
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+
+  // ---- Focusable elements for trap
+  const focusSelectors = [
+    'a[href]', 'button:not([disabled])', '[role="button"]',
+    'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(',');
+
+  const getFocusables = (root) => Array.from(root.querySelectorAll(focusSelectors))
+    .filter(el => el.offsetParent !== null);
+
+  const trapKeydown = (e) => {
+    if (e.key !== 'Tab') return;
+    const nodes = getFocusables(mealModal);
+    if (nodes.length === 0) return;
+    const first = nodes[0];
+    const last  = nodes[nodes.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  };
+
+  // ---- Ripple (only on precise pointers)
+  const triggerRipple = (e) => {
+    clearTimeout(rippleTimeout);
+    rippleOverlay.classList.remove('is-rippling');
+    const rect = heroSection.getBoundingClientRect();
+    const x = (e.clientX ?? (rect.left + rect.width/2)) - rect.left;
+    const y = (e.clientY ?? (rect.top  + rect.height/2)) - rect.top;
+    rippleOverlay.style.setProperty('--ripple-x', `${x}px`);
+    rippleOverlay.style.setProperty('--ripple-y', `${y}px`);
+    // Start ripple
+    requestAnimationFrame(() => {
+      rippleOverlay.classList.add('is-rippling');
+      rippleTimeout = setTimeout(() => {
+        rippleOverlay.classList.remove('is-rippling');
+      }, 500); // match CSS
+    });
+  };
+
+  // ---- Open / Close
+  const openModal = () => {
+    // Make sure ripple isn't showing
+    clearTimeout(rippleTimeout);
+    rippleOverlay.classList.remove('is-rippling');
+
+    // Prevent the hotspot gray flash: hide it before paint
+    mealHotspot.style.display = 'none';
+    mealHotspot.style.pointerEvents = 'none';
+
+    // Show modal + overlay
+    mealModal.classList.add('is-visible');
+    modalOverlay.classList.add('is-visible');
+    document.body.classList.add('modal-open');
+    mealModal.setAttribute('aria-hidden', 'false');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+
+    // Focus first focusable in modal (or close button)
+    const focusables = getFocusables(mealModal);
+    (focusables[0] || closeButton).focus();
+
+    // Enable basic focus trap
+    document.addEventListener('keydown', trapKeydown);
+  };
+
+  const closeModal = () => {
+    mealModal.classList.remove('is-visible');
+    modalOverlay.classList.remove('is-visible');
+    document.body.classList.remove('modal-open');
+    mealModal.setAttribute('aria-hidden', 'true');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+
+    document.removeEventListener('keydown', trapKeydown);
+
+    // Restore hotspot AFTER fade-out so it doesn't flash back
+    setTimeout(() => {
+      mealHotspot.style.display = '';
+      mealHotspot.style.pointerEvents = 'auto';
+      // Return focus to hotspot for accessibility
+      mealHotspot.focus({ preventScroll: true });
+    }, 200); // match your CSS transition timing
+  };
+
+  // ---- Event wiring
+
+  // Open on pointerdown (earlier than click) to beat UA pressed painting
+  mealHotspot.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); // kills UA active/pressed visuals
+    if (!isCoarse && (e.pointerType === 'mouse' || e.pointerType === 'pen')) {
+      triggerRipple(e);
+    }
+    // Open in the next frame; hotspot already hidden
+    requestAnimationFrame(openModal);
+  }, { passive: false });
+
+  // Keyboard activation for accessibility
+  mealHotspot.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  // Close interactions
+  closeButton.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mealModal.classList.contains('is-visible')) {
+      closeModal();
+    }
+  });
+});
+</script>
+
 
 {% schema %}
 {
@@ -224,36 +511,38 @@
   "settings": [
     { "type": "header", "content": "Content" },
     { "type": "text", "id": "credibility_text", "label": "Credibility Tag", "default": "THE ICON STANDARD" },
-
-    { "type": "select", "id": "heading_tag", "label": "Heading Tag (SEO)", "default": "h1",
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading Tag (SEO)",
+      "default": "h1",
       "options": [
         { "value": "h1", "label": "H1 (Use when this is the only H1 on the page)" },
         { "value": "h2", "label": "H2 (Use if another section outputs the page H1)" }
       ]
     },
     { "type": "text", "id": "headline", "label": "Headline", "default": "PERFORMANCE WITHOUT THE PREP" },
-    { "type": "textarea", "id": "subheadline", "label": "Sub-headline",
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Sub-headline",
       "default": "Ready-to-eat, macro-friendly meals delivered. No subscription required—just heat, eat, and conquer."
     },
-
     { "type": "header", "content": "Images" },
     { "type": "image_picker", "id": "desktop_image", "label": "Desktop Hero Image (LCP)" },
     { "type": "image_picker", "id": "mobile_image", "label": "Mobile Hero Image" },
     { "type": "text", "id": "hero_alt", "label": "Hero Image Alt Text", "default": "Ready-to-eat, macro-friendly meals from ICON Meals" },
     { "type": "checkbox", "id": "preload_hero", "label": "Preload LCP hero image", "default": true },
-
     { "type": "header", "content": "Call to Action Button" },
     { "type": "text", "id": "cta_button_text", "label": "Button Text", "default": "CHOOSE YOUR MEALS" },
     {
-  "type": "text",
-  "id": "cta_url",
-  "label": "Button Link (URL or path)",
-  "default": "/collections/signature-menu",
-  "info": "Use a full URL (https://...) or an internal path like /collections/signature-menu"
-},
-
+      "type": "text",
+      "id": "cta_url",
+      "label": "Button Link (URL or path)",
+      "default": "/collections/signature-menu",
+      "info": "Use a full URL (https://...) or an internal path like /collections/signature-menu"
+    },
     { "type": "text", "id": "cta_aria", "label": "Button ARIA label", "default": "Choose your meals" },
-
     { "type": "header", "content": "Layout" },
     { "type": "range", "id": "min_height_desktop", "min": 60, "max": 100, "step": 5, "unit": "vh", "label": "Desktop Minimum Section Height", "default": 70 },
     { "type": "range", "id": "min_height_mobile", "min": 70, "max": 100, "step": 5, "unit": "vh", "label": "Mobile Minimum Section Height", "default": 90 }
