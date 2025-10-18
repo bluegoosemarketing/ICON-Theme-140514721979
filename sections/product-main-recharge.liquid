@@ -39,6 +39,10 @@
   if assurances_list == blank
     assign assurances_list = shop.metafields.defaults.assurances_list.value
   endif
+
+  assign features_list_count = features_list | size
+  assign who_for_list_count = who_for_list | size
+  assign assurances_list_count = assurances_list | size
   
   assign promo_end = settings.meal_plan_promo_end_date | default: ''
   assign promo_active = false
@@ -103,13 +107,13 @@
             </div>
           {%- endif -%}
 
-          {%- if hero_hook != blank or (features_list and features_list.size > 0) -%}
+          {%- if hero_hook != blank or features_list_count > 0 -%}
             <div class="meal-plan-hero__summary-card">
               {%- if hero_hook != blank -%}
                 <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
               {%- endif -%}
 
-              {%- if features_list and features_list.size > 0 -%}
+              {%- if features_list_count > 0 -%}
                 <div class="meal-plan-key-benefits">
                   <ul class="key-benefits__list">
                     {%- for feature in features_list -%}
@@ -131,9 +135,9 @@
           <div class="meal-plan-description rte">{{ product.description }}</div>
         {%- endif -%}
 
-        {%- if (who_for_list and who_for_list.size > 0) or included_meals != blank -%}
+        {%- if who_for_list_count > 0 or included_meals != blank -%}
           <div class="meal-plan-details-grid">
-            {%- if who_for_list and who_for_list.size > 0 -%}
+            {%- if who_for_list_count > 0 -%}
               <div class="meal-plan-target-audience">
                 <h3 class="meal-plan-section-title">WHO IT'S FOR</h3>
                 <ul class="meal-plan-target-audience__list">
@@ -259,7 +263,7 @@
     </div>
   </div>
 
-  {%- if assurances_list and assurances_list.size > 0 -%}
+  {%- if assurances_list_count > 0 -%}
     <div class="meal-plan-assurances">
       {%- for assurance in assurances_list -%}
         <div class="meal-plan-assurance">
