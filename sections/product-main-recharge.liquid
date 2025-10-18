@@ -103,58 +103,66 @@
             </div>
           {%- endif -%}
 
-          {%- if hero_hook != blank -%}
-            <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
-          {%- endif -%}
-          
-          {%- if features_list and features_list.size > 0 -%}
-            <div class="meal-plan-key-benefits">
-              <ul class="key-benefits__list">
-                {%- for feature in features_list -%}
-                  <li class="key-benefits__item">
-                    <span class="key-benefits__icon">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
-                    </span>
-                    <span class="key-benefits__text">{{ feature.title }}</span>
-                  </li>
-                {%- endfor -%}
-              </ul>
+          {%- if hero_hook != blank or (features_list and features_list.size > 0) -%}
+            <div class="meal-plan-hero__summary-card">
+              {%- if hero_hook != blank -%}
+                <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
+              {%- endif -%}
+
+              {%- if features_list and features_list.size > 0 -%}
+                <div class="meal-plan-key-benefits">
+                  <ul class="key-benefits__list">
+                    {%- for feature in features_list -%}
+                      <li class="key-benefits__item">
+                        <span class="key-benefits__icon">
+                          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><path d="M22 4L12 14.01l-3-3"/></svg>
+                        </span>
+                        <span class="key-benefits__text">{{ feature.title }}</span>
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+                </div>
+              {%- endif -%}
             </div>
           {%- endif -%}
         </div>
-        
+
         {%- if product.description != blank -%}
           <div class="meal-plan-description rte">{{ product.description }}</div>
         {%- endif -%}
 
-        {%- if who_for_list and who_for_list.size > 0 -%}
-          <div class="meal-plan-target-audience">
-            <h3 class="meal-plan-section-title">WHO IT'S FOR</h3>
-            <ul class="meal-plan-target-audience__list">
-              {%- for item in who_for_list -%}
-                <li class="meal-plan-target-audience__item">
-                  <span class="meal-plan-target-audience__icon-wrapper">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                  </span>
-                  <span>{{ item }}</span>
-                </li>
-              {%- endfor -%}
-            </ul>
-          </div>
-        {%- endif -%}
+        {%- if (who_for_list and who_for_list.size > 0) or included_meals != blank -%}
+          <div class="meal-plan-details-grid">
+            {%- if who_for_list and who_for_list.size > 0 -%}
+              <div class="meal-plan-target-audience">
+                <h3 class="meal-plan-section-title">WHO IT'S FOR</h3>
+                <ul class="meal-plan-target-audience__list">
+                  {%- for item in who_for_list -%}
+                    <li class="meal-plan-target-audience__item">
+                      <span class="meal-plan-target-audience__icon-wrapper">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                      </span>
+                      <span>{{ item }}</span>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+              </div>
+            {%- endif -%}
 
-        {%- if included_meals != blank -%}
-          <div class="meal-plan-contents">
-            <h3 class="meal-plan-section-title">WHAT'S IN YOUR PLAN</h3>
-            <ul class="meal-plan-contents__list" data-dynamic-meal-list>
-              {%- for meal in included_meals -%}
-                <li>
-                  <span class="meal-quantity-prefix"></span>
-                  <span class="meal-title-text">{{- meal.title -}}</span>
-                </li>
-              {%- endfor -%}
-            </ul>
-            <p class="meal-plan-contents__disclaimer">Due to a routinely updating menu, subscription items in this meal plan are subject to change.</p>
+            {%- if included_meals != blank -%}
+              <div class="meal-plan-contents">
+                <h3 class="meal-plan-section-title">WHAT'S IN YOUR PLAN</h3>
+                <ul class="meal-plan-contents__list" data-dynamic-meal-list>
+                  {%- for meal in included_meals -%}
+                    <li>
+                      <span class="meal-quantity-prefix"></span>
+                      <span class="meal-title-text">{{- meal.title -}}</span>
+                    </li>
+                  {%- endfor -%}
+                </ul>
+                <p class="meal-plan-contents__disclaimer">Due to a routinely updating menu, subscription items in this meal plan are subject to change.</p>
+              </div>
+            {%- endif -%}
           </div>
         {%- endif -%}
       </div>
