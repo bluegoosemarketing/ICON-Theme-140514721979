@@ -354,9 +354,13 @@ class ProductFormController extends HTMLElement {
   setLoading(isLoading) {
     this.addToCartButton.classList.toggle('is-loading', isLoading);
     this.addToCartButton.disabled = isLoading;
+    const label = this.addToCartButton.querySelector('[data-add-to-cart-text]');
+    if (label) label.textContent = isLoading ? 'Adding…' : 'Add to Cart';
   }
 
   setSuccess() {
+    const label = this.addToCartButton.querySelector('[data-add-to-cart-text]');
+    if (label) label.textContent = 'Added!';
     this.addToCartButton.classList.remove('is-loading');
     this.addToCartButton.classList.add('is-added');
     setTimeout(() => this.revertButton(), 2000);
@@ -365,6 +369,8 @@ class ProductFormController extends HTMLElement {
   revertButton() {
     this.addToCartButton.classList.remove('is-added');
     this.addToCartButton.classList.remove('is-loading');
+    const label = this.addToCartButton.querySelector('[data-add-to-cart-text]');
+    if (label) label.textContent = 'Add to Cart';
     const currentVariant = this.getSelectedVariant();
     this.addToCartButton.disabled = currentVariant ? !currentVariant.available : true;
   }
@@ -587,7 +593,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .meal-plan-premium-layout {
     --card-shadow: 0 28px 45px rgba(15, 23, 42, 0.08);
     --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8fffb 55%, #f0fdfa 100%);
-    --cta-control-height: 44px;
+    --cta-control-height: 50px;
   }
 
   .meal-plan-hero-container {
@@ -1174,6 +1180,43 @@ document.addEventListener('DOMContentLoaded', () => {
     transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
   }
 
+  /* Hide the text while loading to center the spinner cleanly */
+  .product-form-recharge__add-btn.is-loading [data-add-to-cart-text] {
+    opacity: 0;
+  }
+
+  /* Spinner */
+  .product-form-recharge__add-btn.is-loading::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3e.spinner_path%7bstroke:%23212529;stroke-width:3;stroke-linecap:round;fill:none%7d%3c/style%3e%3ccircle class='spinner_path' cx='12' cy='12' r='10' stroke-dasharray='62.83' stroke-dashoffset='47.12'/%3e%3c/svg%3e");
+    animation: unified-spinner-spin .85s cubic-bezier(.5,.15,.5,.85) infinite;
+  }
+
+  /* Success check */
+  .product-form-recharge__add-btn.is-added::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 24px;
+    height: 24px;
+    transform: translate(-50%, -50%);
+    background-color: currentColor;
+    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z'/%3e%3c/svg%3e");
+    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z'/%3e%3c/svg%3e");
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    animation: unified-pop-in .3s ease-out forwards;
+  }
+
   .product-form-recharge__add-btn svg {
     flex-shrink: 0;
     stroke: currentColor;
@@ -1378,7 +1421,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   @media (max-width: 749px) {
     .meal-plan-premium-layout {
-      --cta-control-height: 48px;
+      --cta-control-height: 50px;
     }
 
     .meal-plan-premium-layout {
