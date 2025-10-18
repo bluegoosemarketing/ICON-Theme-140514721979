@@ -409,31 +409,30 @@ class ProductFormController extends HTMLElement {
 
   updateMealQuantities(variant) {
     if (!this.includedMeals || this.includedMeals.length === 0) return;
-    
+
     const totalMeals = parseInt(variant.option1.split(' ')[0], 10);
     const numMealTypes = this.includedMeals.length;
-    
+
     if (isNaN(totalMeals) || numMealTypes === 0) return;
 
     const quantityPerMeal = totalMeals / numMealTypes;
-    const allCallouts = document.querySelectorAll('[data-meal-quantity-callout]');
-    
-    if (Number.isInteger(quantityPerMeal) && quantityPerMeal > 0) {
-      const flashDuration = 400;
+    const displayQuantity = Math.floor(quantityPerMeal);
+    const allCallouts = this.querySelectorAll('[data-meal-quantity-callout]');
+    const flashDuration = 400;
 
-      if (allCallouts) {
-        allCallouts.forEach(callout => {
-          callout.textContent = `${quantityPerMeal}x`;
-          callout.style.display = 'flex';
-          callout.classList.add('is-updating');
-          setTimeout(() => callout.classList.remove('is-updating'), flashDuration);
-        });
-      }
+    if (displayQuantity > 0) {
+      allCallouts.forEach(callout => {
+        callout.style.removeProperty('display');
+        callout.textContent = `${displayQuantity}x`;
+        callout.classList.add('is-active');
+        callout.classList.add('is-updating');
+        setTimeout(() => callout.classList.remove('is-updating'), flashDuration);
+      });
 
       if (this.dynamicMealList) {
         let newListHtml = '';
         this.includedMeals.forEach(mealTitle => {
-          newListHtml += `<li><span class="meal-quantity-prefix">${quantityPerMeal}x</span><span class="meal-title-text">${mealTitle}</span></li>`;
+          newListHtml += `<li><span class="meal-quantity-prefix">${displayQuantity}x</span><span class="meal-title-text">${mealTitle}</span></li>`;
         });
         this.dynamicMealList.innerHTML = newListHtml;
         this.dynamicMealList.querySelectorAll('.meal-quantity-prefix').forEach(prefix => {
@@ -442,9 +441,12 @@ class ProductFormController extends HTMLElement {
         });
       }
     } else {
-      if (allCallouts) {
-        allCallouts.forEach(callout => callout.style.display = 'none');
-      }
+      allCallouts.forEach(callout => {
+        callout.style.removeProperty('display');
+        callout.classList.remove('is-active');
+        callout.classList.remove('is-updating');
+        callout.textContent = '';
+      });
     }
   }
   
@@ -618,7 +620,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   @media (min-width: 1024px) {
     .meal-plan-hero-grid {
-      grid-template-columns: minmax(0, 1fr) minmax(0, 420px);
+      grid-template-columns: minmax(0, 1fr) clamp(480px, 36vw, 560px);
     }
     .meal-plan-hero__form {
       position: sticky;
@@ -685,7 +687,7 @@ document.addEventListener('DOMContentLoaded', () => {
   .meal-plan-hero__bottomline {
     display: flex;
     align-items: center;
-    gap: 0.75rem;
+    gap: 0.5rem;
     color: var(--text-secondary);
     font-weight: 600;
   }
@@ -808,6 +810,43 @@ document.addEventListener('DOMContentLoaded', () => {
     gap: 0.75rem;
     font-weight: 600;
     color: var(--text-primary);
+  }
+
+  .meal-plan-items__grid-item {
+    position: relative;
+  }
+
+  .meal-plan-quantity-callout {
+    position: absolute;
+    top: clamp(0.75rem, 2vw, 1rem);
+    right: clamp(0.75rem, 2vw, 1rem);
+    width: clamp(2.25rem, 3.5vw, 2.5rem);
+    height: clamp(2.25rem, 3.5vw, 2.5rem);
+    border-radius: 999px;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    background: var(--brand-primary);
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.01em;
+    box-shadow: 0 12px 24px rgba(42, 157, 143, 0.25);
+    pointer-events: none;
+    z-index: 2;
+    opacity: 0;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.2s ease;
+  }
+
+  .meal-plan-quantity-callout.is-active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .meal-plan-quantity-callout.is-updating {
+    transform: scale(1.08);
+    box-shadow: 0 16px 28px rgba(42, 157, 143, 0.3);
   }
 
   .meal-quantity-prefix {
@@ -1255,6 +1294,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     .meal-plan-hero__bottomline {
       justify-content: flex-start;
+    }
+
+    .meal-plan-quantity-callout {
+      width: 2.25rem;
+      height: 2.25rem;
+      font-size: 0.8rem;
+      top: 0.65rem;
+      right: 0.65rem;
     }
 
     .meal-plan-contents {
