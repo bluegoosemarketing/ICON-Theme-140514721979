@@ -3840,14 +3840,30 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 }
 
 .meal-plan-description {
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #495057;
-  border-top: 1px solid #e9ecef;
   padding-top: 2rem;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  margin: 0;
+  color: #334155;
+  font-size: clamp(1.05rem, 1.5vw, 1.22rem);
+  line-height: 1.8;
+  font-weight: 500;
+}
+.meal-plan-description p {
+  margin: 0 0 1.1rem;
 }
 .meal-plan-description p:first-child { margin-top: 0; }
 .meal-plan-description p:last-child { margin-bottom: 0; }
+.meal-plan-description ul,
+.meal-plan-description ol {
+  margin: 0;
+  padding-left: 1.35rem;
+}
+.meal-plan-description li {
+  margin-bottom: 0.75rem;
+}
+.meal-plan-description li:last-child {
+  margin-bottom: 0;
+}
 
 /* Right Column: Form */
 .meal-plan-hero__form {

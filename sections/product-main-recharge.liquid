@@ -717,14 +717,34 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .meal-plan-description.rte {
     padding-top: clamp(1.5rem, 3vw, 2rem);
-    border-top: 1px solid rgba(33, 37, 41, 0.08);
-    font-size: 1rem;
-    line-height: 1.7;
-    color: var(--text-secondary);
+    border-top: 1px solid rgba(15, 23, 42, 0.08);
+    margin: 0;
+    color: #334155;
+    font-size: clamp(1.05rem, 1.5vw, 1.22rem);
+    line-height: 1.8;
+    font-weight: 500;
+  }
+
+  .meal-plan-description.rte p {
+    margin: 0 0 1.1rem;
   }
 
   .meal-plan-description.rte p:first-child { margin-top: 0; }
   .meal-plan-description.rte p:last-child { margin-bottom: 0; }
+
+  .meal-plan-description.rte ul,
+  .meal-plan-description.rte ol {
+    margin: 0;
+    padding-left: 1.35rem;
+  }
+
+  .meal-plan-description.rte li {
+    margin-bottom: 0.75rem;
+  }
+
+  .meal-plan-description.rte li:last-child {
+    margin-bottom: 0;
+  }
 
   .meal-plan-key-benefits {
     margin-top: 1.5rem;
