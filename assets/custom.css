@@ -4035,10 +4035,11 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   max-width: 100%;
 }
 .select-wrapper select:hover { border-color: #adb5bd; }
-.select-wrapper select:focus {
+.select-wrapper select:focus,
+.select-wrapper select:focus-visible {
   outline: none;
   border-color: #80bdff;
-  box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+  box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
 }
 .select-wrapper__arrow {
   position: absolute;
