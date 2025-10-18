@@ -184,6 +184,23 @@
         "faq_icon": "plus_minus"
       }
     },
+    "165177738992fa8fe2": {
+      "type": "apps",
+      "blocks": {
+        "5948fb2f-6a7a-46aa-902c-848012a272b2": {
+          "type": "shopify://apps/yotpo-product-reviews/blocks/reviews/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+          "settings": {
+            "product": "{{product}}"
+          }
+        }
+      },
+      "block_order": [
+        "5948fb2f-6a7a-46aa-902c-848012a272b2"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
     "product-recommendations": {
       "type": "template--product--recommendations",
       "settings": {
@@ -198,6 +215,7 @@
     "product-description",
     "16523744666f90ac40",
     "1651782024a70736a3",
+    "165177738992fa8fe2",
     "product-recommendations"
   ]
 }
