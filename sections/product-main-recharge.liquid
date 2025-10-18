@@ -72,12 +72,26 @@
           </div>
 
           <div class="meal-plan-hero__bottomline">
-            <div
-              class="yotpo yotpo-bottomline"
-              data-product-id="{{ product.id }}"
-              data-name="{{ product.title | escape }}"
-              data-url="{{ shop.url }}{{ product.url }}"
-            ></div>
+            {% if settings.yotpo_star_instance_id %}
+              <div
+                class="yotpo-widget-instance"
+                data-yotpo-instance-id="{{ settings.yotpo_star_instance_id }}"
+                data-yotpo-product-id="{{ product.id }}"
+                data-yotpo-name="{{ product.title | escape }}"
+                data-yotpo-url="{{ shop.url }}{{ product.url }}"
+                {% if product.featured_image %}
+                  data-yotpo-image-url="{{ product.featured_image | image_url: width: 1024 }}"
+                {% endif %}
+                data-yotpo-description="{{ product.description | strip_html | truncate: 300 | escape }}"
+              ></div>
+            {% else %}
+              <div
+                class="yotpo yotpo-bottomline"
+                data-product-id="{{ product.id }}"
+                data-name="{{ product.title | escape }}"
+                data-url="{{ shop.url }}{{ product.url }}"
+              ></div>
+            {% endif %}
           </div>
 
           {%- if uses_legacy_pricing -%}
@@ -152,7 +166,7 @@
             <div class="form-step" data-order="1">
               <label for="Option-{{ section.id }}-0" class="form-step__label">
                 <span class="form-step__number">1</span>
-                {{ product.options_with_values[0].name }}
+                <span class="form-step__text">{{ product.options_with_values[0].name }}</span>
               </label>
               <div class="select-wrapper">
                 <select id="Option-{{ section.id }}-0" name="{{ product.options_with_values[0].name }}" data-variant-selector>
@@ -167,7 +181,10 @@
             </div>
 
             <div class="form-step" data-order="2">
-               <label class="form-step__label"><span class="form-step__number">2</span>Purchase Type</label>
+               <label class="form-step__label">
+                 <span class="form-step__number">2</span>
+                 <span class="form-step__text">Purchase Type</span>
+               </label>
                <div class="purchase-options" data-purchase-options-container>
                   <div class="purchase-options__option" data-purchase-option="one-time">
                     <input type="radio" id="purchase-type-one-time-{{ section.id }}" name="purchase_type" value="one-time" {% if has_subscriptions == false %}checked{% endif %}>
@@ -199,7 +216,10 @@
             </div>
 
             <div class="form-step" data-selling-plan-selector-container data-order="3">
-                <label class="form-step__label"><span class="form-step__number">3</span>Delivery Frequency</label>
+                <label class="form-step__label">
+                  <span class="form-step__number">3</span>
+                  <span class="form-step__text">Delivery Frequency</span>
+                </label>
                 <div class="selling-plan-grid" data-selling-plan-grid></div>
                 <select name="selling_plan" data-selling-plan-select hidden></select>
             </div>
@@ -207,12 +227,6 @@
             <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
             
             <div class="product-form-recharge__footer" data-order="4">
-              <div class="meal-plan-form__price">
-                <div class="price-chip{% if current_variant.available %} price-chip--live{% else %} price-chip--sold-out{% endif %}" data-price-chip>
-                  <span class="price-chip__primary">{{ current_variant.price | money }}</span>
-                </div>
-              </div>
-
               {% render 'meal-plan-promo-breadcrumb', context: 'pdp' %}
 
               <div class="meal-plan-form__actions">
@@ -280,7 +294,6 @@ class ProductFormController extends HTMLElement {
     this.subscribePriceDisplay = this.querySelector('[data-subscribe-price]');
     this.addToCartButton = this.querySelector('[data-add-to-cart-button]');
     this.dynamicMealList = this.querySelector('[data-dynamic-meal-list]');
-    this.priceChip = this.querySelector('[data-price-chip]');
     this.promoActive = this.dataset.promoActive === 'true';
     
     this.addToCartButton.addEventListener('click', this.onAddToCartClick.bind(this));
@@ -362,17 +375,6 @@ class ProductFormController extends HTMLElement {
     }
     oneTimePriceHtml += `<span>${this.formatMoney(selectedVariant.price)}</span>`;
     this.oneTimePriceDisplay.innerHTML = oneTimePriceHtml;
-
-    if (this.priceChip) {
-      let chipHtml = '';
-      if (selectedVariant.compare_at_price > selectedVariant.price) {
-        chipHtml += `<span class="price-chip__compare">${this.formatMoney(selectedVariant.compare_at_price)}</span>`;
-      }
-      chipHtml += `<span class="price-chip__primary">${this.formatMoney(selectedVariant.price)}</span>`;
-      this.priceChip.innerHTML = chipHtml;
-      this.priceChip.classList.toggle('price-chip--live', Boolean(selectedVariant.available));
-      this.priceChip.classList.toggle('price-chip--sold-out', !selectedVariant.available);
-    }
 
     if (allocations && allocations.length > 0) {
       subscribeOption.hidden = false;
@@ -692,7 +694,8 @@ document.addEventListener('DOMContentLoaded', () => {
     font-weight: 600;
   }
 
-  .meal-plan-hero__bottomline .yotpo-bottomline {
+  .meal-plan-hero__bottomline .yotpo-bottomline,
+  .meal-plan-hero__bottomline .yotpo-widget-instance {
     display: inline-flex;
     align-items: center;
     gap: 0.5rem;
@@ -968,61 +971,46 @@ document.addEventListener('DOMContentLoaded', () => {
     pointer-events: none;
   }
 
-  .meal-plan-form__footer {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    padding-top: clamp(1.25rem, 2vw, 1.5rem);
-    border-top: 1px solid rgba(33, 37, 41, 0.08);
-  }
-
-  .meal-plan-form__price {
+  .form-step__label {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    flex-wrap: wrap;
-    margin: 0;
+    font-weight: 700;
+    color: var(--text-primary);
   }
 
-  .price-chip {
-    position: relative;
+  .form-step__number {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    line-height: 1;
+    background: var(--text-primary);
+    color: #ffffff;
+    flex-shrink: 0;
+  }
+
+  .form-step__text {
     display: inline-flex;
     align-items: center;
-    gap: 0.5rem;
-    padding: 0.55rem 1.25rem;
-    border-radius: 999px;
-    background: #ffffff;
-    border: 1px solid rgba(15, 23, 42, 0.1);
-    box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.05), 0 8px 20px rgba(15, 23, 42, 0.08);
-    font-size: clamp(1.2rem, 2vw, 1.5rem);
-    font-weight: 800;
-    color: #0f172a;
   }
 
-  .price-chip--live {
-    border-color: rgba(42, 157, 143, 0.3);
-    color: #0b3a34;
-    box-shadow: inset 0 1px 2px rgba(42, 157, 143, 0.1), 0 10px 25px rgba(42, 157, 143, 0.12);
+  @media (min-width: 1024px) {
+    .form-step__number {
+      width: 28px;
+      height: 28px;
+      font-size: 0.95rem;
+    }
   }
 
-  .price-chip--sold-out {
-    border-color: rgba(220, 53, 69, 0.35);
-    color: #842029;
-    box-shadow: inset 0 1px 2px rgba(220, 53, 69, 0.15), 0 10px 25px rgba(220, 53, 69, 0.12);
-  }
-
-  .price-chip__compare {
-    color: var(--text-tertiary);
-    font-size: 0.9em;
-    font-weight: 600;
-    text-decoration: line-through;
-    opacity: 0.85;
-  }
-
-  .price-chip__primary {
-    display: inline-flex;
-    align-items: baseline;
-    gap: 0.25rem;
+  @media (max-width: 420px) {
+    .form-step__label {
+      gap: 0.6rem;
+    }
   }
 
   .meal-plan-form__actions {
