@@ -3807,6 +3807,65 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   }
 }
 
+.meal-plan-hero__summary-card {
+  background: linear-gradient(135deg, rgba(13, 110, 253, 0.08), rgba(13, 110, 253, 0));
+  border: 1px solid rgba(15, 23, 42, 0.08);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  margin-top: 1.75rem;
+  box-shadow: 0 12px 24px -18px rgba(15, 23, 42, 0.45);
+}
+
+.meal-plan-hero__hook {
+  margin: 0 0 1.5rem;
+  font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+  font-weight: 650;
+  line-height: 1.6;
+  color: #0f172a;
+}
+
+.meal-plan-key-benefits {
+  padding: 0;
+}
+
+.key-benefits__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 1rem;
+}
+
+.key-benefits__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  align-items: start;
+  gap: 0.85rem;
+  font-weight: 500;
+  color: #1f2937;
+}
+
+.key-benefits__icon {
+  display: inline-flex;
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  align-items: center;
+  justify-content: center;
+  background: rgba(34, 197, 94, 0.12);
+  color: #22c55e;
+}
+
+.key-benefits__icon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.key-benefits__text {
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
 /* Left Column: Info */
 .meal-plan-hero__title {
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif !important;
@@ -3857,6 +3916,131 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
 .meal-plan-description ol {
   margin: 0;
   padding-left: 1.35rem;
+}
+
+.meal-plan-details-grid {
+  display: grid;
+  gap: 2.5rem;
+  margin-top: 2.75rem;
+}
+
+@media (min-width: 1024px) {
+  .meal-plan-details-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 2.5rem;
+  }
+}
+
+.meal-plan-target-audience,
+.meal-plan-contents {
+  background-color: #f8fafc;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 14px;
+  padding: 1.75rem 1.5rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
+}
+
+.meal-plan-section-title {
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 1rem;
+}
+
+.meal-plan-target-audience__list,
+.meal-plan-contents__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.9rem;
+}
+
+.meal-plan-target-audience__item {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.75rem;
+  align-items: center;
+  font-weight: 500;
+  color: #1e293b;
+  line-height: 1.5;
+}
+
+.meal-plan-target-audience__icon-wrapper {
+  width: 36px;
+  height: 36px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(59, 130, 246, 0.14);
+  color: #2563eb;
+}
+
+.meal-plan-target-audience__icon-wrapper svg {
+  width: 18px;
+  height: 18px;
+}
+
+.meal-plan-contents__list li {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.6rem;
+  align-items: start;
+  color: #1f2937;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.meal-plan-contents__list .meal-quantity-prefix {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 0.75rem;
+}
+
+.meal-plan-contents__list .meal-quantity-prefix::before {
+  content: '•';
+  color: #6366f1;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+
+.meal-plan-contents__disclaimer {
+  margin-top: 1.25rem;
+  font-size: 0.85rem;
+  color: #475569;
+  line-height: 1.5;
+}
+
+@media (max-width: 767px) {
+  .meal-plan-hero__summary-card {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+  }
+
+  .meal-plan-details-grid {
+    margin-top: 2rem;
+    gap: 1.5rem;
+  }
+
+  .meal-plan-target-audience,
+  .meal-plan-contents {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .meal-plan-target-audience__item,
+  .meal-plan-contents__list li {
+    grid-template-columns: auto 1fr;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+
+  .meal-plan-target-audience__icon-wrapper,
+  .meal-plan-contents__list .meal-quantity-prefix {
+    align-self: flex-start;
+  }
 }
 .meal-plan-description li {
   margin-bottom: 0.75rem;
