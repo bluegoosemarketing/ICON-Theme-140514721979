@@ -548,6 +548,7 @@ document.addEventListener('DOMContentLoaded', () => {
     box-sizing: border-box;
   }
 
+  /* Both columns can shrink; avoid fixed mins that squeeze the left side */
   .meal-plan-hero__info,
   .meal-plan-hero__form {
     min-width: 0;
@@ -570,6 +571,7 @@ document.addEventListener('DOMContentLoaded', () => {
     --card-gradient: linear-gradient(135deg, #ffffff 0%, #f8fffb 55%, #f0fdfa 100%);
     --radius-md: 12px;
     --radius-lg: 18px;
+    --cta-control-height: 56px;
   }
 
   .meal-plan-premium-layout {
@@ -622,8 +624,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
   @media (min-width: 1024px) {
     .meal-plan-hero-grid {
-      grid-template-columns: minmax(0, 1fr) clamp(480px, 36vw, 560px);
+      grid-template-columns: minmax(0, 1fr) clamp(360px, 32vw, 540px);
+      gap: clamp(1.25rem, 3vw, 3.5rem);
     }
+
+    .meal-plan-hero__form,
+    .meal-plan-form-card {
+      width: 100%;
+      max-width: 100%;
+    }
+
     .meal-plan-hero__form {
       position: sticky;
       top: 2rem;
@@ -1027,31 +1037,39 @@ document.addEventListener('DOMContentLoaded', () => {
     gap: 0.75rem;
   }
 
+  /* Ensure both columns in the row stretch to the same height */
   .product-form-recharge__actions {
     display: grid;
     grid-template-columns: 140px 1fr;
     gap: 0.75rem;
-    align-items: center;
+    align-items: stretch;
   }
 
   .integrated-quantity {
+    height: var(--cta-control-height);
+    border-radius: 14px;
+    box-sizing: border-box;
+    padding: 0 0.75rem;
     display: flex;
     align-items: center;
     justify-content: space-between;
     background: var(--brand-primary);
-    border-radius: 14px;
     color: var(--color-surface);
     overflow: hidden;
   }
 
   .integrated-quantity__button {
+    height: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: none;
     background: transparent;
     color: inherit;
     font-size: 1.3rem;
     font-weight: 600;
     line-height: 1;
-    padding: 0.8rem;
+    padding: 0 0.9rem;
     cursor: pointer;
     transition: opacity 0.2s ease;
   }
@@ -1072,11 +1090,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* Restore outlined CTA style */
   .product-form-recharge__add-btn {
+    height: var(--cta-control-height);
+    border-radius: 14px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 1.25rem;
+    margin: 0;
     background: #ffffff;
     color: var(--brand-primary);
     border: 2px solid var(--brand-primary);
-    border-radius: 14px;
-    padding: 0.9rem 1.25rem;
     font-weight: 700;
     font-size: 1rem;
     text-transform: none;
@@ -1296,6 +1320,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   @media (max-width: 749px) {
+    :root {
+      --cta-control-height: 52px;
+    }
+
     .meal-plan-premium-layout {
       padding-bottom: 2rem;
     }
