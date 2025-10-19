@@ -75,6 +75,10 @@
             <span class="meal-plan-hero__tag">Meal Plan</span>
           </div>
 
+          {%- if hero_hook != blank -%}
+            <p class="meal-plan-hero__hook meal-plan-hero__hook--under-title">{{ hero_hook }}</p>
+          {%- endif -%}
+
           <div class="meal-plan-hero__bottomline">
             {% if settings.yotpo_star_instance_id %}
               <div
@@ -125,9 +129,6 @@
 
         {%- if hero_hook != blank or product.description != blank -%}
           <div class="meal-plan-summary-card">
-            {%- if hero_hook != blank -%}
-              <p class="meal-plan-hero__hook">{{ hero_hook }}</p>
-            {%- endif -%}
             {%- if product.description != blank -%}
               <div class="meal-plan-description rte">{{ product.description }}</div>
             {%- endif -%}
@@ -553,28 +554,74 @@ document.addEventListener('DOMContentLoaded', () => {
 
       event.preventDefault();
 
-      target.scrollIntoView({
-        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
-        block: 'center',
-        inline: 'nearest',
-      });
+      // Pick the first actually scrollable container (mobile = window/body; desktop = nested)
+      const docScroller = document.scrollingElement || document.documentElement;
+      const candidates = [
+        document.querySelector('.collection-page__main'),
+        docScroller,
+        document.body
+      ].filter(Boolean);
+      const isScrollableEl = (el) => {
+        const s = getComputedStyle(el);
+        const oy = s.overflowY;
+        return (oy === 'auto' || oy === 'scroll' || oy === 'overlay') && el.scrollHeight > el.clientHeight;
+      };
+      const scroller = candidates.find(isScrollableEl) || docScroller;
+      const isWindowScroller = (scroller === docScroller || scroller === document.body);
 
-      const hashValue = `#${targetId}`;
-      const canReplaceState = typeof history.replaceState === 'function';
+      // Compute combined sticky/fixed header offset (desktop + mobile)
+      const headerOffset = (() => {
+        const selectors = [
+          '.collection-header-section-v8',
+          'header[role="banner"]',
+          '.site-header',
+          '.announcement-bar',
+          '.shopify-section-announcement-bar',
+          '.sticky-mobile-bar'
+        ];
+        let total = 0;
+        document.querySelectorAll(selectors.join(',')).forEach(el => {
+          const s = getComputedStyle(el);
+          const pos = s.position;
+          const r = el.getBoundingClientRect();
+          // Count only elements stuck to the top and visible in the viewport
+          if ((pos === 'sticky' || pos === 'fixed') && r.bottom > 0 && r.top <= 0) {
+            total += r.height;
+          }
+        });
+        // iOS Safari has a collapsing URL bar — add a tiny cushion
+        const isiOS = /iP(hone|od|ad)/.test(navigator.userAgent);
+        const cushion = isiOS ? 12 : 8;
+        // Ensure a reasonable minimum offset on mobile vs desktop
+        const min = (window.innerWidth < 750) ? 72 : 80;
+        return Math.max(total + cushion, min);
+      })();
 
-      if (canReplaceState) {
-        history.replaceState(null, '', hashValue);
+      const tgtRect = target.getBoundingClientRect();
+      const scrRect = scroller.getBoundingClientRect();
+      const currentTop = isWindowScroller
+        ? (window.pageYOffset || document.documentElement.scrollTop || 0)
+        : scroller.scrollTop;
+
+      const destTop = currentTop + (tgtRect.top - scrRect.top) - headerOffset;
+      const behavior = prefersReducedMotion() ? 'auto' : 'smooth';
+
+      if (isWindowScroller) {
+        window.scrollTo({ top: destTop, behavior });
       } else {
-        window.location.hash = targetId;
+        scroller.scrollTo({ top: destTop, behavior });
       }
 
-      if (canReplaceState) {
-        window.clearTimeout(target._mpHashResetTimer);
-        target._mpHashResetTimer = window.setTimeout(() => {
-          if (window.location.hash === hashValue) {
-            history.replaceState(null, '', baseUrl);
-          }
-        }, hashResetDelay);
+      // Clear hash but only snap window to top when we scroll a NESTED container
+      if (history.replaceState) {
+        history.replaceState(null, '', `${location.pathname}${location.search}`);
+      }
+      if (!isWindowScroller) {
+        const winTop = window.pageYOffset || document.documentElement.scrollTop || 0;
+        if (winTop !== 0) {
+          window.scrollTo({ top: 0 });
+          setTimeout(() => window.scrollTo({ top: 0 }), 350);
+        }
       }
 
       if (typeof link.blur === 'function') {
@@ -651,11 +698,7 @@ document.addEventListener('DOMContentLoaded', () => {
         block: 'start'
       });
 
-      if (history.replaceState) {
-        history.replaceState(null, '', `#${targetId}`);
-      } else {
-        window.location.hash = targetId;
-      }
+      // Do not write a hash — avoids window nudging under sticky header
     }, { passive: false });
   };
 
@@ -754,18 +797,43 @@ document.addEventListener('DOMContentLoaded', () => {
   .meal-plan-summary-card {
     padding: 0;
     margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem; /* gentle rhythm between hook and description */
   }
 
   .meal-plan-hero__hook {
-    font-size: clamp(1.2rem, 1.5vw, 1.4rem);
+    display: block;
+    font-size: clamp(1.05rem, 1.35vw, 1.2rem);
     font-weight: 700;
-    line-height: 1.5;
-    color: var(--text-primary);
-    margin: 0 0 1.5rem 0 !important;
-    padding-bottom: 1.5rem;
-    border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+    line-height: 1.45;
+    color: #334155;
+    padding: 0.35rem 0 0.35rem 0.85rem;
+    background: transparent;
+    border: 0;
+    position: relative;
+    margin: 0 0 0.85rem 0 !important; /* default when paired with description */
   }
-    
+  /* Tighter rhythm when placed directly under the title */
+  .meal-plan-hero__hook--under-title {
+    margin: 0.05rem 0 0.18rem 0 !important; /* ultra-tight to title */
+    padding-left: 0.75rem;
+  }
+  .meal-plan-hero__hook::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0.35rem;
+    bottom: 0.35rem;
+    width: 4px;
+    border-radius: 3px;
+    background: var(--brand-primary);
+    box-shadow: 0 0 0 1px var(--brand-primary-border) inset;
+  }
+  .meal-plan-hero__hook--under-title::before {
+    width: 3px; /* slightly slimmer under the title */
+  }
+
   .meal-plan-info-stack {
     background: rgba(255, 255, 255, 0.65);
     border: 1px solid rgba(42, 157, 143, 0.14);
@@ -823,15 +891,15 @@ document.addEventListener('DOMContentLoaded', () => {
   .meal-plan-hero__header {
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0; /* remove default gap between title-wrapper, hook, reviews */
   }
 
   .meal-plan-hero__title-wrapper {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
-    gap: 0.75rem;
-    row-gap: 0.25rem;
+    gap: 0.4rem;      /* tightened — brings hook closer to title */
+    row-gap: 0.25rem; /* keep subtle vertical rhythm */
   }
 
   .meal-plan-hero__title {
@@ -861,12 +929,37 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .meal-plan-hero__bottomline {
-    display: flex;
+    display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 0.5rem;
     color: var(--text-secondary);
     font-weight: 600;
+    margin-top: 0.8rem;
+    margin-bottom: 1.1rem;
+    padding: 0.6rem 1rem;        /* perfectly even padding all around */
+    background: var(--brand-primary-light);
+    border: 1px solid var(--brand-primary-border);
+    border-radius: 8px;          /* clean, modern radius — not too round */
+    box-shadow: 0 6px 14px rgba(15, 23, 42, 0.05);
+    width: fit-content;
+}
+
+    .meal-plan-hero__bottomline .yotpo-bottomline,
+  .meal-plan-hero__bottomline .yotpo-widget-instance {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 !important;          /* strip any default margins */
+    padding: 0 !important;
   }
+
+  /* Keep stars vertically centered and tidy in the chip */
+  .meal-plan-hero__bottomline .yotpo-stars,
+  .meal-plan-hero__bottomline .yotpo-small-box {
+    transform: none;                 /* keep elements vertically centered */
+  }
+
 
   .meal-plan-hero__bottomline .yotpo-bottomline,
   .meal-plan-hero__bottomline .yotpo-widget-instance {
@@ -1053,7 +1146,8 @@ document.addEventListener('DOMContentLoaded', () => {
     position: relative;
   }
 
-  .meal-plan-items__grid-item:target {
+  /* Apply offset only when we highlight the card, not via :target */
+  .meal-plan-items__grid-item.is-highlighted {
     scroll-margin-top: clamp(120px, 12vh, 160px);
   }
 
@@ -1069,15 +1163,15 @@ document.addEventListener('DOMContentLoaded', () => {
     border-radius: inherit;
     pointer-events: none;
     opacity: 0;
-    border: 3px solid rgba(215, 25, 32, 0);
-    box-shadow: 0 0 0 0 rgba(215, 25, 32, 0);
+    border: 3px solid rgba(42, 157, 143, 0);
+    box-shadow: 0 0 0 0 rgba(42, 157, 143, 0);
     transition: opacity 0.2s ease;
   }
 
   .meal-plan-items__grid-item.is-highlighted .product-card {
     transform: translateY(-8px) !important;
-    border-color: rgba(215, 25, 32, 0.45) !important;
-    box-shadow: 0 0 0 0 rgba(215, 25, 32, 0), 0 28px 60px rgba(15, 23, 42, 0.2) !important;
+    border-color: rgba(42, 157, 143, 0.45) !important;
+    box-shadow: 0 0 0 0 rgba(42, 157, 143, 0), 0 28px 60px rgba(15, 23, 42, 0.2) !important;
     filter: saturate(1.05);
   }
 
@@ -1088,23 +1182,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   @keyframes meal-plan-card-border-flash {
     0% {
-      border-color: rgba(215, 25, 32, 0);
-      box-shadow: 0 0 0 0 rgba(215, 25, 32, 0);
+      border-color: rgba(42, 157, 143, 0);
+      box-shadow: 0 0 0 0 rgba(42, 157, 143, 0);
       opacity: 0;
     }
     20% {
-      border-color: rgba(215, 25, 32, 0.95);
-      box-shadow: 0 0 0 6px rgba(215, 25, 32, 0.35);
+      border-color: rgba(42, 157, 143, 0.95);
+      box-shadow: 0 0 0 6px rgba(42, 157, 143, 0.35);
       opacity: 1;
     }
     55% {
-      border-color: rgba(215, 25, 32, 0.65);
-      box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.25);
+      border-color: rgba(42, 157, 143, 0.65);
+      box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.25);
       opacity: 1;
     }
     100% {
-      border-color: rgba(215, 25, 32, 0);
-      box-shadow: 0 0 0 0 rgba(215, 25, 32, 0);
+      border-color: rgba(42, 157, 143, 0);
+      box-shadow: 0 0 0 0 rgba(42, 157, 143, 0);
       opacity: 0;
     }
   }
@@ -1115,11 +1209,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     .meal-plan-items__grid-item.is-highlighted .product-card::after {
-      animation: none !important;
-      opacity: 1 !important;
-      border-color: rgba(215, 25, 32, 0.75) !important;
-      box-shadow: 0 0 0 4px rgba(215, 25, 32, 0.25) !important;
-    }
+    animation: none !important;
+    opacity: 1 !important;
+    border-color: rgba(42, 157, 143, 0.75) !important;
+    box-shadow: 0 0 0 4px rgba(42, 157, 143, 0.25) !important;
+  }
   }
 
   .meal-plan-quantity-callout {
@@ -1665,6 +1759,15 @@ document.addEventListener('DOMContentLoaded', () => {
     .integrated-quantity {
       justify-content: center;
     }
+
+      .meal-plan-hero__bottomline {
+    flex-wrap: wrap;
+    row-gap: 0.25rem;
+    padding: 0.42rem 0.55rem 0.42rem 0.8rem;  /* slightly tighter on small screens */
+    border-radius: 10px;                      /* a bit squarer on mobile */
+  }
+
+
   }
 </style>
 
