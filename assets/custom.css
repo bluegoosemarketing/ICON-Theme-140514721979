@@ -1583,7 +1583,9 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 
 /* Dedicated loading state for product page add button */
 .product-main-add-to-cart.is-loading,
-.product-form-recharge__add-btn.is-loading {
+.product-form-recharge__add-btn.is-loading,
+.product-main-add-to-cart.is-adding,
+.product-form-recharge__add-btn.is-adding {
   pointer-events: none;
   cursor: wait;
   color: transparent !important;
@@ -1592,12 +1594,16 @@ body.template-suffix--meal-plans .collection-selector__toggle {
 }
 
 .product-main-add-to-cart.is-loading > *,
-.product-form-recharge__add-btn.is-loading > * {
+.product-form-recharge__add-btn.is-loading > *,
+.product-main-add-to-cart.is-adding > *,
+.product-form-recharge__add-btn.is-adding > * {
   opacity: 0;
 }
 
 .product-main-add-to-cart.is-loading::after,
-.product-form-recharge__add-btn.is-loading::after {
+.product-form-recharge__add-btn.is-loading::after,
+.product-main-add-to-cart.is-adding::after,
+.product-form-recharge__add-btn.is-adding::after {
   opacity: 1;
   width: 24px;
   height: 24px;

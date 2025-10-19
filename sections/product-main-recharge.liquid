@@ -304,9 +304,13 @@ class ProductFormController extends HTMLElement {
     this.oneTimePriceDisplay = this.querySelector('[data-one-time-price]');
     this.subscribePriceDisplay = this.querySelector('[data-subscribe-price]');
     this.addToCartButton = this.querySelector('[data-add-to-cart-button]');
+    this.addToCartLabel = this.addToCartButton ? this.addToCartButton.querySelector('[data-add-to-cart-text]') : null;
+    this.defaultAddToCartText = this.addToCartLabel && this.addToCartLabel.textContent.trim()
+      ? this.addToCartLabel.textContent.trim()
+      : 'Add to Cart';
     this.dynamicMealList = this.querySelector('[data-dynamic-meal-list]');
     this.promoActive = this.dataset.promoActive === 'true';
-    
+
     this.addToCartButton.addEventListener('click', this.onAddToCartClick.bind(this));
     
     this.variantSelector.addEventListener('change', this.updateUI.bind(this));
@@ -322,6 +326,7 @@ class ProductFormController extends HTMLElement {
   async onAddToCartClick(evt) {
     evt.preventDefault();
     this.setLoading(true);
+    this.dispatchCartEvent('cart:request:start');
     const purchaseTypeInput = this.querySelector('input[name="purchase_type"]:checked');
     const purchaseType = purchaseTypeInput ? purchaseTypeInput.value : null;
 
@@ -331,11 +336,14 @@ class ProductFormController extends HTMLElement {
       formData.delete('selling_plan');
     }
     
+    let cartResponse = null;
+    let hadError = false;
+
     try {
       const response = await fetch('/cart/add.js', { method: 'POST', body: formData });
       if (!response.ok) throw new Error(await response.text());
-      const cart = await response.json();
-      document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+      cartResponse = await response.json();
+      document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cartResponse } }));
       if (this.promoActive && purchaseType === 'subscribe') {
         try {
           await fetch('/discount/180OFF');
@@ -348,31 +356,48 @@ class ProductFormController extends HTMLElement {
     } catch (error) {
       console.error('Cart Submission Error:', error);
       this.revertButton();
+      hadError = true;
+    } finally {
+      const detail = !hadError && cartResponse ? { cart: cartResponse } : { error: true };
+      this.dispatchCartEvent('cart:request:complete', detail);
     }
   }
 
   setLoading(isLoading) {
-    this.addToCartButton.classList.toggle('is-loading', isLoading);
+    this.addToCartButton.classList.toggle('is-adding', isLoading);
     this.addToCartButton.disabled = isLoading;
-    const label = this.addToCartButton.querySelector('[data-add-to-cart-text]');
-    if (label) label.textContent = isLoading ? 'Adding…' : 'Add to Cart';
+    if (this.addToCartLabel) {
+      this.addToCartLabel.textContent = isLoading ? 'Adding…' : this.defaultAddToCartText;
+    }
   }
 
   setSuccess() {
-    const label = this.addToCartButton.querySelector('[data-add-to-cart-text]');
-    if (label) label.textContent = 'Added!';
-    this.addToCartButton.classList.remove('is-loading');
+    if (this.addToCartLabel) {
+      this.addToCartLabel.textContent = 'Added!';
+    }
+    this.addToCartButton.classList.remove('is-adding');
     this.addToCartButton.classList.add('is-added');
     setTimeout(() => this.revertButton(), 2000);
   }
 
   revertButton() {
     this.addToCartButton.classList.remove('is-added');
-    this.addToCartButton.classList.remove('is-loading');
-    const label = this.addToCartButton.querySelector('[data-add-to-cart-text]');
-    if (label) label.textContent = 'Add to Cart';
+    this.addToCartButton.classList.remove('is-adding');
+    if (this.addToCartLabel) {
+      this.addToCartLabel.textContent = this.defaultAddToCartText;
+    }
     const currentVariant = this.getSelectedVariant();
     this.addToCartButton.disabled = currentVariant ? !currentVariant.available : true;
+  }
+
+  dispatchCartEvent(name, detail = {}) {
+    if (!this.form) return;
+    this.form.dispatchEvent(
+      new CustomEvent(name, {
+        bubbles: true,
+        detail,
+      })
+    );
   }
   
   updateUI() {
@@ -1178,43 +1203,6 @@ document.addEventListener('DOMContentLoaded', () => {
     line-height: 1;
     box-shadow: none;
     transition: transform 0.15s ease, box-shadow 0.15s ease, color 0.15s ease, background 0.15s ease, border-color 0.15s ease;
-  }
-
-  /* Hide the text while loading to center the spinner cleanly */
-  .product-form-recharge__add-btn.is-loading [data-add-to-cart-text] {
-    opacity: 0;
-  }
-
-  /* Spinner */
-  .product-form-recharge__add-btn.is-loading::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 24px;
-    height: 24px;
-    transform: translate(-50%, -50%);
-    background-repeat: no-repeat;
-    background-size: contain;
-    background-image: url("data:image/svg+xml,%3csvg viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3e%3cstyle%3e.spinner_path%7bstroke:%23212529;stroke-width:3;stroke-linecap:round;fill:none%7d%3c/style%3e%3ccircle class='spinner_path' cx='12' cy='12' r='10' stroke-dasharray='62.83' stroke-dashoffset='47.12'/%3e%3c/svg%3e");
-    animation: unified-spinner-spin .85s cubic-bezier(.5,.15,.5,.85) infinite;
-  }
-
-  /* Success check */
-  .product-form-recharge__add-btn.is-added::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 24px;
-    height: 24px;
-    transform: translate(-50%, -50%);
-    background-color: currentColor;
-    -webkit-mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z'/%3e%3c/svg%3e");
-    mask-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3e%3cpath d='M20.285 2l-11.285 11.567-5.286-5.011-3.714 3.716 9 8.728 15-15.285z'/%3e%3c/svg%3e");
-    -webkit-mask-size: contain;
-    mask-size: contain;
-    animation: unified-pop-in .3s ease-out forwards;
   }
 
   .product-form-recharge__add-btn svg {
