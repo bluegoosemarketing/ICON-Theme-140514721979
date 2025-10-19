@@ -997,17 +997,17 @@ document.addEventListener('DOMContentLoaded', () => {
     padding: 0.4rem 0.75rem 0.4rem 0.4rem;
     border-radius: 999px;
     font-weight: 500;
-    color: var(--text-secondary);
-    text-decoration: none;
+    color: var(--text-secondary) !important;
+    text-decoration: none !important;
     background: transparent;
     transition: color 0.25s ease, background-color 0.25s ease, box-shadow 0.3s ease, transform 0.2s ease;
   }
 
   .meal-plan-contents__item-link:hover,
   .meal-plan-contents__item-link:focus {
-    color: var(--brand-primary-dark);
-    background: rgba(42, 157, 143, 0.08);
-    text-decoration: none;
+    color: var(--brand-primary-dark) !important;
+    background: rgba(42, 157, 143, 0.08) !important;
+    text-decoration: none !important;
   }
 
   .meal-plan-contents__item-link:active {
@@ -1015,7 +1015,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .meal-plan-contents__item-link:visited {
-    color: var(--text-secondary);
+    color: var(--text-secondary) !important;
   }
 
   .meal-plan-contents__item-link:focus-visible {
@@ -1024,14 +1024,15 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .meal-plan-contents__item-link.is-active {
-    color: var(--brand-primary-dark);
-    background: rgba(42, 157, 143, 0.14);
-    box-shadow: 0 18px 38px rgba(42, 157, 143, 0.16);
+    color: var(--brand-primary-dark) !important;
+    background: rgba(42, 157, 143, 0.14) !important;
+    box-shadow: 0 18px 38px rgba(42, 157, 143, 0.16) !important;
   }
 
   .meal-plan-contents__item-link .meal-title-text {
-    color: inherit;
+    color: inherit !important;
     font-weight: 600;
+    text-decoration: none !important;
   }
 
   .meal-plan-items__grid-item {
@@ -1051,31 +1052,56 @@ document.addEventListener('DOMContentLoaded', () => {
     border-radius: inherit;
     pointer-events: none;
     opacity: 0;
-    background: radial-gradient(circle at center, rgba(42, 157, 143, 0.16) 0%, rgba(42, 157, 143, 0) 70%);
-    transition: opacity 0.45s ease;
+    border: 3px solid rgba(215, 25, 32, 0);
+    box-shadow: 0 0 0 0 rgba(215, 25, 32, 0);
+    transition: opacity 0.2s ease;
   }
 
   .meal-plan-items__grid-item.is-highlighted .product-card {
     transform: translateY(-8px) !important;
-    border-color: rgba(42, 157, 143, 0.35) !important;
-    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18) !important;
-    filter: saturate(1.04);
+    border-color: rgba(215, 25, 32, 0.45) !important;
+    box-shadow: 0 0 0 0 rgba(215, 25, 32, 0), 0 28px 60px rgba(15, 23, 42, 0.2) !important;
+    filter: saturate(1.05);
   }
 
   .meal-plan-items__grid-item.is-highlighted .product-card::after {
     opacity: 1;
-    animation: meal-plan-card-glow 1.4s ease forwards;
+    animation: meal-plan-card-border-flash 1.4s ease forwards;
   }
 
-  @keyframes meal-plan-card-glow {
+  @keyframes meal-plan-card-border-flash {
     0% {
+      border-color: rgba(215, 25, 32, 0);
+      box-shadow: 0 0 0 0 rgba(215, 25, 32, 0);
       opacity: 0;
     }
-    35% {
+    20% {
+      border-color: rgba(215, 25, 32, 0.95);
+      box-shadow: 0 0 0 6px rgba(215, 25, 32, 0.35);
+      opacity: 1;
+    }
+    55% {
+      border-color: rgba(215, 25, 32, 0.65);
+      box-shadow: 0 0 0 3px rgba(215, 25, 32, 0.25);
       opacity: 1;
     }
     100% {
+      border-color: rgba(215, 25, 32, 0);
+      box-shadow: 0 0 0 0 rgba(215, 25, 32, 0);
       opacity: 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .meal-plan-items__grid-item.is-highlighted .product-card {
+      transform: none !important;
+    }
+
+    .meal-plan-items__grid-item.is-highlighted .product-card::after {
+      animation: none !important;
+      opacity: 1 !important;
+      border-color: rgba(215, 25, 32, 0.75) !important;
+      box-shadow: 0 0 0 4px rgba(215, 25, 32, 0.25) !important;
     }
   }
 
