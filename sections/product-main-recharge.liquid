@@ -155,9 +155,16 @@
             <h3 class="meal-plan-section-title">WHAT'S IN YOUR PLAN</h3>
             <ul class="meal-plan-contents__list" data-dynamic-meal-list>
               {%- for meal in included_meals -%}
+                {%- if meal.handle != blank -%}
+                  {%- assign meal_anchor_id = 'meal-plan-item-' | append: meal.handle -%}
+                {%- else -%}
+                  {%- assign meal_anchor_id = '' -%}
+                {%- endif -%}
                 <li>
-                  <span class="meal-quantity-prefix"></span>
-                  <span class="meal-title-text">{{- meal.title -}}</span>
+                  <a class="meal-plan-contents__item-link" href="{% if meal_anchor_id != blank %}#{{ meal_anchor_id }}{% else %}#{% endif %}">
+                    <span class="meal-quantity-prefix"></span>
+                    <span class="meal-title-text">{{- meal.title -}}</span>
+                  </a>
                 </li>
               {%- endfor -%}
             </ul>
@@ -278,7 +285,7 @@
 
   <script type="application/json" data-product-json>{{ product | json }}</script>
   <script type="application/json" data-selling-plans-json>{{ product.selling_plan_groups | json }}</script>
-  <script type="application/json" data-included-meals-json>{%- if included_meals != blank -%}{{ included_meals | map: 'title' | json }}{%- else -%}[]{%- endif -%}</script>
+  <script type="application/json" data-included-meals-json>{%- if included_meals != blank -%}[{%- for meal in included_meals -%}{"title":{{ meal.title | json }},"handle":{{ meal.handle | json }}}{%- unless forloop.last -%},{%- endunless -%}{%- endfor -%}]{%- else -%}[]{%- endif -%}</script>
 </product-form-controller>
 
 {%- render 'footer-minimal-ordering' -%}
@@ -474,8 +481,13 @@ class ProductFormController extends HTMLElement {
 
       if (this.dynamicMealList) {
         let newListHtml = '';
-        this.includedMeals.forEach(mealTitle => {
-          newListHtml += `<li><span class="meal-quantity-prefix">${displayQuantity}x</span><span class="meal-title-text">${mealTitle}</span></li>`;
+        this.includedMeals.forEach(meal => {
+          const mealTitle = typeof meal === 'string' ? meal : (meal && meal.title);
+          const mealHandle = typeof meal === 'object' && meal !== null ? meal.handle || '' : '';
+          const anchorId = mealHandle ? `meal-plan-item-${mealHandle}` : '';
+          const href = anchorId ? `#${anchorId}` : '#';
+          const safeMealTitle = mealTitle || '';
+          newListHtml += `<li><a class="meal-plan-contents__item-link" href="${href}"><span class="meal-quantity-prefix">${displayQuantity}x</span><span class="meal-title-text">${safeMealTitle}</span></a></li>`;
         });
         this.dynamicMealList.innerHTML = newListHtml;
         this.dynamicMealList.querySelectorAll('.meal-quantity-prefix').forEach(prefix => {
@@ -915,11 +927,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   .meal-plan-contents__list li {
+    margin: 0;
+  }
+
+  .meal-plan-contents__item-link {
     display: flex;
     align-items: center;
     gap: 0.75rem;
     font-weight: 600;
     color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .meal-plan-contents__item-link:hover,
+  .meal-plan-contents__item-link:focus {
+    text-decoration: none;
   }
 
   .meal-plan-items__grid-item {
