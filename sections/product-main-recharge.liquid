@@ -530,6 +530,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const highlightClass = 'is-highlighted';
     const activeLinkClass = 'is-active';
     const animationDuration = 1600;
+    const hashResetDelay = animationDuration + 200;
+    const baseUrl = `${window.location.pathname}${window.location.search}`;
     const prefersReducedMotionQuery = typeof window.matchMedia === 'function'
       ? window.matchMedia('(prefers-reduced-motion: reduce)')
       : null;
@@ -557,10 +559,22 @@ document.addEventListener('DOMContentLoaded', () => {
         inline: 'nearest',
       });
 
-      if (history.replaceState) {
-        history.replaceState(null, '', `#${targetId}`);
+      const hashValue = `#${targetId}`;
+      const canReplaceState = typeof history.replaceState === 'function';
+
+      if (canReplaceState) {
+        history.replaceState(null, '', hashValue);
       } else {
         window.location.hash = targetId;
+      }
+
+      if (canReplaceState) {
+        window.clearTimeout(target._mpHashResetTimer);
+        target._mpHashResetTimer = window.setTimeout(() => {
+          if (window.location.hash === hashValue) {
+            history.replaceState(null, '', baseUrl);
+          }
+        }, hashResetDelay);
       }
 
       if (typeof link.blur === 'function') {
@@ -1037,6 +1051,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   .meal-plan-items__grid-item {
     position: relative;
+  }
+
+  .meal-plan-items__grid-item:target {
     scroll-margin-top: clamp(120px, 12vh, 160px);
   }
 
