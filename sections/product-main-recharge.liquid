@@ -526,6 +526,65 @@ if (
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  const initMealPlanContentsNavigation = () => {
+    const highlightClass = 'is-highlighted';
+    const activeLinkClass = 'is-active';
+    const animationDuration = 1600;
+    const prefersReducedMotionQuery = typeof window.matchMedia === 'function'
+      ? window.matchMedia('(prefers-reduced-motion: reduce)')
+      : null;
+
+    const prefersReducedMotion = () => prefersReducedMotionQuery ? prefersReducedMotionQuery.matches : false;
+
+    document.addEventListener('click', (event) => {
+      const link = event.target.closest('.meal-plan-contents__item-link');
+      if (!link) return;
+
+      const href = link.getAttribute('href');
+      if (!href || href === '#') return;
+
+      const targetId = href.replace(/^#/, '');
+      if (!targetId) return;
+
+      const target = document.getElementById(targetId);
+      if (!target) return;
+
+      event.preventDefault();
+
+      target.scrollIntoView({
+        behavior: prefersReducedMotion() ? 'auto' : 'smooth',
+        block: 'center',
+        inline: 'nearest',
+      });
+
+      if (history.replaceState) {
+        history.replaceState(null, '', `#${targetId}`);
+      } else {
+        window.location.hash = targetId;
+      }
+
+      if (typeof link.blur === 'function') {
+        link.blur();
+      }
+
+      window.clearTimeout(link._mpActiveTimer);
+      link.classList.add(activeLinkClass);
+      link._mpActiveTimer = window.setTimeout(() => {
+        link.classList.remove(activeLinkClass);
+        link._mpActiveTimer = null;
+      }, animationDuration);
+
+      window.clearTimeout(target._mpHighlightTimer);
+      target.classList.remove(highlightClass);
+      void target.offsetWidth;
+      target.classList.add(highlightClass);
+      target._mpHighlightTimer = window.setTimeout(() => {
+        target.classList.remove(highlightClass);
+        target._mpHighlightTimer = null;
+      }, animationDuration);
+    }, { passive: false });
+  };
+
   const uniqueAnchor = () => {
     const anchors = Array.from(document.querySelectorAll('#yotpo-main-widget'));
     if (anchors.length > 1) {
@@ -590,6 +649,7 @@ document.addEventListener('DOMContentLoaded', () => {
   coerceYotpoHref();
   hydrateYotpo();
   wireSmoothScroll();
+  initMealPlanContentsNavigation();
 
   document.addEventListener('shopify:section:load', () => {
     uniqueAnchor();
@@ -934,18 +994,89 @@ document.addEventListener('DOMContentLoaded', () => {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-    font-weight: 600;
-    color: var(--text-primary);
+    padding: 0.4rem 0.75rem 0.4rem 0.4rem;
+    border-radius: 999px;
+    font-weight: 500;
+    color: var(--text-secondary);
     text-decoration: none;
+    background: transparent;
+    transition: color 0.25s ease, background-color 0.25s ease, box-shadow 0.3s ease, transform 0.2s ease;
   }
 
   .meal-plan-contents__item-link:hover,
   .meal-plan-contents__item-link:focus {
+    color: var(--brand-primary-dark);
+    background: rgba(42, 157, 143, 0.08);
     text-decoration: none;
+  }
+
+  .meal-plan-contents__item-link:active {
+    transform: translateY(1px);
+  }
+
+  .meal-plan-contents__item-link:visited {
+    color: var(--text-secondary);
+  }
+
+  .meal-plan-contents__item-link:focus-visible {
+    outline: 0;
+    box-shadow: 0 0 0 3px rgba(42, 157, 143, 0.25);
+  }
+
+  .meal-plan-contents__item-link.is-active {
+    color: var(--brand-primary-dark);
+    background: rgba(42, 157, 143, 0.14);
+    box-shadow: 0 18px 38px rgba(42, 157, 143, 0.16);
+  }
+
+  .meal-plan-contents__item-link .meal-title-text {
+    color: inherit;
+    font-weight: 600;
   }
 
   .meal-plan-items__grid-item {
     position: relative;
+    scroll-margin-top: clamp(120px, 12vh, 160px);
+  }
+
+  .meal-plan-items__grid-item .product-card {
+    position: relative;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease, filter 0.35s ease;
+  }
+
+  .meal-plan-items__grid-item .product-card::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    opacity: 0;
+    background: radial-gradient(circle at center, rgba(42, 157, 143, 0.16) 0%, rgba(42, 157, 143, 0) 70%);
+    transition: opacity 0.45s ease;
+  }
+
+  .meal-plan-items__grid-item.is-highlighted .product-card {
+    transform: translateY(-8px) !important;
+    border-color: rgba(42, 157, 143, 0.35) !important;
+    box-shadow: 0 28px 60px rgba(15, 23, 42, 0.18) !important;
+    filter: saturate(1.04);
+  }
+
+  .meal-plan-items__grid-item.is-highlighted .product-card::after {
+    opacity: 1;
+    animation: meal-plan-card-glow 1.4s ease forwards;
+  }
+
+  @keyframes meal-plan-card-glow {
+    0% {
+      opacity: 0;
+    }
+    35% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
+    }
   }
 
   .meal-plan-quantity-callout {
@@ -995,6 +1126,13 @@ document.addEventListener('DOMContentLoaded', () => {
     font-size: 0.85rem;
     font-weight: 700;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .meal-plan-contents__item-link.is-active .meal-quantity-prefix {
+    background: var(--brand-primary);
+    color: #ffffff;
+    border-color: transparent;
+    box-shadow: 0 12px 24px rgba(42, 157, 143, 0.25);
   }
 
   @keyframes qty-flash { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.08); } }
