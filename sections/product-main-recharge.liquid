@@ -305,9 +305,6 @@ class ProductFormController extends HTMLElement {
     this.subscribePriceDisplay = this.querySelector('[data-subscribe-price]');
     this.addToCartButton = this.querySelector('[data-add-to-cart-button]');
     this.addToCartLabel = this.addToCartButton ? this.addToCartButton.querySelector('[data-add-to-cart-text]') : null;
-    this.defaultAddToCartText = this.addToCartLabel && this.addToCartLabel.textContent.trim()
-      ? this.addToCartLabel.textContent.trim()
-      : 'Add to Cart';
     this.dynamicMealList = this.querySelector('[data-dynamic-meal-list]');
     this.promoActive = this.dataset.promoActive === 'true';
 
@@ -319,6 +316,8 @@ class ProductFormController extends HTMLElement {
   }
 
   connectedCallback() {
+    if (this.__initialized) return;
+    this.__initialized = true;
     this.initQuantityButtons();
     this.updateUI();
   }
@@ -367,7 +366,7 @@ class ProductFormController extends HTMLElement {
     this.addToCartButton.classList.toggle('is-adding', isLoading);
     this.addToCartButton.disabled = isLoading;
     if (this.addToCartLabel) {
-      this.addToCartLabel.textContent = isLoading ? 'Adding…' : this.defaultAddToCartText;
+      this.addToCartLabel.textContent = isLoading ? 'Adding…' : 'Add to Cart';
     }
   }
 
@@ -384,7 +383,7 @@ class ProductFormController extends HTMLElement {
     this.addToCartButton.classList.remove('is-added');
     this.addToCartButton.classList.remove('is-adding');
     if (this.addToCartLabel) {
-      this.addToCartLabel.textContent = this.defaultAddToCartText;
+      this.addToCartLabel.textContent = 'Add to Cart';
     }
     const currentVariant = this.getSelectedVariant();
     this.addToCartButton.disabled = currentVariant ? !currentVariant.available : true;
@@ -501,7 +500,18 @@ class ProductFormController extends HTMLElement {
   getSelectedSellingPlan(e){const t=this.sellingPlanSelect.value;return e.selling_plan_allocations.find((s=>s.selling_plan_id==t))||e.selling_plan_allocations[0]}
   formatMoney(e){return`$${(e/100).toFixed(2)}`}
 }
-customElements.define('product-form-controller', ProductFormController);
+if (!customElements.get('product-form-controller')) {
+  customElements.define('product-form-controller', ProductFormController);
+}
+
+const productFormControllerEl = document.querySelector('product-form-controller');
+if (
+  productFormControllerEl &&
+  typeof productFormControllerEl.connectedCallback === 'function' &&
+  !productFormControllerEl.__initialized
+) {
+  productFormControllerEl.connectedCallback();
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   const uniqueAnchor = () => {
