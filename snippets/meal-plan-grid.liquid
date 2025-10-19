@@ -30,7 +30,12 @@
 
     <div class="meal-plan-items__grid">
       {%- for meal_product in meal_plan_metafield -%}
-        <div class="meal-plan-items__grid-item">
+        {%- if meal_product.handle != blank -%}
+          {%- assign meal_anchor_id = 'meal-plan-item-' | append: meal_product.handle -%}
+        {%- else -%}
+          {%- assign meal_anchor_id = '' -%}
+        {%- endif -%}
+        <div class="meal-plan-items__grid-item"{% if meal_anchor_id != blank %} id="{{ meal_anchor_id }}"{% endif %}>
           <div class="meal-plan-quantity-callout" data-meal-quantity-callout></div>
           {% render 'product-grid--indiv-product', liquidObject: meal_product, is_informational_only: true, override_price: price_per_meal %}
         </div>
