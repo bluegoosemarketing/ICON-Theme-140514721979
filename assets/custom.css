@@ -5197,3 +5197,16 @@ body.collection-selector--lock-scroll {
     -webkit-overflow-scrolling: touch;
   }
 }
+/* ==========================================================================
+   CONTACT PAGE
+   ========================================================================== */
+body.template-page-contact #contact-form {
+  background-color: #fff;
+}
+
+body.template-page-contact #contact-form .form-control {
+  background-color: #fff;
+  color: var(--color-primary);
+  border-color: var(--border-color);
+}
+
