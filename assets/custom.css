@@ -11,6 +11,10 @@ body.template-product .product-review-stars {
   gap: 0.25rem;
 }
 
+body.template-product .product-review-stars .yotpo-reviews-star-ratings-widget {
+  margin-bottom: 0 !important;
+}
+
 /* PDP APP-SHELL (DESKTOP) ------------------------------------------------ */
 @media (min-width: 992px) {
   body.template-product {
