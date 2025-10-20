@@ -735,6 +735,20 @@ document.addEventListener('DOMContentLoaded', () => {
     min-width: 0;
   }
 
+  .meal-plan-hero__form {
+    background: rgba(255, 255, 255, 0.92);
+    border-radius: clamp(18px, 3vw, 24px);
+    padding: clamp(0.85rem, 2.5vw, 1.35rem);
+    border: 1px solid rgba(42, 157, 143, 0.12);
+    box-shadow: 0 26px 55px rgba(15, 23, 42, 0.09);
+    backdrop-filter: saturate(140%) blur(6px);
+  }
+
+  .meal-plan-hero__form > .meal-plan-form-card {
+    border-radius: clamp(14px, 2.5vw, 20px);
+    box-shadow: none;
+  }
+
   :root {
     --brand-primary: #2a9d8f;
     --brand-primary-light: #f0fdfa;
