@@ -11,9 +11,40 @@ body.template-product .product-review-stars {
   gap: 0.25rem;
 }
 
-body.template-product .product-review-stars .yotpo-reviews-star-ratings-widget {
+/* Normalize the “4.5” score span alignment */
+.yotpo-sr-bottom-line-score {
+  margin-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
+/* === YOTPO: kill the extra bottom space & center everything === */
+#yotpo-reviews-star-ratings-widget,
+.yotpo-reviews-star-ratings-widget {
+  margin-bottom: 0 !important;
+  line-height: 1 !important;   /* collapse line box on the wrapper */
+}
+
+/* Yotpo injects align-items:flex-start on these — force centering */
+.yotpo-reviews-star-ratings-widget .yotpo-bottom-line-scroll-panel,
+.yotpo-reviews-star-ratings-widget .yotpo-sr-bottom-line-button {
+  align-items: center !important;
+  line-height: 1 !important;
+}
+
+/* The “4.5” and “23 Reviews” bits add vertical height via line-height/padding */
+.yotpo-reviews-star-ratings-widget .yotpo-sr-bottom-line-score,
+.yotpo-reviews-star-ratings-widget .yotpo-sr-bottom-line-text {
+  line-height: 1 !important;
+  padding-top: 0 !important;
   margin-bottom: 0 !important;
 }
+
+/* The star row sometimes gets a fixed 28px height — let it size naturally */
+.yotpo-reviews-star-ratings-widget [aria-hidden="true"] {
+  height: auto !important;
+  align-items: center !important;
+}
+
 
 /* PDP APP-SHELL (DESKTOP) ------------------------------------------------ */
 @media (min-width: 992px) {
