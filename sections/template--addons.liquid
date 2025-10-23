@@ -176,6 +176,10 @@
         const button = form.querySelector('.js-add-to-cart-btn');
         const buttonTextSpan = button ? button.querySelector('span') : null;
 
+        if (button && buttonTextSpan && !button.dataset.originalText) {
+          button.dataset.originalText = buttonTextSpan.textContent.trim();
+        }
+
         if (button) {
           button.disabled = true;
           button.classList.add('is-loading');
@@ -198,13 +202,20 @@
               slot: form.dataset.slot,
               product_handle: form.dataset.productHandle
             });
-            
+
             if (button) {
               button.classList.remove('is-loading');
               button.classList.add('is-added');
+              if (buttonTextSpan) {
+                buttonTextSpan.textContent = 'Added!';
+              }
               setTimeout(function() {
                 button.classList.remove('is-added');
                 button.disabled = false;
+                if (buttonTextSpan) {
+                  const originalText = button.dataset.originalText || 'Add to Cart';
+                  buttonTextSpan.textContent = originalText;
+                }
               }, 1500);
             }
           } else {
@@ -212,6 +223,10 @@
             if (button) {
               button.classList.remove('is-loading');
               button.disabled = false;
+              if (buttonTextSpan) {
+                const originalText = button.dataset.originalText || 'Add to Cart';
+                buttonTextSpan.textContent = originalText;
+              }
             }
           }
         } catch (error) {
@@ -219,6 +234,10 @@
           if (button) {
             button.classList.remove('is-loading');
             button.disabled = false;
+            if (buttonTextSpan) {
+              const originalText = button.dataset.originalText || 'Add to Cart';
+              buttonTextSpan.textContent = originalText;
+            }
           }
         }
       });
