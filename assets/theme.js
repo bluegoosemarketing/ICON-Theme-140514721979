@@ -13561,6 +13561,9 @@ class CartDrawer extends Component {
 
     super(theme, _element);
     _this = this;
+    if (!this.element) {
+      return;
+    }
     this.FADE_OUT_ANIMATION_DURATION = 800;
 
     this.hideElements = elementsList => {
@@ -13894,8 +13897,8 @@ class CartDrawer extends Component {
     this.cartCheckoutBtn = this.element.querySelector('.cart-button-checkout');
     this.headerQuantity = document.querySelectorAll('.cart-item-count-header--quantity');
     this.cartDrawerStatus = this.element.querySelector('.js-cart-drawer-status');
-    this.cartTitle = this.element.querySelector('.cart-drawer--title');
-    this.cartTitleText = this.cartTitle.innerText;
+    this.cartTitle = this.element.querySelector('[data-cart-drawer-heading]') || this.element.querySelector('.cart-drawer--title') || this.element.querySelector('.cart-drawer__title');
+    this.cartTitleText = this.cartTitle ? this.cartTitle.innerText : '';
     this.cartDrawerTop = this.element.querySelector('.cart-drawer__top');
     const initial = document.querySelector('#initial-cart');
 
@@ -13905,10 +13908,20 @@ class CartDrawer extends Component {
 
     const data = JSON.parse(initial.textContent);
     this.updateCartDrawer(data);
-    this.cartCheckoutBtn.addEventListener('click', event => {
-      this.cartCheckoutBtn.querySelector('.cart-button-checkout-text').classList.add('hide');
-      this.cartCheckoutBtn.querySelector('.cart-button-checkout-spinner').classList.remove('hide');
-    });
+    if (this.cartCheckoutBtn) {
+      this.cartCheckoutBtn.addEventListener('click', event => {
+        const checkoutText = this.cartCheckoutBtn.querySelector('.cart-button-checkout-text');
+        const checkoutSpinner = this.cartCheckoutBtn.querySelector('.cart-button-checkout-spinner');
+
+        if (checkoutText) {
+          checkoutText.classList.add('hide');
+        }
+
+        if (checkoutSpinner) {
+          checkoutSpinner.classList.remove('hide');
+        }
+      });
+    }
   }
 
 }
@@ -29156,7 +29169,10 @@ class Theme extends ThemeBase {
     this.loadDrawers = () => {
       if (!document.body.classList.contains('password-page')) {
         this.drawer = new Drawer(this);
-        this.cartDrawer = this.drawer.slideouts.right ? new CartDrawer(this, this.drawer.slideouts.right.menu) : null;
+        const cartDrawerEl = document.querySelector('[data-cart-drawer]');
+        const slideoutMenu = this.drawer.slideouts.right ? this.drawer.slideouts.right.menu : null;
+        const targetDrawerEl = cartDrawerEl || slideoutMenu;
+        this.cartDrawer = targetDrawerEl ? new CartDrawer(this, targetDrawerEl) : null;
       }
     };
 
