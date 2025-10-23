@@ -149,11 +149,11 @@
 
 <script class="cartFlagX"></script><aside id="cartSlideoutAside">
   <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-drawer-form">
-    <div id="cartSlideoutWrapper" class="cart-drawer fresh-shopping-right slideout-panel-hidden cart-drawer-right" role="dialog" aria-labelledby="cart_dialog_label" aria-modal="true">
+    <div id="cartSlideoutWrapper" class="cart-drawer fresh-shopping-right slideout-panel-hidden cart-drawer-right" role="dialog" aria-labelledby="cart_dialog_label" aria-modal="true" data-cart-drawer>
       <div class="cart-drawer__content-host">
         <div class="cart-drawer__header">
           <div class="cart-drawer__title-bar">
-            <h2 class="cart-drawer__title" id="cart_dialog_label">Your Cart</h2>
+            <h2 class="cart-drawer__title" id="cart_dialog_label" data-cart-drawer-heading>Your Cart</h2>
             <button class="cart-drawer__close-btn alt-focus" aria-label="{{ 'cart.general.close_cart' | t }}" type="button">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
             </button>
