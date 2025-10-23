@@ -4043,7 +4043,7 @@ product-form-controller.meal-plan-premium-layout .meal-plan-hero-container {
   padding: clamp(1.5rem, 2.5vw, 2.25rem);
   border-radius: 20px;
   border: 1px solid rgba(36, 140, 123, 0.14);
-  background: linear-gradient(145deg, #ffffff 8%, rgba(240, 252, 248, 0.96) 100%);
+  background: #ffffff;
   box-shadow: 0 22px 44px rgba(15, 118, 110, 0.12);
   overflow: hidden;
 }
