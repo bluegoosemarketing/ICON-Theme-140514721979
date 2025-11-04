@@ -1,0 +1,327 @@
+{% comment %}
+  =====================================================================================
+  Shopify Section: Article - Spicy Protein Feature (Final Polish V6.1)
+  Designed and Developed for ICON Meals - October 2025
+
+  **Version 9.1 - Image Update**
+  - **CORRECTED IMAGE:** Updated the Ghost Pepper Mac & Cheese image to the new
+    URL provided by the user.
+  - **ROOT CAUSE FIXED:** Corrected the CSS specificity conflict that made titles
+    invisible. A global style forcing all H3s to be white has been removed,
+    allowing the card titles to render correctly in dark text. (Per team feedback).
+  - **CLEANER CSS:** Implemented the more robust CSS solution by adjusting the
+    global heading rule, improving long-term code maintainability.
+  - **HARD-CODED CARDS:** Using static HTML for the three product cards to simplify
+    the section's logic.
+  - **READABILITY ASSURED:** All previous text contrast fixes for descriptions and
+    science section text have been preserved.
+  =====================================================================================
+{% endcomment %}
+
+<!-- Import Google Font for the Hero Headline -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+
+<article class="sp-post">
+
+  <!-- ************ EDITORIAL HERO ************ -->
+  <header class="sp-post__header">
+    <div class="sp-post__header-image-wrapper">
+      {%- liquid
+        assign hero_img_url = "https://cdn.shopify.com/s/files/1/1957/2713/files/spicy_protein_blog_1_d1e0239b-ac7e-4967-a761-16a1cdaabba2.jpg?v=1760555217"
+        if section.settings.hero_image != blank
+          assign hero_img_url = section.settings.hero_image | image_url: width: 1600
+        endif
+      -%}
+      <img src="{{ hero_img_url }}" alt="Overhead of spicy, high-protein meals from ICON Meals" loading="eager">
+    </div>
+    <div class="sp-post__container--narrow">
+      <h1>
+        Fuel the Fire.<br>
+        <span class="highlight-text">Crush Your Goals.</span>
+      </h1>
+      <div class="sp-post__intro rte">
+        <p>If you like a little heat with your high-protein routine, good news. Spicy compounds like capsaicin can support thermogenesis and may help with appetite control when part of a broader plan. Pair that with adequate protein and you get meals that are satisfying, simple, and goal-friendly.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="sp-post__main-content">
+
+    <!-- ************ THE SCIENCE SECTION ************ -->
+    <section class="sp-post__section">
+      <div class="sp-post__container--wide">
+        <div class="science-grid">
+          <div class="science-card">
+            <div class="science-card__image-wrapper">
+               {%- liquid
+                  assign science_img_url = "https://cdn.shopify.com/s/files/1/1957/2713/files/heat_makers_1.jpg?v=1760555410"
+                  if section.settings.science_image != blank
+                    assign science_img_url = section.settings.science_image | image_url: width: 800
+                  endif
+               -%}
+               <img src="{{ science_img_url }}" alt="Illustration of chili peppers and the capsaicin molecule" loading="lazy">
+            </div>
+            <div class="science-card__content">
+              <h2>What the science says about spicy foods</h2>
+              <div class="rte">
+                <p>Capsaicin has been shown to boost thermogenesis and increase energy expenditure in humans and animal models. It is not magic, but may play a supportive role in weight management.<sup>[1]</sup></p>
+                <p>Evidence suggests regular capsaicin intake can help reduce appetite and energy intake for some individuals. Effects vary by person.<sup>[2]</sup></p>
+              </div>
+            </div>
+          </div>
+          <div class="science-card">
+            <div class="science-card__image-wrapper">
+               {%- liquid
+                  assign protein_img_url = "https://cdn.shopify.com/s/files/1/1957/2713/files/high-protein-meal-v2.jpg?v=1760799865"
+                  if section.settings.protein_image != blank
+                    assign protein_img_url = section.settings.protein_image | image_url: width: 800
+                  endif
+               -%}
+               <img src="{{ protein_img_url }}" alt="Close-up of a high-protein meal with grilled chicken and vegetables" loading="lazy">
+            </div>
+            <div class="science-card__content">
+              <h2>Why protein makes meals stick</h2>
+              <div class="rte">
+                <p>Higher-protein eating patterns are linked to greater satiety, lower spontaneous calorie intake, and better protection of lean mass during weight loss.<sup>[1]</sup></p>
+                <p>Acute protein intake can suppress ghrelin and increase CCK/GLP-1, which help you feel fuller.<sup>[3]</sup></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ************ PRODUCT SHOWCASE (STATIC / HARD-CODED VERSION) ************ -->
+    <section class="sp-post__section sp-post__section--dark">
+      <div class="sp-post__container--narrow section-header">
+        <h2>Quick Picks From Our New Line-Up</h2>
+      </div>
+      <div class="sp-post__container--wide">
+        <div class="sp-showcase__grid">
+
+          <!-- CARD 1 -->
+          <a href="https://iconmeals.com/collections/signature-menu/products/diablo-shrimp" class="sp-showcase__card-link">
+            <div class="sp-showcase__card">
+              <div class="sp-showcase__image-wrapper">
+                <img src="https://iconmeals.com/cdn/shop/files/Diable-Shrimp.png?v=1729806664" 
+                     alt="Diablo Shrimp meal prep container" loading="lazy">
+              </div>
+              <div class="sp-showcase__content">
+                <h3 class="sp-showcase__title">Diablo Shrimp</h3>
+                <div class="sp-showcase__description">
+                  <p>~24g protein per 100g cooked shrimp on average; also provides iodine and selenium. Great when you want protein and speed.<sup>[4]</sup></p>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 2 -->
+          <a href="https://iconmeals.com/collections/signature-menu/products/voodoo-chicken-thighs" class="sp-showcase__card-link">
+            <div class="sp-showcase__card">
+              <div class="sp-showcase__image-wrapper">
+                <img src="https://iconmeals.com/cdn/shop/files/Voodoo-Chicken_v1.png?v=1735150051" 
+                     alt="Voodoo Chicken Thighs meal prep container" loading="lazy">
+              </div>
+              <div class="sp-showcase__content">
+                <h3 class="sp-showcase__title">Voodoo Chicken Thighs</h3>
+                <div class="sp-showcase__description">
+                  <p>Dark meat brings tenderness and flavor with useful micronutrients like B12 and zinc. Choose thighs or breast based on your goals and taste.<sup>[5]</sup></p>
+                </div>
+              </div>
+            </div>
+          </a>
+
+          <!-- CARD 3 -->
+          <a href="https://iconmeals.com/collections/bulk-items/products/habanero-ghost-pepper-mac-cheese" class="sp-showcase__card-link">
+            <div class="sp-showcase__card">
+              <div class="sp-showcase__image-wrapper">
+                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/ghost-pepper-mc.webp?v=1760028172" 
+                     alt="Ghost Pepper Mac &amp; Cheese side dish" loading="lazy">
+              </div>
+              <div class="sp-showcase__content">
+                <h3 class="sp-showcase__title">Ghost Pepper Mac &amp; Cheese</h3>
+                <div class="sp-showcase__description">
+                  <p>Add creamy heat as a side with any protein for a satisfying, balanced plate. (À la carte)</p>
+                </div>
+              </div>
+            </div>
+          </a>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ************ HOW-TO SECTION ************ -->
+    <section class="sp-post__section">
+        <div class="sp-post__container--narrow">
+            <div class="howto-card">
+                <h2>Make it Work in 90 Seconds</h2>
+                <ul class="howto-checklist">
+                    <li>Protein anchor: 20–40 grams per meal.</li>
+                    <li>Smart carbs + color: Add rice or potatoes and a veggie.</li>
+                    <li>Anchor your meal with protein, then fill the rest of your plate to match your appetite.</li>
+                    <li><strong>Pro Tip:</strong> Keep two “back-up” entrées in the freezer for late nights.</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- ************ FINAL CTA SECTION ************ -->
+    <section class="sp-post__section sp-post__section--cta">
+      <div class="sp-post__container--narrow">
+        <h2>Ready to Try It?</h2>
+        <div class="rte"><p>Spice up your protein and get results. Delicious, goal-friendly meals delivered to your door.</p></div>
+        <a href="/collections/signature-menu" class="sp-post__cta-button">Shop All Meals</a>
+        <div class="references-section">
+            <h3 class="references-title">References</h3>
+            <div class="rte-small">
+                <ol>
+                    <li><strong>Whiting, S., et al. (2012).</strong> Capsaicinoids and capsinoids... <em>Appetite, 59</em>(2), 341–348.</li>
+                    <li><strong>Janssens, P. L., et al. (2014).</strong> Capsaicin increases sensation of fullness... <em>Appetite, 77</em>, 44-49.</li>
+                    <li><strong>Bowen, J., et al. (2006).</strong> Appetite hormones and energy intake in obese men... <em>Intl. Journal of Obesity, 30</em>(11), 1696-1702.</li>
+                    <li>Nutrition data for shrimp. <em>Medical News Today.</em></li>
+                    <li>Nutritional benefits of chicken thighs. <em>EatingWell.</em></li>
+                </ol>
+            </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</article>
+
+<style>
+  /* --- BASE & VARIABLES --- */
+  .sp-post {
+    --color-text: #A0AEC0; --color-text-strong: #E2E8F0; --color-heading: #FFFFFF;
+    --color-background: #171923; --color-background-offset: #2D3748; --color-border: #4A5568;
+    --color-primary: #dc3545; --color-highlight: #E4922A; --font-hero: 'Archivo Black', sans-serif;
+    --font-heading: {{ settings.heading_font.family }}, {{ settings.heading_font.fallback_families }};
+    --font-body: {{ settings.body_font.family }}, {{ settings.body_font.fallback_families }};
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -2px rgba(0,0,0,0.1);
+    --radius-xl: 1rem; --radius-lg: 0.75rem; --radius-md: 0.5rem;
+  }
+  .sp-post { background-color: var(--color-background) !important; color: var(--color-text) !important; font-family: var(--font-body) !important; line-height: 1.65 !important; }
+  
+  /* --- HEADING STYLES (V9 SPECIFICITY FIX) --- */
+  /* This rule now ONLY targets H1 and H2 to avoid conflicts with card titles (H3) */
+  .sp-post h1, .sp-post h2 { 
+    font-family: var(--font-heading) !important; 
+    font-weight: 700 !important; 
+    color: var(--color-heading) !important; 
+    line-height: 1.2 !important; 
+    margin: 0 !important; 
+  }
+  /* Define a default for H3, but it can be easily overridden by more specific classes */
+  .sp-post h3 {
+    font-family: var(--font-heading) !important; 
+    font-weight: 700 !important; 
+    line-height: 1.2 !important; 
+    margin: 0 !important; 
+  }
+
+  .sp-post .rte p, .sp-post .rte-small p { margin-bottom: 1rem !important; } .sp-post .rte p:last-child, .sp-post .rte-small p:last-child { margin-bottom: 0 !important; }
+  .sp-post .rte-small { font-size: 0.95rem !important; }
+  .sp-post a { color: var(--color-primary); text-decoration: none !important; }
+  .sp-post__container--narrow { max-width: 800px !important; margin: 0 auto !important; padding: 0 1.5rem !important; }
+  .sp-post__container--wide { max-width: 1200px !important; margin: 0 auto !important; padding: 0 1.5rem !important; }
+  .sp-post__section { padding: clamp(4rem, 10vw, 6rem) 0 !important; }
+  .sp-post__section--dark { background-color: var(--color-background-offset) !important; }
+  .sp-post__header { padding-bottom: clamp(3rem, 8vw, 5rem) !important; }
+  .sp-post__header-image-wrapper { line-height: 0 !important; margin-bottom: clamp(2.5rem, 6vw, 4rem) !important; }
+  .sp-post__header-image-wrapper img { width: 100% !important; height: auto !important; max-height: 500px !important; object-fit: cover !important; }
+  .sp-post__header h1 { font-family: var(--font-hero) !important; text-align: center !important; font-size: clamp(2.8rem, 7vw, 4.8rem) !important; line-height: 1.05 !important; text-transform: uppercase !important; margin-bottom: 1.5rem !important; color: var(--color-heading) !important; }
+  .sp-post__header .highlight-text { color: var(--color-primary) !important; }
+  .sp-post__intro { font-size: clamp(1.1rem, 2.5vw, 1.25rem) !important; text-align: center !important; color: var(--color-text-strong) !important; max-width: 65ch !important; margin: 0 auto !important; }
+  
+  /* --- SCIENCE SECTION STYLES --- */
+  .science-grid { display: grid !important; gap: 2rem !important; }
+  .science-card { background-color: var(--color-background) !important; border: 1px solid var(--color-border) !important; border-radius: var(--radius-lg) !important; overflow: hidden !important; }
+  .science-card__image-wrapper { line-height: 0 !important; }
+  .science-card__image-wrapper img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+  .science-card__content { padding: clamp(1.5rem, 5vw, 2.5rem) !important; }
+  .science-card h2 { font-size: clamp(1.5rem, 4vw, 2rem) !important; margin-bottom: 1.5rem !important; }
+  .science-card .rte p { color: var(--color-text-strong) !important; }
+  @media (min-width: 750px) { .science-grid { grid-template-columns: repeat(2, 1fr) !important; align-items: stretch !important; } }
+  
+  .section-header { text-align: center !important; margin-bottom: 3rem !important; }
+  .section-header h2 { font-size: clamp(2rem, 5vw, 3rem) !important; text-transform: uppercase !important; }
+  
+  /* --- PRODUCT SHOWCASE STYLES (V9 TITLE FIX) --- */
+  .sp-showcase__grid { display: grid !important; gap: 2.5rem !important; grid-template-columns: 1fr !important; }
+  @media (min-width: 750px) { .sp-showcase__grid { grid-template-columns: repeat(3, 1fr) !important; } }
+  .sp-showcase__card { background-color: #FFFFFF !important; border-radius: var(--radius-xl) !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; box-shadow: var(--shadow-md) !important; }
+  .sp-showcase__image-wrapper { line-height: 0 !important; }
+  .sp-showcase__image-wrapper img { max-width: 100% !important; height: auto !important; display: block !important; }
+  .sp-showcase__content { padding: 1.25rem 1.5rem 1.75rem 1.5rem !important; text-align: center !important; }
+  .sp-showcase__title { font-size: 1.4rem !important; font-weight: 800 !important; color: #1A202C !important; margin: 0.25rem 0 0.75rem 0 !important; line-height: 1.3 !important; }
+  .sp-showcase__description p { font-family: var(--font-body) !important; color: #1A202C !important; margin-top: 20px !important; font-size: 1rem !important; line-height: 1.6 !important; }
+
+  /* --- HOW-TO & CTA STYLES --- */
+  .howto-card { background-color: var(--color-background) !important; border: 1px solid var(--color-border) !important; border-radius: var(--radius-lg) !important; padding: clamp(2rem, 5vw, 3rem) !important; }
+  .howto-card h2 { font-size: clamp(1.5rem, 4vw, 2rem) !important; text-align: center !important; margin-bottom: 2rem !important; text-transform: uppercase !important;}
+  .howto-checklist { list-style: none !important; padding: 0 !important; margin: 0 auto !important; max-width: 50ch !important; }
+  .howto-checklist li { position: relative !important; padding-left: 2.5rem !important; font-size: 1.1rem !important; color: var(--color-text-strong) !important; margin-bottom: 1.5rem !important; }
+  .howto-checklist li::before { content: '✓' !important; position: absolute !important; left: 0 !important; top: -2px !important; color: var(--color-primary) !important; font-size: 1.5rem !important; font-weight: bold !important; }
+  .sp-post__section--cta { text-align: center !important; }
+  .sp-post__section--cta h2 { font-size: clamp(2rem, 5vw, 3rem) !important; line-height: 1.2 !important; margin-bottom: 1.5rem !important; color: var(--color-heading) !important; text-transform: uppercase !important; }
+  .sp-post__section--cta .rte { max-width: 65ch !important; margin-left: auto !important; margin-right: auto !important; margin-bottom: 2.5rem !important; color: var(--color-text-strong) !important; }
+  .sp-post__cta-button { display: inline-block !important; background: var(--color-primary) !important; color: white !important; -webkit-text-fill-color: white !important; font-family: var(--font-heading) !important; font-weight: 700 !important; font-size: 1.1rem !important; padding: 1.1rem 3rem !important; border-radius: 9999px !important; text-decoration: none !important; border: none !important; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out !important; box-shadow: var(--shadow-lg) !important; }
+  .sp-post__cta-button:hover { transform: translateY(-4px) !important; background-color: var(--color-highlight) !important; color: white !important; -webkit-text-fill-color: white !important; }
+  .references-section { margin-top: 4rem !important; border-top: 1px solid var(--color-border) !important; padding-top: 2rem !important; text-align: left !important; }
+  .references-title { color: var(--color-text-strong) !important; font-size: 1.1rem !important; text-transform: uppercase !important; letter-spacing: 0.05em !important; margin-bottom: 1rem !important; }
+  .references-section .rte-small { color: var(--color-text) !important; }
+  .references-section ol { padding-left: 1.5rem !important; }
+  .references-section li { margin-bottom: 0.5rem !important; }
+
+  /* --- PRODUCT SHOWCASE - LINK STYLES --- */
+  .sp-showcase__card-link {
+    display: block;
+    text-decoration: none !important;
+  }
+  .sp-showcase__card {
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out !important;
+  }
+  .sp-showcase__card-link:hover .sp-showcase__card {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-lg) !important;
+  }
+  
+</style>
+
+{% schema %}
+{
+  "name": "Article: Spicy Protein",
+  "tag": "section",
+  "class": "shopify-section--spicy-protein-final",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content Images",
+      "info": "Manage the primary images for this blog post. All text content is hardcoded for stability."
+    },
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "1. Hero Header Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "science_image",
+      "label": "2. Science Section Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "protein_image",
+      "label": "3. Protein Section Image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article: Spicy Protein"
+    }
+  ]
+}
+{% endschema %}

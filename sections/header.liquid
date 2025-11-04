@@ -72,6 +72,8 @@
   endif
 -%}
 
+{%- unless template.name == 'page' and template.suffix == 'partner-gym-guys' -%}
+{%- unless request.path contains '/pages/gymguyz' -%}
 {% if section.settings.announcement_bar_enabled and announcement_display != blank %}
   {%- if announcement_action == 'link' and section.settings.announcement_bar_link != blank -%}
     <a href="{{ section.settings.announcement_bar_link }}" class="announcement-bar__link-wrapper">
@@ -91,6 +93,8 @@
     </div>
   {%- endif -%}
 {% endif %}
+{%- endunless -%}
+{%- endunless -%}
 
 <div class="site-header-wrapper {% if section.settings.sticky_header %}is-sticky{% endif %}" data-header-wrapper>
   <!-- Main Header HTML (Unchanged) -->
@@ -103,6 +107,8 @@
 {%- comment -%}
   Render the BOGO Modal from its own snippet file.
 {%- endcomment -%}
+{%- unless template.name == 'page' and template.suffix == 'partner-gym-guys' -%}
+{%- unless request.path contains '/pages/gymguyz' -%}
 {%- if section.settings.announcement_bar_enabled and section.settings.announcement_bar_action == 'modal' -%}
   {% render 'bogo-promo-modal',
     modal_headline: section.settings.bogo_modal_headline,
@@ -116,6 +122,8 @@
     modal_button_link: section.settings.bogo_modal_button_link
   %}
 {%- endif -%}
+{%- endunless -%}
+{%- endunless -%}
 
 {% schema %}
 {

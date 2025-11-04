@@ -1,0 +1,1723 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "current": {
+    "font-color": "#333333",
+    "link-color": "#ec4242",
+    "active-link-color": "#a5a5a5",
+    "bg_color": "#f5f5f5",
+    "border-color": "#a5a5a5",
+    "header-background-color": "#f5f5f5",
+    "header-top-bar-color": "#dedede",
+    "header-text-color": "#1b1b1b",
+    "header-overlay-text-color": "#1b1b1b",
+    "sticky-header-background-color": "#f5f5f5",
+    "sticky-header-top-bar-color": "#dedede",
+    "sticky-header-text-color": "#252525",
+    "sidebar-navigation--background-color": "#f5f5f5",
+    "sidebar-navigation--text-color": "#252525",
+    "footer-background-color": "#252525",
+    "footer-text-color": "#f5f5f5",
+    "add-to-cart-background-color": "#ec4242",
+    "add-to-cart-text-color": "#f5f5f5",
+    "image_overlay_opacity": 0,
+    "sale-label-color": "#ec4242",
+    "type_header_font": "din_neuzeit_grotesk_n7",
+    "heading-case": "uppercase",
+    "heading--base-size": "large",
+    "subheading--font": "din_neuzeit_grotesk_n3",
+    "type_base_font": "din_neuzeit_grotesk_n3",
+    "typography-body-font-size": 16,
+    "navigation--font": "body",
+    "buttons--font": "subheading",
+    "buttons--capitalize": true,
+    "cart-type": "page",
+    "cart-action": "added",
+    "enable-additional-checkout-buttons": false,
+    "allow_note": false,
+    "enable_shipping_encouragement": false,
+    "enable_store_pickup": true,
+    "product-grid": "natural",
+    "product_padding_enable": true,
+    "center_align": true,
+    "borders_enable": true,
+    "hover_effect": "shadow",
+    "quick_add_position": "above_product_details",
+    "sm_facebook_link": "https://www.facebook.com/iconmeals",
+    "sm_twitter_link": "https://www.twitter.com/iconmeals",
+    "sm_instagram_link": "https://www.instagram.com/iconmeals",
+    "sm_youtube_link": "https://www.youtube.com/c/ICONMealsOfficial/",
+    "sm_tiktok_link": "https://www.tiktok.com/@iconmeals",
+    "sm_linkedin_link": "https://www.linkedin.com/company/icon-meals-official/",
+    "popup--enable": false,
+    "pop-up-text-description-text": "<p>Give your customers a reason to sign up to your newsletter</p>",
+    "popup--show-social-icons": true,
+    "favicon": "shopify://shop_images/favicon.png",
+    "predictive_search_enabled": true,
+    "enable-page-results": true,
+    "enable-article-results": true,
+    "enable-collection-results": true,
+    "predictive_search_show_vendor": true,
+    "predictive_search_show_price": true,
+    "enable_free_delivery_promo": false,
+    "free_delivery_threshold": 21,
+    "free_delivery_locked_message": "Add {remaining} more meals to unlock free delivery.",
+    "free_delivery_unlocked_message": "You've unlocked free delivery.",
+    "free_delivery_discount_code": "FREEDELIVERY",
+    "announcement_default_text": "<span>25% OFF SITEWIDE! USE CODE: <span style=\"background-color: #fff; color: #d9222a; padding: 3px 8px; border-radius: 5px; font-weight: bold; border: 1px solid #d9222a;\">POWERUP25</span> ENDS TUESDAY!</span>",
+    "announcement_promo_text": "",
+    "meal_plan_promo_enable": false,
+    "meal_plan_promo_list_enable": false,
+    "meal_plan_promo_pdp_enable": false,
+    "meal_plan_promo_cart_enable": false,
+    "yotpo_app_key": "SYPf8JLu0vVWFK0rW9gwMFln362yh2xvyfzVeCS6",
+    "yotpo_star_instance_id": "407556",
+    "checkout_header_image": "shopify://shop_images/icon-meals-thumbnail.jpg",
+    "checkout_logo_image": "shopify://shop_images/icon-meals-logo-512.png",
+    "checkout_heading_font": "Source Sans Pro",
+    "checkout_body_font": "Source Sans Pro",
+    "checkout_accent_color": "#810706",
+    "checkout_button_color": "#ec4242",
+    "checkout_error_color": "#810706",
+    "menu-case": "menu-upper-case",
+    "header_font_style": "normal",
+    "sections": {
+      "announcement-bar": {
+        "type": "announcement-bar",
+        "settings": {
+          "enable": false,
+          "notification-bar--text-color": "#ffffff",
+          "social-enable": false
+        }
+      },
+      "template--blog": {
+        "type": "template--blog",
+        "settings": {
+          "blog-posts-per-page": 3
+        }
+      },
+      "template--product": {
+        "type": "template--product",
+        "settings": {
+          "show_out_of_stock_email": false,
+          "image_display": "full-size",
+          "enable_zoom": false
+        }
+      },
+      "template--collection": {
+        "type": "template--collection",
+        "settings": {
+          "pagination_type": "paged_navigation"
+        }
+      },
+      "header": {
+        "type": "header",
+        "custom_css": [],
+        "settings": {
+          "logo": "shopify://shop_images/icon-meals-logo_02106408-e9ae-473e-91b7-75f0ee118e84.png",
+          "logo_max_width": 180,
+          "sticky_header": false,
+          "announcement_bar_enabled": true,
+          "announcement_bar_action": "link",
+          "announcement_bar_link": "https://iconmeals.com/discount/POWERUP25?redirect=/collections/signature-menu",
+          "bogo_modal_headline": "How to Unlock This Deal",
+          "bogo_modal_step1_title": "Build Your Box",
+          "bogo_modal_step1_desc": "Add any 14+ delicious meals to your cart to qualify for the deal.",
+          "bogo_modal_step2_title": "Continue Towards Checkout",
+          "bogo_modal_step2_desc": "Once you have 14+ meals, proceed to checkout.",
+          "bogo_modal_step3_title": "Claim Your Free Pack",
+          "bogo_modal_step3_desc": "At the next page, a special banner will appear. Click to add the Savory Protein Popcorn Starter Pack and get a second one free!",
+          "bogo_modal_button_text": "Start Building Your Box",
+          "bogo_modal_button_link": "shopify://collections/signature-menu",
+          "top_nav_menu": ""
+        }
+      },
+      "footer": {
+        "type": "footer",
+        "blocks": {
+          "f37f393e-424f-4292-967f-bd5c5df6549a": {
+            "type": "image",
+            "settings": {
+              "image": "shopify://shop_images/icon-meals-logo-competitor_43b5a733-c958-4933-af0d-618281cb1dec.png",
+              "image_max_width": 80,
+              "image_opacity": 100
+            }
+          },
+          "footer-0": {
+            "type": "text",
+            "settings": {
+              "title": "Contact us",
+              "richtext": "<p><strong>Military / First Responder?<br/></strong><a href=\"/pages/hero\" title=\"First Responder & Military Discounts\"><strong>Click HERE For 15% Off!</strong></a></p><p><strong><br/>Customer Service (CST)</strong></p><p><a href=\"tel:8448794266\" target=\"_blank\">844.879.4266</a> -or- <a href=\"mailto:info@iconmeals.com\" title=\"mailto:info@iconmeals.com\">info@iconmeals.com</a><strong><br/></strong></p><p><strong><br/></strong><em>4312 McEwen Rd, <br/>Dallas TX 75244</em><strong><br/></strong>Mon-Fri - 7:30am-5pm CST<br/>Sat - Closed<br/>Sun - Closed</p>"
+            }
+          },
+          "footer-1": {
+            "type": "menu",
+            "settings": {
+              "menu_title": "Quick Links",
+              "footer_linklist": "footer"
+            }
+          },
+          "footer-3": {
+            "type": "social",
+            "settings": {
+              "menu_title": "Get connected"
+            }
+          }
+        },
+        "block_order": [
+          "f37f393e-424f-4292-967f-bd5c5df6549a",
+          "footer-0",
+          "footer-1",
+          "footer-3"
+        ],
+        "settings": {
+          "show_back_to_top": true,
+          "back_to_top_text": "",
+          "show_borders": true,
+          "show_methods_of_payment": true,
+          "show_currency_selector": true,
+          "show_locale_selector": true
+        }
+      },
+      "video--video-with-text-overlay": {
+        "type": "video--video-with-text-overlay",
+        "settings": {
+          "desktopHeight": "550",
+          "mobileHeight": "350",
+          "subheading": "SUBHEADING",
+          "title": "Promote your products",
+          "text": "",
+          "button_link": "shopify://collections/all",
+          "button_label": "Shop now"
+        }
+      },
+      "product--featured-product": {
+        "type": "product--featured-product",
+        "settings": {
+          "tax_included": false,
+          "shipping_policy": false,
+          "show_product_description": false
+        }
+      },
+      "newsletter--newsletter": {
+        "type": "newsletter--newsletter",
+        "settings": {
+          "newsletter_description": ""
+        }
+      },
+      "search-block": {
+        "type": "search-block",
+        "settings": {
+          "text": "",
+          "enable_overlay": true
+        }
+      },
+      "collection--featured-collection-1": {
+        "type": "collection--featured-collection",
+        "settings": {
+          "grid": 3,
+          "rows": 1
+        }
+      },
+      "text--service-list": {
+        "type": "text--service-list",
+        "blocks": {
+          "text--service-list-0": {
+            "type": "text",
+            "settings": {}
+          },
+          "text--service-list-2": {
+            "type": "content-list",
+            "settings": {
+              "content-list-richtext": "<p>Description</p>"
+            }
+          },
+          "text--service-list-1": {
+            "type": "content-list",
+            "settings": {
+              "content-list-richtext": "<p>Description</p>"
+            }
+          },
+          "text--service-list-3": {
+            "type": "content-list",
+            "settings": {
+              "content-list-richtext": "<p>Description</p>"
+            }
+          },
+          "text--service-list-4": {
+            "type": "content-list",
+            "settings": {
+              "content-list-richtext": "<p>Description</p>"
+            }
+          }
+        },
+        "block_order": [
+          "text--service-list-0",
+          "text--service-list-1",
+          "text--service-list-2",
+          "text--service-list-3",
+          "text--service-list-4"
+        ],
+        "settings": {}
+      },
+      "slideshow": {
+        "type": "image--slideshow",
+        "blocks": {
+          "slider-0": {
+            "type": "slide",
+            "settings": {}
+          },
+          "slider-1": {
+            "type": "slide",
+            "settings": {}
+          }
+        },
+        "block_order": [
+          "slider-0",
+          "slider-1"
+        ],
+        "settings": {
+          "show-slide-dots": true
+        }
+      },
+      "text--text-adverts": {
+        "type": "text--text-adverts",
+        "blocks": {
+          "text--text-adverts-0": {
+            "type": "text",
+            "settings": {
+              "icon": "takeaway",
+              "heading": "Free Local Delivery",
+              "subheading": "Shout about your unique selling points"
+            }
+          },
+          "text--text-adverts-1": {
+            "type": "text",
+            "settings": {
+              "icon": "recycle",
+              "heading": "Hassle free returns",
+              "subheading": "Shout about your unique selling points"
+            }
+          },
+          "text--text-adverts-2": {
+            "type": "text",
+            "settings": {
+              "icon": "store",
+              "heading": "New Store Opening",
+              "subheading": "Shout about your unique selling points"
+            }
+          }
+        },
+        "block_order": [
+          "text--text-adverts-0",
+          "text--text-adverts-1",
+          "text--text-adverts-2"
+        ],
+        "settings": {
+          "background-color": "#F1F2F3"
+        }
+      },
+      "image--image-with-text-overlay": {
+        "type": "image--image-with-text-overlay",
+        "settings": {
+          "subheading": "",
+          "hero_size": "large",
+          "button_link": "shopify://collections/all",
+          "button_label": "Learn more"
+        }
+      },
+      "text--testimonials": {
+        "type": "text--testimonials",
+        "blocks": {
+          "testimonial-0": {
+            "type": "textarea",
+            "settings": {
+              "stars": "5"
+            }
+          },
+          "testimonial-1": {
+            "type": "textarea",
+            "settings": {
+              "stars": "5"
+            }
+          },
+          "testimonial-2": {
+            "type": "textarea",
+            "settings": {
+              "stars": "5"
+            }
+          }
+        },
+        "block_order": [
+          "testimonial-0",
+          "testimonial-1",
+          "testimonial-2"
+        ],
+        "settings": {
+          "subheading": "Subheading"
+        }
+      },
+      "collection--collection-list": {
+        "type": "collection--collection-list",
+        "blocks": {
+          "collection-0": {
+            "type": "featured_collection",
+            "settings": {}
+          },
+          "collection-1": {
+            "type": "featured_collection",
+            "settings": {}
+          }
+        },
+        "block_order": [
+          "collection-0",
+          "collection-1"
+        ],
+        "settings": {}
+      },
+      "image--image-with-text-overlay-1": {
+        "type": "image--image-with-text-overlay",
+        "settings": {
+          "title": "Share your story",
+          "text": "<p>Add a large image with text overlay to give focus to your chosen product, collection, or blog post</p>",
+          "parallax": true,
+          "hero_size": "medium",
+          "button_link": "shopify://collections/all",
+          "button_label": "Shop now"
+        }
+      },
+      "collection--featured-collection-2": {
+        "type": "collection--featured-collection",
+        "settings": {
+          "grid": 3,
+          "rows": 2
+        }
+      },
+      "image--logo-list": {
+        "type": "image--logo-list",
+        "blocks": {
+          "image--logo-list-0": {
+            "type": "logo_image",
+            "settings": {}
+          },
+          "image--logo-list-1": {
+            "type": "logo_image",
+            "settings": {}
+          },
+          "image--logo-list-2": {
+            "type": "logo_image",
+            "settings": {}
+          },
+          "image--logo-list-3": {
+            "type": "logo_image",
+            "settings": {}
+          }
+        },
+        "block_order": [
+          "image--logo-list-0",
+          "image--logo-list-1",
+          "image--logo-list-2",
+          "image--logo-list-3"
+        ],
+        "settings": {
+          "width": 130,
+          "subheading": ""
+        }
+      },
+      "blog--blog-posts": {
+        "type": "blog--blog-posts",
+        "settings": {
+          "title": "From the blog",
+          "show_blog_images": true,
+          "imageSize": "wide"
+        }
+      },
+      "cart-drawer": {
+        "type": "cart-drawer",
+        "settings": {}
+      },
+      "header-collections": {
+        "type": "header-collections",
+        "settings": {
+          "logo_bg_color": "#ffffff",
+          "gradient_start_color": "#343a40",
+          "gradient_end_color": "#212529",
+          "border_color": "#e0e0e0",
+          "logo": "shopify://shop_images/icon-meals-logo-512.png",
+          "logo_max_width": 220,
+          "logo_max_height": 48,
+          "header_height_mobile": 64,
+          "header_height_desktop": 72,
+          "logo_area_width": 210,
+          "mobile_split_percentage": 82
+        }
+      },
+      "footer-minimal-ordering": {
+        "type": "footer-minimal-ordering",
+        "settings": {}
+      }
+    },
+    "content_for_index": [
+      "slideshow",
+      "collection--collection-list",
+      "text--text-adverts",
+      "collection--featured-collection-1",
+      "image--image-with-text-overlay",
+      "product--featured-product",
+      "search-block",
+      "collection--featured-collection-2",
+      "newsletter--newsletter",
+      "image--image-with-text-overlay-1",
+      "text--testimonials",
+      "text--service-list"
+    ],
+    "blocks": {
+      "17503894164445082576": {
+        "type": "shopify://apps/helpcenter-faq-chat-helpdesk/blocks/contact-form-embed/96ba30fd-9f2c-45e4-a753-8a1399d9a0d9",
+        "disabled": true,
+        "settings": {}
+      },
+      "14017166734719355524": {
+        "type": "shopify://apps/helpcenter-faq-chat-helpdesk/blocks/widget-embed/96ba30fd-9f2c-45e4-a753-8a1399d9a0d9",
+        "disabled": true,
+        "settings": {}
+      },
+      "10839251823476779886": {
+        "type": "shopify://apps/helpcenter-faq-chat-helpdesk/blocks/chat-embed/96ba30fd-9f2c-45e4-a753-8a1399d9a0d9",
+        "disabled": true,
+        "settings": {}
+      },
+      "855628211100114053": {
+        "type": "shopify://apps/klaviyo-email-marketing-sms/blocks/klaviyo-onsite-embed/2632fe16-c075-4321-a88b-50b567f42507",
+        "disabled": false,
+        "settings": {}
+      },
+      "17151115064775110295": {
+        "type": "shopify://apps/recharge-subscriptions/blocks/recharge-theme/371eed76-0b44-4869-9813-730372ea378e",
+        "disabled": false,
+        "settings": {
+          "color_brand": "#ec4242",
+          "contrast_color": "#FFFFFF",
+          "color_brand_secondary": "#ec4242",
+          "corners": "8px",
+          "app_background": "#f5f5f5",
+          "app_container": 1350,
+          "app_vertical_padding": 32,
+          "images_aspect_ratio": "1",
+          "cards_background": "#FFFFFF",
+          "cards_border_color": "rgba(0,0,0,0)"
+        }
+      },
+      "15683396631634586217": {
+        "type": "shopify://apps/inbox/blocks/chat/841fc607-4181-4ad1-842d-e24d7f8bad6b",
+        "disabled": true,
+        "settings": {
+          "button_color": "#000000",
+          "button_icon": "chat_bubble",
+          "button_text": "chat_with_us",
+          "button_horizontal_position": "bottom_right",
+          "button_vertical_position": "lowest",
+          "greeting_message": "👋 Hi, message us with any questions. We're happy to help!"
+        }
+      },
+      "17676059084223943535": {
+        "type": "shopify://apps/triplewhale/blocks/triple_pixel_snippet/483d496b-3f1a-4609-aea7-8eee3b6b7a2a",
+        "disabled": false,
+        "settings": {}
+      },
+      "14479319785270113485": {
+        "type": "shopify://apps/zapiet-pickup-delivery/blocks/app-embed/5599aff0-8af1-473a-a372-ecd72a32b4d5",
+        "disabled": true,
+        "settings": {}
+      },
+      "14339172867238703359": {
+        "type": "shopify://apps/yotpo-product-reviews-ugc/blocks/reviews_tab/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+        "disabled": true,
+        "settings": {
+          "product": ""
+        }
+      },
+      "7570552984445421165": {
+        "type": "shopify://apps/yotpo-product-reviews-ugc/blocks/settings/eb7dfd7d-db44-4334-bc49-c893b51b36cf",
+        "disabled": false,
+        "settings": {}
+      },
+      "1291562577487733835": {
+        "type": "shopify://apps/black-crow-ai-that-delivers/blocks/blackcrow_ai_script/3e73f597-cb71-47a1-8a06-0c931482ecd2",
+        "disabled": false,
+        "settings": {}
+      },
+      "15351435345818755577": {
+        "type": "shopify://apps/pandectes-gdpr/blocks/banner/58c0baa2-6cc1-480c-9ea6-38d6d559556a",
+        "disabled": false,
+        "settings": {}
+      }
+    }
+  },
+  "presets": {
+    "Sharp": {
+      "font-color": "#1b1b1b",
+      "link-color": "#333333",
+      "active-link-color": "#444444",
+      "bg_color": "#ffffff",
+      "border-color": "#444444",
+      "header-background-color": "#ededed",
+      "header-top-bar-color": "#8e8e8d",
+      "header-text-color": "#333333",
+      "header-overlay-text-color": "#1b1b1b",
+      "sticky-header-background-color": "#ededed",
+      "sticky-header-top-bar-color": "#ededed",
+      "sticky-header-text-color": "#1b1b1b",
+      "image_overlay_opacity": 45,
+      "type_header_font": "din_neuzeit_grotesk_n7",
+      "heading-case": "uppercase",
+      "heading--base-size": "large",
+      "subheading--font": "din_neuzeit_grotesk_n3",
+      "type_base_font": "din_neuzeit_grotesk_n3",
+      "typography-body-font-size": 16,
+      "navigation--font": "subheading",
+      "buttons--font": "subheading",
+      "buttons--capitalize": true,
+      "cart-type": "page",
+      "enable-additional-checkout-buttons": true,
+      "allow_note": true,
+      "enable_store_pickup": true,
+      "center_align": true,
+      "borders_enable": false,
+      "hover_effect": "shadow",
+      "quick_add_position": "below_product_details",
+      "popup--enable": false,
+      "pop-up-text-description-text": "<p>Give your customers a reason to sign up to your newsletter</p>",
+      "popup--show-social-icons": true,
+      "enable-page-results": true,
+      "enable-article-results": true,
+      "enable-collection-results": true,
+      "predictive_search_show_vendor": true,
+      "predictive_search_show_price": true,
+      "menu-case": "menu-upper-case",
+      "header_font_style": "normal",
+      "sections": {
+        "announcement-bar": {
+          "type": "announcement-bar",
+          "settings": {
+            "enable": true,
+            "notification-bar--text-color": "#ffffff",
+            "social-enable": false
+          }
+        },
+        "template--blog": {
+          "type": "template--blog",
+          "settings": {
+            "blog-posts-per-page": 3
+          }
+        },
+        "template--product": {
+          "type": "template--product",
+          "settings": {
+            "show_out_of_stock_email": false,
+            "image_display": "full-size",
+            "enable_zoom": false
+          }
+        },
+        "template--collection": {
+          "type": "template--collection",
+          "settings": {
+            "pagination_type": "paged_navigation"
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "logo_max_width": 160,
+            "sticky_header": false
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "f37f393e-424f-4292-967f-bd5c5df6549a": {
+              "type": "image",
+              "settings": {
+                "image_max_width": 80,
+                "image_opacity": 100
+              }
+            },
+            "footer-3": {
+              "type": "social",
+              "settings": {
+                "menu_title": "Get connected"
+              }
+            },
+            "footer-0": {
+              "type": "text",
+              "settings": {
+                "title": "Contact us",
+                "richtext": "<p>Share store details, promotions, or brand content with your customers.</p>"
+              }
+            },
+            "footer-1": {
+              "type": "menu",
+              "settings": {
+                "menu_title": "Links",
+                "footer_linklist": "footer"
+              }
+            }
+          },
+          "block_order": [
+            "f37f393e-424f-4292-967f-bd5c5df6549a",
+            "footer-3",
+            "footer-0",
+            "footer-1"
+          ],
+          "settings": {
+            "show_back_to_top": true,
+            "back_to_top_text": "",
+            "show_borders": true,
+            "show_methods_of_payment": true,
+            "show_currency_selector": true
+          }
+        },
+        "video--video-with-text-overlay": {
+          "type": "video--video-with-text-overlay",
+          "settings": {
+            "desktopHeight": "550",
+            "mobileHeight": "350",
+            "subheading": "SUBHEADING",
+            "title": "Promote your products",
+            "text": "",
+            "button_link": "shopify://collections/all",
+            "button_label": "Shop now"
+          }
+        },
+        "product--featured-product": {
+          "type": "product--featured-product",
+          "settings": {
+            "tax_included": false,
+            "shipping_policy": false,
+            "show_product_description": false
+          }
+        },
+        "newsletter--newsletter": {
+          "type": "newsletter--newsletter",
+          "settings": {
+            "newsletter_description": ""
+          }
+        },
+        "search-block": {
+          "type": "search-block",
+          "settings": {
+            "text": "",
+            "enable_overlay": true
+          }
+        },
+        "collection--featured-collection-1": {
+          "type": "collection--featured-collection",
+          "settings": {
+            "grid": 3,
+            "rows": 1
+          }
+        },
+        "text--service-list": {
+          "type": "text--service-list",
+          "blocks": {
+            "text--service-list-0": {
+              "type": "text",
+              "settings": {}
+            },
+            "text--service-list-2": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            },
+            "text--service-list-1": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            },
+            "text--service-list-3": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            },
+            "text--service-list-4": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            }
+          },
+          "block_order": [
+            "text--service-list-0",
+            "text--service-list-1",
+            "text--service-list-2",
+            "text--service-list-3",
+            "text--service-list-4"
+          ],
+          "settings": {}
+        },
+        "slideshow": {
+          "type": "image--slideshow",
+          "blocks": {
+            "slider-0": {
+              "type": "slide",
+              "settings": {}
+            },
+            "slider-1": {
+              "type": "slide",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "slider-0",
+            "slider-1"
+          ],
+          "settings": {
+            "show-slide-dots": true
+          }
+        },
+        "text--text-adverts": {
+          "type": "text--text-adverts",
+          "blocks": {
+            "text--text-adverts-0": {
+              "type": "text",
+              "settings": {
+                "icon": "takeaway",
+                "heading": "Free Local Delivery",
+                "subheading": "Shout about your unique selling points"
+              }
+            },
+            "text--text-adverts-1": {
+              "type": "text",
+              "settings": {
+                "icon": "recycle",
+                "heading": "Hassle free returns",
+                "subheading": "Shout about your unique selling points"
+              }
+            },
+            "text--text-adverts-2": {
+              "type": "text",
+              "settings": {
+                "icon": "store",
+                "heading": "New Store Opening",
+                "subheading": "Shout about your unique selling points"
+              }
+            }
+          },
+          "block_order": [
+            "text--text-adverts-0",
+            "text--text-adverts-1",
+            "text--text-adverts-2"
+          ],
+          "settings": {
+            "background-color": "#F1F2F3"
+          }
+        },
+        "image--image-with-text-overlay": {
+          "type": "image--image-with-text-overlay",
+          "settings": {
+            "subheading": "",
+            "hero_size": "large",
+            "button_link": "shopify://collections/all",
+            "button_label": "Learn more"
+          }
+        },
+        "text--testimonials": {
+          "type": "text--testimonials",
+          "blocks": {
+            "testimonial-0": {
+              "type": "textarea",
+              "settings": {
+                "stars": "5"
+              }
+            },
+            "testimonial-1": {
+              "type": "textarea",
+              "settings": {
+                "stars": "5"
+              }
+            },
+            "testimonial-2": {
+              "type": "textarea",
+              "settings": {
+                "stars": "5"
+              }
+            }
+          },
+          "block_order": [
+            "testimonial-0",
+            "testimonial-1",
+            "testimonial-2"
+          ],
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "collection--collection-list": {
+          "type": "collection--collection-list",
+          "blocks": {
+            "collection-0": {
+              "type": "featured_collection",
+              "settings": {}
+            },
+            "collection-1": {
+              "type": "featured_collection",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "collection-0",
+            "collection-1"
+          ],
+          "settings": {}
+        },
+        "image--image-with-text-overlay-1": {
+          "type": "image--image-with-text-overlay",
+          "settings": {
+            "title": "Share your story",
+            "text": "<p>Add a large image with text overlay to give focus to your chosen product, collection, or blog post</p>",
+            "parallax": true,
+            "hero_size": "medium",
+            "button_link": "shopify://collections/all",
+            "button_label": "Shop now"
+          }
+        },
+        "collection--featured-collection-2": {
+          "type": "collection--featured-collection",
+          "settings": {
+            "grid": 3,
+            "rows": 2
+          }
+        },
+        "image--logo-list": {
+          "type": "image--logo-list",
+          "blocks": {
+            "image--logo-list-0": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-1": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-2": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-3": {
+              "type": "logo_image",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "image--logo-list-0",
+            "image--logo-list-1",
+            "image--logo-list-2",
+            "image--logo-list-3"
+          ],
+          "settings": {
+            "width": 130,
+            "subheading": ""
+          }
+        },
+        "blog--blog-posts": {
+          "type": "blog--blog-posts",
+          "settings": {
+            "title": "From the blog",
+            "show_blog_images": true,
+            "imageSize": "wide"
+          }
+        }
+      },
+      "content_for_index": [
+        "slideshow",
+        "collection--collection-list",
+        "text--text-adverts",
+        "collection--featured-collection-1",
+        "image--image-with-text-overlay",
+        "product--featured-product",
+        "search-block",
+        "collection--featured-collection-2",
+        "newsletter--newsletter",
+        "image--image-with-text-overlay-1",
+        "text--testimonials",
+        "text--service-list"
+      ]
+    },
+    "Sweet": {
+      "font-color": "#242424",
+      "link-color": "#242424",
+      "active-link-color": "#242424",
+      "header-background-color": "#F3F3F3",
+      "header-top-bar-color": "#DFDFDF",
+      "header-text-color": "#242424",
+      "footer-background-color": "#2D2D2D",
+      "footer-text-color": "#ffffff",
+      "bg_color": "#ffffff",
+      "add-to-cart-background-color": "#242424",
+      "add-to-cart-background-hover-color": "#3a3a3a",
+      "add-to-cart-text-color": "#ffffff",
+      "type_header_font": "poppins_n8",
+      "heading-case": "uppercase",
+      "heading--base-size": "large",
+      "subheading--font": "poppins_n7",
+      "type_base_font": "open_sans_n4",
+      "typography-body-font-size": 16,
+      "navigation--font": "subheading",
+      "buttons--font": "subheading",
+      "cart-type": "page",
+      "allow_note": true,
+      "persistent-cart-visibility": "all_pages",
+      "quick_add_position": "above_product_details",
+      "enable_store_pickup": false,
+      "quantity_enable": true,
+      "center_align": true,
+      "borders_enable": true,
+      "hover_effect": "shadow",
+      "enable_verification_popup": true,
+      "popup--enable": false,
+      "popup-delay": 12,
+      "popup--show-social-icons": true,
+      "predictive_search_show_vendor": true,
+      "predictive_search_show_price": true,
+      "sections": {
+        "announcement-bar": {
+          "type": "announcement-bar",
+          "settings": {
+            "enable": false
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "sticky_header": false
+          }
+        },
+        "collection--collection-list": {
+          "type": "collection--collection-list",
+          "blocks": {
+            "collection--collection-list-0": {
+              "type": "featured_collection",
+              "settings": {}
+            },
+            "collection--collection-list-1": {
+              "type": "featured_collection",
+              "settings": {}
+            },
+            "collection--collection-list-2": {
+              "type": "featured_collection",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "collection--collection-list-0",
+            "collection--collection-list-1",
+            "collection--collection-list-2"
+          ],
+          "settings": {}
+        },
+        "image--logo-list": {
+          "type": "image--logo-list",
+          "blocks": {
+            "image--logo-list-0": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-1": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-2": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-3": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-4": {
+              "type": "logo_image",
+              "settings": {}
+            },
+            "image--logo-list-5": {
+              "type": "logo_image",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "image--logo-list-0",
+            "image--logo-list-1",
+            "image--logo-list-2",
+            "image--logo-list-3",
+            "image--logo-list-4",
+            "image--logo-list-5"
+          ],
+          "settings": {}
+        },
+        "image--image-with-text-block": {
+          "type": "image--image-with-text-block",
+          "settings": {
+            "background-color": "rgba(0,0,0,0)",
+            "horizontal-alignment": "right",
+            "subheading": "Subheading",
+            "text": "",
+            "button_link": "shopify://collections",
+            "button_label": "Read more"
+          }
+        },
+        "text--rich-text": {
+          "type": "text--rich-text",
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "image--gallery": {
+          "type": "image--gallery",
+          "blocks": {
+            "image--gallery-0": {
+              "type": "image",
+              "settings": {
+                "link": "shopify://collections"
+              }
+            },
+            "image--gallery-1": {
+              "type": "image",
+              "settings": {
+                "link": "shopify://collections"
+              }
+            },
+            "image--gallery-2": {
+              "type": "image",
+              "settings": {
+                "link": "shopify://collections"
+              }
+            }
+          },
+          "block_order": [
+            "image--gallery-0",
+            "image--gallery-1",
+            "image--gallery-2"
+          ],
+          "settings": {}
+        },
+        "text--service-list": {
+          "type": "text--service-list",
+          "blocks": {
+            "text--service-list-0": {
+              "type": "text",
+              "settings": {}
+            },
+            "text--service-list-2": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            },
+            "text--service-list-1": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            },
+            "text--service-list-3": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            },
+            "text--service-list-4": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": "<p>Description</p>"
+              }
+            }
+          },
+          "block_order": [
+            "text--service-list-0",
+            "text--service-list-1",
+            "text--service-list-2",
+            "text--service-list-3",
+            "text--service-list-4"
+          ],
+          "settings": {}
+        },
+        "store-information--delivery-partners": {
+          "type": "store-information--delivery-partners",
+          "blocks": {
+            "store-information--delivery-partners-0": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "ubereats"
+              }
+            },
+            "store-information--delivery-partners-1": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "grubhub"
+              }
+            },
+            "store-information--delivery-partners-2": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "justeat"
+              }
+            },
+            "store-information--delivery-partners-3": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "deliveroo"
+              }
+            },
+            "store-information--delivery-partners-4": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "deliverycom"
+              }
+            }
+          },
+          "block_order": [
+            "store-information--delivery-partners-0",
+            "store-information--delivery-partners-1",
+            "store-information--delivery-partners-2",
+            "store-information--delivery-partners-3",
+            "store-information--delivery-partners-4"
+          ],
+          "settings": {
+            "partner-text-color": true,
+            "text": ""
+          }
+        },
+        "blog--blog-posts": {
+          "type": "blog--blog-posts",
+          "settings": {}
+        },
+        "search-block": {
+          "type": "search-block",
+          "settings": {
+            "text": "",
+            "enable_overlay": true
+          }
+        },
+        "product--featured-product": {
+          "type": "product--featured-product",
+          "settings": {
+            "tax_included": false,
+            "shipping_policy": false,
+            "show_product_description": false
+          }
+        },
+        "image--image-with-text-overlay": {
+          "type": "image--image-with-text-overlay",
+          "settings": {
+            "subheading": "Subheading",
+            "hero_size": "x-large"
+          }
+        },
+        "text--text-adverts": {
+          "type": "text--text-adverts",
+          "blocks": {
+            "text--text-adverts-0": {
+              "type": "text",
+              "settings": {
+                "icon": "takeaway",
+                "heading": "Free Local Delivery",
+                "subheading": "Shout about your unique selling points"
+              }
+            },
+            "text--text-adverts-1": {
+              "type": "text",
+              "settings": {
+                "icon": "recycle",
+                "heading": "Hassle free returns",
+                "subheading": "Shout about your unique selling points"
+              }
+            },
+            "text--text-adverts-2": {
+              "type": "text",
+              "settings": {
+                "icon": "store",
+                "heading": "New Store Opening",
+                "subheading": "Shout about your unique selling points"
+              }
+            }
+          },
+          "block_order": [
+            "text--text-adverts-0",
+            "text--text-adverts-1",
+            "text--text-adverts-2"
+          ],
+          "settings": {
+            "background-color": "#F1F2F3"
+          }
+        },
+        "newsletter--newsletter": {
+          "type": "newsletter--newsletter",
+          "settings": {
+            "newsletter_description": ""
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "image",
+              "settings": {}
+            },
+            "footer-1": {
+              "type": "social",
+              "settings": {}
+            },
+            "footer-2": {
+              "type": "text",
+              "settings": {}
+            },
+            "footer-3": {
+              "type": "menu",
+              "settings": {
+                "footer_linklist": "footer-menu"
+              }
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2",
+            "footer-3"
+          ],
+          "settings": {
+            "show_borders": false
+          }
+        },
+        "template--collection-header": {
+          "type": "template--collection-header",
+          "settings": {
+            "collection_image_enable": false
+          }
+        },
+        "template--collection": {
+          "type": "template--collection",
+          "settings": {
+            "grid": 3,
+            "rows": 3,
+            "pagination_type": "paged_navigation"
+          }
+        },
+        "template--product": {
+          "type": "template--product",
+          "settings": {
+            "enable_video_loop": true
+          }
+        }
+      },
+      "content_for_index": [
+        "collection--collection-list",
+        "image--logo-list",
+        "image--image-with-text-block",
+        "text--rich-text",
+        "text--text-adverts",
+        "image--gallery",
+        "text--service-list",
+        "store-information--delivery-partners",
+        "blog--blog-posts",
+        "search-block",
+        "product--featured-product",
+        "image--image-with-text-overlay",
+        "newsletter--newsletter"
+      ]
+    },
+    "Smooth": {
+      "link-color": "#333333",
+      "active-link-color": "#6e6e6e",
+      "border-color": "#BEBEBE",
+      "header-background-color": "#333333",
+      "header-top-bar-color": "#333333",
+      "header-text-color": "#F3F3F3",
+      "header-overlay-text-color": "#F3F3F3",
+      "sticky-header-background-color": "#333333",
+      "sticky-header-top-bar-color": "#333333",
+      "sticky-header-text-color": "#F3F3F3",
+      "sidebar-navigation--background-color": "#333333",
+      "sidebar-navigation--text-color": "#F3F3F3",
+      "footer-background-color": "#333333",
+      "footer-text-color": "#ebebeb",
+      "add-to-cart-background-color": "#838383",
+      "add-to-cart-background-hover-color": "#bebebe",
+      "pop-up-text-color": "#ebebeb",
+      "color_image_overlay": "#000000",
+      "image_overlay_opacity": 50,
+      "sale-label-text-color": "#333333",
+      "sold-out-badge-color": "#bebebe",
+      "sold-out-badge-text-color": "#333333",
+      "sold_out_badge": true,
+      "free-shipping-background-color": "#ffffff",
+      "free-shipping-text-color": "#333333",
+      "type_header_font": "optima_nova_n4",
+      "heading--base-size": "large",
+      "subheading--font": "geometric_415_n6",
+      "subheading--case": "uppercase",
+      "type_base_font": "geometric_415_n4",
+      "typography-body-font-size": 16,
+      "navigation--font": "subheading",
+      "navigation--capitalize": false,
+      "buttons--font": "subheading",
+      "buttons--capitalize": false,
+      "cart-type": "page",
+      "allow_note": true,
+      "quantity_enable": true,
+      "center_align": true,
+      "hover_effect": "shadow",
+      "quick_add_position": "below_product_details",
+      "popup--enable": false,
+      "popup--show-social-icons": true,
+      "sections": {
+        "announcement-bar": {
+          "type": "announcement-bar",
+          "settings": {
+            "enable": false
+          }
+        },
+        "header": {
+          "type": "header",
+          "settings": {
+            "sticky_header": false
+          }
+        },
+        "video--video-with-text-overlay-0": {
+          "type": "video--video-with-text-overlay",
+          "settings": {
+            "desktopHeight": "550",
+            "text": "",
+            "textColor": "#ffffff",
+            "button_link": "shopify://collections/all",
+            "button_label": "Learn more"
+          }
+        },
+        "text--text-adverts": {
+          "type": "text--text-adverts",
+          "blocks": {
+            "text--text-adverts-0": {
+              "type": "text",
+              "settings": {
+                "icon": "takeaway",
+                "heading": "Free Delivery Worldwide",
+                "subheading": "Shout about your unique selling points"
+              }
+            },
+            "text--text-adverts-1": {
+              "type": "text",
+              "settings": {
+                "icon": "recycle",
+                "heading": "Hassle free returns",
+                "subheading": "Shout about your unique selling points"
+              }
+            },
+            "text--text-adverts-2": {
+              "type": "text",
+              "settings": {
+                "icon": "store",
+                "heading": "New Store Opening",
+                "subheading": "Shout about your unique selling points"
+              }
+            }
+          },
+          "block_order": [
+            "text--text-adverts-0",
+            "text--text-adverts-1",
+            "text--text-adverts-2"
+          ],
+          "settings": {
+            "background-color": "#F1F2F3"
+          }
+        },
+        "collection--featured-collection-0": {
+          "type": "collection--featured-collection",
+          "settings": {
+            "subheading": ""
+          }
+        },
+        "image--image-with-text-block": {
+          "type": "image--image-with-text-block",
+          "settings": {
+            "background-color": "rgba(0,0,0,0)",
+            "horizontal-alignment": "left",
+            "text": "",
+            "button_link": "shopify://collections/all",
+            "button_label": "Shop now"
+          }
+        },
+        "collection--featured-collection-1": {
+          "type": "collection--featured-collection",
+          "settings": {
+            "subheading": "",
+            "rows": 2
+          }
+        },
+        "search-block": {
+          "type": "search-block",
+          "settings": {
+            "placeholder": "Search Smooth",
+            "enable_overlay": true
+          }
+        },
+        "text--image-with-text-0": {
+          "type": "text--image-with-text",
+          "settings": {
+            "subheading": "Subheading",
+            "title": "",
+            "button_link": "shopify://collections/all",
+            "button_label": "Button"
+          }
+        },
+        "store-information--delivery-partners": {
+          "type": "store-information--delivery-partners",
+          "blocks": {
+            "store-information--delivery-partners-0": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "ubereats"
+              }
+            },
+            "store-information--delivery-partners-1": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "grubhub"
+              }
+            },
+            "store-information--delivery-partners-2": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "justeat"
+              }
+            },
+            "store-information--delivery-partners-3": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "deliveroo"
+              }
+            },
+            "store-information--delivery-partners-4": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "deliverycom"
+              }
+            },
+            "store-information--delivery-partners-5": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "doordash"
+              }
+            },
+            "store-information--delivery-partners-6": {
+              "type": "partner_logo",
+              "settings": {
+                "delivery_partner": "postmates"
+              }
+            }
+          },
+          "block_order": [
+            "store-information--delivery-partners-0",
+            "store-information--delivery-partners-1",
+            "store-information--delivery-partners-2",
+            "store-information--delivery-partners-3",
+            "store-information--delivery-partners-4",
+            "store-information--delivery-partners-5",
+            "store-information--delivery-partners-6"
+          ],
+          "settings": {
+            "partner-text-color": true,
+            "horizontal-alignment": "left",
+            "text": ""
+          }
+        },
+        "text--service-list": {
+          "type": "text--service-list",
+          "blocks": {
+            "text--service-list-0": {
+              "type": "text",
+              "settings": {}
+            },
+            "text--service-list-1": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": ""
+              }
+            },
+            "text--service-list-2": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": ""
+              }
+            },
+            "text--service-list-3": {
+              "type": "text",
+              "settings": {}
+            },
+            "text--service-list-4": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": ""
+              }
+            },
+            "text--service-list-5": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": ""
+              }
+            },
+            "text--service-list-6": {
+              "type": "text",
+              "settings": {}
+            },
+            "text--service-list-7": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": ""
+              }
+            },
+            "text--service-list-8": {
+              "type": "content-list",
+              "settings": {
+                "content-list-richtext": ""
+              }
+            }
+          },
+          "block_order": [
+            "text--service-list-0",
+            "text--service-list-1",
+            "text--service-list-2",
+            "text--service-list-3",
+            "text--service-list-4",
+            "text--service-list-5",
+            "text--service-list-6",
+            "text--service-list-7",
+            "text--service-list-8"
+          ],
+          "settings": {
+            "service-list--subheading": "",
+            "service-list--heading": ""
+          }
+        },
+        "video--video-with-text-overlay-1": {
+          "type": "video--video-with-text-overlay",
+          "settings": {
+            "desktopHeight": "450",
+            "text": "",
+            "textColor": "#ffffff",
+            "textShadow": true,
+            "subheading--text-size": 16
+          }
+        },
+        "text--testimonials": {
+          "type": "text--testimonials",
+          "blocks": {
+            "testimonial-0": {
+              "type": "textarea",
+              "settings": {
+                "stars": "5"
+              }
+            },
+            "testimonial-1": {
+              "type": "textarea",
+              "settings": {
+                "stars": "5"
+              }
+            },
+            "testimonial-2": {
+              "type": "textarea",
+              "settings": {
+                "stars": "5"
+              }
+            }
+          },
+          "block_order": [
+            "testimonial-0",
+            "testimonial-1",
+            "testimonial-2"
+          ],
+          "settings": {
+            "subheading": "Subheading"
+          }
+        },
+        "footer": {
+          "type": "footer",
+          "blocks": {
+            "footer-0": {
+              "type": "image",
+              "settings": {}
+            },
+            "footer-1": {
+              "type": "newsletter",
+              "settings": {}
+            },
+            "footer-2": {
+              "type": "menu",
+              "settings": {}
+            },
+            "footer-3": {
+              "type": "social",
+              "settings": {}
+            }
+          },
+          "block_order": [
+            "footer-0",
+            "footer-1",
+            "footer-2",
+            "footer-3"
+          ],
+          "settings": {
+            "back_to_top_text": ""
+          }
+        },
+        "template--product": {
+          "type": "template--product",
+          "settings": {
+            "image_display": "full-size",
+            "enable_zoom": false
+          }
+        },
+        "template--collection-header": {
+          "type": "template--collection-header",
+          "settings": {
+            "collection_image_enable": false
+          }
+        },
+        "template--collection": {
+          "type": "template--collection",
+          "settings": {
+            "grid": 2,
+            "rows": 3,
+            "pagination_type": "paged_navigation"
+          }
+        }
+      },
+      "content_for_index": [
+        "video--video-with-text-overlay-0",
+        "text--text-adverts",
+        "collection--featured-collection-0",
+        "image--image-with-text-block",
+        "collection--featured-collection-1",
+        "search-block",
+        "text--image-with-text-0",
+        "store-information--delivery-partners",
+        "text--service-list",
+        "video--video-with-text-overlay-1",
+        "text--testimonials"
+      ]
+    }
+  },
+  "platform_customizations": {
+    "custom_css": [
+      ".promo-highlight {font-weight: 700; color: #d32f2f;}",
+      ".promo-note {font-size: 0.9em; opacity: 0.85;}"
+    ]
+  }
+}

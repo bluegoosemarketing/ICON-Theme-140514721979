@@ -11,6 +11,7 @@
   "sections": {
     "video_video_with_text_overlay_dBqYUa": {
       "type": "video--video-with-text-overlay",
+      "custom_css": [],
       "settings": {
         "image": "shopify://shop_images/gymguyz-header-2.webp",
         "url": "https://vimeo.com/875167309",

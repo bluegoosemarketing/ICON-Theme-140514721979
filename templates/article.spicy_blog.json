@@ -1,0 +1,36 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--article",
+      "disabled": true,
+      "settings": {
+        "show_author_name": false,
+        "show_dates": true,
+        "social_sharing_facebook": true,
+        "social_sharing_twitter": true,
+        "social_sharing_pinterest": true
+      }
+    },
+    "spicy_blog_UywCXY": {
+      "type": "Spicy-Blog",
+      "name": "Article: Spicy Protein",
+      "settings": {
+        "science_image": "shopify://shop_images/Spicy-Image_ICON-Meals.jpg",
+        "protein_image": "shopify://shop_images/Protein-Image_ICON-Meals.jpg"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "spicy_blog_UywCXY"
+  ]
+}

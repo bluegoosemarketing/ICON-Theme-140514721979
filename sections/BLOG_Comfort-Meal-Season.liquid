@@ -1,0 +1,309 @@
+{% comment %}
+  =====================================================================================
+  Shopify Section: Article - Comfort Food Remastered (V5 - Final Polish)
+  Designed and Developed for ICON Meals - October 2025
+
+  **Version 5 Updates:**
+  - **Refactored Macro Styling:** The entire macro grid's CSS has been rewritten to
+    precisely match the user-provided screenshot. It now features a dark, rounded
+    outer container with three inset, white macro blocks for a fully integrated look.
+  - **Refined Scale & Typography:** Font sizes, padding, and spacing have been
+    significantly reduced to create a more subtle and professional data display that
+    complements the card design instead of overpowering it.
+  - **Color Correction:** Text and background colors within the macro component have
+    been adjusted for high contrast and to align perfectly with the brand aesthetic.
+  =====================================================================================
+{% endcomment %}
+
+<!-- Import Google Font for the Hero Headline -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap" rel="stylesheet">
+
+<article class="comfort-post">
+  
+  <!-- ************ EDITORIAL HERO ************ -->
+  <header class="comfort-post__header">
+    <div class="comfort-post__container--narrow">
+      <h1>
+        {{ section.settings.hero_headline | escape }}<br>
+        <span class="highlight-text">{{ section.settings.hero_highlight | escape }}</span>
+      </h1>
+      <div class="comfort-post__intro rte">{{ section.settings.hero_intro }}</div>
+    </div>
+  </header>
+
+  <main class="comfort-post__main-content">
+    
+    <!-- ************ MEAL SWAPS SECTION ************ -->
+    <section class="comfort-post__section">
+      <div class="comfort-post__container">
+        <div class="swap-layout">
+          {% for block in section.blocks %}
+            {%- liquid
+              assign product = all_products[block.settings.product_handle]
+
+              assign final_image = block.settings.override_image
+              if final_image == blank and product.featured_media
+                assign final_image = product.featured_media
+              endif
+
+              assign final_title = block.settings.override_title
+              if final_title == blank and product.title
+                assign final_title = product.title
+              endif
+
+              assign final_build_desc = block.settings.override_build_description
+              if final_build_desc == blank and product.description
+                assign final_build_desc = product.description
+              endif
+
+              assign final_link = block.settings.override_button_link
+              if final_link == blank and product.url
+                assign final_link = product.url
+              endif
+            -%}
+            <div class="swap-card" {{ block.shopify_attributes }}>
+              <div class="swap-card__image-wrapper">
+                {% if final_image != blank %}
+                  {{ final_image | image_url: width: 1000 | image_tag:
+                    loading: 'lazy',
+                    alt: final_image.alt | default: final_title,
+                    sizes: '(min-width: 900px) 50vw, 100vw',
+                    widths: '400, 600, 800, 1000, 1200'
+                  }}
+                {% else %}
+                  {{ 'product-1' | placeholder_svg_tag: 'placeholder-svg' }}
+                {% endif %}
+              </div>
+              <div class="swap-card__content">
+                <div class="swap-card__swap-title">
+                  <span>{{ block.settings.swap_heading | escape }}</span>
+                  <p>{{ block.settings.swap_title | escape }}</p>
+                </div>
+                <h2 class="swap-card__upgrade-title">{{ final_title | default: "ICON Upgrade Title" | escape }}</h2>
+
+                {% if block.settings.macro_protein > 0 %}
+                  <div class="swap-card__macros-grid">
+                    <div class="macro-item">
+                      <span class="macro-value">{{ block.settings.macro_protein }}g</span>
+                      <span class="macro-label">PRO</span>
+                    </div>
+                    <div class="macro-item">
+                      <span class="macro-value">{{ block.settings.macro_carbs }}g</span>
+                      <span class="macro-label">CARB</span>
+                    </div>
+                    <div class="macro-item">
+                      <span class="macro-value">{{ block.settings.macro_fat }}g</span>
+                      <span class="macro-label">FAT</span>
+                    </div>
+                  </div>
+                {% endif %}
+                
+                <div class="swap-card__description rte">{{ block.settings.swap_description }}</div>
+                
+                <h3>{{ block.settings.build_heading | escape }}</h3>
+                <div class="swap-card__description rte">{{ final_build_desc | default: "<p>Describe the ICON meal solution here.</p>" }}</div>
+
+                {% if final_link != blank and block.settings.product_button_text != blank %}
+                  <a href="{{ final_link }}" class="swap-card__product-button">
+                    {{ block.settings.product_button_text | escape }}
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    
+    <!-- ************ FINAL CTA SECTION ************ -->
+    <section class="comfort-post__section comfort-post__section--cta">
+      <div class="comfort-post__container--narrow">
+        <h2>{{ section.settings.cta_headline | newline_to_br }}</h2>
+        <div class="rte">{{ section.settings.cta_text }}</div>
+        {% if section.settings.cta_button_text != blank and section.settings.cta_button_link != blank %}
+          <a href="{{ section.settings.cta_button_link }}" class="comfort-post__cta-button">
+            {{ section.settings.cta_button_text | escape }}
+          </a>
+        {% endif %}
+      </div>
+    </section>
+  </main>
+</article>
+
+<style>
+  /* --- BASE & VARIABLES --- */
+  .comfort-post {
+    --color-text: #A0AEC0; --color-text-strong: #E2E8F0; --color-heading: #FFFFFF;
+    --color-text-dark: #2D3748; --color-text-dark-light: #718096;
+    --color-background: #171923; --color-background-card: #2D3748; --color-border: #4A5568;
+    --color-primary: #CD1C26; --color-highlight: #E4922A; --font-hero: 'Archivo Black', sans-serif;
+    --font-heading: {{ settings.heading_font.family }}, {{ settings.heading_font.fallback_families }};
+    --font-body: {{ settings.body_font.family }}, {{ settings.body_font.fallback_families }};
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.3), 0 4px 6px -4px rgba(0,0,0,0.3);
+    --radius-lg: 0.75rem; --radius-md: 0.5rem;
+  }
+  .comfort-post { background-color: var(--color-background); color: var(--color-text); font-family: var(--font-body); line-height: 1.65; }
+  .comfort-post h1, .comfort-post h2, .comfort-post h3 { font-family: var(--font-heading); font-weight: 700; color: var(--color-heading); line-height: 1.2; margin: 0; }
+  .comfort-post .rte p { margin-bottom: 1rem; } .comfort-post .rte p:last-child { margin-bottom: 0; }
+  .comfort-post a { color: var(--color-primary); text-decoration: none; border-bottom: 2px solid transparent; transition: border-color 0.2s ease; }
+  .comfort-post a:hover { border-bottom-color: var(--color-highlight); }
+  .comfort-post__container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+  .comfort-post__container--narrow { max-width: 800px; margin: 0 auto; padding: 0 1.5rem; }
+  .comfort-post__header { padding: clamp(4rem, 10vw, 7rem) 0; text-align: center; border-bottom: 1px solid var(--color-border); }
+  .comfort-post__header h1 { font-family: var(--font-hero); font-size: clamp(2.5rem, 7vw, 4.5rem); line-height: 1.1; text-transform: uppercase; margin-bottom: 1.5rem; color: var(--color-heading); }
+  .comfort-post__header .highlight-text { color: var(--color-primary); }
+  .comfort-post__intro { font-size: clamp(1.1rem, 2.5vw, 1.25rem); color: var(--color-text-strong); max-width: 60ch; margin: 0 auto; }
+  .comfort-post__section { padding: clamp(4rem, 10vw, 6rem) 0; }
+  .swap-layout { display: grid; gap: clamp(3rem, 8vw, 5rem); }
+  .swap-card { background-color: var(--color-background-card); border-radius: var(--radius-lg); overflow: hidden; border: 1px solid var(--color-border); }
+  .swap-card__image-wrapper { background-color: #1A202C; position: relative; padding-top: 100%; height: 0; }
+  .swap-card__image-wrapper img, .swap-card__image-wrapper .placeholder-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; }
+  .swap-card__image-wrapper .placeholder-svg { background-color: #2D3748; border: none; }
+  .swap-card__content { padding: clamp(1.5rem, 5vw, 2.5rem); }
+  .swap-card__swap-title { display: inline-block; border-bottom: 1px solid var(--color-border); margin-bottom: 1.5rem; padding-bottom: 1rem; width: 100%; }
+  .swap-card__swap-title span { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text); display: block; margin-bottom: 0.25rem; }
+  .swap-card__swap-title p { margin: 0; text-decoration: line-through; font-size: 1.25rem; color: var(--color-text); font-weight: 600; }
+  .swap-card__upgrade-title { font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 1.5rem; color: var(--color-heading); }
+  
+  /* --- REFACTORED MACRO STYLES (V5) --- */
+  .swap-card__macros-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.5rem;
+    background-color: var(--color-background);
+    border-radius: var(--radius-lg);
+    padding: 0.5rem;
+    margin-bottom: 2rem;
+  }
+  .macro-item {
+    background-color: #FFFFFF;
+    border-radius: var(--radius-md);
+    padding: 0.6rem 0.25rem;
+    text-align: center;
+  }
+  .macro-value {
+    display: block;
+    font-size: 1.1rem;
+    font-weight: 700;
+    font-family: var(--font-heading);
+    color: var(--color-text-dark);
+    line-height: 1.2;
+    margin-bottom: 0.1rem;
+  }
+  .macro-label {
+    display: block;
+    font-size: 0.65rem;
+    color: var(--color-text-dark-light);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  
+  .swap-card__content h3 { font-size: 1.1rem; text-transform: uppercase; letter-spacing: 0.05em; color: var(--color-text-strong); margin-top: 2rem; margin-bottom: 0.75rem; }
+  .swap-card__description { color: var(--color-text); }
+  .swap-card__product-button { display: inline-block; margin-top: 2rem; background-color: transparent; border: 2px solid var(--color-border); color: var(--color-text-strong); -webkit-text-fill-color: var(--color-text-strong); font-weight: 700; padding: 0.75rem 1.5rem; border-radius: 999px; text-decoration: none; transition: all 0.2s ease; }
+  .swap-card__product-button:hover { background-color: var(--color-primary); border-color: var(--color-primary); color: white; -webkit-text-fill-color: white; transform: translateY(-2px); }
+  @media(min-width: 900px) { .swap-card { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; } .swap-card:nth-child(even) .swap-card__image-wrapper { grid-column: 2 / 3; grid-row: 1 / 2; } .swap-card__image-wrapper { padding-top: 0; height: 100%; } }
+  .comfort-post__section--cta { text-align: center; background-color: var(--color-background); border-top: 1px solid var(--color-border); }
+  .comfort-post__section--cta h2 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-heading); }
+  .comfort-post__section--cta .rte { max-width: 65ch; margin-left: auto; margin-right: auto; margin-bottom: 2.5rem; color: var(--color-text-strong); }
+  .comfort-post__cta-button { display: inline-block; background: var(--color-primary); color: white; -webkit-text-fill-color: white; font-family: var(--font-heading); font-weight: 700; font-size: 1.1rem; padding: 1.1rem 3rem; border-radius: 9999px; text-decoration: none; border: none; transition: transform 0.2s ease-out, box-shadow 0.2s ease-out, background-color 0.2s ease-out; box-shadow: var(--shadow-lg); }
+  .comfort-post__cta-button:hover { transform: translateY(-4px); background-color: var(--color-highlight); color: white; -webkit-text-fill-color: white; border: none; text-decoration: none; }
+</style>
+
+<script type="application/ld+json">
+{%- liquid
+  assign first_block = section.blocks.first
+  assign product = all_products[first_block.settings.product_handle]
+  assign final_image = first_block.settings.override_image
+  if final_image == blank and product.featured_media
+    assign final_image = product.featured_media
+  endif
+-%}
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": {{ section.settings.hero_headline | append: ' ' | append: section.settings.hero_highlight | json }},
+  "description": {{ section.settings.hero_intro | strip_html | json }},
+  "image": {% if final_image != blank %}{{ final_image | image_url: width: 1200 | json }}{% else %}""{% endif %},
+  "author": { "@type": "Organization", "name": "ICON Meals" },
+  "publisher": { "@type": "Organization", "name": "ICON Meals", "logo": { "@type": "ImageObject", "url": "https://cdn.shopify.com/s/files/1/1957/2111/files/icon-logo-2022-white.png" } },
+  "datePublished": "{{ article.published_at | date: '%Y-%m-%d' }}",
+  "dateModified": "{{ article.updated_at | date: '%Y-%m-%d' }}",
+  "mainEntityOfPage": { "@type": "WebPage", "@id": "{{ shop.url }}{{ article.url }}" }
+}
+</script>
+
+{% schema %}
+{
+  "name": "Article: Comfort Food",
+  "tag": "article",
+  "class": "shopify-section--comfort-food",
+  "settings": [
+    { "type": "header", "content": "Hero Section" },
+    { "type": "text", "id": "hero_headline", "label": "Hero Headline", "default": "Crave the Comfort." },
+    { "type": "text", "id": "hero_highlight", "label": "Hero Highlighted Text", "default": "Crush Your Macros." },
+    { "type": "richtext", "id": "hero_intro", "label": "Hero Introduction", "default": "<p>The temperature is dropping, and your appetite for hearty food is rising. You don't have to fight the craving—you just have to feed it smarter. Here's how to get the fall flavors you want without the high-fat, high-carb consequences.</p>" },
+    { "type": "header", "content": "Final Call-to-Action" },
+    { "type": "textarea", "id": "cta_headline", "label": "CTA Headline", "default": "Comfort Food Isn't a \"Cheat.\"\nIt's Fuel." },
+    { "type": "richtext", "id": "cta_text", "label": "CTA Text", "default": "<p>You don't have to choose between the food you love and the results you want. By obsessing over ingredient quality and macro-balancing, we've done the work for you.</p>" },
+    { "type": "text", "id": "cta_button_text", "label": "CTA Button Text", "default": "Shop Healthy Comfort Meals" },
+    { "type": "url", "id": "cta_button_link", "label": "CTA Button Link" }
+  ],
+  "blocks": [
+    {
+      "type": "meal_swap",
+      "name": "Meal Swap Card",
+      "limit": 6,
+      "settings": [
+        { "type": "header", "content": "1. Select Product (Automatic)" },
+        { "type": "product", "id": "product_handle", "label": "Select Product", "info": "This will auto-fill the image, title, description, and link." },
+        { "type": "header", "content": "2. Narrative Content" },
+        { "type": "text", "id": "swap_heading", "label": "Swap Heading", "default": "The Swap" },
+        { "type": "text", "id": "swap_title", "label": "Swap Title", "info": "The unhealthy version, e.g., 'Greasy, Calorie-Bomb Chili'", "default": "Greasy, Calorie-Bomb Chili" },
+        { "type": "richtext", "id": "swap_description", "label": "Swap Description", "info": "Describe the problem with the traditional version.", "default": "<p>Traditional chili is often loaded with fatty ground beef, swimming in oil, and served with mountains of cheese. It feels good for an hour, then puts you to sleep.</p>" },
+        { "type": "text", "id": "build_heading", "label": "Build Heading", "default": "The Remastered Build" },
+        {
+          "type": "header",
+          "content": "3. Nutritional Data"
+        },
+        {
+          "type": "number",
+          "id": "macro_protein",
+          "label": "Protein (g)",
+          "default": 42
+        },
+        {
+          "type": "number",
+          "id": "macro_carbs",
+          "label": "Carbs (g)",
+          "default": 35
+        },
+        {
+          "type": "number",
+          "id": "macro_fat",
+          "label": "Fat (g)",
+          "default": 15
+        },
+        { "type": "header", "content": "4. Overrides & Links (Optional)" },
+        { "type": "image_picker", "id": "override_image", "label": "Override Image", "info": "Optional. Select an image to use instead of the product's default image." },
+        { "type": "text", "id": "override_title", "label": "Override Title", "info": "Optional. Use this to change the meal title." },
+        { "type": "richtext", "id": "override_build_description", "label": "Override Build Description", "info": "Optional. Re-write the product description for the blog post." },
+        { "type": "text", "id": "product_button_text", "label": "Button Text", "default": "Shop This Meal" },
+        { "type": "url", "id": "override_button_link", "label": "Override Button Link", "info": "Optional. Use a different link instead of the product page." }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Article: Comfort Food",
+      "blocks": [
+        { "type": "meal_swap" },
+        { "type": "meal_swap" },
+        { "type": "meal_swap" }
+      ]
+    }
+  ]
+}
+{% endschema %}
