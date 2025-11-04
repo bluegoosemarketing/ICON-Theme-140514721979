@@ -1,0 +1,78 @@
+{% comment %}
+  Product: Gift Card (Main)
+  - Binds dropdown directly to variant.id
+  - Live price chip updates on selection
+  - Uses native Shopify 'product' form so cart drawer works as-is
+{% endcomment %}
+
+<div class="gift-card-pdp" data-section-id="{{ section.id }}">
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+
+  <h1 class="product-title h2">{{ product.title }}</h1>
+
+  <div class="price-chip" data-price>{{ current_variant.price | money }}</div>
+
+  {% form 'product', product, id: "gift-card-form-{{ section.id }}" %}
+    <div class="form-row">
+      <label for="GiftCardVariant-{{ section.id }}" class="label">Value</label>
+      <select id="GiftCardVariant-{{ section.id }}" name="id" class="select">
+        {%- for v in product.variants -%}
+          <option value="{{ v.id }}" {% if v.id == current_variant.id %}selected{% endif %}>
+            {{ v.title }}{% unless v.available %} — {{ 'products.product.sold_out' | t }}{% endunless %}
+          </option>
+        {%- endfor -%}
+      </select>
+    </div>
+
+    <div class="quantity-controls">
+      <button type="button" class="qty-minus" aria-label="Decrease">-</button>
+      <input type="number" name="quantity" value="1" min="1" aria-label="Quantity">
+      <button type="button" class="qty-plus" aria-label="Increase">+</button>
+    </div>
+
+    <button type="submit" class="btn product-main-add-to-cart">+ Add</button>
+  {% endform %}
+
+  <script>
+    (function(){
+      var root   = document.currentScript.parentElement;
+      var select = root.querySelector('#GiftCardVariant-{{ section.id }}');
+      var priceEl= root.querySelector('[data-price]');
+      var minus  = root.querySelector('.qty-minus');
+      var plus   = root.querySelector('.qty-plus');
+      var input  = root.querySelector('input[name="quantity"]');
+
+      var variants = [
+        {% for v in product.variants %}
+        { id: {{ v.id }}, price: "{{ v.price | money }}" }{% unless forloop.last %},{% endunless %}
+        {% endfor %}
+      ];
+
+      function updatePrice() {
+        var id = parseInt(select.value, 10);
+        var v = variants.find(function(x){ return x.id === id; });
+        if (v && priceEl) priceEl.innerHTML = v.price;
+      }
+
+      select.addEventListener('change', updatePrice);
+      updatePrice();
+
+      if (minus && plus && input) {
+        minus.addEventListener('click', function(){
+          var n = Math.max(1, (+input.value||1)-1); input.value = n;
+        });
+        plus.addEventListener('click', function(){
+          input.value = (+input.value||1)+1;
+        });
+      }
+    })();
+  </script>
+</div>
+
+{% schema %}
+{
+  "name": "Product: Gift Card (Simple)",
+  "settings": [],
+  "presets": [{ "name": "Product: Gift Card (Simple)" }]
+}
+{% endschema %}

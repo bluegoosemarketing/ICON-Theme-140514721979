@@ -1,0 +1,7 @@
+{
+  "layout": "product-shell",
+  "sections": {
+    "main": { "type": "product-main-gift-card", "settings": {} }
+  },
+  "order": ["main"]
+}
