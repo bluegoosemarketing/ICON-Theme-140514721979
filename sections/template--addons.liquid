@@ -54,15 +54,7 @@
       .bf-addons-hero__header {
         display: flex;
         flex-direction: column;
-        gap: 8px;
-      }
-
-      .bf-addons-hero__eyebrow {
-        font-size: 12px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: #ff4c4c;
-        font-weight: 700;
+        gap: 10px;
       }
 
       .bf-addons-hero__heading-row {
@@ -275,12 +267,17 @@
       }
 
       @media (max-width: 640px) {
+        .addons-page-wrapper > .container {
+          padding-left: 0;
+          padding-right: 0;
+        }
+
         .bf-addons-hero {
           padding: 26px var(--bf-hero-mobile-gutter) 30px;
-          margin-left: calc(var(--bf-hero-mobile-gutter) * -1);
-          margin-right: calc(var(--bf-hero-mobile-gutter) * -1);
-          width: calc(100% + (var(--bf-hero-mobile-gutter) * 2));
-          border-radius: 0 0 18px 18px;
+          margin-left: 0;
+          margin-right: 0;
+          width: 100%;
+          border-radius: 0;
           box-shadow: 0 24px 48px rgba(0, 0, 0, 0.42);
         }
 
@@ -322,7 +319,6 @@
     </style>
     <div class="bf-addons-hero">
       <div class="bf-addons-hero__header">
-        <div class="bf-addons-hero__eyebrow">{{ section.settings.bf_countdown_label | escape }}</div>
         <div class="bf-addons-hero__heading-row">
           <h2 class="bf-addons-hero__title">{{ section.settings.bf_heading | escape }}</h2>
           <div class="bf-addons-hero__countdown" data-bf-countdown data-end-date="{{ section.settings.bf_countdown_end_date }}" data-expired-text="{{ section.settings.bf_expired_label | escape }}">
