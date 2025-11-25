@@ -39,6 +39,7 @@
   <div class="container">
     <style>
       .bf-addons-hero {
+        --bf-hero-mobile-gutter: 18px;
         background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.04), transparent 35%), #0c0c0f;
         border: 1px solid rgba(255, 255, 255, 0.08);
         border-radius: 18px;
@@ -46,6 +47,8 @@
         color: #f7f7f9;
         box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
         margin-bottom: 36px;
+        overflow: hidden;
+        position: relative;
       }
 
       .bf-addons-hero__header {
@@ -273,24 +276,47 @@
 
       @media (max-width: 640px) {
         .bf-addons-hero {
-          padding: 24px 18px 26px;
+          padding: 26px var(--bf-hero-mobile-gutter) 30px;
+          margin-left: calc(var(--bf-hero-mobile-gutter) * -1);
+          margin-right: calc(var(--bf-hero-mobile-gutter) * -1);
+          width: calc(100% + (var(--bf-hero-mobile-gutter) * 2));
+          border-radius: 0 0 18px 18px;
+          box-shadow: 0 24px 48px rgba(0, 0, 0, 0.42);
         }
 
         .bf-addons-hero__grid {
           grid-template-columns: 1fr;
+          gap: 14px;
         }
 
         .bf-addons-hero__heading-row {
           flex-direction: column;
           align-items: flex-start;
+          gap: 12px;
+        }
+
+        .bf-addons-hero__title {
+          font-size: 26px;
+          letter-spacing: 0.06em;
+        }
+
+        .bf-addons-hero__subheading {
+          font-size: 15px;
+          line-height: 1.6;
         }
 
         .bf-addons-hero__countdown {
           width: 100%;
+          min-width: auto;
         }
 
         .bf-addons-hero__cta-row {
           justify-content: center;
+          margin-top: 16px;
+        }
+
+        .bf-bundle-card__image {
+          height: 210px;
         }
       }
     </style>
