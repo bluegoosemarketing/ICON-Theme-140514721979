@@ -1,0 +1,46 @@
+{%- liquid
+  assign product = product_obj
+  assign current_variant = product.selected_or_first_available_variant
+-%}
+
+{%- if product and current_variant -%}
+  <div class="bf-bundle-card">
+    <div class="bf-bundle-card__badge">Bundle</div>
+    <a class="bf-bundle-card__image" href="{{ product.url }}">
+      {%- if product.featured_image -%}
+        <img
+          src="{{ product.featured_image | image_url: width: 800 }}"
+          alt="{{ product.featured_image.alt | escape }}"
+          width="400"
+          height="240"
+          loading="lazy"
+        >
+      {%- endif -%}
+    </a>
+    <div class="bf-bundle-card__content">
+      <h3 class="bf-bundle-card__title">{{ product.title }}</h3>
+      {%- if tagline != blank -%}
+        <p class="bf-bundle-card__tagline">{{ tagline }}</p>
+      {%- endif -%}
+      <div class="bf-bundle-card__price-row">
+        <span class="price--sale">{{ current_variant.price | money }}</span>
+        {%- if current_variant.compare_at_price > current_variant.price -%}
+          <span class="price--compare">{{ current_variant.compare_at_price | money }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+    <div class="bf-bundle-card__form">
+      <form method="post" action="/cart/add" class="js-addons-form" data-slot="{{ slot }}" data-product-handle="{{ product.handle }}">
+        <input type="hidden" name="id" value="{{ current_variant.id }}">
+        <input type="hidden" name="quantity" value="1">
+        <button
+          type="submit"
+          class="bf-bundle-card__add-btn js-add-to-cart-btn"
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          <span>{% if current_variant.available %}Add Bundle{% else %}Sold Out{% endif %}</span>
+        </button>
+      </form>
+    </div>
+  </div>
+{%- endif -%}
