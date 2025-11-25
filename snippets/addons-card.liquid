@@ -10,6 +10,18 @@
   assign product = product_obj
   assign current_variant = product.selected_or_first_available_variant
   assign collection_obj = collections[collection_handle]
+  assign normalized_cta_type = cta_type | default: 'add_to_cart'
+  assign cta_label = cta_text
+
+  if normalized_cta_type == 'link_to_product'
+    if cta_label == blank
+      assign cta_label = 'View Product'
+    endif
+  else
+    if cta_label == blank
+      assign cta_label = 'Add to Cart'
+    endif
+  endif
 -%}
 
 {%- if product != blank -%}
@@ -59,28 +71,36 @@
     <form method="post" action="/cart/add" class="js-addons-form" data-slot="{{ slot }}" data-product-handle="{{ product.handle }}">
       <input type="hidden" name="id" value="{{ current_variant.id }}" data-variant-id-input>
 
-      <div class="addon-card__options">
-        <div class="addon-card__option-group addon-card__option-group--quantity">
-          <label for="AddonsQuantity-{{ card_id }}">Quantity</label>
-          <div class="quantity-controls">
-            <button type="button" class="qty-minus" aria-label="Reduce item quantity by one">-</button>
-            <input id="AddonsQuantity-{{ card_id }}" class="number quantity-selector" value="1" aria-label="Quantity" name="quantity" type="number" min="1" data-quantity-input>
-            <button type="button" class="qty-plus" aria-label="Increase item quantity by one">+</button>
+      {%- if normalized_cta_type != 'link_to_product' -%}
+        <div class="addon-card__options">
+          <div class="addon-card__option-group addon-card__option-group--quantity">
+            <label for="AddonsQuantity-{{ card_id }}">Quantity</label>
+            <div class="quantity-controls">
+              <button type="button" class="qty-minus" aria-label="Reduce item quantity by one">-</button>
+              <input id="AddonsQuantity-{{ card_id }}" class="number quantity-selector" value="1" aria-label="Quantity" name="quantity" type="number" min="1" data-quantity-input>
+              <button type="button" class="qty-plus" aria-label="Increase item quantity by one">+</button>
+            </div>
           </div>
         </div>
-      </div>
+      {%- endif -%}
 
-      <button
-        type="submit"
-        class="btn addon-card__add-btn js-add-to-cart-btn"
-        {% unless current_variant.available %}disabled{% endunless %}
-      >
-        {%- if current_variant.available -%}
-          <span>Add to Cart</span>
-        {%- else -%}
-          <span>Sold Out</span>
-        {%- endif -%}
-      </button>
+      {%- if normalized_cta_type == 'link_to_product' -%}
+        <a href="{{ product.url | within: collection_obj }}" class="btn addon-card__add-btn addon-card__link-cta">
+          <span>{{ cta_label }}</span>
+        </a>
+      {%- else -%}
+        <button
+          type="submit"
+          class="btn addon-card__add-btn js-add-to-cart-btn"
+          {% unless current_variant.available %}disabled{% endunless %}
+        >
+          {%- if current_variant.available -%}
+            <span>{{ cta_label }}</span>
+          {%- else -%}
+            <span>Sold Out</span>
+          {%- endif -%}
+        </button>
+      {%- endif -%}
     </form>
   </div>
 </div>
