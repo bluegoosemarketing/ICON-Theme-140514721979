@@ -1,6 +1,18 @@
 {%- liquid
   assign product = product_obj
   assign current_variant = product.selected_or_first_available_variant
+  assign normalized_cta_type = cta_type | default: 'add_to_cart'
+  assign cta_label = cta_text
+
+  if normalized_cta_type == 'link_to_product'
+    if cta_label == blank
+      assign cta_label = 'View Product'
+    endif
+  else
+    if cta_label == blank
+      assign cta_label = 'Add Bundle'
+    endif
+  endif
 -%}
 
 {%- if product and current_variant -%}
@@ -30,17 +42,23 @@
       </div>
     </div>
     <div class="bf-bundle-card__form">
-      <form method="post" action="/cart/add" class="js-addons-form" data-slot="{{ slot }}" data-product-handle="{{ product.handle }}">
-        <input type="hidden" name="id" value="{{ current_variant.id }}">
-        <input type="hidden" name="quantity" value="1">
-        <button
-          type="submit"
-          class="bf-bundle-card__add-btn js-add-to-cart-btn"
-          {% unless current_variant.available %}disabled{% endunless %}
-        >
-          <span>{% if current_variant.available %}Add Bundle{% else %}Sold Out{% endif %}</span>
-        </button>
-      </form>
+      {% if normalized_cta_type == 'link_to_product' %}
+        <a class="bf-bundle-card__add-btn bf-bundle-card__link-cta" href="{{ product.url }}">
+          <span>{{ cta_label }}</span>
+        </a>
+      {% else %}
+        <form method="post" action="/cart/add" class="js-addons-form" data-slot="{{ slot }}" data-product-handle="{{ product.handle }}">
+          <input type="hidden" name="id" value="{{ current_variant.id }}">
+          <input type="hidden" name="quantity" value="1">
+          <button
+            type="submit"
+            class="bf-bundle-card__add-btn js-add-to-cart-btn"
+            {% unless current_variant.available %}disabled{% endunless %}
+          >
+            <span>{% if current_variant.available %}{{ cta_label }}{% else %}Sold Out{% endif %}</span>
+          </button>
+        </form>
+      {% endif %}
     </div>
   </div>
 {%- endif -%}
