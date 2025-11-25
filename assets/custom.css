@@ -2905,14 +2905,15 @@ body.template-product.template-suffix--cm-recharge .placeholder-sub-text {
 }
 
 /* ==========================================================================
-   POLISHED ADD-ONS PAGE STYLES V8.1 (TAG REMOVED & IMAGE CENTERED)
+   POLISHED ADD-ONS PAGE STYLES V8.3 (DESKTOP WIDE & MOBILE EDGE-TO-EDGE)
    ========================================================================== */
 
-/* --- General Page Structure (Largely Unchanged) --- */
+/* --- General Page Structure --- */
 .addons-page-wrapper {
-  padding: 4rem 1.5rem;
-  background-color: #f8f9fa; /* Slightly off-white for a softer feel */
+  padding: 2rem 0; /* Desktop: Top/Bottom padding only */
+  background-color: #f8f9fa;
   min-height: calc(100dvh - 200px);
+  width: 100%;
 }
 
 @supports not (height: 100dvh) {
@@ -2926,10 +2927,27 @@ body.template-product.template-suffix--cm-recharge .placeholder-sub-text {
     min-height: calc(100vh - 200px);
   }
 }
+
 .addons-page-wrapper .container {
-  max-width: 1200px;
+  max-width: 1440px; /* Optimized for wide desktops */
   margin: 0 auto;
+  padding: 0 20px; /* Standard Desktop Gutter */
 }
+
+/* --- MOBILE: EDGE-TO-EDGE OVERRIDE --- */
+@media (max-width: 767px) {
+  .addons-page-wrapper {
+    padding: 0; /* Remove wrapper padding completely */
+  }
+  
+  .addons-page-wrapper .container {
+    padding-left: 0; /* Remove container gutters */
+    padding-right: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+}
+
 .addons-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); /* Slightly wider min for new design */
@@ -3209,11 +3227,13 @@ body.template-product.template-suffix--cm-recharge .placeholder-sub-text {
 /* --- Responsive Adjustments --- */
 @media (max-width: 767px) {
   .addons-page-wrapper {
-    padding: 2.5rem 1rem;
+    padding: 0; /* Full width for Black Friday Hero */
   }
   .addons-grid {
     grid-template-columns: 1fr; /* Stack on mobile */
-    gap: 2rem;
+    gap: 20px;
+    padding: 0 16px; /* Keep standard product cards from touching the screen edge */
+    margin-bottom: 40px;
   }
   .addon-card__body, .addon-card__footer {
     padding: 1.5rem;
