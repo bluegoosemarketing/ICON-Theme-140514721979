@@ -1510,6 +1510,40 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   position: relative !important; background: radial-gradient(circle, #f8f9fa 0%, #ffffff 80%) !important;
   overflow: hidden; border-bottom: 1px solid #e9ecef;
 }
+
+.product-card__badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 2;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  line-height: 1;
+}
+
+.product-card__badge--sale {
+  background-color: #CD1C26; /* ICON red */
+  color: #ffffff;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.product-card__badge--bf {
+  background: #000;
+  color: #FFD000;
+  border: 1px solid rgba(255, 208, 0, 0.45);
+  padding: 0.3rem 0.75rem;
+  font-weight: 900;
+  font-size: 0.72rem;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  border-radius: 999px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.18);
+}
+
 .product-card__image-link { display: block; }
 .product-card__image-link img {
   width: 100%;
@@ -1551,6 +1585,31 @@ body.template-suffix--meal-plans .collection-selector__toggle {
   font-size: 1.5rem !important; font-weight: 600 !important; color: #343a40 !important;
   line-height: 1; flex-shrink: 0;
 }
+.product-card__price {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.product-card__price--compare {
+  font-size: 1.25rem;
+  color: #999;
+  text-decoration: line-through;
+  font-weight: 500;
+}
+
+.product-card__price--sale {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand-accent);
+}
+
+.product-card__price--regular {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #343a40;
+}
+
 .product-form--quick-add {
   position: relative; flex-grow: 0; display: flex; justify-content: flex-end;
 }

@@ -23,6 +23,13 @@
 
 <article class="product-card {{ bordersClass }}">
   <div class="product-card__image-wrapper">
+
+    {%- if liquidObject.compare_at_price_max > liquidObject.price -%}
+      <span class="product-card__badge product-card__badge--bf">
+  BLACK FRIDAY DEAL
+</span>
+    {%- endif -%}
+
     {%- if is_informational_only -%}
       <a href="#" class="product-card__image-link js-quick-view-trigger" data-handle="{{ liquidObject.handle }}" tabindex="-1">
     {%- else -%}
@@ -58,8 +65,19 @@
       <div class="product-card__actions">
         {%- unless is_informational_only -%}
           <div class="product-card__price">
-            {{ liquidObject.price | money }}
-          </div>
+  {% if liquidObject.compare_at_price_max > liquidObject.price %}
+    <span class="product-card__price--compare">
+      {{ liquidObject.compare_at_price_max | money }}
+    </span>
+    <span class="product-card__price--sale">
+      {{ liquidObject.price | money }}
+    </span>
+  {% else %}
+    <span class="product-card__price--regular">
+      {{ liquidObject.price | money }}
+    </span>
+  {% endif %}
+</div>
         {%- endunless -%}
         
         {%- unless is_informational_only -%}
