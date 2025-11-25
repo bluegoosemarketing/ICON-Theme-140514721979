@@ -299,13 +299,13 @@
 
     <div class="bf-addons-hero__grid">
         {% if bf_product_1 %}
-          {% render 'bf-bundle-card', product_obj: bf_product_1, card_id: 'bf-1', tagline: section.settings.bf_bundle_tagline_1, slot: 'bf-1' %}
+          {% render 'bf-bundle-card', product_obj: bf_product_1, card_id: 'bf-1', tagline: section.settings.bf_bundle_tagline_1, slot: 'bf-1', cta_type: section.settings.bf_bundle_cta_type_1, cta_text: section.settings.bf_bundle_cta_text_1 %}
         {% endif %}
         {% if bf_product_2 %}
-          {% render 'bf-bundle-card', product_obj: bf_product_2, card_id: 'bf-2', tagline: section.settings.bf_bundle_tagline_2, slot: 'bf-2' %}
+          {% render 'bf-bundle-card', product_obj: bf_product_2, card_id: 'bf-2', tagline: section.settings.bf_bundle_tagline_2, slot: 'bf-2', cta_type: section.settings.bf_bundle_cta_type_2, cta_text: section.settings.bf_bundle_cta_text_2 %}
         {% endif %}
         {% if bf_product_3 %}
-          {% render 'bf-bundle-card', product_obj: bf_product_3, card_id: 'bf-3', tagline: section.settings.bf_bundle_tagline_3, slot: 'bf-3' %}
+          {% render 'bf-bundle-card', product_obj: bf_product_3, card_id: 'bf-3', tagline: section.settings.bf_bundle_tagline_3, slot: 'bf-3', cta_type: section.settings.bf_bundle_cta_type_3, cta_text: section.settings.bf_bundle_cta_text_3 %}
         {% endif %}
       </div>
 
@@ -762,6 +762,22 @@
       "label": "Bundle Product 1"
     },
     {
+      "type": "select",
+      "id": "bf_bundle_cta_type_1",
+      "label": "Bundle 1 CTA Type",
+      "options": [
+        { "value": "add_to_cart", "label": "Add to Cart" },
+        { "value": "link_to_product", "label": "Link to Product" }
+      ],
+      "default": "add_to_cart"
+    },
+    {
+      "type": "text",
+      "id": "bf_bundle_cta_text_1",
+      "label": "Bundle 1 CTA Text (Optional)",
+      "info": "Overrides the default text for the selected CTA type."
+    },
+    {
       "type": "text",
       "id": "bf_bundle_tagline_1",
       "label": "Bundle 1 Tagline",
@@ -773,6 +789,22 @@
       "label": "Bundle Product 2"
     },
     {
+      "type": "select",
+      "id": "bf_bundle_cta_type_2",
+      "label": "Bundle 2 CTA Type",
+      "options": [
+        { "value": "add_to_cart", "label": "Add to Cart" },
+        { "value": "link_to_product", "label": "Link to Product" }
+      ],
+      "default": "add_to_cart"
+    },
+    {
+      "type": "text",
+      "id": "bf_bundle_cta_text_2",
+      "label": "Bundle 2 CTA Text (Optional)",
+      "info": "Overrides the default text for the selected CTA type."
+    },
+    {
       "type": "text",
       "id": "bf_bundle_tagline_2",
       "label": "Bundle 2 Tagline",
@@ -782,6 +814,22 @@
       "type": "product",
       "id": "bf_bundle_product_3",
       "label": "Bundle Product 3"
+    },
+    {
+      "type": "select",
+      "id": "bf_bundle_cta_type_3",
+      "label": "Bundle 3 CTA Type",
+      "options": [
+        { "value": "add_to_cart", "label": "Add to Cart" },
+        { "value": "link_to_product", "label": "Link to Product" }
+      ],
+      "default": "add_to_cart"
+    },
+    {
+      "type": "text",
+      "id": "bf_bundle_cta_text_3",
+      "label": "Bundle 3 CTA Text (Optional)",
+      "info": "Overrides the default text for the selected CTA type."
     },
     {
       "type": "text",
