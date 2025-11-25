@@ -12,6 +12,11 @@
     assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
     assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
 
+    # --- BLACK FRIDAY HERO PRODUCTS ---
+    assign bf_product_1 = all_products[section.settings.bf_bundle_product_1]
+    assign bf_product_2 = all_products[section.settings.bf_bundle_product_2]
+    assign bf_product_3 = all_products[section.settings.bf_bundle_product_3]
+
     # Use the 'sample' filter to randomly pick ONE block from each group for A/B testing.
     # If a group is empty, the result will be blank.
     assign slot1_block = slot1_blocks | sample
@@ -32,6 +37,283 @@
 
 <div class="addons-page-wrapper" data-free-delivery-target="{{ free_delivery_target }}">
   <div class="container">
+    <style>
+      .bf-addons-hero {
+        background: radial-gradient(circle at top left, rgba(255, 255, 255, 0.04), transparent 35%), #0c0c0f;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 18px;
+        padding: 32px 28px 36px;
+        color: #f7f7f9;
+        box-shadow: 0 16px 38px rgba(0, 0, 0, 0.35);
+        margin-bottom: 36px;
+      }
+
+      .bf-addons-hero__header {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+      }
+
+      .bf-addons-hero__eyebrow {
+        font-size: 12px;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        color: #ff4c4c;
+        font-weight: 700;
+      }
+
+      .bf-addons-hero__heading-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+      }
+
+      .bf-addons-hero__title {
+        margin: 0;
+        font-size: 32px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+
+      .bf-addons-hero__subheading {
+        margin: 0;
+        color: #d7d7dc;
+        max-width: 880px;
+        line-height: 1.5;
+      }
+
+      .bf-addons-hero__countdown {
+        background: rgba(255, 76, 76, 0.08);
+        border: 1px solid rgba(255, 76, 76, 0.35);
+        color: #fff;
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: inline-flex;
+        flex-direction: column;
+        min-width: 210px;
+        gap: 6px;
+      }
+
+      .bf-addons-hero__countdown-label {
+        font-size: 12px;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #ff8b8b;
+      }
+
+      .bf-addons-hero__countdown-value {
+        font-size: 20px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      .bf-addons-hero__countdown.is-expired .bf-addons-hero__countdown-value {
+        color: #f7f7f9;
+      }
+
+      .bf-addons-hero__grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 18px;
+        margin: 22px 0 18px;
+      }
+
+      .bf-bundle-card {
+        background: linear-gradient(135deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 14px;
+        padding: 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        position: relative;
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.32);
+      }
+
+      .bf-bundle-card__badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        background: linear-gradient(135deg, #ff4c4c, #d41b1b);
+        color: #fff;
+        padding: 6px 10px;
+        font-size: 11px;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        border-radius: 999px;
+        box-shadow: 0 6px 16px rgba(212, 27, 27, 0.35);
+      }
+
+      .bf-bundle-card__image {
+        width: 100%;
+        height: 240px;
+        border-radius: 12px;
+        overflow: hidden;
+        background: #0f0f14;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .bf-bundle-card__image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.35s ease;
+      }
+
+      .bf-bundle-card:hover .bf-bundle-card__image img {
+        transform: scale(1.04);
+      }
+
+      .bf-bundle-card__title {
+        font-size: 18px;
+        margin: 0;
+        font-weight: 800;
+      }
+
+      .bf-bundle-card__tagline {
+        margin: 0;
+        color: #d2d2d7;
+        font-size: 14px;
+      }
+
+      .bf-bundle-card__price-row {
+        display: flex;
+        align-items: baseline;
+        gap: 8px;
+        font-weight: 800;
+        color: #fff;
+      }
+
+      .bf-bundle-card__price-row .price--sale {
+        color: #ff4c4c;
+        font-size: 18px;
+      }
+
+      .bf-bundle-card__price-row .price--compare {
+        color: #8e8e95;
+        text-decoration: line-through;
+        font-size: 14px;
+      }
+
+      .bf-bundle-card__form {
+        margin-top: auto;
+      }
+
+      .bf-bundle-card__add-btn {
+        width: 100%;
+        background: linear-gradient(135deg, #ff4c4c, #c81919);
+        color: #fff;
+        border: none;
+        border-radius: 10px;
+        padding: 12px 16px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+      }
+
+      .bf-bundle-card__add-btn:hover:not(:disabled) {
+        transform: translateY(-1px);
+        box-shadow: 0 10px 20px rgba(255, 76, 76, 0.3);
+      }
+
+      .bf-bundle-card__add-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .bf-addons-hero__cta-row {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 8px;
+      }
+
+      .bf-addons-hero__cta {
+        background: transparent;
+        color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        font-weight: 800;
+        padding: 12px 22px;
+        border-radius: 12px;
+        transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+      }
+
+      .bf-addons-hero__cta:hover {
+        background: #ff4c4c;
+        border-color: #ff4c4c;
+        color: #fff;
+      }
+
+      @media (max-width: 991px) {
+        .bf-addons-hero__grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+
+        .bf-addons-hero__title {
+          font-size: 28px;
+        }
+      }
+
+      @media (max-width: 640px) {
+        .bf-addons-hero {
+          padding: 24px 18px 26px;
+        }
+
+        .bf-addons-hero__grid {
+          grid-template-columns: 1fr;
+        }
+
+        .bf-addons-hero__heading-row {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .bf-addons-hero__countdown {
+          width: 100%;
+        }
+
+        .bf-addons-hero__cta-row {
+          justify-content: center;
+        }
+      }
+    </style>
+    <div class="bf-addons-hero">
+      <div class="bf-addons-hero__header">
+        <div class="bf-addons-hero__eyebrow">{{ section.settings.bf_countdown_label | escape }}</div>
+        <div class="bf-addons-hero__heading-row">
+          <h2 class="bf-addons-hero__title">{{ section.settings.bf_heading | escape }}</h2>
+          <div class="bf-addons-hero__countdown" data-bf-countdown data-end-date="{{ section.settings.bf_countdown_end_date }}" data-expired-text="{{ section.settings.bf_expired_label | escape }}">
+            <span class="bf-addons-hero__countdown-label" data-countdown-label>{{ section.settings.bf_countdown_label | escape }}</span>
+            <span class="bf-addons-hero__countdown-value" data-countdown-time></span>
+          </div>
+        </div>
+      <p class="bf-addons-hero__subheading">{{ section.settings.bf_subheading }}</p>
+    </div>
+
+    <div class="bf-addons-hero__grid">
+        {% if bf_product_1 %}
+          {% render 'bf-bundle-card', product_obj: bf_product_1, card_id: 'bf-1', tagline: section.settings.bf_bundle_tagline_1, slot: 'bf-1' %}
+        {% endif %}
+        {% if bf_product_2 %}
+          {% render 'bf-bundle-card', product_obj: bf_product_2, card_id: 'bf-2', tagline: section.settings.bf_bundle_tagline_2, slot: 'bf-2' %}
+        {% endif %}
+        {% if bf_product_3 %}
+          {% render 'bf-bundle-card', product_obj: bf_product_3, card_id: 'bf-3', tagline: section.settings.bf_bundle_tagline_3, slot: 'bf-3' %}
+        {% endif %}
+      </div>
+
+      <div class="bf-addons-hero__cta-row">
+        <a class="btn bf-addons-hero__cta" href="/checkout" data-checkout-url>{{ section.settings.bf_cta_text | escape }}</a>
+      </div>
+    </div>
+
     {%- comment -%}
       WORLD-CLASS UX REVISION V15: Final version with color changes removed.
     {%- endcomment -%}
@@ -366,12 +648,156 @@
   });
 </script>
 {% endif %}
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const countdown = document.querySelector('[data-bf-countdown]');
+    if (!countdown) return;
+
+    const endDateString = countdown.dataset.endDate;
+    const expiredLabel = countdown.dataset.expiredText || '';
+    const timeEl = countdown.querySelector('[data-countdown-time]');
+    const labelEl = countdown.querySelector('[data-countdown-label]');
+
+    function pad(value) {
+      return value.toString().padStart(2, '0');
+    }
+
+    function parseEndDate() {
+      if (!endDateString) return null;
+      const normalized = endDateString.replace(' ', 'T');
+      const date = new Date(normalized);
+      return isNaN(date.getTime()) ? null : date;
+    }
+
+    const endDate = parseEndDate();
+
+    function setExpiredState() {
+      countdown.classList.add('is-expired');
+      if (labelEl) {
+        labelEl.textContent = expiredLabel;
+      }
+      if (timeEl) {
+        timeEl.textContent = '';
+      }
+    }
+
+    function renderCountdown() {
+      if (!endDate) {
+        setExpiredState();
+        return false;
+      }
+
+      const now = new Date();
+      const diff = endDate.getTime() - now.getTime();
+
+      if (diff <= 0) {
+        setExpiredState();
+        return false;
+      }
+
+      const seconds = Math.floor(diff / 1000);
+      const days = Math.floor(seconds / 86400);
+      const hours = Math.floor((seconds % 86400) / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      const remainingSeconds = seconds % 60;
+
+      if (timeEl) {
+        timeEl.textContent = `${pad(days)}d : ${pad(hours)}h : ${pad(minutes)}m : ${pad(remainingSeconds)}s`;
+      }
+      return true;
+    }
+
+    renderCountdown();
+    const intervalId = setInterval(function() {
+      const active = renderCountdown();
+      if (!active) {
+        clearInterval(intervalId);
+      }
+    }, 1000);
+  });
+</script>
 <script src="{{ 'addons-popcorn-bogo.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
   "name": "Add-Ons Page Section",
   "settings": [
+    {
+      "type": "header",
+      "content": "Black Friday Hero"
+    },
+    {
+      "type": "text",
+      "id": "bf_heading",
+      "label": "Heading",
+      "default": "Black Friday Add-On Bundles"
+    },
+    {
+      "type": "text",
+      "id": "bf_subheading",
+      "label": "Subheading",
+      "default": "Stock up on coffee, seasonings, and popcorn before you check out. These bundles are priced lower than our standard 30% off."
+    },
+    {
+      "type": "text",
+      "id": "bf_countdown_label",
+      "label": "Countdown Label",
+      "default": "Black Friday Ends In"
+    },
+    {
+      "type": "text",
+      "id": "bf_expired_label",
+      "label": "Expired Label",
+      "default": "Black Friday Sale Ending – Prices Subject to Change"
+    },
+    {
+      "type": "text",
+      "id": "bf_countdown_end_date",
+      "label": "Countdown End Date/Time",
+      "info": "Format: YYYY-MM-DD HH:MM:SS (24-hour). Example: 2024-11-29 23:59:59"
+    },
+    {
+      "type": "product",
+      "id": "bf_bundle_product_1",
+      "label": "Bundle Product 1",
+      "default": "icon-meals-protein-coffee-3-pack-buy-2-get-1-free"
+    },
+    {
+      "type": "text",
+      "id": "bf_bundle_tagline_1",
+      "label": "Bundle 1 Tagline",
+      "default": "Buy 2, Get 1 Free • Morning fuel, ready to go."
+    },
+    {
+      "type": "product",
+      "id": "bf_bundle_product_2",
+      "label": "Bundle Product 2",
+      "default": "protein-popcorn-2-pack-any-2-for-12"
+    },
+    {
+      "type": "text",
+      "id": "bf_bundle_tagline_2",
+      "label": "Bundle 2 Tagline",
+      "default": "Any 2 for $12 • Perfect movie-night add-on."
+    },
+    {
+      "type": "product",
+      "id": "bf_bundle_product_3",
+      "label": "Bundle Product 3",
+      "default": "icon-seasonings-4-pack-any-4-for-25"
+    },
+    {
+      "type": "text",
+      "id": "bf_bundle_tagline_3",
+      "label": "Bundle 3 Tagline",
+      "default": "Any 4 for $25 • Season every meal like a pro."
+    },
+    {
+      "type": "text",
+      "id": "bf_cta_text",
+      "label": "Checkout CTA Text",
+      "default": "Continue to Checkout"
+    },
     {
       "type": "header",
       "content": "BOGO Popcorn Promo"
