@@ -1,0 +1,266 @@
+{%- comment -%}
+  Daily Drop Bar Section (V3 - Light/Notification Theme)
+  - Aesthetics: Light background to avoid fighting with Hero.
+  - Psychology: Red accents for data (urgency), Black button for action (authority).
+  - Layout: Edge-to-edge background, centered content.
+{%- endcomment -%}
+
+{% if section.settings.enable_bar %}
+<div class="daily-drop-wrapper" id="daily-drop-section" data-end-time="{{ section.settings.end_date }}">
+  <div class="daily-drop-container">
+    
+    <!-- 1. Timer / Header Column -->
+    <div class="dd-col dd-col--timer">
+      <div class="dd-label-group">
+        <span class="dd-icon">⚡</span>
+        <span class="dd-label">{{ section.settings.label_text }}</span>
+      </div>
+      <div class="dd-timer" id="dd-timer">--:--:--</div>
+    </div>
+
+    <!-- 2. Product Column -->
+    <div class="dd-col dd-col--product">
+      <div class="dd-image">
+        {% if section.settings.product_image %}
+          <img src="{{ section.settings.product_image | image_url: width: 160 }}" 
+               alt="{{ section.settings.product_title | escape }}" 
+               loading="lazy" 
+               width="80" 
+               height="80">
+        {% else %}
+          <div class="dd-placeholder"></div>
+        {% endif %}
+      </div>
+      
+      <div class="dd-details">
+        <h3 class="dd-title">{{ section.settings.product_title }}</h3>
+        <div class="dd-meta">
+          <span class="dd-badge">{{ section.settings.badge_text }}</span>
+          <div class="dd-price-group">
+            <span class="dd-price-now">{{ section.settings.price }}</span>
+            <span class="dd-price-was">{{ section.settings.compare_price }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. Action Column -->
+    <div class="dd-col dd-col--action">
+      <a href="{{ section.settings.link_url }}" class="dd-button">
+        {{ section.settings.button_text }}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+      </a>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* ─── VARIABLES ─── */
+  #daily-drop-section {
+    --dd-bg: {{ section.settings.bg_color }};
+    --dd-text: {{ section.settings.text_color }};
+    --dd-accent: {{ section.settings.accent_color }};
+    --dd-btn-bg: {{ section.settings.btn_bg_color }};
+    --dd-btn-text: {{ section.settings.btn_text_color }};
+    --dd-border: {{ section.settings.border_color }};
+  }
+
+  /* ─── LAYOUT ─── */
+  .daily-drop-wrapper {
+    width: 100%;
+    background-color: var(--dd-bg);
+    color: var(--dd-text);
+    padding: 16px 0;
+    display: flex;
+    justify-content: center;
+    position: relative;
+    z-index: 10;
+    
+    /* Subtle border to separate from hero */
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+    
+    /* Entrance Animation */
+    animation: ddFadeIn 0.6s ease-out forwards;
+    opacity: 0; transform: translateY(10px);
+  }
+
+  @keyframes ddFadeIn { to { opacity: 1; transform: translateY(0); } }
+
+  .daily-drop-container {
+    width: 100%;
+    max-width: 1600px; /* Matches Hero max-width */
+    padding: 0 40px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 30px;
+  }
+
+  /* ─── COLUMNS ─── */
+  .dd-col { display: flex; align-items: center; }
+
+  /* TIMER */
+  .dd-col--timer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    /* Subtle separator line */
+    border-right: 1px solid rgba(0,0,0,0.08);
+    padding-right: 30px;
+    min-width: 160px;
+  }
+  .dd-label-group { display: flex; align-items: center; gap: 6px; }
+  .dd-icon { color: var(--dd-accent); font-size: 1rem; }
+  .dd-label { 
+    font-size: 0.7rem; font-weight: 800; letter-spacing: 0.1em; 
+    text-transform: uppercase; color: #666; /* Muted label */
+  }
+  .dd-timer { 
+    font-family: monospace; font-size: 1.6rem; font-weight: 700; 
+    line-height: 1; letter-spacing: -0.03em; 
+    color: var(--dd-accent); /* Red Timer for Urgency */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* PRODUCT */
+  .dd-col--product { flex: 1; gap: 20px; justify-content: flex-start; }
+  .dd-image {
+    width: 60px; height: 60px; flex-shrink: 0;
+    background: #fff; border-radius: 6px; overflow: hidden;
+    border: 1px solid rgba(0,0,0,0.1);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+  .dd-image img { width: 100%; height: 100%; object-fit: cover; }
+  .dd-placeholder { width: 100%; height: 100%; background: #eee; }
+
+  .dd-details { display: flex; flex-direction: column; gap: 4px; }
+  .dd-title {
+    margin: 0; font-size: 1.1rem; font-weight: 800; 
+    text-transform: uppercase; line-height: 1.1; color: var(--dd-text);
+  }
+  .dd-meta { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+  .dd-badge {
+    background: #000; color: #fff;
+    font-size: 0.65rem; font-weight: 800; padding: 3px 8px; border-radius: 3px;
+    text-transform: uppercase; letter-spacing: 0.05em;
+  }
+  .dd-price-group { display: flex; align-items: baseline; gap: 8px; }
+  .dd-price-now { font-size: 1.2rem; font-weight: 800; color: var(--dd-accent); }
+  .dd-price-was { font-size: 0.9rem; text-decoration: line-through; color: #999; font-weight: 500; }
+
+  /* ACTION */
+  .dd-button {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--dd-btn-bg); color: var(--dd-btn-text);
+    padding: 14px 32px; border-radius: 6px;
+    font-weight: 800; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.05em;
+    text-decoration: none !important; /* Forced removal */
+    transition: transform 0.2s, box-shadow 0.2s;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+  .dd-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+    background: #333; /* Slightly lighter black on hover */
+  }
+
+  /* ─── EXPIRED STATE ─── */
+  .daily-drop-wrapper.is-expired { display: none !important; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 1024px) {
+    .dd-col--timer { padding-right: 20px; min-width: 140px; }
+    .dd-timer { font-size: 1.4rem; }
+    .dd-title { font-size: 1rem; }
+  }
+
+  @media (max-width: 900px) {
+    .daily-drop-wrapper { padding: 20px 16px; }
+    .daily-drop-container { flex-direction: column; align-items: stretch; gap: 20px; padding: 0; }
+    
+    .dd-col--timer {
+      flex-direction: row; justify-content: space-between; width: 100%;
+      border-right: none; border-bottom: 1px solid rgba(0,0,0,0.08);
+      padding-right: 0; padding-bottom: 12px;
+    }
+    .dd-timer { font-size: 1.3rem; }
+    
+    .dd-col--product { width: 100%; }
+    .dd-button { justify-content: center; width: 100%; }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const section = document.getElementById('daily-drop-section');
+  if(!section) return;
+
+  const timerDisplay = document.getElementById('dd-timer');
+  const endDateStr = section.dataset.endTime; 
+
+  if(endDateStr) {
+    const calculateTime = () => {
+      const now = new Date().getTime();
+      const end = new Date(endDateStr).getTime();
+      const distance = end - now;
+
+      if (distance < 0) {
+        section.classList.add('is-expired');
+        return false;
+      }
+
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const pad = (n) => n < 10 ? "0" + n : n;
+      if(timerDisplay) {
+        timerDisplay.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      }
+      return true;
+    };
+
+    if(calculateTime()) {
+      setInterval(calculateTime, 1000);
+    }
+  }
+});
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "Daily Drop Bar",
+  "settings": [
+    { "type": "checkbox", "id": "enable_bar", "label": "Enable Section", "default": true },
+    
+    { "type": "header", "content": "Timer Settings" },
+    { "type": "text", "id": "label_text", "label": "Label", "default": "DAILY DROP" },
+    { "type": "text", "id": "end_date", "label": "End Date (ISO)", "info": "YYYY-MM-DDTHH:MM:SS" },
+
+    { "type": "header", "content": "Product Info" },
+    { "type": "text", "id": "product_title", "label": "Product Title", "default": "Shredded Chicken & Egg Bowl" },
+    { "type": "image_picker", "id": "product_image", "label": "Product Image" },
+    { "type": "text", "id": "price", "label": "Sale Price", "default": "$8.60" },
+    { "type": "text", "id": "compare_price", "label": "Compare Price", "default": "$13.60" },
+    { "type": "text", "id": "badge_text", "label": "Badge Text", "default": "TODAY ONLY" },
+
+    { "type": "header", "content": "Action" },
+    { "type": "text", "id": "button_text", "label": "Button Text", "default": "ADD TO CART" },
+    { "type": "text", "id": "link_url", "label": "Link URL", "default": "/pages/bf2025" },
+
+    { "type": "header", "content": "Theme Colors" },
+    { "type": "color", "id": "bg_color", "label": "Background", "default": "#f4f4f5" },
+    { "type": "color", "id": "text_color", "label": "Main Text", "default": "#111111" },
+    { "type": "color", "id": "accent_color", "label": "Accent (Timer/Price)", "default": "#E63946" },
+    { "type": "color", "id": "btn_bg_color", "label": "Button Background", "default": "#111111" },
+    { "type": "color", "id": "btn_text_color", "label": "Button Text", "default": "#FFFFFF" }
+  ],
+  "presets": [
+    { "name": "Daily Drop Bar" }
+  ]
+}
+{% endschema %}

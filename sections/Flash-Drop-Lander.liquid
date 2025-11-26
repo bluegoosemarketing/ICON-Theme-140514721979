@@ -1,15 +1,15 @@
 {% comment %}
 
 Shopify Section: Flash-Drop Lander
-Version: 16.7.1 (Content Update: Beefy Chili Mac)
+Version: 16.7.2 (Content Update: Shredded Chicken & Egg Bowl)
 Author: AI Lead Developer
 
-V16.7.1 Revisions:
-1. Updated Hardcoded Product Data: Switched from Titan Burrito to Beefy Chili Mac.
-2. Updated Primary Image: Now points to the Beefy Chili Mac PNG.
-3. Updated Macros: 660 Cal / 59g Protein / 57g Carbs / 22g Fats.
-4. Updated Ingredients Modal: Now reflects Ground Beef, Chickpea Pasta, and Chili Cheese Sauce.
-5. Preserved functionality: $9.80 Price, Limit 4, Countdown timer.
+V16.7.2 Revisions:
+1. Updated Product Data: Switched to Shredded Chicken & Egg Bowl.
+2. Updated Price: Fixed at $8.60.
+3. Updated Macros: 480 Cal / 51g Protein / 11g Carbs / 26g Fats.
+4. Updated Ingredients Modal: Reflected Keto profile, new breakdown, and allergens (Egg, Milk).
+5. Image Logic: Primary set to provided PNG; Secondary set to dynamic product image to prevent mismatch.
 
 =====================================================================================
 {% endcomment %}
@@ -35,7 +35,8 @@ V16.7.1 Revisions:
     endif
   endif
 
-  assign sale_price_fixed = 980
+  # UPDATE: Sale Price set to $8.60 (860 cents)
+  assign sale_price_fixed = 860
 
   # Allow headline to be overridden by a section setting.
   assign headline_title = product.title
@@ -43,22 +44,21 @@ V16.7.1 Revisions:
     assign headline_title = section.settings.headline_override
   endif
 
-  # Swap the images: Both are now static URLs.
-  assign primary_image_url = 'https://iconmeals.com/cdn/shop/files/beefy-chili-mac_web_v2.png?v=1760650800'
-  assign secondary_image_url = 'https://cdn.shopify.com/s/files/1/1957/2713/files/Split-Image.jpg?v=1764003533'
+  # UPDATE: Primary Image
+  assign primary_image_url = 'https://iconmeals.com/cdn/shop/files/Shredded-Cicken-and-Egg-Bowl.png?v=1762439852'
+  
+  # UPDATE: Secondary Image (Dynamic fallback to 2nd product image)
+  if product.images.size > 1
+    assign secondary_image_object = product.images[1]
+  else
+    assign secondary_image_object = product.featured_image
+  endif
 
   # 1. Primary Thumbnail Logic
   assign primary_image_parts = primary_image_url | split: '?'
   assign primary_thumb_url = primary_image_parts.first | replace: '.jpg', '_120x120_crop_center.jpg' | replace: '.png', '_120x120_crop_center.png'
   if primary_image_parts.last != primary_image_parts.first
     assign primary_thumb_url = primary_thumb_url | append: '?' | append: primary_image_parts.last
-  endif
-
-  # 2. Secondary Thumbnail Logic
-  assign secondary_image_parts = secondary_image_url | split: '?'
-  assign secondary_thumb_url = secondary_image_parts.first | replace: '.jpg', '_120x120_crop_center.jpg'
-  if secondary_image_parts.last != secondary_image_parts.first
-    assign secondary_thumb_url = secondary_thumb_url | append: '?' | append: secondary_image_parts.last
   endif
 -%}
 
@@ -86,7 +86,7 @@ V16.7.1 Revisions:
               {%- else -%}
                 <img
                   src="{{ primary_image_url }}"
-                  alt="Plated shot of {{ product.title | default: 'Beefy Chili Mac' }}"
+                  alt="Plated shot of {{ product.title | default: 'Shredded Chicken & Egg Bowl' }}"
                   class="flash-drop__hero-image"
                   loading="eager"
                   width="600"
@@ -106,8 +106,8 @@ V16.7.1 Revisions:
               <button type="button" class="flash-drop__image-thumbnail is-active" data-image-url="{{ primary_image_url }}" aria-label="View first image">
                 <img src="{{ primary_thumb_url }}" alt="Thumbnail of {{ product.title }}" width="48" height="48">
               </button>
-              <button type="button" class="flash-drop__image-thumbnail" data-image-url="{{ secondary_image_url }}" aria-label="View second image">
-                <img src="{{ secondary_thumb_url }}" alt="Thumbnail of {{ product.title }}" width="48" height="48">
+              <button type="button" class="flash-drop__image-thumbnail" data-image-url="{{ secondary_image_object | image_url: width: 1200 }}" aria-label="View second image">
+                <img src="{{ secondary_image_object | image_url: width: 120, height: 120, crop: 'center' }}" alt="Thumbnail of {{ product.title }}" width="48" height="48">
               </button>
             </div>
             {%- endif -%}
@@ -120,25 +120,25 @@ V16.7.1 Revisions:
               <div class="flash-drop__macros">
                 <div class="flash-drop__macros-grid">
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '660' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '480' }}</span>
                     <span class="flash-drop__macro-label">Calories</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '59g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '51g' }}</span>
                     <span class="flash-drop__macro-label">Protein</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '57g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '11g' }}</span>
                     <span class="flash-drop__macro-label">Carbs</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '22g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '26g' }}</span>
                     <span class="flash-drop__macro-label">Fats</span>
                   </div>
                 </div>
               </div>
               <p class="flash-drop__ingredients">
-                <strong>Beefy Chili Mac:</strong> {{ product.metafields.custom.main_ingredients | default: 'Lean Ground Beef, Gluten-Free Chickpea Pasta, Rich Cheddar Cheese Sauce, Hearty Tomato & Green Chile Base.' }}
+                <strong>The Burrito Flavor, No Tortilla:</strong> {{ product.metafields.custom.main_ingredients | default: 'Shredded Chicken, Fluffy Scrambled Eggs, Red Potatoes, Black Beans, Monterey Jack Cheese, Bacon.' }}
               </p>
               <button type="button" class="flash-drop__modal-trigger" data-modal-trigger="ingredients-modal">See Full Ingredients</button>
             {%- endif -%}
@@ -153,9 +153,9 @@ V16.7.1 Revisions:
               <p class="flash-drop__h1-suboffer">To See The Live Offer</p>
             </div>
           {%- else -%}
-            <h1 class="flash-drop__h1">{{ headline_title | default: 'Beefy Chili Mac' }}</h1>
+            <h1 class="flash-drop__h1">{{ headline_title | default: 'Shredded Chicken & Egg Bowl' }}</h1>
             <div class="flash-drop__h1-suboffer-wrapper">
-              <p class="flash-drop__h1-suboffer">$9.80 Today Only</p>
+              <p class="flash-drop__h1-suboffer">$8.60 Today Only</p>
             </div>
           {%- endif -%}
 
@@ -167,25 +167,25 @@ V16.7.1 Revisions:
               <div class="flash-drop__macros">
                 <div class="flash-drop__macros-grid">
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '660' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '480' }}</span>
                     <span class="flash-drop__macro-label">Calories</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '59g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '51g' }}</span>
                     <span class="flash-drop__macro-label">Protein</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '57g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '11g' }}</span>
                     <span class="flash-drop__macro-label">Carbs</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '22g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '26g' }}</span>
                     <span class="flash-drop__macro-label">Fats</span>
                   </div>
                 </div>
               </div>
               <p class="flash-drop__ingredients">
-                <strong>Beefy Chili Mac:</strong> {{ product.metafields.custom.main_ingredients | default: 'Lean Ground Beef, Gluten-Free Chickpea Pasta, Rich Cheddar Cheese Sauce, Hearty Tomato & Green Chile Base.' }}
+                <strong>The Burrito Flavor, No Tortilla:</strong> {{ product.metafields.custom.main_ingredients | default: 'Shredded Chicken, Fluffy Scrambled Eggs, Red Potatoes, Black Beans, Monterey Jack Cheese, Bacon.' }}
               </p>
               <button type="button" class="flash-drop__modal-trigger" data-modal-trigger="ingredients-modal">See Full Ingredients</button>
             {%- endif -%}
@@ -255,7 +255,7 @@ V16.7.1 Revisions:
       {%- assign video_id = section.settings.youtube_video_url | split: '/' | last -%}
       <section class="flash-drop__section">
         <div class="flash-drop__container flash-drop__container--narrow">
-          <h2 class="flash-drop__section-title">59g Protein, savory beef, and cheesy goodness 🧀🥩</h2>
+          <h2 class="flash-drop__section-title">The Burrito Flavor, No Tortilla. 51g Protein. 🧀🥩</h2>
           <div class="flash-drop__video-wrapper">
             <iframe
               src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ video_id }}&rel=0&modestbranding=1"
@@ -348,31 +348,31 @@ V16.7.1 Revisions:
         <div class="flash-drop__modal-body">
           <h3>Main Components</h3>
           <ul>
-            <li><strong>Protein:</strong> Lean Ground Beef</li>
+            <li><strong>Protein:</strong> Shredded Chicken, Scrambled Eggs (Whole & Whites), Bacon</li>
             <li>
-              <strong>Chickpea Rotini Pasta</strong>
+              <strong>Vegetable Base</strong>
               <div class="flash-drop__sub-ingredients">
-                Chickpeas, Tapioca, Pea Protein, Xanthan Gum
+                Red Potatoes (Roasted), Black Beans
               </div>
             </li>
             <li>
-              <strong>Chili & Cheese Sauce</strong>
+              <strong>Dairy</strong>
               <div class="flash-drop__sub-ingredients">
-                Water, Tomato Sauce, Green Chile Peppers, Cheddar Cheese, Ancho Base, Roasted Garlic, Extra Virgin Olive Oil
+                Monterey Jack Cheese (with Jalapeño Peppers), Cheddar Cheese
               </div>
             </li>
           </ul>
           <h3>🧂 Seasonings & Spices</h3>
           <ul>
-            <li>Chili Powder</li>
-            <li>Paprika</li>
-            <li>Cumin</li>
-            <li>Black Pepper & Crushed Red Pepper Flakes</li>
-            <li>Kosher Salt (with yellow prussiate of soda)</li>
+            <li>Parsley, Onion Powder, Garlic Powder</li>
+            <li>Paprika, Black Pepper, Chili Powder</li>
+            <li>Kosher Salt</li>
+            <li>Extra Virgin Olive Oil</li>
           </ul>
-           <h3>⚠️ Allergens</h3>
+           <h3>⚠️ Allergens & Diet</h3>
           <ul>
-            <li>Contains: <strong>Milk</strong></li>
+            <li>Contains: <strong>Egg, Milk</strong></li>
+            <li>Features: <strong>Keto Friendly, Gluten-Free</strong></li>
           </ul>
         </div>
       {%- endif -%}

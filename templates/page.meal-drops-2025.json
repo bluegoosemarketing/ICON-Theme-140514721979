@@ -13,10 +13,10 @@
       "type": "Flash-Drop-Lander",
       "name": "Flash-Drop Lander",
       "settings": {
-        "featured_product": "black-friday-beefy-chili-mac",
-        "countdown_end_time": "2025-11-25T14:00:00",
-        "youtube_video_url": "https://youtube.com/shorts/t-QX-QaNSX8",
-        "headline_override": "Beefy Chili Mac",
+        "featured_product": "sale-shredded-chicken-egg-bowl",
+        "countdown_end_time": "2025-11-26T24:00:00",
+        "youtube_video_url": "",
+        "headline_override": "Shredded Chicken & Egg Bowl",
         "hero_subhead": "Only cooking so many. First come, first served."
       }
     },

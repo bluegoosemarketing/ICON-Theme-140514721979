@@ -10,27 +10,44 @@
 {
   "wrapper": "div.index-sections",
   "sections": {
-    "hero_section_v19_mneA7r": {
-      "type": "Hero-Section-V19",
-      "name": "Hero Section V19.0",
+    "hero_black_friday_EWCjzd": {
+      "type": "hero-black-friday",
+      "name": "[V24] Black Friday Hero",
       "settings": {
-        "credibility_text": "THE ICON STANDARD",
+        "credibility_text": "BLACK FRIDAY LIVE",
         "heading_tag": "h1",
-        "headline": "PERFORMANCE WITHOUT THE PREP",
-        "subheadline": "Delicious meals, dialed-in macros. Just heat, eat, and conquer.",
-        "hero_alt": "Ready-to-eat, macro-friendly meals from ICON Meals",
+        "headline": "30% OFF SITE-WIDE",
+        "subheadline": "No subscription required. Plus, unlock exclusive doorbuster bundles at checkout.",
+        "promo_code": "BF2025",
+        "hero_alt": "ICON Meals Black Friday Sale",
         "preload_hero": true,
-        "cta_button_text": "CHOOSE YOUR MEALS",
-        "cta_url": "/collections/signature-menu",
-        "cta_aria": "Choose your meals",
+        "cta_button_text": "SHOP THE SALE",
+        "cta_url": "https://iconmeals.com/discount/BF2025?redirect=/collections/signature-menu",
+        "cta_aria": "Shop the Black Friday Sale",
         "min_height_desktop": 70,
-        "min_height_mobile": 75
+        "min_height_mobile": 90
       }
     },
-    "black_friday_2024_hero_99phtq": {
-      "type": "BlackFriday-2024-Hero",
-      "disabled": true,
-      "settings": {}
+    "bf_daily_drop_bar_3EKbFR": {
+      "type": "BF-daily-drop-bar",
+      "name": "Daily Drop Bar",
+      "settings": {
+        "enable_bar": true,
+        "label_text": "BLACK FRIDAY DEAL",
+        "end_date": "2025-11-26T23:59:59",
+        "product_title": "Shredded Chicken & Egg Bowl",
+        "product_image": "shopify://shop_images/Shredded-Cicken-and-Egg-Bowl.png",
+        "price": "$8.60",
+        "compare_price": "$13.60",
+        "badge_text": "TODAY ONLY",
+        "button_text": "SHOW ME THE DEAL",
+        "link_url": "/pages/bf2025",
+        "bg_color": "#151212",
+        "text_color": "#ffffff",
+        "accent_color": "#ffd700",
+        "btn_bg_color": "#ffffff",
+        "btn_text_color": "#000000"
+      }
     },
     "authority_bar_grBYWU": {
       "type": "authority-bar",
@@ -203,8 +220,8 @@
     }
   },
   "order": [
-    "hero_section_v19_mneA7r",
-    "black_friday_2024_hero_99phtq",
+    "hero_black_friday_EWCjzd",
+    "bf_daily_drop_bar_3EKbFR",
     "authority_bar_grBYWU",
     "homepage_process_PmGH7t",
     "standards_ApTC3f",
