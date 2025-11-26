@@ -1,0 +1,586 @@
+{%- comment -%}
+  ==============================================================================
+  PANTRY STOCK-UP EVENT LANDING PAGE
+  - Dedicated Section for Affiliates/Black Friday Add-on Push
+  - Namespace: .psu- (Pantry Stock Up) to prevent CSS conflicts
+  - Includes: Hero, Countdown, 3-Column Bundle Grid, AJAX Add-to-Cart
+  ==============================================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign target_date = section.settings.countdown_date
+-%}
+
+<div class="psu-section-wrapper">
+  <div class="psu-container">
+    
+    <!-- STYLES (Scoped & Strict) -->
+    <style>
+      /* --- WRAPPER & RESETS --- */
+      .psu-section-wrapper {
+        background-color: #0c0c0f !important;
+        background-image: radial-gradient(circle at 50% 0%, #2a2a35 0%, #0c0c0f 60%) !important;
+        color: #ffffff !important;
+        padding: 60px 20px 80px !important;
+        width: 100% !important;
+        box-sizing: border-box !important;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+      }
+
+      .psu-container {
+        max-width: 1400px !important;
+        margin: 0 auto !important;
+        width: 100% !important;
+      }
+
+      .psu-hidden { display: none !important; }
+
+      /* --- HERO HEADER --- */
+      .psu-header {
+        text-align: center !important;
+        margin-bottom: 60px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        gap: 24px !important;
+      }
+
+      .psu-eyebrow {
+        background: rgba(255, 76, 76, 0.15) !important;
+        color: #ff4c4c !important;
+        border: 1px solid rgba(255, 76, 76, 0.3) !important;
+        padding: 8px 16px !important;
+        border-radius: 50px !important;
+        font-size: 13px !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.1em !important;
+        display: inline-block !important;
+      }
+
+      .psu-title {
+        font-size: 56px !important;
+        line-height: 1.1 !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        margin: 0 !important;
+        color: #ffffff !important;
+        text-shadow: 0 4px 30px rgba(0,0,0,0.5) !important;
+      }
+
+      .psu-subtitle {
+        font-size: 20px !important;
+        color: #cfcfd5 !important;
+        max-width: 700px !important;
+        margin: 0 auto !important;
+        line-height: 1.6 !important;
+      }
+
+      .psu-highlight-gold {
+        color: #ffea00 !important;
+        font-weight: 700 !important;
+      }
+
+      /* --- COUNTDOWN --- */
+      .psu-countdown-wrapper {
+        background: #16161a !important;
+        border: 1px solid rgba(255, 255, 255, 0.15) !important;
+        border-radius: 12px !important;
+        padding: 16px 32px !important;
+        display: inline-flex !important;
+        gap: 32px !important;
+        margin-top: 10px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+      }
+
+      .psu-countdown-item {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+      }
+
+      .psu-time-val {
+        font-size: 32px !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        line-height: 1 !important;
+        font-variant-numeric: tabular-nums !important;
+      }
+
+      .psu-time-label {
+        font-size: 11px !important;
+        text-transform: uppercase !important;
+        color: #888 !important;
+        margin-top: 6px !important;
+        letter-spacing: 0.1em !important;
+        font-weight: 700 !important;
+      }
+
+      /* --- GRID --- */
+      .psu-grid {
+        display: grid !important;
+        grid-template-columns: repeat(3, 1fr) !important;
+        gap: 30px !important;
+      }
+
+      /* --- CARD --- */
+      .psu-card {
+        background: #16161a !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        border-radius: 16px !important;
+        overflow: hidden !important;
+        display: flex !important;
+        flex-direction: column !important;
+        height: 100% !important;
+        transition: transform 0.3s ease, box-shadow 0.3s ease !important;
+        position: relative !important;
+      }
+
+      .psu-card:hover {
+        transform: translateY(-10px) !important;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.6) !important;
+        border-color: rgba(255,255,255,0.25) !important;
+      }
+
+      /* Image */
+      .psu-img-wrap {
+        position: relative !important;
+        padding-top: 65% !important;
+        background: #0f0f12 !important;
+        overflow: hidden !important;
+        border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+      }
+
+      .psu-img-wrap img {
+        position: absolute !important;
+        top: 0 !important; left: 0 !important;
+        width: 100% !important; height: 100% !important;
+        object-fit: cover !important;
+        transition: transform 0.6s ease !important;
+      }
+
+      .psu-card:hover .psu-img-wrap img {
+        transform: scale(1.08) !important;
+      }
+
+      /* Badges */
+      .psu-badge {
+        position: absolute !important;
+        top: 15px !important;
+        right: 15px !important;
+        background: #00e676 !important; /* Neon Green */
+        color: #000000 !important;
+        padding: 6px 12px !important;
+        border-radius: 6px !important;
+        font-size: 11px !important;
+        font-weight: 800 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.05em !important;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.4) !important;
+        z-index: 2 !important;
+      }
+
+      /* Content */
+      .psu-content {
+        padding: 24px !important;
+        display: flex !important;
+        flex-direction: column !important;
+        flex-grow: 1 !important;
+      }
+
+      .psu-card-title {
+        font-size: 22px !important;
+        font-weight: 800 !important;
+        color: #ffffff !important;
+        margin: 0 0 10px !important;
+        line-height: 1.2 !important;
+      }
+
+      .psu-card-desc {
+        font-size: 14px !important;
+        color: #a0a0a5 !important;
+        line-height: 1.5 !important;
+        margin: 0 0 20px !important;
+      }
+
+      /* Receipt Box */
+      .psu-receipt {
+        margin-top: auto !important;
+        background: rgba(0,0,0,0.3) !important;
+        border: 1px solid rgba(255,255,255,0.08) !important;
+        border-radius: 10px !important;
+        padding: 16px !important;
+      }
+
+      .psu-row {
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        margin-bottom: 8px !important;
+        font-size: 14px !important;
+      }
+
+      .psu-label { color: #888 !important; font-weight: 500 !important; }
+      .psu-val-strike { text-decoration: line-through !important; color: #666 !important; }
+
+      .psu-row-price {
+        margin-top: 12px !important;
+        padding-top: 12px !important;
+        border-top: 1px dashed rgba(255,255,255,0.15) !important;
+        align-items: baseline !important;
+      }
+
+      .psu-price-final {
+        color: #00e676 !important; /* Neon Green */
+        font-size: 24px !important;
+        font-weight: 900 !important;
+        text-shadow: 0 0 20px rgba(0, 230, 118, 0.15) !important;
+      }
+
+      .psu-math {
+        text-align: center !important;
+        color: #ffea00 !important; /* Warning Yellow */
+        font-size: 12px !important;
+        font-weight: 700 !important;
+        text-transform: uppercase !important;
+        margin-top: 8px !important;
+        letter-spacing: 0.05em !important;
+      }
+
+      /* Footer / Button */
+      .psu-footer {
+        padding: 0 24px 24px !important;
+      }
+
+      .psu-btn {
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+        width: 100% !important;
+        height: 56px !important;
+        background-color: #ffffff !important;
+        color: #000000 !important;
+        border: none !important;
+        border-radius: 8px !important;
+        font-size: 15px !important;
+        font-weight: 900 !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.08em !important;
+        cursor: pointer !important;
+        text-decoration: none !important;
+        transition: all 0.2s ease !important;
+        gap: 10px !important;
+      }
+
+      .psu-btn:hover {
+        background-color: #ff4c4c !important; /* Brand Red */
+        color: #ffffff !important;
+        box-shadow: 0 10px 25px rgba(255, 76, 76, 0.4) !important;
+        transform: translateY(-2px) !important;
+      }
+      
+      .psu-btn.psu-loading {
+        opacity: 0.7 !important;
+        pointer-events: none !important;
+        background-color: #cccccc !important;
+      }
+      
+      .psu-btn.psu-success {
+        background-color: #00e676 !important;
+        color: #000000 !important;
+        pointer-events: none !important;
+      }
+
+      /* --- MOBILE --- */
+      @media (max-width: 991px) {
+        .psu-grid { grid-template-columns: 1fr 1fr !important; }
+        .psu-title { font-size: 42px !important; }
+      }
+
+      @media (max-width: 600px) {
+        .psu-section-wrapper { padding: 40px 16px !important; }
+        .psu-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+        .psu-title { font-size: 32px !important; }
+        .psu-subtitle { font-size: 16px !important; }
+        .psu-countdown-wrapper { gap: 20px !important; padding: 12px 20px !important; }
+        .psu-time-val { font-size: 24px !important; }
+      }
+    </style>
+
+    <!-- CONTENT -->
+    <div class="psu-header">
+      <span class="psu-eyebrow">Black Friday Deals</span>
+      <h1 class="psu-title">{{ section.settings.heading }}</h1>
+      <p class="psu-subtitle">
+        {{ section.settings.subheading }}
+      </p>
+
+      <div class="psu-countdown-wrapper" id="psu-countdown" data-date="{{ target_date }}">
+        <div class="psu-countdown-item">
+          <span class="psu-time-val" id="psu-days">00</span>
+          <span class="psu-time-label">Days</span>
+        </div>
+        <div class="psu-countdown-item">
+          <span class="psu-time-val" id="psu-hours">00</span>
+          <span class="psu-time-label">Hours</span>
+        </div>
+        <div class="psu-countdown-item">
+          <span class="psu-time-val" id="psu-mins">00</span>
+          <span class="psu-time-label">Mins</span>
+        </div>
+        <div class="psu-countdown-item">
+          <span class="psu-time-val" id="psu-secs">00</span>
+          <span class="psu-time-label">Secs</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="psu-grid">
+      
+      <!-- BUNDLE 1: COFFEE -->
+      {% assign prod1 = all_products[section.settings.product_1] %}
+      {% if prod1 != blank %}
+      <div class="psu-card">
+        <div class="psu-img-wrap">
+           <span class="psu-badge">{{ section.settings.badge_1 }}</span>
+           <img src="{{ prod1.featured_image | image_url: width: 800 }}" alt="{{ prod1.title }}" loading="lazy">
+        </div>
+        <div class="psu-content">
+          <h3 class="psu-card-title">{{ section.settings.title_1 }}</h3>
+          <p class="psu-card-desc">{{ section.settings.desc_1 }}</p>
+          <div class="psu-receipt">
+            <div class="psu-row">
+              <span class="psu-label">Retail Value:</span>
+              <span class="psu-val-strike">{{ section.settings.retail_1 }}</span>
+            </div>
+            <div class="psu-row psu-row-price">
+              <span class="psu-label">Event Price:</span>
+              <span class="psu-price-final">{{ section.settings.price_1 }}</span>
+            </div>
+            <div class="psu-math">{{ section.settings.math_1 }}</div>
+          </div>
+        </div>
+        <div class="psu-footer">
+          <form method="post" action="/cart/add" class="psu-ajax-form">
+            <input type="hidden" name="id" value="{{ prod1.selected_or_first_available_variant.id }}">
+            <input type="hidden" name="quantity" value="1">
+            <button type="submit" class="psu-btn">
+              <span>Add to Cart</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+            </button>
+          </form>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- BUNDLE 2: POPCORN -->
+      {% assign prod2 = all_products[section.settings.product_2] %}
+      {% if prod2 != blank %}
+      <div class="psu-card">
+        <div class="psu-img-wrap">
+           <span class="psu-badge">{{ section.settings.badge_2 }}</span>
+           <img src="{{ prod2.featured_image | image_url: width: 800 }}" alt="{{ prod2.title }}" loading="lazy">
+        </div>
+        <div class="psu-content">
+          <h3 class="psu-card-title">{{ section.settings.title_2 }}</h3>
+          <p class="psu-card-desc">{{ section.settings.desc_2 }}</p>
+          <div class="psu-receipt">
+            <div class="psu-row">
+              <span class="psu-label">Retail Value:</span>
+              <span class="psu-val-strike">{{ section.settings.retail_2 }}</span>
+            </div>
+            <div class="psu-row psu-row-price">
+              <span class="psu-label">Event Price:</span>
+              <span class="psu-price-final">{{ section.settings.price_2 }}</span>
+            </div>
+            <div class="psu-math">{{ section.settings.math_2 }}</div>
+          </div>
+        </div>
+        <div class="psu-footer">
+          <!-- Popcorn usually links to product because variants needed (flavors) -->
+          <a href="{{ prod2.url }}" class="psu-btn">
+             <span>Choose Flavors</span>
+             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      {% endif %}
+
+      <!-- BUNDLE 3: SEASONINGS -->
+      {% assign prod3 = all_products[section.settings.product_3] %}
+      {% if prod3 != blank %}
+      <div class="psu-card">
+        <div class="psu-img-wrap">
+           <span class="psu-badge">{{ section.settings.badge_3 }}</span>
+           <img src="{{ prod3.featured_image | image_url: width: 800 }}" alt="{{ prod3.title }}" loading="lazy">
+        </div>
+        <div class="psu-content">
+          <h3 class="psu-card-title">{{ section.settings.title_3 }}</h3>
+          <p class="psu-card-desc">{{ section.settings.desc_3 }}</p>
+          <div class="psu-receipt">
+            <div class="psu-row">
+              <span class="psu-label">Retail Value:</span>
+              <span class="psu-val-strike">{{ section.settings.retail_3 }}</span>
+            </div>
+            <div class="psu-row psu-row-price">
+              <span class="psu-label">Event Price:</span>
+              <span class="psu-price-final">{{ section.settings.price_3 }}</span>
+            </div>
+            <div class="psu-math">{{ section.settings.math_3 }}</div>
+          </div>
+        </div>
+        <div class="psu-footer">
+           <!-- Seasonings usually links to product for flavor selection -->
+           <a href="{{ prod3.url }}" class="psu-btn">
+             <span>Choose Flavors</span>
+             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+      {% endif %}
+
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    
+    // 1. COUNTDOWN LOGIC
+    const countdownEl = document.getElementById('psu-countdown');
+    if(countdownEl) {
+      let endDateStr = countdownEl.getAttribute('data-date');
+      let endDate;
+
+      if (!endDateStr) {
+        // Default to next Sunday at midnight if no date provided
+        const now = new Date();
+        const daysUntilSunday = 7 - now.getDay(); 
+        endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilSunday);
+        endDate.setHours(23, 59, 59, 999);
+      } else {
+        endDate = new Date(endDateStr.replace(' ', 'T'));
+      }
+
+      function updateTimer() {
+        const now = new Date().getTime();
+        const distance = endDate.getTime() - now;
+
+        if (distance < 0) {
+          countdownEl.innerHTML = '<div style="color:white; font-weight:bold;">OFFER ENDED</div>';
+          return;
+        }
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        document.getElementById('psu-days').innerText = days.toString().padStart(2, '0');
+        document.getElementById('psu-hours').innerText = hours.toString().padStart(2, '0');
+        document.getElementById('psu-mins').innerText = minutes.toString().padStart(2, '0');
+        document.getElementById('psu-secs').innerText = seconds.toString().padStart(2, '0');
+      }
+
+      setInterval(updateTimer, 1000);
+      updateTimer();
+    }
+
+    // 2. AJAX ADD TO CART
+    const forms = document.querySelectorAll('.psu-ajax-form');
+    forms.forEach(form => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        const span = btn.querySelector('span');
+        const originalText = span.innerText;
+
+        btn.classList.add('psu-loading');
+        span.innerText = 'Adding...';
+
+        try {
+          let formData = new FormData(form);
+          let res = await fetch('/cart/add.js', {
+            method: 'POST',
+            body: formData
+          });
+          
+          if(res.ok) {
+            btn.classList.remove('psu-loading');
+            btn.classList.add('psu-success');
+            span.innerText = 'Added!';
+            
+            // Optional: Redirect to cart or update cart bubble
+             setTimeout(() => {
+                window.location.href = '/cart';
+             }, 800);
+          } else {
+            throw new Error('Failed');
+          }
+        } catch(err) {
+          btn.classList.remove('psu-loading');
+          span.innerText = 'Error - Try Again';
+          setTimeout(() => { span.innerText = originalText; }, 2000);
+        }
+      });
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "Pantry Event Landing",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Pantry Stock-Up Event"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Don't check out yet. Grab these exclusive add-on bundles. Combine with our 30% Off Sitewide Sale for maximum savings."
+    },
+    {
+      "type": "text",
+      "id": "countdown_date",
+      "label": "End Date (YYYY-MM-DD HH:MM:SS)",
+      "info": "Leave blank to auto-set to next Sunday."
+    },
+    
+    { "type": "header", "content": "Bundle 1 (Coffee)" },
+    { "type": "product", "id": "product_1", "label": "Product 1" },
+    { "type": "text", "id": "badge_1", "label": "Badge", "default": "GET 1 TUB FREE" },
+    { "type": "text", "id": "title_1", "label": "Title", "default": "Protein Coffee Trio" },
+    { "type": "text", "id": "desc_1", "label": "Tagline", "default": "Pay for 2 tubs, get the 3rd FREE. (Save $35)" },
+    { "type": "text", "id": "retail_1", "label": "Retail Price", "default": "$105.00" },
+    { "type": "text", "id": "price_1", "label": "Sale Price", "default": "$70.00" },
+    { "type": "text", "id": "math_1", "label": "Math Logic", "default": "Just $23.33 / tub (Reg. $35)" },
+
+    { "type": "header", "content": "Bundle 2 (Popcorn)" },
+    { "type": "product", "id": "product_2", "label": "Product 2" },
+    { "type": "text", "id": "badge_2", "label": "Badge", "default": "BUNDLE & SAVE" },
+    { "type": "text", "id": "title_2", "label": "Title", "default": "Guilt-Free Popcorn Bundles" },
+    { "type": "text", "id": "desc_2", "label": "Tagline", "default": "Pick any 2 for $12 — or stock up with 5 for $30." },
+    { "type": "text", "id": "retail_2", "label": "Retail Price", "default": "$16.00" },
+    { "type": "text", "id": "price_2", "label": "Sale Price", "default": "From $12.00" },
+    { "type": "text", "id": "math_2", "label": "Math Logic", "default": "Save up to 40%" },
+
+    { "type": "header", "content": "Bundle 3 (Seasoning)" },
+    { "type": "product", "id": "product_3", "label": "Product 3" },
+    { "type": "text", "id": "badge_3", "label": "Badge", "default": "TOP RATED" },
+    { "type": "text", "id": "title_3", "label": "Title", "default": "Custom Seasoning 4-Pack" },
+    { "type": "text", "id": "desc_3", "label": "Tagline", "default": "Build your own variety pack. Zero calories, big flavor." },
+    { "type": "text", "id": "retail_3", "label": "Retail Price", "default": "$40.00" },
+    { "type": "text", "id": "price_3", "label": "Sale Price", "default": "$25.00" },
+    { "type": "text", "id": "math_3", "label": "Math Logic", "default": "$6.25 per bottle (Reg. $10)" }
+  ],
+  "presets": [
+    {
+      "name": "Pantry Event Landing"
+    }
+  ]
+}
+{% endschema %}
