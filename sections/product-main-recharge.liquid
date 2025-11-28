@@ -214,17 +214,17 @@
                       <span class="purchase-options__title">Subscribe & Save</span>
                       <span class="purchase-options__price" data-subscribe-price></span>
                       {% if promo_active %}
-                        <span class="promo-deal-badge">Labor Day Deal</span>
+                        <span class="promo-deal-badge">Black Friday Deal</span>
                       {% endif %}
                     </label>
                   </div>
                </div>
                {% if promo_active %}
                 <div class="pdp-promo-callout mp-promo-element">
-                  <span class="pdp-promo-callout__icon" style="font-size: 1.2rem; line-height: 1;">🇺🇸</span>
+                  <span class="pdp-promo-callout__icon" style="font-size: 1.2rem; line-height: 1;">⚡</span>
                   <div class="pdp-promo-callout__text">
                     <span class="pdp-promo-callout__title">Extra savings applied in cart!</span>
-                    <span class="pdp-promo-callout__subtitle">Labor Day Deal: Get automatic discounts on your next 4 orders when you choose "Subscribe & Save." That’s up to $180 in total savings. Offer ends September 2.</span>
+                    <span class="pdp-promo-callout__subtitle">Black Friday Deal: Secure up to $180 in total savings automatically applied to your next 4 orders when you choose "Subscribe & Save." The ultimate way to fuel your holidays.</span>
                   </div>
                 </div>
                {% endif %}
@@ -1590,27 +1590,28 @@ document.addEventListener('DOMContentLoaded', () => {
     color: var(--brand-primary-dark);
   }
 
+  /* BLACK FRIDAY AESTHETIC - RED ALERT THEME */
   @keyframes promo-glow {
-    0% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.18); }
-    50% { box-shadow: 0 0 10px 2px rgba(30, 58, 138, 0.35); }
-    100% { box-shadow: 0 0 0 2px rgba(30, 58, 138, 0.18); }
+    0% { box-shadow: 0 0 0 1px rgba(212, 40, 40, 0.2); }
+    50% { box-shadow: 0 0 12px 2px rgba(212, 40, 40, 0.25); }
+    100% { box-shadow: 0 0 0 1px rgba(212, 40, 40, 0.2); }
   }
 
   .purchase-options__option.promo-active input[type=radio]:checked + label {
-    background: linear-gradient(135deg, rgba(239, 246, 255, 0.82) 0%, rgba(255, 255, 255, 0.82) 60%, rgba(254, 242, 242, 0.82) 100%);
-    border-color: #1e3a8a;
+    background: #fffafa; /* Very subtle red tint to separate from white bg */
+    border-color: #D42828; /* Brand Deal Red */
     animation: promo-glow 2.5s infinite ease-in-out;
   }
 
   .promo-deal-badge {
-    margin-top: 0.35rem;
+    margin-top: 0.45rem;
     display: inline-block;
-    background: linear-gradient(135deg, #1e3a8a 0%, #312e81 100%);
+    background: #D42828; /* Matches "Black Friday Live" Tag */
     color: #ffffff;
     padding: 4px 10px;
-    border-radius: 99px;
+    border-radius: 4px; /* Sharper corners like the hero tag */
     font-size: 0.7rem;
-    font-weight: 700;
+    font-weight: 800;
     text-transform: uppercase;
     letter-spacing: 0.05em;
   }
@@ -1621,9 +1622,10 @@ document.addEventListener('DOMContentLoaded', () => {
     gap: 0.75rem;
     margin-top: 0.75rem;
     padding: 0.85rem 1rem;
-    background: #fdf5f5;
-    border: 1px solid rgba(244, 114, 182, 0.35);
-    border-radius: 14px;
+    background: #fff5f5; /* Light Red Background */
+    border: 1px solid #ffc9c9;
+    border-left: 4px solid #D42828; /* Red Authority Accent */
+    border-radius: 6px;
   }
 
   .pdp-promo-callout__icon {

@@ -1,9 +1,9 @@
 {%- comment -%}
   ==============================================================================
-  PANTRY STOCK-UP EVENT LANDING PAGE
-  - Dedicated Section for Affiliates/Black Friday Add-on Push
-  - Namespace: .psu- (Pantry Stock Up) to prevent CSS conflicts
-  - Includes: Hero, Countdown, 3-Column Bundle Grid, AJAX Add-to-Cart
+  PANTRY STOCK-UP EVENT LANDING PAGE V2
+  - Added "Stack the Savings" Coupon Banner at bottom.
+  - Updated Eyebrow default.
+  - Namespace: .psu- (Pantry Stock Up)
   ==============================================================================
 {%- endcomment -%}
 
@@ -74,11 +74,6 @@
         max-width: 700px !important;
         margin: 0 auto !important;
         line-height: 1.6 !important;
-      }
-
-      .psu-highlight-gold {
-        color: #ffea00 !important;
-        font-weight: 700 !important;
       }
 
       /* --- COUNTDOWN --- */
@@ -290,6 +285,65 @@
         color: #000000 !important;
         pointer-events: none !important;
       }
+      
+      /* --- COUPON BANNER --- */
+      .psu-coupon-wrapper {
+        margin-top: 50px !important;
+        background: rgba(255, 255, 255, 0.03) !important;
+        border: 2px dashed #00e676 !important;
+        border-radius: 12px !important;
+        padding: 24px 40px !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+        flex-wrap: wrap !important;
+        gap: 20px !important;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important;
+      }
+      
+      .psu-coupon-text {
+        flex: 1 !important;
+        min-width: 250px !important;
+      }
+      
+      .psu-coupon-head {
+        display: block !important;
+        font-size: 24px !important;
+        font-weight: 900 !important;
+        color: #fff !important;
+        text-transform: uppercase !important;
+        margin-bottom: 4px !important;
+      }
+      
+      .psu-coupon-sub {
+        font-size: 16px !important;
+        color: #ccc !important;
+      }
+      
+      .psu-code-box {
+        background: rgba(0, 230, 118, 0.1) !important;
+        border: 1px solid #00e676 !important;
+        padding: 12px 24px !important;
+        border-radius: 8px !important;
+        display: flex !important;
+        align-items: center !important;
+        gap: 12px !important;
+      }
+      
+      .psu-code-label {
+        font-size: 12px !important;
+        text-transform: uppercase !important;
+        letter-spacing: 0.1em !important;
+        color: #00e676 !important;
+        font-weight: 700 !important;
+      }
+      
+      .psu-code-val {
+        font-size: 28px !important;
+        font-weight: 900 !important;
+        color: #ffffff !important;
+        letter-spacing: 0.05em !important;
+      }
 
       /* --- MOBILE --- */
       @media (max-width: 991px) {
@@ -304,12 +358,24 @@
         .psu-subtitle { font-size: 16px !important; }
         .psu-countdown-wrapper { gap: 20px !important; padding: 12px 20px !important; }
         .psu-time-val { font-size: 24px !important; }
+        
+        .psu-coupon-wrapper {
+            flex-direction: column !important;
+            text-align: center !important;
+            padding: 24px !important;
+        }
+        
+        .psu-code-box {
+            width: 100% !important;
+            justify-content: center !important;
+            box-sizing: border-box !important;
+        }
       }
     </style>
 
     <!-- CONTENT -->
     <div class="psu-header">
-      <span class="psu-eyebrow">Black Friday Deals</span>
+      <span class="psu-eyebrow">{{ section.settings.eyebrow }}</span>
       <h1 class="psu-title">{{ section.settings.heading }}</h1>
       <p class="psu-subtitle">
         {{ section.settings.subheading }}
@@ -397,7 +463,6 @@
           </div>
         </div>
         <div class="psu-footer">
-          <!-- Popcorn usually links to product because variants needed (flavors) -->
           <a href="{{ prod2.url }}" class="psu-btn">
              <span>Choose Flavors</span>
              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
@@ -430,7 +495,6 @@
           </div>
         </div>
         <div class="psu-footer">
-           <!-- Seasonings usually links to product for flavor selection -->
            <a href="{{ prod3.url }}" class="psu-btn">
              <span>Choose Flavors</span>
              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h13M12 5l7 7-7 7"/></svg>
@@ -440,6 +504,19 @@
       {% endif %}
 
     </div>
+    
+    <!-- COUPON BANNER -->
+    <div class="psu-coupon-wrapper">
+        <div class="psu-coupon-text">
+            <span class="psu-coupon-head">Get 30% Off Meals!</span>
+            <span class="psu-coupon-sub">Don't forget to stock up on meals during our Black Friday Sale. Enter code at checkout (discount does not apply to snack bundles).</span>
+        </div>
+        <div class="psu-code-box">
+            <span class="psu-code-label">Use Code:</span>
+            <span class="psu-code-val">{{ section.settings.discount_code }}</span>
+        </div>
+    </div>
+    
   </div>
 </div>
 
@@ -453,7 +530,6 @@
       let endDate;
 
       if (!endDateStr) {
-        // Default to next Sunday at midnight if no date provided
         const now = new Date();
         const daysUntilSunday = 7 - now.getDay(); 
         endDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() + daysUntilSunday);
@@ -510,7 +586,6 @@
             btn.classList.add('psu-success');
             span.innerText = 'Added!';
             
-            // Optional: Redirect to cart or update cart bubble
              setTimeout(() => {
                 window.location.href = '/cart';
              }, 800);
@@ -533,6 +608,12 @@
   "settings": [
     {
       "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow Text",
+      "default": "Black Friday Deals Unlocked"
+    },
+    {
+      "type": "text",
       "id": "heading",
       "label": "Heading",
       "default": "Pantry Stock-Up Event"
@@ -548,6 +629,12 @@
       "id": "countdown_date",
       "label": "End Date (YYYY-MM-DD HH:MM:SS)",
       "info": "Leave blank to auto-set to next Sunday."
+    },
+    {
+      "type": "text",
+      "id": "discount_code",
+      "label": "Discount Code",
+      "default": "BF2025"
     },
     
     { "type": "header", "content": "Bundle 1 (Coffee)" },

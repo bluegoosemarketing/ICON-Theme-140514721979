@@ -30,12 +30,13 @@
         </div>
       {% endif %}
     {% when 'pdp' %}
-      {% if settings.meal_plan_promo_pdp_enable %}
-        <div class="mp-pdp-callout">
-          <span class="mp-pill">Labor Day bonus in cart</span>
-          <small class="mp-sub">Extra savings apply in cart, on top of Subscribe & Save.</small>
+      <!-- REPLACED: Redundant promo text with Trust/Assurance Signal -->
+      <div class="mp-pdp-callout">
+        <div class="mp-trust-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M9 12l2 2 4-4"></path></svg>
+          <span>No commitment. Pause or cancel anytime.</span>
         </div>
-      {% endif %}
+      </div>
     {% when 'cart-item' %}
       {% if settings.meal_plan_promo_cart_enable and item %}
         {% assign is_meal_plan = false %}
@@ -45,7 +46,7 @@
         {% endif %}
         {% if is_meal_plan and item.selling_plan_allocation %}
           <div class="mp-cart-note">
-            <span>Labor Day savings applied.</span>
+            <span>Black Friday savings applied.</span>
             <small>Box 1 savings shown. Boxes 2–4 auto-apply with Subscribe & Save.</small>
           </div>
         {% endif %}
@@ -54,14 +55,39 @@
 {% endif %}
 
 <style>
-  .mp-promo-line{font-size:0.875rem;margin-top:0.5rem;text-align:center}
-  .mp-promo-line details{display:inline-block;margin-left:0.5rem}
-  .mp-plan-card-badge{text-align:center;margin-bottom:0.5rem}
-  .mp-plan-card-badge .mp-badge{display:inline-block;background:#d42828;color:#fff;font-size:0.75rem;padding:0.1rem 0.5rem;border-radius:4px}
-  .mp-plan-card-badge .mp-sub{display:block;font-size:0.75rem;color:#495057;margin-top:0.25rem}
-  .mp-pdp-callout{margin-top:0.5rem}
-  .mp-pdp-callout .mp-pill{display:inline-block;background:#f8d7da;color:#721c24;font-size:0.75rem;padding:0.2rem 0.6rem;border-radius:999px}
-  .mp-pdp-callout .mp-sub{display:block;font-size:0.75rem;color:#495057;margin-top:0.25rem}
-  .mp-cart-note{font-size:0.75rem;color:#495057;margin-top:0.25rem}
-  .mp-cart-note span{color:#d42828;display:block}
+  /* Base Styles */
+  .mp-promo-line { font-size: 0.875rem; margin-top: 0.5rem; text-align: center; }
+  .mp-promo-line details { display: inline-block; margin-left: 0.5rem; }
+  
+  /* Plan Card Badge */
+  .mp-plan-card-badge { text-align: center; margin-bottom: 0.5rem; }
+  .mp-plan-card-badge .mp-badge { 
+    display: inline-block; 
+    background: #D42828; 
+    color: #fff; 
+    font-size: 0.75rem; 
+    padding: 0.1rem 0.5rem; 
+    border-radius: 4px; 
+    font-weight: 700;
+  }
+  .mp-plan-card-badge .mp-sub { display: block; font-size: 0.75rem; color: #495057; margin-top: 0.25rem; }
+
+  /* Trust Badge Styles (Better use of space) */
+  .mp-pdp-callout { margin-top: 1rem; margin-bottom: 0.5rem; }
+  .mp-trust-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #495057; /* Neutral dark grey */
+  }
+  .mp-trust-badge svg {
+    color: #2a9d8f; /* ICON Brand Teal for positive affirmation */
+    flex-shrink: 0;
+  }
+
+  /* Cart Note */
+  .mp-cart-note { font-size: 0.75rem; color: #495057; margin-top: 0.25rem; }
+  .mp-cart-note span { color: #D42828; font-weight: 700; display: block; }
 </style>

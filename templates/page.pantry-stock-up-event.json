@@ -1,0 +1,51 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "pantry_stock_up_landing_mf4a6Y": {
+      "type": "pantry-stock-up-landing",
+      "name": "Pantry Event Landing",
+      "settings": {
+        "heading": "Pantry Stock-Up Event",
+        "subheading": "Don't check out yet. Grab these exclusive add-on bundles. Combine with our 30% Off Sitewide Sale for maximum savings.",
+        "countdown_date": "2025-11-30 23:59:59",
+        "product_1": "icon-protein-coffee-3-pack-buy-2-get-1-free",
+        "badge_1": "GET 1 TUB FREE",
+        "title_1": "Protein Coffee Trio",
+        "desc_1": "Pay for 2 tubs, get the 3rd FREE. (Save $35)",
+        "retail_1": "$105.00",
+        "price_1": "$70.00",
+        "math_1": "Just $23.33 / tub (Reg. $35)",
+        "product_2": "protein-popcorn-2-pack-any-2-for-12",
+        "badge_2": "BUNDLE & SAVE",
+        "title_2": "Guilt-Free Popcorn Bundles",
+        "desc_2": "Pick any 2 for $12 — or stock up with 5 for $30.",
+        "retail_2": "$16.00",
+        "price_2": "From $12.00",
+        "math_2": "Save up to 40%",
+        "product_3": "icon-seasonings-4-pack-any-4-for-25",
+        "badge_3": "TOP RATED",
+        "title_3": "Custom Seasoning 4-Pack",
+        "desc_3": "Build your own variety pack. Zero calories, big flavor.",
+        "retail_3": "$40.00",
+        "price_3": "$25.00",
+        "math_3": "$6.25 per bottle (Reg. $10)"
+      }
+    },
+    "main": {
+      "type": "template--page",
+      "settings": {}
+    }
+  },
+  "order": [
+    "pantry_stock_up_landing_mf4a6Y",
+    "main"
+  ]
+}

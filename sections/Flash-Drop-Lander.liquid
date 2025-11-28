@@ -1,15 +1,15 @@
 {% comment %}
 
 Shopify Section: Flash-Drop Lander
-Version: 16.7.2 (Content Update: Shredded Chicken & Egg Bowl)
+Version: 16.7.3 (Content Update: Salsa Verde Chicken)
 Author: AI Lead Developer
 
-V16.7.2 Revisions:
-1. Updated Product Data: Switched to Shredded Chicken & Egg Bowl.
-2. Updated Price: Fixed at $8.60.
-3. Updated Macros: 480 Cal / 51g Protein / 11g Carbs / 26g Fats.
-4. Updated Ingredients Modal: Reflected Keto profile, new breakdown, and allergens (Egg, Milk).
-5. Image Logic: Primary set to provided PNG; Secondary set to dynamic product image to prevent mismatch.
+V16.7.3 Revisions:
+1. Updated Product Data: Switched to Salsa Verde Chicken w/ Rice & Beans.
+2. Updated Price: Fixed at $8.00.
+3. Updated Macros: 430 Cal / 43g Protein / 39g Carbs / 7g Fats.
+4. Updated Ingredients Modal: Reflected Salsa Verde profile, Spanish Rice, and allergens (Milk).
+5. Image Logic: Primary set to provided PNG; Secondary set to dynamic product image.
 
 =====================================================================================
 {% endcomment %}
@@ -35,8 +35,8 @@ V16.7.2 Revisions:
     endif
   endif
 
-  # UPDATE: Sale Price set to $8.60 (860 cents)
-  assign sale_price_fixed = 860
+  # UPDATE: Sale Price set to $8.00 (800 cents)
+  assign sale_price_fixed = 800
 
   # Allow headline to be overridden by a section setting.
   assign headline_title = product.title
@@ -45,7 +45,7 @@ V16.7.2 Revisions:
   endif
 
   # UPDATE: Primary Image
-  assign primary_image_url = 'https://iconmeals.com/cdn/shop/files/Shredded-Cicken-and-Egg-Bowl.png?v=1762439852'
+  assign primary_image_url = 'https://iconmeals.com/cdn/shop/files/Verde-Chicken-Rice-and-Beans.png?v=1762439890'
   
   # UPDATE: Secondary Image (Dynamic fallback to 2nd product image)
   if product.images.size > 1
@@ -86,7 +86,7 @@ V16.7.2 Revisions:
               {%- else -%}
                 <img
                   src="{{ primary_image_url }}"
-                  alt="Plated shot of {{ product.title | default: 'Shredded Chicken & Egg Bowl' }}"
+                  alt="Plated shot of {{ product.title | default: 'Salsa Verde Chicken' }}"
                   class="flash-drop__hero-image"
                   loading="eager"
                   width="600"
@@ -120,25 +120,25 @@ V16.7.2 Revisions:
               <div class="flash-drop__macros">
                 <div class="flash-drop__macros-grid">
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '480' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '430' }}</span>
                     <span class="flash-drop__macro-label">Calories</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '51g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '43g' }}</span>
                     <span class="flash-drop__macro-label">Protein</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '11g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '39g' }}</span>
                     <span class="flash-drop__macro-label">Carbs</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '26g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '7g' }}</span>
                     <span class="flash-drop__macro-label">Fats</span>
                   </div>
                 </div>
               </div>
               <p class="flash-drop__ingredients">
-                <strong>The Burrito Flavor, No Tortilla:</strong> {{ product.metafields.custom.main_ingredients | default: 'Shredded Chicken, Fluffy Scrambled Eggs, Red Potatoes, Black Beans, Monterey Jack Cheese, Bacon.' }}
+                <strong>South-of-the-border flavors:</strong> {{ product.metafields.custom.main_ingredients | default: 'Seasoned chicken in salsa verde, Jalapeño-laced Monterey Jack cheese, Savory Spanish rice, Hearty black beans.' }}
               </p>
               <button type="button" class="flash-drop__modal-trigger" data-modal-trigger="ingredients-modal">See Full Ingredients</button>
             {%- endif -%}
@@ -153,9 +153,9 @@ V16.7.2 Revisions:
               <p class="flash-drop__h1-suboffer">To See The Live Offer</p>
             </div>
           {%- else -%}
-            <h1 class="flash-drop__h1">{{ headline_title | default: 'Shredded Chicken & Egg Bowl' }}</h1>
+            <h1 class="flash-drop__h1">{{ headline_title | default: 'Salsa Verde Chicken' }}</h1>
             <div class="flash-drop__h1-suboffer-wrapper">
-              <p class="flash-drop__h1-suboffer">$8.60 Today Only</p>
+              <p class="flash-drop__h1-suboffer">$8.00 Today Only</p>
             </div>
           {%- endif -%}
 
@@ -167,25 +167,25 @@ V16.7.2 Revisions:
               <div class="flash-drop__macros">
                 <div class="flash-drop__macros-grid">
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '480' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.calories | default: '430' }}</span>
                     <span class="flash-drop__macro-label">Calories</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '51g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.protein_g | default: '43g' }}</span>
                     <span class="flash-drop__macro-label">Protein</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '11g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.carbs_g | default: '39g' }}</span>
                     <span class="flash-drop__macro-label">Carbs</span>
                   </div>
                   <div class="flash-drop__macro-item">
-                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '26g' }}</span>
+                    <span class="flash-drop__macro-value">{{ product.metafields.custom.fat_g | default: '7g' }}</span>
                     <span class="flash-drop__macro-label">Fats</span>
                   </div>
                 </div>
               </div>
               <p class="flash-drop__ingredients">
-                <strong>The Burrito Flavor, No Tortilla:</strong> {{ product.metafields.custom.main_ingredients | default: 'Shredded Chicken, Fluffy Scrambled Eggs, Red Potatoes, Black Beans, Monterey Jack Cheese, Bacon.' }}
+                <strong>South-of-the-border flavors:</strong> {{ product.metafields.custom.main_ingredients | default: 'Seasoned chicken in salsa verde, Jalapeño-laced Monterey Jack cheese, Savory Spanish rice, Hearty black beans.' }}
               </p>
               <button type="button" class="flash-drop__modal-trigger" data-modal-trigger="ingredients-modal">See Full Ingredients</button>
             {%- endif -%}
@@ -255,7 +255,7 @@ V16.7.2 Revisions:
       {%- assign video_id = section.settings.youtube_video_url | split: '/' | last -%}
       <section class="flash-drop__section">
         <div class="flash-drop__container flash-drop__container--narrow">
-          <h2 class="flash-drop__section-title">The Burrito Flavor, No Tortilla. 51g Protein. 🧀🥩</h2>
+          <h2 class="flash-drop__section-title">Bright, spicy flavors. 43g Protein. 🌶️🍗</h2>
           <div class="flash-drop__video-wrapper">
             <iframe
               src="https://www.youtube.com/embed/{{ video_id }}?autoplay=1&mute=1&controls=0&loop=1&playlist={{ video_id }}&rel=0&modestbranding=1"
@@ -348,31 +348,37 @@ V16.7.2 Revisions:
         <div class="flash-drop__modal-body">
           <h3>Main Components</h3>
           <ul>
-            <li><strong>Protein:</strong> Shredded Chicken, Scrambled Eggs (Whole & Whites), Bacon</li>
+            <li><strong>Protein:</strong> Seasoned Chicken Breast (Boneless, Skinless)</li>
             <li>
-              <strong>Vegetable Base</strong>
+              <strong>Bases</strong>
               <div class="flash-drop__sub-ingredients">
-                Red Potatoes (Roasted), Black Beans
+                Perfect Parboiled Rice, Low Sodium Black Beans
               </div>
             </li>
             <li>
-              <strong>Dairy</strong>
+              <strong>Salsa Verde</strong>
               <div class="flash-drop__sub-ingredients">
-                Monterey Jack Cheese (with Jalapeño Peppers), Cheddar Cheese
+                Tomatillos, Jalapeño Peppers, Onions, Cilantro
+              </div>
+            </li>
+             <li>
+              <strong>Cheese</strong>
+              <div class="flash-drop__sub-ingredients">
+                Monterey Jack Cheese with Jalapeño Peppers
               </div>
             </li>
           </ul>
           <h3>🧂 Seasonings & Spices</h3>
           <ul>
-            <li>Parsley, Onion Powder, Garlic Powder</li>
-            <li>Paprika, Black Pepper, Chili Powder</li>
+            <li>Fresh Peeled Garlic</li>
+            <li>Green Chile Peppers</li>
+            <li>Paprika, Ground Cumin, Black Pepper</li>
             <li>Kosher Salt</li>
-            <li>Extra Virgin Olive Oil</li>
           </ul>
            <h3>⚠️ Allergens & Diet</h3>
           <ul>
-            <li>Contains: <strong>Egg, Milk</strong></li>
-            <li>Features: <strong>Keto Friendly, Gluten-Free</strong></li>
+            <li>Contains: <strong>Milk</strong></li>
+            <li>Features: <strong>Gluten-Free</strong></li>
           </ul>
         </div>
       {%- endif -%}
@@ -412,7 +418,17 @@ V16.7.2 Revisions:
 .flash-drop__hero { background: var(--fd-color-background-alt); padding: 2rem 0 4rem; overflow: hidden; }
 .flash-drop__hero-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
 .flash-drop__hero-content { text-align: center; }
-.flash-drop__h1 { font-family: var(--fd-font-hero); font-size: clamp(2.5rem, 9vw, 4rem); line-height: 1.1; color: var(--fd-color-heading); text-transform: uppercase; margin: 0; text-wrap: balance; }
+/* Updated for Long Product Titles */
+.flash-drop__h1 { 
+  font-family: var(--fd-font-hero); 
+  /* Reduced size: Min 1.6rem, Max 3rem (was 4rem) */
+  font-size: clamp(1.6rem, 5vw, 3rem); 
+  line-height: 1.05; 
+  color: var(--fd-color-heading); 
+  text-transform: uppercase; 
+  margin: 0; 
+  text-wrap: balance; 
+}
 .flash-drop__h1-suboffer-wrapper { display: inline-block; background-color: var(--fd-color-accent); padding: 0.25rem 1rem; border-radius: var(--fd-radius); margin: 0.75rem 0 1.5rem; }
 .flash-drop__h1-suboffer {
   font-family: var(--fd-font-hero);
