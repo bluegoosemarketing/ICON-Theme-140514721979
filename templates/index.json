@@ -10,43 +10,35 @@
 {
   "wrapper": "div.index-sections",
   "sections": {
-    "hero_black_friday_EWCjzd": {
-      "type": "hero-black-friday",
-      "name": "[V24] Black Friday Hero",
+    "hero_v25_cyber_monday_84gryR": {
+      "type": "hero-v25-cyber-monday",
+      "name": "[V25] Cyber Monday Hero",
       "settings": {
-        "credibility_text": "BLACK FRIDAY LIVE",
+        "credibility_text": "CYBER MONDAY LIVE",
         "heading_tag": "h1",
         "headline": "30% OFF SITE-WIDE",
         "subheadline": "No subscription required. Plus, unlock exclusive doorbuster bundles at checkout.",
-        "promo_code": "BF2025",
-        "hero_alt": "ICON Meals Black Friday Sale",
+        "promo_code": "CM2025",
+        "hero_alt": "ICON Meals Cyber Monday Sale",
         "preload_hero": true,
         "cta_button_text": "SHOP THE SALE",
-        "cta_url": "https://iconmeals.com/discount/BF2025?redirect=/collections/signature-menu",
-        "cta_aria": "Shop the Black Friday Sale",
+        "cta_url": "/collections/signature-menu",
+        "cta_aria": "Shop the Cyber Monday Sale",
         "min_height_desktop": 70,
         "min_height_mobile": 90
       }
     },
-    "bf_daily_drop_bar_3EKbFR": {
-      "type": "BF-daily-drop-bar",
-      "name": "Daily Drop Bar",
+    "cyber_monday_dashboard_RmNRi9": {
+      "type": "cyber-monday-dashboard",
+      "name": "CM Dashboard (FullWidth)",
       "settings": {
         "enable_bar": true,
-        "label_text": "BLACK FRIDAY DEAL",
-        "end_date": "2025-11-29T02:00:59",
-        "product_title": "Salsa Verde Chicken with Spanish Style Rice & Beans",
-        "product_image": "shopify://shop_images/Verde-Chicken-Rice-and-Beans_0c1d16cb-cafb-4dc5-9526-87e9d20dd5ba.png",
-        "price": "$8.00",
-        "compare_price": "$13.00",
-        "badge_text": "TODAY ONLY",
-        "button_text": "SHOW ME THE DEAL",
-        "link_url": "/pages/bf2025",
-        "bg_color": "#151212",
-        "text_color": "#ffffff",
-        "accent_color": "#ffd700",
-        "btn_bg_color": "#ffffff",
-        "btn_text_color": "#000000"
+        "vault_title": "The Vault Unlocked",
+        "vault_image": "shopify://shop_images/Split-Image.jpg",
+        "timer_end_date": "2025-12-01T23:59:59",
+        "vault_link": "shopify://collections/signature-menu",
+        "discount_code": "CM2025",
+        "snack_link": "https://iconmeals.com/pages/pantry-stock-up-event"
       }
     },
     "authority_bar_grBYWU": {
@@ -220,8 +212,8 @@
     }
   },
   "order": [
-    "hero_black_friday_EWCjzd",
-    "bf_daily_drop_bar_3EKbFR",
+    "hero_v25_cyber_monday_84gryR",
+    "cyber_monday_dashboard_RmNRi9",
     "authority_bar_grBYWU",
     "homepage_process_PmGH7t",
     "standards_ApTC3f",

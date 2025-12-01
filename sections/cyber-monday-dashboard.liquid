@@ -1,0 +1,372 @@
+{%- comment -%}
+  CYBER MONDAY COMMAND CENTER (V1.0)
+  - Style: Cyber Blue/Cyan Gradient Theme.
+  - Structure: 3-Column Grid (Vault / Code / Pantry).
+  - Mobile: Horizontally stackable/scrollable.
+{%- endcomment -%}
+
+{% if section.settings.enable_bar %}
+<div class="cm-dash-wrapper" id="cm-dash-section" data-end-time="{{ section.settings.timer_end_date }}">
+  
+  <!-- CONTEXT HEADER -->
+  <div class="cm-dash-header-row">
+    <div class="cm-dash-indicator">
+      <span class="cm-pulse"></span>
+      <span class="cm-live-text">CYBER MONDAY LIVE</span>
+    </div>
+    <div class="cm-dash-headline">LAST CHANCE: THE VAULT OPENS FOR 24 HOURS</div>
+  </div>
+
+  <div class="cm-dash-container">
+    
+    <!-- 1. THE VAULT (Replacing Daily Drop) -->
+    <a href="{{ section.settings.vault_link }}" class="cm-dash-card cm-dash-card--primary">
+      <div class="cm-dash-badge">UNLOCKED</div>
+      <div class="cm-dash-inner">
+        <div class="cm-dash-media">
+          {% if section.settings.vault_image %}
+            <img src="{{ section.settings.vault_image | image_url: width: 200 }}" loading="eager" alt="The Vault">
+          {% else %}
+            <!-- Placeholder Icon -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="#06b6d4" stroke-width="1.5"><path d="M12 15V17M6 21H18C19.1046 21 20 20.1046 20 19V13C20 11.8954 19.1046 11 18 11H6C4.89543 11 4 11.8954 4 13V19C4 20.1046 4.89543 21 6 21ZM16 11V7C16 4.79086 14.2091 3 12 3C9.79086 3 8 4.79086 8 7V11H16Z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          {% endif %}
+        </div>
+        <div class="cm-dash-content">
+          <div class="cm-dash-eyebrow">24 Hours Only</div>
+          <div class="cm-dash-title">{{ section.settings.vault_title }}</div>
+          <div class="cm-dash-desc">Titan Burrito, Chili Mac & More</div>
+          <div class="cm-dash-meta">
+            <span class="cm-dash-price">From $8.00</span>
+            <span class="cm-dash-timer" id="cm-dash-timer">--:--:--</span>
+          </div>
+        </div>
+        <div class="cm-dash-arrow">→</div>
+      </div>
+    </a>
+
+    <!-- 2. SITEWIDE CODE (Replacing Subscription) -->
+    <div class="cm-dash-card"> <!-- Not a link, copy-able area -->
+      <div class="cm-dash-badge cm-dash-badge--blue">SITEWIDE SALE</div>
+      <div class="cm-dash-inner">
+        <div class="cm-dash-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path><line x1="7" y1="7" x2="7.01" y2="7"></line></svg>
+        </div>
+        <div class="cm-dash-content">
+          <div class="cm-dash-eyebrow">30% Off Everything</div>
+          <div class="cm-dash-title">Use Code: <span style="color:#06b6d4;">{{ section.settings.discount_code }}</span></div>
+          <div class="cm-dash-sub">Excludes Gift Cards & Drops</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3. PANTRY STOCK UP (Meals Drops + 40% Off) -->
+    <a href="{{ section.settings.snack_link }}" class="cm-dash-card">
+      <div class="cm-dash-badge cm-dash-badge--cyan">ADD-ONS</div>
+      <div class="cm-dash-inner">
+        <div class="cm-dash-icon-wrap cm-dash-icon-wrap--cyan">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg>
+        </div>
+        <div class="cm-dash-content">
+          <div class="cm-dash-eyebrow">Stock The Freezer</div>
+          <div class="cm-dash-title">Up to 40% Off</div>
+          <div class="cm-dash-sub">Meal Bundles & Popcorn</div>
+        </div>
+        <div class="cm-dash-arrow">→</div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+<style>
+  /* ─── CYBER MONDAY PALETTE ─── */
+  :root {
+    --cm-cyan: #06b6d4;
+    --cm-blue: #3b82f6;
+    --cm-dark: #0f172a;
+    --cm-panel: #1e293b;
+    --cm-border: #334155;
+  }
+
+  /* ─── LAYOUT RESET ─── */
+  .cm-dash-wrapper {
+    width: 100vw !important;
+    position: relative !important;
+    left: 50% !important;
+    right: 50% !important;
+    margin-left: -50vw !important;
+    margin-right: -50vw !important;
+    background-color: #0b1120 !important; /* Very dark blue/black */
+    border-top: 4px solid var(--cm-cyan) !important;
+    border-bottom: 1px solid var(--cm-border) !important;
+    padding: 0 !important;
+    overflow: hidden;
+    z-index: 5;
+    color: white;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+
+  /* ─── HEADER ROW ─── */
+  .cm-dash-header-row {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 16px 40px 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .cm-dash-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(6, 182, 212, 0.15);
+    border: 1px solid rgba(6, 182, 212, 0.4);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  .cm-pulse {
+    width: 6px; height: 6px; border-radius: 50%;
+    background-color: var(--cm-cyan);
+    box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7);
+    animation: cm-pulse-anim 2s infinite;
+  }
+  @keyframes cm-pulse-anim {
+    0% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0.7); }
+    70% { box-shadow: 0 0 0 6px rgba(6, 182, 212, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(6, 182, 212, 0); }
+  }
+
+  .cm-live-text {
+    color: var(--cm-cyan); font-size: 10px; font-weight: 800; letter-spacing: 0.05em; text-transform: uppercase;
+  }
+
+  .cm-dash-headline {
+    color: #94a3b8;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  /* ─── CARD CONTAINER ─── */
+  .cm-dash-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    padding: 12px 40px 20px;
+    display: grid;
+    grid-template-columns: 1.3fr 1fr 1fr;
+    gap: 20px;
+  }
+
+  /* ─── CARD STYLES ─── */
+  .cm-dash-card {
+    position: relative;
+    background: var(--cm-panel) !important;
+    border: 1px solid var(--cm-border) !important;
+    border-radius: 8px !important;
+    padding: 16px 20px !important;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-decoration: none !important;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease !important;
+    color: white !important;
+  }
+
+  .cm-dash-card:hover {
+    transform: translateY(-4px);
+    background: #28374d !important;
+    border-color: #64748b !important;
+  }
+  .cm-dash-card--primary:hover {
+    border-color: var(--cm-cyan) !important;
+    box-shadow: 0 0 15px rgba(6, 182, 212, 0.15);
+  }
+
+  .cm-dash-inner {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+  }
+
+  /* ─── BADGES ─── */
+  .cm-dash-badge {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #0f172a;
+    color: #fff;
+    font-size: 9px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-bottom-left-radius: 8px;
+    border-left: 1px solid var(--cm-border);
+    border-bottom: 1px solid var(--cm-border);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+  }
+  .cm-dash-badge--blue { background: var(--cm-blue) !important; border:none; }
+  .cm-dash-badge--cyan { background: var(--cm-cyan) !important; color: #000 !important; border:none; }
+
+  /* ─── VISUALS ─── */
+  .cm-dash-media {
+    width: 64px; height: 64px; border-radius: 6px; overflow: hidden; flex-shrink: 0;
+    border: 1px solid var(--cm-border); background: #0f172a;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .cm-dash-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .cm-dash-media svg { width: 32px; height: 32px; }
+  
+  .cm-dash-icon-wrap {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: rgba(59, 130, 246, 0.1);
+    color: var(--cm-blue);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .cm-dash-icon-wrap--cyan {
+    background: rgba(6, 182, 212, 0.1);
+    color: var(--cm-cyan);
+  }
+  .cm-dash-icon-wrap svg { width: 24px; height: 24px; }
+
+  /* ─── CONTENT ─── */
+  .cm-dash-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cm-dash-eyebrow {
+    font-size: 10px; text-transform: uppercase; color: #94a3b8; font-weight: 700; letter-spacing: 0.5px;
+  }
+
+  .cm-dash-title {
+    font-family: 'Inter', sans-serif !important;
+    font-size: 14px; font-weight: 800; color: #fff !important;
+    text-transform: uppercase; line-height: 1.2;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+
+  .cm-dash-desc {
+    font-size: 11px; color: #cbd5e1; margin-bottom: 2px;
+  }
+
+  .cm-dash-meta {
+    display: flex; align-items: center; gap: 8px; margin-top: 2px;
+  }
+
+  .cm-dash-price { font-size: 18px; font-weight: 900; color: var(--cm-cyan); }
+  .cm-dash-sub { font-size: 11px; color: #94a3b8; line-height: 1.3; }
+
+  .cm-dash-timer {
+    font-family: monospace; background: #0f172a; color: var(--cm-cyan);
+    padding: 2px 6px; border-radius: 4px;
+    font-size: 12px; font-weight: 700;
+    border: 1px solid var(--cm-border);
+  }
+
+  .cm-dash-arrow {
+    font-size: 20px; color: #64748b; transition: transform 0.2s ease, color 0.2s ease;
+  }
+  .cm-dash-card:hover .cm-dash-arrow { color: #fff; transform: translateX(4px); }
+
+  /* ─── MOBILE (STACK & CENTER) ─── */
+  @media (max-width: 1024px) {
+    .cm-dash-header-row {
+      flex-direction: column;
+      gap: 8px;
+      padding: 16px 20px 4px;
+      text-align: center;
+    }
+    
+    .cm-dash-headline {
+      font-size: 10px; line-height: 1.4;
+    }
+
+    .cm-dash-container {
+      padding: 12px 20px 20px;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 12px;
+      -webkit-overflow-scrolling: touch;
+    }
+    
+    .cm-dash-card {
+      min-width: 280px;
+      scroll-snap-align: center;
+      flex-shrink: 0;
+    }
+
+    .cm-dash-container::-webkit-scrollbar { display: none; }
+    .cm-dash-container { scrollbar-width: none; }
+  }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const section = document.getElementById('cm-dash-section');
+  if(!section) return;
+
+  const timerDisplay = document.getElementById('cm-dash-timer');
+  const endDateStr = section.dataset.endTime; 
+
+  if(endDateStr && timerDisplay) {
+    const calculateTime = () => {
+      const now = new Date().getTime();
+      const end = new Date(endDateStr).getTime();
+      const distance = end - now;
+
+      if (distance < 0) {
+        timerDisplay.textContent = "ENDED";
+        timerDisplay.style.color = "#64748b";
+        return false;
+      }
+
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      const pad = (n) => n < 10 ? "0" + n : n;
+      timerDisplay.textContent = `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
+      return true;
+    };
+
+    calculateTime();
+    setInterval(calculateTime, 1000);
+  }
+});
+</script>
+{% endif %}
+
+{% schema %}
+{
+  "name": "CM Dashboard (FullWidth)",
+  "settings": [
+    { "type": "checkbox", "id": "enable_bar", "label": "Enable Section", "default": true },
+    
+    { "type": "header", "content": "Deal 1: The Vault" },
+    { "type": "text", "id": "vault_title", "label": "Title", "default": "The Vault Unlocked" },
+    { "type": "image_picker", "id": "vault_image", "label": "Product Image" },
+    { "type": "text", "id": "timer_end_date", "label": "End Date (ISO)", "default": "2025-12-02T23:59:59" },
+    { "type": "url", "id": "vault_link", "label": "Link" },
+
+    { "type": "header", "content": "Deal 2: Sitewide Code" },
+    { "type": "text", "id": "discount_code", "label": "Discount Code", "default": "CM2025" },
+
+    { "type": "header", "content": "Deal 3: Pantry/Add-ons" },
+    { "type": "url", "id": "snack_link", "label": "Link" }
+  ],
+  "presets": [
+    { "name": "CM Dashboard (FullWidth)" }
+  ]
+}
+{% endschema %}
