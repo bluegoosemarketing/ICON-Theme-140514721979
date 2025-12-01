@@ -1,0 +1,357 @@
+{%- comment -%}
+  ==============================================================================
+  CYBER MONDAY EXCLUSIVE - GIFT CARD BANNER (AJAX + AUTO-ADD LOGIC)
+  - Visual: Shows Buy $100 + Get $25 Free.
+  - Action: 
+    1. Hits /discount/CODE endpoint to set the cookie.
+    2. Adds ONLY the "Buy" variant to cart via AJAX.
+    3. Dispatches 'cart:updated' event (No redirect).
+  ==============================================================================
+{%- endcomment -%}
+
+{%- liquid
+  # Visual Math
+  assign total_value = buy_variant.price | plus: get_variant.price
+  assign final_price = buy_variant.price
+-%}
+
+<style>
+  /* --- CYBER MONDAY STYLES --- */
+  .cm-hero {
+    --cm-neon-blue: #00f3ff;
+    --cm-neon-purple: #bc13fe;
+    --cm-bg-dark: #050505;
+    --cm-card-bg: #111;
+    --cm-border: rgba(255, 255, 255, 0.15);
+    --cm-text-gray: #a0a0a0;
+    
+    position: relative;
+    background: radial-gradient(circle at 10% 10%, #1a1a2e 0%, #000000 80%);
+    border: 1px solid var(--cm-border);
+    border-radius: 24px;
+    padding: 0;
+    overflow: hidden;
+    color: #fff;
+    margin-bottom: 50px;
+    box-shadow: 0 0 40px rgba(188, 19, 254, 0.15);
+  }
+
+  .cm-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cm-neon-blue), var(--cm-neon-purple), transparent);
+    opacity: 0.8;
+  }
+
+  .cm-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    min-height: 400px;
+  }
+
+  /* --- LEFT SIDE: CONTENT --- */
+  .cm-content {
+    padding: 60px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .cm-badge {
+    display: inline-block;
+    background: linear-gradient(90deg, var(--cm-neon-purple), var(--cm-neon-blue));
+    color: #000;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+    align-self: flex-start;
+    box-shadow: 0 4px 15px rgba(0, 243, 255, 0.4);
+  }
+
+  .cm-title {
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 900;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    background: -webkit-linear-gradient(0deg, #fff, #b4b4ff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .cm-subtitle {
+    font-size: 18px;
+    color: #cfcfcf;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  /* --- RIGHT SIDE: VISUAL & RECEIPT --- */
+  .cm-visual {
+    background: #0b0b0d;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--cm-border);
+    overflow: hidden;
+  }
+
+  .cm-visual::after {
+    content: "";
+    position: absolute;
+    width: 300px; height: 300px;
+    background: var(--cm-neon-purple);
+    filter: blur(120px);
+    opacity: 0.2;
+    border-radius: 50%;
+  }
+
+  .cm-receipt-card {
+    position: relative;
+    z-index: 5;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 30px;
+    width: 320px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+  }
+  
+  .cm-hero:hover .cm-receipt-card {
+    transform: rotate(0deg) scale(1.02);
+  }
+
+  .cm-receipt-header {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--cm-text-gray);
+    margin-bottom: 20px;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+    padding-bottom: 15px;
+  }
+
+  .cm-line-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  
+  .cm-line-item.is-free {
+    color: var(--cm-neon-blue);
+  }
+
+  .cm-total-row {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px dashed rgba(255,255,255,0.2);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cm-total-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: var(--cm-text-gray);
+  }
+
+  .cm-total-price {
+    font-size: 28px;
+    font-weight: 900;
+    color: #fff;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  /* --- ACTIONS --- */
+  .cm-actions {
+    margin-top: auto;
+  }
+
+  .cm-btn {
+    background: #fff;
+    color: #000;
+    border: none;
+    width: 100%;
+    max-width: 380px;
+    height: 60px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .cm-btn:hover {
+    background: var(--cm-neon-blue);
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+    transform: translateY(-2px);
+  }
+
+  .cm-btn.is-loading {
+    opacity: 0.7;
+    pointer-events: none;
+    background: #ccc;
+  }
+
+  .cm-btn.is-added {
+    background: var(--cm-neon-blue);
+    color: #000;
+    box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
+  }
+
+  @media (max-width: 900px) {
+    .cm-grid { grid-template-columns: 1fr; }
+    .cm-visual { border-left: none; border-top: 1px solid var(--cm-border); padding: 40px 20px; }
+    .cm-receipt-card { transform: rotate(0); width: 100%; max-width: 340px; }
+    .cm-content { padding: 40px 24px; text-align: center; }
+    .cm-badge { align-self: center; }
+    .cm-subtitle { margin-left: auto; margin-right: auto; }
+    .cm-title { font-size: 32px; }
+    .cm-btn { margin: 0 auto; }
+  }
+</style>
+
+<div class="cm-hero">
+  <div class="cm-grid">
+    
+    <!-- Left Content -->
+    <div class="cm-content">
+      <div class="cm-badge">Cyber Monday Exclusive</div>
+      <h2 class="cm-title">{{ section.settings.bf_heading | default: "Buy $100, Get $25 Free" }}</h2>
+      <p class="cm-subtitle">{{ section.settings.bf_subheading | default: "Purchase a $100 Gift Card today and receive a bonus $25 Gift Card on us." }}</p>
+      
+      <div class="cm-actions">
+        <button type="button" class="cm-btn" id="cyber-deal-btn">
+          <span class="cm-btn-text">Add Deal To Cart - {{ final_price | money_without_trailing_zeros }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+        </button>
+        <div style="margin-top:12px; font-size: 12px; color: #666; text-align:center; max-width: 380px; width: 100%;" class="cm-discount-text">
+  Discount code <strong>{{ discount_code }}</strong> will be applied automatically.
+</div>
+<style>
+  @media (max-width: 900px) { .cm-discount-text { margin-left: auto; margin-right: auto; } }
+</style>
+      </div>
+    </div>
+
+    <!-- Right Visual (Receipt) -->
+    <div class="cm-visual">
+      <div class="cm-receipt-card">
+        <div class="cm-receipt-header">Order Summary</div>
+        
+        <div class="cm-line-item">
+          <span>{{ product_title }} ({{ buy_variant.price | money_without_trailing_zeros }})</span>
+          <span>{{ buy_variant.price | money }}</span>
+        </div>
+        
+        <div class="cm-line-item">
+          <span>{{ product_title }} ({{ get_variant.price | money_without_trailing_zeros }})</span>
+          <span>{{ get_variant.price | money }}</span>
+        </div>
+        
+        <div class="cm-line-item is-free">
+          <span>Cyber Monday Bonus</span>
+          <span>-{{ get_variant.price | money }}</span>
+        </div>
+        
+        <div class="cm-total-row">
+          <span class="cm-total-label">Total</span>
+          <span class="cm-total-price">{{ final_price | money }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('cyber-deal-btn');
+    if(!btn) return;
+
+    const discountCode = "{{ discount_code }}";
+    const buyVariantId = {{ buy_variant.id }};
+    const btnText = btn.querySelector('.cm-btn-text');
+    const originalText = btnText.innerText;
+
+    btn.addEventListener('click', async function() {
+      if(btn.classList.contains('is-loading') || btn.classList.contains('is-added')) return;
+
+      // 1. UI State -> Loading
+      btn.classList.add('is-loading');
+      btnText.innerText = 'Applying Deal...';
+
+      try {
+        // 2. Apply Discount Code (Background Fetch)
+        // Hitting this endpoint sets the cookie for the session
+        if(discountCode) {
+           await fetch(`/discount/${discountCode}`);
+        }
+
+        // 3. Add ONLY the Buy Variant ($100) to Cart
+        const itemsToAdd = {
+          items: [{ id: buyVariantId, quantity: 1 }]
+        };
+
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(itemsToAdd)
+        });
+
+        if (response.ok) {
+           // 4. Success State
+           const cart = await response.json();
+           
+           // Update Button
+           btn.classList.remove('is-loading');
+           btn.classList.add('is-added');
+           btnText.innerText = 'Added!';
+           
+           // Dispatch Cart Event (Updates Drawer/Badges)
+           document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
+
+           // Reset Button after 2 seconds
+           setTimeout(() => {
+             btn.classList.remove('is-added');
+             btnText.innerText = originalText;
+           }, 2000);
+
+        } else {
+          throw new Error('Cart add failed');
+        }
+
+      } catch (error) {
+        console.error(error);
+        btn.classList.remove('is-loading');
+        btnText.innerText = 'Error - Try Again';
+        setTimeout(() => {
+          btnText.innerText = originalText;
+        }, 2000);
+      }
+    });
+  });
+</script>

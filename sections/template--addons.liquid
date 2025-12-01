@@ -1,9 +1,8 @@
 {%- comment -%}
   ==============================================================================
-  DYNAMIC ADD-ONS SECTION V4 - MASTER POLISH
-  - Color Psychology Applied: Green (Price), Yellow (Logic), Red (Urgency).
-  - "Receipt" style layout for price breakdown.
-  - Optimized desktop grid and mobile gutters.
+  DYNAMIC ADD-ONS SECTION V7 - AJAX DEAL
+  - Logic: Finds variants by price.
+  - Action: Passes variants to Snippet which handles AJAX add + Discount.
   ==============================================================================
 {%- endcomment -%}
 
@@ -13,18 +12,32 @@
   assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
   assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
 
-  # --- BLACK FRIDAY HERO PRODUCTS ---
-  assign bf_product_1 = all_products[section.settings.bf_bundle_product_1]
-  assign bf_product_2 = all_products[section.settings.bf_bundle_product_2]
-  assign bf_product_3 = all_products[section.settings.bf_bundle_product_3]
-
-  # Use the 'sample' filter to randomly pick ONE block from each group.
+  # Randomly pick ONE block from each group
   assign slot1_block = slot1_blocks | sample
   assign slot2_block = slot2_blocks | sample
   assign slot3_block = slot3_blocks | sample
 
-  # --- BOGO PROMO PRODUCT ---
-  assign bogo_product = section.settings.pp_bogo_product
+  # --- CYBER MONDAY VARIANT FINDER ---
+  assign gift_product = all_products[section.settings.cm_gift_card_product]
+  
+  # Convert inputs to cents (Shopify prices are in cents)
+  assign buy_target_cents = section.settings.cm_buy_price | times: 100
+  assign get_target_cents = section.settings.cm_get_price | times: 100
+
+  assign cm_buy_variant = nil
+  assign cm_get_variant = nil
+
+  # Loop through variants to find the ones matching the price
+  if gift_product != empty
+    for variant in gift_product.variants
+      if variant.price == buy_target_cents
+        assign cm_buy_variant = variant
+      endif
+      if variant.price == get_target_cents
+        assign cm_get_variant = variant
+      endif
+    endfor
+  endif
 
   # --- FALLBACK PRODUCT DEFINITIONS ---
   assign fallback_product_1 = all_products['cinnabun-krunch-protein-popcorn']
@@ -35,525 +48,62 @@
 
 <div class="addons-page-wrapper" data-free-delivery-target="{{ free_delivery_target }}">
   <div class="container">
-    <style>
-      /* --- GLOBAL VARIABLES & THEME --- */
-      .bf-addons-hero {
-        /* Layout */
-        --bf-hero-padding: 48px;
-        --bf-hero-mobile-gutter: 20px;
-        
-        /* Colors */
-        --bf-bg-gradient: radial-gradient(circle at 50% 0%, #2a2a35 0%, #0e0e11 75%);
-        --bf-card-bg: #16161a;
-        --bf-border: rgba(255, 255, 255, 0.12);
-        
-        /* Psychology Colors */
-        --bf-primary-red: #ff4c4c;       /* Urgency / Brand */
-        --bf-action-green: #00e676;      /* Success / Price / Go */
-        --bf-logic-yellow: #ffea00;      /* Attention / Logic / Math */
-        --bf-muted-text: #9e9e9e;
-        
-        background: var(--bf-bg-gradient);
-        border: 1px solid var(--bf-border);
-        border-radius: 20px;
-        padding: var(--bf-hero-padding);
-        color: #fff;
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.7);
-        margin-bottom: 50px;
-        position: relative;
-        overflow: hidden;
-      }
-
-      /* Subtle top highlight */
-      .bf-addons-hero::before {
-        content: "";
-        position: absolute;
-        top: 0; left: 0; right: 0;
-        height: 1px;
-        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
-      }
-
-      /* --- HEADER SECTION --- */
-      .bf-addons-hero__header {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-end;
-        flex-wrap: wrap;
-        gap: 24px;
-        margin-bottom: 40px;
-        padding-bottom: 24px;
-        border-bottom: 1px solid rgba(255,255,255,0.06);
-      }
-
-      .bf-addons-hero__text-group {
-        flex: 1;
-        min-width: 320px;
-      }
-
-      .bf-addons-hero__title {
-        margin: 0 0 12px;
-        font-size: 42px;
-        letter-spacing: -0.01em;
-        text-transform: uppercase;
-        font-weight: 900;
-        line-height: 1;
-        color: #fff;
-        text-shadow: 0 4px 20px rgba(0,0,0,0.5);
-      }
-
-      .bf-addons-hero__subheading {
-        margin: 0;
-        color: #cfcfd5;
-        font-size: 17px;
-        max-width: 680px;
-        line-height: 1.6;
-        font-weight: 400;
-      }
-
-      /* --- COUNTDOWN (The "Time is Ticking" Element) --- */
-      .bf-addons-hero__countdown {
-        background: rgba(18, 18, 20, 0.6);
-        border: 1px solid rgba(255, 76, 76, 0.25);
-        border-radius: 12px;
-        padding: 14px 24px;
-        display: inline-flex;
-        flex-direction: column;
-        align-items: flex-end;
-        min-width: 220px;
-        backdrop-filter: blur(10px);
-        box-shadow: 0 8px 24px rgba(0,0,0,0.2);
-      }
-
-      .bf-addons-hero__countdown-label {
-        font-size: 11px;
-        letter-spacing: 0.15em;
-        text-transform: uppercase;
-        color: var(--bf-primary-red);
-        margin-bottom: 4px;
-        font-weight: 800;
-      }
-
-      .bf-addons-hero__countdown-value {
-        font-size: 28px;
-        font-weight: 800;
-        font-variant-numeric: tabular-nums;
-        line-height: 1;
-        letter-spacing: 0.02em;
-        color: #fff;
-      }
-
-      .bf-addons-hero__countdown.is-expired .bf-addons-hero__countdown-value {
-        font-size: 16px;
-        color: var(--bf-muted-text);
-      }
-
-      /* --- GRID LAYOUT --- */
-      .bf-addons-hero__grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 28px;
-        margin-bottom: 32px;
-      }
-
-      /* --- CARD STYLING --- */
-      .bf-bundle-card {
-        background: var(--bf-card-bg);
-        border: 1px solid var(--bf-border);
-        border-radius: 16px;
-        overflow: hidden;
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), box-shadow 0.3s ease, border-color 0.3s ease;
-        position: relative;
-      }
-
-      .bf-bundle-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.6);
-        border-color: rgba(255,255,255,0.3);
-        z-index: 5;
-      }
-
-      /* Image Area */
-      .bf-bundle-card__image-wrapper {
-        position: relative;
-        display: block;
-        padding-top: 65%;
-        background: #0f0f12;
-        overflow: hidden;
-        border-bottom: 1px solid rgba(255,255,255,0.05);
-      }
-
-      .bf-bundle-card__image {
-        position: absolute;
-        top: 0; left: 0; width: 100%; height: 100%;
-      }
-
-      .bf-bundle-card__image img {
-        width: 100%; height: 100%; object-fit: cover;
-        transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1);
-      }
-
-      .bf-bundle-card:hover .bf-bundle-card__image img {
-        transform: scale(1.08);
-      }
-
-      /* Badges */
-      .bf-bundle-card__badges {
-        position: absolute;
-        top: 14px;
-        right: 14px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        gap: 8px;
-        z-index: 2;
-      }
-
-      .bf-badge {
-        padding: 6px 12px;
-        border-radius: 6px;
-        font-size: 11px;
-        font-weight: 800;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-        line-height: 1;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.5);
-      }
-
-      .bf-badge--custom {
-        background: #fff;
-        color: #000;
-      }
-
-      .bf-badge--save {
-        background: var(--bf-action-green); /* Green signals money saved */
-        color: #000; /* Black text on neon green for max contrast */
-      }
-
-      /* Content Area */
-      .bf-bundle-card__content {
-        padding: 22px;
-        display: flex;
-        flex-direction: column;
-        flex-grow: 1;
-      }
-
-      .bf-bundle-card__header {
-        margin-bottom: 16px;
-      }
-
-      .bf-bundle-card__title {
-        font-size: 20px;
-        margin: 0 0 8px;
-        font-weight: 800;
-        color: #fff;
-        line-height: 1.25;
-      }
-
-      .bf-bundle-card__tagline {
-        margin: 0;
-        color: #90909a;
-        font-size: 13px;
-        line-height: 1.5;
-        font-weight: 500;
-      }
-
-      /* PRICE BREAKDOWN - The "Receipt" Look */
-      .bf-bundle-card__meta {
-        margin-top: auto;
-        background: rgba(0,0,0,0.25);
-        border-radius: 10px;
-        padding: 16px;
-        border: 1px solid rgba(255,255,255,0.08);
-      }
-
-      .bf-meta-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 6px;
-        font-size: 13px;
-      }
-
-      .bf-meta-label {
-        color: var(--bf-muted-text);
-        font-weight: 500;
-      }
-
-      .bf-meta-value.strike {
-        text-decoration: line-through;
-        color: #666;
-        font-weight: 500;
-      }
-
-      .bf-meta-row--price {
-        margin-top: 10px;
-        padding-top: 10px;
-        border-top: 1px dashed rgba(255,255,255,0.15); /* Receipt style dashed line */
-        align-items: baseline;
-      }
-
-      .bf-price-highlight {
-        color: var(--bf-action-green);
-        font-weight: 900;
-        font-size: 22px;
-        text-shadow: 0 0 25px rgba(0, 230, 118, 0.2); /* Subtle neon glow */
-      }
-
-      .bf-meta-row--detail {
-        font-size: 11px;
-        color: var(--bf-logic-yellow); /* Yellow forces attention to the logic */
-        justify-content: center;
-        font-weight: 700;
-        margin-top: 8px;
-        text-transform: uppercase;
-        letter-spacing: 0.05em;
-      }
-
-      /* Footer / CTA */
-      .bf-bundle-card__footer {
-        padding: 0 22px 24px;
-      }
-
-      .bf-bundle-card__add-btn {
-        width: 100%;
-        background: #fff;
-        color: #000;
-        border: none;
-        border-radius: 8px;
-        height: 52px;
-        font-weight: 900;
-        text-transform: uppercase;
-        letter-spacing: 0.08em;
-        font-size: 14px;
-        cursor: pointer;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 12px;
-        text-decoration: none !important;
-        transition: all 0.2s ease-out;
-      }
-
-      .bf-bundle-card__add-btn:hover {
-        background: var(--bf-primary-red);
-        color: #fff;
-        box-shadow: 0 10px 25px rgba(255, 76, 76, 0.4);
-        transform: translateY(-2px);
-      }
-      
-      .bf-bundle-card__add-btn svg {
-        transition: transform 0.2s;
-      }
-      
-      .bf-bundle-card__add-btn:hover svg {
-        transform: translateX(4px);
-      }
-
-      .bf-bundle-card__add-btn.is-loading {
-        opacity: 0.8;
-        pointer-events: none;
-        background: #e0e0e0;
-      }
-      
-      .bf-bundle-card__add-btn.is-added {
-        background: var(--bf-action-green) !important;
-        color: #000 !important;
-        box-shadow: none;
-      }
-
-      /* --- CTA ROW --- */
-      .bf-addons-hero__cta-row {
-        text-align: center;
-        margin-top: 32px;
-      }
-      
-      .bf-addons-hero__cta {
-        background: transparent;
-        border: 1px solid rgba(255,255,255,0.4);
-        color: #fff;
-        padding: 16px 40px;
-        text-transform: uppercase;
-        font-weight: 800;
-        letter-spacing: 0.1em;
-        border-radius: 8px;
-        transition: all 0.2s ease;
-        display: inline-block;
-      }
-      
-      .bf-addons-hero__cta:hover {
-        background: #fff;
-        color: #000;
-        border-color: #fff;
-      }
-
-      /* --- MOBILE RESPONSIVE --- */
-      @media (max-width: 991px) {
-        .bf-addons-hero__grid {
-          grid-template-columns: repeat(2, 1fr);
-        }
-        
-        .bf-addons-hero__title {
-          font-size: 32px;
-        }
-      }
-
-      @media (max-width: 640px) {
-        .addons-page-wrapper > .container {
-          padding-left: 0; padding-right: 0;
-        }
-
-        .bf-addons-hero {
-          padding: 36px var(--bf-hero-mobile-gutter);
-          border-radius: 0;
-          border: none;
-          margin-left: 0; margin-right: 0;
-          width: 100%;
-        }
-
-        .bf-addons-hero__header {
-          flex-direction: column;
-          align-items: flex-start;
-          gap: 20px;
-        }
-        
-        .bf-addons-hero__countdown {
-          width: 100%;
-          min-width: auto;
-          align-items: flex-start;
-        }
-
-        .bf-addons-hero__grid {
-          grid-template-columns: 1fr;
-          gap: 32px;
-        }
-
-        .bf-bundle-card__image-wrapper {
-          padding-top: 58%; 
-        }
-        
-        .bf-addons-hero__title {
-           font-size: 30px; 
-        }
-      }
-    </style>
-
-    <div class="bf-addons-hero">
-      <div class="bf-addons-hero__header">
-        <div class="bf-addons-hero__text-group">
-          <h2 class="bf-addons-hero__title">{{ section.settings.bf_heading | escape }}</h2>
-          <p class="bf-addons-hero__subheading">{{ section.settings.bf_subheading }}</p>
-        </div>
-        
-        <div class="bf-addons-hero__countdown" data-bf-countdown data-end-date="{{ section.settings.bf_countdown_end_date }}" data-expired-text="{{ section.settings.bf_expired_label | escape }}">
-          <span class="bf-addons-hero__countdown-label" data-countdown-label>{{ section.settings.bf_countdown_label | escape }}</span>
-          <span class="bf-addons-hero__countdown-value" data-countdown-time></span>
-        </div>
-      </div>
-
-      <div class="bf-addons-hero__grid">
-        {% if bf_product_1 %}
-          {% render 'bf-bundle-card', 
-             product_obj: bf_product_1, 
-             card_id: 'bf-1', 
-             slot: 'bf-1', 
-             title_override: section.settings.bf_bundle_title_1,
-             tagline: "Pay for 2 tubs, get the 3rd FREE. (Save $35)",
-             badge_text: "GET 1 TUB FREE",
-             compare_text: "Retail Value: $105.00",
-             price_override_text: section.settings.bf_bundle_price_text_1,
-             bottom_detail_text: "Now $23.33 / tub (Reg. $35)",
-             cta_type: section.settings.bf_bundle_cta_type_1, 
-             cta_text: section.settings.bf_bundle_cta_text_1 
-          %}
-        {% endif %}
-        
-        {% if bf_product_2 %}
-          {% render 'bf-bundle-card', 
-             product_obj: bf_product_2, 
-             card_id: 'bf-2', 
-             slot: 'bf-2', 
-             title_override: section.settings.bf_bundle_title_2,
-             tagline: section.settings.bf_bundle_tagline_2,
-             badge_text: section.settings.bf_bundle_badge_2,
-             compare_text: section.settings.bf_bundle_compare_text_2,
-             price_override_text: section.settings.bf_bundle_price_text_2,
-             bottom_detail_text: section.settings.bf_bundle_detail_text_2,
-             cta_type: section.settings.bf_bundle_cta_type_2, 
-             cta_text: section.settings.bf_bundle_cta_text_2 
-          %}
-        {% endif %}
-        
-        {% if bf_product_3 %}
-          {% render 'bf-bundle-card', 
-             product_obj: bf_product_3, 
-             card_id: 'bf-3', 
-             slot: 'bf-3', 
-             title_override: section.settings.bf_bundle_title_3,
-             tagline: section.settings.bf_bundle_tagline_3,
-             badge_text: section.settings.bf_bundle_badge_3,
-             compare_text: section.settings.bf_bundle_compare_text_3,
-             price_override_text: section.settings.bf_bundle_price_text_3,
-             bottom_detail_text: section.settings.bf_bundle_detail_text_3,
-             cta_type: section.settings.bf_bundle_cta_type_3, 
-             cta_text: section.settings.bf_bundle_cta_text_3 
-          %}
-        {% endif %}
-      </div>
-
-      <div class="bf-addons-hero__cta-row">
-        <a class="btn bf-addons-hero__cta" href="/checkout" data-checkout-url>{{ section.settings.bf_cta_text | escape }}</a>
-      </div>
-    </div>
     
-    {%- comment -%} RENDER THE BOGO PROMO BANNER {%- endcomment -%}
-    {% render 'addons-pp-bogo', section: section, bogo_product: bogo_product %}
+    {%- comment -%} 
+      RENDER THE CYBER MONDAY EXCLUSIVE BANNER 
+      We pass the SPECIFIC VARIANTS found by price logic.
+    {%- endcomment -%}
+    {% if cm_buy_variant and cm_get_variant %}
+      {% render 'cm-gift-banner', 
+         section: section, 
+         product_title: gift_product.title,
+         buy_variant: cm_buy_variant, 
+         get_variant: cm_get_variant,
+         discount_code: section.settings.cm_discount_code 
+      %}
+    {% elsif gift_product != empty %}
+       <!-- Debug: Variants not found. Ensure price inputs (e.g. 100) match variant price (100.00) -->
+    {% endif %}
 
+    {%- comment -%} KEEP FREE DELIVERY PROMO LOGIC {%- endcomment -%}
     {% if settings.enable_free_delivery_promo %}
       <div class="free-shipping-upsell hidden" data-double-up-upsell data-locked-template="{{ settings.free_delivery_locked_message }}">
-      
-      {%- comment -%} Initial state of the banner {%- endcomment -%}
-      <div class="free-shipping-upsell__inner">
-        <div class="upsell__content">
-          <div class="upsell__icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+        <div class="free-shipping-upsell__inner">
+          <div class="upsell__content">
+            <div class="upsell__icon">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-truck"><rect x="1" y="3" width="15" height="13"></rect><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon><circle cx="5.5" cy="18.5" r="2.5"></circle><circle cx="18.5" cy="18.5" r="2.5"></circle></svg>
+            </div>
+            <div class="upsell__text-wrapper">
+              <div class="upsell__header">
+                  <h3 class="upsell__title" data-upsell-title>{{ settings.free_delivery_locked_message }}</h3>
+              </div>
+              <div class="upsell__progress" aria-hidden="true">
+                <div class="upsell__progress-fill" style="width:0%"></div>
+              </div>
+              <p class="upsell__description" data-upsell-description>
+                <span class="upsell-copy--desktop"></span>
+                <span class="upsell-copy--mobile"></span>
+              </p>
+            </div>
           </div>
-          <div class="upsell__text-wrapper">
-            <div class="upsell__header">
-                <h3 class="upsell__title" data-upsell-title>{{ settings.free_delivery_locked_message }}</h3>
-            </div>
-            
-            <div class="upsell__progress" aria-hidden="true">
-              <div class="upsell__progress-fill" style="width:0%"></div>
-            </div>
-
-            <p class="upsell__description" data-upsell-description>
-              <span class="upsell-copy--desktop"></span>
-              <span class="upsell-copy--mobile"></span>
-            </p>
+          <div class="upsell__action">
+            <button type="button" class="btn upsell__cta" data-upsell-button>
+              Yes, Add Meals & Save
+            </button>
+            <p class="upsell__clarification">This will automatically update your cart.</p>
           </div>
         </div>
-        <div class="upsell__action">
-          <button type="button" class="btn upsell__cta" data-upsell-button>
-            Yes, Add Meals & Save
-          </button>
-          <p class="upsell__clarification">This will automatically update your cart.</p>
+
+        <div class="upsell__success-state">
+            <div class="upsell__success-icon">
+               <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+            </div>
+            <div class="upsell__text-wrapper">
+                <h3 class="upsell__title">{{ settings.free_delivery_unlocked_message }}</h3>
+                <p class="upsell__description">{% if settings.free_delivery_discount_code != blank %}Use code {{ settings.free_delivery_discount_code }} at checkout.{% endif %}</p>
+            </div>
         </div>
       </div>
-
-      {%- comment -%} Success state of the banner {%- endcomment -%}
-      <div class="upsell__success-state">
-          <div class="upsell__success-icon">
-             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
-          </div>
-          <div class="upsell__text-wrapper">
-              <h3 class="upsell__title">{{ settings.free_delivery_unlocked_message }}</h3>
-              <p class="upsell__description">{% if settings.free_delivery_discount_code != blank %}Use code {{ settings.free_delivery_discount_code }} at checkout.{% endif %}</p>
-          </div>
-      </div>
-    </div>
     {% endif %}
 
     <div class="addons-grid">
@@ -585,7 +135,7 @@
       </a>
     </div>
   </div>
- </div>
+</div>
 
 {% if settings.enable_free_delivery_promo %}
 <script src="{{ 'addons-double-up.js' | asset_url }}" defer></script>
@@ -612,7 +162,7 @@
       }
     }
 
-    // --- 2. Quantity Selectors (Standard Grid) ---
+    // --- 2. Quantity Selectors ---
     const addonsGrid = document.querySelector('.addons-grid');
     if (addonsGrid) {
       addonsGrid.addEventListener('click', function(event) {
@@ -768,9 +318,6 @@
 
 {% if settings.enable_free_delivery_promo %}
 <script>
-  /**
-   * Free Shipping Upsell Conversion Enhancements
-   */
   document.addEventListener('DOMContentLoaded', () => {
     const pageWrapper = document.querySelector('.addons-page-wrapper');
     const upsellWrapper = document.querySelector('.free-shipping-upsell');
@@ -788,7 +335,6 @@
     const descMobileSpan = upsellWrapper.querySelector('.upsell-copy--mobile');
 
     if (!titleEl || !ctaButton || !descriptionEl || !progressFill || !iconWrapper || !clarifierEl || !descDesktopSpan || !descMobileSpan) {
-      console.warn('Upsell banner element(s) missing. Enhancements disabled.');
       return;
     }
 
@@ -833,75 +379,6 @@
   });
 </script>
 {% endif %}
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    const countdown = document.querySelector('[data-bf-countdown]');
-    if (!countdown) return;
-
-    const endDateString = countdown.dataset.endDate;
-    const expiredLabel = countdown.dataset.expiredText || '';
-    const timeEl = countdown.querySelector('[data-countdown-time]');
-    const labelEl = countdown.querySelector('[data-countdown-label]');
-
-    function pad(value) {
-      return value.toString().padStart(2, '0');
-    }
-
-    function parseEndDate() {
-      if (!endDateString) return null;
-      const normalized = endDateString.replace(' ', 'T');
-      const date = new Date(normalized);
-      return isNaN(date.getTime()) ? null : date;
-    }
-
-    const endDate = parseEndDate();
-
-    function setExpiredState() {
-      countdown.classList.add('is-expired');
-      if (labelEl) {
-        labelEl.textContent = expiredLabel;
-      }
-      if (timeEl) {
-        timeEl.textContent = '';
-      }
-    }
-
-    function renderCountdown() {
-      if (!endDate) {
-        setExpiredState();
-        return false;
-      }
-
-      const now = new Date();
-      const diff = endDate.getTime() - now.getTime();
-
-      if (diff <= 0) {
-        setExpiredState();
-        return false;
-      }
-
-      const seconds = Math.floor(diff / 1000);
-      const days = Math.floor(seconds / 86400);
-      const hours = Math.floor((seconds % 86400) / 3600);
-      const minutes = Math.floor((seconds % 3600) / 60);
-      const remainingSeconds = seconds % 60;
-
-      if (timeEl) {
-        timeEl.textContent = `${pad(days)}d : ${pad(hours)}h : ${pad(minutes)}m : ${pad(remainingSeconds)}s`;
-      }
-      return true;
-    }
-
-    renderCountdown();
-    const intervalId = setInterval(function() {
-      const active = renderCountdown();
-      if (!active) {
-        clearInterval(intervalId);
-      }
-    }, 1000);
-  });
-</script>
-<script src="{{ 'addons-popcorn-bogo.js' | asset_url }}" defer></script>
 
 {% schema %}
 {
@@ -909,266 +386,46 @@
   "settings": [
     {
       "type": "header",
-      "content": "Black Friday Hero"
+      "content": "Cyber Monday Gift Card"
     },
     {
       "type": "text",
       "id": "bf_heading",
       "label": "Heading",
-      "default": "Unlock Exclusive Black Friday Deals"
+      "default": "Buy $100, Get $25 Free"
     },
     {
       "type": "text",
       "id": "bf_subheading",
       "label": "Subheading",
-      "default": "Stock up on coffee, seasonings, and popcorn before you check out. These bundles are priced lower than our standard 30% off."
-    },
-    {
-      "type": "text",
-      "id": "bf_countdown_label",
-      "label": "Countdown Label",
-      "default": "Black Friday Ends In"
-    },
-    {
-      "type": "text",
-      "id": "bf_expired_label",
-      "label": "Expired Label",
-      "default": "Black Friday Sale Ending – Prices Subject to Change"
-    },
-    {
-      "type": "text",
-      "id": "bf_countdown_end_date",
-      "label": "Countdown End Date/Time",
-      "info": "Format: YYYY-MM-DD HH:MM:SS (24-hour). Example: 2024-11-29 23:59:59"
-    },
-
-    /* --- BUNDLE 1 SETTINGS --- */
-    {
-      "type": "header",
-      "content": "Bundle 1 (Left)"
+      "default": "Purchase a $100 Gift Card today and receive a bonus $25 Gift Card on us."
     },
     {
       "type": "product",
-      "id": "bf_bundle_product_1",
-      "label": "Bundle Product 1"
+      "id": "cm_gift_card_product",
+      "label": "Select Gift Card Product",
+      "info": "Select the main Gift Card product that contains all variants."
     },
     {
       "type": "text",
-      "id": "bf_bundle_title_1",
-      "label": "Title Override",
-      "info": "Overrides product title. e.g. 'Coffee Lovers Bundle'"
+      "id": "cm_buy_price",
+      "label": "Buy Variant Price (e.g. 100)",
+      "default": "100",
+      "info": "Enter the whole number price of the card the customer pays for."
     },
     {
       "type": "text",
-      "id": "bf_bundle_tagline_1",
-      "label": "Tagline",
-      "default": "Buy 2, Get 1 Free • Morning fuel, ready to go."
+      "id": "cm_get_price",
+      "label": "Free Variant Price (e.g. 25)",
+      "default": "25",
+      "info": "Enter the whole number price of the card the customer gets for free."
     },
     {
       "type": "text",
-      "id": "bf_bundle_badge_1",
-      "label": "Badge Text",
-      "default": "3-PACK"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_compare_text_1",
-      "label": "Retail Value (Strikethrough)",
-      "default": "$105.00"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_price_text_1",
-      "label": "Price Display Override"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_detail_text_1",
-      "label": "Bottom Math/Detail",
-      "default": "Just $23.33 per bag"
-    },
-    {
-      "type": "select",
-      "id": "bf_bundle_cta_type_1",
-      "label": "CTA Action",
-      "options": [
-        { "value": "add_to_cart", "label": "Add to Cart" },
-        { "value": "link_to_product", "label": "Link to Product" }
-      ],
-      "default": "add_to_cart"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_cta_text_1",
-      "label": "CTA Button Label"
-    },
-
-    /* --- BUNDLE 2 SETTINGS --- */
-    {
-      "type": "header",
-      "content": "Bundle 2 (Middle)"
-    },
-    {
-      "type": "product",
-      "id": "bf_bundle_product_2",
-      "label": "Bundle Product 2"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_title_2",
-      "label": "Title Override"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_tagline_2",
-      "label": "Tagline",
-      "default": "Any 2 for $12 • Perfect movie-night add-on."
-    },
-     {
-      "type": "text",
-      "id": "bf_bundle_badge_2",
-      "label": "Badge Text",
-      "default": "BUNDLE & SAVE"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_compare_text_2",
-      "label": "Retail Value",
-      "default": "Retail $16.00"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_price_text_2",
-      "label": "Price Override",
-      "default": "From $12.00"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_detail_text_2",
-      "label": "Bottom Math",
-      "default": "Save up to 40%"
-    },
-    {
-      "type": "select",
-      "id": "bf_bundle_cta_type_2",
-      "label": "CTA Action",
-      "options": [
-        { "value": "add_to_cart", "label": "Add to Cart" },
-        { "value": "link_to_product", "label": "Link to Product" }
-      ],
-      "default": "add_to_cart"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_cta_text_2",
-      "label": "CTA Button Label"
-    },
-
-    /* --- BUNDLE 3 SETTINGS --- */
-    {
-      "type": "header",
-      "content": "Bundle 3 (Right)"
-    },
-    {
-      "type": "product",
-      "id": "bf_bundle_product_3",
-      "label": "Bundle Product 3"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_title_3",
-      "label": "Title Override"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_tagline_3",
-      "label": "Tagline",
-      "default": "Any 4 for $25 • Season every meal like a pro."
-    },
-     {
-      "type": "text",
-      "id": "bf_bundle_badge_3",
-      "label": "Badge Text",
-      "default": "TOP RATED"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_compare_text_3",
-      "label": "Retail Value",
-      "default": "$40.00"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_price_text_3",
-      "label": "Price Override"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_detail_text_3",
-      "label": "Bottom Math",
-      "default": "$6.25 per bottle"
-    },
-    {
-      "type": "select",
-      "id": "bf_bundle_cta_type_3",
-      "label": "CTA Action",
-      "options": [
-        { "value": "add_to_cart", "label": "Add to Cart" },
-        { "value": "link_to_product", "label": "Link to Product" }
-      ],
-      "default": "add_to_cart"
-    },
-    {
-      "type": "text",
-      "id": "bf_bundle_cta_text_3",
-      "label": "CTA Button Label"
-    },
-    {
-      "type": "text",
-      "id": "bf_cta_text",
-      "label": "Checkout CTA Text",
-      "default": "Continue to Checkout"
-    },
-    {
-      "type": "header",
-      "content": "BOGO Popcorn Promo"
-    },
-    {
-      "type": "checkbox",
-      "id": "enable_pp_bogo",
-      "label": "Enable BOGO Promo Banner",
-      "default": false
-    },
-    {
-      "type": "product",
-      "id": "pp_bogo_product",
-      "label": "BOGO Product"
-    },
-    {
-      "type": "product",
-      "id": "pp_bogo_gift_product",
-      "label": "Free Gift Product"
-    },
-    {
-      "type": "text",
-      "id": "pp_bogo_headline",
-      "label": "Promo Headline",
-      "default": "GET A FREE SAVORY STARTER PACK!"
-    },
-    {
-      "type": "text",
-      "id": "pp_bogo_countdown_end_date",
-      "label": "Countdown End Date"
-    },
-    {
-      "type": "textarea",
-      "id": "pp_bogo_flavors",
-      "label": "Flavors in Pack"
-    },
-    {
-      "type": "textarea",
-      "id": "pp_bogo_benefits",
-      "label": "Benefit List"
+      "id": "cm_discount_code",
+      "label": "Discount Code",
+      "default": "Gift25Free",
+      "info": "This code will be applied when the customer adds the deal."
     }
   ],
   "max_blocks": 50,
