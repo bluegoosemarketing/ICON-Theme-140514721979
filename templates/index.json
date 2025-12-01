@@ -22,7 +22,7 @@
         "hero_alt": "ICON Meals Cyber Monday Sale",
         "preload_hero": true,
         "cta_button_text": "SHOP THE SALE",
-        "cta_url": "/collections/signature-menu",
+        "cta_url": "https://iconmeals.com/discount/CM2025?redirect=/collections/signature-menu",
         "cta_aria": "Shop the Cyber Monday Sale",
         "min_height_desktop": 70,
         "min_height_mobile": 90

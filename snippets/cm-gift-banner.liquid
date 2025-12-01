@@ -1,16 +1,13 @@
 {%- comment -%}
   ==============================================================================
-  CYBER MONDAY EXCLUSIVE - GIFT CARD BANNER (AJAX + AUTO-ADD LOGIC)
+  CYBER MONDAY EXCLUSIVE - GIFT CARD BANNER (FINAL FIXED VERSION)
   - Visual: Shows Buy $100 + Get $25 Free.
-  - Action: 
-    1. Hits /discount/CODE endpoint to set the cookie.
-    2. Adds ONLY the "Buy" variant to cart via AJAX.
-    3. Dispatches 'cart:updated' event (No redirect).
+  - Action: Adds BOTH variants ($100 and $25) to cart via AJAX.
+  - Includes: Mobile edge-to-edge fix + Centered discount text.
   ==============================================================================
 {%- endcomment -%}
 
 {%- liquid
-  # Visual Math
   assign total_value = buy_variant.price | plus: get_variant.price
   assign final_price = buy_variant.price
 -%}
@@ -222,7 +219,19 @@
     box-shadow: 0 0 30px rgba(0, 243, 255, 0.5);
   }
 
+  /* --- RESPONSIVE FIXES (Mobile Aesthetic + Centering) --- */
   @media (max-width: 900px) {
+    .cm-hero {
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid var(--cm-border);
+      /* Break out of container to go full-width */
+      margin-left: 0px; 
+      margin-right: 0px;
+      /* Pull up to remove top gap */
+      margin-top: -15px;
+      margin-bottom: 30px;
+    }
     .cm-grid { grid-template-columns: 1fr; }
     .cm-visual { border-left: none; border-top: 1px solid var(--cm-border); padding: 40px 20px; }
     .cm-receipt-card { transform: rotate(0); width: 100%; max-width: 340px; }
@@ -231,6 +240,7 @@
     .cm-subtitle { margin-left: auto; margin-right: auto; }
     .cm-title { font-size: 32px; }
     .cm-btn { margin: 0 auto; }
+    .cm-discount-text { margin-left: auto; margin-right: auto; }
   }
 </style>
 
@@ -249,11 +259,8 @@
           <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
         </button>
         <div style="margin-top:12px; font-size: 12px; color: #666; text-align:center; max-width: 380px; width: 100%;" class="cm-discount-text">
-  Discount code <strong>{{ discount_code }}</strong> will be applied automatically.
-</div>
-<style>
-  @media (max-width: 900px) { .cm-discount-text { margin-left: auto; margin-right: auto; } }
-</style>
+          Discount code <strong>{{ discount_code }}</strong> will be applied automatically.
+        </div>
       </div>
     </div>
 
@@ -293,7 +300,9 @@
     if(!btn) return;
 
     const discountCode = "{{ discount_code }}";
+    // Using simple liquid output to ensure ID is present in JS
     const buyVariantId = {{ buy_variant.id }};
+    const getVariantId = {{ get_variant.id }};
     const btnText = btn.querySelector('.cm-btn-text');
     const originalText = btnText.innerText;
 
@@ -306,14 +315,16 @@
 
       try {
         // 2. Apply Discount Code (Background Fetch)
-        // Hitting this endpoint sets the cookie for the session
         if(discountCode) {
            await fetch(`/discount/${discountCode}`);
         }
 
-        // 3. Add ONLY the Buy Variant ($100) to Cart
+        // 3. Add BOTH VARIANTS to Cart (Explicitly)
         const itemsToAdd = {
-          items: [{ id: buyVariantId, quantity: 1 }]
+          items: [
+            { id: buyVariantId, quantity: 1 },
+            { id: getVariantId, quantity: 1 }
+          ]
         };
 
         const response = await fetch('/cart/add.js', {
@@ -323,7 +334,6 @@
         });
 
         if (response.ok) {
-           // 4. Success State
            const cart = await response.json();
            
            // Update Button
@@ -334,7 +344,6 @@
            // Dispatch Cart Event (Updates Drawer/Badges)
            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
 
-           // Reset Button after 2 seconds
            setTimeout(() => {
              btn.classList.remove('is-added');
              btnText.innerText = originalText;
