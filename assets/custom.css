@@ -53,6 +53,13 @@ body.template-product .product-review-stars {
     overflow: hidden; /* the document no longer scrolls on desktop PDP */
   }
 
+  /* Allow scrolling only on the BeBalanced Recharge bundle template */
+  body.template-product.template-suffix--recharge-bundle-bebalanced {
+    min-height: var(--app-viewport-height, 100dvh);
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
   /* Make top-level wrappers fill the viewport height */
   body.template-product #PageContainer,
   body.template-product #main-body,
