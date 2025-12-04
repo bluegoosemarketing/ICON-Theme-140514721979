@@ -1,0 +1,384 @@
+{%- comment -%}
+  ==============================================================================
+  HOLIDAY EXCLUSIVE - GIFT CARD BANNER
+  - Aesthetic: Holiday Red, Dark Background, "Gift Receipt" Visual.
+  - Action: Adds BOTH variants ($100 and $25) to cart via AJAX.
+  ==============================================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign total_value = buy_variant.price | plus: get_variant.price
+  assign final_price = buy_variant.price
+-%}
+
+<style>
+  /* --- HOLIDAY STYLES --- */
+  .holiday-hero {
+    --h-red: #e31837;       /* Brand Red */
+    --h-dark-red: #7f1d1d;
+    --h-gold: #fbbf24;      /* Gold Accent */
+    --h-bg-dark: #0f0f0f;
+    --h-border: rgba(255, 255, 255, 0.15);
+    --h-text-gray: #a0a0a0;
+    
+    position: relative;
+    /* Dark Holiday Gradient */
+    background: radial-gradient(circle at 10% 10%, #2a0a0a 0%, #000000 90%);
+    border: 1px solid var(--h-border);
+    border-radius: 24px;
+    padding: 0;
+    overflow: hidden;
+    color: #fff;
+    margin-bottom: 50px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Festive Top Border */
+  .holiday-hero::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0; height: 3px;
+    background: linear-gradient(90deg, var(--h-dark-red), var(--h-red), var(--h-gold), var(--h-red), var(--h-dark-red));
+    opacity: 1;
+    z-index: 10;
+  }
+
+  .holiday-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    min-height: 400px;
+  }
+
+  /* --- LEFT SIDE: CONTENT --- */
+  .holiday-content {
+    padding: 60px 48px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .holiday-badge {
+    display: inline-block;
+    background: var(--h-red);
+    color: #fff;
+    font-weight: 800;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 24px;
+    align-self: flex-start;
+    box-shadow: 0 4px 15px rgba(227, 24, 55, 0.4);
+  }
+
+  .holiday-title {
+    font-size: 48px;
+    line-height: 1.1;
+    font-weight: 900;
+    margin: 0 0 16px;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    color: #ffffff;
+  }
+
+  .holiday-subtitle {
+    font-size: 18px;
+    color: #cfcfcf;
+    margin-bottom: 32px;
+    line-height: 1.6;
+    max-width: 500px;
+  }
+
+  /* --- RIGHT SIDE: VISUAL & RECEIPT --- */
+  .holiday-visual {
+    background: #0b0b0d;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-left: 1px solid var(--h-border);
+    overflow: hidden;
+  }
+
+  /* Red Glow behind receipt */
+  .holiday-visual::after {
+    content: "";
+    position: absolute;
+    width: 300px; height: 300px;
+    background: var(--h-red);
+    filter: blur(120px);
+    opacity: 0.15;
+    border-radius: 50%;
+  }
+
+  .holiday-receipt-card {
+    position: relative;
+    z-index: 5;
+    background: #fff;
+    color: #111;
+    border-radius: 2px;
+    padding: 30px;
+    width: 320px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    transform: rotate(-2deg);
+    transition: transform 0.3s ease;
+  }
+  
+  /* Jagged bottom edge for receipt look */
+  .holiday-receipt-card::after {
+    content: "";
+    position: absolute;
+    bottom: -10px; left: 0; right: 0;
+    height: 10px;
+    background: linear-gradient(45deg, transparent 33.333%, #fff 33.333%, #fff 66.667%, transparent 66.667%), 
+                linear-gradient(-45deg, transparent 33.333%, #fff 33.333%, #fff 66.667%, transparent 66.667%);
+    background-size: 20px 40px;
+    background-position: 0 -20px; 
+  }
+
+  .holiday-hero:hover .holiday-receipt-card {
+    transform: rotate(0deg) scale(1.02);
+  }
+
+  .holiday-receipt-header {
+    text-align: center;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: #666;
+    margin-bottom: 20px;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 15px;
+  }
+
+  .holiday-line-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .holiday-line-item.is-free {
+    color: var(--h-red);
+  }
+
+  .holiday-total-row {
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 2px solid #111;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .holiday-total-label {
+    font-size: 13px;
+    text-transform: uppercase;
+    color: #111;
+    font-weight: 700;
+  }
+
+  .holiday-total-price {
+    font-size: 24px;
+    font-weight: 900;
+    color: #111;
+  }
+
+  /* --- ACTIONS --- */
+  .holiday-actions {
+    margin-top: auto;
+  }
+
+  .holiday-btn {
+    background: #fff;
+    color: var(--h-red);
+    border: none;
+    width: 100%;
+    max-width: 380px;
+    height: 60px;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .holiday-btn:hover {
+    background: #f3f3f3;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  }
+
+  .holiday-btn.is-loading {
+    opacity: 0.7;
+    pointer-events: none;
+    background: #ccc;
+  }
+
+  .holiday-btn.is-added {
+    background: #10b981; /* Success Green */
+    color: #fff;
+  }
+
+  .holiday-discount-text {
+    margin-top:12px; 
+    font-size: 12px; 
+    color: #888; 
+    text-align:center; 
+    max-width: 380px; 
+    width: 100%;
+  }
+
+  /* --- RESPONSIVE FIXES --- */
+  @media (max-width: 900px) {
+    .holiday-hero {
+      border-radius: 0;
+      border: none;
+      border-bottom: 1px solid var(--h-border);
+      /* Break out of container */
+      margin-left: 0px; 
+      margin-right: 0px;
+      margin-top: -15px;
+      margin-bottom: 30px;
+    }
+    .holiday-grid { grid-template-columns: 1fr; }
+    .holiday-visual { border-left: none; border-top: 1px solid var(--h-border); padding: 50px 20px; }
+    .holiday-receipt-card { transform: rotate(0); width: 100%; max-width: 340px; }
+    .holiday-content { padding: 40px 24px; text-align: center; }
+    .holiday-badge { align-self: center; }
+    .holiday-subtitle { margin-left: auto; margin-right: auto; }
+    .holiday-title { font-size: 32px; }
+    .holiday-btn { margin: 0 auto; }
+    .holiday-discount-text { margin-left: auto; margin-right: auto; }
+  }
+</style>
+
+<div class="holiday-hero">
+  <div class="holiday-grid">
+    
+    <!-- Left Content -->
+    <div class="holiday-content">
+      <div class="holiday-badge">Holiday Special</div>
+      <h2 class="holiday-title">{{ section.settings.promo_heading | default: "Buy $100, Get $25 Free" }}</h2>
+      <p class="holiday-subtitle">{{ section.settings.promo_subheading | default: "Give the gift of fuel. Purchase a $100 Gift Card and receive a bonus $25 Gift Card." }}</p>
+      
+      <div class="holiday-actions">
+        <button type="button" class="holiday-btn" id="holiday-deal-btn">
+          <span class="holiday-btn-text">Add Gift To Cart - {{ final_price | money_without_trailing_zeros }}</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v10H4V12"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"/><path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"/></svg>
+        </button>
+        <div class="holiday-discount-text">
+          Discount code <strong>{{ discount_code }}</strong> will be applied automatically.
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Visual (Receipt) -->
+    <div class="holiday-visual">
+      <div class="holiday-receipt-card">
+        <div class="holiday-receipt-header">Holiday Order</div>
+        
+        <div class="holiday-line-item">
+          <span>{{ product_title }} ({{ buy_variant.price | money_without_trailing_zeros }})</span>
+          <span>{{ buy_variant.price | money }}</span>
+        </div>
+        
+        <div class="holiday-line-item">
+          <span>{{ product_title }} ({{ get_variant.price | money_without_trailing_zeros }})</span>
+          <span>{{ get_variant.price | money }}</span>
+        </div>
+        
+        <div class="holiday-line-item is-free">
+          <span>Holiday Bonus</span>
+          <span>-{{ get_variant.price | money }}</span>
+        </div>
+        
+        <div class="holiday-total-row">
+          <span class="holiday-total-label">Total Due</span>
+          <span class="holiday-total-price">{{ final_price | money }}</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const btn = document.getElementById('holiday-deal-btn');
+    if(!btn) return;
+
+    const discountCode = "{{ discount_code }}";
+    const buyVariantId = {{ buy_variant.id }};
+    const getVariantId = {{ get_variant.id }};
+    const btnText = btn.querySelector('.holiday-btn-text');
+    const originalText = btnText.innerText;
+
+    btn.addEventListener('click', async function() {
+      if(btn.classList.contains('is-loading') || btn.classList.contains('is-added')) return;
+
+      // 1. UI State -> Loading
+      btn.classList.add('is-loading');
+      btnText.innerText = 'Applying Gift...';
+
+      try {
+        // 2. Apply Discount Code (Background Fetch)
+        if(discountCode) {
+           await fetch(`/discount/${discountCode}`);
+        }
+
+        // 3. Add BOTH VARIANTS to Cart (Explicitly)
+        const itemsToAdd = {
+          items: [
+            { id: buyVariantId, quantity: 1 },
+            { id: getVariantId, quantity: 1 }
+          ]
+        };
+
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(itemsToAdd)
+        });
+
+        if (response.ok) {
+           const cart = await response.json();
+           
+           // Update Button
+           btn.classList.remove('is-loading');
+           btn.classList.add('is-added');
+           btnText.innerText = 'Added!';
+           
+           // Dispatch Cart Event (Updates Drawer/Badges)
+           document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart: cart } }));
+
+           setTimeout(() => {
+             btn.classList.remove('is-added');
+             btnText.innerText = originalText;
+           }, 2000);
+
+        } else {
+          throw new Error('Cart add failed');
+        }
+
+      } catch (error) {
+        console.error(error);
+        btn.classList.remove('is-loading');
+        btnText.innerText = 'Error - Try Again';
+        setTimeout(() => {
+          btnText.innerText = originalText;
+        }, 2000);
+      }
+    });
+  });
+</script>

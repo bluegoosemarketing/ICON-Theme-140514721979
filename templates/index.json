@@ -10,35 +10,22 @@
 {
   "wrapper": "div.index-sections",
   "sections": {
-    "hero_v25_cyber_monday_84gryR": {
-      "type": "hero-v25-cyber-monday",
-      "name": "[V25] Cyber Monday Hero",
+    "hero_v26_evergreen_y3phTx": {
+      "type": "hero-v26-evergreen",
+      "name": "[V26] Evergreen Hero",
       "settings": {
-        "credibility_text": "CYBER MONDAY LIVE",
+        "credibility_text": "READY WHEN YOU ARE",
         "heading_tag": "h1",
-        "headline": "30% OFF SITE-WIDE",
-        "subheadline": "No subscription required. Plus, unlock exclusive doorbuster bundles at checkout.",
-        "promo_code": "CM2025",
-        "hero_alt": "ICON Meals Cyber Monday Sale",
+        "headline": "FUEL YOUR AMBITION",
+        "subheadline": "High-protein, chef-prepared meals delivered to your door. No shopping, chopping, or cleaning.",
+        "promo_code": "",
+        "hero_alt": "ICON Meals - Healthy Meal Delivery",
         "preload_hero": true,
-        "cta_button_text": "SHOP THE SALE",
-        "cta_url": "https://iconmeals.com/discount/CM2025?redirect=/collections/signature-menu",
-        "cta_aria": "Shop the Cyber Monday Sale",
+        "cta_button_text": "SHOP MEALS",
+        "cta_url": "/collections/signature-menu",
+        "cta_aria": "Shop the signature menu",
         "min_height_desktop": 70,
         "min_height_mobile": 90
-      }
-    },
-    "cyber_monday_dashboard_RmNRi9": {
-      "type": "cyber-monday-dashboard",
-      "name": "CM Dashboard (FullWidth)",
-      "settings": {
-        "enable_bar": true,
-        "vault_title": "The Vault Unlocked",
-        "vault_image": "shopify://shop_images/Split-Image.jpg",
-        "timer_end_date": "2025-12-01T23:59:59",
-        "vault_link": "shopify://collections/signature-menu",
-        "discount_code": "CM2025",
-        "snack_link": "https://iconmeals.com/pages/pantry-stock-up-event"
       }
     },
     "authority_bar_grBYWU": {
@@ -212,8 +199,7 @@
     }
   },
   "order": [
-    "hero_v25_cyber_monday_84gryR",
-    "cyber_monday_dashboard_RmNRi9",
+    "hero_v26_evergreen_y3phTx",
     "authority_bar_grBYWU",
     "homepage_process_PmGH7t",
     "standards_ApTC3f",

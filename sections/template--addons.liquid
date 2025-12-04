@@ -1,10 +1,9 @@
-sections/template--addons.liquid:
-
 {%- comment -%}
   ==============================================================================
-  DYNAMIC ADD-ONS SECTION V8 - ID MATCHING
+  DYNAMIC ADD-ONS SECTION V9 - HOLIDAY EDITION
   - Logic: Uses explicit Variant IDs from Schema.
   - Ensures accurate variant adding.
+  - Updated for Holiday Gift Card promo.
   ==============================================================================
 {%- endcomment -%}
 
@@ -18,23 +17,23 @@ sections/template--addons.liquid:
   assign slot2_block = slot2_blocks | sample
   assign slot3_block = slot3_blocks | sample
 
-  # --- CYBER MONDAY VARIANT FINDER (BY ID) ---
-  assign gift_product = all_products[section.settings.cm_gift_card_product]
+  # --- HOLIDAY PROMO VARIANT FINDER (BY ID) ---
+  assign gift_product = all_products[section.settings.promo_gift_card_product]
   
   # Get inputs (convert to number to match variant.id)
-  assign buy_target_id = section.settings.cm_buy_variant_id | plus: 0
-  assign get_target_id = section.settings.cm_get_variant_id | plus: 0
+  assign buy_target_id = section.settings.promo_buy_variant_id | plus: 0
+  assign get_target_id = section.settings.promo_get_variant_id | plus: 0
 
-  assign cm_buy_variant = nil
-  assign cm_get_variant = nil
+  assign promo_buy_variant = nil
+  assign promo_get_variant = nil
 
   if gift_product != empty
     for variant in gift_product.variants
       if variant.id == buy_target_id
-        assign cm_buy_variant = variant
+        assign promo_buy_variant = variant
       endif
       if variant.id == get_target_id
-        assign cm_get_variant = variant
+        assign promo_get_variant = variant
       endif
     endfor
   endif
@@ -50,15 +49,15 @@ sections/template--addons.liquid:
   <div class="container">
     
     {%- comment -%} 
-      RENDER THE CYBER MONDAY EXCLUSIVE BANNER 
+      RENDER THE HOLIDAY GIFT BANNER 
     {%- endcomment -%}
-    {% if cm_buy_variant and cm_get_variant %}
-      {% render 'cm-gift-banner', 
+    {% if promo_buy_variant and promo_get_variant %}
+      {% render 'holiday-gift-banner', 
          section: section, 
          product_title: gift_product.title,
-         buy_variant: cm_buy_variant, 
-         get_variant: cm_get_variant,
-         discount_code: section.settings.cm_discount_code 
+         buy_variant: promo_buy_variant, 
+         get_variant: promo_get_variant,
+         discount_code: section.settings.promo_discount_code 
       %}
     {% endif %}
 
@@ -381,43 +380,43 @@ sections/template--addons.liquid:
   "settings": [
     {
       "type": "header",
-      "content": "Cyber Monday Gift Card"
+      "content": "Holiday Gift Card Promo"
     },
     {
       "type": "text",
-      "id": "bf_heading",
+      "id": "promo_heading",
       "label": "Heading",
       "default": "Buy $100, Get $25 Free"
     },
     {
       "type": "text",
-      "id": "bf_subheading",
+      "id": "promo_subheading",
       "label": "Subheading",
       "default": "Purchase a $100 Gift Card today and receive a bonus $25 Gift Card on us."
     },
     {
       "type": "product",
-      "id": "cm_gift_card_product",
+      "id": "promo_gift_card_product",
       "label": "Select Gift Card Product",
       "info": "Select the main Gift Card product."
     },
     {
       "type": "text",
-      "id": "cm_buy_variant_id",
+      "id": "promo_buy_variant_id",
       "label": "Buy Variant ID",
       "default": "42900474888379",
       "info": "The ID of the item the customer pays for ($100)."
     },
     {
       "type": "text",
-      "id": "cm_get_variant_id",
+      "id": "promo_get_variant_id",
       "label": "Get Variant ID",
       "default": "42874129121467",
       "info": "The ID of the item the customer gets for FREE ($25)."
     },
     {
       "type": "text",
-      "id": "cm_discount_code",
+      "id": "promo_discount_code",
       "label": "Discount Code",
       "default": "Gift25Free",
       "info": "This code will be applied when the customer adds the deal."

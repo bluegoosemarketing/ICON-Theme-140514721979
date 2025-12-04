@@ -12,12 +12,12 @@
     "main": {
       "type": "template--addons",
       "settings": {
-        "bf_heading": "GIVE $100, GET $25",
-        "bf_subheading": "Buy a $100 Gift Card and get a $25 bonus card on the house. Limited time only.",
-        "cm_gift_card_product": "gift-card",
-        "cm_buy_price": "100",
-        "cm_get_price": "25",
-        "cm_discount_code": "Gift25Free"
+        "promo_heading": "Buy $100, Get $25 Free",
+        "promo_subheading": "Purchase a $100 Gift Card today and receive a bonus $25 Gift Card on us.",
+        "promo_gift_card_product": "gift-card",
+        "promo_buy_variant_id": "42900474888379",
+        "promo_get_variant_id": "42874129121467",
+        "promo_discount_code": "Gift25Free"
       }
     }
   },

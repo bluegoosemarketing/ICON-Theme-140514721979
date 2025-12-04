@@ -1,0 +1,572 @@
+{%- comment -%}
+  Hero Section V26.0 — EVERGREEN EDITION
+  - Aesthetic: Standard Brand Colors (Red/Black/White).
+  - Default Copy: "Fuel Your Ambition".
+  - Retains all LCP/SEO/Modal logic.
+{%- endcomment -%}
+
+{%- if section.settings.preload_hero -%}
+  <link
+    rel="preload"
+    as="image"
+    href="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v2.2.jpg?v=1760531304' }}"
+    imagesrcset="
+      {{ section.settings.mobile_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_DMobile-Hero_10.14.25_v1.jpg?v=1760473296' }} 767w,
+      {{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v2.2.jpg?v=1760531304' }} 1200w
+    "
+    imagesizes="(max-width:767px) 100vw, 100vw"
+    fetchpriority="high"
+  >
+{%- endif -%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+
+<section class="hero22-section" id="home-hero" aria-label="ICON Meals Hero">
+  <div class="hero22-background">
+  <div class="hero22-ripple-overlay"></div>
+    <picture>
+      <source
+        media="(max-width: 767px)"
+        srcset="{{ section.settings.mobile_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_DMobile-Hero_10.14.25_v1.jpg?v=1760473296' }}"
+        width="768" height="960">
+      <source
+        media="(min-width: 768px)"
+        srcset="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v2.2.jpg?v=1760531304' }}"
+        width="1920" height="800">
+      <img
+        class="hero22-image"
+        src="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v2.2.jpg?v=1760531304' }}"
+        alt="{{ section.settings.hero_alt | escape | default: 'ICON Meals - Healthy Meal Delivery' }}"
+        width="1920" height="800"
+        sizes="(max-width:767px) 100vw, 100vw"
+        decoding="async"
+        fetchpriority="high"
+        loading="eager">
+    </picture>
+    <noscript>
+      <img
+        src="{{ section.settings.desktop_image | default: 'https://cdn.shopify.com/s/files/1/1957/2713/files/ICON-Meals_Desktop-Hero_10.14.25_v2.2.jpg?v=1760531304' }}"
+        alt="{{ section.settings.hero_alt | escape | default: 'ICON Meals - Healthy Meal Delivery' }}"
+        width="1920" height="800" class="hero22-image">
+    </noscript>
+  </div>
+
+  <div class="hero22-content-wrapper">
+    <div class="hero22-page-container">
+      <div class="hero22-content">
+        <!-- CREDIBILITY / BADGE -->
+        {%- if section.settings.credibility_text != blank -%}
+          <div class="hero22-badge-wrapper">
+            <p class="hero22-credibility-tag">{{ section.settings.credibility_text }}</p>
+          </div>
+        {%- endif -%}
+
+        <!-- HEADLINE -->
+        {%- assign tag = section.settings.heading_tag | default: 'h1' -%}
+        <{{ tag }} class="hero22-headline">
+          {{ section.settings.headline }}
+        </{{ tag }}>
+
+        <!-- SUBHEADLINE WITH CODE LOGIC -->
+        <div class="hero22-subheadline">
+          {{ section.settings.subheadline }}
+          {% if section.settings.promo_code != blank %}
+            <div class="hero22-code-block">
+              <span class="code-label">CODE:</span>
+              <span class="code-value">{{ section.settings.promo_code }}</span>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="hero22-cta-container">
+          <a
+            href="{{ section.settings.cta_url | default: '/collections/signature-menu' }}"
+            class="hero22-button"
+            aria-label="{{ section.settings.cta_aria | default: 'Shop the signature menu' }}">
+            {{ section.settings.cta_button_text | default: 'SHOP MEALS' }}
+            <span class="hero22-button-arrow" aria-hidden="true">→</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero22-meal-hotspot" role="button" tabindex="0" aria-label="Show details for Chicken Pasta Bowl"></div>
+
+  <!-- MODAL -->
+  <div class="hero22-modal-overlay" id="meal-modal-overlay" aria-hidden="true"></div>
+  <div class="hero22-modal" id="meal-modal" role="dialog" aria-modal="true" aria-labelledby="meal-modal-title" aria-hidden="true">
+    <button type="button" class="hero22-modal-close" aria-label="Close meal details">
+      &times;
+    </button>
+    <div class="hero22-modal-content">
+      <h3 id="meal-modal-title" class="hero22-modal-title">Chicken Pasta Bowl</h3>
+      <div class="hero22-modal-macros">
+        <div class="macro-item"><span>430</span> Calories</div>
+        <div class="macro-item"><span>42g</span> Protein</div>
+        <div class="macro-item"><span>51g</span> Carbs</div>
+        <div class="macro-item"><span>6.0g</span> Fats</div>
+        <div class="macro-item"><span>8g</span> Fiber</div>
+        <div class="macro-item"><span>220mg</span> Sodium</div>
+      </div>
+      <p class="hero22-modal-description">Tender chicken breast and al dente chickpea rotini soak up a rich, herb-forward marinara. Crisp green beans add fresh snap, while a touch of cottage cheese melts in for a creamy finish.</p>
+      <div class="hero22-modal-ingredients">
+        <strong>Main Ingredients:</strong> Tender chicken breast, Chickpea rotini pasta, Rich marinara, Green beans, Creamy cottage cheese.
+      </div>
+      <a href="https://iconmeals.com/collections/signature-menu/products/chicken-pasta-bowl" class="hero22-modal-button">
+        View Meal
+        <span class="hero22-button-arrow" aria-hidden="true">→</span>
+      </a>
+    </div>
+  </div>
+
+</section>
+
+<style>
+/* ──────────────────────────────────
+   HERO SECTION V26 (EVERGREEN)
+   ────────────────────────────────── */
+:root{
+  --font-heading-v22:'Inter',sans-serif;
+  --font-body-v22:'Inter',sans-serif;
+  --color-text-dark-v22:#111827;
+  --color-text-medium-v22:#374151;
+  
+  /* BRAND PALETTE (Standard) */
+  --color-brand-primary-v26: #e31837; /* Icon Red */
+  --color-brand-dark-v26: #b91c1c;    /* Darker Red for hover */
+  --color-brand-black-v26: #000000;
+  
+  --color-background-v22:#FFFFFF;
+}
+.hero22-section{
+  position:relative !important; width:100% !important; background-color:var(--color-background-v22) !important;
+  overflow:hidden !important; display:flex !important; box-shadow:0 4px 14px rgba(0,0,0,.04);
+  -webkit-text-size-adjust:100%; text-size-adjust:100%;
+}
+.hero22-background{ position:absolute !important; inset:0 !important; z-index:1 !important; }
+.hero22-image{
+  width:100% !important; height:100% !important; display:block !important; object-fit:cover !important; object-position:center;
+}
+.hero22-content-wrapper{
+  position:relative !important; z-index:2 !important; width:100% !important; display:flex !important; align-items:center !important;
+  padding:8vh 0 !important;
+}
+.hero22-page-container{
+  width:100% !important; max-width:1600px !important; margin:0 auto !important; padding:0 40px !important;
+}
+.hero22-content{ text-align:left !important; max-width:55% !important; }
+
+/* --- BADGE --- */
+.hero22-badge-wrapper {
+  margin-bottom: 20px !important;
+}
+.hero22-credibility-tag{
+  display: inline-block;
+  font-family:var(--font-body-v22) !important; font-size:0.85rem !important; font-weight:800 !important; 
+  color:#fff !important; 
+  /* BRAND SOLID RED */
+  background: var(--color-brand-primary-v26);
+  padding: 6px 14px; border-radius: 4px;
+  text-transform:uppercase !important; letter-spacing:1px !important; margin:0 !important;
+  box-shadow: 0 4px 12px rgba(227, 24, 55, 0.3);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+}
+
+/* --- HEADLINE --- */
+.hero22-headline{
+  font-family:var(--font-heading-v22) !important; font-size:clamp(3.5rem, 4vw + 1rem, 5.5rem) !important;
+  font-weight:900 !important; color:var(--color-text-dark-v22) !important; line-height:0.95 !important; text-transform:uppercase !important;
+  letter-spacing:-0.03em !important; margin:0 !important; overflow-wrap:normal !important; word-wrap:normal !important;
+  word-break:normal !important; -ms-word-break:normal !important; hyphens:none !important; white-space:normal !important;
+  text-wrap:balance;
+}
+
+/* --- SUBHEADLINE & CODE --- */
+.hero22-subheadline{
+  font-family:var(--font-body-v22) !important; font-size:clamp(1.1rem, 0.8vw + 0.8rem, 1.35rem) !important;
+  font-weight:500 !important; color:var(--color-text-medium-v22) !important; line-height:1.5 !important;
+  margin:24px 0 36px !important; max-inline-size:42ch !important;
+}
+.hero22-code-block {
+  display: inline-flex; align-items: center; gap: 8px;
+  margin-top: 12px;
+  background: #f9fafb; /* Neutral Grey */
+  border: 1px solid #d1d5db; /* Subtle Border */
+  padding: 8px 16px;
+  border-radius: 6px;
+}
+.code-label {
+  font-size: 0.85rem; font-weight: 600; color: #6b7280; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.code-value {
+  font-size: 1.25rem; font-weight: 900; 
+  color: var(--color-brand-primary-v26); /* Red Text */
+  letter-spacing: 1px;
+}
+
+/* --- BUTTON --- */
+.hero22-cta-container{ position: relative; z-index: 10; display:inline-block; }
+.hero22-button{
+  display:inline-flex !important; align-items:center !important; padding:20px 42px !important; background:var(--color-text-dark-v22) !important;
+  color:#fff !important; text-decoration:none !important; font-family:var(--font-heading-v22) !important; font-size:1.1rem !important;
+  font-weight:800 !important; text-transform:uppercase !important; letter-spacing:1px !important;
+  border-radius:8px !important; border:none !important; transition:all .2s ease !important; cursor:pointer !important;
+  box-shadow:0 8px 20px rgba(0,0,0,.2) !important;
+}
+.hero22-button-arrow{ margin-left:12px !important; transition:transform .2s ease !important; }
+.hero22-button:hover{
+  /* RED HOVER */
+  background: var(--color-brand-primary-v26) !important; 
+  transform:translateY(-3px) !important;
+  box-shadow:0 12px 24px rgba(227, 24, 55, 0.4) !important;
+}
+.hero22-button:focus-visible{ outline:2px solid currentColor; outline-offset:3px; }
+.hero22-button:hover .hero22-button-arrow{ transform:translateX(5px) !important; }
+
+/* ─── RESPONSIVE HEADLINE FIX FOR LAPTOPS ─── */
+@media (min-width: 990px) and (max-width: 1400px) {
+  .hero22-headline {
+    max-inline-size: 14ch !important;
+  }
+  .hero22-content {
+    max-width: 600px !important; 
+  }
+}
+
+/* ─── INTERACTIVE MEAL POPUP STYLES ─── */
+.hero22-ripple-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: transparent !important;           
+  pointer-events: none;
+  clip-path: circle(0% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+  transition: clip-path 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+}
+.hero22-ripple-overlay.is-rippling {
+  /* WHITE/RED RIPPLE */
+  background: radial-gradient(circle, rgba(255, 255, 255, 0.4) 0%, rgba(227, 24, 55, 0.15) 100%) !important;
+  clip-path: circle(75% at var(--ripple-x, 50%) var(--ripple-y, 50%));
+}
+.hero22-meal-hotspot{
+  position: absolute; z-index: 3;
+  top: 25%; left: 60%;
+  width: 30%; height: 55%;
+  cursor: pointer; border-radius: 30px;
+  background: transparent; border: none; padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
+.hero22-meal-hotspot:focus-visible {
+  outline: 2px solid var(--color-brand-primary-v26);
+  outline-offset: 4px;
+  border-radius: 30px;
+}
+.hero22-modal-overlay{
+  position: fixed; z-index: 998; inset: 0;
+  background: transparent;
+  opacity: 0; visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0s 0.3s linear;
+}
+.hero22-modal{
+  position: fixed; z-index: 999;
+  top: 50%; left: 50%;
+  width: 90%; max-width: 620px;
+  background: var(--color-background-v22);
+  border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0; visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  isolation: isolate;
+}
+.hero22-modal-overlay.is-visible{ opacity: 1; visibility: visible; transition-delay: 0s; }
+.hero22-modal.is-visible{
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1; visibility: visible; transition-delay: 0s;
+}
+body.modal-open{ overflow: hidden; }
+.hero22-modal-close{
+  position: absolute; top: 12px; right: 12px;
+  width: 40px; height: 40px;
+  font-size: 2.2rem; line-height: 1; font-weight: 300;
+  color: var(--color-text-medium-v22); background: none; border: none;
+  cursor: pointer; border-radius: 50%; transition: all 0.2s ease;
+}
+.hero22-modal-close:hover{ color: var(--color-text-dark-v22); background: #f3f4f6; }
+.hero22-modal-content{ padding: 40px; text-align: left; }
+.hero22-modal-title{
+  font-family: var(--font-heading-v22); font-weight: 800;
+  font-size: 2rem; color: var(--color-text-dark-v22);
+  margin: 0 0 24px; text-transform: uppercase; letter-spacing: -0.5px;
+}
+.hero22-modal-macros{
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 20px; margin-bottom: 24px; border-bottom: 1px solid #e5e7eb; padding-bottom: 24px;
+}
+.macro-item{
+  font-family: var(--font-body-v22); font-size: 0.9rem;
+  color: var(--color-text-medium-v22); text-transform: uppercase; letter-spacing: 0.5px;
+}
+.macro-item span {
+  display: block; font-size: 1.75rem; font-weight: 700;
+  color: var(--color-text-dark-v22); margin-bottom: 4px;
+}
+.hero22-modal-description, .hero22-modal-ingredients {
+  font-family: var(--font-body-v22); font-size: 1rem;
+  line-height: 1.6; color: var(--color-text-medium-v22); margin: 0 0 16px;
+}
+.hero22-modal-ingredients { margin-bottom: 32px; }
+.hero22-modal-button {
+  display: inline-flex !important; align-items: center !important;
+  padding: 16px 32px !important; 
+  /* BRAND MODAL BUTTON */
+  background: var(--color-brand-primary-v26) !important;
+  color: #fff !important; text-decoration: none !important;
+  font-family: var(--font-heading-v22) !important; font-size: 0.9rem !important;
+  font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: 1.25px !important;
+  border-radius: 8px !important; border: none !important;
+  transition: all .2s ease !important; cursor: pointer !important;
+  box-shadow:0 4px 14px rgba(0,0,0,.08), 0 5px 15px rgba(227, 24, 55, 0.25) !important;
+}
+.hero22-modal-button:hover {
+  background: var(--color-brand-dark-v26) !important;
+  box-shadow:0 7px 14px rgba(0,0,0,.1), 0 10px 20px rgba(227, 24, 55, 0.35) !important;
+  transform: translateY(-2px) !important;
+}
+.hero22-modal-button:hover .hero22-button-arrow { transform:translateX(4px) !important; }
+
+/* ─── RESPONSIVE LAYOUT ─── */
+@media (min-width:768px){
+  .hero22-section{ min-height: {{ section.settings.min_height_desktop }}vh !important; }
+}
+@media (max-width:1200px){ .hero22-content{ max-width:60% !important; } }
+@media (max-width:990px){ .hero22-content{ max-width:75% !important; } }
+@media (min-width:1600px){ .hero22-content{ max-width:800px !important; } }
+
+/* ─── MOBILE TUNING ─── */
+@media (max-width:767px){
+  .hero22-section{ min-height: {{ section.settings.min_height_mobile }}vh !important; }
+  .hero22-image{ object-position:center !important; }
+  .hero22-content-wrapper{ align-items:flex-start !important; padding:48px 0 !important; }
+  .hero22-page-container{ padding:0 20px !important; }
+  .hero22-content{ text-align:center !important; max-width:100% !important; margin-inline:auto; }
+  
+  .hero22-headline{
+    font-size:clamp(3rem, 10vw, 4.2rem) !important; 
+    line-height: 0.9 !important;
+    margin-bottom: 16px !important;
+  }
+  .hero22-subheadline{
+    font-size:1.1rem !important; 
+    margin:12px auto 28px !important;
+  }
+  .hero22-code-block {
+    display: flex; justify-content: center; width: fit-content; margin: 12px auto 0;
+  }
+
+  .hero22-meal-hotspot{
+    top: 75%; left: 50%;
+    transform: translateX(-50%);
+    width: 120px; height: 120px;
+    z-index: 2;
+  }
+  .hero22-modal-content { padding: 32px 24px; }
+  .hero22-modal-title { font-size: 1.7rem; }
+  .hero22-modal-macros { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .macro-item span { font-size: 1.5rem; }
+}
+
+/* OVERRIDE THE THEME OVERLAY */
+#meal-modal-overlay{
+  background: transparent !important;
+  -webkit-backdrop-filter: none !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+}
+
+/* Kill the button's default fill/shadow in all states */
+.hero22-meal-hotspot,
+.hero22-meal-hotspot:focus,
+.hero22-meal-hotspot:active,
+.hero22-meal-hotspot:focus-visible {
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background: transparent !important;
+  border: 0 !important;
+  box-shadow: none !important;
+  outline: 0 !important;
+  -webkit-tap-highlight-color: transparent !important;
+}
+.hero22-meal-hotspot::before,
+.hero22-meal-hotspot::after { content: none !important; }
+body.modal-open .hero22-meal-hotspot { pointer-events: none !important; display: none !important; }
+body.modal-open .hero22-ripple-overlay{ display:none !important; }
+.hero22-meal-hotspot{
+  touch-action: manipulation;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none;
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const heroSection   = document.querySelector('.hero22-section');
+  const mealHotspot   = document.querySelector('.hero22-meal-hotspot');
+  const mealModal     = document.getElementById('meal-modal');
+  const modalOverlay  = document.getElementById('meal-modal-overlay');
+  const closeButton   = document.querySelector('.hero22-modal-close');
+  const rippleOverlay = document.querySelector('.hero22-ripple-overlay');
+
+  if (!heroSection || !mealHotspot || !mealModal || !modalOverlay || !closeButton || !rippleOverlay) {
+    // console.warn('[Hero] Interactive elements missing - normal if hotspot disabled');
+    return;
+  }
+
+  let rippleTimeout;
+  const isCoarse = window.matchMedia('(pointer: coarse)').matches;
+
+  const focusSelectors = [
+    'a[href]', 'button:not([disabled])', '[role="button"]',
+    'input:not([disabled])', 'select:not([disabled])', 'textarea:not([disabled])',
+    '[tabindex]:not([tabindex="-1"])'
+  ].join(',');
+
+  const getFocusables = (root) => Array.from(root.querySelectorAll(focusSelectors))
+    .filter(el => el.offsetParent !== null);
+
+  const trapKeydown = (e) => {
+    if (e.key !== 'Tab') return;
+    const nodes = getFocusables(mealModal);
+    if (nodes.length === 0) return;
+    const first = nodes[0];
+    const last  = nodes[nodes.length - 1];
+    if (e.shiftKey && document.activeElement === first) {
+      e.preventDefault(); last.focus();
+    } else if (!e.shiftKey && document.activeElement === last) {
+      e.preventDefault(); first.focus();
+    }
+  };
+
+  const triggerRipple = (e) => {
+    clearTimeout(rippleTimeout);
+    rippleOverlay.classList.remove('is-rippling');
+    const rect = heroSection.getBoundingClientRect();
+    const x = (e.clientX ?? (rect.left + rect.width/2)) - rect.left;
+    const y = (e.clientY ?? (rect.top  + rect.height/2)) - rect.top;
+    rippleOverlay.style.setProperty('--ripple-x', `${x}px`);
+    rippleOverlay.style.setProperty('--ripple-y', `${y}px`);
+    requestAnimationFrame(() => {
+      rippleOverlay.classList.add('is-rippling');
+      rippleTimeout = setTimeout(() => {
+        rippleOverlay.classList.remove('is-rippling');
+      }, 500);
+    });
+  };
+
+  const openModal = () => {
+    clearTimeout(rippleTimeout);
+    rippleOverlay.classList.remove('is-rippling');
+    mealHotspot.style.display = 'none';
+    mealHotspot.style.pointerEvents = 'none';
+    mealModal.classList.add('is-visible');
+    modalOverlay.classList.add('is-visible');
+    document.body.classList.add('modal-open');
+    mealModal.setAttribute('aria-hidden', 'false');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+    const focusables = getFocusables(mealModal);
+    (focusables[0] || closeButton).focus();
+    document.addEventListener('keydown', trapKeydown);
+  };
+
+  const closeModal = () => {
+    mealModal.classList.remove('is-visible');
+    modalOverlay.classList.remove('is-visible');
+    document.body.classList.remove('modal-open');
+    mealModal.setAttribute('aria-hidden', 'true');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+    document.removeEventListener('keydown', trapKeydown);
+    setTimeout(() => {
+      mealHotspot.style.display = '';
+      mealHotspot.style.pointerEvents = 'auto';
+      mealHotspot.focus({ preventScroll: true });
+    }, 200);
+  };
+
+  mealHotspot.addEventListener('pointerdown', (e) => {
+    e.preventDefault();
+    if (!isCoarse && (e.pointerType === 'mouse' || e.pointerType === 'pen')) {
+      triggerRipple(e);
+    }
+    requestAnimationFrame(openModal);
+  }, { passive: false });
+
+  mealHotspot.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openModal();
+    }
+  });
+
+  closeButton.addEventListener('click', closeModal);
+  modalOverlay.addEventListener('click', closeModal);
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && mealModal.classList.contains('is-visible')) {
+      closeModal();
+    }
+  });
+});
+</script>
+
+{% schema %}
+{
+  "name": "[V26] Evergreen Hero",
+  "settings": [
+    { "type": "header", "content": "Content" },
+    { "type": "text", "id": "credibility_text", "label": "Badge Text", "default": "READY WHEN YOU ARE" },
+    {
+      "type": "select",
+      "id": "heading_tag",
+      "label": "Heading Tag (SEO)",
+      "default": "h1",
+      "options": [
+        { "value": "h1", "label": "H1 (Use when this is the only H1 on the page)" },
+        { "value": "h2", "label": "H2 (Use if another section outputs the page H1)" }
+      ]
+    },
+    { "type": "text", "id": "headline", "label": "Headline", "default": "FUEL YOUR AMBITION" },
+    {
+      "type": "textarea",
+      "id": "subheadline",
+      "label": "Sub-headline",
+      "default": "High-protein, chef-prepared meals delivered to your door. No shopping, chopping, or cleaning."
+    },
+    { "type": "text", "id": "promo_code", "label": "Promo Code (Optional)", "info": "Leave blank to hide the code box" },
+    
+    { "type": "header", "content": "Images" },
+    { "type": "image_picker", "id": "desktop_image", "label": "Desktop Hero Image (LCP)" },
+    { "type": "image_picker", "id": "mobile_image", "label": "Mobile Hero Image" },
+    { "type": "text", "id": "hero_alt", "label": "Hero Image Alt Text", "default": "ICON Meals - Healthy Meal Delivery" },
+    { "type": "checkbox", "id": "preload_hero", "label": "Preload LCP hero image", "default": true },
+    
+    { "type": "header", "content": "Call to Action Button" },
+    { "type": "text", "id": "cta_button_text", "label": "Button Text", "default": "SHOP MEALS" },
+    {
+      "type": "text",
+      "id": "cta_url",
+      "label": "Button Link (URL or path)",
+      "default": "/collections/signature-menu",
+      "info": "Use a full URL (https://...) or an internal path like /collections/signature-menu"
+    },
+    { "type": "text", "id": "cta_aria", "label": "Button ARIA label", "default": "Shop the signature menu" },
+    
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "min_height_desktop", "min": 60, "max": 100, "step": 5, "unit": "vh", "label": "Desktop Minimum Section Height", "default": 70 },
+    { "type": "range", "id": "min_height_mobile", "min": 70, "max": 100, "step": 5, "unit": "vh", "label": "Mobile Minimum Section Height", "default": 90 }
+  ],
+  "presets": [
+    { "name": "[V26] Evergreen Hero", "category": "Custom Sections" }
+  ]
+}
+{% endschema %}
