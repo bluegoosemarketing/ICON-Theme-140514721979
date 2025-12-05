@@ -1,0 +1,349 @@
+{% schema %}
+{
+  "name": "ICON Cinematic Feature",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Styling"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Section Background",
+      "default": "#121212",
+      "info": "Dark background creates the best separation."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Red)",
+      "default": "#D9232D"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_borders",
+      "label": "Show Top/Bottom Borders",
+      "default": true,
+      "info": "Adds subtle lines for extra structure."
+    },
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "text",
+      "id": "preheader",
+      "label": "Small Tagline",
+      "default": "REAL RESULTS"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Main Headline",
+      "default": "Ditching processed foods has helped me feel full and cut down on cravings."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Intro Text",
+      "default": "Over the past two weeks, since I started eating your ICON meals..."
+    },
+    {
+      "type": "richtext",
+      "id": "expanded_text",
+      "label": "Hidden Story",
+      "default": "<p>The good news is that over the last two weeks, <strong>I have lost 4 pounds</strong> while following your meal plans. This shows significant progress and is easy to follow, thanks to the fast prep time that allows me to get back to work in the afternoon or squeeze in more zone 2 cardio in the evening.</p>"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Author Name",
+      "default": "Lisa S."
+    },
+    {
+      "type": "text",
+      "id": "author_title",
+      "label": "Author Title",
+      "default": "Verified Customer"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ICON Cinematic Feature"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="im-cine-section {% if section.settings.show_borders %}im-has-borders{% endif %}" style="background-color: {{ section.settings.bg_color }};">
+  <div class="im-cine-container">
+    
+    <!-- The Red Power Line (Left Anchor) -->
+    <div class="im-cine-anchor" style="background-color: {{ section.settings.accent_color }};"></div>
+
+    <div class="im-cine-content">
+      
+      <!-- Header Row: Badge + Stars -->
+      <div class="im-cine-header">
+        <span class="im-cine-badge" style="color: {{ section.settings.accent_color }}; border-color: {{ section.settings.accent_color }};">
+          {{ section.settings.preheader }}
+        </span>
+        <div class="im-cine-stars" style="color: {{ section.settings.accent_color }};">★★★★★</div>
+      </div>
+
+      <!-- Main Headline -->
+      <h2 class="im-cine-headline" style="color: {{ section.settings.text_color }};">
+        “{{ section.settings.headline }}”
+      </h2>
+
+      <!-- Story Wrapper (Strict CSS Reset) -->
+      <div class="im-cine-story-wrapper" style="color: {{ section.settings.text_color }};">
+        <div class="im-cine-text-reset">
+          <p class="im-cine-intro">
+            {{ section.settings.intro_text }}
+          </p>
+          
+          <div id="im-cine-hidden-{{ section.id }}" class="im-cine-hidden">
+            {{ section.settings.expanded_text }}
+          </div>
+        </div>
+
+        <!-- Interactive Button -->
+        <button 
+          id="im-cine-btn-{{ section.id }}" 
+          class="im-cine-btn"
+          style="color: {{ section.settings.text_color }};"
+          onclick="toggleCineStory('{{ section.id }}')">
+          <span class="im-cine-btn-text" style="border-bottom-color: {{ section.settings.accent_color }};">Read Full Story</span>
+          <span class="im-cine-btn-icon" style="background-color: {{ section.settings.accent_color }}; color: {{ section.settings.bg_color }};">+</span>
+        </button>
+      </div>
+
+      <!-- Author Footer -->
+      <div class="im-cine-footer">
+        <span class="im-cine-author" style="color: {{ section.settings.text_color }};">{{ section.settings.author_name }}</span>
+        <span class="im-cine-divider">/</span>
+        <span class="im-cine-role">{{ section.settings.author_title }}</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* --- SCOPED CSS (Prefix: im-cine-) --- */
+
+  /* Section Wrapper */
+  .im-cine-section {
+    padding: 100px 20px; /* Increased padding for dramatic spacing */
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* Optional Borders */
+  .im-cine-section.im-has-borders {
+    border-top: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .im-cine-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 50px; /* Space for the anchor line */
+  }
+
+  /* The Power Line */
+  .im-cine-anchor {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 6px;
+    /* Box shadow makes the line glow slightly on dark bg */
+    box-shadow: 0 0 15px rgba(217, 35, 45, 0.4); 
+  }
+
+  /* Header */
+  .im-cine-header {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 30px;
+  }
+
+  .im-cine-badge {
+    font-size: 10px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 2px !important;
+    padding: 6px 14px;
+    border: 1px solid;
+    line-height: 1;
+    background: transparent;
+  }
+
+  .im-cine-stars {
+    font-size: 20px;
+    line-height: 1;
+  }
+
+  /* Headline */
+  .im-cine-headline {
+    font-size: 42px !important; /* Larger for impact */
+    line-height: 1.2 !important;
+    font-weight: 900 !important; /* Extra Heavy */
+    margin: 0 0 35px 0 !important;
+    max-width: 950px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px !important; /* Tight styling for modern look */
+    font-family: inherit;
+  }
+
+  /* --- TEXT RESET --- */
+  .im-cine-story-wrapper {
+    max-width: 700px; /* Constrained width for readability */
+    margin-bottom: 40px;
+  }
+
+  .im-cine-text-reset, 
+  .im-cine-text-reset p,
+  .im-cine-intro {
+    font-size: 19px !important; /* Larger body text */
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+    text-transform: none !important; /* Ensures NO ALL CAPS */
+    letter-spacing: 0.2px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    margin-bottom: 15px !important;
+    opacity: 0.9;
+  }
+  
+  .im-cine-text-reset strong {
+      font-weight: 700 !important;
+      color: inherit;
+  }
+
+  /* Hidden Content */
+  .im-cine-hidden {
+    display: none;
+    margin-top: 15px;
+    padding-left: 20px; /* Indent the hidden part slightly */
+    border-left: 2px solid rgba(255,255,255,0.1);
+  }
+
+  .im-cine-hidden.is-active {
+    display: block;
+    animation: cineFadeIn 0.6s ease;
+  }
+
+  @keyframes cineFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Button */
+  .im-cine-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    transition: opacity 0.3s;
+  }
+
+  .im-cine-btn:hover {
+    opacity: 0.8;
+  }
+
+  .im-cine-btn-text {
+    border-bottom: 2px solid; /* Colored underline */
+    padding-bottom: 2px;
+  }
+
+  .im-cine-btn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 0;
+  }
+
+  /* Footer */
+  .im-cine-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px !important;
+    border-top: 1px solid rgba(255,255,255,0.15); /* Subtle white line */
+    padding-top: 25px;
+    width: fit-content;
+  }
+
+  .im-cine-author {
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+  }
+
+  .im-cine-divider {
+    color: rgba(255,255,255,0.3);
+  }
+
+  .im-cine-role {
+    color: rgba(255,255,255,0.6);
+    font-style: italic;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .im-cine-section {
+      padding: 60px 20px;
+    }
+    .im-cine-container {
+      padding-left: 30px;
+    }
+    .im-cine-headline {
+      font-size: 28px !important;
+      margin-bottom: 25px !important;
+    }
+    .im-cine-text-reset, 
+    .im-cine-text-reset p {
+      font-size: 17px !important;
+    }
+  }
+</style>
+
+<script>
+  function toggleCineStory(id) {
+    var content = document.getElementById('im-cine-hidden-' + id);
+    var btnText = document.querySelector('#im-cine-btn-' + id + ' .im-cine-btn-text');
+    var btnIcon = document.querySelector('#im-cine-btn-' + id + ' .im-cine-btn-icon');
+
+    if (content.classList.contains('is-active')) {
+      content.classList.remove('is-active');
+      btnText.innerText = 'Read Full Story';
+      btnIcon.innerText = '+';
+    } else {
+      content.classList.add('is-active');
+      btnText.innerText = 'Close Story';
+      btnIcon.innerText = '-';
+    }
+  }
+</script>

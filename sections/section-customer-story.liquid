@@ -1,0 +1,378 @@
+{% schema %}
+{
+  "name": "Customer Story Feature",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Section Styling"
+    },
+    {
+      "type": "color_background",
+      "id": "bg_gradient",
+      "label": "Background Gradient",
+      "default": "radial-gradient(circle at 20% 50%, #1a1a1a 0%, #000000 100%)",
+      "info": "Spotlight effect."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#FFFFFF"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Brand Red)",
+      "default": "#D9232D"
+    },
+    {
+      "type": "color",
+      "id": "star_color",
+      "label": "Star Color",
+      "default": "#FFC107",
+      "info": "Gold/Yellow for visibility."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_borders",
+      "label": "Show Top/Bottom Borders",
+      "default": true
+    },
+    {
+      "type": "header",
+      "content": "Content Settings"
+    },
+    {
+      "type": "text",
+      "id": "preheader",
+      "label": "Badge Text",
+      "default": "REAL RESULTS"
+    },
+    {
+      "type": "textarea",
+      "id": "headline",
+      "label": "Main Headline",
+      "default": "Ditching processed foods has helped me feel full and cut down on cravings."
+    },
+    {
+      "type": "textarea",
+      "id": "intro_text",
+      "label": "Intro Paragraph (The Hook)",
+      "default": "Over the past two weeks, since I started eating your ICON meals, I've noticed that ditching processed foods has helped me feel full and cut down on late-night cravings."
+    },
+    {
+      "type": "richtext",
+      "id": "full_story_content",
+      "label": "Full Story (Hidden Details)",
+      "default": "<p>The good news is that over the last two weeks, <strong>I have lost 4 pounds</strong> while following your meal plans. This shows significant progress and is easy to follow, thanks to the fast prep time that allows me to get back to work in the afternoon or squeeze in more zone 2 cardio in the evening.</p><p>Just to share my current journey: I’m working on finding the right balance to go from 225 lbs. down to 190 lbs. After reaching my bulking goals, I spent a year trying to cut weight on my own, but ended up sticking at 225 and 23% body fat.</p><p>Right now, I’m experimenting with different meal options from your pre-made plans, aiming to create a set of favorites that taste good and meet my macro needs. Honestly, I don’t have the willpower or cooking skills to stick to a clean-eating plan on my own.</p><p>Everything has worked out great so far, and I am looking forward to the new me in 6 months.</p>"
+    },
+    {
+      "type": "text",
+      "id": "author_name",
+      "label": "Customer Name",
+      "default": "Lisa S."
+    },
+    {
+      "type": "text",
+      "id": "author_title",
+      "label": "Customer Tagline",
+      "default": "Verified Customer"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Customer Story Feature",
+      "category": "Testimonials"
+    }
+  ]
+}
+{% endschema %}
+
+<section class="cs-feature-section {% if section.settings.show_borders %}cs-has-borders{% endif %}" style="background: {{ section.settings.bg_gradient }};">
+  <div class="cs-feature-container">
+    
+    <!-- The Accent Anchor Line -->
+    <div class="cs-feature-anchor" style="background-color: {{ section.settings.accent_color }};"></div>
+
+    <div class="cs-feature-content">
+      
+      <!-- Header: Solid Badge + Yellow Stars -->
+      <div class="cs-feature-header">
+        <span class="cs-feature-badge" style="background-color: {{ section.settings.accent_color }}; color: #FFFFFF;">
+          {{ section.settings.preheader }}
+        </span>
+        <div class="cs-feature-stars" style="color: {{ section.settings.star_color }};">★★★★★</div>
+      </div>
+
+      <!-- Headline -->
+      <h2 class="cs-feature-headline" style="color: {{ section.settings.text_color }};">
+        “{{ section.settings.headline }}”
+      </h2>
+
+      <!-- Story Content Wrapper -->
+      <div class="cs-feature-story-wrapper" style="color: {{ section.settings.text_color }};">
+        <div class="cs-feature-text-reset">
+          <!-- Visible Intro -->
+          <p class="cs-feature-intro">
+            {{ section.settings.intro_text }}
+          </p>
+          
+          <!-- Hidden / Expandable Content -->
+          <div id="cs-hidden-{{ section.id }}" class="cs-feature-hidden">
+            {{ section.settings.full_story_content }}
+          </div>
+        </div>
+
+        <!-- Toggle Button -->
+        <button 
+          id="cs-btn-{{ section.id }}" 
+          class="cs-feature-btn"
+          style="color: {{ section.settings.text_color }};"
+          onclick="toggleCustomerStory('{{ section.id }}')">
+          <span class="cs-btn-text" style="border-bottom-color: {{ section.settings.accent_color }};">Read Full Story</span>
+          <span class="cs-btn-icon" style="background-color: {{ section.settings.accent_color }}; color: #FFFFFF;">+</span>
+        </button>
+      </div>
+
+      <!-- Footer / Author -->
+      <div class="cs-feature-footer">
+        <span class="cs-feature-author" style="color: {{ section.settings.text_color }};">{{ section.settings.author_name }}</span>
+        <span class="cs-feature-divider">/</span>
+        <span class="cs-feature-role">{{ section.settings.author_title }}</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<style>
+  /* --- SCOPED CSS (Prefix: cs-feature-) --- */
+
+  /* Section Layout */
+  .cs-feature-section {
+    padding: 110px 20px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .cs-feature-section.cs-has-borders {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .cs-feature-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    padding-left: 60px;
+  }
+
+  /* The Power Line Anchor */
+  .cs-feature-anchor {
+    position: absolute;
+    left: 0;
+    top: 5px;
+    bottom: 5px;
+    width: 6px;
+    border-radius: 4px;
+    box-shadow: 0 0 12px rgba(217, 35, 45, 0.6); 
+  }
+
+  /* Header Elements */
+  .cs-feature-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 35px;
+  }
+
+  .cs-feature-badge {
+    font-size: 11px !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    padding: 6px 14px;
+    border-radius: 4px;
+    line-height: 1;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+  }
+
+  .cs-feature-stars {
+    font-size: 20px;
+    line-height: 1;
+    text-shadow: 0 0 10px rgba(255, 193, 7, 0.3);
+  }
+
+  /* Headline Style */
+  .cs-feature-headline {
+    font-size: 44px !important;
+    line-height: 1.15 !important;
+    font-weight: 900 !important;
+    margin: 0 0 30px 0 !important;
+    max-width: 950px;
+    text-transform: uppercase;
+    letter-spacing: -0.5px !important;
+    font-family: inherit;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  }
+
+  /* Body Text Reset */
+  .cs-feature-story-wrapper {
+    max-width: 700px;
+    margin-bottom: 40px;
+  }
+
+  .cs-feature-text-reset, 
+  .cs-feature-text-reset p,
+  .cs-feature-intro {
+    font-size: 20px !important;
+    line-height: 1.6 !important;
+    font-weight: 400 !important;
+    text-transform: none !important;
+    letter-spacing: 0.2px !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    margin-bottom: 0 !important; /* Controlled spacing below */
+    opacity: 0.85;
+  }
+  
+  /* Add margin to visible intro specifically */
+  .cs-feature-intro {
+    margin-bottom: 15px !important;
+  }
+
+  .cs-feature-text-reset strong {
+      font-weight: 700 !important;
+      color: #FFFFFF;
+  }
+
+  /* Expandable Logic */
+  .cs-feature-hidden {
+    display: none;
+    margin-top: 0;
+  }
+  
+  /* Ensure paragraph spacing in hidden content */
+  .cs-feature-hidden p {
+    margin-bottom: 15px !important;
+    display: block;
+  }
+  
+  .cs-feature-hidden p:last-child {
+    margin-bottom: 0 !important;
+  }
+
+  .cs-feature-hidden.is-active {
+    display: block;
+    animation: csFadeIn 0.6s ease;
+  }
+
+  @keyframes csFadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Button Styling */
+  .cs-feature-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    margin-top: 25px;
+    cursor: pointer;
+    display: flex;
+    align-items: center; 
+    gap: 12px;
+    transition: opacity 0.3s;
+  }
+
+  .cs-feature-btn:hover {
+    opacity: 0.8;
+  }
+
+  .cs-btn-text {
+    font-size: 13px !important;
+    font-weight: 700 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1.5px !important;
+    border-bottom: 2px solid;
+    padding-bottom: 2px;
+    line-height: 1; 
+  }
+
+  .cs-btn-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 0; 
+    padding-bottom: 1px;
+  }
+
+  /* Footer Styling */
+  .cs-feature-footer {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 15px !important;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 25px;
+    width: fit-content;
+  }
+
+  .cs-feature-author {
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    letter-spacing: 1px !important;
+  }
+
+  .cs-feature-divider {
+    color: rgba(255,255,255,0.3);
+  }
+
+  .cs-feature-role {
+    color: rgba(255,255,255,0.5);
+    font-style: italic;
+  }
+
+  /* Mobile Responsive */
+  @media (max-width: 768px) {
+    .cs-feature-section {
+      padding: 70px 20px;
+    }
+    .cs-feature-container {
+      padding-left: 30px;
+    }
+    .cs-feature-headline {
+      font-size: 30px !important;
+      margin-bottom: 25px !important;
+    }
+    .cs-feature-text-reset, 
+    .cs-feature-text-reset p {
+      font-size: 17px !important;
+    }
+    .cs-feature-section {
+       background: radial-gradient(circle at 50% 0%, #1a1a1a 0%, #000000 100%) !important;
+    }
+  }
+</style>
+
+<script>
+  function toggleCustomerStory(id) {
+    var content = document.getElementById('cs-hidden-' + id);
+    var btnText = document.querySelector('#cs-btn-' + id + ' .cs-btn-text');
+    var btnIcon = document.querySelector('#cs-btn-' + id + ' .cs-btn-icon');
+
+    if (content.classList.contains('is-active')) {
+      content.classList.remove('is-active');
+      btnText.innerText = 'Read Full Story';
+      btnIcon.innerText = '+';
+    } else {
+      content.classList.add('is-active');
+      btnText.innerText = 'Close Story';
+      btnIcon.innerText = '-';
+    }
+  }
+</script>
