@@ -142,8 +142,16 @@
     border-radius: 16px;
     overflow: hidden;
     background-color: #000;
+    position: relative; /* ADDED: This creates the anchor point */
   }
-  .hiw-v4-hero__video iframe { width: 100%; height: 100%; border: 0; }
+  .hiw-v4-hero__video iframe { 
+    position: absolute; /* ADDED: Forces the video to fill the container */
+    top: 0;
+    left: 0;
+    width: 100%; 
+    height: 100%; 
+    border: 0; 
+  }
 
   /* --- [V4] ICON NAV --- */
   .hiw-v4-icon-nav {
