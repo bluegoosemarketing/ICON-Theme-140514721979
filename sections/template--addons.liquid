@@ -1,9 +1,8 @@
 {%- comment -%}
   ==============================================================================
-  DYNAMIC ADD-ONS SECTION V9 - HOLIDAY EDITION
-  - Logic: Uses explicit Variant IDs from Schema.
-  - Ensures accurate variant adding.
-  - Updated for Holiday Gift Card promo.
+  DYNAMIC ADD-ONS SECTION V11 - HIGH TICKET ANCHORING
+  - Gift Card Options: $100, $250, $500
+  - Goal: Increase AOV by anchoring with higher values.
   ==============================================================================
 {%- endcomment -%}
 
@@ -17,26 +16,11 @@
   assign slot2_block = slot2_blocks | sample
   assign slot3_block = slot3_blocks | sample
 
-  # --- HOLIDAY PROMO VARIANT FINDER (BY ID) ---
-  assign gift_product = all_products[section.settings.promo_gift_card_product]
-  
-  # Get inputs (convert to number to match variant.id)
-  assign buy_target_id = section.settings.promo_buy_variant_id | plus: 0
-  assign get_target_id = section.settings.promo_get_variant_id | plus: 0
-
-  assign promo_buy_variant = nil
-  assign promo_get_variant = nil
-
-  if gift_product != empty
-    for variant in gift_product.variants
-      if variant.id == buy_target_id
-        assign promo_buy_variant = variant
-      endif
-      if variant.id == get_target_id
-        assign promo_get_variant = variant
-      endif
-    endfor
-  endif
+  # --- GIFT CARD DATA ---
+  assign gift_product = all_products[section.settings.gift_card_product]
+  assign id_opt_1 = section.settings.variant_id_opt_1
+  assign id_opt_2 = section.settings.variant_id_opt_2
+  assign id_opt_3 = section.settings.variant_id_opt_3
 
   # --- FALLBACK PRODUCT DEFINITIONS ---
   assign fallback_product_1 = all_products['cinnabun-krunch-protein-popcorn']
@@ -49,15 +33,14 @@
   <div class="container">
     
     {%- comment -%} 
-      RENDER THE HOLIDAY GIFT BANNER 
+      RENDER THE NEW "CONVENIENCE" GIFT CARD STATION
     {%- endcomment -%}
-    {% if promo_buy_variant and promo_get_variant %}
-      {% render 'holiday-gift-banner', 
-         section: section, 
-         product_title: gift_product.title,
-         buy_variant: promo_buy_variant, 
-         get_variant: promo_get_variant,
-         discount_code: section.settings.promo_discount_code 
+    {% if gift_product != empty and id_opt_1 != blank %}
+      {% render 'simple-gift-card-banner', 
+         product_obj: gift_product,
+         id_option_1: id_opt_1,
+         id_option_2: id_opt_2,
+         id_option_3: id_opt_3
       %}
     {% endif %}
 
@@ -380,46 +363,35 @@
   "settings": [
     {
       "type": "header",
-      "content": "Holiday Gift Card Promo"
-    },
-    {
-      "type": "text",
-      "id": "promo_heading",
-      "label": "Heading",
-      "default": "Buy $100, Get $25 Free"
-    },
-    {
-      "type": "text",
-      "id": "promo_subheading",
-      "label": "Subheading",
-      "default": "Purchase a $100 Gift Card today and receive a bonus $25 Gift Card on us."
+      "content": "Gift Card Station"
     },
     {
       "type": "product",
-      "id": "promo_gift_card_product",
+      "id": "gift_card_product",
       "label": "Select Gift Card Product",
       "info": "Select the main Gift Card product."
     },
     {
       "type": "text",
-      "id": "promo_buy_variant_id",
-      "label": "Buy Variant ID",
-      "default": "42900474888379",
-      "info": "The ID of the item the customer pays for ($100)."
+      "id": "variant_id_opt_1",
+      "label": "Option 1 ID ($100)",
+      "default": "42900474888379"
     },
     {
       "type": "text",
-      "id": "promo_get_variant_id",
-      "label": "Get Variant ID",
-      "default": "42874129121467",
-      "info": "The ID of the item the customer gets for FREE ($25)."
+      "id": "variant_id_opt_2",
+      "label": "Option 2 ID ($250)",
+      "default": "42900474986683"
     },
     {
       "type": "text",
-      "id": "promo_discount_code",
-      "label": "Discount Code",
-      "default": "Gift25Free",
-      "info": "This code will be applied when the customer adds the deal."
+      "id": "variant_id_opt_3",
+      "label": "Option 3 ID ($500)",
+      "default": "42900475052219"
+    },
+    {
+      "type": "header",
+      "content": "Food Add-On Slots"
     }
   ],
   "max_blocks": 50,

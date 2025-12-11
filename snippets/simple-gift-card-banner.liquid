@@ -1,0 +1,431 @@
+{%- comment -%}
+  ==============================================================================
+  GIFT CARD STATION: FINAL PRODUCTION READY 🎄
+  - Desktop: 3-Column Layout.
+  - Mobile: Vertical Stack Layout (Better UX).
+  - Timer: "Until Christmas" label fixed.
+  - footer: High contrast text.
+  ==============================================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign gift_product = product_obj
+  
+  # Map the IDs
+  assign id_opt_1 = id_option_1 | plus: 0
+  assign id_opt_2 = id_option_2 | plus: 0
+  assign id_opt_3 = id_option_3 | plus: 0
+-%}
+
+<style>
+  /* --- GLOBAL VARIABLES --- */
+  .gc-station {
+    --icon-red: #D21F2F; 
+    --icon-white: #ffffff;
+    --icon-black: #050505;
+    --icon-border: #333;
+    
+    background: radial-gradient(circle at 90% 10%, #1a0505 0%, #000000 70%);
+    border-radius: 8px; 
+    margin-bottom: 40px;
+    border: 1px solid var(--icon-border);
+    color: #fff;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
+    position: relative;
+    overflow: hidden;
+    font-family: inherit; /* Inherit theme font */
+  }
+
+  /* --- ANIMATED CANDY CANE BORDER (LEFT) --- */
+  .gc-station::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0;
+    width: 8px; height: 100%;
+    z-index: 5;
+    background: repeating-linear-gradient(
+      45deg,
+      var(--icon-red),
+      var(--icon-red) 10px,
+      var(--icon-white) 10px,
+      var(--icon-white) 20px
+    );
+    background-size: 200% 200%;
+    animation: candy-rush 15s linear infinite;
+    box-shadow: 0 0 15px rgba(210, 31, 47, 0.5);
+  }
+
+  @keyframes candy-rush {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 0% 100%; }
+  }
+
+  .gc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.3fr;
+    min-height: 280px;
+  }
+
+  /* --- LEFT PANEL: CONTENT --- */
+  .gc-content {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .gc-tag {
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    align-self: flex-start;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #fff;
+  }
+
+  .gc-content h2 {
+    font-size: 36px;
+    font-weight: 900;
+    line-height: 0.95;
+    margin: 0 0 15px 0;
+    color: #fff;
+    text-transform: uppercase;
+    font-style: italic;
+  }
+  
+  .gc-content p {
+    font-size: 15px;
+    color: #aaa;
+    line-height: 1.5;
+    margin: 0 0 25px 0;
+    max-width: 95%;
+  }
+
+  /* --- COUNTDOWN TIMER (FIXED) --- */
+  .gc-timer {
+    display: flex;
+    align-items: center; /* Perfect vertical centering */
+    gap: 15px;
+    background: rgba(0,0,0,0.5);
+    padding: 12px 20px;
+    border-radius: 6px;
+    border: 1px solid #333;
+    width: fit-content;
+  }
+  .timer-block {
+    text-align: center;
+  }
+  .timer-num {
+    display: block;
+    font-size: 22px !important;
+    font-weight: 800;
+    color: #ffffff !important;
+    text-shadow: 0 0 10px rgba(255,255,255,0.4);
+    font-family: monospace;
+    line-height: 1;
+  }
+  .timer-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #888;
+    margin-top: 4px;
+    display: block;
+  }
+  
+  /* The "Until Christmas" Text */
+  .timer-text-right {
+    font-size: 10px;
+    color: #fff;
+    font-weight: 700;
+    padding-left: 15px;
+    border-left: 1px solid #555;
+    line-height: 1.3;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  /* --- RIGHT PANEL: ACTIONS --- */
+  .gc-actions {
+    padding: 30px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background: rgba(255,255,255,0.02);
+    border-left: 1px solid #222;
+  }
+  
+  .gc-action-label {
+      text-align: center;
+      font-size: 11px !important;
+      text-transform: uppercase;
+      color: #888;
+      margin-bottom: 15px;
+      font-weight: 700;
+      letter-spacing: 2px;
+  }
+
+  .gc-options-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+  }
+
+  .gc-btn {
+    background: #0B0B0D;
+    border: 1px solid #333;
+    color: #fff;
+    border-radius: 4px;
+    padding: 25px 5px;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    position: relative;
+    height: 100%;
+    min-height: 110px;
+    justify-content: center;
+  }
+
+  .gc-btn:hover {
+    border-color: var(--icon-red);
+    background: #111;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.5);
+  }
+
+  .gc-btn span.emoji { font-size: 20px; margin-bottom: 5px; display:block; }
+  
+  .gc-btn span.denom {
+    font-size: 42px !important;
+    font-weight: 900;
+    color: #fff;
+    font-style: italic;
+    line-height: 1;
+    display: block;
+    margin-bottom: 5px;
+  }
+
+  .gc-btn span.label {
+    font-size: 10px;
+    text-transform: uppercase;
+    color: #666;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: block;
+  }
+  .gc-btn:hover span.label { color: #fff; }
+
+  /* Footer Note (FIXED VISIBILITY) */
+  .gc-footer-note {
+    text-align: center; 
+    margin-top: 20px; 
+    font-size: 12px; 
+    color: #ccc; /* Much brighter now */
+    font-style: italic;
+    letter-spacing: 0.5px;
+  }
+
+  /* LOADING STATES */
+  .gc-btn.is-added { background: var(--icon-red) !important; border-color: var(--icon-red) !important; }
+  .gc-btn.is-loading { opacity: 0.6; pointer-events: none; }
+  .gc-btn.is-loading::after {
+    content: ""; position: absolute; top: 10px; right: 10px;
+    width: 10px; height: 10px; border: 2px solid #fff; border-top-color: transparent; border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* --- MOBILE RESPONSIVE --- */
+  @media (max-width: 900px) {
+    .gc-grid { grid-template-columns: 1fr; }
+    /* Border moves to top on mobile */
+    .gc-station::before { width: 100%; height: 6px; top: 0; left: 0; }
+    
+    .gc-content { 
+      padding: 35px 20px; 
+      align-items: center; 
+      text-align: center; 
+    }
+    
+    .gc-actions { 
+      border-left: none; 
+      border-top: 1px solid #222; 
+      padding: 30px 20px; 
+    }
+    
+    /* Stack buttons on mobile for easier tapping */
+    .gc-options-grid {
+      grid-template-columns: 1fr; 
+      gap: 15px;
+    }
+    
+    /* Adjust button height for mobile stack */
+    .gc-btn {
+      min-height: 80px; 
+      flex-direction: row; /* Horizontal layout on mobile? Optional. keeping vertical for now */
+      padding: 15px;
+    }
+    .gc-btn span.denom { font-size: 32px !important; }
+  }
+</style>
+
+<div class="gc-station">
+  <div class="gc-grid">
+    
+    <div class="gc-content">
+      <div class="gc-tag">
+        <span>🎅 Santa Approved</span>
+      </div>
+      
+      <h2>Save Christmas.<br>Instantly. 🎁</h2>
+      <p>Forgot to shop? We won't tell. Send a digital gift card instantly to their inbox. No shipping. No stress.</p>
+
+      <div class="gc-timer" id="xmas-timer">
+        <div class="timer-block">
+          <span class="timer-num" id="d-days">00</span>
+          <span class="timer-label">Days</span>
+        </div>
+        <div class="timer-block">
+          <span class="timer-num" id="d-hours">00</span>
+          <span class="timer-label">Hrs</span>
+        </div>
+        <div class="timer-block">
+          <span class="timer-num" id="d-mins">00</span>
+          <span class="timer-label">Mins</span>
+        </div>
+        <div class="timer-text-right">
+          UNTIL<br>CHRISTMAS
+        </div>
+      </div>
+    </div>
+
+    <div class="gc-actions">
+      <div class="gc-action-label">
+        Select Amount
+      </div>
+      
+      <div class="gc-options-grid">
+        <button class="gc-btn js-gc-add" data-variant-id="{{ id_opt_1 }}">
+          <span class="emoji">❄️</span>
+          <span class="denom">$100</span>
+          <span class="label">Standard</span>
+        </button>
+
+        <button class="gc-btn js-gc-add" data-variant-id="{{ id_opt_2 }}">
+          <span class="emoji">🎄</span>
+          <span class="denom">$250</span>
+          <span class="label">Pro Choice</span>
+        </button>
+
+        <button class="gc-btn js-gc-add" data-variant-id="{{ id_opt_3 }}">
+          <span class="emoji">🔥</span>
+          <span class="denom">$500</span>
+          <span class="label">The Ultimate</span>
+        </button>
+      </div>
+      
+      <div class="gc-footer-note">
+        "Best. Gift. Ever." — Your Gym Partner
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // --- COUNTDOWN LOGIC (Target: Next Dec 25th) ---
+    const timerEl = document.getElementById('xmas-timer');
+    if(timerEl) {
+      const now = new Date();
+      let year = now.getFullYear();
+      let xmas = new Date(year, 11, 25); // Month is 0-indexed (11 = Dec)
+      
+      // If passed, aim for next year
+      if (now.getMonth() === 11 && now.getDate() > 25) {
+        xmas.setFullYear(year + 1);
+      }
+
+      function updateTimer() {
+        const current = new Date();
+        const diff = xmas - current;
+
+        if (diff <= 0) {
+          timerEl.innerHTML = '<div style="font-weight:bold; color:#fff;">MERRY CHRISTMAS! 🎄</div>';
+          return;
+        }
+
+        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+        const m = Math.floor((diff / 1000 / 60) % 60);
+
+        const dEl = document.getElementById('d-days');
+        const hEl = document.getElementById('d-hours');
+        const mEl = document.getElementById('d-mins');
+
+        if(dEl) dEl.innerText = d < 10 ? '0'+d : d;
+        if(hEl) hEl.innerText = h < 10 ? '0'+h : h;
+        if(mEl) mEl.innerText = m < 10 ? '0'+m : m;
+      }
+      setInterval(updateTimer, 1000);
+      updateTimer(); // run immediately
+    }
+
+    // --- ADD TO CART LOGIC ---
+    const buttons = document.querySelectorAll('.js-gc-add');
+    buttons.forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        const variantId = btn.getAttribute('data-variant-id');
+        if(!variantId) return;
+
+        const originalHTML = btn.innerHTML;
+        
+        btn.classList.add('is-loading');
+
+        try {
+          const response = await fetch('/cart/add.js', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              items: [{ id: Number(variantId), quantity: 1 }]
+            })
+          });
+
+          if(response.ok) {
+            const cart = await response.json();
+            
+            btn.classList.remove('is-loading');
+            btn.classList.add('is-added');
+            // Fun success message
+            btn.innerHTML = '<span style="font-size:20px;">🎅</span><span style="font-weight:bold; font-size:12px;">IN THE BAG</span>';
+            
+            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+
+            setTimeout(() => {
+              btn.classList.remove('is-added');
+              btn.innerHTML = originalHTML;
+            }, 3000);
+          } else {
+            throw new Error('Failed');
+          }
+        } catch (err) {
+          console.error(err);
+          btn.classList.remove('is-loading');
+        }
+      });
+    });
+  });
+</script>
