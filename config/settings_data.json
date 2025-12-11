@@ -94,9 +94,7 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "enable": false,
-          "notification-bar--text-color": "#ffffff",
-          "social-enable": false
+          "enable": false
         }
       },
       "template--blog": {

@@ -1,274 +1,217 @@
 {{ 'section-announcement-bar.min.css' | asset_url | stylesheet_tag }}
 
-{% if section.settings.enable %}
+{% comment %}
+  ========================================
+  VISIBILITY LOGIC
+  ========================================
+{% endcomment %}
 
-  {% assign social_links = blank %}
-  {% if section.settings.social-enable %}
-    {% capture social_links %}
-      {% render 'social-links' %}
-    {% endcapture %}
+{% assign show_announcement = false %}
+
+{% if template.name == 'index' %}
+  {% assign show_announcement = true %}
+{% elsif template.name == 'page' %}
+  {% if page.handle != 'add-ons' %}
+    {% assign show_announcement = true %}
   {% endif %}
+{% elsif template.name == 'blog' or template.name == 'article' %}
+  {% assign show_announcement = true %}
+{% elsif request.path contains '/apps/help-center' %}
+  {% assign show_announcement = true %}
+{% endif %}
 
-  <style>
-    /*
-      ============================================
-      FATHER'S DAY PROMO - V6: USER FLOW REFINEMENT
-      ============================================
-    */
+{% if section.settings.enable and show_announcement %}
+
+<style>
+  /* 
+    ========================================
+    ICON MEALS: BULLETPROOF STYLING (V3 - COMPACT MOBILE)
+    ========================================
+  */
+
+  /* 1. RESET & CONTAINER */
+  a.im-ann-bar-root {
+    background-color: #080808 !important;
+    border-bottom: 1px solid #2a2a2a !important;
+    color: #ffffff !important;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+    height: 46px !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    text-decoration: none !important;
+    overflow: hidden !important;
+    width: 100% !important;
+    position: relative !important;
+    z-index: 50 !important;
+    cursor: pointer !important;
+  }
+
+  /* Hover Effect */
+  a.im-ann-bar-root:hover {
+    background-color: #111111 !important;
+  }
+
+  /* 2. NUCLEAR TEXT RESET */
+  .im-ann-bar-root *, .im-ann-bar-root span, .im-ann-bar-root div {
+    text-decoration: none !important;
+    border-bottom: none !important;
+    box-shadow: none !important;
+    line-height: 1 !important;
+  }
+
+  /* 3. CONTENT LAYOUT (FLEX GROUPS) */
+  .im-ann-content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 15px !important;
+    padding: 0 15px !important;
+    max-width: 100% !important;
+  }
+
+  /* Group 1: Badge + Text */
+  .im-group-primary {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+  }
+
+  /* Group 2: Code + Arrow */
+  .im-group-secondary {
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+  }
+
+  /* 4. ELEMENT STYLES */
+  .im-ann-badge {
+    background-color: #e50914 !important;
+    color: #ffffff !important;
+    font-weight: 800 !important;
+    font-size: 13px !important;
+    padding: 4px 10px !important;
+    border-radius: 4px !important;
+    text-transform: uppercase !important;
+    transform: skew(-10deg) !important;
+    display: inline-block !important;
+  }
+  
+  .im-ann-badge span {
+    display: block !important;
+    transform: skew(10deg) !important; 
+  }
+
+  .im-ann-text {
+    font-weight: 700 !important;
+    font-size: 13px !important;
+    letter-spacing: 1.5px !important;
+    text-transform: uppercase !important;
+    color: #f5f5f5 !important;
+  }
+
+  .im-ann-divider {
+    height: 16px !important;
+    width: 1px !important;
+    background-color: #444444 !important;
+    display: block !important;
+  }
+
+  .im-ann-label {
+    color: #999999 !important;
+    font-size: 11px !important;
+    font-weight: 500 !important;
+    text-transform: uppercase !important;
+  }
+
+  .im-ann-code {
+    font-family: "Courier New", Courier, monospace !important;
+    color: #ffffff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+    letter-spacing: 1px !important;
+    background: rgba(255,255,255,0.1) !important;
+    padding: 3px 8px !important;
+    border: 1px dashed #666 !important;
+    border-radius: 4px !important;
+  }
+
+  .im-ann-arrow {
+    margin-left: 2px !important;
+    transition: transform 0.2s ease-out !important;
+    display: block !important;
+  }
+  
+  a.im-ann-bar-root:hover .im-ann-arrow {
+    transform: translateX(4px) !important;
+  }
+
+  /* 5. MOBILE OPTIMIZATION (COMPACT 2-ROW) */
+  @media (max-width: 767px) {
+    a.im-ann-bar-root {
+      height: auto !important;
+      padding: 6px 0 !important; /* Tight padding */
+    }
     
-    body { margin-top: 0 !important; }
-
-    :root {
-      --icon-dark:          #111111;
-      --icon-red:           #e50914;
-      --icon-gray:          #e0e0e0;
-      --icon-white:         #ffffff;
-      --icon-border-gray:   #2a2a2a;
-      --icon-hover-red:     #ff3c28;
-      --font-stack-primary: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    .im-ann-content {
+      flex-direction: column !important;
+      justify-content: center !important;
+      gap: 3px !important; /* Tight gap between rows */
     }
 
-    .notification-bar {
-      background-color: #161616;
-      background-image:
-        linear-gradient(135deg, rgba(255,255,255,0.05) 25%, transparent 25%),
-        linear-gradient(225deg, rgba(255,255,255,0.05) 25%, transparent 25%),
-        linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%),
-        linear-gradient(315deg, rgba(255,255,255,0.05) 25%, #161616 25%);
-      background-size: 10px 10px;
-      color: {{ section.settings.notification-bar--text-color }};
-      text-align: center;
-      padding: 12px 15px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-family: var(--font-stack-primary);
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      border-bottom: 1px solid var(--icon-border-gray);
+    /* Force groups to center */
+    .im-group-primary, .im-group-secondary {
+      justify-content: center !important;
+      width: 100% !important;
     }
-    .notification-bar__message { cursor: pointer; font-size: 15px; align-items: center; gap: 12px; transition: opacity 0.3s ease; padding: 7px 50px; }
-    .notification-bar__message:hover { opacity: 0.8; }
-    .notification-bar__highlight { background-color: var(--icon-red); color: var(--icon-white); font-weight: 700; padding: 4px 10px; border-radius: 4px; line-height: 1; }
-    .header-social-links { position: absolute; right: 25px; top: 50%; transform: translateY(-50%); display: flex; align-items: center; }
-    .header-social-links a { color: var(--icon-gray); }
-    .header-social-links a:hover { color: var(--icon-white); }
 
-    .announcement-modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(17, 17, 17, 0.85); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); animation: fadeIn 0.4s ease-in-out; font-family: var(--font-stack-primary); }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-    .announcement-modal__content { background-color: var(--icon-dark); margin: 8% auto; padding: 40px; border-radius: 8px; width: 90%; max-width: 520px; text-align: center; position: relative; box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5); border: 1px solid var(--icon-border-gray); border-top: 6px solid var(--icon-red); transform: translateY(-20px); animation: slideIn 0.5s ease-out forwards; }
-    @keyframes slideIn { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
-    .announcement-modal__close { color: var(--icon-gray); position: absolute; top: 15px; right: 20px; font-size: 32px; line-height: 1; font-weight: 200; cursor: pointer; transition: color 0.3s ease, transform 0.3s ease; }
-    .announcement-modal__close:hover { color: var(--icon-white); transform: rotate(90deg) scale(1.1); }
-    .announcement-modal__icon { color: var(--icon-red); margin-bottom: 20px; }
-    .announcement-modal__title { color: var(--icon-white); font-size: 34px; font-weight: 800; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.25px; margin-bottom: 15px; }
-    .announcement-modal__main-text { font-size: 18px; line-height: 1.6; color: var(--icon-gray); margin: 20px auto 0; max-width: 400px; font-weight: 400; }
+    /* Hide divider on mobile */
+    .im-ann-divider { display: none !important; }
     
-    .modal-divider { border: none; height: 1px; background-color: var(--icon-border-gray); margin: 30px auto; width: 100%; max-width: 320px; }
-    .modal-action-group { max-width: 320px; margin-left: auto; margin-right: auto; }
+    /* Smaller Fonts for Mobile */
+    .im-ann-badge { font-size: 10px !important; padding: 3px 6px !important; }
+    .im-ann-text { font-size: 11px !important; letter-spacing: 1px !important; }
+    .im-ann-label { font-size: 10px !important; }
+    .im-ann-code { font-size: 13px !important; padding: 1px 6px !important; }
+  }
+</style>
+
+<!-- 
+  LINK WRAPPER:
+  Includes auto-apply logic for code NODIET
+-->
+<a href="/discount/NODIET?redirect=/collections/signature-menu" class="im-ann-bar-root">
+  
+  <div class="im-ann-content">
     
-    .countdown-timer { display: flex; justify-content: center; gap: 15px; }
-    .countdown-timer__block { background: var(--icon-border-gray); padding: 10px; border-radius: 6px; min-width: 65px; flex: 1; }
-    .countdown-timer__digit { font-size: 30px; font-weight: 700; color: var(--icon-white); }
-    .countdown-timer__label { font-size: 11px; text-transform: uppercase; color: var(--icon-gray); opacity: 0.7; letter-spacing: 0.5px; margin-top: 2px; }
-    
-    /* 
-      ========== CTA BUTTON STYLES (NOW PRIMARY) ==========
-    */
-    .announcement-modal__cta {
-      display: block; width: 100%;
-      padding: 16px 20px;
-      background-color: var(--icon-red);
-      color: var(--icon-white) !important;
-      text-decoration: none !important;
-      border-radius: 6px;
-      font-size: 18px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      border: none;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-      transition: all 0.25s cubic-bezier(0.25, 0.46, 0.45, 0.94);
-      margin: 0;
-    }
-    .announcement-modal__cta:hover {
-      background-color: var(--icon-hover-red) !important;
-      transform: translateY(-2px) scale(1.02);
-      box-shadow: 0 8px 25px rgba(229, 9, 20, 0.4);
-    }
-
-    /* 
-      ========== NEW: AUTO-APPLY MESSAGE ==========
-    */
-    .auto-apply-message {
-      font-size: 14px;
-      color: #b3b3b3;
-      margin: 20px auto 15px;
-      font-style: italic;
-      line-height: 1.4;
-    }
-    .auto-apply-message strong {
-      color: var(--icon-white);
-      font-style: normal;
-      font-weight: 600;
-    }
-
-    /* 
-      ========== PROMO CODE STYLES (NOW SECONDARY) ==========
-    */
-    .promo-code-box {
-        display: flex;
-        align-items: stretch;
-        background: var(--icon-dark);
-        border: 2px dashed #444;
-        border-radius: 6px;
-        overflow: hidden;
-    }
-    .promo-code-box__text {
-        flex-grow: 1;
-        text-align: center;
-        font-size: 26px;
-        font-weight: 700;
-        color: var(--icon-white);
-        letter-spacing: 2px;
-        padding: 12px 10px;
-    }
-    .promo-code-box__copy-btn {
-        background: var(--icon-border-gray);
-        color: var(--icon-gray);
-        border: none;
-        padding: 0 20px;
-        font-size: 14px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: all 0.2s ease;
-        border-left: 2px dashed #444;
-    }
-    .promo-code-box__copy-btn:hover { background: #444; color: var(--icon-white); }
-    .promo-code-box__copy-btn.copied { background: var(--icon-red); color: var(--icon-white); border-left-color: var(--icon-red); }
-    
-    .announcement-modal__disclaimer { font-size: 13px; color: #888; margin-top: 30px; font-weight: 400; }
-
-    @media (max-width: 767px) {
-      .notification-bar { justify-content: center; }
-      .notification-bar__message { font-size: 13px; padding: 5px 5px; }
-      .header-social-links { display: none; }
-      .announcement-modal__content { padding: 40px 20px; margin: 15% auto; }
-      .announcement-modal__title { font-size: 28px; }
-      .announcement-modal__main-text { font-size: 16px; }
-      .modal-divider, .modal-action-group { max-width: 100%; }
-      .countdown-timer { gap: 10px; }
-      .countdown-timer__block { min-width: 0; padding: 8px 5px; }
-      .countdown-timer__digit { font-size: 24px; }
-      .promo-code-box__text { font-size: 22px; }
-      .announcement-modal__cta { font-size: 16px; padding: 15px 20px; }
-    }
-  </style>
-
-  <!-- ====== NOTIFICATION BAR HTML ====== -->
-  <div class="notification-bar">
-    <div class="notification-bar__message" id="announcement-bar-message">
-      <span>FATHER'S DAY SALE:</span> 
-      <span class="notification-bar__highlight">30% OFF SITEWIDE</span>
-      <span>→</span>
+    <!-- Group 1: Badge & Main Text -->
+    <div class="im-group-primary">
+      <div class="im-ann-badge">
+        <span>25% OFF</span>
+      </div>
+      <span class="im-ann-text">Sitewide Sale</span>
     </div>
-    {% if social_links != blank %}<div class="header-social-links">{{ social_links }}</div>{% endif %}
+
+    <!-- Desktop Divider -->
+    <span class="im-ann-divider"></span>
+
+    <!-- Group 2: Code & Arrow -->
+    <div class="im-group-secondary">
+      <span class="im-ann-label">Use Code:</span>
+      <span class="im-ann-code">NODIET</span>
+      
+      <svg class="im-ann-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+        <polyline points="12 5 19 12 12 19"></polyline>
+      </svg>
+    </div>
+
   </div>
 
-  <!-- ====== MODAL HTML (REVISED FLOW) ====== -->
-  <div id="announcement-modal" class="announcement-modal">
-    <div class="announcement-modal__content">
-      <span class="announcement-modal__close" id="announcement-modal-close">×</span>
-      
-      <div class="announcement-modal__icon">
-          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
-      </div>
+</a>
 
-      <h2 class="announcement-modal__title">Father's Day Sale</h2>
-      <p class="announcement-modal__main-text">Fuel Dad's greatness. Get <strong>30% OFF SITEWIDE</strong> and give the gift of peak performance.</p>
-
-      <hr class="modal-divider">
-      
-      <div id="modal-countdown-wrapper" class="modal-action-group">
-        <div id="modal-countdown" class="countdown-timer">
-          <div class="countdown-timer__block"><div id="countdown-days" class="countdown-timer__digit">00</div><div class="countdown-timer__label">Days</div></div>
-          <div class="countdown-timer__block"><div id="countdown-hours" class="countdown-timer__digit">00</div><div class="countdown-timer__label">Hours</div></div>
-          <div class="countdown-timer__block"><div id="countdown-minutes" class="countdown-timer__digit">00</div><div class="countdown-timer__label">Mins</div></div>
-          <div class="countdown-timer__block"><div id="countdown-seconds" class="countdown-timer__digit">00</div><div class="countdown-timer__label">Secs</div></div>
-        </div>
-      </div>
-      
-      <hr class="modal-divider" id="promo-divider">
-
-      <div id="sale-ended-message" style="display: none;">
-          <h3 style="color: var(--icon-white); text-transform: uppercase;">This sale has ended.</h3>
-      </div>
-      
-      <div id="promo-and-cta-wrapper">
-          <div id="cta-wrapper" class="modal-action-group">
-            <a href="{{ '/discount/DAD30?redirect=/collections/signature-menu' }}" class="announcement-modal__cta">
-              Shop 30% Off Now
-            </a>
-          </div>
-          
-          <p class="auto-apply-message modal-action-group">
-            Code <strong>DAD30</strong> is auto-applied at checkout.
-          </p>
-
-      </div>
-
-      <p class="announcement-modal__disclaimer">Sale Ends Tuesday 11:59 PM.</p>
-    </div>
-  </div>
-
-  <!-- ====== JAVASCRIPT LOGIC ====== -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      const modal = document.getElementById('announcement-modal');
-      document.getElementById('announcement-bar-message')?.addEventListener('click', () => { modal.style.display = 'block'; });
-      document.getElementById('announcement-modal-close')?.addEventListener('click', () => { modal.style.display = 'none'; });
-      window.addEventListener('click', (event) => { if (event.target == modal) { modal.style.display = 'none'; } });
-
-      const saleEndDate = (() => {
-        const now = new Date(); let d = (2 - now.getDay() + 7) % 7; if (d === 0 && now.getHours() >= 23) { d = 7; }
-        const t = new Date(now); t.setDate(now.getDate() + d); t.setHours(23, 59, 59, 999); return t;
-      })();
-      
-      const elements = {
-        days: document.getElementById('countdown-days'), hours: document.getElementById('countdown-hours'), minutes: document.getElementById('countdown-minutes'), seconds: document.getElementById('countdown-seconds'),
-        countdownWrapper: document.getElementById('modal-countdown-wrapper'), promoAndCtaWrapper: document.getElementById('promo-and-cta-wrapper'),
-        promoDivider: document.getElementById('promo-divider'), saleEndedMessage: document.getElementById('sale-ended-message')
-      };
-
-      function updateCountdown() {
-        const t = saleEndDate - new Date().getTime();
-        if (t <= 0) {
-          clearInterval(timerInterval);
-          Object.values(elements).forEach(el => { if(el) el.style.display = el === elements.saleEndedMessage ? 'block' : 'none'; });
-          return;
-        }
-        const f = n => n < 10 ? '0' + n : n;
-        elements.days.textContent = f(Math.floor(t / 86400000));
-        elements.hours.textContent = f(Math.floor((t % 86400000) / 3600000));
-        elements.minutes.textContent = f(Math.floor((t % 3600000) / 60000));
-        elements.seconds.textContent = f(Math.floor((t % 60000) / 1000));
-      }
-      
-      let timerInterval;
-      if (elements.days) { timerInterval = setInterval(updateCountdown, 1000); updateCountdown(); }
-
-      const copyBtn = document.getElementById('copy-code-btn');
-      if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-          navigator.clipboard.writeText('DAD30').then(() => {
-            copyBtn.textContent = 'Copied!'; copyBtn.classList.add('copied');
-            setTimeout(() => { copyBtn.textContent = 'Copy'; copyBtn.classList.remove('copied'); }, 2000);
-          }).catch(err => console.error('Failed to copy: ', err));
-        });
-      }
-    });
-  </script>
+<script>
+  console.log('IM Announcement Bar: NODIET Active');
+</script>
 
 {% endif %}
 
@@ -276,9 +219,12 @@
 {
   "name": "Announcement bar",
   "settings": [
-    { "type": "checkbox", "id": "enable", "default": true, "label": "Show announcement" },
-    { "type": "color", "id": "notification-bar--text-color", "label": "Bar Text", "default": "#e0e0e0" },
-    { "type": "checkbox", "id": "social-enable", "default": false, "label": "Enable social media icons" }
+    {
+      "type": "checkbox",
+      "id": "enable",
+      "default": true,
+      "label": "Show announcement"
+    }
   ]
 }
 {% endschema %}
