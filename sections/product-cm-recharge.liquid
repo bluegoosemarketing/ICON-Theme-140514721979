@@ -23,6 +23,7 @@
   data-side-collection-handle="{{ section.settings.side_collection_handle }}"
   data-protein-collection-id="{{ protein_collection.id | default: '' }}"
   data-side-collection-id="{{ side_collection.id | default: '' }}"
+  data-no-protein-image="{{ section.settings.no_protein_image | image_url: width: 160 | default: '' }}"
 >
   <div class="cm-recharge__inner pad-safe-bottom">
     <div class="cm-recharge__main container">
@@ -350,6 +351,12 @@
       "id": "custom_title",
       "label": "Custom Page Title",
       "default": "Custom Meal"
+    },
+    {
+      "type": "image_picker",
+      "id": "no_protein_image",
+      "label": "\"No Protein\" Image",
+      "info": "Image displayed for the \"No Protein\" protein option."
     },
     { "type": "header", "content": "Collection Handles" },
     { "type": "text", "id": "protein_collection_handle", "label": "Protein Collection Handle", "default": "recharge-cm-proteins" },
