@@ -44,6 +44,10 @@ class CustomMealBuilder {
     this.variantDetails = new Map();
     this.productData = { protein: [], side: [] };
     this.productImageData = new Map();
+    this.noProteinImage = this.root.dataset.noProteinImage || '';
+    if (this.noProteinImage) {
+      this.productImageData.set('none', this.noProteinImage);
+    }
     // NEW: Store the original sub-text
     this.originalPriceSubText = this.priceSubText ? this.priceSubText.textContent : 'Your total will update here.';
     const sellingPlanElement = document.getElementById(`RechargeSellingPlans-${this.root.dataset.sectionId}`);
@@ -421,7 +425,7 @@ class CustomMealBuilder {
       if (select) select.value = '';
     });
   }
-  renderAllVisualOptions() { this.root.querySelectorAll('[data-product-select]').forEach(select => { const group = select.dataset.productSelect; const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; visualContainer.innerHTML = ''; Array.from(select.options).slice(1).forEach(option => { const productId = option.value; const productTitle = option.textContent; const imageUrl = this.productImageData.get(productId) || 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; const card = document.createElement('button'); card.type = 'button'; card.className = 'cm-product-card-visual'; card.dataset.productId = productId; card.dataset.group = group; card.innerHTML = `<img src="${imageUrl}" alt="${productTitle}" class="cm-product-card-visual__image" width="72" height="72" loading="lazy"><span class="cm-product-card-visual__title">${productTitle}</span>`; visualContainer.appendChild(card); }); }); }
+  renderAllVisualOptions() { this.root.querySelectorAll('[data-product-select]').forEach(select => { const group = select.dataset.productSelect; const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; visualContainer.innerHTML = ''; Array.from(select.options).slice(1).forEach(option => { const productId = option.value; const productTitle = option.textContent; const fallbackImage = option.dataset.noProtein === 'true' && this.noProteinImage ? this.noProteinImage : 'data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw=='; const imageUrl = this.productImageData.get(productId) || fallbackImage; const card = document.createElement('button'); card.type = 'button'; card.className = 'cm-product-card-visual'; card.dataset.productId = productId; card.dataset.group = group; card.innerHTML = `<img src="${imageUrl}" alt="${productTitle}" class="cm-product-card-visual__image" width="72" height="72" loading="lazy"><span class="cm-product-card-visual__title">${productTitle}</span>`; visualContainer.appendChild(card); }); }); }
   bindVisualOptionEvents() { this.root.addEventListener('click', (event) => { const card = event.target.closest('.cm-product-card-visual'); if (!card) return; const { productId, group } = card.dataset; const originalSelect = this.root.querySelector(`[data-product-select="${group}"]`); if (originalSelect) { originalSelect.value = productId; originalSelect.dispatchEvent(new Event('change')); } }); }
   
   renderVariantOptions(selectionGroup, productId) {
