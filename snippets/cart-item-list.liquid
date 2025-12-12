@@ -100,9 +100,14 @@
           {%- endif -%}
           
           {%- assign has_new_props = false -%}
-          {%- if rc_bundle_parent_props._rc_cm_protein_name != blank -%}
+          {%- assign component_keys = 'protein,side_1,side_2' | split: ',' -%}
+          {%- for comp in component_keys -%}
+            {%- assign comp_name_key = '_rc_cm_' | append: comp | append: '_name' -%}
+            {%- if rc_bundle_parent_props[comp_name_key] != blank -%}
               {%- assign has_new_props = true -%}
-          {%- endif -%}
+              {%- break -%}
+            {%- endif -%}
+          {%- endfor -%}
 
           {%- if rc_bundle_primary_key == '' -%}
             {%- assign rc_bundle_primary_key = item.key -%}
