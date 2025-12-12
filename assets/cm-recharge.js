@@ -58,6 +58,10 @@ class CustomMealBuilder {
     } else { this.initialize(); }
   }
 
+  isNoProteinSelected() {
+    return this.proteinSelect && this.proteinSelect.value === 'none';
+  }
+
   async initialize() {
     try {
       await this.waitForRechargeBundle();
@@ -219,7 +223,8 @@ class CustomMealBuilder {
     const summaryEl = step.querySelector('[data-selection-summary]');
     const legendTextEl = step.querySelector('.cm-step__legend-text');
     const legendTitleEl = legendTextEl.querySelector('.cm-step__legend-title');
-    const isComplete = hiddenSelect && hiddenSelect.value !== '';
+    const isNoProtein = group === 'protein' && hiddenSelect && hiddenSelect.value === 'none';
+    const isComplete = isNoProtein || (hiddenSelect && hiddenSelect.value !== '');
     step.classList.toggle('is-complete', isComplete);
 
     if (legendTitleEl && !legendTitleEl.dataset.originalText) {
@@ -227,13 +232,18 @@ class CustomMealBuilder {
     }
 
     if (isComplete) {
-      const details = this.variantDetails.get(hiddenSelect.value);
-      if (details && summaryEl && legendTitleEl && legendTitleEl.dataset.originalText) {
+      const details = isNoProtein ? null : this.variantDetails.get(hiddenSelect.value);
+      if (summaryEl && legendTitleEl && legendTitleEl.dataset.originalText) {
         const originalText = legendTitleEl.dataset.originalText;
         const newHeaderText = originalText.replace('Choose ', '');
         legendTitleEl.innerHTML = newHeaderText;
-        const productTitle = details.productTitle.replace(/ oz/gi, '').trim();
-        summaryEl.textContent = ` ${productTitle}, ${details.displayLabel}`;
+
+        if (isNoProtein) {
+          summaryEl.textContent = ' No Protein Selected';
+        } else if (details) {
+          const productTitle = details.productTitle.replace(/ oz/gi, '').trim();
+          summaryEl.textContent = ` ${productTitle}, ${details.displayLabel}`;
+        }
       }
     } else {
       if (legendTitleEl && legendTitleEl.dataset.originalText) {
@@ -267,8 +277,10 @@ class CustomMealBuilder {
     
     let linePrice = 0;
 
-    // The price is only calculated if BOTH a protein and side 1 have a valid selection.
-    if (this.proteinSelect.value && this.side1Select.value) {
+    const proteinSatisfied = this.isNoProteinSelected() || !!this.proteinSelect.value;
+
+    // The price is only calculated if BOTH a protein (or none) and side 1 have a valid selection.
+    if (proteinSatisfied && this.side1Select.value) {
       const baseFee = parseInt(this.root.dataset.baseFeeCents, 10);
       const componentsPrice = getPrice(this.proteinSelect) + getPrice(this.side1Select) + getPrice(this.side2Select);
       linePrice = componentsPrice + baseFee;
@@ -295,7 +307,8 @@ class CustomMealBuilder {
   }
   
   validate() {
-    const hasSelections = this.proteinSelect.value && this.side1Select.value;
+    const proteinSatisfied = this.isNoProteinSelected() || !!this.proteinSelect.value;
+    const hasSelections = proteinSatisfied && this.side1Select.value;
     const canSubmit = hasSelections && !this.state.isLoading;
     this.addToCartButton.disabled = !canSubmit;
     this.addToCartText.textContent = this.state.isLoading ? 'Loading...' : (canSubmit ? 'Add to Cart' : 'Select Options');
@@ -306,8 +319,70 @@ class CustomMealBuilder {
     }
   }
 
-  processProductData(products, groupType = '') { return products.map(product => { this.productImageData.set(String(product.id), (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src); const variants = (product.variants || []).map(variant => { const variantId = String(variant.id); const unitInfo = this.getVariantUnitInfo(product, variant, groupType); const priceInCents = this.toCents(variant.price); this.variantDetails.set(variantId, { productId: product.id, productTitle: product.title, variantId: variant.id, variantTitle: variant.title, displayLabel: unitInfo.fullLabel, amountLabel: unitInfo.amountLabel, unitLabel: unitInfo.displayUnit, unitKey: unitInfo.unitKey, numericQuantity: unitInfo.numericValue, price: priceInCents }); return { id: variantId, title: variant.title, price: priceInCents, displayLabel: unitInfo.fullLabel, amountLabel: unitInfo.amountLabel, unitLabel: unitInfo.displayUnit, unitKey: unitInfo.unitKey }; }); return { id: product.id, title: product.title, variants }; }).filter(p => p.variants.length > 0); }
-  populateProductSelect(selectElement, products, type) { if (!selectElement) return; selectElement.innerHTML = `<option value="">Choose a ${type}...</option>`; products.forEach(product => { const option = document.createElement('option'); option.value = product.id; option.textContent = product.title.replace(/ oz/gi, '').trim(); selectElement.appendChild(option); }); selectElement.disabled = false; }
+  processProductData(products, groupType = '') {
+    return products
+      .map(product => {
+        this.productImageData.set(
+          String(product.id),
+          (product.images && product.images.length > 0) ? product.images[0].src : product.image?.src
+        );
+
+        const variants = (product.variants || []).map(variant => {
+          const variantId = String(variant.id);
+          const unitInfo = this.getVariantUnitInfo(product, variant, groupType);
+          const priceInCents = this.toCents(variant.price);
+
+          this.variantDetails.set(variantId, {
+            productId: product.id,
+            productTitle: product.title,
+            variantId: variant.id,
+            variantTitle: variant.title,
+            displayLabel: unitInfo.fullLabel,
+            amountLabel: unitInfo.amountLabel,
+            unitLabel: unitInfo.displayUnit,
+            unitKey: unitInfo.unitKey,
+            numericQuantity: unitInfo.numericValue,
+            price: priceInCents
+          });
+
+          return {
+            id: variantId,
+            title: variant.title,
+            price: priceInCents,
+            displayLabel: unitInfo.fullLabel,
+            amountLabel: unitInfo.amountLabel,
+            unitLabel: unitInfo.displayUnit,
+            unitKey: unitInfo.unitKey
+          };
+        });
+
+        return { id: product.id, title: product.title, variants };
+      })
+      .filter(p => p.variants.length > 0);
+  }
+
+  populateProductSelect(selectElement, products, type) {
+    if (!selectElement) return;
+
+    selectElement.innerHTML = `<option value="">Choose a ${type}...</option>`;
+
+    if (type === 'protein') {
+      const noneOption = document.createElement('option');
+      noneOption.value = 'none';
+      noneOption.textContent = 'No Protein';
+      noneOption.dataset.noProtein = 'true';
+      selectElement.appendChild(noneOption);
+    }
+
+    products.forEach(product => {
+      const option = document.createElement('option');
+      option.value = product.id;
+      option.textContent = product.title.replace(/ oz/gi, '').trim();
+      selectElement.appendChild(option);
+    });
+
+    selectElement.disabled = false;
+  }
   populateHiddenVariantSelects() {
     const hiddenSelects = [this.proteinSelect, this.side1Select, this.side2Select];
 
@@ -319,6 +394,13 @@ class CustomMealBuilder {
       placeholder.dataset.price = 0;
       select.appendChild(placeholder);
     });
+
+    if (this.proteinSelect) {
+      const noProtein = document.createElement('option');
+      noProtein.value = 'none';
+      noProtein.dataset.price = 0;
+      this.proteinSelect.appendChild(noProtein);
+    }
 
     this.variantDetails.forEach((details, variantId) => {
       const option = document.createElement('option');
@@ -356,6 +438,13 @@ class CustomMealBuilder {
       return;
     }
 
+    if (selectionGroup === 'protein' && productId === 'none') {
+      hiddenSelect.value = 'none';
+      this.update();
+      this.updateStepState(selectionGroup);
+      return;
+    }
+
     const type = selectionGroup.includes('side') ? 'side' : 'protein';
     const product = this.productData[type].find(p => String(p.id) === String(productId));
 
@@ -374,7 +463,7 @@ class CustomMealBuilder {
     this.update();
   }
 
-  syncVisualSelection(group, selectedProductId) { const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; const step = visualContainer.closest('.cm-selection-step'); if (!step) return; step.dataset.productSelected = !!selectedProductId; visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => { card.classList.toggle('is-selected', card.dataset.productId === selectedProductId); }); const variantOptionsContainer = step.querySelector('[data-variant-options-for]'); if (variantOptionsContainer) { variantOptionsContainer.classList.toggle('is-visible', !!selectedProductId); } }
+  syncVisualSelection(group, selectedProductId) { const visualContainer = this.root.querySelector(`[data-visual-options-for="${group}"]`); if (!visualContainer) return; const step = visualContainer.closest('.cm-selection-step'); if (!step) return; const hasProductSelection = !!selectedProductId && !(group === 'protein' && selectedProductId === 'none'); step.dataset.productSelected = !!selectedProductId; visualContainer.querySelectorAll('.cm-product-card-visual').forEach(card => { card.classList.toggle('is-selected', card.dataset.productId === selectedProductId); }); const variantOptionsContainer = step.querySelector('[data-variant-options-for]'); if (variantOptionsContainer) { variantOptionsContainer.classList.toggle('is-visible', hasProductSelection); } }
   getVariantUnitInfo(product, variant) { const variantTitle = (variant.title||'').trim(); const productTitle = (product.title||'').trim(); let override = null; const overrideKeys = Object.keys(CM_UNIT_OVERRIDES.byTitle).sort((a,b)=>b.length-a.length); for (const key of overrideKeys) { if (productTitle.toLowerCase().includes(key.toLowerCase())) { override = CM_UNIT_OVERRIDES.byTitle[key]; break; } } if (override) { const unitPattern = CM_UNIT_DEFINITIONS.find(def=>def.key===override.unit); if (!unitPattern) return {amountLabel:variantTitle,displayUnit:'',unitKey:'',fullLabel:variantTitle}; const amountLabel = variantTitle; let numericValue = this.parseQuantityString(amountLabel); if(override.fractionMap && override.fractionMap[amountLabel]) numericValue = override.fractionMap[amountLabel]; return {amountLabel:amountLabel,displayUnit:unitPattern.displaySingular,unitKey:unitPattern.key,fullLabel:`${amountLabel} ${unitPattern.displaySingular}`.trim(),numericValue:numericValue}; } const directMatch = this.matchUnitInText(variantTitle); if (directMatch && directMatch.pattern) { const {pattern,amountLabel} = directMatch; return {amountLabel:amountLabel||variantTitle,displayUnit:pattern.displaySingular,unitKey:pattern.key,fullLabel:`${amountLabel||variantTitle} ${pattern.displaySingular}`.trim(),numericValue:this.parseQuantityString(amountLabel||variantTitle)}; } const ozPattern = CM_UNIT_DEFINITIONS.find(def=>def.key==='OZ'); return {amountLabel:variantTitle,displayUnit:ozPattern.displaySingular,unitKey:ozPattern.key,fullLabel:`${variantTitle} ${ozPattern.displaySingular}`.trim(),numericValue:this.parseQuantityString(variantTitle)}; }
   matchUnitInText(text) { if (!text || typeof text !== 'string') return null; const cleanedText = text.replace(/\(s\)/gi,'s').toLowerCase(); for (const definition of CM_UNIT_DEFINITIONS) { for (const keyword of definition.keywords) { if (cleanedText.endsWith(keyword)) { const amountPart = cleanedText.substring(0, cleanedText.length - keyword.length).trim(); if (amountPart && !isNaN(this.parseQuantityString(amountPart))) { return {pattern:definition,amountLabel:amountPart}; } } } } return null; }
   parseQuantityString(value) { if (value == null) return null; const stringValue = String(value).trim(); if (!stringValue) return null; const replacedFractions = stringValue.split('').map(char => CM_UNICODE_FRACTIONS[char] !== undefined ? ` ${CM_UNICODE_FRACTIONS[char]} ` : char).join(''); const normalized = replacedFractions.replace(/-/g,' ').replace(/[^0-9./\s]/g,' ').replace(/\s+/g,' ').trim(); if (!normalized) return null; let total = 0; let hasValue = false; normalized.split(' ').forEach(part => { if (!part) return; hasValue = true; if (part.includes('/')) { const [num,den] = part.split('/').map(Number); if (!isNaN(num) && !isNaN(den) && den !== 0) total += num / den; } else { const num = Number(part); if (!isNaN(num)) total += num; } }); return hasValue ? total : null; }
@@ -383,13 +472,13 @@ class CustomMealBuilder {
   populateFrequencies() { if (!this.frequencySelect) return; this.frequencySelect.innerHTML = '<option value="">One-time purchase</option>'; (this.sellingPlanGroups||[]).forEach(group => { (group.selling_plans || []).forEach(plan => { const option = document.createElement('option'); option.value = plan.id; option.textContent = plan.name; this.frequencySelect.appendChild(option); }); }); this.frequencySelect.disabled = false; }
   
   getVariantLabelByValue(variantId) { if (!variantId) return ''; const details = this.variantDetails.get(String(variantId)); if (!details) return ''; const productTitle = (details.productTitle || '').trim(); const variantTitle = (details.variantTitle || '').trim(); const variantDisplayLabel = (details.displayLabel || '').trim(); const normalizedVariantTitle = variantDisplayLabel || (variantTitle && variantTitle.toLowerCase() !== 'default title' ? variantTitle : ''); if (!productTitle && !normalizedVariantTitle) return ''; if (!productTitle) return normalizedVariantTitle; if (!normalizedVariantTitle) return productTitle; if (normalizedVariantTitle.toLowerCase().includes(productTitle.toLowerCase())) { return normalizedVariantTitle; } return `${productTitle} - ${normalizedVariantTitle}`; }
-  emitMacroSelections() { if (!window.iconMacroV2 || typeof window.iconMacroV2.update !== 'function') return; const payload = { protein: this.proteinProductSelect.value ? this.getVariantLabelByValue(this.proteinSelect?.value) : '', side1: this.side1ProductSelect.value ? this.getVariantLabelByValue(this.side1Select?.value) : '', side2: this.side2ProductSelect.value ? this.getVariantLabelByValue(this.side2Select?.value) : '' }; window.iconMacroV2.update(payload); }
+  emitMacroSelections() { if (!window.iconMacroV2 || typeof window.iconMacroV2.update !== 'function') return; const proteinLabel = this.isNoProteinSelected() ? 'No Protein Selected' : (this.proteinProductSelect.value ? this.getVariantLabelByValue(this.proteinSelect?.value) : ''); const payload = { protein: proteinLabel, side1: this.side1ProductSelect.value ? this.getVariantLabelByValue(this.side1Select?.value) : '', side2: this.side2ProductSelect.value ? this.getVariantLabelByValue(this.side2Select?.value) : '' }; window.iconMacroV2.update(payload); }
   
   // --- START: RESTORED CART & HELPER FUNCTIONS ---
   getSelectionDetails(selectElement) { const variantId = selectElement.value; if (!variantId && selectElement !== this.side2Select) { throw new Error('A required selection is missing.'); } if (!variantId) return null; const details = this.variantDetails.get(variantId); if (!details) throw new Error(`Missing variant metadata for ${variantId}.`); return details; }
   normalizeIngredientName(name) { if (!name) return ''; let normalized = String(name); normalized = normalized.replace(/\(([^)]+)\)/g, (match, inner) => { const innerLower = inner.toLowerCase(); const hasUnitKeyword = CM_UNIT_DEFINITIONS.some(def => def.keywords.some(keyword => innerLower.includes(keyword))); return hasUnitKeyword ? '' : match; }); normalized = normalized.replace(/(?:\s*\d[\d./\s-]*)?\s*(oz|ounce|ounces|cup|cups|ea|each|slice|slices|sl)\s*$/i, ''); return normalized.replace(/\s{2,}/g, ' ').trim(); }
   buildQuantityKey(name, unitKey) { if (!name || !unitKey) return ''; let base = String(name).toUpperCase().replace(/[^A-Z0-9 ]+/g, ' ').replace(/\s{2,}/g, ' ').trim(); if (base === 'CHICKEN BREAST') base = 'CHICKEN'; if (!base) return ''; return `${base} ${unitKey}`.trim(); }
-  buildParentLineProperties(commonProps = {}) { const properties = { ...commonProps }; const macroProps = {}; const quantityKeyUsage = new Map(); const selections = [ { id: 'protein', select: this.proteinSelect }, { id: 'side_1', select: this.side1Select }, { id: 'side_2', select: this.side2Select } ]; selections.forEach(({ id, select }) => { if (!select) return; const variantId = select.value; if (!variantId) return; const details = this.variantDetails.get(String(variantId)); if (!details) return; const ingredientName = this.normalizeIngredientName(details.productTitle); const amountLabel = (details.amountLabel || '').trim(); const unitKey = (details.unitKey || '').trim(); const unitInfo = CM_UNIT_DEFINITIONS.find(u => u.key === unitKey); const displayUnit = unitInfo ? unitInfo.displaySingular : ''; const key_prefix = `_rc_cm_${id}`; if (ingredientName) { properties[`${key_prefix}_name`] = ingredientName; } if (amountLabel) { properties[`${key_prefix}_qty`] = amountLabel; } if (displayUnit) { properties[`${key_prefix}_unit`] = displayUnit; } properties[`${key_prefix}_display`] = `${amountLabel}${displayUnit} ${ingredientName}`; if (ingredientName && amountLabel && unitKey) { const baseKey = this.buildQuantityKey(ingredientName, unitKey); if (baseKey) { const usageCount = quantityKeyUsage.get(baseKey) || 0; const finalKey = usageCount === 0 ? baseKey : `${baseKey} ${usageCount + 1}`; quantityKeyUsage.set(baseKey, usageCount + 1); macroProps[finalKey] = amountLabel; } } }); return { ...properties, ...macroProps }; }
+  buildParentLineProperties(commonProps = {}, options = {}) { const { includeNoProteinNote = false, noProteinLabel = '' } = options; const properties = { ...commonProps }; const macroProps = {}; const quantityKeyUsage = new Map(); const selections = [ { id: 'protein', select: this.proteinSelect }, { id: 'side_1', select: this.side1Select }, { id: 'side_2', select: this.side2Select } ]; selections.forEach(({ id, select }) => { if (!select) return; const variantId = select.value; if (!variantId || variantId === 'none') return; const details = this.variantDetails.get(String(variantId)); if (!details) return; const ingredientName = this.normalizeIngredientName(details.productTitle); const amountLabel = (details.amountLabel || '').trim(); const unitKey = (details.unitKey || '').trim(); const unitInfo = CM_UNIT_DEFINITIONS.find(u => u.key === unitKey); const displayUnit = unitInfo ? unitInfo.displaySingular : ''; const key_prefix = `_rc_cm_${id}`; if (ingredientName) { properties[`${key_prefix}_name`] = ingredientName; } if (amountLabel) { properties[`${key_prefix}_qty`] = amountLabel; } if (displayUnit) { properties[`${key_prefix}_unit`] = displayUnit; } properties[`${key_prefix}_display`] = `${amountLabel}${displayUnit} ${ingredientName}`; if (ingredientName && amountLabel && unitKey) { const baseKey = this.buildQuantityKey(ingredientName, unitKey); if (baseKey) { const usageCount = quantityKeyUsage.get(baseKey) || 0; const finalKey = usageCount === 0 ? baseKey : `${baseKey} ${usageCount + 1}`; quantityKeyUsage.set(baseKey, usageCount + 1); macroProps[finalKey] = amountLabel; } } }); if (includeNoProteinNote && noProteinLabel) { properties['Protein'] = noProteinLabel; } return { ...properties, ...macroProps }; }
   
   async addItemsToCart(payload, qty) { const allItems = Array.from({ length: qty }, () => payload.items).flat(); const response = await fetch('/cart/add.js', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ items: allItems }) }); if (!response.ok) { let msg = 'Failed to add items to cart.'; try { const ct = response.headers.get('content-type') || ''; if (ct.includes('application/json')) { const j = await response.json(); msg = j?.description || j?.message || msg; } else { const t = await response.text(); const m = t.match(/(?:<p[^>]*>|^)([^<]{8,200})(?:<\/p>|$)/i); msg = m ? m[1].trim() : t.slice(0, 200); } } catch {} throw new Error(msg); } document.dispatchEvent(new CustomEvent('cart:updated')); }
 
@@ -401,15 +490,19 @@ class CustomMealBuilder {
     this.addToCartText.textContent = 'Adding...';
 
     try {
-      const childVariants = [
-        this.getSelectionDetails(this.proteinSelect),
-        this.getSelectionDetails(this.side1Select),
-        this.getSelectionDetails(this.side2Select)
-      ].filter(Boolean).map(v => ({ id: v.variantId, quantity: 1 }));
+      const isNoProtein = this.isNoProteinSelected();
+      const proteinDetails = isNoProtein ? null : this.getSelectionDetails(this.proteinSelect);
+      const side1Details = this.getSelectionDetails(this.side1Select);
+      const side2Details = this.getSelectionDetails(this.side2Select);
 
-      if (childVariants.length < 2) {
-        throw new Error('Please select a protein and at least one side.');
+      if (!side1Details) {
+        throw new Error('Please select at least one side.');
       }
+
+      const childVariants = [];
+      if (proteinDetails) childVariants.push({ id: proteinDetails.variantId, quantity: 1 });
+      if (side1Details) childVariants.push({ id: side1Details.variantId, quantity: 1 });
+      if (side2Details) childVariants.push({ id: side2Details.variantId, quantity: 1 });
 
       const parentHandle = this.root.dataset.productHandle;
       const parentVariantId = this.root.dataset.bundleVariantId;
@@ -425,7 +518,10 @@ class CustomMealBuilder {
       const parentLine = {
         id: parentVariantId,
         quantity: 1,
-        properties: this.buildParentLineProperties(commonProps)
+        properties: this.buildParentLineProperties(commonProps, {
+          includeNoProteinNote: isNoProtein,
+          noProteinLabel: 'None / No Protein Selected'
+        })
       };
 
       if (planId) parentLine.selling_plan = planId;
