@@ -12,12 +12,10 @@
     "main": {
       "type": "template--addons",
       "settings": {
-        "promo_heading": "Buy $100, Get $25 Free",
-        "promo_subheading": "Purchase a $100 Gift Card today and receive a bonus $25 Gift Card on us.",
-        "promo_gift_card_product": "gift-card",
-        "promo_buy_variant_id": "42900474888379",
-        "promo_get_variant_id": "42874129121467",
-        "promo_discount_code": "Gift25Free"
+        "gift_card_product": "gift-card",
+        "variant_id_opt_1": "42900474888379",
+        "variant_id_opt_2": "42900474986683",
+        "variant_id_opt_3": "42900475052219"
       }
     }
   },

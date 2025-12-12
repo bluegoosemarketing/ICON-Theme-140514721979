@@ -607,9 +607,7 @@
         "announcement-bar": {
           "type": "announcement-bar",
           "settings": {
-            "enable": true,
-            "notification-bar--text-color": "#ffffff",
-            "social-enable": false
+            "enable": true
           }
         },
         "template--blog": {
