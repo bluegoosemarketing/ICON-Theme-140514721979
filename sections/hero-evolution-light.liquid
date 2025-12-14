@@ -16,7 +16,8 @@
 <!-- LOAD FONTS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Teko:wght@300;400;600&display=swap" rel="stylesheet">
+<!-- Added weight 700 for Teko -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <div class="hero-evo-wrapper">
   <section class="hero-evo-section" aria-label="Hero Section">
@@ -244,6 +245,8 @@
   text-transform: uppercase !important;
   margin: 0 0 2.5rem 0 !important;
   color: var(--evo-text-main) !important;
+  /* FIX: Max weight for impact */
+  font-weight: 700 !important; 
 }
 
 .hero-evo-solid { display: block; }
