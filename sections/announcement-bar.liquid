@@ -25,17 +25,25 @@
 <style>
   /* 
     ========================================
-    ICON MEALS: BULLETPROOF STYLING (V3 - COMPACT MOBILE)
+    THEME: THE HOLIDAY TICKET (ELF25)
+    Desktop: Premium Spaced | Mobile: Single Row Compact
     ========================================
   */
 
-  /* 1. RESET & CONTAINER */
+  :root {
+    --im-bg-dark: #090909;
+    --im-holiday-red: #D90429;
+    --im-holiday-gold: #FFC300;
+    --im-snow-white: #ffffff;
+  }
+
+  /* 1. CONTAINER & RESET */
   a.im-ann-bar-root {
-    background-color: #080808 !important;
-    border-bottom: 1px solid #2a2a2a !important;
-    color: #ffffff !important;
+    background-color: var(--im-bg-dark) !important;
+    border-bottom: 2px solid var(--im-holiday-red) !important; 
+    color: var(--im-snow-white) !important;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    height: 46px !important;
+    min-height: 46px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
@@ -47,161 +55,236 @@
     cursor: pointer !important;
   }
 
-  /* Hover Effect */
-  a.im-ann-bar-root:hover {
-    background-color: #111111 !important;
-  }
-
   /* 2. NUCLEAR TEXT RESET */
-  .im-ann-bar-root *, .im-ann-bar-root span, .im-ann-bar-root div {
+  .im-ann-bar-root *, .im-ann-bar-root span {
     text-decoration: none !important;
-    border-bottom: none !important;
-    box-shadow: none !important;
     line-height: 1 !important;
+    box-sizing: border-box !important;
   }
 
-  /* 3. CONTENT LAYOUT (FLEX GROUPS) */
+  /* 3. LAYOUT */
   .im-ann-content {
     display: flex !important;
     align-items: center !important;
-    gap: 15px !important;
+    gap: 20px !important;
     padding: 0 15px !important;
-    max-width: 100% !important;
   }
 
-  /* Group 1: Badge + Text */
-  .im-group-primary {
+  .im-group-left, .im-group-right {
     display: flex !important;
     align-items: center !important;
-    gap: 10px !important;
   }
+  .im-group-left { gap: 12px !important; }
+  .im-group-right { gap: 10px !important; }
 
-  /* Group 2: Code + Arrow */
-  .im-group-secondary {
-    display: flex !important;
-    align-items: center !important;
-    gap: 8px !important;
-  }
-
-  /* 4. ELEMENT STYLES */
-  .im-ann-badge {
-    background-color: #e50914 !important;
-    color: #ffffff !important;
+  /* 4. THE CANDY CANE BADGE */
+  .im-badge-candy {
+    background: repeating-linear-gradient(
+      45deg,
+      var(--im-holiday-red),
+      var(--im-holiday-red) 10px,
+      #ef233c 10px,
+      #ef233c 20px
+    ) !important;
+    color: #fff !important;
     font-weight: 800 !important;
     font-size: 13px !important;
-    padding: 4px 10px !important;
-    border-radius: 4px !important;
-    text-transform: uppercase !important;
-    transform: skew(-10deg) !important;
-    display: inline-block !important;
-  }
-  
-  .im-ann-badge span {
-    display: block !important;
-    transform: skew(10deg) !important; 
+    padding: 5px 12px !important;
+    border-radius: 50px !important; 
+    box-shadow: 0 2px 10px rgba(217, 4, 41, 0.4) !important;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    letter-spacing: 0.5px !important;
+    position: relative !important;
+    overflow: hidden !important;
+    white-space: nowrap !important;
   }
 
+  /* Shimmer over the candy cane */
+  .im-badge-candy::after {
+    content: '' !important;
+    position: absolute !important;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent) !important;
+    transform: skewX(-25deg) !important;
+    animation: imCandyShine 3s infinite;
+  }
+
+  @keyframes imCandyShine {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
+  }
+
+  /* 5. TEXT STYLES */
   .im-ann-text {
     font-weight: 700 !important;
-    font-size: 13px !important;
-    letter-spacing: 1.5px !important;
+    font-size: 14px !important;
     text-transform: uppercase !important;
+    letter-spacing: 1px !important;
     color: #f5f5f5 !important;
-  }
-
-  .im-ann-divider {
-    height: 16px !important;
-    width: 1px !important;
-    background-color: #444444 !important;
-    display: block !important;
+    white-space: nowrap !important;
   }
 
   .im-ann-label {
-    color: #999999 !important;
     font-size: 11px !important;
-    font-weight: 500 !important;
+    color: #aaa !important;
     text-transform: uppercase !important;
+    font-weight: 600 !important;
   }
 
-  .im-ann-code {
+  /* 6. THE "GOLDEN TICKET" CODE */
+  .im-code-ticket {
+    background: rgba(255, 195, 0, 0.15) !important;
+    border: 1px dashed var(--im-holiday-gold) !important;
+    color: var(--im-holiday-gold) !important;
     font-family: "Courier New", Courier, monospace !important;
-    color: #ffffff !important;
-    font-size: 15px !important;
     font-weight: 700 !important;
-    letter-spacing: 1px !important;
-    background: rgba(255,255,255,0.1) !important;
-    padding: 3px 8px !important;
-    border: 1px dashed #666 !important;
+    font-size: 15px !important;
+    padding: 4px 10px !important;
     border-radius: 4px !important;
-  }
-
-  .im-ann-arrow {
-    margin-left: 2px !important;
-    transition: transform 0.2s ease-out !important;
-    display: block !important;
+    letter-spacing: 1px !important;
+    position: relative !important;
+    transition: all 0.2s ease !important;
   }
   
-  a.im-ann-bar-root:hover .im-ann-arrow {
-    transform: translateX(4px) !important;
+  .im-code-ticket::before, .im-code-ticket::after {
+    content: '' !important;
+    position: absolute !important;
+    height: 8px !important;
+    width: 8px !important;
+    background-color: var(--im-bg-dark) !important;
+    border-radius: 50% !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    box-shadow: 0 0 0 1px var(--im-holiday-gold) inset !important; 
+    z-index: 2 !important;
+  }
+  .im-code-ticket::before { left: -5px !important; border-right: 1px solid var(--im-holiday-gold) !important; }
+  .im-code-ticket::after { right: -5px !important; border-left: 1px solid var(--im-holiday-gold) !important; }
+
+  a.im-ann-bar-root:hover .im-code-ticket {
+    background: var(--im-holiday-gold) !important;
+    color: #000 !important;
+    box-shadow: 0 0 15px rgba(255, 195, 0, 0.5) !important;
   }
 
-  /* 5. MOBILE OPTIMIZATION (COMPACT 2-ROW) */
+  /* 7. GIFT ICON */
+  .im-icon-gift {
+    width: 18px !important;
+    height: 18px !important;
+    margin-left: 4px !important;
+    color: var(--im-holiday-red) !important;
+    transition: transform 0.3s ease !important;
+  }
+
+  @keyframes wiggle {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(-10deg); }
+    50% { transform: rotate(10deg); }
+    75% { transform: rotate(-5deg); }
+    100% { transform: rotate(0deg); }
+  }
+
+  a.im-ann-bar-root:hover .im-icon-gift {
+    animation: wiggle 0.5s ease-in-out !important;
+    color: var(--im-holiday-gold) !important;
+  }
+
+  /* 
+     ========================================
+     8. MOBILE OPTIMIZATION (SINGLE ROW) 
+     ========================================
+  */
   @media (max-width: 767px) {
     a.im-ann-bar-root {
-      height: auto !important;
-      padding: 6px 0 !important; /* Tight padding */
+      min-height: 42px !important; /* Slimmer height */
+      height: 42px !important;
+      padding: 0 5px !important;
     }
     
     .im-ann-content {
-      flex-direction: column !important;
+      flex-direction: row !important; /* Force Single Row */
       justify-content: center !important;
-      gap: 3px !important; /* Tight gap between rows */
-    }
-
-    /* Force groups to center */
-    .im-group-primary, .im-group-secondary {
-      justify-content: center !important;
+      gap: 8px !important; /* Tighter gap */
       width: 100% !important;
     }
 
-    /* Hide divider on mobile */
-    .im-ann-divider { display: none !important; }
+    /* Allow groups to shrink to content width */
+    .im-group-left, .im-group-right {
+      width: auto !important;
+      justify-content: center !important;
+    }
+    .im-group-left { gap: 6px !important; }
+    .im-group-right { gap: 6px !important; }
+
+    /* Hide "Use Code" label to save space */
+    .im-ann-label { display: none !important; }
     
-    /* Smaller Fonts for Mobile */
-    .im-ann-badge { font-size: 10px !important; padding: 3px 6px !important; }
-    .im-ann-text { font-size: 11px !important; letter-spacing: 1px !important; }
-    .im-ann-label { font-size: 10px !important; }
-    .im-ann-code { font-size: 13px !important; padding: 1px 6px !important; }
+    /* Compact Elements */
+    .im-badge-candy { 
+      font-size: 10px !important; 
+      padding: 4px 8px !important; 
+    }
+    
+    .im-ann-text { 
+      font-size: 11px !important; 
+      letter-spacing: 0.5px !important;
+    }
+    
+    .im-code-ticket { 
+      font-size: 12px !important; 
+      padding: 3px 8px !important; 
+    }
+    
+    /* Shrink ticket cutouts slightly for mobile */
+    .im-code-ticket::before, .im-code-ticket::after {
+      height: 6px !important;
+      width: 6px !important;
+      box-shadow: 0 0 0 1px var(--im-holiday-gold) inset !important; 
+    }
+    .im-code-ticket::before { left: -4px !important; }
+    .im-code-ticket::after { right: -4px !important; }
+
+    .im-icon-gift {
+      width: 14px !important;
+      height: 14px !important;
+      margin-left: 2px !important;
+    }
   }
 </style>
 
 <!-- 
-  LINK WRAPPER:
-  Includes auto-apply logic for code NODIET
+  LINK: Auto-apply ELF25 
 -->
-<a href="/discount/NODIET?redirect=/collections/signature-menu" class="im-ann-bar-root">
+<a href="/discount/ELF25?redirect=/collections/signature-menu" class="im-ann-bar-root">
   
   <div class="im-ann-content">
     
-    <!-- Group 1: Badge & Main Text -->
-    <div class="im-group-primary">
-      <div class="im-ann-badge">
+    <!-- Left: Candy Cane Badge + Text -->
+    <div class="im-group-left">
+      <div class="im-badge-candy">
         <span>25% OFF</span>
       </div>
-      <span class="im-ann-text">Sitewide Sale</span>
+      <span class="im-ann-text">Holiday Sale</span>
     </div>
 
-    <!-- Desktop Divider -->
-    <span class="im-ann-divider"></span>
-
-    <!-- Group 2: Code & Arrow -->
-    <div class="im-group-secondary">
+    <!-- Right: Code Ticket + Gift Icon -->
+    <div class="im-group-right">
       <span class="im-ann-label">Use Code:</span>
-      <span class="im-ann-code">NODIET</span>
       
-      <svg class="im-ann-arrow" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#e50914" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="5" y1="12" x2="19" y2="12"></line>
-        <polyline points="12 5 19 12 12 19"></polyline>
+      <!-- The Golden Ticket -->
+      <div class="im-code-ticket">
+        ELF25
+      </div>
+      
+      <!-- Gift Icon -->
+      <svg class="im-icon-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 12 20 22 4 22 4 12"></polyline>
+        <rect x="2" y="7" width="20" height="5"></rect>
+        <line x1="12" y1="22" x2="12" y2="7"></line>
+        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
       </svg>
     </div>
 
@@ -210,7 +293,7 @@
 </a>
 
 <script>
-  console.log('IM Announcement Bar: NODIET Active');
+  console.log('IM Holiday Bar: ELF25 Single Row Loaded');
 </script>
 
 {% endif %}

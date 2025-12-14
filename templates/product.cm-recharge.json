@@ -12,8 +12,15 @@
   "sections": {
     "main": {
       "type": "product-cm-recharge",
-      "settings": {}
+      "settings": {
+        "custom_title": "Custom Meal",
+        "no_protein_image": "shopify://shop_images/No-Protein.webp",
+        "protein_collection_handle": "recharge-cm-proteins",
+        "side_collection_handle": "recharge-cm-sides"
+      }
     }
   },
-  "order": ["main"]
+  "order": [
+    "main"
+  ]
 }
