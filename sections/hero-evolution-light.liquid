@@ -1,7 +1,7 @@
 {%- comment -%}
-  Section: ICON Meals Hero Evolution (4-Column Dock)
-  Description: High-performance hero with 4-column navigation dock for Meal Plans.
-  Version: Final Production
+  Section: ICON Meals Hero Evolution (Final Polish - Visible Arrows)
+  Description: High-performance hero with 4-column dock, visible UI cues for mobile, and refined typography.
+  Version: Production Ready 2.0
 {%- endcomment -%}
 
 {%- liquid
@@ -87,29 +87,48 @@
     </div>
   </section>
 
-  <!-- BOTTOM DOCK (4 COLUMNS) -->
+  <!-- BOTTOM DOCK (4 COLUMNS - REFINED) -->
   <div class="hero-evo-dock">
     <div class="hero-evo-grid">
       
       <a href="{{ s.nav_1_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">01 — {{ s.nav_1_sub }}</div>
-        <div class="hero-evo-title">{{ s.nav_1_title }} <span class="hero-evo-arrow">→</span></div>
+        <div class="hero-evo-sub">
+          <span class="evo-num">01</span> {{ s.nav_1_sub }}
+        </div>
+        <div class="hero-evo-title">
+          {{ s.nav_1_title }} 
+          <span class="hero-evo-arrow">→</span>
+        </div>
       </a>
       
       <a href="{{ s.nav_2_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">02 — {{ s.nav_2_sub }}</div>
-        <div class="hero-evo-title">{{ s.nav_2_title }} <span class="hero-evo-arrow">→</span></div>
+        <div class="hero-evo-sub">
+          <span class="evo-num">02</span> {{ s.nav_2_sub }}
+        </div>
+        <div class="hero-evo-title">
+          {{ s.nav_2_title }} 
+          <span class="hero-evo-arrow">→</span>
+        </div>
       </a>
       
       <a href="{{ s.nav_3_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">03 — {{ s.nav_3_sub }}</div>
-        <div class="hero-evo-title">{{ s.nav_3_title }} <span class="hero-evo-arrow">→</span></div>
+        <div class="hero-evo-sub">
+          <span class="evo-num">03</span> {{ s.nav_3_sub }}
+        </div>
+        <div class="hero-evo-title">
+          {{ s.nav_3_title }} 
+          <span class="hero-evo-arrow">→</span>
+        </div>
       </a>
 
-      <!-- NEW 4TH CARD -->
       <a href="{{ s.nav_4_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">04 — {{ s.nav_4_sub }}</div>
-        <div class="hero-evo-title">{{ s.nav_4_title }} <span class="hero-evo-arrow">→</span></div>
+        <div class="hero-evo-sub">
+          <span class="evo-num">04</span> {{ s.nav_4_sub }}
+        </div>
+        <div class="hero-evo-title">
+          {{ s.nav_4_title }} 
+          <span class="hero-evo-arrow">→</span>
+        </div>
       </a>
 
     </div>
@@ -147,7 +166,7 @@
 
 <style>
 /* ─────────────────────────────────────────────────────────────
-   ICON MEALS: HERO EVOLUTION (PRODUCTION)
+   ICON MEALS: HERO EVOLUTION (FINAL PRODUCTION)
    Namespace: .hero-evo-*
    ───────────────────────────────────────────────────────────── */
 
@@ -183,8 +202,9 @@
 }
 
 .hero-evo-container {
-  width: 94% !important; 
-  max-width: 1700px !important;
+  width: 100% !important; 
+  max-width: 1600px !important;
+  padding: 0 40px !important;
   margin: 0 auto !important;
   
   display: grid !important;
@@ -198,7 +218,6 @@
 .hero-evo-text {
   padding-left: 0 !important; 
   padding-right: 4rem !important;
-  
   display: flex !important;
   flex-direction: column !important;
   justify-content: center !important;
@@ -259,6 +278,7 @@
   transition: all 0.3s ease !important;
   box-shadow: 0 10px 20px rgba(209, 31, 31, 0.3) !important;
   clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+  white-space: nowrap !important;
 }
 .hero-evo-btn:hover {
   background-color: #000 !important;
@@ -279,7 +299,8 @@
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 550px; height: 550px;
-  border: 1px solid rgba(0,0,0,0.06) !important; 
+  /* UPDATED: Subtle Brand Red Ring to pull the eye */
+  border: 1px solid rgba(209, 31, 31, 0.15) !important; 
   border-radius: 50%;
   z-index: 1;
   pointer-events: none;
@@ -289,11 +310,12 @@
   top: 50%; left: 50%;
   transform: translate(-50%, -50%);
   width: 480px; height: 480px;
-  border: 1px dashed rgba(0,0,0,0.08) !important;
+  /* UPDATED: Darker/Sharper Dashed Grey for contrast */
+  border: 1px dashed rgba(0,0,0,0.2) !important;
   border-radius: 50%;
 }
 
-/* Meal Trigger */
+/* Interactive Meal Trigger */
 .hero-evo-meal-trigger {
   background: none; border: none; padding: 0; cursor: pointer;
   position: relative; z-index: 5;
@@ -319,27 +341,37 @@
   transform: rotate(0deg);
 }
 
-/* --- HUD (SPECS) --- */
+/* --- HUD (SPECS) - GLASS AURA --- */
 .hero-evo-hud {
   position: relative; z-index: 10;
   display: flex; align-items: center; gap: 2rem;
   padding: 1rem 2rem;
-  background: var(--evo-hud-bg) !important;
+  
+  /* GLASSMORPHISM: Frosted, semi-transparent white */
+  background: rgba(255, 255, 255, 0.65) !important; 
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  
+  /* AURA BORDER & SHADOW */
+  border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 50px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 15px 40px rgba(0,0,0,0.06); /* Soft, diffuse lift */
+  
   animation: slideUp 1s ease-out forwards;
 }
 @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
 
 .hero-evo-spec {
   display: flex; align-items: center; gap: 0.6rem;
-  color: #fff !important; font-family: var(--evo-font-body);
+  /* TEXT FLIP: Dark text for contrast on glass */
+  color: var(--evo-text-main) !important; 
+  font-family: var(--evo-font-body);
   font-size: 0.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;
 }
 .hero-evo-check { color: var(--evo-red); font-size: 1rem; }
-.hero-evo-divider { width: 1px; height: 20px; background: rgba(255,255,255,0.2); }
+.hero-evo-divider { width: 1px; height: 20px; background: rgba(0,0,0,0.1); }
 
-/* --- BOTTOM DOCK (4-COLUMNS) --- */
+/* --- BOTTOM DOCK --- */
 .hero-evo-dock {
   background-color: #FFFFFF !important;
   width: 100%; border-top: 4px solid var(--evo-red) !important;
@@ -348,7 +380,6 @@
 }
 .hero-evo-grid {
   display: grid; 
-  /* UPDATED: 4 Columns */
   grid-template-columns: repeat(4, 1fr); 
   max-width: 1700px;
   margin: 0 auto;
@@ -365,17 +396,50 @@
 .hero-evo-card:last-child { border-right: none; }
 .hero-evo-card:hover { background: #f8f8f8 !important; }
 
+/* REFINED SUB-TEXT (Numbers) */
 .hero-evo-sub {
-  font-family: var(--evo-font-body); font-size: 0.85rem; text-transform: uppercase; color: #888;
-  letter-spacing: 1.5px; font-weight: 600; margin-bottom: 8px;
+  font-family: var(--evo-font-body); 
+  font-size: 0.85rem; 
+  text-transform: uppercase; 
+  color: #888;
+  letter-spacing: 1px; 
+  font-weight: 600; 
+  margin-bottom: 8px;
+  display: flex; 
+  align-items: center; 
+  gap: 8px; /* Space between Num and Text */
 }
+
+/* New Number Style (Replaces Dash) */
+.evo-num {
+  font-family: var(--evo-font-head);
+  color: var(--evo-red);
+  font-size: 1.4rem; /* Larger, clearer */
+  line-height: 1;
+  font-weight: 600;
+  position: relative;
+  top: 1px;
+}
+
 .hero-evo-title {
   font-family: var(--evo-font-head); font-size: 2.2rem;
   text-transform: uppercase; color: var(--evo-text-main); line-height: 1;
   display: flex; align-items: center; justify-content: space-between;
 }
-.hero-evo-arrow { color: var(--evo-red); opacity: 0; transition: all 0.2s; transform: translateX(-10px); font-family: sans-serif;}
-.hero-evo-card:hover .hero-evo-arrow { opacity: 1; transform: translateX(0); }
+
+/* REFINED ARROW (Always Visible) */
+.hero-evo-arrow { 
+  color: #d1d5db; /* Subtle Light Grey (Visible but not distractive) */
+  opacity: 1;     /* Always visible for mobile */
+  transition: all 0.2s ease; 
+  transform: translateX(0); 
+  font-family: sans-serif;
+}
+.hero-evo-card:hover .hero-evo-arrow { 
+  opacity: 1; 
+  color: var(--evo-red); /* Active Red */
+  transform: translateX(5px); 
+}
 
 /* --- MODAL --- */
 .hero-evo-modal-overlay {
@@ -417,15 +481,23 @@
 /* --- MOBILE RESPONSIVE --- */
 @media (max-width: 1024px) {
   .hero-evo-section { height: auto !important; padding: 2.5rem 0 3rem; }
-  .hero-evo-container { grid-template-columns: 1fr !important; text-align: center; width: 90% !important;}
+  .hero-evo-container { grid-template-columns: 1fr !important; text-align: center; width: 100% !important; padding: 0 20px !important;}
   .hero-evo-text { padding: 0 0 2.5rem 0 !important; align-items: center; }
   .hero-evo-tagline { justify-content: center; margin-bottom: 1rem !important; }
   .hero-evo-headline { margin-bottom: 1.5rem !important; }
-  .hero-evo-desc { border-left: none !important; border-top: none !important; padding: 0 !important; margin: 0 0 2rem 0 !important; text-align: center; }
+  .hero-evo-desc { border-left: none !important; border-top: none !important; padding: 0 !important; margin: 0 auto 2rem auto !important; text-align: center; max-width: 100% !important; }
+  
+  .hero-evo-btn {
+    white-space: nowrap !important;
+    width: 100% !important;
+    max-width: 380px; 
+    padding: 1.4rem 2rem !important;
+  }
   
   .hero-evo-meal-trigger { width: 95% !important; margin: 0 auto 1rem; }
   .hero-evo-hud { width: 100%; flex-direction: column; gap: 0.8rem; border-radius: 20px; padding: 1.5rem; }
-  .hero-evo-divider { width: 50px; height: 1px; background: rgba(255,255,255,0.1); }
+  /* FLIP TO DARK: Dark divider for mobile glass background */
+  .hero-evo-divider { width: 50px; height: 1px; background: rgba(0,0,0,0.1); }
   
   .hero-evo-grid { grid-template-columns: 1fr; }
   .hero-evo-card { height: auto; padding: 1.5rem; border-bottom: 1px solid #eee; border-right: none; }
@@ -469,206 +541,50 @@ document.addEventListener('DOMContentLoaded', function() {
 {
   "name": "[ICON] Hero Evolution",
   "settings": [
-    {
-      "type": "header",
-      "content": "Headlines"
-    },
-    {
-      "type": "text",
-      "id": "tagline",
-      "label": "Tagline (Red)",
-      "default": "THE EVOLUTION OF FUEL"
-    },
-    {
-      "type": "text",
-      "id": "headline_line_1",
-      "label": "Headline Line 1 (Solid)",
-      "default": "FUEL YOUR"
-    },
-    {
-      "type": "text",
-      "id": "headline_line_2",
-      "label": "Headline Line 2 (Outline)",
-      "default": "AMBITION"
-    },
-    {
-      "type": "textarea",
-      "id": "description",
-      "label": "Description",
-      "default": "High-protein, chef-prepared meals designed for performance. No shopping, chopping, or cleaning. Just pure results."
-    },
-    {
-      "type": "text",
-      "id": "cta_text",
-      "label": "Button Text",
-      "default": "SHOP SIGNATURE MENU"
-    },
-    {
-      "type": "url",
-      "id": "cta_link",
-      "label": "Button Link"
-    },
-    {
-      "type": "header",
-      "content": "Visuals & HUD"
-    },
-    {
-      "type": "image_picker",
-      "id": "meal_image",
-      "label": "Meal Image (Transparent PNG)"
-    },
-    {
-      "type": "checkbox",
-      "id": "preload_lcp",
-      "label": "Preload Image (LCP Optimization)",
-      "default": true
-    },
-    {
-      "type": "text",
-      "id": "spec_1",
-      "label": "Spec 1",
-      "default": "CHEF PREPARED"
-    },
-    {
-      "type": "text",
-      "id": "spec_2",
-      "label": "Spec 2",
-      "default": "VACUUM SEALED FRESHNESS"
-    },
-    {
-      "type": "text",
-      "id": "spec_3",
-      "label": "Spec 3",
-      "default": "READY IN 2 MINS"
-    },
-    {
-      "type": "header",
-      "content": "Bottom Dock"
-    },
-    {
-      "type": "text",
-      "id": "nav_1_sub",
-      "label": "Card 1 Subtext",
-      "default": "THE MENU"
-    },
-    {
-      "type": "text",
-      "id": "nav_1_title",
-      "label": "Card 1 Title",
-      "default": "SIGNATURE MEALS"
-    },
-    {
-      "type": "url",
-      "id": "nav_1_link",
-      "label": "Card 1 Link"
-    },
-    {
-      "type": "text",
-      "id": "nav_2_sub",
-      "label": "Card 2 Subtext",
-      "default": "BUILD YOUR OWN"
-    },
-    {
-      "type": "text",
-      "id": "nav_2_title",
-      "label": "Card 2 Title",
-      "default": "CUSTOM BUILDER"
-    },
-    {
-      "type": "url",
-      "id": "nav_2_link",
-      "label": "Card 2 Link"
-    },
-    {
-      "type": "text",
-      "id": "nav_3_sub",
-      "label": "Card 3 Subtext",
-      "default": "BY THE POUND"
-    },
-    {
-      "type": "text",
-      "id": "nav_3_title",
-      "label": "Card 3 Title",
-      "default": "BULK ITEMS"
-    },
-    {
-      "type": "url",
-      "id": "nav_3_link",
-      "label": "Card 3 Link"
-    },
-    {
-      "type": "text",
-      "id": "nav_4_sub",
-      "label": "Card 4 Subtext",
-      "default": "CURATED BOXES"
-    },
-    {
-      "type": "text",
-      "id": "nav_4_title",
-      "label": "Card 4 Title",
-      "default": "MEAL PLANS"
-    },
-    {
-      "type": "url",
-      "id": "nav_4_link",
-      "label": "Card 4 Link"
-    },
-    {
-      "type": "header",
-      "content": "Modal Content"
-    },
-    {
-      "type": "text",
-      "id": "modal_title",
-      "label": "Meal Name",
-      "default": "Beef Medallions & Saffron Rice"
-    },
-    {
-      "type": "textarea",
-      "id": "modal_desc",
-      "label": "Meal Description",
-      "default": "Tender beef medallions seared to perfection, served with aromatic saffron rice and crisp green beans."
-    },
-    {
-      "type": "textarea",
-      "id": "modal_ingredients",
-      "label": "Ingredients",
-      "default": "Beef Tenderloin, Basmati Rice, Saffron, Green Beans, Sea Salt, Black Pepper."
-    },
-    {
-      "type": "text",
-      "id": "macro_cal",
-      "label": "Calories",
-      "default": "360"
-    },
-    {
-      "type": "text",
-      "id": "macro_pro",
-      "label": "Protein",
-      "default": "38g"
-    },
-    {
-      "type": "text",
-      "id": "macro_carb",
-      "label": "Carbs",
-      "default": "40g"
-    },
-    {
-      "type": "text",
-      "id": "macro_fat",
-      "label": "Fats",
-      "default": "5g"
-    },
-    {
-      "type": "url",
-      "id": "modal_link",
-      "label": "Link to Product Page"
-    }
+    { "type": "header", "content": "Headlines" },
+    { "type": "text", "id": "tagline", "label": "Tagline (Red)", "default": "MEAL PREP, SOLVED." },
+    { "type": "text", "id": "headline_line_1", "label": "Headline Line 1 (Solid)", "default": "FUEL YOUR" },
+    { "type": "text", "id": "headline_line_2", "label": "Headline Line 2 (Outline)", "default": "AMBITION" },
+    { "type": "textarea", "id": "description", "label": "Description", "default": "High-protein, chef-prepared meals designed for performance. No shopping, chopping, or cleaning. Just pure results." },
+    { "type": "text", "id": "cta_text", "label": "Button Text", "default": "SHOP SIGNATURE MENU" },
+    { "type": "url", "id": "cta_link", "label": "Button Link" },
+    
+    { "type": "header", "content": "Visuals & HUD" },
+    { "type": "image_picker", "id": "meal_image", "label": "Meal Image (Transparent PNG)" },
+    { "type": "checkbox", "id": "preload_lcp", "label": "Preload Image (LCP)", "default": true },
+    { "type": "text", "id": "spec_1", "label": "Spec 1", "default": "CHEF PREPARED" },
+    { "type": "text", "id": "spec_2", "label": "Spec 2", "default": "VACUUM SEALED FRESHNESS" },
+    { "type": "text", "id": "spec_3", "label": "Spec 3", "default": "READY IN 2 MINS" },
+    
+    { "type": "header", "content": "Bottom Dock" },
+    { "type": "text", "id": "nav_1_sub", "label": "Card 1 Subtext", "default": "THE MENU" },
+    { "type": "text", "id": "nav_1_title", "label": "Card 1 Title", "default": "SIGNATURE MEALS" },
+    { "type": "url", "id": "nav_1_link", "label": "Card 1 Link" },
+    
+    { "type": "text", "id": "nav_2_sub", "label": "Card 2 Subtext", "default": "BUILD YOUR OWN" },
+    { "type": "text", "id": "nav_2_title", "label": "Card 2 Title", "default": "CUSTOM BUILDER" },
+    { "type": "url", "id": "nav_2_link", "label": "Card 2 Link" },
+    
+    { "type": "text", "id": "nav_3_sub", "label": "Card 3 Subtext", "default": "BY THE POUND" },
+    { "type": "text", "id": "nav_3_title", "label": "Card 3 Title", "default": "BULK ITEMS" },
+    { "type": "url", "id": "nav_3_link", "label": "Card 3 Link" },
+
+    { "type": "text", "id": "nav_4_sub", "label": "Card 4 Subtext", "default": "CURATED BOXES" },
+    { "type": "text", "id": "nav_4_title", "label": "Card 4 Title", "default": "MEAL PLANS" },
+    { "type": "url", "id": "nav_4_link", "label": "Card 4 Link" },
+    
+    { "type": "header", "content": "Modal Content" },
+    { "type": "text", "id": "modal_title", "label": "Meal Name", "default": "Beef Medallions & Saffron Rice" },
+    { "type": "textarea", "id": "modal_desc", "label": "Meal Description", "default": "Tender beef medallions..." },
+    { "type": "textarea", "id": "modal_ingredients", "label": "Ingredients", "default": "Beef Tenderloin..." },
+    { "type": "text", "id": "macro_cal", "label": "Calories", "default": "360" },
+    { "type": "text", "id": "macro_pro", "label": "Protein", "default": "38g" },
+    { "type": "text", "id": "macro_carb", "label": "Carbs", "default": "40g" },
+    { "type": "text", "id": "macro_fat", "label": "Fats", "default": "5g" },
+    { "type": "url", "id": "modal_link", "label": "Link to Product Page" }
   ],
   "presets": [
-    {
-      "name": "[ICON] Hero Evolution"
-    }
+    { "name": "[ICON] Hero Evolution" }
   ]
 }
 {% endschema %}
