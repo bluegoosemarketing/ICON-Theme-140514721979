@@ -1,7 +1,7 @@
 {%- comment -%}
-  Section: ICON Meals Hero Evolution (USDA Badge Edition)
-  Description: High-performance hero with interactive meal modal and badge overlay.
-  Version: Final Production
+  Section: ICON Meals Hero Evolution (Final Polish - Centered Dock & Modal Fix)
+  Description: High-performance hero with centered navigation dock and fixed modal styles.
+  Version: Final Production 2.1
 {%- endcomment -%}
 
 {%- liquid
@@ -100,9 +100,7 @@
     <div class="hero-evo-grid">
       
       <a href="{{ s.nav_1_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">
-          <span class="evo-num">01</span> {{ s.nav_1_sub }}
-        </div>
+        <div class="hero-evo-sub">{{ s.nav_1_sub }}</div>
         <div class="hero-evo-title">
           {{ s.nav_1_title }} 
           <span class="hero-evo-arrow">→</span>
@@ -110,9 +108,7 @@
       </a>
       
       <a href="{{ s.nav_2_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">
-          <span class="evo-num">02</span> {{ s.nav_2_sub }}
-        </div>
+        <div class="hero-evo-sub">{{ s.nav_2_sub }}</div>
         <div class="hero-evo-title">
           {{ s.nav_2_title }} 
           <span class="hero-evo-arrow">→</span>
@@ -120,9 +116,7 @@
       </a>
       
       <a href="{{ s.nav_3_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">
-          <span class="evo-num">03</span> {{ s.nav_3_sub }}
-        </div>
+        <div class="hero-evo-sub">{{ s.nav_3_sub }}</div>
         <div class="hero-evo-title">
           {{ s.nav_3_title }} 
           <span class="hero-evo-arrow">→</span>
@@ -130,9 +124,7 @@
       </a>
 
       <a href="{{ s.nav_4_link }}" class="hero-evo-card">
-        <div class="hero-evo-sub">
-          <span class="evo-num">04</span> {{ s.nav_4_sub }}
-        </div>
+        <div class="hero-evo-sub">{{ s.nav_4_sub }}</div>
         <div class="hero-evo-title">
           {{ s.nav_4_title }} 
           <span class="hero-evo-arrow">→</span>
@@ -163,6 +155,7 @@
           <strong>Ingredients:</strong> {{ s.modal_ingredients }}
         </div>
 
+        <!-- Updated Button Class -->
         <a href="{{ s.modal_link }}" class="hero-evo-modal-btn">
           View Meal Details →
         </a>
@@ -230,7 +223,7 @@
   flex-direction: column !important;
   justify-content: center !important;
   padding-top: 6rem !important;
-  padding-bottom: 8rem !important;
+  padding-bottom: 10rem !important;
 }
 
 .hero-evo-tagline {
@@ -304,6 +297,7 @@
   flex-direction: column !important;
 }
 
+/* RINGS - Enhanced Visibility */
 .hero-evo-ring {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -351,14 +345,14 @@
 /* --- BADGE OVERLAY --- */
 .hero-evo-badge {
   position: absolute;
-  top: 2%;   /* ~10% down relative to image container */
-  right: 18%; /* ~15-20% from right */
-  width: 18%; /* Responsive width */
+  top: 2%;   
+  right: 18%; 
+  width: 18%; 
   max-width: 130px; 
   height: auto;
   z-index: 6; 
   filter: drop-shadow(0 4px 10px rgba(0,0,0,0.15));
-  pointer-events: none; /* Let clicks pass through to the trigger */
+  pointer-events: none; 
 }
 
 /* --- HUD (GLASS AURA) --- */
@@ -387,7 +381,7 @@
 .hero-evo-check { color: var(--evo-red); font-size: 1rem; }
 .hero-evo-divider { width: 1px; height: 20px; background: rgba(0,0,0,0.1); }
 
-/* --- BOTTOM DOCK --- */
+/* --- BOTTOM DOCK (CENTERED & BALANCED) --- */
 .hero-evo-dock {
   background-color: #FFFFFF !important;
   width: 100%; border-top: 4px solid var(--evo-red) !important;
@@ -406,40 +400,61 @@
   text-decoration: none !important;
   border-right: 1px solid #e5e5e5;
   transition: background 0.2s;
-  display: flex; flex-direction: column; justify-content: center;
+  /* CENTER ALIGNMENT FIX */
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+  align-items: center !important; /* Forces content to center */
+  text-align: center !important;  /* Forces text to center */
   height: 180px;
 }
 .hero-evo-card:last-child { border-right: none; }
 .hero-evo-card:hover { background: #f8f8f8 !important; }
 
-/* REFINED SUB-TEXT (Numbers) */
+/* REFINED SUB-TEXT (Divider Style) */
 .hero-evo-sub {
   font-family: var(--evo-font-body); 
   font-size: 0.85rem; 
   text-transform: uppercase; 
-  color: #888;
+  color: var(--evo-red); 
   letter-spacing: 1px; 
-  font-weight: 600; 
-  margin-bottom: 8px;
+  font-weight: 800; 
+  margin-bottom: 12px;
+  
+  /* Flex Layout for Lines */
   display: flex; 
   align-items: center; 
-  gap: 8px; 
+  justify-content: center;
+  width: 100%;
+  gap: 15px; /* Space between text and lines */
 }
 
-.evo-num {
-  font-family: var(--evo-font-head);
-  color: var(--evo-red);
-  font-size: 1.4rem; 
-  line-height: 1;
-  font-weight: 600;
-  position: relative;
-  top: 1px;
+/* The Lines (Left & Right) */
+.hero-evo-sub::before,
+.hero-evo-sub::after {
+  content: '';
+  display: block;
+  height: 1px;
+  background-color: var(--evo-red); /* UPDATED: Brand Red */
+  flex-grow: 1; 
+  max-width: 40px; 
+  opacity: 0.5; /* Slight transparency so it doesn't overpower the text */
 }
 
+/* Mobile Fix: Remove lines to keep the "List" look clean */
+@media (max-width: 1024px) {
+  .hero-evo-sub::before,
+  .hero-evo-sub::after {
+    display: none;
+  }
+}
 .hero-evo-title {
   font-family: var(--evo-font-head); font-size: 2.2rem;
   text-transform: uppercase; color: var(--evo-text-main); line-height: 1;
-  display: flex; align-items: center; justify-content: space-between;
+  display: flex; 
+  align-items: center; 
+  justify-content: center; /* Centered Title */
+  gap: 10px; /* Gap between title and arrow */
 }
 
 /* ARROW (Always Visible) */
@@ -487,10 +502,32 @@
 .evo-macro { font-family: var(--evo-font-body); font-size: 0.8rem; text-transform: uppercase; color: #666; }
 .evo-macro span { display: block; font-size: 1.5rem; font-weight: 800; color: #000; }
 .hero-evo-ingredients { background: #f5f5f5; padding: 15px; font-size: 0.9rem; margin: 20px 0; border-radius: 8px; font-family: var(--evo-font-body); }
+
+/* FIX: Modal Button Visibility */
 .hero-evo-modal-btn {
-  display: block; width: 100%; text-align: center;
-  background: var(--evo-red); color: white; padding: 15px; text-decoration: none !important;
-  font-weight: 800; text-transform: uppercase; border-radius: 8px;
+  display: flex !important; /* Ensure block layout */
+  justify-content: center;
+  align-items: center;
+  width: 100%; 
+  text-align: center;
+  background: var(--evo-red) !important; 
+  color: #ffffff !important; /* Force White */
+  padding: 16px; 
+  text-decoration: none !important; /* Remove overrides */
+  font-weight: 800 !important; 
+  font-family: var(--evo-font-head) !important;
+  font-size: 1.1rem;
+  text-transform: uppercase; 
+  letter-spacing: 1px;
+  border-radius: 8px;
+  border: none !important;
+  box-shadow: 0 4px 10px rgba(209, 31, 31, 0.3);
+  transition: all 0.2s ease;
+}
+.hero-evo-modal-btn:hover {
+  background: #000000 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
 }
 
 /* --- MOBILE RESPONSIVE --- */
@@ -515,10 +552,32 @@
   .hero-evo-badge { top: 0%; right: 5%; width: 25%; max-width: 90px; }
 
   .hero-evo-hud { width: 100%; flex-direction: column; gap: 0.8rem; border-radius: 20px; padding: 1.5rem; }
+  /* Dark Dividers for Mobile Glass */
   .hero-evo-divider { width: 50px; height: 1px; background: rgba(0,0,0,0.1); }
   
   .hero-evo-grid { grid-template-columns: 1fr; }
-  .hero-evo-card { height: auto; padding: 1.5rem; border-bottom: 1px solid #eee; border-right: none; }
+  
+  .hero-evo-card { 
+    height: auto; 
+    padding: 1.5rem; 
+    border-bottom: 1px solid #eee; 
+    border-right: none;
+    /* RESTORE LEFT ALIGNMENT FOR MOBILE */
+    align-items: flex-start !important;
+    text-align: left !important;
+  }
+  
+  /* Subtext: Align Left */
+  .hero-evo-card .hero-evo-sub {
+    justify-content: flex-start !important;
+  }
+
+  /* Title: Split (Text Left / Arrow Right) */
+  .hero-evo-card .hero-evo-title {
+    width: 100%;
+    justify-content: space-between !important;
+  }
+
   .hero-evo-ring { width: 320px; height: 320px; }
   .hero-evo-ring::after { width: 280px; height: 280px; }
 }
