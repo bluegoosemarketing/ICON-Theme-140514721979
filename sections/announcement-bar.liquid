@@ -25,34 +25,90 @@
 <style>
   /* 
     ========================================
-    THEME: THE HOLIDAY TICKET (ELF25)
-    Desktop: Premium Spaced | Mobile: Single Row Compact
+    THEME: BRUSHED BULLION (REALISTIC GOLD)
+    Aesthetic: Vertical Gradient, Texture, 3D Volume
     ========================================
   */
 
   :root {
-    --im-bg-dark: #090909;
-    --im-holiday-red: #D90429;
-    --im-holiday-gold: #FFC300;
-    --im-snow-white: #ffffff;
+    /* 24K GOLD PALETTE */
+    --im-gold-light: #F9EFAF; /* Top Highlight */
+    --im-gold-mid: #D4AF37;   /* The Core Gold */
+    --im-gold-shadow: #AA771C; /* Bottom Shadow */
+    
+    --im-text-ink: #111111;
+    --im-brand-red: #D11F1F;
+    --im-pure-white: #ffffff;
   }
 
   /* 1. CONTAINER & RESET */
   a.im-ann-bar-root {
-    background-color: var(--im-bg-dark) !important;
-    border-bottom: 2px solid var(--im-holiday-red) !important; 
-    color: var(--im-snow-white) !important;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
-    min-height: 46px !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: 44px !important;
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
     text-decoration: none !important;
-    overflow: hidden !important;
-    width: 100% !important;
-    position: relative !important;
     z-index: 50 !important;
     cursor: pointer !important;
+    overflow: hidden !important;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+    color: var(--im-text-ink) !important;
+
+    /* SATIN GOLD GRADIENT (Subtle & Smooth) */
+    background: linear-gradient(
+      180deg, 
+      #E6D699 0%, 
+      #D4C179 50%, 
+      #C2AE5E 100%
+    ) !important;
+    
+    /* SOFTENED EDGES */
+    border-top: 1px solid rgba(255,255,255,0.25) !important;
+    border-bottom: 1px solid rgba(0,0,0,0.1) !important; 
+  }
+
+  /* 2. BRUSHED METAL TEXTURE OVERLAY */
+  a.im-ann-bar-root::before {
+    content: "" !important;
+    position: absolute !important;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Faint diagonal scratches */
+    background-image: repeating-linear-gradient(
+      45deg,
+      rgba(255,255,255,0) 0px,
+      rgba(255,255,255,0) 2px,
+      rgba(255,255,255,0.05) 3px,
+      rgba(255,255,255,0) 4px
+    ) !important;
+    pointer-events: none !important;
+    z-index: 1 !important;
+  }
+
+  /* 3. SHIMMER ANIMATION (Subtle sheen passing over) */
+  a.im-ann-bar-root::after {
+    content: "" !important;
+    position: absolute !important;
+    top: 0; left: -100%;
+    width: 50%; height: 100%;
+    background: linear-gradient(
+      90deg, 
+      transparent, 
+      rgba(255,255,255,0.4), 
+      transparent
+    ) !important;
+    transform: skewX(-20deg) !important;
+    animation: imSheen 6s infinite linear !important;
+    pointer-events: none !important;
+    z-index: 2 !important;
+  }
+
+  @keyframes imSheen {
+    0% { left: -50%; opacity: 0; }
+    20% { opacity: 1; }
+    40% { left: 150%; opacity: 0; }
+    100% { left: 150%; opacity: 0; }
   }
 
   /* 2. NUCLEAR TEXT RESET */
@@ -64,9 +120,11 @@
 
   /* 3. LAYOUT */
   .im-ann-content {
+    position: relative !important;
+    z-index: 5 !important; /* Sit above texture */
     display: flex !important;
     align-items: center !important;
-    gap: 20px !important;
+    gap: 16px !important;
     padding: 0 15px !important;
   }
 
@@ -74,183 +132,127 @@
     display: flex !important;
     align-items: center !important;
   }
-  .im-group-left { gap: 12px !important; }
-  .im-group-right { gap: 10px !important; }
+  .im-group-left { gap: 10px !important; }
+  .im-group-right { gap: 8px !important; }
 
-  /* 4. THE CANDY CANE BADGE */
-  .im-badge-candy {
-    background: repeating-linear-gradient(
-      45deg,
-      var(--im-holiday-red),
-      var(--im-holiday-red) 10px,
-      #ef233c 10px,
-      #ef233c 20px
-    ) !important;
+  /* 4. THE RED PILL BADGE */
+  .im-badge-pill {
+    background-color: var(--im-brand-red) !important;
     color: #fff !important;
     font-weight: 800 !important;
-    font-size: 13px !important;
-    padding: 5px 12px !important;
-    border-radius: 50px !important; 
-    box-shadow: 0 2px 10px rgba(217, 4, 41, 0.4) !important;
-    text-shadow: 0 1px 2px rgba(0,0,0,0.3) !important;
+    font-size: 12px !important;
+    padding: 5px 10px !important;
+    border-radius: 4px !important; 
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
     letter-spacing: 0.5px !important;
     position: relative !important;
-    overflow: hidden !important;
     white-space: nowrap !important;
-  }
-
-  /* Shimmer over the candy cane */
-  .im-badge-candy::after {
-    content: '' !important;
-    position: absolute !important;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(to right, transparent, rgba(255,255,255,0.4), transparent) !important;
-    transform: skewX(-25deg) !important;
-    animation: imCandyShine 3s infinite;
-  }
-
-  @keyframes imCandyShine {
-    0% { left: -100%; }
-    20% { left: 200%; }
-    100% { left: 200%; }
+    text-transform: uppercase !important;
+    border: 1px solid rgba(0,0,0,0.1) !important;
   }
 
   /* 5. TEXT STYLES */
   .im-ann-text {
     font-weight: 700 !important;
-    font-size: 14px !important;
+    font-size: 13px !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
-    color: #f5f5f5 !important;
+    color: var(--im-text-ink) !important;
     white-space: nowrap !important;
+    text-shadow: 0 1px 0 rgba(255,255,255,0.3) !important; /* Engraved look */
   }
 
   .im-ann-label {
     font-size: 11px !important;
-    color: #aaa !important;
+    color: #333 !important; 
     text-transform: uppercase !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
+    opacity: 0.85 !important;
   }
 
-  /* 6. THE "GOLDEN TICKET" CODE */
+  /* 6. THE TICKET */
   .im-code-ticket {
-    background: rgba(255, 195, 0, 0.15) !important;
-    border: 1px dashed var(--im-holiday-gold) !important;
-    color: var(--im-holiday-gold) !important;
+    background: var(--im-pure-white) !important;
+    border: 1px dashed #8E6316 !important; /* Dark bronze stitch */
+    color: #000000 !important;
     font-family: "Courier New", Courier, monospace !important;
-    font-weight: 700 !important;
-    font-size: 15px !important;
+    font-weight: 800 !important;
+    font-size: 14px !important;
     padding: 4px 10px !important;
     border-radius: 4px !important;
-    letter-spacing: 1px !important;
+    letter-spacing: 0.5px !important;
     position: relative !important;
-    transition: all 0.2s ease !important;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
   }
   
+  /* Ticket "Notches" - Color matched to the mid-tone gold */
   .im-code-ticket::before, .im-code-ticket::after {
     content: '' !important;
     position: absolute !important;
     height: 8px !important;
     width: 8px !important;
-    background-color: var(--im-bg-dark) !important;
+    background-color: #D4AF37 !important; /* Matches gold background */
     border-radius: 50% !important;
     top: 50% !important;
     transform: translateY(-50%) !important;
-    box-shadow: 0 0 0 1px var(--im-holiday-gold) inset !important; 
     z-index: 2 !important;
+    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
   }
-  .im-code-ticket::before { left: -5px !important; border-right: 1px solid var(--im-holiday-gold) !important; }
-  .im-code-ticket::after { right: -5px !important; border-left: 1px solid var(--im-holiday-gold) !important; }
-
-  a.im-ann-bar-root:hover .im-code-ticket {
-    background: var(--im-holiday-gold) !important;
-    color: #000 !important;
-    box-shadow: 0 0 15px rgba(255, 195, 0, 0.5) !important;
-  }
+  
+  .im-code-ticket::before { left: -5px !important; }
+  .im-code-ticket::after { right: -5px !important; }
 
   /* 7. GIFT ICON */
   .im-icon-gift {
-    width: 18px !important;
-    height: 18px !important;
-    margin-left: 4px !important;
-    color: var(--im-holiday-red) !important;
-    transition: transform 0.3s ease !important;
-  }
-
-  @keyframes wiggle {
-    0% { transform: rotate(0deg); }
-    25% { transform: rotate(-10deg); }
-    50% { transform: rotate(10deg); }
-    75% { transform: rotate(-5deg); }
-    100% { transform: rotate(0deg); }
-  }
-
-  a.im-ann-bar-root:hover .im-icon-gift {
-    animation: wiggle 0.5s ease-in-out !important;
-    color: var(--im-holiday-gold) !important;
+    width: 16px !important;
+    height: 16px !important;
+    margin-left: 2px !important;
+    color: #000 !important;
+    opacity: 0.8 !important;
   }
 
   /* 
      ========================================
-     8. MOBILE OPTIMIZATION (SINGLE ROW) 
+     8. MOBILE OPTIMIZATION
      ========================================
   */
   @media (max-width: 767px) {
     a.im-ann-bar-root {
-      min-height: 42px !important; /* Slimmer height */
-      height: 42px !important;
-      padding: 0 5px !important;
+      min-height: 40px !important;
+      height: 40px !important;
+      padding: 0 8px !important;
     }
     
     .im-ann-content {
-      flex-direction: row !important; /* Force Single Row */
-      justify-content: center !important;
-      gap: 8px !important; /* Tighter gap */
+      gap: 10px !important;
       width: 100% !important;
+      justify-content: center !important;
     }
 
-    /* Allow groups to shrink to content width */
-    .im-group-left, .im-group-right {
-      width: auto !important;
-      justify-content: center !important;
-    }
-    .im-group-left { gap: 6px !important; }
+    .im-group-left { gap: 8px !important; }
     .im-group-right { gap: 6px !important; }
 
-    /* Hide "Use Code" label to save space */
     .im-ann-label { display: none !important; }
     
-    /* Compact Elements */
-    .im-badge-candy { 
+    .im-badge-pill { 
       font-size: 10px !important; 
-      padding: 4px 8px !important; 
+      padding: 3px 6px !important; 
     }
     
     .im-ann-text { 
       font-size: 11px !important; 
-      letter-spacing: 0.5px !important;
     }
     
     .im-code-ticket { 
       font-size: 12px !important; 
-      padding: 3px 8px !important; 
+      padding: 2px 6px !important; 
     }
     
-    /* Shrink ticket cutouts slightly for mobile */
     .im-code-ticket::before, .im-code-ticket::after {
-      height: 6px !important;
-      width: 6px !important;
-      box-shadow: 0 0 0 1px var(--im-holiday-gold) inset !important; 
+      height: 6px !important; width: 6px !important;
     }
-    .im-code-ticket::before { left: -4px !important; }
-    .im-code-ticket::after { right: -4px !important; }
-
-    .im-icon-gift {
-      width: 14px !important;
-      height: 14px !important;
-      margin-left: 2px !important;
-    }
+    .im-code-ticket::before { left: -3px !important; }
+    .im-code-ticket::after { right: -3px !important; }
   }
 </style>
 
@@ -261,19 +263,19 @@
   
   <div class="im-ann-content">
     
-    <!-- Left: Candy Cane Badge + Text -->
+    <!-- Left: Red Pill Badge + Text -->
     <div class="im-group-left">
-      <div class="im-badge-candy">
+      <div class="im-badge-pill">
         <span>25% OFF</span>
       </div>
-      <span class="im-ann-text">Holiday Sale</span>
+      <span class="im-ann-text">HOLIDAY SALE</span>
     </div>
 
-    <!-- Right: Code Ticket + Gift Icon -->
+    <!-- Right: Ticket + Icon -->
     <div class="im-group-right">
-      <span class="im-ann-label">Use Code:</span>
+      <span class="im-ann-label">USE CODE:</span>
       
-      <!-- The Golden Ticket -->
+      <!-- The White Cutout Ticket -->
       <div class="im-code-ticket">
         ELF25
       </div>
@@ -293,7 +295,7 @@
 </a>
 
 <script>
-  console.log('IM Holiday Bar: ELF25 Single Row Loaded');
+  console.log('IM Holiday Bar: Brushed Bullion Loaded');
 </script>
 
 {% endif %}
