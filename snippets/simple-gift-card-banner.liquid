@@ -440,97 +440,110 @@
 </div>
 
 <script>
-  document.addEventListener('DOMContentLoaded', () => {
-    // --- TIMER LOGIC (Scoped for Snippet) ---
-    const timerEl = document.getElementById('icon-gc-timer-container');
-    if(timerEl) {
-      const now = new Date();
-      let year = now.getFullYear();
-      let xmas = new Date(year, 11, 25); // Month is 0-indexed (11 = Dec)
-      
-      // If Christmas passed this year, look to next year
-      if (now.getMonth() === 11 && now.getDate() > 25) {
-        xmas.setFullYear(year + 1);
-      }
+  (function initGiftCardWidget() {
+    if (window.iconGcWidgetV7Initialized) return;
+    window.iconGcWidgetV7Initialized = true;
 
-      function updateTimer() {
-        const current = new Date();
-        const diff = xmas - current;
-
-        if (diff <= 0) {
-          timerEl.innerHTML = '<div style="font-weight:bold; color:#FFD700; padding:0 10px;">MERRY CHRISTMAS!</div>';
-          return;
+    const runWidget = () => {
+      // --- TIMER LOGIC (Scoped for Snippet) ---
+      const timerEl = document.getElementById('icon-gc-timer-container');
+      if (timerEl) {
+        const now = new Date();
+        let year = now.getFullYear();
+        let xmas = new Date(year, 11, 25); // Month is 0-indexed (11 = Dec)
+        
+        // If Christmas passed this year, look to next year
+        if (now.getMonth() === 11 && now.getDate() > 25) {
+          xmas.setFullYear(year + 1);
         }
 
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((diff / 1000 / 60) % 60);
+        function updateTimer() {
+          const current = new Date();
+          const diff = xmas - current;
 
-        // Target unique IDs
-        const dEl = document.getElementById('icon-gc-days');
-        const hEl = document.getElementById('icon-gc-hours');
-        const mEl = document.getElementById('icon-gc-mins');
-
-        if(dEl) dEl.innerText = d < 10 ? '0'+d : d;
-        if(hEl) hEl.innerText = h < 10 ? '0'+h : h;
-        if(mEl) mEl.innerText = m < 10 ? '0'+m : m;
-      }
-      
-      setInterval(updateTimer, 1000);
-      updateTimer(); // Run immediately
-    }
-
-    // --- CART LOGIC ---
-    let selectedVariantId = null;
-    const options = document.querySelectorAll('.js-gc-option');
-    const mainBtn = document.querySelector('.js-gc-main-btn');
-
-    options.forEach(opt => {
-      opt.addEventListener('click', () => {
-        options.forEach(o => o.classList.remove('is-selected'));
-        opt.classList.add('is-selected');
-        selectedVariantId = opt.getAttribute('data-variant-id');
-        mainBtn.disabled = false;
-      });
-    });
-
-    if(mainBtn) {
-      mainBtn.addEventListener('click', async (e) => {
-        e.preventDefault();
-        if(!selectedVariantId) return;
-
-        const originalText = mainBtn.innerText;
-        mainBtn.innerText = "ADDING...";
-        mainBtn.disabled = true;
-
-        try {
-          const response = await fetch('/cart/add.js', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ items: [{ id: Number(selectedVariantId), quantity: 1 }] })
-          });
-
-          if(response.ok) {
-            const cart = await response.json();
-            mainBtn.style.background = "#28a745";
-            mainBtn.style.boxShadow = "0 6px 0 #1e7e34, 0 10px 10px rgba(0,0,0,0.15)";
-            mainBtn.style.border = "3px solid #1e7e34";
-            mainBtn.innerText = "ADDED! 🎅";
-            document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
-            setTimeout(() => {
-              mainBtn.style.background = ""; // Reset to CSS default
-              mainBtn.style.boxShadow = ""; 
-              mainBtn.style.border = "";
-              mainBtn.innerText = originalText;
-              mainBtn.disabled = false;
-            }, 2500);
+          if (diff <= 0) {
+            timerEl.innerHTML = '<div style="font-weight:bold; color:#FFD700; padding:0 10px;">MERRY CHRISTMAS!</div>';
+            return;
           }
-        } catch (err) {
-          console.error(err);
-          mainBtn.innerText = "ERROR";
-          setTimeout(() => { mainBtn.innerText = originalText; mainBtn.disabled = false; }, 2000);
+
+          const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+          const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
+          const m = Math.floor((diff / 1000 / 60) % 60);
+
+          // Target unique IDs
+          const dEl = document.getElementById('icon-gc-days');
+          const hEl = document.getElementById('icon-gc-hours');
+          const mEl = document.getElementById('icon-gc-mins');
+
+          if(dEl) dEl.innerText = d < 10 ? '0'+d : d;
+          if(hEl) hEl.innerText = h < 10 ? '0'+h : h;
+          if(mEl) mEl.innerText = m < 10 ? '0'+m : m;
         }
+        
+        setInterval(updateTimer, 1000);
+        updateTimer(); // Run immediately
+      }
+
+      // --- CART LOGIC ---
+      let selectedVariantId = null;
+      const options = document.querySelectorAll('.js-gc-option');
+      const mainBtn = document.querySelector('.js-gc-main-btn');
+
+      options.forEach(opt => {
+        opt.addEventListener('click', () => {
+          options.forEach(o => o.classList.remove('is-selected'));
+          opt.classList.add('is-selected');
+          selectedVariantId = opt.getAttribute('data-variant-id');
+          if (mainBtn) {
+            mainBtn.disabled = false;
+          }
+        });
       });
+
+      if(mainBtn) {
+        mainBtn.addEventListener('click', async (e) => {
+          e.preventDefault();
+          if(!selectedVariantId) return;
+
+          const originalText = mainBtn.innerText;
+          mainBtn.innerText = "ADDING...";
+          mainBtn.disabled = true;
+
+          try {
+            const response = await fetch('/cart/add.js', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ items: [{ id: Number(selectedVariantId), quantity: 1 }] })
+            });
+
+            if(response.ok) {
+              const cart = await response.json();
+              mainBtn.style.background = "#28a745";
+              mainBtn.style.boxShadow = "0 6px 0 #1e7e34, 0 10px 10px rgba(0,0,0,0.15)";
+              mainBtn.style.border = "3px solid #1e7e34";
+              mainBtn.innerText = "ADDED! 🎅";
+              document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+              setTimeout(() => {
+                mainBtn.style.background = ""; // Reset to CSS default
+                mainBtn.style.boxShadow = ""; 
+                mainBtn.style.border = "";
+                mainBtn.innerText = originalText;
+                mainBtn.disabled = false;
+              }, 2500);
+            }
+          } catch (err) {
+            console.error(err);
+            mainBtn.innerText = "ERROR";
+            setTimeout(() => { mainBtn.innerText = originalText; mainBtn.disabled = false; }, 2000);
+          }
+        });
+      }
+    };
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', runWidget);
+    } else {
+      runWidget();
     }
-  });
+  })();
 </script>
