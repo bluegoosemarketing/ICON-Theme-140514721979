@@ -1,8 +1,8 @@
 {%- comment -%}
   ==============================================================================
-  GIFT CARD STATION: SANDBOXED EDITION 🛡️
-  - Strategy: Uses #icon-gc-widget ID to overwrite ALL theme globals.
-  - Fixes: Unresponsive clicks, layout shifting, and text updates.
+  GIFT CARD STATION: FINAL POLISH (V7) 🎄
+  - Fixed: CTA is now always RED (never gray).
+  - Fixed: Top icon is now a clear GIFT BOX.
   ==============================================================================
 {%- endcomment -%}
 
@@ -10,398 +10,452 @@
   assign gift_product = product_obj
   
   # Map the IDs
-  assign id_opt_1 = id_option_1
-  assign id_opt_2 = id_option_2
-  assign id_opt_3 = id_option_3
+  assign id_opt_1 = id_option_1 | plus: 0
+  assign id_opt_2 = id_option_2 | plus: 0
+  assign id_opt_3 = id_option_3 | plus: 0
 -%}
 
 <style>
-  /* --- WIDGET SCOPE (ID prevents theme conflicts) --- */
-  #icon-gc-widget {
-    --gc-red: #D21F2F; 
-    --gc-white: #ffffff;
-    --gc-black: #050505;
-    --gc-border: #333;
+  /* --- WIDGET SCOPE --- */
+  #icon-gc-widget-v7 {
+    /* --- PALETTE --- */
+    --gc-red-deep: #A91212;
+    --gc-red-bright: #D42424;
+    --gc-gold-shadow: #B88A00;
+    --gc-gold-mid: #FFD700;
+    --gc-gold-highlight: #FFF0A0;
+    --gc-cream: #FFF8E7;
+    --gc-text-white: #ffffff;
+    --gc-text-dark: #4A2C2C;
     
-    font-family: inherit; /* Use theme font but reset everything else */
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
     box-sizing: border-box;
-    line-height: 1.5;
-  }
-
-  /* CONTAINER */
-  #icon-gc-widget .gc-station {
-    background: radial-gradient(circle at 90% 10%, #1a0505 0%, #000000 70%);
-    border-radius: 8px; 
+    line-height: 1.4;
     margin-bottom: 40px;
-    border: 1px solid var(--gc-border);
-    color: #fff;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.4);
-    position: relative;
-    overflow: hidden;
-    /* Ensure container doesn't have theme padding */
-    padding: 0 !important;
   }
 
-  /* ANIMATED BORDER (Left Side) */
-  #icon-gc-widget .gc-station::before {
+  /* MAIN CONTAINER */
+  #icon-gc-widget-v7 .gc-station {
+    display: flex;
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    
+    /* Background: Cream Top Fade + Radial Red Bottom */
+    background: 
+      linear-gradient(to top, var(--gc-cream) 10%, transparent 40%),
+      radial-gradient(circle at 30% 30%, var(--gc-red-bright), var(--gc-red-deep));
+      
+    /* Gold Frame */
+    border: 4px solid var(--gc-gold-mid);
+    box-shadow: 
+      0 15px 40px rgba(0,0,0,0.2), 
+      inset 0 0 20px rgba(184, 138, 0, 0.3);
+      
+    min-height: 380px;
+  }
+  
+  /* Lights Overlay */
+  #icon-gc-widget-v7 .gc-station::after {
     content: "";
     position: absolute;
-    top: 0; left: 0;
-    width: 8px; height: 100%;
-    z-index: 5;
-    background: repeating-linear-gradient(
-      45deg,
-      var(--gc-red),
-      var(--gc-red) 10px,
-      var(--gc-white) 10px,
-      var(--gc-white) 20px
-    );
-    background-size: 200% 200%;
-    animation: gc-candy-rush 15s linear infinite;
-    box-shadow: 0 0 15px rgba(210, 31, 47, 0.5);
-    pointer-events: none; /* Crucial: Ensures border doesn't block clicks */
+    top: 0; left: 0; right: 0;
+    height: 40px;
+    background-image: radial-gradient(circle, var(--gc-gold-highlight) 2px, transparent 4px);
+    background-size: 30px 15px;
+    background-position: 0 5px;
+    background-repeat: repeat-x;
+    opacity: 0.6;
+    pointer-events: none;
+    z-index: 1;
   }
 
-  @keyframes gc-candy-rush {
-    0% { background-position: 0% 50%; }
-    100% { background-position: 0% 100%; }
+  /* --- LEFT PANEL (RED) --- */
+  #icon-gc-widget-v7 .gc-panel-left {
+    flex: 1;
+    background: transparent; 
+    padding: 40px 30px 40px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    color: #fff;
+    z-index: 2;
   }
 
-  #icon-gc-widget .gc-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.3fr;
-    min-height: 280px;
+  /* TAG */
+  #icon-gc-widget-v7 .gc-tag {
+    background: var(--gc-red-deep);
+    border: 2px solid var(--gc-gold-mid);
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    display: inline-flex;
+    align-items: center;
+    width: fit-content;
+    margin-bottom: 20px;
+    color: var(--gc-gold-highlight);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
   }
 
-  /* --- LEFT PANEL --- */
-  #icon-gc-widget .gc-content {
+  /* HEADLINE */
+  #icon-gc-widget-v7 h2.gc-headline {
+    font-size: 42px !important;
+    font-weight: 900 !important;
+    line-height: 0.95 !important;
+    margin: 0 0 20px 0 !important;
+    color: #fff !important;
+    font-style: italic;
+    text-transform: uppercase;
+    text-shadow: 
+      2px 2px 0 var(--gc-gold-shadow),
+      4px 4px 10px rgba(0,0,0,0.3);
+    position: relative;
+    z-index: 2;
+  }
+
+  #icon-gc-widget-v7 p.gc-subhead {
+    font-size: 15px !important;
+    color: rgba(255,255,255,0.95) !important;
+    margin: 0 0 30px 0 !important;
+    max-width: 90%;
+    font-weight: 500;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+  }
+
+  /* FIXED ICON: CLEAN GIFT BOX */
+  #icon-gc-widget-v7 .gc-stamp-icon {
+    position: absolute;
+    top: 25px;
+    right: 25px;
+    width: 65px;
+    height: 65px;
+    transform: rotate(15deg);
+    filter: drop-shadow(4px 4px 5px rgba(0,0,0,0.3));
+    z-index: 10;
+  }
+
+  /* TIMER */
+  #icon-gc-widget-v7 .gc-timer-box {
+    background: linear-gradient(to bottom, var(--gc-red-bright), var(--gc-red-deep));
+    border: 3px solid var(--gc-gold-mid);
+    border-radius: 12px;
+    padding: 10px 15px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    box-shadow: 
+      inset 0 0 10px rgba(0,0,0,0.3),
+      0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  #icon-gc-widget-v7 .timer-block { text-align: center; min-width: 32px; }
+  #icon-gc-widget-v7 .timer-num {
+    display: block;
+    font-size: 26px !important;
+    font-weight: 900;
+    background: linear-gradient(to bottom, var(--gc-gold-highlight), var(--gc-gold-mid));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-family: monospace;
+    line-height: 1;
+    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
+  }
+  #icon-gc-widget-v7 .timer-label {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: var(--gc-gold-mid);
+    margin-top: 2px;
+    display: block;
+    font-weight: 700;
+  }
+  #icon-gc-widget-v7 .timer-text-right {
+    font-size: 11px;
+    color: var(--gc-gold-highlight);
+    font-weight: 800;
+    padding-left: 12px;
+    border-left: 1px solid rgba(255, 215, 0, 0.4);
+    line-height: 1.1;
+    text-transform: uppercase;
+    text-align: left;
+    letter-spacing: 0.5px;
+  }
+
+  /* --- RIGHT PANEL (CREAM) --- */
+  #icon-gc-widget-v7 .gc-panel-right {
+    flex: 1.3;
+    background: var(--gc-cream);
     padding: 40px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     position: relative;
-    z-index: 2;
+    margin-left: -20px;
+    border-radius: 20px 0 0 20px; 
+    clip-path: polygon(5% 0, 100% 0, 100% 100%, 0% 100%);
+    box-shadow: -10px 0 20px rgba(0,0,0,0.1);
   }
 
-  #icon-gc-widget .gc-tag {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.2);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-size: 10px;
-    font-weight: 800;
+  /* LABEL */
+  #icon-gc-widget-v7 .gc-selection-label {
+    text-align: center;
+    font-size: 12px !important;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    align-self: flex-start;
-    margin-bottom: 15px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    color: #fff;
-  }
-
-  #icon-gc-widget .gc-content h2 {
-    font-size: 36px !important;
+    color: var(--gc-red-deep) !important;
+    margin-bottom: 20px !important;
     font-weight: 900 !important;
-    line-height: 0.95 !important;
-    margin: 0 0 15px 0 !important;
-    color: #fff !important;
-    text-transform: uppercase !important;
-    font-style: italic !important;
-    letter-spacing: normal !important;
-  }
-  
-  #icon-gc-widget .gc-content p {
-    font-size: 15px !important;
-    color: #aaa !important;
-    line-height: 1.5 !important;
-    margin: 0 0 25px 0 !important;
-    max-width: 95%;
-  }
-
-  /* TIMER */
-  #icon-gc-widget .gc-timer {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    background: rgba(0,0,0,0.5);
-    padding: 12px 20px;
-    border-radius: 6px;
-    border: 1px solid #333;
-    width: fit-content;
-  }
-  #icon-gc-widget .timer-block {
-    text-align: center;
-  }
-  #icon-gc-widget .timer-num {
-    display: block;
-    font-size: 22px !important;
-    font-weight: 800;
-    color: #ffffff !important;
-    text-shadow: 0 0 10px rgba(255,255,255,0.4);
-    font-family: monospace;
-    line-height: 1;
-  }
-  #icon-gc-widget .timer-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    color: #888;
-    margin-top: 4px;
-    display: block;
-  }
-  #icon-gc-widget .timer-text-right {
-    font-size: 10px;
-    color: #fff;
-    font-weight: 700;
-    padding-left: 15px;
-    border-left: 1px solid #555;
-    line-height: 1.3;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-  }
-
-  /* --- RIGHT PANEL --- */
-  #icon-gc-widget .gc-actions {
-    padding: 30px 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    background: rgba(255,255,255,0.02);
-    border-left: 1px solid #222;
-    z-index: 10; /* Ensure this sits above everything */
-  }
-  
-  #icon-gc-widget .gc-action-label {
-    text-align: center;
-    font-size: 11px !important;
-    text-transform: uppercase;
-    color: #888 !important;
-    margin-bottom: 15px !important;
-    font-weight: 700 !important;
-    letter-spacing: 2px !important;
+    letter-spacing: 1.5px !important;
     display: block;
   }
 
-  #icon-gc-widget .gc-options-grid {
+  /* GRID */
+  #icon-gc-widget-v7 .gc-options-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 12px;
+    margin-bottom: 30px;
+    padding-left: 15px; /* Offset for slant */
   }
 
-  /* --- THE NUCLEAR BUTTON RESET --- */
-  /* Using ID specificity to override ANY theme styles */
-  #icon-gc-widget button.gc-btn {
-    all: unset !important; /* Removes default button styles */
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    justify-content: center !important;
-    box-sizing: border-box !important;
-    
-    background: #0B0B0D !important;
-    border: 1px solid #333 !important;
-    color: #fff !important;
-    border-radius: 4px !important;
-    padding: 25px 5px !important;
-    cursor: pointer !important;
-    transition: all 0.2s !important;
-    
-    position: relative !important;
-    height: auto !important;
-    min-height: 110px !important;
-    width: 100% !important;
-    margin: 0 !important;
-    box-shadow: none !important;
-  }
-
-  /* Pseudo-element clean up just in case theme adds icons */
-  #icon-gc-widget button.gc-btn::before { content: none !important; }
-
-  #icon-gc-widget button.gc-btn:hover {
-    border-color: var(--gc-red) !important;
-    background: #111 !important;
-    transform: translateY(-3px);
-    box-shadow: 0 5px 20px rgba(0,0,0,0.5) !important;
-  }
-
-  #icon-gc-widget .gc-btn span.emoji { 
-    font-size: 20px !important; 
-    margin-bottom: 5px !important; 
-    display: block !important; 
-    line-height: 1 !important;
+  /* OPTION CARDS */
+  #icon-gc-widget-v7 .gc-option {
+    background: #fff;
+    border: 3px solid #e0e0e0;
+    border-radius: 12px;
+    padding: 15px 5px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 110px;
+    box-shadow: 0 4px 0 #ddd;
   }
   
-  #icon-gc-widget .gc-btn span.denom {
-    font-size: 42px !important;
-    font-weight: 900 !important;
-    color: #fff !important;
-    font-style: italic !important;
-    line-height: 1 !important;
-    display: block !important;
-    margin-bottom: 5px !important;
-    font-family: inherit !important;
+  #icon-gc-widget-v7 .gc-option:hover {
+    border-color: var(--gc-gold-mid);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 var(--gc-gold-shadow);
   }
 
-  #icon-gc-widget .gc-btn span.label {
-    font-size: 10px !important;
-    text-transform: uppercase !important;
-    color: #666 !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.5px !important;
-    display: block !important;
-    line-height: 1.2 !important;
+  #icon-gc-widget-v7 .gc-option.is-selected {
+    border-color: var(--gc-gold-mid);
+    background: #FFFDF5;
+    box-shadow: 0 0 0 2px var(--gc-gold-mid), 0 6px 0 var(--gc-gold-shadow);
+    transform: translateY(-2px);
   }
-  #icon-gc-widget .gc-btn:hover span.label { color: #fff !important; }
 
-  /* STATES */
-  #icon-gc-widget .gc-btn.is-added { 
-    background: var(--gc-red) !important; 
-    border-color: var(--gc-red) !important; 
+  #icon-gc-widget-v7 .gc-option .emoji { font-size: 24px; margin-bottom: 5px; line-height: 1; }
+  #icon-gc-widget-v7 .gc-option .denom {
+    font-size: 34px !important;
+    font-weight: 900;
+    color: var(--gc-text-dark);
+    font-family: inherit;
+    line-height: 1;
+    margin-bottom: 4px;
+    text-shadow: 1px 1px 0 #fff;
   }
-  #icon-gc-widget .gc-btn.is-loading { opacity: 0.6; pointer-events: none; }
-  
-  /* Custom Spinner (Replacing theme spinner if any) */
-  #icon-gc-widget .gc-btn.is-loading::after {
-    content: "" !important; 
-    position: absolute !important; 
-    top: 10px !important; right: 10px !important;
-    width: 14px !important; height: 14px !important; 
-    border: 2px solid #fff !important; 
-    border-top-color: transparent !important; 
-    border-radius: 50% !important;
-    animation: gc-spin 0.6s linear infinite !important;
-    display: block !important;
-  }
-  @keyframes gc-spin { to { transform: rotate(360deg); } }
-
-  #icon-gc-widget .gc-footer-note {
-    text-align: center; 
-    margin-top: 20px; 
-    font-size: 12px !important; 
-    color: #ccc !important;
-    font-style: italic;
+  #icon-gc-widget-v7 .gc-option .label {
+    font-size: 9px;
+    text-transform: uppercase;
+    color: #999;
+    font-weight: 700;
     letter-spacing: 0.5px;
-    font-weight: 400 !important;
   }
 
-  /* --- MOBILE RESPONSIVE --- */
+  /* --- CTA BUTTON: RED FIX --- */
+  #icon-gc-widget-v7 .gc-cta-wrapper {
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding-left: 15px;
+  }
+
+  #icon-gc-widget-v7 button.gc-main-btn {
+    all: unset !important;
+    display: inline-block !important; /* Fix structure */
+    
+    /* NUCLEAR BACKGROUND FIXES */
+    background-color: #D42424 !important; /* Fallback solid red */
+    background-image: linear-gradient(to bottom, var(--gc-red-bright), var(--gc-red-deep)) !important;
+    opacity: 1 !important; /* Force 100% Opacity */
+    filter: none !important; /* Remove any theme grayscale filters */
+    
+    color: var(--gc-gold-highlight) !important;
+    font-size: 20px !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    font-style: italic !important;
+    padding: 18px 45px !important;
+    border-radius: 50px !important;
+    cursor: pointer !important;
+    position: relative !important;
+    
+    border: 3px solid var(--gc-gold-mid) !important;
+    box-shadow: 0 6px 0 var(--gc-red-deep), 0 10px 15px rgba(0,0,0,0.2) !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+    min-width: 250px !important;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
+    z-index: 5 !important;
+  }
+  
+  /* Sheen */
+  #icon-gc-widget-v7 button.gc-main-btn::after {
+    content: ""; position: absolute; top: 0; left:0; right:0; height: 50%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
+    border-radius: 50px 50px 0 0;
+  }
+
+  #icon-gc-widget-v7 button.gc-main-btn:hover:not(:disabled) {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 0 var(--gc-red-deep), 0 15px 25px rgba(0,0,0,0.2);
+    filter: brightness(1.1);
+    color: #fff;
+  }
+
+  #icon-gc-widget-v7 button.gc-main-btn:active:not(:disabled) {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 var(--gc-red-deep);
+  }
+
+  /* DISABLED STATE FIX: NO GRAYSCALE */
+  #icon-gc-widget-v7 button.gc-main-btn:disabled {
+    opacity: 0.6; /* Just fade it, keep it red */
+    cursor: not-allowed;
+    box-shadow: none; /* Flatten it */
+    transform: translateY(4px); /* Push it down */
+  }
+
+  #icon-gc-widget-v7 .gc-cta-decor {
+    font-size: 36px;
+    filter: drop-shadow(0 3px 0 rgba(0,0,0,0.1));
+    z-index: 5;
+  }
+
+  /* --- MOBILE --- */
   @media (max-width: 900px) {
-    #icon-gc-widget .gc-grid { grid-template-columns: 1fr; }
-    #icon-gc-widget .gc-station::before { width: 100%; height: 6px; top: 0; left: 0; }
-    
-    #icon-gc-widget .gc-content { 
-      padding: 35px 20px; 
-      align-items: center; 
-      text-align: center; 
+    #icon-gc-widget-v7 .gc-station { 
+      flex-direction: column; 
+      min-height: auto; 
+      background: linear-gradient(to bottom, var(--gc-red-deep) 50%, var(--gc-cream) 50%);
     }
     
-    #icon-gc-widget .gc-actions { 
-      border-left: none; 
-      border-top: 1px solid #222; 
-      padding: 30px 20px; 
+    #icon-gc-widget-v7 .gc-panel-left { padding: 30px 20px; text-align: center; align-items: center; }
+    #icon-gc-widget-v7 .gc-stamp-icon { top: 15px; right: 15px; width: 45px; height: 45px; }
+
+    #icon-gc-widget-v7 .gc-panel-right {
+      margin-left: 0; padding: 30px 20px;
+      border-top: 4px solid var(--gc-gold-mid);
+      clip-path: none; border-radius: 0;
     }
+
+    #icon-gc-widget-v7 .gc-options-grid { grid-template-columns: 1fr; gap: 10px; width: 100%; padding-left: 0; }
     
-    /* Vertical Stack for Buttons */
-    #icon-gc-widget .gc-options-grid {
-      grid-template-columns: 1fr; 
-      gap: 15px;
+    #icon-gc-widget-v7 .gc-option { 
+      flex-direction: row; justify-content: flex-start; gap: 20px; padding: 15px 25px; min-height: 70px;
     }
+    #icon-gc-widget-v7 .gc-option .emoji { font-size: 28px; margin: 0; }
+    #icon-gc-widget-v7 .gc-option .denom { font-size: 28px !important; margin: 0; }
     
-    #icon-gc-widget button.gc-btn {
-      min-height: 80px !important; 
-      padding: 15px !important;
-    }
-    #icon-gc-widget .gc-btn span.denom { font-size: 32px !important; }
+    #icon-gc-widget-v7 .gc-cta-wrapper { width: 100%; justify-content: space-between; gap: 5px; padding-left: 0; }
+    #icon-gc-widget-v7 button.gc-main-btn { flex: 1; min-width: auto; font-size: 16px !important; padding: 15px 10px; }
+    #icon-gc-widget-v7 .gc-cta-decor { font-size: 24px; }
   }
 </style>
 
-<div id="icon-gc-widget">
+<div id="icon-gc-widget-v7">
   <div class="gc-station">
-    <div class="gc-grid">
+    
+    <div class="gc-panel-left">
+      <div class="gc-tag"><span>🎅 Santa Approved</span></div>
       
-      <div class="gc-content">
-        <div class="gc-tag">
-          <span>🎅 Santa Approved</span>
-        </div>
-        
-        <h2>Save Christmas.<br>Instantly. 🎁</h2>
-        <p>Forgot to shop? We won't tell. Send a digital gift card instantly to their inbox. No shipping. No stress.</p>
-
-        <div class="gc-timer" id="xmas-timer">
-          <div class="timer-block">
-            <span class="timer-num" id="d-days">00</span>
-            <span class="timer-label">Days</span>
-          </div>
-          <div class="timer-block">
-            <span class="timer-num" id="d-hours">00</span>
-            <span class="timer-label">Hrs</span>
-          </div>
-          <div class="timer-block">
-            <span class="timer-num" id="d-mins">00</span>
-            <span class="timer-label">Mins</span>
-          </div>
-          <div class="timer-text-right">
-            UNTIL<br>CHRISTMAS
-          </div>
-        </div>
+      <div class="gc-stamp-icon">
+        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+          <path fill="#FFD700" d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z"/>
+        </svg>
       </div>
 
-      <div class="gc-actions">
-        <div class="gc-action-label">
-          Select Gift Card Amount
-        </div>
-        
-        <div class="gc-options-grid">
-          <button class="gc-btn js-gc-add" data-variant-id="{{ id_opt_1 }}" type="button">
-            <span class="emoji">❄️</span>
-            <span class="denom">$100</span>
-            <span class="label">Standard</span>
-          </button>
+      <h2 class="gc-headline">Save Christmas.<br>Instantly.</h2>
+      <p class="gc-subhead">Forgot to shop? We won't tell. Send a digital gift card instantly to their inbox.</p>
 
-          <button class="gc-btn js-gc-add" data-variant-id="{{ id_opt_2 }}" type="button">
-            <span class="emoji">🎄</span>
-            <span class="denom">$250</span>
-            <span class="label">Pro Choice</span>
-          </button>
-
-          <button class="gc-btn js-gc-add" data-variant-id="{{ id_opt_3 }}" type="button">
-            <span class="emoji">🔥</span>
-            <span class="denom">$500</span>
-            <span class="label">The Ultimate</span>
-          </button>
+      <div class="gc-timer-box" id="xmas-timer">
+        <div class="timer-block">
+          <span class="timer-num" id="d-days">00</span>
+          <span class="timer-label">Days</span>
         </div>
-        
-        <div class="gc-footer-note">
-          "Best. Gift. Ever." — Your Gym Partner
+        <div class="timer-block">
+          <span class="timer-num" id="d-hours">00</span>
+          <span class="timer-label">Hrs</span>
+        </div>
+        <div class="timer-block">
+          <span class="timer-num" id="d-mins">00</span>
+          <span class="timer-label">Mins</span>
+        </div>
+        <div class="timer-text-right">
+          UNTIL<br>CHRISTMAS
         </div>
       </div>
-
     </div>
+
+    <div class="gc-panel-right">
+      <div class="gc-selection-label">Select Gift Card Amount</div>
+      
+      <div class="gc-options-grid">
+        <div class="gc-option js-gc-option" data-variant-id="{{ id_opt_1 }}">
+          <div class="emoji">❄️</div>
+          <div class="denom">$100</div>
+          <div class="label">Standard</div>
+        </div>
+        <div class="gc-option js-gc-option" data-variant-id="{{ id_opt_2 }}">
+          <div class="emoji">🎄</div>
+          <div class="denom">$250</div>
+          <div class="label">Pro Choice</div>
+        </div>
+        <div class="gc-option js-gc-option" data-variant-id="{{ id_opt_3 }}">
+          <div class="emoji">🔥</div>
+          <div class="denom">$500</div>
+          <div class="label">The Ultimate</div>
+        </div>
+      </div>
+
+      <div class="gc-cta-wrapper">
+        <div class="gc-cta-decor">🎄</div>
+        <button class="gc-main-btn js-gc-main-btn" type="button" disabled>
+          GIFT INSTANTLY
+        </button>
+        <div class="gc-cta-decor">🎁</div>
+      </div>
+    </div>
+
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // --- COUNTDOWN LOGIC ---
+    // --- TIMER LOGIC ---
     const timerEl = document.getElementById('xmas-timer');
     if(timerEl) {
       const now = new Date();
       let year = now.getFullYear();
       let xmas = new Date(year, 11, 25);
-      
-      if (now.getMonth() === 11 && now.getDate() > 25) {
-        xmas.setFullYear(year + 1);
-      }
+      if (now.getMonth() === 11 && now.getDate() > 25) xmas.setFullYear(year + 1);
 
       function updateTimer() {
         const current = new Date();
         const diff = xmas - current;
-
         if (diff <= 0) {
-          timerEl.innerHTML = '<div style="font-weight:bold; color:#fff;">MERRY CHRISTMAS! 🎄</div>';
+          timerEl.innerHTML = '<div style="font-weight:bold; color:#FFD700;">MERRY CHRISTMAS!</div>';
           return;
         }
-
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const m = Math.floor((diff / 1000 / 60) % 60);
@@ -409,7 +463,6 @@
         const dEl = document.getElementById('d-days');
         const hEl = document.getElementById('d-hours');
         const mEl = document.getElementById('d-mins');
-
         if(dEl) dEl.innerText = d < 10 ? '0'+d : d;
         if(hEl) hEl.innerText = h < 10 ? '0'+h : h;
         if(mEl) mEl.innerText = m < 10 ? '0'+m : m;
@@ -418,51 +471,57 @@
       updateTimer();
     }
 
-    // --- ADD TO CART LOGIC ---
-    const buttons = document.querySelectorAll('.js-gc-add');
-    buttons.forEach(btn => {
-      btn.addEventListener('click', async (e) => {
-        // Stop bubbling just in case theme catches clicks
-        e.stopPropagation();
-        e.preventDefault();
-        
-        const variantId = btn.getAttribute('data-variant-id');
-        if(!variantId) return;
+    // --- CART LOGIC ---
+    let selectedVariantId = null;
+    const options = document.querySelectorAll('.js-gc-option');
+    const mainBtn = document.querySelector('.js-gc-main-btn');
 
-        const originalHTML = btn.innerHTML;
-        
-        btn.classList.add('is-loading');
+    options.forEach(opt => {
+      opt.addEventListener('click', () => {
+        options.forEach(o => o.classList.remove('is-selected'));
+        opt.classList.add('is-selected');
+        selectedVariantId = opt.getAttribute('data-variant-id');
+        mainBtn.disabled = false;
+      });
+    });
+
+    if(mainBtn) {
+      mainBtn.addEventListener('click', async (e) => {
+        e.preventDefault();
+        if(!selectedVariantId) return;
+
+        const originalText = mainBtn.innerText;
+        mainBtn.innerText = "ADDING...";
+        mainBtn.disabled = true;
 
         try {
           const response = await fetch('/cart/add.js', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              items: [{ id: Number(variantId), quantity: 1 }]
-            })
+            body: JSON.stringify({ items: [{ id: Number(selectedVariantId), quantity: 1 }] })
           });
 
           if(response.ok) {
             const cart = await response.json();
-            
-            btn.classList.remove('is-loading');
-            btn.classList.add('is-added');
-            btn.innerHTML = '<span style="font-size:20px; display:block;">🎅</span><span style="font-weight:bold; font-size:12px; display:block;">IN THE BAG</span>';
-            
+            mainBtn.style.background = "#28a745";
+            mainBtn.style.boxShadow = "0 6px 0 #1e7e34, 0 10px 10px rgba(0,0,0,0.15)";
+            mainBtn.style.border = "3px solid #1e7e34";
+            mainBtn.innerText = "ADDED! 🎅";
             document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
-
             setTimeout(() => {
-              btn.classList.remove('is-added');
-              btn.innerHTML = originalHTML;
-            }, 3000);
-          } else {
-            throw new Error('Failed');
+              mainBtn.style.background = ""; // Reset to CSS default
+              mainBtn.style.boxShadow = ""; 
+              mainBtn.style.border = "";
+              mainBtn.innerText = originalText;
+              mainBtn.disabled = false;
+            }, 2500);
           }
         } catch (err) {
           console.error(err);
-          btn.classList.remove('is-loading');
+          mainBtn.innerText = "ERROR";
+          setTimeout(() => { mainBtn.innerText = originalText; mainBtn.disabled = false; }, 2000);
         }
       });
-    });
+    }
   });
 </script>
