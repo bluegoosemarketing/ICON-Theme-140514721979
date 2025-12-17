@@ -10,22 +10,41 @@
 {
   "wrapper": "div.index-sections",
   "sections": {
-    "hero_v26_evergreen_y3phTx": {
-      "type": "hero-v26-evergreen",
-      "name": "[V26] Evergreen Hero",
+    "hero_evolution_light_JyhPYC": {
+      "type": "hero-evolution-light",
+      "name": "[ICON] Hero Evolution",
       "settings": {
-        "credibility_text": "READY WHEN YOU ARE",
-        "heading_tag": "h1",
-        "headline": "FUEL YOUR AMBITION",
-        "subheadline": "High-protein, chef-prepared meals delivered to your door. No shopping, chopping, or cleaning.",
-        "promo_code": "",
-        "hero_alt": "ICON Meals - Healthy Meal Delivery",
-        "preload_hero": true,
-        "cta_button_text": "SHOP MEALS",
-        "cta_url": "/collections/signature-menu",
-        "cta_aria": "Shop the signature menu",
-        "min_height_desktop": 70,
-        "min_height_mobile": 90
+        "tagline": "MEAL PREP, SOLVED.",
+        "headline_line_1": "Real Food.",
+        "headline_line_2": "Real Results.",
+        "description": "High-protein, chef-prepared meals designed for performance. No shopping, chopping, or cleaning. Just pure results.",
+        "cta_text": "SHOP SIGNATURE MENU",
+        "cta_link": "shopify://collections/signature-menu",
+        "badge_image": "shopify://shop_images/USDA-Badge_v1.webp",
+        "preload_lcp": true,
+        "spec_1": "CHEF PREPARED",
+        "spec_2": "VACUUM SEALED FRESHNESS",
+        "spec_3": "READY IN 2 MINS",
+        "nav_1_sub": "THE MENU",
+        "nav_1_title": "SIGNATURE MEALS",
+        "nav_1_link": "shopify://collections/signature-menu",
+        "nav_2_sub": "BUILD YOUR OWN",
+        "nav_2_title": "CUSTOM MEALS",
+        "nav_2_link": "shopify://products/custom-meals",
+        "nav_3_sub": "BY THE POUND",
+        "nav_3_title": "BULK ITEMS",
+        "nav_3_link": "shopify://collections/bulk-items",
+        "nav_4_sub": "CURATED BOXES",
+        "nav_4_title": "MEAL PLANS",
+        "nav_4_link": "shopify://pages/mealplans",
+        "modal_title": "Beef Medallions & Saffron Rice",
+        "modal_desc": "Tender beef medallions seared to perfection, served with aromatic saffron rice and crisp green beans.",
+        "modal_ingredients": "Beef Tenderloin, Basmati Rice, Saffron, Green Beans, Sea Salt, Black Pepper.",
+        "macro_cal": "360",
+        "macro_pro": "38g",
+        "macro_carb": "40g",
+        "macro_fat": "5g",
+        "modal_link": "shopify://products/beef-medallions-saffron-rice-and-green-beans"
       }
     },
     "authority_bar_grBYWU": {
@@ -216,7 +235,7 @@
     }
   },
   "order": [
-    "hero_v26_evergreen_y3phTx",
+    "hero_evolution_light_JyhPYC",
     "authority_bar_grBYWU",
     "homepage_process_PmGH7t",
     "standards_ApTC3f",

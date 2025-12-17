@@ -8,80 +8,19 @@
 
 {%- liquid
   # --- DYNAMIC PRODUCT LOGIC ---
-  assign slot1_block = nil
-  assign slot2_block = nil
-  assign slot3_block = nil
+  assign slot1_blocks = section.blocks | where: 'settings.placement', 'slot_1'
+  assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
+  assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
 
-  for block in section.blocks
-    case block.settings.placement
-      when 'slot_1'
-        unless slot1_block
-          assign slot1_block = block
-        endunless
-      when 'slot_2'
-        unless slot2_block
-          assign slot2_block = block
-        endunless
-      when 'slot_3'
-        unless slot3_block
-          assign slot3_block = block
-        endunless
-    endcase
-  endfor
+  assign slot1_block = slot1_blocks | sample
+  assign slot2_block = slot2_blocks | sample
+  assign slot3_block = slot3_blocks | sample
 
   # --- GIFT CARD DATA ---
-  assign gift_product_setting = section.settings.gift_card_product
-  assign gift_product = gift_product_setting
-  if gift_product == blank and gift_product_setting != blank
-    assign gift_product = all_products[gift_product_setting]
-  endif
-
-  assign variant_product_1_setting = section.settings.variant_product_opt_1
-  assign variant_product_2_setting = section.settings.variant_product_opt_2
-  assign variant_product_3_setting = section.settings.variant_product_opt_3
-
-  assign variant_product_1 = variant_product_1_setting
-  if variant_product_1 == blank and variant_product_1_setting != blank
-    assign variant_product_1 = all_products[variant_product_1_setting]
-  endif
-
-  assign variant_product_2 = variant_product_2_setting
-  if variant_product_2 == blank and variant_product_2_setting != blank
-    assign variant_product_2 = all_products[variant_product_2_setting]
-  endif
-
-  assign variant_product_3 = variant_product_3_setting
-  if variant_product_3 == blank and variant_product_3_setting != blank
-    assign variant_product_3 = all_products[variant_product_3_setting]
-  endif
-
-  assign id_opt_1 = blank
-  assign id_opt_2 = blank
-  assign id_opt_3 = blank
-
-  if variant_product_1 and variant_product_1.selected_or_first_available_variant
-    assign id_opt_1 = variant_product_1.selected_or_first_available_variant.id
-  endif
-
-  if variant_product_2 and variant_product_2.selected_or_first_available_variant
-    assign id_opt_2 = variant_product_2.selected_or_first_available_variant.id
-  endif
-
-  if variant_product_3 and variant_product_3.selected_or_first_available_variant
-    assign id_opt_3 = variant_product_3.selected_or_first_available_variant.id
-  endif
-
-  if id_opt_1 == blank and section.settings.variant_id_opt_1 != blank
-    assign id_opt_1 = section.settings.variant_id_opt_1
-  endif
-
-  if id_opt_2 == blank and section.settings.variant_id_opt_2 != blank
-    assign id_opt_2 = section.settings.variant_id_opt_2
-  endif
-
-  if id_opt_3 == blank and section.settings.variant_id_opt_3 != blank
-    assign id_opt_3 = section.settings.variant_id_opt_3
-  endif
+  assign gift_product = all_products[section.settings.gift_card_product]
+  assign id_opt_1 = section.settings.variant_id_opt_1
+  assign id_opt_2 = section.settings.variant_id_opt_2
+  assign id_opt_3 = section.settings.variant_id_opt_3
 
   # --- FALLBACK PRODUCT DEFINITIONS ---
   assign fallback_product_1 = all_products['cinnabun-krunch-protein-popcorn']
@@ -433,40 +372,22 @@
       "info": "Select the main Gift Card product."
     },
     {
-      "type": "product",
-      "id": "variant_product_opt_1",
-      "label": "Option 1 Product ($100)",
-      "info": "Select the product/variant to use for the $100 gift card option. The first available variant will be added."
-    },
-    {
       "type": "text",
       "id": "variant_id_opt_1",
-      "label": "Legacy Option 1 Variant ID",
-      "info": "Optional fallback. Only used if no product is selected above."
-    },
-    {
-      "type": "product",
-      "id": "variant_product_opt_2",
-      "label": "Option 2 Product ($250)",
-      "info": "Select the product/variant to use for the $250 gift card option. The first available variant will be added."
+      "label": "Option 1 ID ($100)",
+      "default": "42900474888379"
     },
     {
       "type": "text",
       "id": "variant_id_opt_2",
-      "label": "Legacy Option 2 Variant ID",
-      "info": "Optional fallback. Only used if no product is selected above."
-    },
-    {
-      "type": "product",
-      "id": "variant_product_opt_3",
-      "label": "Option 3 Product ($500)",
-      "info": "Select the product/variant to use for the $500 gift card option. The first available variant will be added."
+      "label": "Option 2 ID ($250)",
+      "default": "42900474986683"
     },
     {
       "type": "text",
       "id": "variant_id_opt_3",
-      "label": "Legacy Option 3 Variant ID",
-      "info": "Optional fallback. Only used if no product is selected above."
+      "label": "Option 3 ID ($500)",
+      "default": "42900475052219"
     },
     {
       "type": "header",

@@ -387,17 +387,17 @@
       <h2 class="gc-headline">Save Christmas.<br>Instantly.</h2>
       <p class="gc-subhead">Forgot to shop? We won't tell. Send a digital gift card instantly to their inbox.</p>
 
-      <div class="gc-timer-box" id="xmas-timer">
+      <div class="gc-timer-box" id="icon-gc-timer-container">
         <div class="timer-block">
-          <span class="timer-num" id="d-days">00</span>
+          <span class="timer-num" id="icon-gc-days">00</span>
           <span class="timer-label">Days</span>
         </div>
         <div class="timer-block">
-          <span class="timer-num" id="d-hours">00</span>
+          <span class="timer-num" id="icon-gc-hours">00</span>
           <span class="timer-label">Hrs</span>
         </div>
         <div class="timer-block">
-          <span class="timer-num" id="d-mins">00</span>
+          <span class="timer-num" id="icon-gc-mins">00</span>
           <span class="timer-label">Mins</span>
         </div>
         <div class="timer-text-right">
@@ -441,34 +441,43 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // --- TIMER LOGIC ---
-    const timerEl = document.getElementById('xmas-timer');
+    // --- TIMER LOGIC (Scoped for Snippet) ---
+    const timerEl = document.getElementById('icon-gc-timer-container');
     if(timerEl) {
       const now = new Date();
       let year = now.getFullYear();
-      let xmas = new Date(year, 11, 25);
-      if (now.getMonth() === 11 && now.getDate() > 25) xmas.setFullYear(year + 1);
+      let xmas = new Date(year, 11, 25); // Month is 0-indexed (11 = Dec)
+      
+      // If Christmas passed this year, look to next year
+      if (now.getMonth() === 11 && now.getDate() > 25) {
+        xmas.setFullYear(year + 1);
+      }
 
       function updateTimer() {
         const current = new Date();
         const diff = xmas - current;
+
         if (diff <= 0) {
-          timerEl.innerHTML = '<div style="font-weight:bold; color:#FFD700;">MERRY CHRISTMAS!</div>';
+          timerEl.innerHTML = '<div style="font-weight:bold; color:#FFD700; padding:0 10px;">MERRY CHRISTMAS!</div>';
           return;
         }
+
         const d = Math.floor(diff / (1000 * 60 * 60 * 24));
         const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
         const m = Math.floor((diff / 1000 / 60) % 60);
 
-        const dEl = document.getElementById('d-days');
-        const hEl = document.getElementById('d-hours');
-        const mEl = document.getElementById('d-mins');
+        // Target unique IDs
+        const dEl = document.getElementById('icon-gc-days');
+        const hEl = document.getElementById('icon-gc-hours');
+        const mEl = document.getElementById('icon-gc-mins');
+
         if(dEl) dEl.innerText = d < 10 ? '0'+d : d;
         if(hEl) hEl.innerText = h < 10 ? '0'+h : h;
         if(mEl) mEl.innerText = m < 10 ? '0'+m : m;
       }
+      
       setInterval(updateTimer, 1000);
-      updateTimer();
+      updateTimer(); // Run immediately
     }
 
     // --- CART LOGIC ---
