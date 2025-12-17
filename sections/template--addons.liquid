@@ -8,13 +8,26 @@
 
 {%- liquid
   # --- DYNAMIC PRODUCT LOGIC ---
-  assign slot1_blocks = section.blocks | where: 'settings.placement', 'slot_1'
-  assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
-  assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
+  assign slot1_block = nil
+  assign slot2_block = nil
+  assign slot3_block = nil
 
-  assign slot1_block = slot1_blocks | sample
-  assign slot2_block = slot2_blocks | sample
-  assign slot3_block = slot3_blocks | sample
+  for block in section.blocks
+    case block.settings.placement
+      when 'slot_1'
+        unless slot1_block
+          assign slot1_block = block
+        endunless
+      when 'slot_2'
+        unless slot2_block
+          assign slot2_block = block
+        endunless
+      when 'slot_3'
+        unless slot3_block
+          assign slot3_block = block
+        endunless
+    endcase
+  endfor
 
   # --- GIFT CARD DATA ---
   assign gift_product = all_products[section.settings.gift_card_product]
