@@ -12,9 +12,9 @@
   assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
   assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
 
-  assign slot1_block = slot1_blocks | where_exp: 'block', 'block.settings.product != blank' | first
-  assign slot2_block = slot2_blocks | where_exp: 'block', 'block.settings.product != blank' | first
-  assign slot3_block = slot3_blocks | where_exp: 'block', 'block.settings.product != blank' | first
+  assign slot1_block = slot1_blocks | reverse | where_exp: 'block', 'block.settings.product != blank' | first
+  assign slot2_block = slot2_blocks | reverse | where_exp: 'block', 'block.settings.product != blank' | first
+  assign slot3_block = slot3_blocks | reverse | where_exp: 'block', 'block.settings.product != blank' | first
 
   # Resolve products from block handles so schema selections take effect
   assign slot1_product = nil
