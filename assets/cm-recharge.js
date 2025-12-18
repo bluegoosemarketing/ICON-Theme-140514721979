@@ -529,7 +529,11 @@ class CustomMealBuilder {
       };
 
       if (planId) parentLine.selling_plan = planId;
-      const childLines = childVariants.map(({ id, quantity }) => ({ id, quantity, properties: { ...commonProps } }));
+      const childLines = childVariants.map(({ id, quantity }) => {
+        const childLine = { id, quantity, properties: { ...commonProps } };
+        if (planId) childLine.selling_plan = planId;
+        return childLine;
+      });
       const payload = { items: [parentLine, ...childLines] };
       await this.addItemsToCart(payload, this.state.quantity);
 
