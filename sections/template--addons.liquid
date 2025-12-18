@@ -7,6 +7,15 @@
 {%- endcomment -%}
 
 {%- liquid
+  # --- DYNAMIC PRODUCT LOGIC ---
+  assign slot1_blocks = section.blocks | where: 'settings.placement', 'slot_1'
+  assign slot2_blocks = section.blocks | where: 'settings.placement', 'slot_2'
+  assign slot3_blocks = section.blocks | where: 'settings.placement', 'slot_3'
+
+  assign slot1_block = slot1_blocks | sample
+  assign slot2_block = slot2_blocks | sample
+  assign slot3_block = slot3_blocks | sample
+
   # --- GIFT CARD DATA ---
   assign gift_product = all_products[section.settings.gift_card_product]
   assign id_opt_1 = section.settings.variant_id_opt_1
@@ -18,9 +27,6 @@
   assign fallback_product_2 = all_products['brisket-by-pound']
   assign fallback_product_3 = all_products['butter-herb']
   assign free_delivery_target = settings.free_delivery_threshold | default: 21
-
-  # --- SLOT ORDER ---
-  assign addon_slots = 'slot_1|slot_2|slot_3' | split: '|'
 -%}
 
 <div class="addons-page-wrapper" data-free-delivery-target="{{ free_delivery_target }}">
@@ -80,68 +86,26 @@
     {% endif %}
 
     <div class="addons-grid">
-      {%- for slot in addon_slots -%}
-        {%- liquid
-          assign slot_id = forloop.index
-          assign slot_key = 'slot-' | append: slot_id
+      {%- comment -%} SLOT 1 {%- endcomment -%}
+      {%- if slot1_block and slot1_block.settings.product != blank -%}
+        {% render 'addons-card', product_obj: slot1_block.settings.product, card_id: 'slot-1', collection_handle: slot1_block.settings.collection_handle, card_description_points: slot1_block.settings.card_description_points, slot: 'slot-1', cta_type: slot1_block.settings.cta_type, cta_text: slot1_block.settings.cta_text %}
+      {%- elsif fallback_product_1 != blank -%}
+        {% render 'addons-card', product_obj: fallback_product_1, card_id: 'slot-1', collection_handle: 'proteinpopcorn', card_description_points: "10g protein per serving|Sweet cinnamon-roll crunch without the guilt|Resealable bag for easy, on-the-go snacking", slot: 'slot-1', cta_type: 'add_to_cart' %}
+      {%- endif -%}
 
-          assign matched_block = section.blocks
-            | where: 'type', 'addon_product'
-            | where: 'settings.placement', slot
-            | where_exp: 'block', 'block.settings.product != blank'
-            | last
+      {%- comment -%} SLOT 2 {%- endcomment -%}
+      {%- if slot2_block and slot2_block.settings.product != blank -%}
+        {% render 'addons-card', product_obj: slot2_block.settings.product, card_id: 'slot-2', collection_handle: slot2_block.settings.collection_handle, card_description_points: slot2_block.settings.card_description_points, slot: 'slot-2', cta_type: slot2_block.settings.cta_type, cta_text: slot2_block.settings.cta_text %}
+      {%- elsif fallback_product_2 != blank -%}
+        {% render 'addons-card', product_obj: fallback_product_2, card_id: 'slot-2', collection_handle: 'bulk-items', card_description_points: "37g protein per 4oz (16oz total)|Slow smoked 12 hours for real BBQ flavor|Fully cooked, microwave ready in 2 min", slot: 'slot-2', cta_type: 'add_to_cart' %}
+      {%- endif -%}
 
-          assign slot_product = nil
-          assign slot_collection_handle = ''
-          assign slot_card_points = ''
-          assign slot_cta_type = 'add_to_cart'
-          assign slot_cta_text = ''
-
-          if matched_block
-            assign slot_handle = matched_block.settings.product.handle | default: matched_block.settings.product
-            if slot_handle != blank
-              assign slot_product = all_products[slot_handle]
-            endif
-            if slot_product == blank
-              assign slot_product = matched_block.settings.product
-            endif
-
-            assign slot_collection_handle = matched_block.settings.collection_handle
-            assign slot_card_points = matched_block.settings.card_description_points
-            assign slot_cta_type = matched_block.settings.cta_type | default: 'add_to_cart'
-            assign slot_cta_text = matched_block.settings.cta_text
-          endif
-
-          if slot_product == blank
-            case slot
-              when 'slot_1'
-                assign slot_product = fallback_product_1
-                assign slot_collection_handle = 'proteinpopcorn'
-                assign slot_card_points = '10g protein per serving|Sweet cinnamon-roll crunch without the guilt|Resealable bag for easy, on-the-go snacking'
-              when 'slot_2'
-                assign slot_product = fallback_product_2
-                assign slot_collection_handle = 'bulk-items'
-                assign slot_card_points = '37g protein per 4oz (16oz total)|Slow smoked 12 hours for real BBQ flavor|Fully cooked, microwave ready in 2 min'
-              when 'slot_3'
-                assign slot_product = fallback_product_3
-                assign slot_collection_handle = 'seasonings'
-                assign slot_card_points = 'Zero calories and carbs|Rich butter taste with garden herbs|Clean ingredients, low sodium'
-            endcase
-          endif
-        -%}
-
-        {%- if slot_product != blank -%}
-          {% render 'addons-card',
-            product_obj: slot_product,
-            card_id: slot_key,
-            collection_handle: slot_collection_handle,
-            card_description_points: slot_card_points,
-            slot: slot_key,
-            cta_type: slot_cta_type,
-            cta_text: slot_cta_text
-          %}
-        {%- endif -%}
-      {%- endfor -%}
+      {%- comment -%} SLOT 3 {%- endcomment -%}
+      {%- if slot3_block and slot3_block.settings.product != blank -%}
+        {% render 'addons-card', product_obj: slot3_block.settings.product, card_id: 'slot-3', collection_handle: slot3_block.settings.collection_handle, card_description_points: slot3_block.settings.card_description_points, slot: 'slot-3', cta_type: slot3_block.settings.cta_type, cta_text: slot3_block.settings.cta_text %}
+      {%- elsif fallback_product_3 != blank -%}
+        {% render 'addons-card', product_obj: fallback_product_3, card_id: 'slot-3', collection_handle: 'seasonings', card_description_points: "Zero calories and carbs|Rich butter taste with garden herbs|Clean ingredients, low sodium", slot: 'slot-3', cta_type: 'add_to_cart' %}
+      {%- endif -%}
     </div>
 
     <div class="addons-page__actions">
