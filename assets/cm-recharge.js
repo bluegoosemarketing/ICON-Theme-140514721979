@@ -1,8 +1,8 @@
 /*
-  Custom Meal Recharge Bundle Builder - v17.0 (STRICT WEEKLY CORRECTION)
-  - FIX: Updates Standard Items (Rice, Shrimp, etc.) to use the strict "1 Week" Plan IDs.
-  - KEEPS: The corrected Twin IDs for Steak/Turkey.
-  - Result: All items will now strictly use the Weekly plan.
+  Custom Meal Recharge Bundle Builder - v18.0 (FINAL DUAL-FREQUENCY SUPPORT)
+  - INCLUDES COMPLETE MAPS for both Weekly and Bi-Weekly plans.
+  - Logic: Checks Parent Frequency -> Applies Matching Child Frequency.
+  - Fixes "One-Time Purchase" error for Bi-Weekly orders.
 */
 
 // --- CONFIGURATION: PARENT BUNDLE IDs ---
@@ -11,15 +11,17 @@ const PARENT_PLANS = {
   BIWEEKLY: "4559929531"
 };
 
-// --- CONFIGURATION: CHILD PRODUCT MAP (STRICT WEEKLY) ---
-// Key = Product ID (from Cart) | Value = Weekly Plan ID
+// --- MAP 1: WEEKLY CHILD PLANS (1 Week) ---
 const CHILD_PLAN_MAP_WEEKLY = {
-  // --- PROTEINS (Twin Corrected - Hidden IDs) ---
-  "4502088384546": "4762009787", // STEAK OZ (Twin)
-  "4502085730338": "4764860603", // GROUND TURKEY OZ (Twin)
-  "4502086811682": "4762992827", // SALMON OZ (Twin)
+  // Twins (Hidden IDs)
+  "4502088384546": "4762009787", // STEAK OZ
+  "4502085730338": "4764860603", // GROUND TURKEY OZ
+  "4502086811682": "4762992827", // SALMON OZ
+  "4502558408738": "4764991675", // RED POTATOES OZ
+  "4502551429154": "4764303547", // SWEET POTATO MASH OZ
+  "4502558900258": "4764565691", // SWEET POTATOES OZ
   
-  // --- PROTEINS (Standard - Strict Weekly) ---
+  // Standard Items
   "4502087794722": "4762271931", // SHRIMP OZ
   "4502041559074": "4762403003", // BRISKET OZ
   "4502089236514": "4762534075", // TURKEY BREAST OZ
@@ -27,13 +29,6 @@ const CHILD_PLAN_MAP_WEEKLY = {
   "4502079733794": "4762730683", // GROUND BISON OZ
   "3918956691490": "4762861755", // CHICKEN OZ
   "4502072524834": "4763123899", // GROUND BEEF OZ
-
-  // --- SIDES (Twin Corrected - Hidden IDs) ---
-  "4502558408738": "4764991675", // RED POTATOES OZ (Twin)
-  "4502551429154": "4764303547", // SWEET POTATO MASH OZ (Twin)
-  "4502558900258": "4764565691", // SWEET POTATOES OZ (Twin)
-
-  // --- SIDES (Standard - Strict Weekly) ---
   "4502543761442": "4764926139", // BROCCOLI OZ
   "7296727744699": "4763517115", // CAULIFLOWER OZ
   "4502549889058": "4763910331", // KYOTO BLEND VEGGIES OZ
@@ -44,6 +39,36 @@ const CHILD_PLAN_MAP_WEEKLY = {
   "4502548348962": "4763648187", // JASMINE SAFFRON RICE CUP
   "4502550478882": "4764172475", // QUINOA OZ
   "4502551920674": "4764696763"  // WHITE RICE OZ
+};
+
+// --- MAP 2: BI-WEEKLY CHILD PLANS (2 Weeks) ---
+const CHILD_PLAN_MAP_BIWEEKLY = {
+  // Twins (Hidden IDs)
+  "4502088384546": "4762042555", // STEAK OZ
+  "4502085730338": "4764893371", // GROUND TURKEY OZ
+  "4502086811682": "4763025595", // SALMON OZ
+  "4502558408738": "4765024443", // RED POTATOES OZ
+  "4502551429154": "4764336315", // SWEET POTATO MASH OZ
+  "4502558900258": "4764598459", // SWEET POTATOES OZ
+
+  // Standard Items
+  "4502087794722": "4762304699", // SHRIMP OZ
+  "4502041559074": "4762435771", // BRISKET OZ
+  "4502089236514": "4762566843", // TURKEY BREAST OZ
+  "4502066593826": "4762697915", // COD OZ
+  "4502079733794": "4762763451", // GROUND BISON OZ
+  "3918956691490": "4762894523", // CHICKEN OZ
+  "4502072524834": "4763156667", // GROUND BEEF OZ
+  "4502543761442": "4764958907", // BROCCOLI OZ
+  "7296727744699": "4763549883", // CAULIFLOWER OZ
+  "4502549889058": "4763943099", // KYOTO BLEND VEGGIES OZ
+  "7296724500667": "4764467387", // SAUTEED CARROTS OZ
+  "4502542843938": "4763287739", // ASPARAGUS OZ
+  "4502546972706": "4763418811", // BROWN RICE OZ
+  "4502547496994": "4763812027", // GREEN BEANS OZ
+  "4502548348962": "4763680955", // JASMINE SAFFRON RICE CUP
+  "4502550478882": "4764205243", // QUINOA OZ
+  "4502551920674": "4764729531"  // WHITE RICE OZ
 };
 
 const CM_UNIT_OVERRIDES = {
@@ -499,16 +524,15 @@ class CustomMealBuilder {
     if (!details || !details.productId) return null;
     const productId = String(details.productId);
 
-    // 2. CHECK MAP: Do we have a verified plan for this product?
-    // (Currently only supporting Weekly lookup for simplicity, as Bi-Weekly wasn't scanned yet)
-    // If Parent is Weekly (4559962299), look in map.
-    if (parentPlanId === PARENT_PLANS.WEEKLY) {
-        const mappedId = CHILD_PLAN_MAP_WEEKLY[productId];
-        if (mappedId) return mappedId;
+    // 2. CHECK MAPS based on Parent Frequency
+    if (String(parentPlanId) === PARENT_PLANS.WEEKLY) {
+        return CHILD_PLAN_MAP_WEEKLY[productId] || null;
+    } 
+    else if (String(parentPlanId) === PARENT_PLANS.BIWEEKLY) {
+        return CHILD_PLAN_MAP_BIWEEKLY[productId] || null;
     }
 
-    // 3. SAFETY FALLBACK: If not in map (e.g. Steak), return NULL.
-    // This adds the item as One-Time Purchase, preventing the 422 Error.
+    // 3. Fallback (Unknown Plan)
     return null;
   }
 

@@ -1,7 +1,7 @@
 {%- comment -%}
-  Section: ICON Meals Hero Evolution (Final Polish - Centered Dock & Modal Fix)
-  Description: High-performance hero with centered navigation dock and fixed modal styles.
-  Version: Final Production 2.1
+  Section: ICON Meals Hero Evolution (Final Polish - Varsity Slab + Alignment Fix)
+  Description: "Varsity Slab" style retained. Fixed mobile centering and desktop optical alignment of headline vs tagline.
+  Version: Production 2.4
 {%- endcomment -%}
 
 {%- liquid
@@ -13,7 +13,6 @@
   <link rel="preload" as="image" href="{{ meal_image | image_url: width: 800 }}" fetchpriority="high">
 {%- endif -%}
 
-<!-- LOAD FONTS -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800;900&family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -22,7 +21,6 @@
   <section class="hero-evo-section" aria-label="Hero Section">
     <div class="hero-evo-container">
       
-      <!-- LEFT CONTENT -->
       <div class="hero-evo-text">
         <div class="hero-evo-tagline">
           {{ s.tagline }}
@@ -30,7 +28,7 @@
         
         <h1 class="hero-evo-headline">
           <span class="hero-evo-solid">{{ s.headline_line_1 }}</span>
-          <span class="hero-evo-outline">{{ s.headline_line_2 }}</span>
+          <span class="hero-evo-slab">{{ s.headline_line_2 }}</span>
         </h1>
 
         <div class="hero-evo-desc">
@@ -44,15 +42,11 @@
         </div>
       </div>
 
-      <!-- RIGHT VISUAL -->
       <div class="hero-evo-visual">
-        <!-- Anchor Ring -->
         <div class="hero-evo-ring"></div>
 
-        <!-- Meal Image (Hidden Trigger for Modal) -->
         <button type="button" class="hero-evo-meal-trigger" aria-label="View nutrition facts for {{ s.modal_title }}">
           
-          <!-- Main Meal Image -->
           {%- if s.meal_image != blank -%}
             {{ s.meal_image | image_url: width: 900 | image_tag: 
                class: 'hero-evo-img', 
@@ -69,14 +63,12 @@
                  loading="eager">
           {%- endif -%}
 
-          <!-- USDA BADGE OVERLAY -->
           {%- if s.badge_image != blank -%}
             {{ s.badge_image | image_url: width: 300 | image_tag: class: 'hero-evo-badge', loading: 'eager' }}
           {%- endif -%}
 
         </button>
 
-        <!-- Tech Spec HUD -->
         <div class="hero-evo-hud">
           <div class="hero-evo-spec">
             <span class="hero-evo-check">✓</span> {{ s.spec_1 }}
@@ -95,7 +87,6 @@
     </div>
   </section>
 
-  <!-- BOTTOM DOCK -->
   <div class="hero-evo-dock">
     <div class="hero-evo-grid">
       
@@ -134,7 +125,6 @@
     </div>
   </div>
 
-  <!-- MODAL (Hidden by default) -->
   <div class="hero-evo-modal-overlay" id="evo-modal-overlay" aria-hidden="true">
     <div class="hero-evo-modal" id="evo-modal" role="dialog" aria-modal="true">
       <button type="button" class="hero-evo-close" aria-label="Close">&times;</button>
@@ -155,7 +145,6 @@
           <strong>Ingredients:</strong> {{ s.modal_ingredients }}
         </div>
 
-        <!-- Updated Button Class -->
         <a href="{{ s.modal_link }}" class="hero-evo-modal-btn">
           View Meal Details →
         </a>
@@ -215,7 +204,7 @@
   z-index: 2 !important;
 }
 
-/* --- LEFT COLUMN --- */
+/* --- LEFT CONTENT --- */
 .hero-evo-text {
   padding-left: 0 !important; 
   padding-right: 4rem !important;
@@ -236,6 +225,7 @@
   margin-bottom: 1.5rem !important;
   display: block !important;
   line-height: 1 !important;
+  margin-left: 0 !important;
 }
 
 .hero-evo-headline {
@@ -246,14 +236,30 @@
   margin: 0 0 2.5rem 0 !important;
   color: var(--evo-text-main) !important;
   font-weight: 700 !important;
+  
+  /* ALIGNMENT FIX: 
+     Large fonts often have internal "bearing" space. 
+     This negative margin pulls the "R" to align optically with the Tagline above. */
+  margin-left: -5px !important; 
 }
 
-.hero-evo-solid { display: block; }
-.hero-evo-outline {
-  color: transparent !important;
-  -webkit-text-stroke: 2px #222 !important; 
+.hero-evo-solid { 
+  display: block; 
+}
+
+/* THE "VARSITY SLAB" STYLE */
+.hero-evo-slab {
+  color: #ffffff !important; 
+  -webkit-text-stroke: 3px var(--evo-text-main) !important; 
   display: block !important;
-  filter: drop-shadow(0 2px 0px rgba(0,0,0,0.1));
+  filter: drop-shadow(4px 6px 0px rgba(0,0,0,0.15)); /* Hard Shadow for Depth */
+  paint-order: stroke fill;
+  
+  /* Scale up slightly for hierarchy */
+  transform: scale(1.02); 
+  
+  /* DESKTOP: Scale from Left to stay aligned */
+  transform-origin: left; 
 }
 
 .hero-evo-desc {
@@ -265,6 +271,7 @@
   margin-bottom: 3rem !important;
   border-left: 3px solid var(--evo-red) !important;
   padding-left: 1.8rem !important;
+  margin-left: 2px; /* Slight offset to align border with text flow */
 }
 
 .hero-evo-btn {
@@ -288,7 +295,7 @@
   text-decoration: none !important;
 }
 
-/* --- RIGHT COLUMN --- */
+/* --- RIGHT VISUAL --- */
 .hero-evo-visual {
   position: relative !important;
   display: flex !important;
@@ -297,7 +304,7 @@
   flex-direction: column !important;
 }
 
-/* RINGS - Enhanced Visibility */
+/* RINGS */
 .hero-evo-ring {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
@@ -342,7 +349,7 @@
   transform: rotate(0deg);
 }
 
-/* --- BADGE OVERLAY --- */
+/* BADGE OVERLAY */
 .hero-evo-badge {
   position: absolute;
   top: 2%;   
@@ -355,19 +362,17 @@
   pointer-events: none; 
 }
 
-/* --- HUD (GLASS AURA) --- */
+/* HUD (Glass Aura) */
 .hero-evo-hud {
   position: relative; z-index: 10;
   display: flex; align-items: center; gap: 2rem;
   padding: 1rem 2rem;
-  
   background: rgba(255, 255, 255, 0.65) !important; 
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
   border: 1px solid rgba(255, 255, 255, 0.9);
   border-radius: 50px;
   box-shadow: 0 15px 40px rgba(0,0,0,0.06);
-  
   animation: slideUp 1s ease-out forwards;
 }
 @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
@@ -381,7 +386,7 @@
 .hero-evo-check { color: var(--evo-red); font-size: 1rem; }
 .hero-evo-divider { width: 1px; height: 20px; background: rgba(0,0,0,0.1); }
 
-/* --- BOTTOM DOCK (CENTERED & BALANCED) --- */
+/* --- BOTTOM DOCK --- */
 .hero-evo-dock {
   background-color: #FFFFFF !important;
   width: 100%; border-top: 4px solid var(--evo-red) !important;
@@ -400,18 +405,17 @@
   text-decoration: none !important;
   border-right: 1px solid #e5e5e5;
   transition: background 0.2s;
-  /* CENTER ALIGNMENT FIX */
   display: flex; 
   flex-direction: column; 
   justify-content: center;
-  align-items: center !important; /* Forces content to center */
-  text-align: center !important;  /* Forces text to center */
+  align-items: center !important; 
+  text-align: center !important;  
   height: 180px;
 }
 .hero-evo-card:last-child { border-right: none; }
 .hero-evo-card:hover { background: #f8f8f8 !important; }
 
-/* REFINED SUB-TEXT (Divider Style) */
+/* Subtext */
 .hero-evo-sub {
   font-family: var(--evo-font-body); 
   font-size: 0.85rem; 
@@ -420,55 +424,32 @@
   letter-spacing: 1px; 
   font-weight: 800; 
   margin-bottom: 12px;
-  
-  /* Flex Layout for Lines */
   display: flex; 
   align-items: center; 
   justify-content: center;
   width: 100%;
-  gap: 15px; /* Space between text and lines */
+  gap: 15px;
 }
-
-/* The Lines (Left & Right) */
 .hero-evo-sub::before,
 .hero-evo-sub::after {
-  content: '';
-  display: block;
-  height: 1px;
-  background-color: var(--evo-red); /* UPDATED: Brand Red */
-  flex-grow: 1; 
-  max-width: 40px; 
-  opacity: 0.5; /* Slight transparency so it doesn't overpower the text */
+  content: ''; display: block; height: 1px;
+  background-color: var(--evo-red); flex-grow: 1; 
+  max-width: 40px; opacity: 0.5; 
+}
+@media (max-width: 1024px) {
+  .hero-evo-sub::before, .hero-evo-sub::after { display: none; }
 }
 
-/* Mobile Fix: Remove lines to keep the "List" look clean */
-@media (max-width: 1024px) {
-  .hero-evo-sub::before,
-  .hero-evo-sub::after {
-    display: none;
-  }
-}
 .hero-evo-title {
   font-family: var(--evo-font-head); font-size: 2.2rem;
   text-transform: uppercase; color: var(--evo-text-main); line-height: 1;
-  display: flex; 
-  align-items: center; 
-  justify-content: center; /* Centered Title */
-  gap: 10px; /* Gap between title and arrow */
+  display: flex; align-items: center; justify-content: center; gap: 10px;
 }
-
-/* ARROW (Always Visible) */
 .hero-evo-arrow { 
-  color: #d1d5db; 
-  opacity: 1;     
-  transition: all 0.2s ease; 
-  transform: translateX(0); 
-  font-family: sans-serif;
+  color: #d1d5db; opacity: 1; transition: all 0.2s ease; transform: translateX(0); font-family: sans-serif;
 }
 .hero-evo-card:hover .hero-evo-arrow { 
-  opacity: 1; 
-  color: var(--evo-red); 
-  transform: translateX(5px); 
+  opacity: 1; color: var(--evo-red); transform: translateX(5px); 
 }
 
 /* --- MODAL --- */
@@ -502,32 +483,16 @@
 .evo-macro { font-family: var(--evo-font-body); font-size: 0.8rem; text-transform: uppercase; color: #666; }
 .evo-macro span { display: block; font-size: 1.5rem; font-weight: 800; color: #000; }
 .hero-evo-ingredients { background: #f5f5f5; padding: 15px; font-size: 0.9rem; margin: 20px 0; border-radius: 8px; font-family: var(--evo-font-body); }
-
-/* FIX: Modal Button Visibility */
 .hero-evo-modal-btn {
-  display: flex !important; /* Ensure block layout */
-  justify-content: center;
-  align-items: center;
-  width: 100%; 
-  text-align: center;
-  background: var(--evo-red) !important; 
-  color: #ffffff !important; /* Force White */
-  padding: 16px; 
-  text-decoration: none !important; /* Remove overrides */
-  font-weight: 800 !important; 
-  font-family: var(--evo-font-head) !important;
-  font-size: 1.1rem;
-  text-transform: uppercase; 
-  letter-spacing: 1px;
-  border-radius: 8px;
-  border: none !important;
-  box-shadow: 0 4px 10px rgba(209, 31, 31, 0.3);
-  transition: all 0.2s ease;
+  display: flex !important; justify-content: center; align-items: center; width: 100%; 
+  text-align: center; background: var(--evo-red) !important; color: #ffffff !important;
+  padding: 16px; text-decoration: none !important; font-weight: 800 !important; 
+  font-family: var(--evo-font-head) !important; font-size: 1.1rem; text-transform: uppercase; 
+  letter-spacing: 1px; border-radius: 8px; border: none !important;
+  box-shadow: 0 4px 10px rgba(209, 31, 31, 0.3); transition: all 0.2s ease;
 }
 .hero-evo-modal-btn:hover {
-  background: #000000 !important;
-  color: #ffffff !important;
-  transform: translateY(-2px);
+  background: #000000 !important; color: #ffffff !important; transform: translateY(-2px);
 }
 
 /* --- MOBILE RESPONSIVE --- */
@@ -535,8 +500,19 @@
   .hero-evo-section { height: auto !important; padding: 2.5rem 0 3rem; }
   .hero-evo-container { grid-template-columns: 1fr !important; text-align: center; width: 100% !important; padding: 0 20px !important;}
   .hero-evo-text { padding: 0 0 2.5rem 0 !important; align-items: center; }
-  .hero-evo-tagline { text-align: center !important; margin-bottom: 1rem !important; }
-  .hero-evo-headline { margin-bottom: 1.5rem !important; }
+  .hero-evo-tagline { text-align: center !important; margin-bottom: 1rem !important; margin-left: 0 !important;}
+  
+  /* MOBILE FIX: Remove negative margin on mobile since everything is centered */
+  .hero-evo-headline { 
+    margin-bottom: 1.5rem !important; 
+    margin-left: 0 !important; 
+  }
+
+  /* MOBILE FIX: Center scaling for the Slab Text */
+  .hero-evo-slab {
+    transform-origin: center !important;
+  }
+
   .hero-evo-desc { border-left: none !important; border-top: none !important; padding: 0 !important; margin: 0 auto 2rem auto !important; text-align: center; max-width: 100% !important; }
   
   .hero-evo-btn {
@@ -547,37 +523,17 @@
   }
   
   .hero-evo-meal-trigger { width: 95% !important; margin: 0 auto 1rem; }
-  
-  /* Badge adjustments for mobile */
   .hero-evo-badge { top: 0%; right: 5%; width: 25%; max-width: 90px; }
-
   .hero-evo-hud { width: 100%; flex-direction: column; gap: 0.8rem; border-radius: 20px; padding: 1.5rem; }
-  /* Dark Dividers for Mobile Glass */
   .hero-evo-divider { width: 50px; height: 1px; background: rgba(0,0,0,0.1); }
   
   .hero-evo-grid { grid-template-columns: 1fr; }
-  
   .hero-evo-card { 
-    height: auto; 
-    padding: 1.5rem; 
-    border-bottom: 1px solid #eee; 
-    border-right: none;
-    /* RESTORE LEFT ALIGNMENT FOR MOBILE */
-    align-items: flex-start !important;
-    text-align: left !important;
+    height: auto; padding: 1.5rem; border-bottom: 1px solid #eee; border-right: none;
+    align-items: flex-start !important; text-align: left !important;
   }
-  
-  /* Subtext: Align Left */
-  .hero-evo-card .hero-evo-sub {
-    justify-content: flex-start !important;
-  }
-
-  /* Title: Split (Text Left / Arrow Right) */
-  .hero-evo-card .hero-evo-title {
-    width: 100%;
-    justify-content: space-between !important;
-  }
-
+  .hero-evo-card .hero-evo-sub { justify-content: flex-start !important; }
+  .hero-evo-card .hero-evo-title { width: 100%; justify-content: space-between !important; }
   .hero-evo-ring { width: 320px; height: 320px; }
   .hero-evo-ring::after { width: 280px; height: 280px; }
 }
@@ -620,8 +576,8 @@ document.addEventListener('DOMContentLoaded', function() {
   "settings": [
     { "type": "header", "content": "Headlines" },
     { "type": "text", "id": "tagline", "label": "Tagline (Red)", "default": "MEAL PREP, SOLVED." },
-    { "type": "text", "id": "headline_line_1", "label": "Headline Line 1 (Solid)", "default": "FUEL YOUR" },
-    { "type": "text", "id": "headline_line_2", "label": "Headline Line 2 (Outline)", "default": "AMBITION" },
+    { "type": "text", "id": "headline_line_1", "label": "Headline Line 1", "default": "REAL FOOD." },
+    { "type": "text", "id": "headline_line_2", "label": "Headline Line 2", "default": "REAL RESULTS." },
     { "type": "textarea", "id": "description", "label": "Description", "default": "High-protein, chef-prepared meals designed for performance. No shopping, chopping, or cleaning. Just pure results." },
     { "type": "text", "id": "cta_text", "label": "Button Text", "default": "SHOP SIGNATURE MENU" },
     { "type": "url", "id": "cta_link", "label": "Button Link" },
