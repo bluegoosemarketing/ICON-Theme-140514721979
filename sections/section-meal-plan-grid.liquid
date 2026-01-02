@@ -1,39 +1,211 @@
 <style>
-  .meal-plan-grid-wrapper { padding: 40px 0; background-color: #f8f9fa; width: 100vw; margin-left: calc(50% - 50vw); margin-right: calc(50% - 50vw); }
-  @media (min-width: 992px) { .meal-plan-grid-wrapper { padding: 60px 0; } }
-  .meal-plan-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(360px, 1fr)); gap: 30px; list-style: none; padding: 0; margin: 0; }
-  @media (max-width: 767px) { .meal-plan-grid { grid-template-columns: 1fr; gap: 20px; } }
-  .meal-plan-card { display: flex; flex-direction: column; height: 100%; background-color: #fff; border-radius: 16px; border: 1px solid #e9ecef; box-shadow: 0 4px 12px rgba(0,0,0,.04); overflow: hidden; text-decoration: none !important; transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out; }
-  .meal-plan-card:hover { transform: translateY(-4px); border-color: #d1d9e2; box-shadow: 0 12px 28px rgba(0,0,0,.07), 0 5px 10px rgba(0,0,0,.05); opacity: 1 !important; }
+  /* --- BREAKOUT UTILITY --- */
+  .rh-breakout {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+  }
+
+  .meal-plan-grid-wrapper { 
+    padding: 100px 0; 
+    background-color: #f4f4f4; 
+    border-bottom: 1px solid #e5e5e5;
+  }
+  
+  /* --- SECTION HEADER --- */
+  .mp-header {
+    text-align: center;
+    max-width: 900px;
+    margin: 0 auto 60px auto;
+    padding: 0 20px;
+  }
+  .mp-header-kicker {
+    font-family: "Inter", sans-serif;
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #D11F1F;
+    margin-bottom: 15px;
+    display: block;
+  }
+  .mp-header-title {
+    font-family: "Teko", sans-serif;
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    line-height: 0.9;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #0a0a0a;
+    margin: 0 0 20px 0;
+  }
+  .mp-header-sub {
+    font-family: "Inter", sans-serif;
+    font-size: 1.2rem;
+    color: #444;
+    line-height: 1.6;
+    font-weight: 500;
+    max-width: 65ch;
+    margin: 0 auto;
+  }
+
+  /* --- GRID & CARDS --- */
+  .meal-plan-grid { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); 
+    gap: 30px; 
+    list-style: none; 
+    padding: 0; 
+    margin: 0; 
+  }
+  
+  .meal-plan-card { 
+    display: flex; 
+    flex-direction: column; 
+    height: 100%; 
+    background-color: #fff; 
+    border-radius: 12px; 
+    border: 1px solid #e9ecef; 
+    box-shadow: 0 4px 12px rgba(0,0,0,0.04); 
+    overflow: hidden; 
+    text-decoration: none !important; 
+    transition: transform 0.2s ease, box-shadow 0.2s ease; 
+  }
+  
+  .meal-plan-card:hover { 
+    transform: translateY(-5px); 
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1); 
+    border-color: #000;
+  }
+  
   .meal-plan-card * { text-decoration: none !important; }
-  .meal-plan-card__promo-header { position: relative; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 160px; padding: 2rem 1.5rem; text-align: center; overflow: hidden; }
-  .meal-plan-card__promo-title { font-family: "Teko", sans-serif !important; font-size: 2.8rem !important; font-weight: 700 !important; line-height: 1 !important; color: #ffffff; margin: 0; text-shadow: 0 2px 5px rgba(0,0,0,0.2); text-transform: uppercase; }
-  .meal-plan-card__promo-subtitle { font-family: "Inter", sans-serif; font-size: 1rem; font-weight: 500; line-height: 1.4; color: rgba(255, 255, 255, 0.95); max-width: 35ch; margin: 0.5rem auto 0 auto; }
-  .meal-plan-card__content { display: flex; flex-direction: column; flex-grow: 1; padding: 2rem; text-align: left; }
-  .meal-plan-card__description { font-size: 1rem; line-height: 1.6; color: #495057 !important; margin: 0; font-family: "Inter", sans-serif; }
-  .meal-plan-card__cta-wrapper { margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid #e9ecef; }
-  .meal-plan-card__options-bar { display: flex; flex-wrap: nowrap; justify-content: center; gap: 0.5rem; margin-bottom: 1.5rem; }
-  .meal-plan-card__option-pill { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; font-weight: 600; color: #495057; background-color: #f8f9fa; border-radius: 99px; padding: 0.4rem 0.8rem; white-space: nowrap; }
-  .meal-plan-card__cta { display: inline-block; width: 100%; text-align: center; background-color: #fff !important; border: 2px solid #D11F1F !important; color: #D11F1F !important; border-radius: 8px; font-size: 1.1rem; font-weight: 700 !important; text-transform: uppercase !important; letter-spacing: .05em; cursor: pointer; padding: .85rem 1.5rem; transition: all .2s ease; font-family: "Teko", sans-serif; }
-  .meal-plan-card:hover .meal-plan-card__cta { background-color: #D11F1F !important; color: #fff !important; }
+
+  .meal-plan-card__promo-header { 
+    position: relative; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    justify-content: center; 
+    min-height: 140px; 
+    padding: 2rem 1.5rem; 
+    text-align: center; 
+  }
+  
+  .meal-plan-card__promo-title { 
+    font-family: "Teko", sans-serif !important; 
+    font-size: 3rem !important; 
+    font-weight: 700 !important; 
+    line-height: 0.9 !important; 
+    color: #ffffff; 
+    margin: 0; 
+    text-shadow: 0 2px 0 rgba(0,0,0,0.1); 
+    text-transform: uppercase; 
+  }
+  
+  .meal-plan-card__promo-subtitle { 
+    font-family: "Inter", sans-serif; 
+    font-size: 0.9rem; 
+    font-weight: 600; 
+    letter-spacing: 0.5px;
+    color: rgba(255, 255, 255, 0.9); 
+    margin: 0.5rem auto 0 auto; 
+    text-transform: uppercase;
+  }
+  
+  .meal-plan-card__content { 
+    display: flex; 
+    flex-direction: column; 
+    flex-grow: 1; 
+    padding: 2rem; 
+    text-align: left; 
+  }
+  
+  .meal-plan-card__description { 
+    font-size: 1rem; 
+    line-height: 1.6; 
+    color: #444 !important; 
+    margin: 0; 
+    font-family: "Inter", sans-serif; 
+  }
+  
+  .meal-plan-card__cta-wrapper { 
+    margin-top: 2rem; 
+    padding-top: 1.5rem; 
+    border-top: 1px solid #f0f0f0; 
+  }
+  
+  .meal-plan-card__options-bar { 
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    gap: 0.5rem; 
+    margin-bottom: 1.5rem; 
+  }
+  
+  .meal-plan-card__option-pill { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 0.5rem; 
+    font-size: 0.75rem; 
+    font-weight: 700; 
+    color: #666; 
+    background-color: #f4f4f4; 
+    border-radius: 4px; 
+    padding: 0.4rem 0.8rem; 
+    white-space: nowrap; 
+    text-transform: uppercase;
+  }
+  
+  .meal-plan-card__cta { 
+    display: block; 
+    width: 100%; 
+    text-align: center; 
+    background-color: #fff !important; 
+    border: 2px solid #D11F1F !important; 
+    color: #D11F1F !important; 
+    border-radius: 6px; 
+    font-size: 1.4rem; 
+    font-weight: 700 !important; 
+    text-transform: uppercase; 
+    letter-spacing: .02em; 
+    padding: .6rem 1rem; 
+    transition: all .2s ease; 
+    font-family: "Teko", sans-serif; 
+    line-height: 1;
+  }
+  
+  .meal-plan-card:hover .meal-plan-card__cta { 
+    background-color: #D11F1F !important; 
+    color: #fff !important; 
+  }
 </style>
 
 <div class="meal-plan-grid-wrapper rh-breakout">
   <div class="container" style="max-width: 1440px; margin: 0 auto; padding: 0 20px;">
+    
+    <div class="mp-header">
+      <span class="mp-header-kicker">Automate Your Nutrition</span>
+      <h2 class="mp-header-title">Shop Meal Plans</h2>
+      <div class="mp-header-sub">
+        Want to eliminate decision fatigue? These curated meal boxes are designed to match your specific goal. You pick the plan; we handle the rest.
+      </div>
+    </div>
+
     <div class="meal-plan-grid">
-      <div class="meal-plan-grid__item"><a href="/products/icon-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(65deg, #ec4242, #d02222);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">The ICON</h2><p class="meal-plan-card__promo-subtitle">Rotating mix of popular meals.</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Enjoy our chef’s top picks with a rotating mix of best-selling meals. Healthy, satisfying, and ready in 3 minutes or less.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">View Plan</span></div></div></a></div>
+      <div class="meal-plan-grid__item"><a href="/products/icon-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(135deg, #D11F1F, #8a0f0f);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">The ICON</h2><p class="meal-plan-card__promo-subtitle">Most Popular / Balanced</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Chef’s top picks. A rotating mix of best-sellers packed with flavor. The "set it and forget it" option for general health.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">Load Plan</span></div></div></a></div>
+      
+      <div class="meal-plan-grid__item"><a href="/products/extreme-protein-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(135deg, #d35400, #a04000);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Extreme Protein</h2><p class="meal-plan-card__promo-subtitle">Hypertrophy / Mass</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Double the meat. 50g+ protein per meal. Designed strictly for muscle growth and recovery. No fluff.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">Load Plan</span></div></div></a></div>
 
-      <div class="meal-plan-grid__item"><a href="/products/extreme-protein-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(65deg, #db5d34, #b3441f);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Extreme Protein</h2><p class="meal-plan-card__promo-subtitle">Big portions. 50g+ protein.</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Get 50g+ protein in every meal with larger portions made for muscle growth and strength.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">View Plan</span></div></div></a></div>
+      <div class="meal-plan-grid__item"><a href="/products/get-lean-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(135deg, #27ae60, #1e8449);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Get Lean</h2><p class="meal-plan-card__promo-subtitle">Fat Loss / Definition</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Calorie-controlled, high-protein, low-fat. The exact macro profile needed to shred body fat while maintaining muscle.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">Load Plan</span></div></div></a></div>
 
-      <div class="meal-plan-grid__item"><a href="/products/get-lean-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(65deg, #28a745, #20c997);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Get Lean</h2><p class="meal-plan-card__promo-subtitle">High protein meals to stay fit and lean.</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Stay fit with high-protein, low-fat meals crafted to keep you lean, satisfied, and on track.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">View Plan</span></div></div></a></div>
+      <div class="meal-plan-grid__item"><a href="/products/keto-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(135deg, #8e44ad, #6c3483);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">KETO</h2><p class="meal-plan-card__promo-subtitle">Low Carb / High Fat</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Strict low-carb macros. High quality fats. Designed to keep your body in a ketogenic state without the prep work.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">Load Plan</span></div></div></a></div>
 
-      <div class="meal-plan-grid__item"><a href="/products/keto-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(65deg, #cc2ea3, #740e59);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">KETO</h2><p class="meal-plan-card__promo-subtitle">High fat, low carb meals to satisfy.</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Enjoy a high-fat, low-carb assortment of chef-crafted meals designed to keep you on track.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">View Plan</span></div></div></a></div>
+      <div class="meal-plan-grid__item"><a href="/products/lean-lifter-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(135deg, #16a085, #117864);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Lean Lifter</h2><p class="meal-plan-card__promo-subtitle">Performance / Energy</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Clean protein sources paired with functional clean carbs. The perfect fuel for high-output athletes.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">Load Plan</span></div></div></a></div>
 
-      <div class="meal-plan-grid__item"><a href="/products/lean-lifter-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(65deg, #28a745, #20c997);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Lean Lifter</h2><p class="meal-plan-card__promo-subtitle">Clean protein + carbs, built for lifters.</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Clean protein sources paired with functional carbs to fuel your lifts.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">View Plan</span></div></div></a></div>
-
-      <div class="meal-plan-grid__item"><a href="/products/build-your-own-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(65deg, #117a8d, #0d6c78);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Build Your Own</h2><p class="meal-plan-card__promo-subtitle">Full control. You pick everything.</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>Pick your favorite meals, choose 12 or 24, and enjoy full control over what goes in your box.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">View Plan</span></div></div></a></div>
+      <div class="meal-plan-grid__item"><a href="/products/build-your-own-meal-plan" class="meal-plan-card"><div class="meal-plan-card__promo-header" style="background: linear-gradient(135deg, #2c3e50, #1a252f);"><div class="meal-plan-card__promo-text-wrapper"><h2 class="meal-plan-card__promo-title">Custom</h2><p class="meal-plan-card__promo-subtitle">Total Control</p></div></div><div class="meal-plan-card__content"><div class="meal-plan-card__main-info"><div class="meal-plan-card__description"><p>You pick the macros. You pick the meals. 100% control over every single gram of food going into your body.</p></div></div><div class="meal-plan-card__cta-wrapper"><div class="meal-plan-card__options-bar"><div class="meal-plan-card__option-pill"><span>12 or 24 Meals</span></div><div class="meal-plan-card__option-pill"><span>One-Time or Subscribe</span></div></div><span class="meal-plan-card__cta">Build Box</span></div></div></a></div>
 
     </div>
   </div>
 </div>
-

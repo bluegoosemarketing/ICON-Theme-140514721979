@@ -1,6 +1,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Teko:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -18,265 +18,402 @@
     overflow-x: hidden;
   }
 
+  /* --- UTILITIES --- */
   .rh-breakout {
     width: 100vw;
-    margin-left: calc(50% - 50vw);
-    margin-right: calc(50% - 50vw);
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
   }
-
+  
   .rh-container {
-    max-width: 1280px;
+    max-width: 1600px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 40px;
   }
 
-  /* Hero */
+  /* --- HERO SECTION --- */
   .rh-hero {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 32px;
+    grid-template-columns: 1fr 1.2fr;
     align-items: center;
-    padding: 72px 0 64px;
+    gap: 0;
+    padding: 60px 0 80px;
+    background-color: #ffffff; /* FIXED: Pure white to match page */
   }
 
-  .rh-hero-kicker {
-    font-weight: 800;
-    letter-spacing: 0.08em;
+  .rh-hero-text {
+    padding-right: 4rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .rh-hero-tagline {
+    color: var(--rh-red);
+    font-family: var(--rh-body);
+    font-weight: 700;
     text-transform: uppercase;
-    color: var(--rh-red);
-    margin-bottom: 12px;
+    letter-spacing: 3px;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    display: block;
+    line-height: 1;
   }
 
-  .rh-hero-title {
+  .rh-hero-headline {
     font-family: var(--rh-head);
-    font-size: clamp(3.5rem, 8vw, 5.2rem);
-    line-height: 0.9;
-    margin: 0 0 12px 0;
-    color: var(--rh-white);
-    -webkit-text-stroke: 3px var(--rh-black);
-    text-stroke: 3px var(--rh-black);
-    text-shadow: 6px 6px 0 rgba(0,0,0,0.7);
-    letter-spacing: 0.02em;
+    font-size: clamp(4rem, 8vw, 9rem);
+    line-height: 0.85;
+    text-transform: uppercase;
+    margin: 0 0 2.5rem 0;
+    color: var(--rh-black);
+    font-weight: 700;
+    margin-left: -5px;
   }
 
-  .rh-hero-sub {
-    font-family: var(--rh-head);
-    font-size: clamp(1.5rem, 4vw, 2.5rem);
-    color: var(--rh-red);
-    margin: 0 0 16px;
-    letter-spacing: 0.06em;
-  }
-
-  .rh-hero-body {
-    font-size: 1.1rem;
-    line-height: 1.7;
-    max-width: 40ch;
+  .rh-text-solid { 
+    display: block; 
     color: var(--rh-black);
   }
+  
+  .rh-text-slab { 
+    display: block; 
+    color: #ffffff;
+    -webkit-text-stroke: 3px var(--rh-black);
+    filter: drop-shadow(4px 6px 0px rgba(0,0,0,0.15));
+    paint-order: stroke fill;
+    transform: scale(1.02);
+    transform-origin: left;
+  }
 
+  .rh-hero-desc {
+    font-family: var(--rh-body);
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: #4a4a4a;
+    max-width: 520px;
+    margin-bottom: 3rem;
+    border-left: 3px solid var(--rh-red);
+    padding-left: 1.8rem;
+    margin-left: 2px;
+  }
+
+  /* VISUAL RIGHT SIDE */
   .rh-hero-visual {
-    border: 4px solid var(--rh-red);
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-    background: var(--rh-black);
-    aspect-ratio: 4 / 5;
-    display: block;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 500px;
   }
 
-  .rh-hero-image {
-    display: block;
+  .rh-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px; height: 550px;
+    border: 1px solid rgba(209, 31, 31, 0.15);
+    border-radius: 50%;
+    z-index: 0;
+  }
+  .rh-ring::after {
+    content: ''; position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 480px; height: 480px;
+    border: 1px dashed rgba(0,0,0,0.1);
+    border-radius: 50%;
+  }
+
+  .rh-hero-img {
+    position: relative;
+    z-index: 2;
     width: 100%;
-    height: 100%;
-    min-height: 360px;
-    object-fit: cover;
-    background: var(--rh-black);
+    max-width: 750px;
+    height: auto;
+    object-fit: contain;
+    transform: rotate(-2deg); 
+    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.15));
   }
 
-  /* Video */
+  .rh-badge {
+    position: absolute;
+    top: 0;
+    right: 10%;
+    width: 120px;
+    height: auto;
+    z-index: 3;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+  }
+
+  /* --- CATEGORY GRID (FIXED: Left Align + No Underlines) --- */
+  .rh-categories {
+    background: #ffffff;
+    padding: 0 0 60px 0;
+    border-bottom: 1px solid #e5e5e5;
+    position: relative;
+    z-index: 10;
+  }
+
+  .rh-cat-grid {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border-top: 1px solid #e5e5e5;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .rh-cat-card {
+    display: flex;
+    flex-direction: row; /* FIXED: Row layout */
+    justify-content: space-between; /* FIXED: Push arrow to right */
+    align-items: center; /* Center vertically */
+    text-align: left; /* FIXED: Left align text */
+    background: #fff;
+    padding: 3.5rem 3rem; 
+    text-decoration: none !important; /* FIXED: Force remove underline */
+    color: #000;
+    border-right: 1px solid #e5e5e5;
+    transition: all 0.2s ease;
+  }
+  .rh-cat-card * { text-decoration: none !important; } /* Nuclear option */
+  
+  .rh-cat-card:last-child { border-right: none; }
+
+  .rh-cat-card:hover {
+    background: #f8f8f8;
+    z-index: 2;
+  }
+
+  /* Text Wrapper for Left Alignment */
+  .rh-cat-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .rh-cat-sub {
+    font-family: var(--rh-body);
+    font-size: 0.85rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--rh-red);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .rh-cat-title {
+    font-family: var(--rh-head);
+    font-size: 3rem;
+    font-weight: 600;
+    line-height: 0.9;
+    text-transform: uppercase;
+    color: var(--rh-black);
+    display: block;
+  }
+  
+  .rh-arrow { 
+    color: #ccc; 
+    transition: transform 0.2s, color 0.2s; 
+    font-size: 2rem; /* Bigger arrow */
+    line-height: 1;
+    font-family: sans-serif;
+  }
+  
+  .rh-cat-card:hover .rh-arrow { transform: translateX(8px); color: var(--rh-red); }
+
+  /* --- VIDEO SECTION --- */
   .rh-video-section {
-    background: #0f0f0f;
-    color: var(--rh-white);
-    padding: 72px 0;
+    background: #fff;
+    color: var(--rh-black);
+    padding: 100px 0;
+    border-top: 1px solid #e5e5e5;
   }
 
   .rh-video-container {
-    max-width: 1200px;
+    max-width: 1300px;
     margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 32px;
+    grid-template-columns: 1fr 0.8fr;
+    gap: 80px;
     align-items: center;
-    padding: 0 24px;
+    padding: 0 40px;
   }
 
   .rh-video-title {
     font-family: var(--rh-head);
-    font-size: clamp(2.2rem, 4vw, 3.2rem);
-    margin: 0 0 12px;
-    letter-spacing: 0.04em;
+    font-size: clamp(3.5rem, 6vw, 5rem);
+    line-height: 0.9;
+    margin: 0 0 25px;
+    color: var(--rh-black);
+    text-transform: uppercase;
+    font-weight: 700;
   }
 
   .rh-video-quote {
-    margin: 0 0 16px;
-    line-height: 1.6;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    font-style: italic;
+    color: #333;
+    margin-bottom: 30px;
+    padding-left: 20px;
     border-left: 4px solid var(--rh-red);
-    padding-left: 14px;
-    color: #dcdcdc;
+    font-weight: 500;
   }
 
   .rh-video-author {
-    font-weight: 700;
-    letter-spacing: 0.02em;
+    font-size: 1.1rem;
+    font-weight: 800;
+    color: var(--rh-red);
+    text-transform: uppercase;
+    font-family: var(--rh-body);
+    letter-spacing: 1px;
   }
+  .rh-video-author span { display: block; font-size: 0.9rem; color: #666; font-weight: 600; text-transform: none; margin-top: 4px; letter-spacing: 0; }
 
   .rh-video-wrapper {
     display: flex;
     justify-content: center;
+    width: 100%;
   }
 
   .rh-phone-outer {
-    width: min(420px, 90vw);
+    width: 100%;
+    max-width: 360px;
     aspect-ratio: 9 / 16;
-    background: linear-gradient(160deg, #161616, #1f1f1f);
-    border-radius: 36px;
-    padding: 16px;
-    box-shadow: 0 15px 60px rgba(0,0,0,0.5);
-    border: 2px solid rgba(255,255,255,0.08);
+    background: #000;
+    border-radius: 40px;
+    border: 8px solid #111;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+    position: relative;
+    overflow: hidden;
   }
 
   .rh-phone-screen {
     width: 100%;
     height: 100%;
-    border-radius: 28px;
-    overflow: hidden;
+    position: relative;
     background: #000;
-    border: 3px solid var(--rh-red);
   }
 
   .rh-phone-screen iframe {
-    width: 100%;
-    height: 100%;
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
   }
 
-  /* Dock */
-  .rh-dock {
-    background: var(--rh-white);
-    border-top: 4px solid var(--rh-red);
-    padding: 36px 0 48px;
-  }
+  /* --- MOBILE --- */
+  @media (max-width: 1024px) {
+    .rh-hero { grid-template-columns: 1fr; gap: 40px; padding: 40px 0 60px; text-align: center; }
+    .rh-hero-text { padding-right: 0; padding-bottom: 2rem; }
+    .rh-hero-tagline { justify-content: center; }
+    .rh-hero-headline { font-size: 4.5rem; margin-left: 0; }
+    .rh-text-slab { transform-origin: center; }
+    .rh-hero-desc { margin: 0 auto 30px; border-left: none; padding-left: 0; text-align: center; }
+    
+    .rh-hero-visual { min-height: auto; }
+    .rh-ring { width: 320px; height: 320px; }
+    .rh-ring::after { width: 280px; height: 280px; }
+    .rh-hero-img { max-width: 100%; transform: rotate(0deg); }
+    .rh-badge { top: -10px; right: 5%; width: 80px; }
 
-  .rh-dock-grid {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    border: 1px solid #e5e5e5;
-    border-radius: 14px;
-    overflow: hidden;
-  }
+    /* Category Mobile Stack */
+    .rh-cat-grid { grid-template-columns: 1fr; border-top: none; }
+    .rh-cat-card { 
+      border-right: none; border-bottom: 1px solid #e5e5e5; 
+      padding: 2rem; 
+      /* Keep side-by-side layout even on mobile for consistency, or stack if preferred */
+      flex-direction: row; 
+      text-align: left;
+      align-items: center;
+    }
+    .rh-cat-title { font-size: 2rem; }
 
-  .rh-dock-card {
-    padding: 18px 22px;
-    border-right: 1px solid #e5e5e5;
-    text-decoration: none;
-    color: var(--rh-black);
-    background: var(--rh-white);
-    transition: background 0.2s ease, transform 0.2s ease;
-  }
-
-  .rh-dock-card:last-child { border-right: none; }
-
-  .rh-dock-card:hover {
-    background: #f8f8f8;
-    transform: translateY(-2px);
-  }
-
-  .rh-dock-sub {
-    color: var(--rh-red);
-    font-weight: 800;
-    letter-spacing: 0.08em;
-    font-size: 0.78rem;
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-
-  .rh-dock-title {
-    font-family: var(--rh-head);
-    font-size: 1.8rem;
-    line-height: 1;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .rh-arrow { color: var(--rh-red); }
-
-  @media (max-width: 767px) {
-    .rh-hero { padding: 56px 0 36px; }
-    .rh-hero-title { text-align: left; }
-    .rh-hero-sub { text-align: left; }
-    .rh-hero-body { font-size: 1rem; }
-    .rh-dock-card { border-right: none; border-bottom: 1px solid #e5e5e5; }
-    .rh-dock-card:last-child { border-bottom: none; }
+    .rh-video-container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
+    .rh-video-quote { border-left: none; border-top: 3px solid var(--rh-red); padding-top: 20px; padding-left: 0; margin: 0 auto 30px; }
   }
 </style>
 
 <div class="rh-page">
   <div class="rh-container">
-    <section class="rh-hero" aria-label="Manifesto">
-      <div class="rh-hero-copy">
-        <div class="rh-hero-kicker">New Year Execution Hub</div>
-        <h1 class="rh-hero-title">THE EXCITEMENT IS GONE.</h1>
-        <div class="rh-hero-sub">NOW THE WORK BEGINS.</div>
-        <p class="rh-hero-body">Resolutions are easy. Consistency is hard. You don't need motivation; you need a system. Welcome to your 2026 Resource Hub.</p>
+    
+    <section class="rh-hero">
+      <div class="rh-hero-text">
+        <div class="rh-hero-tagline">THE 2026 TOOLKIT</div>
+        <h1 class="rh-hero-headline">
+          <span class="rh-text-solid">THE HYPE FADES.</span>
+          <span class="rh-text-slab">HABITS REMAIN.</span>
+        </h1>
+        <p class="rh-hero-desc">
+          Resolutions get you started. Systems keep you going. We’ve curated the exact tools you need to automate your nutrition for the rest of the year.
+        </p>
       </div>
-      <div class="rh-hero-visual" aria-hidden="true">
-        <img class="rh-hero-image" src="https://placehold.co/900x1100/000000/FFFFFF?text=Resource+Hub+Visual&font=Teko&weight=700" alt="Placeholder visual for the Resource Hub hero" loading="lazy">
+      
+      <div class="rh-hero-visual">
+        <div class="rh-ring"></div>
+        <img class="rh-hero-img" src="https://cdn.shopify.com/s/files/1/1957/2713/files/Steak-Rice-GB_v1.webp?v=1765725763" alt="Icon Meals Signature Dish">
+        <img src="//iconmeals.com/cdn/shop/files/USDA-Badge_v1.webp?v=1765740274&width=300" class="rh-badge" alt="USDA Badge">
       </div>
     </section>
   </div>
 
+  <div class="rh-categories rh-breakout">
+    <div class="rh-cat-grid">
+      
+      <a href="/collections/signature-menu" class="rh-cat-card">
+        <div class="rh-cat-text">
+          <span class="rh-cat-sub">The Menu</span>
+          <span class="rh-cat-title">Signature Meals</span>
+        </div>
+        <span class="rh-arrow">→</span>
+      </a>
+
+      <a href="/products/custom-meals" class="rh-cat-card">
+        <div class="rh-cat-text">
+          <span class="rh-cat-sub">Build Your Own</span>
+          <span class="rh-cat-title">Custom Meals</span>
+        </div>
+        <span class="rh-arrow">→</span>
+      </a>
+
+      <a href="/collections/bulk-items" class="rh-cat-card">
+        <div class="rh-cat-text">
+          <span class="rh-cat-sub">By The Pound</span>
+          <span class="rh-cat-title">Bulk Items</span>
+        </div>
+        <span class="rh-arrow">→</span>
+      </a>
+
+    </div>
+  </div>
+
   {% section 'section-meal-plan-grid' %}
 
-  <section class="rh-video-section rh-breakout" aria-label="Consistency Protocol Video">
+  <section class="rh-video-section rh-breakout">
     <div class="rh-video-container">
       <div class="rh-video-text">
-        <h2 class="rh-video-title">THE CONSISTENCY PROTOCOL</h2>
+        <h2 class="rh-video-title">The Consistency Protocol</h2>
         <p class="rh-video-quote">"Consistency requires preparation. With food already being prepped, it makes it easy for us to execute on a higher level."</p>
         <div class="rh-video-author">
-          <div>Mike Crowson</div>
-          <div style="opacity: 0.8; font-weight: 500; font-size: 0.95rem;">High Performance Entrepreneur</div>
+          Mike Crowson
+          <span>High Performance Entrepreneur</span>
         </div>
       </div>
       <div class="rh-video-wrapper">
         <div class="rh-phone-outer">
           <div class="rh-phone-screen">
-            <iframe src="https://www.youtube.com/embed/T9tVnpNJcv8?enablejsapi=1&rel=0&modestbranding=1&controls=1&showinfo=0" title="Consistency Protocol" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/T9tVnpNJcv8?enablejsapi=1&rel=0&modestbranding=1&controls=1&showinfo=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <div class="rh-dock">
-    <div class="rh-dock-grid">
-      <a href="/pages/macro-calculator" class="rh-dock-card">
-        <div class="rh-dock-sub">Plan</div>
-        <div class="rh-dock-title">Calculate Your Macros <span class="rh-arrow">→</span></div>
-      </a>
-      <a href="https://apps.apple.com" class="rh-dock-card">
-        <div class="rh-dock-sub">Mobile</div>
-        <div class="rh-dock-title">Download The App <span class="rh-arrow">→</span></div>
-      </a>
-      <a href="https://www.facebook.com" class="rh-dock-card">
-        <div class="rh-dock-sub">Connect</div>
-        <div class="rh-dock-title">Join The Community <span class="rh-arrow">→</span></div>
-      </a>
-      <a href="/pages/track-order" class="rh-dock-card">
-        <div class="rh-dock-sub">Logistics</div>
-        <div class="rh-dock-title">Track Your Order <span class="rh-arrow">→</span></div>
-      </a>
-    </div>
-  </div>
 </div>
