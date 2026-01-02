@@ -1,0 +1,282 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Teko:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --rh-black: #0a0a0a;
+    --rh-white: #ffffff;
+    --rh-red: #D11F1F;
+    --rh-head: 'Teko', sans-serif;
+    --rh-body: 'Inter', sans-serif;
+  }
+
+  .rh-page {
+    background: var(--rh-white);
+    color: var(--rh-black);
+    font-family: var(--rh-body);
+    overflow-x: hidden;
+  }
+
+  .rh-breakout {
+    width: 100vw;
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+  }
+
+  .rh-container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Hero */
+  .rh-hero {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    align-items: center;
+    padding: 72px 0 64px;
+  }
+
+  .rh-hero-kicker {
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--rh-red);
+    margin-bottom: 12px;
+  }
+
+  .rh-hero-title {
+    font-family: var(--rh-head);
+    font-size: clamp(3.5rem, 8vw, 5.2rem);
+    line-height: 0.9;
+    margin: 0 0 12px 0;
+    color: var(--rh-white);
+    -webkit-text-stroke: 3px var(--rh-black);
+    text-stroke: 3px var(--rh-black);
+    text-shadow: 6px 6px 0 rgba(0,0,0,0.7);
+    letter-spacing: 0.02em;
+  }
+
+  .rh-hero-sub {
+    font-family: var(--rh-head);
+    font-size: clamp(1.5rem, 4vw, 2.5rem);
+    color: var(--rh-red);
+    margin: 0 0 16px;
+    letter-spacing: 0.06em;
+  }
+
+  .rh-hero-body {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 40ch;
+    color: var(--rh-black);
+  }
+
+  .rh-hero-visual {
+    border: 4px solid var(--rh-red);
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+    background: var(--rh-black);
+    aspect-ratio: 4 / 5;
+    display: block;
+  }
+
+  .rh-hero-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 360px;
+    object-fit: cover;
+    background: var(--rh-black);
+  }
+
+  /* Video */
+  .rh-video-section {
+    background: #0f0f0f;
+    color: var(--rh-white);
+    padding: 72px 0;
+  }
+
+  .rh-video-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 32px;
+    align-items: center;
+    padding: 0 24px;
+  }
+
+  .rh-video-title {
+    font-family: var(--rh-head);
+    font-size: clamp(2.2rem, 4vw, 3.2rem);
+    margin: 0 0 12px;
+    letter-spacing: 0.04em;
+  }
+
+  .rh-video-quote {
+    margin: 0 0 16px;
+    line-height: 1.6;
+    border-left: 4px solid var(--rh-red);
+    padding-left: 14px;
+    color: #dcdcdc;
+  }
+
+  .rh-video-author {
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  .rh-video-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+
+  .rh-phone-outer {
+    width: min(420px, 90vw);
+    aspect-ratio: 9 / 16;
+    background: linear-gradient(160deg, #161616, #1f1f1f);
+    border-radius: 36px;
+    padding: 16px;
+    box-shadow: 0 15px 60px rgba(0,0,0,0.5);
+    border: 2px solid rgba(255,255,255,0.08);
+  }
+
+  .rh-phone-screen {
+    width: 100%;
+    height: 100%;
+    border-radius: 28px;
+    overflow: hidden;
+    background: #000;
+    border: 3px solid var(--rh-red);
+  }
+
+  .rh-phone-screen iframe {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Dock */
+  .rh-dock {
+    background: var(--rh-white);
+    border-top: 4px solid var(--rh-red);
+    padding: 36px 0 48px;
+  }
+
+  .rh-dock-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    border: 1px solid #e5e5e5;
+    border-radius: 14px;
+    overflow: hidden;
+  }
+
+  .rh-dock-card {
+    padding: 18px 22px;
+    border-right: 1px solid #e5e5e5;
+    text-decoration: none;
+    color: var(--rh-black);
+    background: var(--rh-white);
+    transition: background 0.2s ease, transform 0.2s ease;
+  }
+
+  .rh-dock-card:last-child { border-right: none; }
+
+  .rh-dock-card:hover {
+    background: #f8f8f8;
+    transform: translateY(-2px);
+  }
+
+  .rh-dock-sub {
+    color: var(--rh-red);
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  .rh-dock-title {
+    font-family: var(--rh-head);
+    font-size: 1.8rem;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .rh-arrow { color: var(--rh-red); }
+
+  @media (max-width: 767px) {
+    .rh-hero { padding: 56px 0 36px; }
+    .rh-hero-title { text-align: left; }
+    .rh-hero-sub { text-align: left; }
+    .rh-hero-body { font-size: 1rem; }
+    .rh-dock-card { border-right: none; border-bottom: 1px solid #e5e5e5; }
+    .rh-dock-card:last-child { border-bottom: none; }
+  }
+</style>
+
+<div class="rh-page">
+  <div class="rh-container">
+    <section class="rh-hero" aria-label="Manifesto">
+      <div class="rh-hero-copy">
+        <div class="rh-hero-kicker">New Year Execution Hub</div>
+        <h1 class="rh-hero-title">THE EXCITEMENT IS GONE.</h1>
+        <div class="rh-hero-sub">NOW THE WORK BEGINS.</div>
+        <p class="rh-hero-body">Resolutions are easy. Consistency is hard. You don't need motivation; you need a system. Welcome to your 2026 Resource Hub.</p>
+      </div>
+      <div class="rh-hero-visual" aria-hidden="true">
+        <img class="rh-hero-image" src="https://placehold.co/900x1100/000000/FFFFFF?text=Resource+Hub+Visual&font=Teko&weight=700" alt="Placeholder visual for the Resource Hub hero" loading="lazy">
+      </div>
+    </section>
+  </div>
+
+  {% section 'section-meal-plan-grid' %}
+
+  <section class="rh-video-section rh-breakout" aria-label="Consistency Protocol Video">
+    <div class="rh-video-container">
+      <div class="rh-video-text">
+        <h2 class="rh-video-title">THE CONSISTENCY PROTOCOL</h2>
+        <p class="rh-video-quote">"Consistency requires preparation. With food already being prepped, it makes it easy for us to execute on a higher level."</p>
+        <div class="rh-video-author">
+          <div>Mike Crowson</div>
+          <div style="opacity: 0.8; font-weight: 500; font-size: 0.95rem;">High Performance Entrepreneur</div>
+        </div>
+      </div>
+      <div class="rh-video-wrapper">
+        <div class="rh-phone-outer">
+          <div class="rh-phone-screen">
+            <iframe src="https://www.youtube.com/embed/T9tVnpNJcv8?enablejsapi=1&rel=0&modestbranding=1&controls=1&showinfo=0" title="Consistency Protocol" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="rh-dock">
+    <div class="rh-dock-grid">
+      <a href="/pages/macro-calculator" class="rh-dock-card">
+        <div class="rh-dock-sub">Plan</div>
+        <div class="rh-dock-title">Calculate Your Macros <span class="rh-arrow">→</span></div>
+      </a>
+      <a href="https://apps.apple.com" class="rh-dock-card">
+        <div class="rh-dock-sub">Mobile</div>
+        <div class="rh-dock-title">Download The App <span class="rh-arrow">→</span></div>
+      </a>
+      <a href="https://www.facebook.com" class="rh-dock-card">
+        <div class="rh-dock-sub">Connect</div>
+        <div class="rh-dock-title">Join The Community <span class="rh-arrow">→</span></div>
+      </a>
+      <a href="/pages/track-order" class="rh-dock-card">
+        <div class="rh-dock-sub">Logistics</div>
+        <div class="rh-dock-title">Track Your Order <span class="rh-arrow">→</span></div>
+      </a>
+    </div>
+  </div>
+</div>
