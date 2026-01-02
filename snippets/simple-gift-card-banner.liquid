@@ -1,486 +1,316 @@
 {%- comment -%}
   ==============================================================================
-  GIFT CARD STATION: FINAL POLISH (V7) 🎄
-  - Fixed: CTA is now always RED (never gray).
-  - Fixed: Top icon is now a clear GIFT BOX.
+  GIFT CARD STATION: GLOVES OFF / EXECUTION MODE (V10) 🥊
+  - Theme: "It's Go Time" (Action oriented, not waiting).
+  - Mobile: Full-bleed "Header" style (squared edges, negative margins).
+  - Feature: "Day Counter" replaces Countdown Timer.
   ==============================================================================
 {%- endcomment -%}
 
 {%- liquid
-  assign gift_product = product_obj
-  
-  # Map the IDs
   assign id_opt_1 = id_option_1 | plus: 0
   assign id_opt_2 = id_option_2 | plus: 0
   assign id_opt_3 = id_option_3 | plus: 0
 -%}
 
 <style>
-  /* --- WIDGET SCOPE --- */
-  #icon-gc-widget-v7 {
-    /* --- PALETTE --- */
-    --gc-red-deep: #A91212;
-    --gc-red-bright: #D42424;
-    --gc-gold-shadow: #B88A00;
-    --gc-gold-mid: #FFD700;
-    --gc-gold-highlight: #FFF0A0;
-    --gc-cream: #FFF8E7;
-    --gc-text-white: #ffffff;
-    --gc-text-dark: #4A2C2C;
-    
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    box-sizing: border-box;
-    line-height: 1.4;
-    margin-bottom: 40px;
-  }
-
-  /* MAIN CONTAINER */
-  #icon-gc-widget-v7 .gc-station {
-    display: flex;
-    border-radius: 16px;
+  /* --- MAIN WRAPPER --- */
+  .addon-section-wrapper {
+    width: 100%;      /* FILL PARENT CONTAINER */
+    max-width: 1200px; /* Increased to standard desktop width */
+    margin: 0 auto 50px auto; /* Centers + Adds 50px bottom breathing room */
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
     overflow: hidden;
-    position: relative;
-    
-    /* Background: Cream Top Fade + Radial Red Bottom */
-    background: 
-      linear-gradient(to top, var(--gc-cream) 10%, transparent 40%),
-      radial-gradient(circle at 30% 30%, var(--gc-red-bright), var(--gc-red-deep));
-      
-    /* Gold Frame */
-    border: 4px solid var(--gc-gold-mid);
-    box-shadow: 
-      0 15px 40px rgba(0,0,0,0.2), 
-      inset 0 0 20px rgba(184, 138, 0, 0.3);
-      
-    min-height: 380px;
-  }
-  
-  /* Lights Overlay */
-  #icon-gc-widget-v7 .gc-station::after {
-    content: "";
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 40px;
-    background-image: radial-gradient(circle, var(--gc-gold-highlight) 2px, transparent 4px);
-    background-size: 30px 15px;
-    background-position: 0 5px;
-    background-repeat: repeat-x;
-    opacity: 0.6;
-    pointer-events: none;
-    z-index: 1;
+    display: flex;     /* Desktop: Side-by-Side */
+    flex-direction: row; 
+    box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   }
 
-  /* --- LEFT PANEL (RED) --- */
-  #icon-gc-widget-v7 .gc-panel-left {
-    flex: 1;
-    background: transparent; 
-    padding: 40px 30px 40px 40px;
+  /* --- LEFT COLUMN: BLUE HEADER --- */
+  .addon-header {
+    flex: 1; /* Takes up 50% width */
+    background-color: #0856c4; /* Icon Blue */
+    background-image: 
+      linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    color: #fff;
+    text-align: center;
+    padding: 40px; /* Generous padding for desktop */
     display: flex;
     flex-direction: column;
     justify-content: center;
-    position: relative;
-    color: #fff;
-    z-index: 2;
   }
 
-  /* TAG */
-  #icon-gc-widget-v7 .gc-tag {
-    background: var(--gc-red-deep);
-    border: 2px solid var(--gc-gold-mid);
+  /* --- RIGHT COLUMN: WHITE OPTIONS --- */
+  .options-container {
+    flex: 1; /* Takes up 50% width */
+    background-color: #fff;
+    padding: 40px; /* Generous padding for desktop */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* --- RESPONSIVE MOBILE (STACKED) --- */
+  @media only screen and (max-width: 768px) {
+    .addon-section-wrapper {
+      flex-direction: column; /* Stack vertically */
+      border: none;
+      border-radius: 0;
+    }
+
+    .addon-header {
+      padding: 30px 20px;
+    }
+    
+    .options-container {
+      /* MOBILE BREATHING ROOM FIX */
+      padding: 30px 20px; 
+    }
+    
+    .addon-header h2 {
+      font-size: 28px; /* Slightly smaller on mobile to prevent wrapping issues */
+    }
+  }
+
+  /* --- TYPOGRAPHY & ELEMENTS --- */
+  
+  /* Badge */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(0, 0, 0, 0.3);
     padding: 6px 14px;
-    border-radius: 50px;
+    border-radius: 4px;
     font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #FFC107; 
+    margin: 0 auto 20px auto; 
+    border: 1px solid rgba(255,255,255,0.1);
+    width: fit-content;
+  }
+  
+  .status-dot {
+    height: 8px;
+    width: 8px;
+    background-color: #00e676;
+    border-radius: 50%;
+    margin-right: 8px;
+    box-shadow: 0 0 5px #00e676;
+  }
+
+  /* Headlines */
+  .addon-header h2 {
+    font-style: italic;
+    font-weight: 900;
+    font-size: 38px;
+    line-height: 1.1;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+  }
+  
+  .text-white { color: #fff; }
+  .text-yellow { color: #FFC107; }
+
+  .addon-header p {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    opacity: 0.95;
+    max-width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* Progress Stats Box */
+  .stats-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+    margin-top: 10px;
+    width: 100%;
+  }
+  
+  .stat-box {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 12px;
+  }
+
+  .stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    opacity: 0.8;
+    margin-bottom: 5px;
+    display: block;
+  }
+
+  .stat-value {
+    font-size: 14px;
+    font-weight: 700;
+    color: #FFC107;
+    font-family: monospace; 
+    text-transform: uppercase;
+  }
+
+  /* --- OPTION CARDS --- */
+  .option-card {
+    display: flex;
+    align-items: center;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    background: #fff;
+  }
+  
+  .option-card:hover {
+    border-color: #0856c4;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+    transform: translateY(-1px);
+  }
+
+  .option-icon {
+    font-size: 28px;
+    margin-right: 20px;
+    min-width: 30px;
+    text-align: center;
+  }
+
+  .option-details {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .option-price {
+    font-size: 20px;
     font-weight: 800;
+    color: #000;
+  }
+
+  .option-name {
+    font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 1px;
-    display: inline-flex;
-    align-items: center;
-    width: fit-content;
-    margin-bottom: 20px;
-    color: var(--gc-gold-highlight);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-  }
-
-  /* HEADLINE */
-  #icon-gc-widget-v7 h2.gc-headline {
-    font-size: 42px !important;
-    font-weight: 900 !important;
-    line-height: 0.95 !important;
-    margin: 0 0 20px 0 !important;
-    color: #fff !important;
-    font-style: italic;
-    text-transform: uppercase;
-    text-shadow: 
-      2px 2px 0 var(--gc-gold-shadow),
-      4px 4px 10px rgba(0,0,0,0.3);
-    position: relative;
-    z-index: 2;
-  }
-
-  #icon-gc-widget-v7 p.gc-subhead {
-    font-size: 15px !important;
-    color: rgba(255,255,255,0.95) !important;
-    margin: 0 0 30px 0 !important;
-    max-width: 90%;
-    font-weight: 500;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
-  }
-
-  /* FIXED ICON: CLEAN GIFT BOX */
-  #icon-gc-widget-v7 .gc-stamp-icon {
-    position: absolute;
-    top: 25px;
-    right: 25px;
-    width: 65px;
-    height: 65px;
-    transform: rotate(15deg);
-    filter: drop-shadow(4px 4px 5px rgba(0,0,0,0.3));
-    z-index: 10;
-  }
-
-  /* TIMER */
-  #icon-gc-widget-v7 .gc-timer-box {
-    background: linear-gradient(to bottom, var(--gc-red-bright), var(--gc-red-deep));
-    border: 3px solid var(--gc-gold-mid);
-    border-radius: 12px;
-    padding: 10px 15px;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    width: fit-content;
-    box-shadow: 
-      inset 0 0 10px rgba(0,0,0,0.3),
-      0 5px 15px rgba(0,0,0,0.3);
-  }
-
-  #icon-gc-widget-v7 .timer-block { text-align: center; min-width: 32px; }
-  #icon-gc-widget-v7 .timer-num {
-    display: block;
-    font-size: 26px !important;
-    font-weight: 900;
-    background: linear-gradient(to bottom, var(--gc-gold-highlight), var(--gc-gold-mid));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    font-family: monospace;
-    line-height: 1;
-    filter: drop-shadow(1px 1px 1px rgba(0,0,0,0.5));
-  }
-  #icon-gc-widget-v7 .timer-label {
-    font-size: 9px;
-    text-transform: uppercase;
-    color: var(--gc-gold-mid);
-    margin-top: 2px;
-    display: block;
+    color: #777;
     font-weight: 700;
-  }
-  #icon-gc-widget-v7 .timer-text-right {
-    font-size: 11px;
-    color: var(--gc-gold-highlight);
-    font-weight: 800;
-    padding-left: 12px;
-    border-left: 1px solid rgba(255, 215, 0, 0.4);
-    line-height: 1.1;
-    text-transform: uppercase;
-    text-align: left;
-    letter-spacing: 0.5px;
+    margin-top: 4px;
   }
 
-  /* --- RIGHT PANEL (CREAM) --- */
-  #icon-gc-widget-v7 .gc-panel-right {
-    flex: 1.3;
-    background: var(--gc-cream);
-    padding: 40px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    margin-left: -20px;
-    border-radius: 20px 0 0 20px; 
-    clip-path: polygon(5% 0, 100% 0, 100% 100%, 0% 100%);
-    box-shadow: -10px 0 20px rgba(0,0,0,0.1);
-  }
-
-  /* LABEL */
-  #icon-gc-widget-v7 .gc-selection-label {
-    text-align: center;
-    font-size: 12px !important;
-    text-transform: uppercase;
-    color: var(--gc-red-deep) !important;
-    margin-bottom: 20px !important;
-    font-weight: 900 !important;
-    letter-spacing: 1.5px !important;
+  /* --- CTA BUTTON --- */
+  .cta-button {
     display: block;
-  }
-
-  /* GRID */
-  #icon-gc-widget-v7 .gc-options-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin-bottom: 30px;
-    padding-left: 15px; /* Offset for slant */
-  }
-
-  /* OPTION CARDS */
-  #icon-gc-widget-v7 .gc-option {
-    background: #fff;
-    border: 3px solid #e0e0e0;
-    border-radius: 12px;
-    padding: 15px 5px;
-    text-align: center;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 110px;
-    box-shadow: 0 4px 0 #ddd;
-  }
-  
-  #icon-gc-widget-v7 .gc-option:hover {
-    border-color: var(--gc-gold-mid);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 0 var(--gc-gold-shadow);
-  }
-
-  #icon-gc-widget-v7 .gc-option.is-selected {
-    border-color: var(--gc-gold-mid);
-    background: #FFFDF5;
-    box-shadow: 0 0 0 2px var(--gc-gold-mid), 0 6px 0 var(--gc-gold-shadow);
-    transform: translateY(-2px);
-  }
-
-  #icon-gc-widget-v7 .gc-option .emoji { font-size: 24px; margin-bottom: 5px; line-height: 1; }
-  #icon-gc-widget-v7 .gc-option .denom {
-    font-size: 34px !important;
-    font-weight: 900;
-    color: var(--gc-text-dark);
-    font-family: inherit;
-    line-height: 1;
-    margin-bottom: 4px;
-    text-shadow: 1px 1px 0 #fff;
-  }
-  #icon-gc-widget-v7 .gc-option .label {
-    font-size: 9px;
-    text-transform: uppercase;
-    color: #999;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-  }
-
-  /* --- CTA BUTTON: RED FIX --- */
-  #icon-gc-widget-v7 .gc-cta-wrapper {
-    text-align: center;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding-left: 15px;
-  }
-
-  #icon-gc-widget-v7 button.gc-main-btn {
-    all: unset !important;
-    display: inline-block !important; /* Fix structure */
-    
-    /* NUCLEAR BACKGROUND FIXES */
-    background-color: #D42424 !important; /* Fallback solid red */
-    background-image: linear-gradient(to bottom, var(--gc-red-bright), var(--gc-red-deep)) !important;
-    opacity: 1 !important; /* Force 100% Opacity */
-    filter: none !important; /* Remove any theme grayscale filters */
-    
-    color: var(--gc-gold-highlight) !important;
-    font-size: 20px !important;
-    font-weight: 900 !important;
-    text-transform: uppercase !important;
-    font-style: italic !important;
-    padding: 18px 45px !important;
-    border-radius: 50px !important;
-    cursor: pointer !important;
-    position: relative !important;
-    
-    border: 3px solid var(--gc-gold-mid) !important;
-    box-shadow: 0 6px 0 var(--gc-red-deep), 0 10px 15px rgba(0,0,0,0.2) !important;
-    transition: transform 0.2s, box-shadow 0.2s !important;
-    min-width: 250px !important;
-    text-shadow: 1px 1px 2px rgba(0,0,0,0.3) !important;
-    z-index: 5 !important;
-  }
-  
-  /* Sheen */
-  #icon-gc-widget-v7 button.gc-main-btn::after {
-    content: ""; position: absolute; top: 0; left:0; right:0; height: 50%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.2), transparent);
-    border-radius: 50px 50px 0 0;
-  }
-
-  #icon-gc-widget-v7 button.gc-main-btn:hover:not(:disabled) {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 0 var(--gc-red-deep), 0 15px 25px rgba(0,0,0,0.2);
-    filter: brightness(1.1);
+    width: 100%;
+    background-color: #888;
     color: #fff;
+    font-size: 18px;
+    font-weight: 800;
+    font-style: italic;
+    text-align: center;
+    padding: 18px;
+    border: none;
+    border-radius: 4px;
+    text-transform: uppercase;
+    margin-top: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    letter-spacing: 0.5px;
+  }
+  
+  .cta-button:hover {
+    background-color: #666;
   }
 
-  #icon-gc-widget-v7 button.gc-main-btn:active:not(:disabled) {
-    transform: translateY(4px);
-    box-shadow: 0 2px 0 var(--gc-red-deep);
-  }
-
-  /* DISABLED STATE FIX: NO GRAYSCALE */
-  #icon-gc-widget-v7 button.gc-main-btn:disabled {
-    opacity: 0.6; /* Just fade it, keep it red */
-    cursor: not-allowed;
-    box-shadow: none; /* Flatten it */
-    transform: translateY(4px); /* Push it down */
-  }
-
-  #icon-gc-widget-v7 .gc-cta-decor {
-    font-size: 36px;
-    filter: drop-shadow(0 3px 0 rgba(0,0,0,0.1));
-    z-index: 5;
-  }
-
-  /* --- MOBILE --- */
-  @media (max-width: 900px) {
-    #icon-gc-widget-v7 .gc-station { 
-      flex-direction: column; 
-      min-height: auto; 
-      background: linear-gradient(to bottom, var(--gc-red-deep) 50%, var(--gc-cream) 50%);
-    }
-    
-    #icon-gc-widget-v7 .gc-panel-left { padding: 30px 20px; text-align: center; align-items: center; }
-    #icon-gc-widget-v7 .gc-stamp-icon { top: 15px; right: 15px; width: 45px; height: 45px; }
-
-    #icon-gc-widget-v7 .gc-panel-right {
-      margin-left: 0; padding: 30px 20px;
-      border-top: 4px solid var(--gc-gold-mid);
-      clip-path: none; border-radius: 0;
-    }
-
-    #icon-gc-widget-v7 .gc-options-grid { grid-template-columns: 1fr; gap: 10px; width: 100%; padding-left: 0; }
-    
-    #icon-gc-widget-v7 .gc-option { 
-      flex-direction: row; justify-content: flex-start; gap: 20px; padding: 15px 25px; min-height: 70px;
-    }
-    #icon-gc-widget-v7 .gc-option .emoji { font-size: 28px; margin: 0; }
-    #icon-gc-widget-v7 .gc-option .denom { font-size: 28px !important; margin: 0; }
-    
-    #icon-gc-widget-v7 .gc-cta-wrapper { width: 100%; justify-content: space-between; gap: 5px; padding-left: 0; }
-    #icon-gc-widget-v7 button.gc-main-btn { flex: 1; min-width: auto; font-size: 16px !important; padding: 15px 10px; }
-    #icon-gc-widget-v7 .gc-cta-decor { font-size: 24px; }
-  }
 </style>
 
-<div id="icon-gc-widget-v7">
-  <div class="gc-station">
+<div class="addon-section-wrapper">
+
+  <div class="addon-header">
+    <div class="status-badge">
+      <span class="status-dot"></span> Digital Gift Cards
+    </div>
+
+    <h2>
+      <span class="text-white">GLOVES OFF.</span><br>
+      <span class="text-yellow">2026 IS HERE.</span>
+    </h2>
+
+    <p>
+      The countdown is over. The resolutions are set. Now the real work begins. 
+      <strong>Send them an ICON Meals Gift Card.</strong> Remove the excuses, so they can execute.
+    </p>
+
+    <div class="stats-grid">
+      <div class="stat-box">
+        <span class="stat-label">Current Progress</span>
+        <span class="stat-value">Day 1 of 365</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Objective</span>
+        <span class="stat-value">Make It Happen</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="options-container">
     
-    <div class="gc-panel-left">
-      <div class="gc-tag"><span>🎅 Santa Approved</span></div>
-      
-      <div class="gc-stamp-icon">
-        <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
-          <path fill="#FFD700" d="M32 448c0 17.7 14.3 32 32 32h160V320H32v128zm256 32h160c17.7 0 32-14.3 32-32V320H288v160zm192-320h-42.1c6.2-12.1 10.1-25.5 10.1-40 0-48.5-39.5-88-88-88-41.6 0-68.5 21.3-103 68.3-34.5-47-61.4-68.3-103-68.3-48.5 0-88 39.5-88 88 0 14.5 3.8 27.9 10.1 40H32c-17.7 0-32 14.3-32 32v80c0 8.8 7.2 16 16 16h480c8.8 0 16-7.2 16-16v-80c0-17.7-14.3-32-32-32zm-326.1 0c-22.1 0-40-17.9-40-40s17.9-40 40-40c19.9 0 34.6 3.3 86.1 80h-86.1zm206.1 0h-86.1c51.4-76.5 65.7-80 86.1-80 22.1 0 40 17.9 40 40s-17.9 40-40 40z"/>
-        </svg>
-      </div>
-
-      <h2 class="gc-headline">Save Christmas.<br>Instantly.</h2>
-      <p class="gc-subhead">Forgot to shop? We won't tell. Send a digital gift card instantly to their inbox.</p>
-
-      <div class="gc-timer-box" id="icon-gc-timer-container">
-        <div class="timer-block">
-          <span class="timer-num" id="icon-gc-days">00</span>
-          <span class="timer-label">Days</span>
-        </div>
-        <div class="timer-block">
-          <span class="timer-num" id="icon-gc-hours">00</span>
-          <span class="timer-label">Hrs</span>
-        </div>
-        <div class="timer-block">
-          <span class="timer-num" id="icon-gc-mins">00</span>
-          <span class="timer-label">Mins</span>
-        </div>
-        <div class="timer-text-right">
-          UNTIL<br>CHRISTMAS
-        </div>
+    <div class="option-card">
+      <div class="option-icon">⚡️</div>
+      <div class="option-details">
+        <span class="option-price">$100 GIFT CARD</span>
+        <span class="option-name">The Spark</span>
       </div>
     </div>
 
-    <div class="gc-panel-right">
-      <div class="gc-selection-label">Select Gift Card Amount</div>
-      
-      <div class="gc-options-grid">
-        <div class="gc-option js-gc-option" data-variant-id="{{ id_opt_1 }}">
-          <div class="emoji">❄️</div>
-          <div class="denom">$100</div>
-          <div class="label">Standard</div>
-        </div>
-        <div class="gc-option js-gc-option" data-variant-id="{{ id_opt_2 }}">
-          <div class="emoji">🎄</div>
-          <div class="denom">$250</div>
-          <div class="label">Pro Choice</div>
-        </div>
-        <div class="gc-option js-gc-option" data-variant-id="{{ id_opt_3 }}">
-          <div class="emoji">🔥</div>
-          <div class="denom">$500</div>
-          <div class="label">The Ultimate</div>
-        </div>
-      </div>
-
-      <div class="gc-cta-wrapper">
-        <div class="gc-cta-decor">🎄</div>
-        <button class="gc-main-btn js-gc-main-btn" type="button" disabled>
-          GIFT INSTANTLY
-        </button>
-        <div class="gc-cta-decor">🎁</div>
+    <div class="option-card">
+      <div class="option-icon">🔥</div>
+      <div class="option-details">
+        <span class="option-price">$250 GIFT CARD</span>
+        <span class="option-name">The Momentum</span>
       </div>
     </div>
+
+    <div class="option-card">
+      <div class="option-icon">🚀</div>
+      <div class="option-details">
+        <span class="option-price">$500 GIFT CARD</span>
+        <span class="option-name">The Victory</span>
+      </div>
+    </div>
+
+    <button class="cta-button">
+      ADD GIFT CARD TO CART
+    </button>
 
   </div>
 </div>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // --- TIMER LOGIC (Scoped for Snippet) ---
-    const timerEl = document.getElementById('icon-gc-timer-container');
-    if(timerEl) {
+    // --- 1. DAY COUNTER LOGIC (Day X of 365) ---
+    const counterEl = document.getElementById('js-day-counter');
+    if(counterEl) {
       const now = new Date();
-      let year = now.getFullYear();
-      let xmas = new Date(year, 11, 25); // Month is 0-indexed (11 = Dec)
-      
-      // If Christmas passed this year, look to next year
-      if (now.getMonth() === 11 && now.getDate() > 25) {
-        xmas.setFullYear(year + 1);
-      }
-
-      function updateTimer() {
-        const current = new Date();
-        const diff = xmas - current;
-
-        if (diff <= 0) {
-          timerEl.innerHTML = '<div style="font-weight:bold; color:#FFD700; padding:0 10px;">MERRY CHRISTMAS!</div>';
-          return;
-        }
-
-        const d = Math.floor(diff / (1000 * 60 * 60 * 24));
-        const h = Math.floor((diff / (1000 * 60 * 60)) % 24);
-        const m = Math.floor((diff / 1000 / 60) % 60);
-
-        // Target unique IDs
-        const dEl = document.getElementById('icon-gc-days');
-        const hEl = document.getElementById('icon-gc-hours');
-        const mEl = document.getElementById('icon-gc-mins');
-
-        if(dEl) dEl.innerText = d < 10 ? '0'+d : d;
-        if(hEl) hEl.innerText = h < 10 ? '0'+h : h;
-        if(mEl) mEl.innerText = m < 10 ? '0'+m : m;
-      }
-      
-      setInterval(updateTimer, 1000);
-      updateTimer(); // Run immediately
+      const start = new Date(now.getFullYear(), 0, 0);
+      const diff = now - start;
+      const oneDay = 1000 * 60 * 60 * 24;
+      const day = Math.floor(diff / oneDay);
+      counterEl.innerText = "DAY " + day + " OF 365";
     }
 
-    // --- CART LOGIC ---
+    // --- 2. CART LOGIC (Standard) ---
     let selectedVariantId = null;
     const options = document.querySelectorAll('.js-gc-option');
     const mainBtn = document.querySelector('.js-gc-main-btn');
@@ -491,6 +321,7 @@
         opt.classList.add('is-selected');
         selectedVariantId = opt.getAttribute('data-variant-id');
         mainBtn.disabled = false;
+        mainBtn.innerText = "SEND THE FUEL"; // Reset text
       });
     });
 
@@ -502,6 +333,7 @@
         const originalText = mainBtn.innerText;
         mainBtn.innerText = "ADDING...";
         mainBtn.disabled = true;
+        mainBtn.style.opacity = "0.8";
 
         try {
           const response = await fetch('/cart/add.js', {
@@ -512,23 +344,35 @@
 
           if(response.ok) {
             const cart = await response.json();
-            mainBtn.style.background = "#28a745";
-            mainBtn.style.boxShadow = "0 6px 0 #1e7e34, 0 10px 10px rgba(0,0,0,0.15)";
-            mainBtn.style.border = "3px solid #1e7e34";
-            mainBtn.innerText = "ADDED! 🎅";
+            
+            // Success - Green with hard shadow
+            mainBtn.style.background = "#2E7D32"; // Success green
+            mainBtn.style.boxShadow = "0 6px 0 #1B5E20";
+            mainBtn.innerText = "ADDED! 🥊";
+            
             document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+            document.dispatchEvent(new CustomEvent('ajaxCart.itemAdded', { detail: { cart } }));
+            
             setTimeout(() => {
-              mainBtn.style.background = ""; // Reset to CSS default
+              mainBtn.style.background = ""; 
               mainBtn.style.boxShadow = ""; 
-              mainBtn.style.border = "";
               mainBtn.innerText = originalText;
               mainBtn.disabled = false;
-            }, 2500);
+              mainBtn.style.opacity = "1";
+            }, 2000);
+          } else {
+             throw new Error('Cart add failed');
           }
         } catch (err) {
           console.error(err);
+          mainBtn.style.background = "#B71C1C"; 
           mainBtn.innerText = "ERROR";
-          setTimeout(() => { mainBtn.innerText = originalText; mainBtn.disabled = false; }, 2000);
+          setTimeout(() => { 
+              mainBtn.style.background = ""; 
+              mainBtn.innerText = originalText; 
+              mainBtn.disabled = false; 
+              mainBtn.style.opacity = "1";
+          }, 3000);
         }
       });
     }

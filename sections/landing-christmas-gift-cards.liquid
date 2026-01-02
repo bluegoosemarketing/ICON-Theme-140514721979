@@ -1,0 +1,378 @@
+{%- comment -%}
+  ==============================================================================
+  ICON MEALS HYBRID CHRISTMAS LANDING PAGE - V6.5 (CENTERING FIX)
+  - Layout: Mobile-fixed UI, High-Impact Branding
+  - Centering: Fixed "Instant Email Delivery" badge alignment
+  - Variants Included: $25, $50, $100, $250, $500
+  - Promo: 25% OFF (ELF25) - Vanishes Dec 23, 11:59 PM
+  - Schema Name: IM Xmas Fixed Mobile
+  - Logic: Added! notification + No checkout redirect
+  - Unique Class Prefix: 'im-v6-'
+  ==============================================================================
+{%- endcomment -%}
+
+{%- liquid
+  assign gift_product = all_products[section.settings.gift_card_product]
+  assign id_opt_25 = section.settings.variant_id_opt_25
+  assign id_opt_50 = section.settings.variant_id_opt_50
+  assign id_opt_100 = section.settings.variant_id_opt_100
+  assign id_opt_250 = section.settings.variant_id_opt_250
+  assign id_opt_500 = section.settings.variant_id_opt_500
+-%}
+
+<style>
+  /* --- GLOBAL BRAND VARIABLES --- */
+  .im-v6-lp-wrapper {
+    --im-red: #D12323;
+    --im-red-deep: #8E1616;
+    --im-gold: #FFD700;
+    --im-gold-shadow: #B88A00;
+    --im-cream: #FFF8E7;
+    --im-black: #111111;
+    --im-green: #28a745;
+    
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    background-color: #ffffff !important;
+    font-family: 'Montserrat', sans-serif, Arial, Helvetica, sans-serif !important;
+    color: var(--im-black) !important;
+    overflow-x: hidden !important;
+    line-height: 1.4 !important;
+  }
+
+  .im-v6-lp-container {
+    max-width: 1100px !important;
+    margin: 0 auto !important;
+    padding: 40px 20px 80px 20px !important;
+  }
+
+  /* --- HERO TYPOGRAPHY --- */
+  .im-v6-lp-header { margin-bottom: 50px !important; }
+  .im-v6-lp-prehead {
+    color: var(--im-red) !important;
+    font-weight: 800 !important;
+    text-transform: uppercase !important;
+    font-size: 13px !important;
+    letter-spacing: 2px !important;
+    display: block !important;
+    margin-bottom: 15px !important;
+  }
+  .im-v6-lp-main-title {
+    font-size: clamp(38px, 8vw, 85px) !important;
+    font-weight: 900 !important;
+    text-transform: uppercase !important;
+    line-height: 0.9 !important;
+    margin: 0 !important;
+    color: var(--im-black) !important;
+    letter-spacing: -1px !important;
+    word-break: keep-all !important;
+  }
+  .im-v6-lp-hook-container {
+    border-left: 6px solid var(--im-red) !important;
+    padding-left: 20px !important;
+    margin-top: 35px !important;
+    max-width: 700px !important;
+  }
+  .im-v6-lp-hook-title { font-size: 24px !important; font-weight: 800 !important; margin: 0 0 12px 0 !important; }
+  .im-v6-lp-hook-desc { font-size: 17px !important; color: #444 !important; }
+
+  /* --- GIFT CARD STATION --- */
+  .im-v6-lp-station {
+    display: flex !important;
+    background: radial-gradient(circle at 30% 30%, var(--im-red), var(--im-red-deep)) !important;
+    border-radius: 12px !important;
+    border: 4px solid var(--im-gold) !important;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.15) !important;
+    overflow: hidden !important;
+    margin-bottom: 70px !important;
+  }
+  .im-v6-lp-left { flex: 1.1 !important; padding: 50px !important; color: #fff !important; display: flex !important; flex-direction: column !important; justify-content: center !important; }
+  .im-v6-lp-left h2 { font-size: clamp(30px, 5vw, 44px) !important; font-weight: 900 !important; text-transform: uppercase !important; line-height: 1 !important; margin: 0 0 20px 0 !important; text-shadow: 2px 2px 0 var(--im-gold-shadow) !important; word-break: keep-all !important; }
+  
+  .im-v6-lp-timer {
+    display: flex !important; background: rgba(0,0,0,0.3) !important; padding: 15px 20px !important; border-radius: 6px !important; gap: 15px !important; width: fit-content !important; margin-top: 25px !important; border: 1px solid rgba(255,215,0,0.3) !important; align-items: center !important;
+  }
+  .im-v6-lp-t-block { text-align: center !important; min-width: 45px !important; }
+  .im-v6-lp-t-num { font-size: 28px !important; font-weight: 900 !important; color: var(--im-gold) !important; display: block !important; line-height: 1 !important; }
+  .im-v6-lp-t-lbl { font-size: 9px !important; text-transform: uppercase !important; font-weight: 800 !important; opacity: 0.8 !important; }
+
+  .im-v6-lp-right { flex: 1.1 !important; background: var(--im-cream) !important; padding: 50px !important; display: flex !important; flex-direction: column !important; justify-content: center !important; clip-path: polygon(8% 0, 100% 0, 100% 100%, 0% 100%) !important; margin-left: -40px !important; position: relative !important; }
+
+  .im-v6-lp-amount-grid { 
+    display: grid !important; 
+    grid-template-columns: repeat(3, 1fr) !important; 
+    gap: 10px !important; 
+    margin-bottom: 25px !important; 
+    padding-left: 20px !important; 
+  }
+  .im-v6-lp-opt { background: #fff !important; border: 2px solid #fff !important; padding: 15px 5px !important; text-align: center !important; cursor: pointer !important; border-radius: 6px !important; transition: 0.2s !important; box-shadow: 0 4px 0 rgba(0,0,0,0.05) !important; }
+  .im-v6-lp-opt.active { border-color: var(--im-gold) !important; transform: translateY(-3px) !important; box-shadow: 0 6px 0 var(--im-gold-shadow) !important; }
+  .im-v6-lp-opt .price { font-size: 22px !important; font-weight: 900 !important; display: block !important; line-height: 1 !important; color: var(--im-black) !important; }
+  .im-v6-lp-opt .label { font-size: 8px !important; text-transform: uppercase !important; font-weight: 800 !important; opacity: 0.5 !important; margin-top: 5px !important; display: block !important; }
+
+  .im-v6-lp-btn {
+    background: linear-gradient(to bottom, var(--im-red), var(--im-red-deep)) !important;
+    color: #fff !important;
+    border: 3px solid var(--im-gold) !important;
+    padding: 20px !important;
+    border-radius: 4px !important;
+    font-weight: 900 !important;
+    font-size: 18px !important;
+    text-transform: uppercase !important;
+    cursor: pointer !important;
+    margin-left: 20px !important;
+    width: calc(100% - 20px) !important;
+    box-shadow: 0 6px 0 var(--im-red-deep) !important;
+    transition: all 0.3s ease !important;
+  }
+  .im-v6-lp-btn:disabled { opacity: 0.6 !important; cursor: not-allowed !important; box-shadow: none !important; transform: translateY(2px) !important; }
+  .im-v6-lp-btn.success { background: var(--im-green) !important; box-shadow: 0 6px 0 #1e7e34 !important; border-color: #1e7e34 !important; }
+
+  .im-v6-notification { text-align: center !important; font-weight: 800 !important; text-transform: uppercase !important; font-size: 12px !important; color: var(--im-green) !important; margin-top: 15px !important; margin-left: 20px !important; display: none !important; animation: fadeIn 0.3s ease !important; }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+  /* --- RECIPIENT LIST --- */
+  .im-v6-lp-footer { text-align: center !important; border-top: 1px solid #eee !important; padding: 50px 0 !important; margin-bottom: 40px !important; }
+  .im-v6-lp-footer h3 { text-transform: uppercase !important; font-size: 13px !important; letter-spacing: 2px !important; font-weight: 800 !important; margin-bottom: 30px !important; color: #999 !important; }
+  .im-v6-lp-list { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 15px 30px !important; list-style: none !important; padding: 0 !important; margin: 0 !important; }
+  .im-v6-lp-list li { font-weight: 800 !important; text-transform: uppercase !important; font-size: 14px !important; color: var(--im-black) !important; display: flex !important; align-items: center !important; gap: 8px !important; }
+  .im-v6-lp-list li::before { content: "✓" !important; color: var(--im-red) !important; font-size: 16px !important; font-weight: 900 !important; }
+
+  /* --- SECONDARY PROMO BANNER --- */
+  .im-v6-promo-banner {
+    display: none !important; 
+    background: #0a0a0a !important;
+    color: #ffffff !important;
+    border-radius: 12px !important;
+    padding: 60px 40px !important;
+    text-align: center !important;
+    border-bottom: 8px solid var(--im-red) !important;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2) !important;
+  }
+  .im-v6-promo-headline { font-size: clamp(35px, 6vw, 65px) !important; font-weight: 900 !important; text-transform: uppercase !important; margin: 0 0 15px 0 !important; line-height: 0.9 !important; color: #ffffff !important; letter-spacing: -1px !important; }
+  .im-v6-promo-desc { font-size: 18px !important; opacity: 0.9 !important; max-width: 550px !important; margin: 0 auto 30px auto !important; color: #eeeeee !important; }
+  .im-v6-promo-code-box { background: rgba(255, 255, 255, 0.05) !important; border: 2px dashed var(--im-red) !important; padding: 12px 30px !important; display: inline-block !important; font-weight: 900 !important; font-size: 32px !important; margin-bottom: 35px !important; color: var(--im-red) !important; letter-spacing: 2px !important; }
+  
+  .im-v6-promo-cta {
+    display: inline-block !important;
+    background-color: var(--im-red) !important;
+    color: #ffffff !important;
+    padding: 22px 50px !important;
+    font-weight: 900 !important;
+    font-size: 20px !important;
+    text-transform: uppercase !important;
+    text-decoration: none !important;
+    border-radius: 0 !important;
+    clip-path: polygon(0 0, 100% 0, 96% 100%, 0% 100%) !important;
+    box-shadow: 0 8px 0 var(--im-red-deep) !important;
+    transition: all 0.2s ease-in-out !important;
+  }
+  .im-v6-promo-cta:hover { filter: brightness(1.1) !important; transform: translateY(-2px) !important; box-shadow: 0 10px 0 var(--im-red-deep) !important; }
+
+  /* --- MOBILE UI --- */
+  @media (max-width: 800px) {
+    .im-v6-lp-container { padding: 30px 15px !important; }
+    .im-v6-lp-station { flex-direction: column !important; }
+    
+    /* ADDED: align-items: center ensures blocks with specific widths center properly */
+    .im-v6-lp-left { 
+        padding: 40px 20px !important; 
+        text-align: center !important; 
+        align-items: center !important; 
+    }
+    
+    .im-v6-lp-right { padding: 40px 20px !important; clip-path: none !important; margin-left: 0 !important; border-top: 4px solid var(--im-gold) !important; }
+    .im-v6-lp-amount-grid { padding-left: 0 !important; }
+    .im-v6-lp-btn { margin-left: 0 !important; width: 100% !important; }
+    .im-v6-notification { margin-left: 0 !important; }
+    .im-v6-lp-list { flex-direction: column !important; align-items: center !important; gap: 10px !important; }
+    .im-v6-promo-cta { width: 100% !important; padding: 20px !important; font-size: 18px !important; box-sizing: border-box !important; }
+  }
+
+  @media (max-width: 480px) {
+    .im-v6-lp-left h2 { font-size: 28px !important; }
+    .im-v6-lp-main-title { font-size: 38px !important; }
+  }
+</style>
+
+<div class="im-v6-lp-wrapper">
+  <div class="im-v6-lp-container">
+    
+    <header class="im-v6-lp-header">
+      <span class="im-v6-lp-prehead">Christmas Deliveries, Guaranteed.</span>
+      <h1 class="im-v6-lp-main-title">GIVE THE GIFT<br>OF EXCELLENCE.</h1>
+      
+      <div class="im-v6-lp-hook-container">
+        <p class="im-v6-lp-hook-title">Who did you forget and how can we help you fix that?</p>
+        <p class="im-v6-lp-hook-desc">Skip the shipping delays and holiday crowds. Give them the freedom to choose their own chef-prepared menu and the gift of time back in their week.</p>
+      </div>
+    </header>
+
+    <div class="im-v6-lp-station">
+      <div class="im-v6-lp-left">
+        <!-- FIXED: Added margin: 0 auto to guarantee centering on mobile -->
+        <div style="background:var(--im-gold); color:#000; padding:4px 10px; border-radius:3px; font-weight:900; font-size:10px; width:fit-content; margin: 0 auto 15px auto; text-transform:uppercase;">
+          Instant Email Delivery
+        </div>
+        <h2>Save Christmas In Seconds.</h2>
+        <p style="margin:0; opacity:0.9; font-size: 15px;">The ultimate last-minute win. A digital gift card delivered instantly to their inbox, ready to be used on our entire menu.</p>
+        
+        <div class="im-v6-lp-timer" id="v6-timer">
+          <div class="im-v6-lp-t-block"><span class="im-v6-lp-t-num" id="v6-d">00</span><span class="im-v6-lp-t-lbl">Days</span></div>
+          <div class="im-v6-lp-t-block"><span class="im-v6-lp-t-num" id="v6-h">00</span><span class="im-v6-lp-t-lbl">Hrs</span></div>
+          <div class="im-v6-lp-t-block"><span class="im-v6-lp-t-num" id="v6-m">00</span><span class="im-v6-lp-t-lbl">Mins</span></div>
+          <div style="border-left:1px solid rgba(255,255,255,0.2); padding-left:12px; font-weight:900; text-transform:uppercase; font-size:10px; line-height:1.2;">UNTIL<br>CHRISTMAS</div>
+        </div>
+      </div>
+
+      <div class="im-v6-lp-right">
+        <label style="display:block; text-align:center; font-weight:900; text-transform:uppercase; margin-bottom:20px; font-size:11px; color:var(--im-red-deep);">Choose Gift Card Amount</label>
+        
+        <div class="im-v6-lp-amount-grid">
+          <div class="im-v6-lp-opt js-v6-opt" data-vid="{{ id_opt_25 }}">
+            <span class="price">$25</span>
+            <span class="label">Starter</span>
+          </div>
+          <div class="im-v6-lp-opt js-v6-opt" data-vid="{{ id_opt_50 }}">
+            <span class="price">$50</span>
+            <span class="label">Standard</span>
+          </div>
+          <div class="im-v6-lp-opt js-v6-opt" data-vid="{{ id_opt_100 }}">
+            <span class="price">$100</span>
+            <span class="label">Pro</span>
+          </div>
+          <div class="im-v6-lp-opt js-v6-opt" data-vid="{{ id_opt_250 }}">
+            <span class="price">$250</span>
+            <span class="label">Elite</span>
+          </div>
+          <div class="im-v6-lp-opt js-v6-opt" data-vid="{{ id_opt_500 }}">
+            <span class="price">$500</span>
+            <span class="label">Ultimate</span>
+          </div>
+        </div>
+
+        <button class="im-v6-lp-btn js-v6-btn" disabled>Gift Instantly — Add to Cart</button>
+        <div class="im-v6-notification js-v6-notif">Gift card added to cart! 🎅</div>
+      </div>
+    </div>
+
+    <footer class="im-v6-lp-footer">
+      <h3>The Perfect Instant Gift For:</h3>
+      <ul class="im-v6-lp-list">
+        <li>Neighbors</li>
+        <li>Nurses</li>
+        <li>Firefighters</li>
+        <li>Paramedics</li>
+        <li>Mom & Dad</li>
+        <li>Babysitters</li>
+      </ul>
+    </footer>
+
+    <!-- SECONDARY EXPIREABLE PROMO -->
+    <section class="im-v6-promo-banner" id="js-promo-banner">
+      <h2 class="im-v6-promo-headline">25% OFF SITEWIDE</h2>
+      <p class="im-v6-promo-desc">Finish your own list today. Code <strong>ELF25</strong> will automatically apply to your signature menu order.</p>
+      <div class="im-v6-promo-code-box">ELF25</div>
+      <br>
+      <a href="/discount/ELF25?redirect=/collections/signature-menu" class="im-v6-promo-cta">Shop Signature Menu</a>
+      <p style="font-size:11px; opacity:0.6; margin-top:25px; text-transform:uppercase; color:#ccc;">Excludes Gift Cards • Offer ends tonight at 11:59PM</p>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. Timer Logic
+    const xmas = new Date(2025, 11, 25); 
+    function tick() {
+      const now = new Date();
+      const diff = xmas - now;
+      if(diff <= 0) return;
+      document.getElementById('v6-d').innerText = Math.floor(diff / 864e5).toString().padStart(2, '0');
+      document.getElementById('v6-h').innerText = Math.floor((diff / 36e5) % 24).toString().padStart(2, '0');
+      document.getElementById('v6-m').innerText = Math.floor((diff / 6e4) % 60).toString().padStart(2, '0');
+    }
+    setInterval(tick, 1000); tick();
+
+    // 2. Promo Auto-Expiry Logic (Dec 23, 11:59PM)
+    const promoBanner = document.getElementById('js-promo-banner');
+    if (promoBanner) {
+      const expirationDate = new Date('2025-12-24T00:00:00'); 
+      const currentTime = new Date();
+      if (currentTime < expirationDate) {
+        promoBanner.style.setProperty('display', 'block', 'important');
+      } else {
+        promoBanner.remove(); 
+      }
+    }
+
+    // 3. Selection Logic
+    let selId = null;
+    const opts = document.querySelectorAll('.js-v6-opt');
+    const btn = document.querySelector('.js-v6-btn');
+    const notif = document.querySelector('.js-v6-notif');
+
+    opts.forEach(o => {
+      o.addEventListener('click', () => {
+        opts.forEach(x => x.classList.remove('active'));
+        o.classList.add('active');
+        selId = o.dataset.vid;
+        btn.disabled = false;
+        notif.style.display = 'none';
+      });
+    });
+
+    // 4. AJAX Cart Logic
+    btn.addEventListener('click', async () => {
+      const originalText = "Gift Instantly — Add to Cart";
+      btn.innerText = "ADDING...";
+      btn.disabled = true;
+
+      try {
+        const response = await fetch('/cart/add.js', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: [{ id: Number(selId), quantity: 1 }] })
+        });
+        
+        if(response.ok) {
+          btn.innerText = "ADDED! 🎅";
+          btn.classList.add('success');
+          notif.style.display = 'block';
+          
+          const cart = await (await fetch('/cart.js')).json();
+          document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
+
+          setTimeout(() => {
+            btn.innerText = originalText;
+            btn.classList.remove('success');
+            btn.disabled = false;
+          }, 3000);
+          
+        } else {
+          btn.innerText = "ERROR";
+          setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 2000);
+        }
+      } catch (e) {
+        btn.innerText = "TRY AGAIN";
+        setTimeout(() => { btn.innerText = originalText; btn.disabled = false; }, 2000);
+      }
+    });
+  });
+</script>
+
+{% schema %}
+{
+  "name": "IM Xmas Fixed Mobile",
+  "settings": [
+    { "type": "product", "id": "gift_card_product", "label": "Gift Card Product" },
+    { "type": "text", "id": "variant_id_opt_25", "label": "$25 Variant ID", "default": "42874129121467" },
+    { "type": "text", "id": "variant_id_opt_50", "label": "$50 Variant ID", "default": "42900474855611" },
+    { "type": "text", "id": "variant_id_opt_100", "label": "$100 Variant ID", "default": "42900474888379" },
+    { "type": "text", "id": "variant_id_opt_250", "label": "$250 Variant ID", "default": "42900474986683" },
+    { "type": "text", "id": "variant_id_opt_500", "label": "$500 Variant ID", "default": "42900475052219" }
+  ],
+  "presets": [ { "name": "IM Xmas Fixed Mobile" } ]
+}
+{% endschema %}

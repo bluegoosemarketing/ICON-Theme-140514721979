@@ -1,0 +1,32 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "landing_christmas_gift_cards_MMVk7y": {
+      "type": "landing-christmas-gift-cards",
+      "name": "Xmas GC Landing Page",
+      "settings": {
+        "gift_card_product": "",
+        "variant_id_opt_1": "42900474888379",
+        "variant_id_opt_2": "42900474986683",
+        "variant_id_opt_3": "42900475052219"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "landing_christmas_gift_cards_MMVk7y"
+  ]
+}

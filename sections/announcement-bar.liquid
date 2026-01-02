@@ -23,22 +23,17 @@
 {% if section.settings.enable and show_announcement %}
 
 <style>
-  /* 
-    ========================================
-    THEME: BRUSHED BULLION (REALISTIC GOLD)
-    Aesthetic: Vertical Gradient, Texture, 3D Volume
+  /* ========================================
+    THEME: NEW YEAR FLASH (High Contrast)
+    Aesthetic: Clean, Bold, Urgent
     ========================================
   */
 
   :root {
-    /* 24K GOLD PALETTE */
-    --im-gold-light: #F9EFAF; /* Top Highlight */
-    --im-gold-mid: #D4AF37;   /* The Core Gold */
-    --im-gold-shadow: #AA771C; /* Bottom Shadow */
-    
-    --im-text-ink: #111111;
-    --im-brand-red: #D11F1F;
-    --im-pure-white: #ffffff;
+    --im-bar-bg: #111111;       /* Deep Black */
+    --im-bar-text: #ffffff;     /* Pure White */
+    --im-highlight: #D11F1F;    /* Icon Red */
+    --im-accent-yellow: #FFC107; /* Pop of Yellow for contrast */
   }
 
   /* 1. CONTAINER & RESET */
@@ -53,240 +48,143 @@
     z-index: 50 !important;
     cursor: pointer !important;
     overflow: hidden !important;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
-    color: var(--im-text-ink) !important;
-
-    /* SATIN GOLD GRADIENT (Subtle & Smooth) */
-    background: linear-gradient(
-      180deg, 
-      #E6D699 0%, 
-      #D4C179 50%, 
-      #C2AE5E 100%
-    ) !important;
-    
-    /* SOFTENED EDGES */
-    border-top: 1px solid rgba(255,255,255,0.25) !important;
-    border-bottom: 1px solid rgba(0,0,0,0.1) !important; 
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    background-color: var(--im-bar-bg) !important;
+    color: var(--im-bar-text) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
   }
 
-  /* 2. BRUSHED METAL TEXTURE OVERLAY */
-  a.im-ann-bar-root::before {
-    content: "" !important;
-    position: absolute !important;
-    top: 0; left: 0; right: 0; bottom: 0;
-    /* Faint diagonal scratches */
-    background-image: repeating-linear-gradient(
-      45deg,
-      rgba(255,255,255,0) 0px,
-      rgba(255,255,255,0) 2px,
-      rgba(255,255,255,0.05) 3px,
-      rgba(255,255,255,0) 4px
-    ) !important;
-    pointer-events: none !important;
-    z-index: 1 !important;
-  }
-
-  /* 3. SHIMMER ANIMATION (Subtle sheen passing over) */
-  a.im-ann-bar-root::after {
-    content: "" !important;
-    position: absolute !important;
-    top: 0; left: -100%;
-    width: 50%; height: 100%;
-    background: linear-gradient(
-      90deg, 
-      transparent, 
-      rgba(255,255,255,0.4), 
-      transparent
-    ) !important;
-    transform: skewX(-20deg) !important;
-    animation: imSheen 6s infinite linear !important;
-    pointer-events: none !important;
-    z-index: 2 !important;
-  }
-
-  @keyframes imSheen {
-    0% { left: -50%; opacity: 0; }
-    20% { opacity: 1; }
-    40% { left: 150%; opacity: 0; }
-    100% { left: 150%; opacity: 0; }
-  }
-
-  /* 2. NUCLEAR TEXT RESET */
-  .im-ann-bar-root *, .im-ann-bar-root span {
-    text-decoration: none !important;
-    line-height: 1 !important;
-    box-sizing: border-box !important;
-  }
-
-  /* 3. LAYOUT */
+  /* 2. LAYOUT CONTENT */
   .im-ann-content {
     position: relative !important;
-    z-index: 5 !important; /* Sit above texture */
+    z-index: 5 !important;
     display: flex !important;
     align-items: center !important;
-    gap: 16px !important;
+    gap: 15px !important;
     padding: 0 15px !important;
+    width: 100%;
+    justify-content: center;
   }
 
-  .im-group-left, .im-group-right {
+  /* 3. TEXT GROUPS */
+  .im-text-group {
     display: flex !important;
     align-items: center !important;
-  }
-  .im-group-left { gap: 10px !important; }
-  .im-group-right { gap: 8px !important; }
-
-  /* 4. THE RED PILL BADGE */
-  .im-badge-pill {
-    background-color: var(--im-brand-red) !important;
-    color: #fff !important;
-    font-weight: 800 !important;
-    font-size: 12px !important;
-    padding: 5px 10px !important;
-    border-radius: 4px !important; 
-    box-shadow: 0 2px 5px rgba(0,0,0,0.15) !important;
-    letter-spacing: 0.5px !important;
-    position: relative !important;
+    gap: 8px !important;
     white-space: nowrap !important;
-    text-transform: uppercase !important;
-    border: 1px solid rgba(0,0,0,0.1) !important;
   }
 
-  /* 5. TEXT STYLES */
-  .im-ann-text {
-    font-weight: 700 !important;
+  /* 4. KEY ELEMENTS */
+  .im-badge-flash {
+    background-color: var(--im-highlight) !important;
+    color: #fff !important;
+    font-weight: 900 !important;
+    font-size: 11px !important;
+    padding: 3px 8px !important;
+    border-radius: 3px !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    animation: pulseRed 2s infinite;
+  }
+
+  .im-offer-text {
+    font-weight: 800 !important;
     font-size: 13px !important;
     text-transform: uppercase !important;
     letter-spacing: 1px !important;
-    color: var(--im-text-ink) !important;
-    white-space: nowrap !important;
-    text-shadow: 0 1px 0 rgba(255,255,255,0.3) !important; /* Engraved look */
+  }
+  
+  .im-highlight-yellow {
+    color: var(--im-accent-yellow) !important;
   }
 
-  .im-ann-label {
-    font-size: 11px !important;
-    color: #333 !important; 
-    text-transform: uppercase !important;
+  .im-divider {
+    opacity: 0.3 !important;
+    font-weight: 300 !important;
+    margin: 0 5px !important;
+  }
+
+  .im-code-box {
+    border: 1px dashed rgba(255,255,255,0.5) !important;
+    padding: 2px 6px !important;
+    border-radius: 3px !important;
+    font-family: monospace !important;
     font-weight: 700 !important;
-    opacity: 0.85 !important;
+    font-size: 12px !important;
+    letter-spacing: 1px !important;
+    color: #fff !important;
   }
 
-  /* 6. THE TICKET */
-  .im-code-ticket {
-    background: var(--im-pure-white) !important;
-    border: 1px dashed #8E6316 !important; /* Dark bronze stitch */
-    color: #000000 !important;
-    font-family: "Courier New", Courier, monospace !important;
-    font-weight: 800 !important;
-    font-size: 14px !important;
-    padding: 4px 10px !important;
-    border-radius: 4px !important;
-    letter-spacing: 0.5px !important;
-    position: relative !important;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.1) !important;
-  }
-  
-  /* Ticket "Notches" - Color matched to the mid-tone gold */
-  .im-code-ticket::before, .im-code-ticket::after {
-    content: '' !important;
-    position: absolute !important;
-    height: 8px !important;
-    width: 8px !important;
-    background-color: #D4AF37 !important; /* Matches gold background */
-    border-radius: 50% !important;
-    top: 50% !important;
-    transform: translateY(-50%) !important;
-    z-index: 2 !important;
-    box-shadow: inset 0 1px 2px rgba(0,0,0,0.1) !important;
-  }
-  
-  .im-code-ticket::before { left: -5px !important; }
-  .im-code-ticket::after { right: -5px !important; }
-
-  /* 7. GIFT ICON */
-  .im-icon-gift {
-    width: 16px !important;
-    height: 16px !important;
-    margin-left: 2px !important;
-    color: #000 !important;
-    opacity: 0.8 !important;
+  .im-arrow-icon {
+    width: 14px !important;
+    height: 14px !important;
+    margin-left: 5px !important;
+    transition: transform 0.2s ease;
   }
 
-  /* 
-     ========================================
-     8. MOBILE OPTIMIZATION
+  a.im-ann-bar-root:hover .im-arrow-icon {
+    transform: translateX(3px);
+  }
+
+  /* 5. ANIMATIONS */
+  @keyframes pulseRed {
+    0% { box-shadow: 0 0 0 0 rgba(209, 31, 31, 0.4); }
+    70% { box-shadow: 0 0 0 6px rgba(209, 31, 31, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(209, 31, 31, 0); }
+  }
+
+  /* ========================================
+     6. MOBILE OPTIMIZATION
      ========================================
   */
   @media (max-width: 767px) {
     a.im-ann-bar-root {
       min-height: 40px !important;
-      height: 40px !important;
-      padding: 0 8px !important;
+      padding: 0 5px !important;
     }
-    
+
     .im-ann-content {
-      gap: 10px !important;
-      width: 100% !important;
       justify-content: center !important;
+      gap: 5px !important;
+    }
+    
+    .im-offer-text {
+      font-size: 11px !important;
     }
 
-    .im-group-left { gap: 8px !important; }
-    .im-group-right { gap: 6px !important; }
-
-    .im-ann-label { display: none !important; }
-    
-    .im-badge-pill { 
-      font-size: 10px !important; 
-      padding: 3px 6px !important; 
+    /* Hide the divider/extra text on very small screens if needed, 
+       but we are trying to keep it on one line. */
+    .desktop-only {
+      display: none !important;
     }
     
-    .im-ann-text { 
-      font-size: 11px !important; 
+    .im-badge-flash {
+      font-size: 10px !important;
+      padding: 2px 5px !important;
     }
-    
-    .im-code-ticket { 
-      font-size: 12px !important; 
-      padding: 2px 6px !important; 
-    }
-    
-    .im-code-ticket::before, .im-code-ticket::after {
-      height: 6px !important; width: 6px !important;
-    }
-    .im-code-ticket::before { left: -3px !important; }
-    .im-code-ticket::after { right: -3px !important; }
   }
 </style>
 
-<!-- 
-  LINK: Auto-apply ELF25 
--->
-<a href="/discount/ELF25?redirect=/collections/signature-menu" class="im-ann-bar-root">
+<a href="/discount/NYE31?redirect=/pages/nye31" class="im-ann-bar-root">
   
   <div class="im-ann-content">
     
-    <!-- Left: Red Pill Badge + Text -->
-    <div class="im-group-left">
-      <div class="im-badge-pill">
-        <span>25% OFF</span>
-      </div>
-      <span class="im-ann-text">HOLIDAY SALE</span>
+    <div class="im-text-group">
+      <div class="im-badge-flash">ENDS TODAY</div>
+      <span class="im-offer-text">
+        31% OFF <span class="desktop-only">SITEWIDE</span>
+      </span>
     </div>
 
-    <!-- Right: Ticket + Icon -->
-    <div class="im-group-right">
-      <span class="im-ann-label">USE CODE:</span>
+    <span class="im-divider">|</span>
+
+    <div class="im-text-group">
+      <span class="im-offer-text">
+        USE CODE: <span class="im-code-box">NYE31</span>
+      </span>
       
-      <!-- The White Cutout Ticket -->
-      <div class="im-code-ticket">
-        ELF25
-      </div>
-      
-      <!-- Gift Icon -->
-      <svg class="im-icon-gift" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polyline points="20 12 20 22 4 22 4 12"></polyline>
-        <rect x="2" y="7" width="20" height="5"></rect>
-        <line x1="12" y1="22" x2="12" y2="7"></line>
-        <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-        <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+      <svg class="im-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
       </svg>
     </div>
 
@@ -295,7 +193,7 @@
 </a>
 
 <script>
-  console.log('IM Holiday Bar: Brushed Bullion Loaded');
+  console.log('IM NYE Bar: Loaded');
 </script>
 
 {% endif %}

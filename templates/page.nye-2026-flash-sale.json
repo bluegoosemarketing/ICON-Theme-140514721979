@@ -1,0 +1,49 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "icon_nye_landing_VnEGLg": {
+      "type": "icon-nye-landing",
+      "name": "[ICON] NYE Flash Sale",
+      "settings": {
+        "tagline_v2": "DAY 1 OF 365",
+        "headline_v2_1": "GLOVES OFF.",
+        "headline_v2_2": "2026 IS HERE.",
+        "description_v2": "The countdown is over. The resolutions are set. Now the real work begins. Stop guessing and start executing with the ultimate fuel.",
+        "cta_text_v2": "SEE THE MENU",
+        "cta_link_v2": "/discount/NYE31?redirect=/collections/signature-menu",
+        "discount_amount_v2": "31% OFF",
+        "discount_code_v2": "NYE31",
+        "end_date_v2": "Jan 1, 2026 23:59:59",
+        "nav_1_sub": "THE MENU",
+        "nav_1_title": "SIGNATURE MEALS",
+        "nav_1_link": "/discount/NYE31?redirect=/collections/signature-menu",
+        "nav_2_sub": "BUILD YOUR OWN",
+        "nav_2_title": "CUSTOM MEALS",
+        "nav_2_link": "/discount/NYE31?redirect=/products/custom-meals",
+        "nav_3_sub": "BY THE POUND",
+        "nav_3_title": "BULK ITEMS",
+        "nav_3_link": "/discount/NYE31?redirect=/collections/bulk-items",
+        "nav_4_sub": "CURATED BOXES",
+        "nav_4_title": "MEAL PLANS",
+        "nav_4_link": "/discount/NYE31?redirect=/pages/mealplans"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "icon_nye_landing_VnEGLg"
+  ]
+}

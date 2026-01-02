@@ -108,6 +108,7 @@
     },
     "homepage_partners_DVnkxT": {
       "type": "Homepage-Partners",
+      "disabled": true,
       "settings": {
         "section_heading": "Supporting the Competitor's Journey"
       }
