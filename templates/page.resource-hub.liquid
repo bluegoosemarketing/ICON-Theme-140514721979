@@ -27,7 +27,7 @@
     margin-left: -50vw;
     margin-right: -50vw;
   }
-  
+    
   .rh-container {
     max-width: 1600px;
     margin: 0 auto;
@@ -40,8 +40,8 @@
     grid-template-columns: 1fr 1.2fr;
     align-items: center;
     gap: 0;
-    padding: 60px 0 80px;
-    background-color: #ffffff; /* FIXED: Pure white to match page */
+    padding: 60px 0 40px; 
+    background-color: #ffffff;
   }
 
   .rh-hero-text {
@@ -49,36 +49,99 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: relative; 
   }
 
-  .rh-hero-tagline {
-    color: var(--rh-red);
+  /* --- SMART SALE NOTIFICATION (FIXED LAYOUT) --- */
+  #im-smart-notify {
+    display: none; /* JS toggles this */
+    margin-bottom: 2rem;
+    display: inline-block;
+    position: relative;
+    padding: 12px 45px 12px 18px; 
+    background: #fff5f5;
+    border: 1px solid #f2dcdc;
+    border-left: 4px solid var(--rh-red);
     font-family: var(--rh-body);
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 3px;
-    font-size: 0.9rem;
-    margin-bottom: 1.5rem;
-    display: block;
-    line-height: 1;
+    font-size: 0.95rem;
+    color: #333;
+    line-height: 1.5;
+    border-radius: 4px;
+    width: fit-content;
+    max-width: 100%;
+    text-align: left;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    animation: fadeIn 0.8s ease;
   }
+  
+  #im-smart-notify:hover {
+    background: #ffebeb;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(209, 31, 31, 0.1);
+    border-color: #eecbc;
+  }
+  
+  #im-smart-notify strong { color: var(--rh-black); font-weight: 800; }
+  
+  .im-sale-badge {
+    display: inline-block;
+    background: var(--rh-red);
+    color: #fff;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-weight: 700;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-right: 8px;
+    vertical-align: middle;
+    position: relative;
+    top: -1px; 
+  }
+  
+  .im-code-text {
+    font-weight: 800;
+    color: var(--rh-red);
+    background: rgba(209, 31, 31, 0.1);
+    padding: 0 4px;
+    border-radius: 3px;
+    white-space: nowrap; 
+  }
+  
+  .im-notify-arrow {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--rh-red);
+    font-weight: bold;
+    font-size: 1.2rem;
+    line-height: 1;
+    transition: transform 0.2s ease;
+  }
+  
+  #im-smart-notify:hover .im-notify-arrow {
+    transform: translate(4px, -50%);
+  }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
 
   .rh-hero-headline {
     font-family: var(--rh-head);
-    font-size: clamp(4rem, 8vw, 9rem);
+    font-size: clamp(4rem, 9vw, 9rem); 
     line-height: 0.85;
     text-transform: uppercase;
-    margin: 0 0 2.5rem 0;
+    margin: 0 0 2rem 0;
     color: var(--rh-black);
     font-weight: 700;
-    margin-left: -5px;
+    margin-left: -3px;
   }
 
-  .rh-text-solid { 
-    display: block; 
-    color: var(--rh-black);
-  }
-  
+  .rh-text-solid { display: block; color: var(--rh-black); }
+    
   .rh-text-slab { 
     display: block; 
     color: #ffffff;
@@ -92,13 +155,10 @@
   .rh-hero-desc {
     font-family: var(--rh-body);
     font-size: 1.15rem;
-    line-height: 1.7;
+    line-height: 1.6;
     color: #4a4a4a;
     max-width: 520px;
-    margin-bottom: 3rem;
-    border-left: 3px solid var(--rh-red);
-    padding-left: 1.8rem;
-    margin-left: 2px;
+    margin-bottom: 2.5rem;
   }
 
   /* VISUAL RIGHT SIDE */
@@ -149,7 +209,44 @@
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
   }
 
-  /* --- CATEGORY GRID (FIXED: Left Align + No Underlines) --- */
+  /* --- CEO BANNER --- */
+  .rh-ceo-bar {
+    background-color: var(--rh-red);
+    color: #ffffff;
+    text-align: center;
+    padding: 18px 20px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 0; 
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    position: relative;
+    z-index: 20;
+  }
+  .rh-ceo-bar:hover { background-color: #a81010; }
+  .rh-ceo-text {
+    font-family: var(--rh-head);
+    font-size: 1.6rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    line-height: 1;
+    position: relative;
+    top: 1px;
+  }
+  .rh-play-icon {
+    width: 24px;
+    height: 24px;
+    fill: #fff;
+    background: rgba(0,0,0,0.2);
+    border-radius: 50%;
+    padding: 5px;
+  }
+
+  /* --- CATEGORY GRID --- */
   .rh-categories {
     background: #ffffff;
     padding: 0 0 60px 0;
@@ -170,19 +267,19 @@
 
   .rh-cat-card {
     display: flex;
-    flex-direction: row; /* FIXED: Row layout */
-    justify-content: space-between; /* FIXED: Push arrow to right */
-    align-items: center; /* Center vertically */
-    text-align: left; /* FIXED: Left align text */
+    flex-direction: row; 
+    justify-content: space-between; 
+    align-items: center; 
+    text-align: left; 
     background: #fff;
     padding: 3.5rem 3rem; 
-    text-decoration: none !important; /* FIXED: Force remove underline */
+    text-decoration: none !important; 
     color: #000;
     border-right: 1px solid #e5e5e5;
     transition: all 0.2s ease;
   }
-  .rh-cat-card * { text-decoration: none !important; } /* Nuclear option */
-  
+  .rh-cat-card * { text-decoration: none !important; } 
+    
   .rh-cat-card:last-child { border-right: none; }
 
   .rh-cat-card:hover {
@@ -190,7 +287,6 @@
     z-index: 2;
   }
 
-  /* Text Wrapper for Left Alignment */
   .rh-cat-text {
     display: flex;
     flex-direction: column;
@@ -217,18 +313,19 @@
     color: var(--rh-black);
     display: block;
   }
-  
+    
   .rh-arrow { 
-    color: #ccc; 
-    transition: transform 0.2s, color 0.2s; 
-    font-size: 2rem; /* Bigger arrow */
+    color: var(--rh-red); 
+    transition: transform 0.2s; 
+    font-size: 2.5rem; 
     line-height: 1;
     font-family: sans-serif;
+    font-weight: 300;
   }
-  
-  .rh-cat-card:hover .rh-arrow { transform: translateX(8px); color: var(--rh-red); }
+    
+  .rh-cat-card:hover .rh-arrow { transform: translateX(8px); }
 
-  /* --- VIDEO SECTION --- */
+  /* --- VIDEO SECTION (Static Bottom) --- */
   .rh-video-section {
     background: #fff;
     color: var(--rh-black);
@@ -309,27 +406,123 @@
     object-fit: cover;
   }
 
+  /* --- MODAL (POP UP) FOR SHORTS/VERTICAL VIDEO --- */
+  .rh-modal-overlay {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 10000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.85);
+    backdrop-filter: blur(5px);
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Padding for mobile so it doesn't touch edges */
+  }
+  
+  .rh-modal-content {
+    position: relative;
+    
+    /* FIX: Prioritize Height on Desktop so video isn't tiny */
+    height: 80vh; 
+    aspect-ratio: 9/16; 
+    width: auto; /* Let width scale automatically based on height */
+    
+    /* Fallback to prevent overflow */
+    max-width: 90vw;
+    
+    background: #000;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+    border: 1px solid #333;
+    border-radius: 12px;
+    margin: auto;
+    overflow: hidden; /* Ensures corners stay rounded */
+  }
+
+  /* Mobile Override: Prioritize Width on small screens */
+  @media (max-width: 768px) {
+    .rh-modal-content {
+      width: 90vw; /* Wide on mobile */
+      height: auto;
+      aspect-ratio: 9/16;
+      max-height: 85vh; /* Safety cap */
+    }
+  }
+  
+  .rh-modal-content iframe {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border: none;
+    border-radius: 12px;
+    transform: translate(-50%, -50%) scale(1.35);
+    transform-origin: center;
+  }
+
+  .rh-close-modal {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    color: #fff;
+    font-size: 30px;
+    font-family: var(--rh-body);
+    cursor: pointer;
+    font-weight: 300;
+    transition: color 0.2s;
+    /* Ensure close button is visible even if modal is tall */
+    background: rgba(0,0,0,0.5); 
+    width: 40px; 
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+  }
+  .rh-close-modal:hover { color: var(--rh-red); background: #fff; }
+
+  .show-modal { display: flex !important; }
+
   /* --- MOBILE --- */
   @media (max-width: 1024px) {
-    .rh-hero { grid-template-columns: 1fr; gap: 40px; padding: 40px 0 60px; text-align: center; }
-    .rh-hero-text { padding-right: 0; padding-bottom: 2rem; }
-    .rh-hero-tagline { justify-content: center; }
-    .rh-hero-headline { font-size: 4.5rem; margin-left: 0; }
-    .rh-text-slab { transform-origin: center; }
-    .rh-hero-desc { margin: 0 auto 30px; border-left: none; padding-left: 0; text-align: center; }
+    .rh-container { padding: 0 20px; }
+
+    .rh-hero { grid-template-columns: 1fr; gap: 30px; padding: 40px 0 20px; text-align: center; }
+    .rh-hero-text { padding-right: 0; padding-bottom: 2rem; align-items: center; }
     
+    .rh-hero-headline { margin-left: 0; }
+    
+    .rh-text-slab { 
+        transform-origin: center; 
+        -webkit-text-stroke: 1.5px var(--rh-black); 
+    }
+    .rh-hero-desc { margin: 0 auto 30px; padding-left: 0; text-align: center; font-size: 1rem; }
+    
+    /* Smart Banner Mobile Tweak */
+    #im-smart-notify { 
+      width: 100%; 
+      max-width: 400px; 
+      margin: 0 auto 20px auto; 
+    }
+
     .rh-hero-visual { min-height: auto; }
     .rh-ring { width: 320px; height: 320px; }
     .rh-ring::after { width: 280px; height: 280px; }
     .rh-hero-img { max-width: 100%; transform: rotate(0deg); }
     .rh-badge { top: -10px; right: 5%; width: 80px; }
+    
+    /* Banner Mobile */
+    .rh-ceo-bar { padding: 15px; }
+    .rh-ceo-text { font-size: 1.2rem; }
 
     /* Category Mobile Stack */
     .rh-cat-grid { grid-template-columns: 1fr; border-top: none; }
     .rh-cat-card { 
       border-right: none; border-bottom: 1px solid #e5e5e5; 
       padding: 2rem; 
-      /* Keep side-by-side layout even on mobile for consistency, or stack if preferred */
       flex-direction: row; 
       text-align: left;
       align-items: center;
@@ -346,13 +539,19 @@
     
     <section class="rh-hero">
       <div class="rh-hero-text">
-        <div class="rh-hero-tagline">THE 2026 TOOLKIT</div>
+        
+        <a href="/collections/signature-menu?discount=YEAR26" id="im-smart-notify" class="js-sale-link">
+           <span class="im-sale-badge">New Year Sale</span>
+           <span id="im-notify-text">Loading...</span>
+           <span class="im-notify-arrow">→</span>
+        </a>
+
         <h1 class="rh-hero-headline">
           <span class="rh-text-solid">THE HYPE FADES.</span>
           <span class="rh-text-slab">HABITS REMAIN.</span>
         </h1>
         <p class="rh-hero-desc">
-          Resolutions get you started. Systems keep you going. We’ve curated the exact tools you need to automate your nutrition for the rest of the year.
+          Resolutions get you started. Systems keep you going. We’ve built the blueprint to put your nutrition on autopilot—so you can focus on the work, not the prep.
         </p>
       </div>
       
@@ -364,10 +563,17 @@
     </section>
   </div>
 
+  <div class="rh-ceo-bar rh-breakout" onclick="openVideoModal()">
+      <svg class="rh-play-icon" viewBox="0 0 24 24">
+         <path d="M8 5v14l11-7z"/>
+      </svg>
+      <span class="rh-ceo-text">A Message from CEO Todd Abrams</span>
+  </div>
+
   <div class="rh-categories rh-breakout">
     <div class="rh-cat-grid">
       
-      <a href="/collections/signature-menu" class="rh-cat-card">
+      <a href="/collections/signature-menu?discount=YEAR26" class="rh-cat-card js-sale-link">
         <div class="rh-cat-text">
           <span class="rh-cat-sub">The Menu</span>
           <span class="rh-cat-title">Signature Meals</span>
@@ -375,7 +581,7 @@
         <span class="rh-arrow">→</span>
       </a>
 
-      <a href="/products/custom-meals" class="rh-cat-card">
+      <a href="/products/custom-meals?discount=YEAR26" class="rh-cat-card js-sale-link">
         <div class="rh-cat-text">
           <span class="rh-cat-sub">Build Your Own</span>
           <span class="rh-cat-title">Custom Meals</span>
@@ -383,7 +589,7 @@
         <span class="rh-arrow">→</span>
       </a>
 
-      <a href="/collections/bulk-items" class="rh-cat-card">
+      <a href="/collections/bulk-items?discount=YEAR26" class="rh-cat-card js-sale-link">
         <div class="rh-cat-text">
           <span class="rh-cat-sub">By The Pound</span>
           <span class="rh-cat-title">Bulk Items</span>
@@ -400,16 +606,16 @@
     <div class="rh-video-container">
       <div class="rh-video-text">
         <h2 class="rh-video-title">The Consistency Protocol</h2>
-        <p class="rh-video-quote">"Consistency requires preparation. With food already being prepped, it makes it easy for us to execute on a higher level."</p>
+        <p class="rh-video-quote">"By January 12th, 80% of people will quit on their resolutions. Why? Because they rely on willpower, not systems. We built the system so you don't have to quit."</p>
         <div class="rh-video-author">
-          Mike Crowson
-          <span>High Performance Entrepreneur</span>
+          Todd Abrams
+          <span>CEO, ICON Meals</span>
         </div>
       </div>
       <div class="rh-video-wrapper">
         <div class="rh-phone-outer">
           <div class="rh-phone-screen">
-            <iframe src="https://www.youtube.com/embed/T9tVnpNJcv8?enablejsapi=1&rel=0&modestbranding=1&controls=1&showinfo=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/_j2Y1GaOy_k?enablejsapi=1&rel=0&modestbranding=1&controls=1&showinfo=0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
           </div>
         </div>
       </div>
@@ -417,3 +623,80 @@
   </section>
 
 </div>
+
+<div id="im-video-modal" class="rh-modal-overlay" onclick="closeVideoModal(event)">
+  <div class="rh-modal-content">
+    <div class="rh-close-modal" onclick="closeVideoModal(event)">×</div>
+    <iframe id="im-modal-iframe" 
+      src="https://www.youtube.com/embed/_j2Y1GaOy_k?enablejsapi=1&rel=0&modestbranding=1&showinfo=0" 
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+      allowfullscreen>
+    </iframe>
+  </div>
+</div>
+
+<script>
+  // --- SALE BANNER LOGIC ---
+  (function() {
+    const now = new Date();
+    const saleEnd = new Date('2026-01-12T03:00:00'); 
+    const urgencyStart = new Date('2026-01-10T00:00:00'); 
+    const panicStart = new Date('2026-01-11T12:00:00'); 
+
+    const notifyBox = document.getElementById('im-smart-notify');
+    const notifyText = document.getElementById('im-notify-text');
+    const badge = document.querySelector('.im-sale-badge');
+
+    function cleanLinks() {
+      const saleLinks = document.querySelectorAll('.js-sale-link');
+      saleLinks.forEach(link => {
+        let href = link.getAttribute('href');
+        if(href && href.includes('?discount=YEAR26')) {
+           link.setAttribute('href', href.replace('?discount=YEAR26', ''));
+        }
+      });
+    }
+
+    if (now > saleEnd) {
+      if(notifyBox) notifyBox.style.display = 'none';
+      cleanLinks();
+    } else {
+      if(notifyBox) notifyBox.style.display = 'inline-block';
+
+      if (now < urgencyStart) {
+        notifyText.innerHTML = "Save 26% on your order with code <span class='im-code-text'>YEAR26</span>.";
+      } 
+      else if (now >= urgencyStart && now < panicStart) {
+        if(badge) badge.innerText = "Ending Soon";
+        notifyText.innerHTML = "Final weekend to save 26% on your order (Code: <span class='im-code-text'>YEAR26</span>).";
+      } 
+      else {
+        if(badge) badge.innerText = "Ends Tonight";
+        notifyText.innerHTML = "Use code <span class='im-code-text'>YEAR26</span> before midnight to save 26%.";
+      }
+    }
+  })();
+
+  // --- VIDEO MODAL LOGIC ---
+  var modal = document.getElementById("im-video-modal");
+  var modalIframe = document.getElementById("im-modal-iframe");
+  var baseSrc = modalIframe.src;
+
+  function openVideoModal() {
+    modal.classList.add("show-modal");
+    // Optional: Autoplay when opening
+    // modalIframe.src = baseSrc + "&autoplay=1";
+  }
+
+  function closeVideoModal(e) {
+    // Close if clicked overlay or close button
+    if (e.target === modal || e.target.classList.contains('rh-close-modal')) {
+        modal.classList.remove("show-modal");
+        
+        // Stop video playback by resetting src
+        var tempSrc = modalIframe.src;
+        modalIframe.src = '';
+        modalIframe.src = baseSrc; // Reset to original without autoplay
+    }
+  }
+</script>
