@@ -209,7 +209,7 @@
     filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
   }
 
-  /* --- CEO BANNER --- */
+  /* --- CEO BANNER (UPDATED WITH PULSE) --- */
   .rh-ceo-bar {
     background-color: var(--rh-red);
     color: #ffffff;
@@ -226,7 +226,15 @@
     position: relative;
     z-index: 20;
   }
-  .rh-ceo-bar:hover { background-color: #a81010; }
+  .rh-ceo-bar:hover { 
+    background-color: #a81010; 
+  }
+  /* On hover, underline the text to show it's a link */
+  .rh-ceo-bar:hover .rh-ceo-text {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+
   .rh-ceo-text {
     font-family: var(--rh-head);
     font-size: 1.6rem;
@@ -237,6 +245,7 @@
     position: relative;
     top: 1px;
   }
+  
   .rh-play-icon {
     width: 24px;
     height: 24px;
@@ -244,6 +253,25 @@
     background: rgba(0,0,0,0.2);
     border-radius: 50%;
     padding: 5px;
+    /* Added Pulse Animation */
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    animation: pulse-white 2s infinite;
+  }
+
+  /* Pulse Keyframes */
+  @keyframes pulse-white {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    }
   }
 
   /* --- CATEGORY GRID --- */
@@ -453,14 +481,12 @@
   
   .rh-modal-content iframe {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    inset: 0;
     width: 100%;
     height: 100%;
     border: none;
     border-radius: 12px;
-    transform: translate(-50%, -50%) scale(1.35);
-    transform-origin: center;
+    transform: none;
   }
 
   .rh-close-modal {
@@ -567,7 +593,7 @@
       <svg class="rh-play-icon" viewBox="0 0 24 24">
          <path d="M8 5v14l11-7z"/>
       </svg>
-      <span class="rh-ceo-text">A Message from CEO Todd Abrams</span>
+      <span class="rh-ceo-text">Watch: A Message from CEO Todd Abrams</span>
   </div>
 
   <div class="rh-categories rh-breakout">
