@@ -18,10 +18,7 @@
       "type": "landing-christmas-gift-cards",
       "name": "Xmas GC Landing Page",
       "settings": {
-        "gift_card_product": "",
-        "variant_id_opt_1": "42900474888379",
-        "variant_id_opt_2": "42900474986683",
-        "variant_id_opt_3": "42900475052219"
+        "gift_card_product": ""
       }
     }
   },

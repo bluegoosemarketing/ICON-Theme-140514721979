@@ -94,7 +94,7 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "enable": false
+          "enable": true
         }
       },
       "template--blog": {
