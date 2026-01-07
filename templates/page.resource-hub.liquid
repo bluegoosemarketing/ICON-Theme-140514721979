@@ -162,7 +162,6 @@
 
   .rh-hero-headline {
     font-family: var(--rh-head);
-    /* Updated Clamp: Starts larger (5.5rem) to fill mobile width better */
     font-size: clamp(5.5rem, 11vw, 10rem); 
     line-height: 0.85;
     text-transform: uppercase;
@@ -231,7 +230,7 @@
     transform: none; 
   }
 
-  /* --- NEW PRODUCT BADGE/TAG --- */
+  /* --- PRODUCT TAG --- */
   .rh-product-tag {
     position: absolute;
     top: 8%; 
@@ -662,6 +661,167 @@
     .rh-video-container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
     .rh-video-quote { border-left: none; border-top: 3px solid var(--rh-red); padding-top: 20px; padding-left: 0; margin: 0 auto 30px; }
   }
+
+  /* --- VIDEO SECTION (Static Bottom) --- */
+.rh-video-section {
+  background: #fff;
+  color: var(--rh-black);
+  padding: 100px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.rh-video-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 80px;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.rh-video-title {
+  font-family: var(--rh-head);
+  font-size: clamp(3.5rem, 6vw, 5rem);
+  line-height: 0.9;
+  margin: 0 0 25px;
+  color: var(--rh-black);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.rh-video-quote {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: #333;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  border-left: 4px solid var(--rh-red);
+  font-weight: 500;
+}
+
+.rh-video-author {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--rh-red);
+  text-transform: uppercase;
+  font-family: var(--rh-body);
+  letter-spacing: 1px;
+}
+.rh-video-author span {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+  text-transform: none;
+  margin-top: 4px;
+  letter-spacing: 0;
+}
+
+.rh-video-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.rh-phone-outer {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  border-radius: 40px;
+  border: 8px solid #111;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.rh-phone-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #000;
+}
+
+.rh-phone-screen iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* --- MODAL (POP UP) FOR SHORTS/VERTICAL VIDEO --- */
+.rh-modal-overlay {
+  display: none; /* Hidden by default */
+  position: fixed;
+  z-index: 10000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.85);
+  backdrop-filter: blur(5px);
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.rh-modal-content {
+  position: relative;
+  height: 80vh;
+  aspect-ratio: 9/16;
+  width: auto;
+  max-width: 90vw;
+  background: #000;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.6);
+  border: 1px solid #333;
+  border-radius: 12px;
+  margin: auto;
+  overflow: hidden;
+}
+
+@media (max-width: 768px) {
+  .rh-modal-content {
+    width: 90vw;
+    height: auto;
+    aspect-ratio: 9/16;
+    max-height: 85vh;
+  }
+}
+
+.rh-modal-content iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+
+.rh-close-modal {
+  position: absolute;
+  top: -40px;
+  right: 0;
+  color: #fff;
+  font-size: 30px;
+  font-family: var(--rh-body);
+  cursor: pointer;
+  font-weight: 300;
+  transition: color 0.2s;
+  background: rgba(0,0,0,0.5);
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+.rh-close-modal:hover { color: var(--rh-red); background: #fff; }
+
+/* THIS is what makes your JS actually show it */
+.show-modal { display: flex !important; }
+
 </style>
 
 <div class="rh-page">
@@ -703,7 +863,7 @@
     </div>
   </section>
 
-  <div class="rh-ceo-bar rh-breakout" onclick="openVideoModal()">
+  <div class="rh-ceo-bar rh-breakout" onclick="window.openVideoModal()">
       <svg class="rh-play-icon" viewBox="0 0 24 24">
          <path d="M8 5v14l11-7z"/>
       </svg>
@@ -823,9 +983,9 @@
 
 </div>
 
-<div id="im-video-modal" class="rh-modal-overlay" onclick="closeVideoModal(event)">
+<div id="im-video-modal" class="rh-modal-overlay" onclick="window.closeVideoModal(event)">
   <div class="rh-modal-content">
-    <div class="rh-close-modal" onclick="closeVideoModal(event)">×</div>
+    <div class="rh-close-modal" onclick="window.closeVideoModal(event)">×</div>
     <iframe id="im-modal-iframe" 
       src="https://www.youtube.com/embed/_j2Y1GaOy_k?enablejsapi=1&rel=0&modestbranding=1&showinfo=0" 
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
@@ -876,21 +1036,50 @@
     }
   })();
 
-  // --- VIDEO MODAL LOGIC ---
-  var modal = document.getElementById("im-video-modal");
+  // --- ROBUST VIDEO MODAL LOGIC ---
+  // We attach these to window to ensure the onclick="..." attributes in HTML can find them.
+  
+  // 1. Capture the base src so we can reset it later (stops audio on close)
   var modalIframe = document.getElementById("im-modal-iframe");
-  var baseSrc = modalIframe.src;
+  var baseSrc = "";
+  if(modalIframe) { baseSrc = modalIframe.src; }
 
-  function openVideoModal() {
-    modal.classList.add("show-modal");
-  }
-
-  function closeVideoModal(e) {
-    if (e.target === modal || e.target.classList.contains('rh-close-modal')) {
-        modal.classList.remove("show-modal");
-        var tempSrc = modalIframe.src;
-        modalIframe.src = '';
-        modalIframe.src = baseSrc; 
+  window.openVideoModal = function() {
+    var modal = document.getElementById("im-video-modal");
+    if(modal) {
+      modal.classList.add("show-modal");
+      // Optional: Add autoplay logic here if desired
+      // var iframe = document.getElementById("im-modal-iframe");
+      // if(iframe) iframe.src = baseSrc + "&autoplay=1";
     }
-  }
+  };
+
+  window.closeVideoModal = function(e) {
+    var modal = document.getElementById("im-video-modal");
+    var iframe = document.getElementById("im-modal-iframe");
+    
+    // Close if clicked overlay or close button
+    if (modal && (e.target === modal || e.target.classList.contains('rh-close-modal'))) {
+        modal.classList.remove("show-modal");
+        
+        // Reset Video Source to stop audio playing in background
+        if(iframe) {
+          iframe.src = ''; 
+          iframe.src = baseSrc; // Restore original src
+        }
+    }
+  };
+
+  // 2. Auto-Trigger Logic (Wait for DOM)
+  document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Check for ?video=true (accepts true/1/yes, case-insensitive)
+const v = (urlParams.get('video') || '').toLowerCase();
+if (v === 'true' || v === '1' || v === 'yes') {
+  console.log("IM: Auto-triggering CEO video...");
+  setTimeout(() => window.openVideoModal(), 800);
+}
+
+  });
 </script>

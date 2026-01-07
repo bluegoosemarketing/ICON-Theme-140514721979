@@ -24,9 +24,9 @@
 
 <style>
   /* ========================================
-    THEME: NEW YEAR 2026 (Clean & Consistent)
-    Aesthetic: Professional, Clear, Action-Oriented
-    ========================================
+     THEME: CEO MESSAGE
+     Aesthetic: High Contrast, Editorial
+     ========================================
   */
 
   :root {
@@ -55,7 +55,7 @@
   }
   
   a.im-ann-bar-root:hover {
-    background-color: #000000 !important;
+    background-color: #111111 !important;
   }
 
   /* 2. LAYOUT CONTENT */
@@ -73,7 +73,7 @@
   }
 
   /* 3. ELEMENTS */
-  .im-badge-newyear {
+  .im-badge-video {
     background-color: var(--im-highlight) !important;
     color: #fff !important;
     font-weight: 800 !important;
@@ -83,29 +83,30 @@
     text-transform: uppercase !important;
     letter-spacing: 0.5px !important;
     line-height: 1;
+    display: flex; 
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+  }
+  
+  .im-badge-icon {
+    width: 8px; height: 8px; fill: white;
   }
 
   .im-text-main {
-    font-weight: 600 !important;
+    font-weight: 500 !important;
     color: #e0e0e0 !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   
   .im-text-bold {
-    font-weight: 800 !important;
-    color: #ffffff !important;
-    text-transform: uppercase;
-  }
-
-  .im-code-pill {
-    border: 1px solid rgba(255,255,255,0.3) !important;
-    background: rgba(255,255,255,0.05);
-    padding: 2px 8px !important;
-    border-radius: 4px !important;
-    font-family: monospace !important;
     font-weight: 700 !important;
-    font-size: 12px !important;
-    color: #fff !important;
-    margin-left: 5px;
+    color: #ffffff !important;
+    text-decoration: underline;
+    text-decoration-color: rgba(255,255,255,0.3);
+    text-underline-offset: 3px;
   }
 
   .im-arrow-icon {
@@ -114,11 +115,16 @@
     margin-left: 2px !important;
     transition: transform 0.2s ease;
     color: var(--im-highlight);
+    flex-shrink: 0;
   }
 
   a.im-ann-bar-root:hover .im-arrow-icon {
     transform: translateX(3px);
   }
+
+  /* --- RESPONSIVE TEXT SWITCHING --- */
+  .im-mobile-text { display: none; }
+  .im-desktop-text { display: inline; }
 
   /* ========================================
      4. MOBILE OPTIMIZATION
@@ -126,15 +132,14 @@
   */
   @media (max-width: 767px) {
     a.im-ann-bar-root {
-      min-height: 44px !important; /* Slightly taller for touch target */
+      min-height: 44px !important; 
     }
 
     .im-ann-content {
-      gap: 8px !important;
-      white-space: nowrap;
+      gap: 10px !important;
     }
     
-    .im-badge-newyear {
+    .im-badge-video {
       font-size: 9px !important;
       padding: 3px 6px !important;
     }
@@ -143,25 +148,24 @@
       font-size: 12px !important;
     }
 
-    /* Hide extraneous text on mobile to prevent wrapping */
-    .im-mobile-hide {
-      display: none !important;
-    }
+    /* Shorten text on mobile so it doesn't wrap awkwardly */
+    .im-desktop-text { display: none !important; }
+    .im-mobile-text { display: inline !important; }
   }
 </style>
 
-<a href="/discount/YEAR26?redirect=/pages/new-year-prep" class="im-ann-bar-root">
+<a href="/pages/new-year-prep?video=true" class="im-ann-bar-root">
   
   <div class="im-ann-content">
     
-    <div class="im-badge-newyear">NEW YEAR SALE</div>
+    <div class="im-badge-video">
+      <svg class="im-badge-icon" viewBox="0 0 10 10"><path d="M2 2L8 5L2 8V2Z"/></svg>
+      WATCH
+    </div>
     
     <span class="im-text-main">
-      Save <span class="im-text-bold">26%</span> <span class="im-mobile-hide">on your order</span>
-    </span>
-
-    <span class="im-text-main">
-      Code: <span class="im-code-pill">YEAR26</span>
+      <span class="im-desktop-text">Why Willpower Fails. <span class="im-text-bold">A message from CEO Todd Abrams.</span></span>
+      <span class="im-mobile-text">Why Willpower Fails. <span class="im-text-bold">Message from CEO.</span></span>
     </span>
     
     <svg class="im-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -173,7 +177,7 @@
 </a>
 
 <script>
-  console.log('IM New Year Bar: Loaded');
+  console.log('IM Announcement: CEO Video Hook Loaded');
 </script>
 
 {% endif %}
