@@ -822,6 +822,115 @@
 /* THIS is what makes your JS actually show it */
 .show-modal { display: flex !important; }
 
+/* --- VIDEO SECTION (Static Bottom) --- */
+.rh-video-section {
+  background: #fff;
+  color: var(--rh-black);
+  padding: 100px 0;
+  border-top: 1px solid #e5e5e5;
+}
+
+.rh-video-container {
+  max-width: 1300px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 0.8fr;
+  gap: 80px;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.rh-video-title {
+  font-family: var(--rh-head);
+  font-size: clamp(3.5rem, 6vw, 5rem);
+  line-height: 0.9;
+  margin: 0 0 25px;
+  color: var(--rh-black);
+  text-transform: uppercase;
+  font-weight: 700;
+}
+
+.rh-video-quote {
+  font-size: 1.3rem;
+  line-height: 1.5;
+  font-style: italic;
+  color: #333;
+  margin-bottom: 30px;
+  padding-left: 20px;
+  border-left: 4px solid var(--rh-red);
+  font-weight: 500;
+}
+
+.rh-video-author {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--rh-red);
+  text-transform: uppercase;
+  font-family: var(--rh-body);
+  letter-spacing: 1px;
+}
+
+.rh-video-author span {
+  display: block;
+  font-size: 0.9rem;
+  color: #666;
+  font-weight: 600;
+  text-transform: none;
+  margin-top: 4px;
+  letter-spacing: 0;
+}
+
+.rh-video-wrapper {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+.rh-phone-outer {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
+  background: #000;
+  border-radius: 40px;
+  border: 8px solid #111;
+  box-shadow: 0 30px 60px rgba(0,0,0,0.15);
+  position: relative;
+  overflow: hidden;
+}
+
+.rh-phone-screen {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background: #000;
+}
+
+.rh-phone-screen iframe {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+}
+
+/* Mobile: stack + keep it pretty */
+@media (max-width: 1024px) {
+  .rh-video-container {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 40px;
+    padding: 0 20px;
+  }
+
+  .rh-video-quote {
+    border-left: none;
+    border-top: 3px solid var(--rh-red);
+    padding-top: 20px;
+    padding-left: 0;
+    margin: 0 auto 30px;
+  }
+}
+
+
 </style>
 
 <div class="rh-page">
