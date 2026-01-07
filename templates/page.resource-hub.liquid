@@ -7,6 +7,10 @@
     --rh-black: #0a0a0a;
     --rh-white: #ffffff;
     --rh-red: #D11F1F;
+    --rh-bright-red: #ff4444; 
+    --rh-green: #2ecc71;       
+    --rh-grey-bg: #f4f4f5;     
+    --rh-dot-color: #cbd5e1;
     --rh-head: 'Teko', sans-serif;
     --rh-body: 'Inter', sans-serif;
   }
@@ -36,12 +40,39 @@
 
   /* --- HERO SECTION --- */
   .rh-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 0 60px;
+    position: relative;
+    background-color: #ffffff;
+    overflow: hidden; 
+  }
+
+  /* BACKGROUND */
+  .rh-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0; 
+    width: 100%; height: 100%;
+    background-image: radial-gradient(var(--rh-dot-color) 1.5px, transparent 1.5px);
+    background-size: 30px 30px; 
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, transparent 10%, black 85%);
+    mask-image: radial-gradient(circle at 50% 50%, transparent 10%, black 85%);
+    opacity: 0.6; 
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .rh-hero-inner {
     display: grid;
     grid-template-columns: 1fr 1.2fr;
     align-items: center;
-    gap: 0;
-    padding: 60px 0 40px; 
-    background-color: #ffffff;
+    width: 100%;
+    max-width: 1600px;
+    padding: 0 40px;
+    position: relative;
+    z-index: 2;
   }
 
   .rh-hero-text {
@@ -52,35 +83,35 @@
     position: relative; 
   }
 
-  /* --- SMART SALE NOTIFICATION (FIXED LAYOUT) --- */
+  /* --- SMART SALE NOTIFICATION --- */
   #im-smart-notify {
-    display: none; /* JS toggles this */
-    margin-bottom: 2rem;
+    display: none; 
+    margin-bottom: 2.5rem;
     display: inline-block;
     position: relative;
     padding: 12px 45px 12px 18px; 
-    background: #fff5f5;
-    border: 1px solid #f2dcdc;
+    background: #ffffff;
+    border: 1px solid #e5e5e5;
     border-left: 4px solid var(--rh-red);
     font-family: var(--rh-body);
     font-size: 0.95rem;
     color: #333;
     line-height: 1.5;
-    border-radius: 4px;
+    border-radius: 6px;
     width: fit-content;
     max-width: 100%;
     text-align: left;
     text-decoration: none;
     transition: all 0.2s ease;
     cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05); 
     animation: fadeIn 0.8s ease;
   }
   
   #im-smart-notify:hover {
-    background: #ffebeb;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(209, 31, 31, 0.1);
-    border-color: #eecbc;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+    border-color: #dcdcdc;
   }
   
   #im-smart-notify strong { color: var(--rh-black); font-weight: 800; }
@@ -131,7 +162,8 @@
 
   .rh-hero-headline {
     font-family: var(--rh-head);
-    font-size: clamp(4rem, 9vw, 9rem); 
+    /* Updated Clamp: Starts larger (5.5rem) to fill mobile width better */
+    font-size: clamp(5.5rem, 11vw, 10rem); 
     line-height: 0.85;
     text-transform: uppercase;
     margin: 0 0 2rem 0;
@@ -144,9 +176,9 @@
     
   .rh-text-slab { 
     display: block; 
-    color: #ffffff;
+    color: #ffffff; 
     -webkit-text-stroke: 3px var(--rh-black);
-    filter: drop-shadow(4px 6px 0px rgba(0,0,0,0.15));
+    filter: drop-shadow(4px 6px 0px rgba(0,0,0,0.1));
     paint-order: stroke fill;
     transform: scale(1.02);
     transform-origin: left;
@@ -174,8 +206,8 @@
     position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 550px; height: 550px;
-    border: 1px solid rgba(209, 31, 31, 0.15);
+    width: 580px; height: 580px;
+    border: 1px solid rgba(0,0,0,0.08); 
     border-radius: 50%;
     z-index: 0;
   }
@@ -183,8 +215,8 @@
     content: ''; position: absolute;
     top: 50%; left: 50%;
     transform: translate(-50%, -50%);
-    width: 480px; height: 480px;
-    border: 1px dashed rgba(0,0,0,0.1);
+    width: 460px; height: 460px;
+    border: 2px solid rgba(209, 31, 31, 0.08); 
     border-radius: 50%;
   }
 
@@ -192,24 +224,76 @@
     position: relative;
     z-index: 2;
     width: 100%;
-    max-width: 750px;
+    max-width: 640px;
     height: auto;
     object-fit: contain;
-    transform: rotate(-2deg); 
-    filter: drop-shadow(0 30px 50px rgba(0,0,0,0.15));
+    filter: none; 
+    transform: none; 
   }
 
-  .rh-badge {
+  /* --- NEW PRODUCT BADGE/TAG --- */
+  .rh-product-tag {
     position: absolute;
-    top: 0;
-    right: 10%;
-    width: 120px;
-    height: auto;
-    z-index: 3;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.1));
+    top: 8%; 
+    right: 12%; 
+    z-index: 10;
+    background: #ffffff;
+    padding: 12px 18px 12px 16px;
+    border-radius: 6px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.12);
+    text-decoration: none !important;
+    border-left: 4px solid var(--rh-red);
+    transform: rotate(-3deg); 
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
+    display: flex;
+    flex-direction: column;
+    min-width: 140px;
+  }
+  
+  .rh-product-tag:hover {
+    transform: rotate(0deg) scale(1.05) translateY(-5px);
+    box-shadow: 0 15px 40px rgba(209, 31, 31, 0.15);
+    border-left-width: 6px;
   }
 
-  /* --- CEO BANNER (UPDATED WITH PULSE) --- */
+  .rh-tag-label {
+    font-family: var(--rh-body);
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    color: #999;
+    margin-bottom: 2px;
+    letter-spacing: 1px;
+    display: block;
+  }
+
+  .rh-tag-name {
+    font-family: var(--rh-head);
+    font-size: 1.6rem;
+    line-height: 0.9;
+    font-weight: 600;
+    color: var(--rh-black);
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: 4px;
+  }
+  
+  .rh-tag-cta {
+    font-family: var(--rh-body);
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: var(--rh-red);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .rh-tag-cta svg { width: 12px; height: 12px; transition: transform 0.2s; }
+  .rh-product-tag:hover .rh-tag-cta svg { transform: translateX(3px); }
+
+
+  /* --- CEO BANNER --- */
   .rh-ceo-bar {
     background-color: var(--rh-red);
     color: #ffffff;
@@ -226,14 +310,8 @@
     position: relative;
     z-index: 20;
   }
-  .rh-ceo-bar:hover { 
-    background-color: #a81010; 
-  }
-  /* On hover, underline the text to show it's a link */
-  .rh-ceo-bar:hover .rh-ceo-text {
-    text-decoration: underline;
-    text-underline-offset: 4px;
-  }
+  .rh-ceo-bar:hover { background-color: #a81010; }
+  .rh-ceo-bar:hover .rh-ceo-text { text-decoration: underline; text-underline-offset: 4px; }
 
   .rh-ceo-text {
     font-family: var(--rh-head);
@@ -253,31 +331,20 @@
     background: rgba(0,0,0,0.2);
     border-radius: 50%;
     padding: 5px;
-    /* Added Pulse Animation */
     box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
     animation: pulse-white 2s infinite;
   }
 
-  /* Pulse Keyframes */
   @keyframes pulse-white {
-    0% {
-      transform: scale(0.95);
-      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-    }
-    70% {
-      transform: scale(1);
-      box-shadow: 0 0 0 10px rgba(255, 255, 255, 0);
-    }
-    100% {
-      transform: scale(0.95);
-      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-    }
+    0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7); }
+    70% { transform: scale(1); box-shadow: 0 0 0 10px rgba(255, 255, 255, 0); }
+    100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(255, 255, 255, 0); }
   }
 
   /* --- CATEGORY GRID --- */
   .rh-categories {
     background: #ffffff;
-    padding: 0 0 60px 0;
+    padding: 0 0 0 0;
     border-bottom: 1px solid #e5e5e5;
     position: relative;
     z-index: 10;
@@ -307,20 +374,10 @@
     transition: all 0.2s ease;
   }
   .rh-cat-card * { text-decoration: none !important; } 
-    
   .rh-cat-card:last-child { border-right: none; }
+  .rh-cat-card:hover { background: #f8f8f8; z-index: 2; }
 
-  .rh-cat-card:hover {
-    background: #f8f8f8;
-    z-index: 2;
-  }
-
-  .rh-cat-text {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
+  .rh-cat-text { display: flex; flex-direction: column; align-items: flex-start; }
   .rh-cat-sub {
     font-family: var(--rh-body);
     font-size: 0.85rem;
@@ -331,7 +388,6 @@
     margin-bottom: 8px;
     display: block;
   }
-
   .rh-cat-title {
     font-family: var(--rh-head);
     font-size: 3rem;
@@ -341,7 +397,6 @@
     color: var(--rh-black);
     display: block;
   }
-    
   .rh-arrow { 
     color: var(--rh-red); 
     transition: transform 0.2s; 
@@ -350,210 +405,259 @@
     font-family: sans-serif;
     font-weight: 300;
   }
-    
   .rh-cat-card:hover .rh-arrow { transform: translateX(8px); }
 
-  /* --- VIDEO SECTION (Static Bottom) --- */
-  .rh-video-section {
-    background: #fff;
-    color: var(--rh-black);
+  /* --- NEW SYSTEM VS WILLPOWER SECTION --- */
+  .rh-system-section {
+    background-color: #050505;
+    color: #fff;
     padding: 100px 0;
-    border-top: 1px solid #e5e5e5;
-  }
-
-  .rh-video-container {
-    max-width: 1300px;
-    margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1fr 0.8fr;
-    gap: 80px;
-    align-items: center;
-    padding: 0 40px;
-  }
-
-  .rh-video-title {
-    font-family: var(--rh-head);
-    font-size: clamp(3.5rem, 6vw, 5rem);
-    line-height: 0.9;
-    margin: 0 0 25px;
-    color: var(--rh-black);
-    text-transform: uppercase;
-    font-weight: 700;
-  }
-
-  .rh-video-quote {
-    font-size: 1.3rem;
-    line-height: 1.5;
-    font-style: italic;
-    color: #333;
-    margin-bottom: 30px;
-    padding-left: 20px;
-    border-left: 4px solid var(--rh-red);
-    font-weight: 500;
-  }
-
-  .rh-video-author {
-    font-size: 1.1rem;
-    font-weight: 800;
-    color: var(--rh-red);
-    text-transform: uppercase;
-    font-family: var(--rh-body);
-    letter-spacing: 1px;
-  }
-  .rh-video-author span { display: block; font-size: 0.9rem; color: #666; font-weight: 600; text-transform: none; margin-top: 4px; letter-spacing: 0; }
-
-  .rh-video-wrapper {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-  }
-
-  .rh-phone-outer {
-    width: 100%;
-    max-width: 360px;
-    aspect-ratio: 9 / 16;
-    background: #000;
-    border-radius: 40px;
-    border: 8px solid #111;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.15);
     position: relative;
     overflow: hidden;
   }
-
-  .rh-phone-screen {
-    width: 100%;
-    height: 100%;
-    position: relative;
-    background: #000;
-  }
-
-  .rh-phone-screen iframe {
+  
+  .rh-system-section::before {
+    content: '';
     position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
+    top: -100px; left: -100px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(209,31,31,0.08) 0%, transparent 70%);
+    pointer-events: none;
   }
 
-  /* --- MODAL (POP UP) FOR SHORTS/VERTICAL VIDEO --- */
-  .rh-modal-overlay {
-    display: none; /* Hidden by default */
-    position: fixed;
-    z-index: 10000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0,0,0,0.85);
-    backdrop-filter: blur(5px);
+  .rh-sys-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 40px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 80px;
     align-items: center;
-    justify-content: center;
-    padding: 20px; /* Padding for mobile so it doesn't touch edges */
   }
-  
-  .rh-modal-content {
+
+  .rh-sys-stat-block {
+    text-align: left;
     position: relative;
-    
-    /* FIX: Prioritize Height on Desktop so video isn't tiny */
-    height: 80vh; 
-    aspect-ratio: 9/16; 
-    width: auto; /* Let width scale automatically based on height */
-    
-    /* Fallback to prevent overflow */
-    max-width: 90vw;
-    
-    background: #000;
-    box-shadow: 0 20px 50px rgba(0,0,0,0.6);
-    border: 1px solid #333;
-    border-radius: 12px;
-    margin: auto;
-    overflow: hidden; /* Ensures corners stay rounded */
-  }
-
-  /* Mobile Override: Prioritize Width on small screens */
-  @media (max-width: 768px) {
-    .rh-modal-content {
-      width: 90vw; /* Wide on mobile */
-      height: auto;
-      aspect-ratio: 9/16;
-      max-height: 85vh; /* Safety cap */
-    }
   }
   
-  .rh-modal-content iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: none;
-    border-radius: 12px;
-    transform: none;
+  .rh-sys-eyebrow {
+    font-family: var(--rh-body);
+    font-size: 0.9rem;
+    font-weight: 800;
+    color: var(--rh-bright-red);
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+    display: block;
   }
 
-  .rh-close-modal {
-    position: absolute;
-    top: -40px;
-    right: 0;
+  .rh-sys-big-stat {
+    font-family: var(--rh-head);
+    font-size: clamp(8rem, 15vw, 13rem);
+    line-height: 0.8;
+    font-weight: 700;
     color: #fff;
-    font-size: 30px;
-    font-family: var(--rh-body);
-    cursor: pointer;
-    font-weight: 300;
-    transition: color 0.2s;
-    /* Ensure close button is visible even if modal is tall */
-    background: rgba(0,0,0,0.5); 
-    width: 40px; 
-    height: 40px;
+    display: block;
+    margin-left: -8px;
+    margin-bottom: 10px;
+  }
+
+  .rh-sys-stat-desc {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    font-weight: 500;
+    margin-top: 10px;
+    max-width: 450px;
+    color: #ccc;
+  }
+  .rh-sys-stat-desc span { 
+    color: #fff; 
+    font-weight: 700; 
+    text-decoration: underline; 
+    text-decoration-color: var(--rh-bright-red); 
+    text-underline-offset: 4px; 
+  }
+
+  /* Comparison HUD Card */
+  .rh-sys-hud {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border: 1px solid #222;
+    background: #0a0a0a;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .rh-sys-hud::after {
+    content: '';
+    position: absolute;
+    top: 15%; bottom: 15%;
+    left: 50%;
+    width: 1px;
+    background: #333;
+    z-index: 10;
+  }
+
+  .rh-sys-col {
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+  }
+
+  .rh-sys-col.fail { background: #0f0f0f; }
+  
+  .rh-sys-col.success {
+    background: linear-gradient(160deg, #1a0505 0%, #0a0a0a 100%);
+    position: relative;
+  }
+
+  .rh-hud-header {
+    font-family: var(--rh-head);
+    font-size: 2.2rem;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 30px;
+    padding-bottom: 20px; 
     display: flex;
     align-items: center;
-    justify-content: center;
-    border-radius: 50%;
+    justify-content: space-between; 
+    gap: 15px;
+    border-bottom: 1px solid rgba(255,255,255,0.1); 
   }
-  .rh-close-modal:hover { color: var(--rh-red); background: #fff; }
+  
+  .rh-hud-header.rh-muted { color: #888; }
+  .rh-hud-header.bright { color: #fff; text-shadow: 0 0 20px rgba(255,255,255,0.1); }
 
-  .show-modal { display: flex !important; }
+  .rh-status-icon {
+    font-size: 1.2rem;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    border-radius: 50%;
+    font-family: var(--rh-body);
+    font-weight: 900;
+  }
+  
+  .rh-status-icon.x { 
+    background: rgba(255, 50, 50, 0.1); 
+    color: var(--rh-bright-red); 
+    border: 1px solid rgba(255, 50, 50, 0.2); 
+  }
+  
+  .rh-status-icon.check { 
+    background: var(--rh-green); 
+    color: #fff; 
+    box-shadow: 0 0 15px rgba(46, 204, 113, 0.3); 
+  }
 
-  /* --- MOBILE --- */
+  .rh-hud-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .rh-hud-item {
+    font-family: var(--rh-body);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    line-height: 1.2;
+  }
+  
+  .rh-bullet {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    display: block;
+    flex-shrink: 0;
+  }
+  .rh-bullet.bad { background: var(--rh-bright-red); opacity: 0.5; }
+  .rh-bullet.good { background: var(--rh-green); box-shadow: 0 0 8px var(--rh-green); }
+  
+  .rh-hud-item.dim { color: #999; font-weight: 500; text-decoration: none; }
+  .rh-hud-item.bold { color: #fff; font-weight: 700; }
+  
+  /* --- MOBILE GENERAL --- */
   @media (max-width: 1024px) {
     .rh-container { padding: 0 20px; }
 
-    .rh-hero { grid-template-columns: 1fr; gap: 30px; padding: 40px 0 20px; text-align: center; }
+    /* Fix Hero Mobile */
+    .rh-hero-inner { grid-template-columns: 1fr; padding: 0 20px; text-align: center; }
+    
     .rh-hero-text { padding-right: 0; padding-bottom: 2rem; align-items: center; }
-    
     .rh-hero-headline { margin-left: 0; }
-    
     .rh-text-slab { 
-        transform-origin: center; 
-        -webkit-text-stroke: 1.5px var(--rh-black); 
+      transform-origin: center; 
+      -webkit-text-stroke: 1.5px var(--rh-black); 
+      color: #ffffff;
     }
     .rh-hero-desc { margin: 0 auto 30px; padding-left: 0; text-align: center; font-size: 1rem; }
     
-    /* Smart Banner Mobile Tweak */
-    #im-smart-notify { 
-      width: 100%; 
-      max-width: 400px; 
-      margin: 0 auto 20px auto; 
-    }
+    #im-smart-notify { width: 100%; max-width: 400px; margin: 0 auto 20px auto; }
 
-    .rh-hero-visual { min-height: auto; }
+    .rh-hero-visual { min-height: auto; padding-left: 0; }
     .rh-ring { width: 320px; height: 320px; }
     .rh-ring::after { width: 280px; height: 280px; }
     .rh-hero-img { max-width: 100%; transform: rotate(0deg); }
-    .rh-badge { top: -10px; right: 5%; width: 80px; }
     
-    /* Banner Mobile */
+    /* Mobile Tag Adjustment - Centered & Lifted */
+    .rh-product-tag { 
+      top: -25px; /* Lifted slightly higher for clearance */
+      right: 5%; 
+      transform: rotate(0deg); 
+      padding: 8px 14px;
+      min-width: auto;
+      border-left-width: 3px;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      
+      /* Centering Logic */
+      align-items: center; 
+      text-align: center;
+    }
+
+    .rh-tag-label { font-size: 0.6rem; margin-bottom: 1px; } 
+    .rh-tag-name { font-size: 1.1rem; margin-bottom: 3px; } 
+    
+    .rh-tag-cta { 
+      font-size: 0.7rem; 
+      /* Center the text and arrow within the flex row */
+      justify-content: center; 
+      width: 100%;
+    } 
+    .rh-tag-cta svg { width: 10px; height: 10px; }
+    
     .rh-ceo-bar { padding: 15px; }
     .rh-ceo-text { font-size: 1.2rem; }
 
-    /* Category Mobile Stack */
     .rh-cat-grid { grid-template-columns: 1fr; border-top: none; }
-    .rh-cat-card { 
-      border-right: none; border-bottom: 1px solid #e5e5e5; 
-      padding: 2rem; 
-      flex-direction: row; 
-      text-align: left;
-      align-items: center;
-    }
+    .rh-cat-card { border-right: none; border-bottom: 1px solid #e5e5e5; padding: 2rem; flex-direction: row; text-align: left; align-items: center; }
     .rh-cat-title { font-size: 2rem; }
+
+    .rh-system-section { padding: 60px 0; }
+    .rh-sys-container { grid-template-columns: 1fr; gap: 40px; text-align: left; }
+    .rh-sys-stat-block { text-align: center; }
+    .rh-sys-big-stat { font-size: 25vw; line-height: 0.9; margin-left: 0; }
+    .rh-sys-stat-desc { margin: 10px auto 0 auto; }
+    
+    .rh-sys-hud { grid-template-columns: 1fr 1fr; gap: 0; }
+    .rh-sys-hud::after { top: 10px; bottom: 10px; }
+    .rh-sys-col { padding: 20px 15px; }
+
+    .rh-hud-header { 
+        font-size: 1.4rem; 
+        flex-direction: column-reverse; 
+        gap: 8px;
+        text-align: center;
+        margin-bottom: 15px;
+        padding-bottom: 15px;
+        justify-content: center;
+    }
+    .rh-hud-item { font-size: 0.85rem; flex-direction: column; text-align: center; gap: 6px; }
 
     .rh-video-container { grid-template-columns: 1fr; text-align: center; gap: 40px; }
     .rh-video-quote { border-left: none; border-top: 3px solid var(--rh-red); padding-top: 20px; padding-left: 0; margin: 0 auto 30px; }
@@ -561,9 +665,9 @@
 </style>
 
 <div class="rh-page">
-  <div class="rh-container">
-    
-    <section class="rh-hero">
+  <section class="rh-hero rh-breakout">
+    <div class="rh-hero-inner">
+      
       <div class="rh-hero-text">
         
         <a href="/collections/signature-menu?discount=YEAR26" id="im-smart-notify" class="js-sale-link">
@@ -577,17 +681,27 @@
           <span class="rh-text-slab">HABITS REMAIN.</span>
         </h1>
         <p class="rh-hero-desc">
-          Resolutions get you started. Systems keep you going. We’ve built the blueprint to put your nutrition on autopilot—so you can focus on the work, not the prep.
+          Resolutions get you started. Systems keep you going. We’ve built the blueprint to put your nutrition on autopilot so you can focus on the work, not the prep.
         </p>
       </div>
       
       <div class="rh-hero-visual">
         <div class="rh-ring"></div>
-        <img class="rh-hero-img" src="https://cdn.shopify.com/s/files/1/1957/2713/files/Steak-Rice-GB_v1.webp?v=1765725763" alt="Icon Meals Signature Dish">
-        <img src="//iconmeals.com/cdn/shop/files/USDA-Badge_v1.webp?v=1765740274&width=300" class="rh-badge" alt="USDA Badge">
+        
+        <a href="https://iconmeals.com/collections/signature-menu/products/honey-mustard-chicken?discount=YEAR26" class="rh-product-tag js-sale-link">
+          <span class="rh-tag-label">Featured Meal</span>
+          <span class="rh-tag-name">Honey Mustard<br>Chicken</span>
+          <span class="rh-tag-cta">
+            Order Now 
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M1 5H9M9 5L5 1M9 5L5 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
+        </a>
+
+        <img class="rh-hero-img" src="https://cdn.shopify.com/s/files/1/1957/2713/files/Honey-Mustard-Chicken_Angled_v1.webp?v=1767797734" alt="Honey Mustard Chicken">
       </div>
-    </section>
-  </div>
+
+    </div>
+  </section>
 
   <div class="rh-ceo-bar rh-breakout" onclick="openVideoModal()">
       <svg class="rh-play-icon" viewBox="0 0 24 24">
@@ -626,6 +740,65 @@
     </div>
   </div>
 
+  <section class="rh-system-section rh-breakout">
+    <div class="rh-sys-container">
+        
+        <div class="rh-sys-stat-block">
+            <span class="rh-sys-eyebrow">The Jan 12th Reality</span>
+            <span class="rh-sys-big-stat">80%</span>
+            <p class="rh-sys-stat-desc">
+                of people quit their resolutions by week two. They rely on <span>willpower</span> (which runs out) instead of <span>automation</span> (which doesn't).
+            </p>
+        </div>
+
+        <div class="rh-sys-hud">
+            
+            <div class="rh-sys-col fail">
+                <div class="rh-hud-header rh-muted">
+                    <span>WILLPOWER</span>
+                    <div class="rh-status-icon x">×</div>
+                </div>
+                <ul class="rh-hud-list">
+                    <li class="rh-hud-item dim">
+                        <span class="rh-bullet bad"></span> Shop 2x / Week
+                    </li>
+                    <li class="rh-hud-item dim">
+                        <span class="rh-bullet bad"></span> Cook Daily
+                    </li>
+                    <li class="rh-hud-item dim">
+                        <span class="rh-bullet bad"></span> Guess Macros
+                    </li>
+                    <li class="rh-hud-item dim">
+                        <span class="rh-bullet bad"></span> Burnout
+                    </li>
+                </ul>
+            </div>
+
+            <div class="rh-sys-col success">
+                <div class="rh-hud-header bright">
+                    <span>SYSTEM</span>
+                    <div class="rh-status-icon check">✓</div>
+                </div>
+                <ul class="rh-hud-list">
+                    <li class="rh-hud-item bold">
+                        <span class="rh-bullet good"></span> Auto-Delivery
+                    </li>
+                    <li class="rh-hud-item bold">
+                        <span class="rh-bullet good"></span> Heat & Eat
+                    </li>
+                    <li class="rh-hud-item bold">
+                        <span class="rh-bullet good"></span> Exact Macros
+                    </li>
+                    <li class="rh-hud-item bold">
+                        <span class="rh-bullet good"></span> Execution
+                    </li>
+                </ul>
+            </div>
+
+        </div>
+
+    </div>
+  </section>
   {% section 'section-meal-plan-grid' %}
 
   <section class="rh-video-section rh-breakout">
@@ -710,19 +883,14 @@
 
   function openVideoModal() {
     modal.classList.add("show-modal");
-    // Optional: Autoplay when opening
-    // modalIframe.src = baseSrc + "&autoplay=1";
   }
 
   function closeVideoModal(e) {
-    // Close if clicked overlay or close button
     if (e.target === modal || e.target.classList.contains('rh-close-modal')) {
         modal.classList.remove("show-modal");
-        
-        // Stop video playback by resetting src
         var tempSrc = modalIframe.src;
         modalIframe.src = '';
-        modalIframe.src = baseSrc; // Reset to original without autoplay
+        modalIframe.src = baseSrc; 
     }
   }
 </script>
