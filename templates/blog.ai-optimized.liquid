@@ -1,0 +1,50 @@
+{% layout none %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <title>{{ blog.title }}</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 32px 20px;
+        font-family: "Courier New", Courier, monospace;
+        background: #ffffff;
+        color: #000000;
+      }
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      a {
+        color: #000000;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>{{ blog.title }}</h1>
+      {% paginate blog.articles by 100 %}
+        <ul>
+          {% for article in blog.articles %}
+            <li>
+              <a href="{{ article.url }}">{{ article.title }}</a> - {{ article.published_at | date: "%B %d, %Y" }}
+            </li>
+          {% endfor %}
+        </ul>
+        {% if paginate.pages > 1 %}
+          <nav>
+            {% if paginate.previous %}
+              <a href="{{ paginate.previous.url }}">Previous</a>
+            {% endif %}
+            {% if paginate.next %}
+              <a href="{{ paginate.next.url }}">Next</a>
+            {% endif %}
+          </nav>
+        {% endif %}
+      {% endpaginate %}
+    </main>
+  </body>
+</html>
