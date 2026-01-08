@@ -1,40 +1,7 @@
-{% layout none %}
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="robots" content="index, follow">
-    <title>{{ article.title }}</title>
-    <style>
-      body {
-        margin: 0;
-        padding: 32px 20px;
-        font-family: "Courier New", Courier, monospace;
-        background: #ffffff;
-        color: #000000;
-      }
-      main {
-        max-width: 800px;
-        margin: 0 auto;
-      }
-      a {
-        color: #000000;
-      }
-      .meta {
-        margin: 12px 0 24px;
-        font-size: 0.95rem;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <a href="{{ article.blog.url }}">Back to Index</a>
-      <h1>{{ article.title }}</h1>
-      <div class="meta">Published {{ article.published_at | date: "%B %d, %Y" }}</div>
-      <div class="content">
-        {{ article.content }}
-      </div>
-    </main>
-  </body>
-</html>
+{% layout 'ai-optimized' %}
+<a href="/blogs/ai-optimized">Back to Index</a>
+<h1>{{ article.title }}</h1>
+<div class="meta">Published {{ article.published_at | date: "%B %d, %Y" }}</div>
+<div class="content">
+  {{ article.content }}
+</div>

@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="robots" content="index, follow">
+    <title>{{ page_title }}</title>
+    {%- comment -%}Pandectes: only script asset present in theme assets.{%- endcomment -%}
+    {{ 'pandectes-rules.min.js' | asset_url | script_tag }}
+    <style>
+      body {
+        margin: 0;
+        padding: 32px 20px;
+        font-family: "Courier New", Courier, monospace;
+        background: #ffffff;
+        color: #000000;
+      }
+      main {
+        max-width: 800px;
+        margin: 0 auto;
+      }
+      a {
+        color: #000000;
+      }
+      .meta {
+        margin: 12px 0 24px;
+        font-size: 0.95rem;
+      }
+    </style>
+  </head>
+  <body class="ai-optimized">
+    <main>
+      {{ content_for_layout }}
+    </main>
+  </body>
+</html>
