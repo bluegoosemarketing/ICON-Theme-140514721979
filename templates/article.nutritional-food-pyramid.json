@@ -1,0 +1,81 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--article",
+      "disabled": true,
+      "settings": {
+        "show_author_name": false,
+        "show_dates": true,
+        "social_sharing_facebook": true,
+        "social_sharing_twitter": true,
+        "social_sharing_pinterest": true
+      }
+    },
+    "blog_comfort_meal_season_XdR3XH": {
+      "type": "BLOG_Comfort-Meal-Season",
+      "blocks": {
+        "meal_swap_apxE8H": {
+          "type": "meal_swap",
+          "settings": {
+            "product_handle": "beefy-chili-mac",
+            "swap_heading": "The Swap",
+            "swap_title": "Greasy, Calorie-Bomb Chili",
+            "swap_description": "<p>Traditional chili is often loaded with fatty ground beef, swimming in oil, and served with mountains of cheese. It feels good for an hour, then puts you to sleep.</p>",
+            "build_heading": "The Remastered Build",
+            "macro_protein": 49,
+            "macro_carbs": 14,
+            "macro_fat": 26,
+            "override_title": "",
+            "override_build_description": "",
+            "product_button_text": "Shop This Meal",
+            "override_button_link": ""
+          }
+        },
+        "meal_swap_8NgNTx": {
+          "type": "meal_swap",
+          "settings": {
+            "product_handle": "cheeseburger-mix-up",
+            "swap_heading": "The Swap",
+            "swap_title": "Greasy, Calorie-Bomb Chili",
+            "swap_description": "<p>Traditional chili is often loaded with fatty ground beef, swimming in oil, and served with mountains of cheese. It feels good for an hour, then puts you to sleep.</p>",
+            "build_heading": "The Remastered Build",
+            "macro_protein": 42,
+            "macro_carbs": 35,
+            "macro_fat": 15,
+            "override_title": "",
+            "override_build_description": "",
+            "product_button_text": "Shop This Meal",
+            "override_button_link": ""
+          }
+        }
+      },
+      "block_order": [
+        "meal_swap_apxE8H",
+        "meal_swap_8NgNTx"
+      ],
+      "name": "Article: Comfort Food",
+      "settings": {
+        "hero_headline": "Crave the Comfort.",
+        "hero_highlight": "Crush Your Macros.",
+        "hero_intro": "<p>The temperature is dropping, and your appetite for hearty food is rising. You don't have to fight the craving—you just have to feed it smarter. Here's how to get the fall flavors you want without the high-fat, high-carb consequences.</p>",
+        "cta_headline": "Comfort Food Isn't a \"Cheat.\"\nIt's Fuel.",
+        "cta_text": "<p>You don't have to choose between the food you love and the results you want. By obsessing over ingredient quality and macro-balancing, we've done the work for you.</p>",
+        "cta_button_text": "Shop Healthy Comfort Meals",
+        "cta_button_link": ""
+      }
+    }
+  },
+  "order": [
+    "main",
+    "blog_comfort_meal_season_XdR3XH"
+  ]
+}

@@ -1,0 +1,288 @@
+{% comment %}
+  Section: Nutrition 2026 Article Content
+  Description: Content for the 2026 Nutrition Guidelines post. 
+  Updates: Fixed Schema Error by moving default URL logic to Liquid.
+{% endcomment %}
+
+{% style %}
+  /* Scoped Section Styles */
+  #shopify-section-{{ section.id }} .nutrition-blog-container {
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 20px 20px 40px 20px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; /* Apple System Stack */
+    line-height: 1.6;
+    color: #1a1a1a;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  #shopify-section-{{ section.id }} h1 {
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1.1;
+    color: #000;
+    letter-spacing: -0.5px;
+  }
+
+  #shopify-section-{{ section.id }} .subtitle {
+    font-size: 18px;
+    color: #555;
+    margin-bottom: 30px;
+    display: block;
+    line-height: 1.4;
+  }
+
+  #shopify-section-{{ section.id }} h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin-top: 40px;
+    margin-bottom: 15px;
+    color: #000;
+    border-bottom: 2px solid #efefef;
+    padding-bottom: 10px;
+  }
+
+  #shopify-section-{{ section.id }} p {
+    font-size: 17px;
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  #shopify-section-{{ section.id }} strong {
+    font-weight: 700;
+    color: #000;
+  }
+
+  /* Link Styling */
+  #shopify-section-{{ section.id }} a.text-link {
+    color: #d32f2f;
+    text-decoration: underline;
+  }
+  #shopify-section-{{ section.id }} a.text-link:hover {
+    color: #000;
+  }
+
+  /* Image Styling */
+  #shopify-section-{{ section.id }} .blog-image-wrapper {
+    display: block;
+    text-decoration: none;
+    transition: opacity 0.2s ease;
+  }
+  #shopify-section-{{ section.id }} .blog-image-wrapper:hover {
+    opacity: 0.95;
+  }
+  #shopify-section-{{ section.id }} .blog-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .image-caption {
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    display: block;
+    margin-bottom: 30px;
+    font-style: italic;
+  }
+
+  /* Callout Box */
+  #shopify-section-{{ section.id }} .highlight-box {
+    background-color: #f8f8f8;
+    border-left: 4px solid #d32f2f; /* ICON Red */
+    padding: 20px;
+    margin: 30px 0;
+    border-radius: 0 4px 4px 0;
+  }
+
+  /* Button Styling */
+  #shopify-section-{{ section.id }} .cta-container {
+    margin-top: 40px;
+    text-align: center;
+    background: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    border: 1px solid #eee;
+  }
+
+  #shopify-section-{{ section.id }} .cta-button {
+    display: inline-block;
+    background-color: #d32f2f; 
+    color: #ffffff !important;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 18px;
+    padding: 16px 32px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  #shopify-section-{{ section.id }} .cta-button:hover {
+    background-color: #b71c1c;
+  }
+  
+  /* Promo Blurb Styling */
+  #shopify-section-{{ section.id }} .promo-blurb {
+    margin-top: 25px;
+    font-size: 15px;
+    color: #333;
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 6px;
+    border: 1px dashed #d32f2f;
+    display: inline-block;
+  }
+  #shopify-section-{{ section.id }} .promo-code {
+    background: #eee;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-weight: 700;
+    font-size: 16px;
+    color: #d32f2f;
+  }
+  #shopify-section-{{ section.id }} .promo-fine-print {
+    font-size: 13px;
+    color: #777;
+    margin-top: 5px;
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .source-link {
+    font-size: 12px;
+    color: #999;
+    text-align: center;
+    display: block;
+    margin-top: 20px;
+  }
+  #shopify-section-{{ section.id }} .source-link a {
+    color: #999;
+  }
+
+  /* Desktop adjustments */
+  @media (min-width: 600px) {
+    #shopify-section-{{ section.id }} h1 { font-size: 42px; }
+    #shopify-section-{{ section.id }} .cta-button { width: auto; }
+  }
+{% endstyle %}
+
+<!-- LOGIC TO HANDLE THE DEFAULT LINK -->
+{% assign default_url = "/discount/YEAR26?redirect=%2Fcollections%2Fdiscountable-items" %}
+{% assign final_link = section.settings.cta_link | default: default_url %}
+
+<div class="nutrition-blog-container">
+
+  <!-- Headline Section -->
+  <h1>The Food Pyramid Just Got Flipped. Finally.</h1>
+  <span class="subtitle">The new 2026 federal guidance prioritizes protein and real food. Here is why that matters for your weekly prep.</span>
+
+  <!-- IMAGE SECTION: Clickable to Discount -->
+  <a href="{{ final_link }}" class="blog-image-wrapper">
+    {% if section.settings.main_image != blank %}
+      {{ section.settings.main_image | image_url: width: 1200 | image_tag: class: 'blog-image', loading: 'lazy', alt: 'New 2026 Real Food Pyramid Graph' }}
+    {% else %}
+      <!-- Fallback if no image is uploaded -->
+      <div style="background: #eee; width: 100%; height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 8px; margin-bottom: 10px; color: #666;">
+        Upload Image in Theme Editor
+      </div>
+    {% endif %}
+  </a>
+  
+  <span class="image-caption">The new priority: Protein and Real Food at the top. Everything else supports it.</span>
+
+  <!-- Intro -->
+  <p>For decades, we were told to build our plates on a foundation of grains and carbohydrates. Protein was an afterthought.</p>
+  
+  <p><strong>That era is officially over.</strong></p>
+  
+  <p>The <a href="https://www.cnbc.com/2026/01/07/rfk-jr-nutrition-guidelines-protein-processed-food.html" target="_blank" class="text-link">new 2026 federal nutrition guidance</a> has effectively flipped the pyramid. The new baseline isn't bread—it's protein, healthy fats, and real, unprocessed ingredients.</p>
+  
+  <p>At ICON, we didn’t have to change a single menu item to meet these standards. This is how we’ve always cooked.</p>
+
+  <!-- Section 1 -->
+  <h2>1. Protein is the New Anchor</h2>
+  <p>Look at the top of that graphic. <strong>Protein, dairy, and healthy fats take the biggest share.</strong></p>
+  
+  <p>The new guidance suggests hitting 1.2–1.6g of protein per kg of body weight. That is significantly higher than the old "minimums" most people aim for.</p>
+  
+  <p><strong>The Takeaway:</strong> You can’t treat protein as a side dish anymore. It needs to anchor every single meal—Breakfast, Lunch, and Dinner.</p>
+
+  <!-- Section 2 -->
+  <h2>2. "Real Food" vs. "Ultra-Processed"</h2>
+  <p>The headline of the new guidance is simple: <strong>Eat Real Food.</strong></p>
+  
+  <p>They are drawing a hard line in the sand against "ultra-processed" foods—items engineered with additives to be hyper-palatable.</p>
+  
+  <div class="highlight-box">
+    <strong>The ICON Standard:</strong> There is a massive difference between <em>processed</em> (cooked, weighed, and sealed) and <em>ultra-processed</em> (chemically altered). <br><br>We cook real chicken, beef, and vegetables. We use cold temperatures to preserve them, not a chemistry set.
+  </div>
+
+  <!-- Section 3 -->
+  <h2>3. The 10g Sugar Cap</h2>
+  <p>While not on the chart, the new guidance comes with a specific number for sugar: <strong>Cap added sugar at roughly 10g per meal.</strong></p>
+  
+  <p>If you grab a "healthy" muffin or a takeout bowl with glaze, you likely blew that cap in the first three bites.</p>
+  
+  <p>We rely on savory spices and whole-food ingredients. When you check an ICON label, you’ll see we don't hide calories in sugar.</p>
+
+  <!-- Conclusion / CTA -->
+  <div class="cta-container">
+    <h3>Busy + Chaotic → Nutrition Handled</h3>
+    <p>You can spend your Sunday trying to re-engineer your grocery list to match the new pyramid.</p>
+    <p>Or you can order a box that already hits the standard.</p>
+    
+    <!-- CTA Button -->
+    <a href="{{ final_link }}" class="cta-button">
+      {{ section.settings.cta_text | default: 'Shop the New Standard' }}
+    </a>
+
+    <!-- Discount Blurb -->
+    <div class="promo-blurb">
+      <strong>New Year Kickoff:</strong> Save <strong>26% OFF</strong> your order.<br>
+      Use Code: <span class="promo-code">YEAR26</span> at checkout.
+      <span class="promo-fine-print">Sale ends Sunday, Jan 11th at 11:59pm CT.</span>
+    </div>
+
+  </div>
+  
+  <!-- Subtle Source Footer -->
+  <span class="source-link">Source: <a href="https://www.cnbc.com/2026/01/07/rfk-jr-nutrition-guidelines-protein-processed-food.html" target="_blank">Read the full report at CNBC</a>.</span>
+
+</div>
+
+{% schema %}
+{
+  "name": "Nutrition 2026 Article",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "main_image",
+      "label": "Pyramid Image"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link (Auto-Discount)"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Button Text",
+      "default": "Shop the New Standard"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Nutrition 2026 Article"
+    }
+  ]
+}
+{% endschema %}
