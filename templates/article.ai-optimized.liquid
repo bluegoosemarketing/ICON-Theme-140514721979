@@ -1,4 +1,57 @@
 {% layout 'ai-optimized' %}
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Article",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "{{ shop.url }}{{ article.url }}"
+  },
+  "headline": "{{ article.title | escape }}",
+  "description": "{{ article.excerpt_or_content | strip_html | truncatewords: 25 | escape }}",
+  "image": {
+    "@type": "ImageObject",
+    "url": "https:{{ article.image.src | img_url: '1024x1024' }}",
+    "height": 1024,
+    "width": 1024
+  },
+  "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}",
+  "dateModified": "{{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' }}",
+  "author": {
+    "@type": "Organization",
+    "name": "ICON Meals"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "ICON Meals",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://cdn.shopify.com/s/files/1/1957/2713/files/ICON_Meals_Logo.png"
+    }
+  }
+}
+</script>
+
+{% comment %} FAQ Schema: Auto-generates if title indicates a question {% endcomment %}
+{% if article.title contains 'How' or article.title contains 'What' or article.title contains 'Why' or article.title contains 'Does' %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "{{ article.title | escape }}",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "{{ article.content | strip_html | truncatewords: 50 | escape }}"
+      }
+    }
+  ]
+}
+</script>
+{% endif %}
+
 <a href="/blogs/ai-optimized">Back to Index</a>
 <h1>{{ article.title }}</h1>
 <div class="meta">Published {{ article.published_at | date: "%B %d, %Y" }}</div>
