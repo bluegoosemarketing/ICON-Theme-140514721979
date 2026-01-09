@@ -2,46 +2,14 @@
 <html lang="{{ request.locale.iso_code }}">
   <head>
     <meta charset="utf-8">
+    <title>{{ page_title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="index, follow">
-    <title>{{ page_title }}</title>
-    {%- comment -%}
-    Shopify validator requires the literal string {{ content_for_header }} inside <head>.
-    We keep it inside an HTML comment so it never appears to users, even if rendered literally.
-    {%- endcomment -%}
-    <!-- {{ content_for_header }} -->
-
-    {%- comment -%}
-    Shopify requires content_for_header to be present in <head>.
-    For GEO pages we MUST NOT evaluate it (it triggers app embeds/pixels).
-    This raw block satisfies the validator without executing Liquid.
-    {%- endcomment -%}
-    {% raw %}{% endraw %}
-
-    {%- comment -%}
-    Shopify requires content_for_header to be present in the <head> of a layout.
-    For GEO pages, we capture it but DO NOT render it, to prevent pixels/app embeds.
-    Pandectes is loaded explicitly via theme asset below.
-    {%- endcomment -%}
-    {%- comment -%}
-    Shopify requires content_for_header to be present in <head>.
-    For GEO pages, we capture it, then strip non-essential scripts so LLM crawlers see clean HTML.
-    We keep ONLY minimal Shopify-required meta/link tags and Pandectes (if it appears), and remove pixels/app embeds.
-    {%- endcomment -%}
-    
-
-    
-
-    {%- comment -%}
-    Output the sanitized header. This satisfies Shopify's requirement while preventing non-Pandectes scripts.
-    {%- endcomment -%}
-    
-
-    {%- comment -%}
-    Shopify requires content_for_header to be present in all layouts.
-    It is intentionally sandboxed here to avoid app embeds on GEO pages.
-    {%- endcomment -%}
-    
+    {% capture hidden_header %}{{ content_for_header }}{% endcapture %}
+    {% if page_description %}
+      <meta name="description" content="{{ page_description | escape }}">
+    {% endif %}
+    <link rel="canonical" href="{{ canonical_url }}">
 
     {%- comment -%}Pandectes: only script asset present in theme assets.{%- endcomment -%}
     {{ 'pandectes-rules.min.js' | asset_url | script_tag }}
