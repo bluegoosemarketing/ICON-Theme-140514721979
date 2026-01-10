@@ -1,59 +1,103 @@
-{% layout 'ai-optimized' %}
+{% layout none %}
+{% capture hidden_header %}{{ content_for_header }}{% endcapture %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <script>
+    (function() {
+      // 1. The Kill List: Any script URL containing these words dies.
+      const BANNED = [
+        'trekkie', 
+        'shopify-perf-kit', 
+        'blackcrow', 
+        'klaviyo', 
+        'yotpo', 
+        'pandectes', 
+        'facebook', 
+        'web-pixels', 
+        'shop_events_listener', 
+        'wpm' 
+      ];
 
-{%- comment -%}
-  GEO & LLM Optimization:
-  1. H1 Tag for clear hierarchy.
-  2. Unordered List (UL/LI) for efficient crawling.
-  3. JSON-LD Schema to define this as a Blog entity.
-{%- endcomment -%}
+      // 2. The Enforcer: Watches the DOM for new nodes
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          mutation.addedNodes.forEach(function(node) {
+            // Check if the added node is a script
+            if (node.tagName === 'SCRIPT' && node.src) {
+              if (BANNED.some(function(term) { return node.src.includes(term); })) {
+                // 🛑 STOP IT: Change type to prevent execution
+                node.type = 'text/plain'; 
+                // 🗑️ DELETE IT: Remove from DOM
+                node.parentElement.removeChild(node);
+                console.log('🔥 AI FIREWALL KILLED:', node.src);
+              }
+            }
+          });
+        });
+      });
 
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Blog",
-  "name": "{{ blog.title }}",
-  "url": "{{ shop.url }}{{ blog.url }}",
-  "description": "AI Knowledge Base for ICON Meals - High Protein Nutrition & Meal Prep Guides.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "ICON Meals",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://cdn.shopify.com/s/files/1/1957/2713/files/ICON_Meals_Logo.png"
-    }
-  },
-  "blogPost": [
-    {% for article in blog.articles limit: 50 %}
-    {
-      "@type": "BlogPosting",
-      "headline": "{{ article.title | escape }}",
-      "url": "{{ shop.url }}{{ article.url }}",
-      "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}"
-    }{% unless forloop.last %},{% endunless %}
-    {% endfor %}
-  ]
-}
-</script>
+      // 3. Start Watching immediately
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    })();
+  </script>
 
-<h1>{{ blog.title }}</h1>
+  <title>{{ blog.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ shop.url }}{{ blog.url }}">
+  <meta name="robots" content="index, follow">
 
-{% paginate blog.articles by 100 %}
-  <ul>
-    {% for article in blog.articles %}
-      <li>
-        <a href="{{ article.url }}">{{ article.title }}</a> - {{ article.published_at | date: "%B %d, %Y" }}
-      </li>
-    {% endfor %}
-  </ul>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Blog",
+    "name": "{{ blog.title }}",
+    "url": "{{ shop.url }}{{ blog.url }}",
+    "description": "AI Knowledge Base for ICON Meals - High Protein Nutrition & Meal Prep Guides.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "ICON Meals",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://cdn.shopify.com/s/files/1/1957/2713/files/ICON_Meals_Logo.png"
+      }
+    },
+    "blogPost": [
+      {% for article in blog.articles limit: 50 %}
+      {
+        "@type": "BlogPosting",
+        "headline": "{{ article.title | escape }}",
+        "url": "{{ shop.url }}{{ article.url }}",
+        "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}"
+      }{% unless forloop.last %},{% endunless %}
+      {% endfor %}
+    ]
+  }
+  </script>
 
-  {% if paginate.pages > 1 %}
-    <nav aria-label="Pagination">
-      {% if paginate.previous %}
-        <a href="{{ paginate.previous.url }}">Previous</a>
-      {% endif %}
-      {% if paginate.next %}
-        <a href="{{ paginate.next.url }}">Next</a>
-      {% endif %}
-    </nav>
-  {% endif %}
-{% endpaginate %}
+  <style>
+    body { margin: 0; padding: 32px 20px; font-family: "Courier New", Courier, monospace; background: #fff; color: #000; }
+    main { max-width: 800px; margin: 0 auto; }
+    h1 { font-size: 2rem; margin-bottom: 1.5rem; border-bottom: 2px solid #000; padding-bottom: 10px; }
+    ul { list-style-type: none; padding: 0; }
+    li { margin-bottom: 16px; font-size: 1.1rem; }
+    a { color: #000; text-decoration: underline; text-underline-offset: 4px; }
+    a:hover { background-color: #000; color: #fff; text-decoration: none; }
+    .date { font-size: 0.85em; color: #555; margin-left: 8px; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>{{ blog.title }}</h1>
+    <ul>
+      {% for article in blog.articles %}
+        <li>
+          <a href="{{ article.url }}">{{ article.title }}</a> 
+          <span class="date">- {{ article.published_at | date: "%B %d, %Y" }}</span>
+        </li>
+      {% endfor %}
+    </ul>
+  </main>
+</body>
+</html>

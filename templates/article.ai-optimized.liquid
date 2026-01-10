@@ -1,60 +1,76 @@
-{% layout 'ai-optimized' %}
-<script type="application/ld+json">
-{
-  "@context": "http://schema.org",
-  "@type": "Article",
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "{{ shop.url }}{{ article.url }}"
-  },
-  "headline": "{{ article.title | escape }}",
-  "description": "{{ article.excerpt_or_content | strip_html | truncatewords: 25 | escape }}",
-  "image": {
-    "@type": "ImageObject",
-    "url": "https:{{ article.image.src | img_url: '1024x1024' }}",
-    "height": 1024,
-    "width": 1024
-  },
-  "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}",
-  "dateModified": "{{ article.updated_at | date: '%Y-%m-%dT%H:%M:%S%z' }}",
-  "author": {
-    "@type": "Organization",
-    "name": "ICON Meals"
-  },
-  "publisher": {
-    "@type": "Organization",
-    "name": "ICON Meals",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://cdn.shopify.com/s/files/1/1957/2713/files/ICON_Meals_Logo.png"
-    }
-  }
-}
-</script>
+{% layout none %}
+{% capture hidden_header %}{{ content_for_header }}{% endcapture %}
+<!doctype html>
+<html lang="{{ request.locale.iso_code }}">
+<head>
+  <meta charset="utf-8">
+  <script>
+    (function() {
+      const BANNED = ['trekkie', 'shopify-perf-kit', 'blackcrow', 'klaviyo', 'yotpo', 'pandectes', 'facebook', 'web-pixels', 'shop_events_listener', 'wpm'];
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          mutation.addedNodes.forEach(function(node) {
+            if (node.tagName === 'SCRIPT' && node.src) {
+              if (BANNED.some(function(term) { return node.src.includes(term); })) {
+                node.type = 'text/plain'; 
+                node.parentElement.removeChild(node);
+                console.log('🔥 AI FIREWALL KILLED:', node.src);
+              }
+            }
+          });
+        });
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+    })();
+  </script>
 
-{% comment %} FAQ Schema: Auto-generates if title indicates a question {% endcomment %}
-{% if article.title contains 'How' or article.title contains 'What' or article.title contains 'Why' or article.title contains 'Does' %}
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
+  <title>{{ article.title }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="canonical" href="{{ shop.url }}{{ article.url }}">
+  <meta name="robots" content="index, follow">
+
+  <script type="application/ld+json">
+  {
+    "@context": "http://schema.org",
+    "@type": "Article",
+    "headline": "{{ article.title | escape }}",
+    "description": "{{ article.excerpt_or_content | strip_html | truncatewords: 25 | escape }}",
+    "image": "https:{{ article.image.src | img_url: '1024x1024' }}",
+    "datePublished": "{{ article.published_at | date: '%Y-%m-%dT%H:%M:%S%z' }}",
+    "author": { "@type": "Organization", "name": "ICON Meals" }
+  }
+  </script>
+
+  {% if article.title contains 'How' or article.title contains 'What' %}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [{
       "@type": "Question",
       "name": "{{ article.title | escape }}",
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": "{{ article.content | strip_html | truncatewords: 50 | escape }}"
-      }
-    }
-  ]
-}
-</script>
-{% endif %}
+      "acceptedAnswer": { "@type": "Answer", "text": "{{ article.content | strip_html | truncatewords: 50 | escape }}" }
+    }]
+  }
+  </script>
+  {% endif %}
 
-<a href="/blogs/ai-optimized">Back to Index</a>
-<h1>{{ article.title }}</h1>
-<div class="meta">Published {{ article.published_at | date: "%B %d, %Y" }}</div>
-<div class="content">
-  {{ article.content }}
-</div>
+  <style>
+    body { margin: 0; padding: 32px 20px; font-family: "Courier New", Courier, monospace; background: #fff; color: #000; }
+    main { max-width: 800px; margin: 0 auto; }
+    a { color: #000; }
+    .meta { margin: 12px 0 24px; font-size: 0.95rem; opacity: 0.7; }
+    h1 { font-size: 2rem; margin-bottom: 0.5rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <a href="/blogs/ai-optimized">← Back to Index</a>
+    <h1>{{ article.title }}</h1>
+    <div class="meta">Published {{ article.published_at | date: "%B %d, %Y" }}</div>
+    <div class="content">
+      {{ article.content }}
+    </div>
+  </main>
+</body>
+</html>
