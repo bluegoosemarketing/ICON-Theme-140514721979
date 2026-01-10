@@ -1,0 +1,10 @@
+{% layout none %}
+{%- comment -%}
+  CRITICAL: Capturing header to suppress auto-injected scripts.
+{%- endcomment -%}
+{% capture hidden_header %}{{ content_for_header }}{% endcapture %}
+{% paginate blogs['ai-optimized'].articles by 1000 %}
+{% for article in blogs['ai-optimized'].articles %}
+{{ shop.url }}{{ article.url }}
+{% endfor %}
+{% endpaginate %}
