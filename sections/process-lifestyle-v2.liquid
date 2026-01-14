@@ -1,155 +1,306 @@
 {%- comment -%}
-  Section: Process - Lifestyle (White BG Fix)
-  Fixes: 
-  1. Background: Changed to #FFFFFF (White) so the Gray Wave from Section 1 stands out.
-  2. Card Gradients: Adjusted to faint gray so cards still have depth on white background.
-  3. Path Alignment: Kept your perfect 265px alignment.
+  Section: Story Process (Dynamic + Pre-filled Defaults)
+  Updates:
+  1. SCHEMA PRESETS: Configured to load all 4 specific steps instantly upon adding section.
+  2. Structure: Cinematic Cards (Image Top, Text Bottom).
+  3. Flow: Integrated padding to clear Hero Dock.
 {%- endcomment -%}
 
-<div class="proc-life-section">
+<div class="story-process-section">
   
-  <!-- DASHED PATH -->
-  <svg class="proc-bg-path" viewBox="0 0 1440 100" preserveAspectRatio="none">
-    <!-- Straight line for perfect center alignment -->
-    <path fill="none" stroke="#d6d3c9" stroke-width="3" stroke-dasharray="12 12" 
-          d="M0,50 L1440,50"></path>
-  </svg>
-
-  <div class="life-container">
-    <div class="proc-header">
-      <h2>Your new routine</h2>
-      <p>From our kitchen to your table. Consistency made simple.</p>
+  <div class="story-container">
+    
+    <!-- Section Header -->
+    <div class="story-header">
+      {% if section.settings.heading != blank %}
+        <h2 class="story-h2">{{ section.settings.heading }}</h2>
+      {% endif %}
+      {% if section.settings.subheading != blank %}
+        <p class="story-sub">{{ section.settings.subheading }}</p>
+      {% endif %}
     </div>
 
-    <div class="proc-grid">
-      <!-- Step 1 -->
-      <div class="proc-card">
-        <div class="proc-card-bg"></div> 
-        <div class="proc-geo-decor"></div>
-        <div class="proc-icon-wrap">
-          <span class="proc-step-num">1</span>
-        </div>
-        <h3>Choose Once</h3>
-        <p>Pick meals that fit your goals. No subscription required.</p>
-      </div>
+    <!-- The Grid (Loop through Blocks) -->
+    <div class="story-grid">
+      {%- for block in section.blocks -%}
+        <div class="story-card" {{ block.shopify_attributes }}>
+          
+          <div class="story-img-wrap">
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag: class: 'story-img', loading: 'lazy', alt: block.settings.title }}
+            {%- else -%}
+              <!-- Fallback Placeholder -->
+              <div class="story-placeholder">
+                {{ 'image' | placeholder_svg_tag: 'story-placeholder-svg' }}
+              </div>
+            {%- endif -%}
+            
+            <!-- Auto-Calculated Step Number -->
+            <div class="story-step-badge">{{ forloop.index }}</div>
+          </div>
 
-      <!-- Step 2 -->
-      <div class="proc-card">
-        <div class="proc-card-bg"></div>
-        <div class="proc-icon-wrap">
-          <span class="proc-step-num">2</span>
+          <div class="story-content">
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="story-text">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+          
         </div>
-        <h3>Stay Ready</h3>
-        <p>We cook & ship fresh. Your fridge is always stocked.</p>
-      </div>
-
-      <!-- Step 3 -->
-      <div class="proc-card">
-        <div class="proc-card-bg"></div>
-        <div class="proc-icon-wrap">
-          <span class="proc-step-num">3</span>
-        </div>
-        <h3>Eat Consistently</h3>
-        <p>No prep. No thinking. Just heat in 2 minutes.</p>
-      </div>
-
-      <!-- Step 4 -->
-      <div class="proc-card">
-        <div class="proc-card-bg"></div>
-        <div class="proc-geo-decor"></div>
-        <div class="proc-icon-wrap">
-          <span class="proc-step-num">4</span>
-        </div>
-        <h3>Repeat</h3>
-        <p>Order when you want, skip when you don't.</p>
-      </div>
+      {%- endfor -%}
     </div>
+
   </div>
 </div>
 
 <style>
-/* 
-   BACKGROUND FIX:
-   Changed from #F5F4F0 to #FFFFFF.
-   This ensures the gray wave from the Hero section creates a distinct
-   boundary/shape against this section.
-*/
-.proc-life-section {
-  padding: 100px 0 100px 0 !important;
+/* --- 1. CORE LAYOUT --- */
+.story-process-section {
+  padding: 140px 0 120px 0 !important; 
   background-color: #FFFFFF !important; 
-  width: 100% !important; overflow: hidden !important;
+  width: 100% !important; 
   position: relative !important;
 }
 
-/* Path Position: Kept at 265px for alignment */
-.proc-bg-path {
-  position: absolute !important; 
-  top: 265px !important; 
-  left: 0 !important; 
+.story-container { 
   width: 100% !important; 
-  height: 100px !important;
-  z-index: 0 !important; 
-  opacity: 1 !important;
-  pointer-events: none !important;
+  max-width: 1500px !important; 
+  margin: 0 auto !important; 
+  padding: 0 40px !important; 
+  box-sizing: border-box !important; 
 }
 
-.life-container { width: 100% !important; max-width: 1600px !important; margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; position: relative !important; z-index: 2 !important; }
-
-/* Header */
-.proc-header { text-align: center !important; margin-bottom: 70px !important; position: relative !important; z-index: 2 !important; }
-.proc-header h2 { font-family: 'Inter', sans-serif !important; font-size: 3rem !important; margin: 0 0 15px 0 !important; color: #111 !important; line-height: 1 !important; font-weight: 800 !important; letter-spacing: -0.02em !important; text-transform: uppercase !important; }
-.proc-header p { font-family: 'Inter', sans-serif !important; font-size: 1.1rem !important; color: #666 !important; margin: 0 !important; }
-
-/* Grid */
-.proc-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 40px !important; position: relative !important; z-index: 2 !important; }
-
-.proc-card { 
-  background: transparent !important; padding: 20px !important; 
-  text-align: left !important; 
-  position: relative !important; 
-  z-index: 1 !important;
+/* --- 2. HEADER --- */
+.story-header { 
+  text-align: center !important; 
+  margin-bottom: 80px !important; 
+  max-width: 700px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+.story-h2 { 
+  font-family: 'Inter', sans-serif !important; 
+  font-size: 3.2rem !important; 
+  margin: 0 0 16px 0 !important; 
+  color: #111 !important; 
+  line-height: 1 !important; 
+  font-weight: 900 !important; 
+  letter-spacing: -0.03em !important; 
+  text-transform: none !important; 
+}
+.story-sub { 
+  font-family: 'Inter', sans-serif !important; 
+  font-size: 1.15rem !important; 
+  color: #666 !important; 
+  margin: 0 !important; 
+  line-height: 1.6 !important;
 }
 
-/* 
-   CARD BACKGROUND UPDATE:
-   Since main BG is white, we use a very faint gray radial gradient 
-   so the cards still have a subtle "glow" or texture.
-*/
-.proc-card-bg {
-  position: absolute !important; inset: 0 !important; 
-  background: radial-gradient(circle at center, #F9F8F6 0%, rgba(255,255,255,0) 70%) !important;
-  z-index: -1 !important; opacity: 1 !important;
+/* --- 3. CINEMATIC GRID --- */
+.story-grid { 
+  display: grid !important; 
+  grid-template-columns: repeat(4, 1fr) !important; 
+  gap: 30px !important; 
+  align-items: start !important;
 }
 
-.proc-geo-decor { position: absolute !important; top: 0px !important; right: 20px !important; width: 20px !important; height: 20px !important; background: #e0ded9 !important; transform: rotate(45deg) !important; z-index: -1 !important; }
-
-/* ICON WRAP */
-.proc-icon-wrap { 
-  width: 60px !important; height: 60px !important; 
-  background: #FFFFFF !important; 
-  border-radius: 50% !important; 
-  display: flex !important; align-items: center !important; justify-content: center !important; 
-  margin: 0 0 25px 0 !important; 
-  position: relative !important; 
-  box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; /* Slightly stronger shadow for white-on-white */
-  z-index: 2 !important; 
+/* --- 4. THE STORY CARD --- */
+.story-card { 
+  position: relative !important;
+  display: flex !important;
+  flex-direction: column !important;
+  text-align: left !important;
+  transition: transform 0.3s ease !important;
 }
-.proc-icon-wrap::after { content: '' !important; position: absolute !important; inset: -4px !important; border: 1px dashed #d11f1f !important; border-radius: 50% !important; opacity: 0.3 !important; }
 
-.proc-step-num { font-family: 'Inter', sans-serif !important; font-weight: 800 !important; font-size: 1.5rem !important; color: #3A7D44 !important; }
-.proc-card h3 { font-family: 'Inter', sans-serif !important; font-weight: 700 !important; font-size: 1.4rem !important; margin: 0 0 10px 0 !important; color: #111 !important; text-transform: uppercase !important; }
-.proc-card p { font-family: 'Inter', sans-serif !important; font-size: 1rem !important; color: #666 !important; line-height: 1.6 !important; margin: 0 !important; }
+/* Image Wrapper (The "Photo") */
+.story-img-wrap {
+  position: relative !important;
+  width: 100% !important;
+  aspect-ratio: 4/5 !important; /* Portrait styling */
+  border-radius: 20px !important;
+  overflow: hidden !important;
+  margin-bottom: 30px !important;
+  background: #F9F8F6 !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important;
+  transition: transform 0.4s ease, box-shadow 0.4s ease !important;
+}
 
+/* Hover Effect: Lift Image */
+.story-card:hover .story-img-wrap {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important;
+}
+
+.story-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  transition: transform 0.7s ease !important;
+  display: block !important;
+}
+
+/* Fallback Placeholder */
+.story-placeholder {
+  width: 100% !important;
+  height: 100% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background: #f0f0f0 !important;
+}
+.story-placeholder-svg {
+  width: 30% !important;
+  opacity: 0.5 !important;
+}
+
+/* Hover Effect: Gentle Zoom */
+.story-card:hover .story-img {
+  transform: scale(1.05) !important;
+}
+
+/* The Step Number Badge */
+.story-step-badge {
+  position: absolute !important;
+  bottom: 15px !important;
+  left: 15px !important;
+  width: 45px !important;
+  height: 45px !important;
+  background: #FFFFFF !important;
+  color: #D11F1F !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'Inter', sans-serif !important;
+  font-weight: 800 !important;
+  font-size: 1.2rem !important;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.1) !important;
+  z-index: 2 !important;
+}
+
+/* Text Content */
+.story-content {
+  padding: 0 10px !important;
+}
+
+.story-card h3 { 
+  font-family: 'Inter', sans-serif !important; 
+  font-weight: 800 !important; 
+  font-size: 1.35rem !important; 
+  margin: 0 0 10px 0 !important; 
+  color: #222 !important; 
+  letter-spacing: -0.02em !important;
+}
+
+.story-text, .story-text p { 
+  font-family: 'Inter', sans-serif !important; 
+  font-size: 0.95rem !important; 
+  color: #666 !important; 
+  line-height: 1.5 !important; 
+  margin: 0 !important; 
+}
+
+/* --- 5. RESPONSIVE --- */
 @media (max-width: 1024px) {
-  .proc-bg-path { display: none !important; }
-  .proc-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
-  .proc-card { text-align: center !important; align-items: center !important; display: flex !important; flex-direction: column !important; }
-  .proc-icon-wrap { margin-left: auto !important; margin-right: auto !important; }
-  .proc-geo-decor { right: 50% !important; margin-right: -40px !important; }
-  .life-container { padding: 0 24px !important; }
+  .story-grid { 
+    grid-template-columns: repeat(2, 1fr) !important; 
+    gap: 20px !important; 
+  }
+  .story-header { margin-bottom: 50px !important; }
+  .story-h2 { font-size: 2.5rem !important; }
+  .story-process-section { padding-top: 80px !important; }
+}
+
+@media (max-width: 600px) {
+  .story-grid { 
+    grid-template-columns: 1fr !important; 
+    gap: 40px !important; 
+  }
+  .story-img-wrap { aspect-ratio: 16/9 !important; /* Wide on mobile */ }
+  .story-card { text-align: left !important; }
 }
 </style>
 
 {% schema %}
-{ "name": "Process - Lifestyle", "presets": [{ "name": "Process - Lifestyle" }] }
+{
+  "name": "Story Process",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Section Heading",
+      "default": "Your new routine"
+    },
+    {
+      "type": "textarea",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "From our kitchen to your table. Consistency made simple."
+    }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Process Step",
+      "limit": 4,
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Step Image (Portrait)"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Step Title",
+          "default": "Step Title"
+        },
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Step Description",
+          "default": "<p>Explain this step of the process here.</p>"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Story Process",
+      "blocks": [
+        {
+          "type": "step",
+          "settings": {
+            "title": "Choose Once",
+            "text": "<p>Pick meals that fit your goals. No subscription required.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Stay Ready",
+            "text": "<p>We cook & ship fresh. Your fridge is always stocked.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Eat Consistently",
+            "text": "<p>No prep. No thinking. Just heat in 2 minutes.</p>"
+          }
+        },
+        {
+          "type": "step",
+          "settings": {
+            "title": "Repeat",
+            "text": "<p>Order when you want, skip when you don't.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
 {% endschema %}
