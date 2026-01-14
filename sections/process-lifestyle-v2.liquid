@@ -1,0 +1,155 @@
+{%- comment -%}
+  Section: Process - Lifestyle (White BG Fix)
+  Fixes: 
+  1. Background: Changed to #FFFFFF (White) so the Gray Wave from Section 1 stands out.
+  2. Card Gradients: Adjusted to faint gray so cards still have depth on white background.
+  3. Path Alignment: Kept your perfect 265px alignment.
+{%- endcomment -%}
+
+<div class="proc-life-section">
+  
+  <!-- DASHED PATH -->
+  <svg class="proc-bg-path" viewBox="0 0 1440 100" preserveAspectRatio="none">
+    <!-- Straight line for perfect center alignment -->
+    <path fill="none" stroke="#d6d3c9" stroke-width="3" stroke-dasharray="12 12" 
+          d="M0,50 L1440,50"></path>
+  </svg>
+
+  <div class="life-container">
+    <div class="proc-header">
+      <h2>Your new routine</h2>
+      <p>From our kitchen to your table. Consistency made simple.</p>
+    </div>
+
+    <div class="proc-grid">
+      <!-- Step 1 -->
+      <div class="proc-card">
+        <div class="proc-card-bg"></div> 
+        <div class="proc-geo-decor"></div>
+        <div class="proc-icon-wrap">
+          <span class="proc-step-num">1</span>
+        </div>
+        <h3>Choose Once</h3>
+        <p>Pick meals that fit your goals. No subscription required.</p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="proc-card">
+        <div class="proc-card-bg"></div>
+        <div class="proc-icon-wrap">
+          <span class="proc-step-num">2</span>
+        </div>
+        <h3>Stay Ready</h3>
+        <p>We cook & ship fresh. Your fridge is always stocked.</p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="proc-card">
+        <div class="proc-card-bg"></div>
+        <div class="proc-icon-wrap">
+          <span class="proc-step-num">3</span>
+        </div>
+        <h3>Eat Consistently</h3>
+        <p>No prep. No thinking. Just heat in 2 minutes.</p>
+      </div>
+
+      <!-- Step 4 -->
+      <div class="proc-card">
+        <div class="proc-card-bg"></div>
+        <div class="proc-geo-decor"></div>
+        <div class="proc-icon-wrap">
+          <span class="proc-step-num">4</span>
+        </div>
+        <h3>Repeat</h3>
+        <p>Order when you want, skip when you don't.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* 
+   BACKGROUND FIX:
+   Changed from #F5F4F0 to #FFFFFF.
+   This ensures the gray wave from the Hero section creates a distinct
+   boundary/shape against this section.
+*/
+.proc-life-section {
+  padding: 100px 0 100px 0 !important;
+  background-color: #FFFFFF !important; 
+  width: 100% !important; overflow: hidden !important;
+  position: relative !important;
+}
+
+/* Path Position: Kept at 265px for alignment */
+.proc-bg-path {
+  position: absolute !important; 
+  top: 265px !important; 
+  left: 0 !important; 
+  width: 100% !important; 
+  height: 100px !important;
+  z-index: 0 !important; 
+  opacity: 1 !important;
+  pointer-events: none !important;
+}
+
+.life-container { width: 100% !important; max-width: 1600px !important; margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; position: relative !important; z-index: 2 !important; }
+
+/* Header */
+.proc-header { text-align: center !important; margin-bottom: 70px !important; position: relative !important; z-index: 2 !important; }
+.proc-header h2 { font-family: 'Inter', sans-serif !important; font-size: 3rem !important; margin: 0 0 15px 0 !important; color: #111 !important; line-height: 1 !important; font-weight: 800 !important; letter-spacing: -0.02em !important; text-transform: uppercase !important; }
+.proc-header p { font-family: 'Inter', sans-serif !important; font-size: 1.1rem !important; color: #666 !important; margin: 0 !important; }
+
+/* Grid */
+.proc-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 40px !important; position: relative !important; z-index: 2 !important; }
+
+.proc-card { 
+  background: transparent !important; padding: 20px !important; 
+  text-align: left !important; 
+  position: relative !important; 
+  z-index: 1 !important;
+}
+
+/* 
+   CARD BACKGROUND UPDATE:
+   Since main BG is white, we use a very faint gray radial gradient 
+   so the cards still have a subtle "glow" or texture.
+*/
+.proc-card-bg {
+  position: absolute !important; inset: 0 !important; 
+  background: radial-gradient(circle at center, #F9F8F6 0%, rgba(255,255,255,0) 70%) !important;
+  z-index: -1 !important; opacity: 1 !important;
+}
+
+.proc-geo-decor { position: absolute !important; top: 0px !important; right: 20px !important; width: 20px !important; height: 20px !important; background: #e0ded9 !important; transform: rotate(45deg) !important; z-index: -1 !important; }
+
+/* ICON WRAP */
+.proc-icon-wrap { 
+  width: 60px !important; height: 60px !important; 
+  background: #FFFFFF !important; 
+  border-radius: 50% !important; 
+  display: flex !important; align-items: center !important; justify-content: center !important; 
+  margin: 0 0 25px 0 !important; 
+  position: relative !important; 
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08) !important; /* Slightly stronger shadow for white-on-white */
+  z-index: 2 !important; 
+}
+.proc-icon-wrap::after { content: '' !important; position: absolute !important; inset: -4px !important; border: 1px dashed #d11f1f !important; border-radius: 50% !important; opacity: 0.3 !important; }
+
+.proc-step-num { font-family: 'Inter', sans-serif !important; font-weight: 800 !important; font-size: 1.5rem !important; color: #3A7D44 !important; }
+.proc-card h3 { font-family: 'Inter', sans-serif !important; font-weight: 700 !important; font-size: 1.4rem !important; margin: 0 0 10px 0 !important; color: #111 !important; text-transform: uppercase !important; }
+.proc-card p { font-family: 'Inter', sans-serif !important; font-size: 1rem !important; color: #666 !important; line-height: 1.6 !important; margin: 0 !important; }
+
+@media (max-width: 1024px) {
+  .proc-bg-path { display: none !important; }
+  .proc-grid { grid-template-columns: 1fr !important; gap: 40px !important; }
+  .proc-card { text-align: center !important; align-items: center !important; display: flex !important; flex-direction: column !important; }
+  .proc-icon-wrap { margin-left: auto !important; margin-right: auto !important; }
+  .proc-geo-decor { right: 50% !important; margin-right: -40px !important; }
+  .life-container { padding: 0 24px !important; }
+}
+</style>
+
+{% schema %}
+{ "name": "Process - Lifestyle", "presets": [{ "name": "Process - Lifestyle" }] }
+{% endschema %}

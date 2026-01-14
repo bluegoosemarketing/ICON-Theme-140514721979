@@ -1,0 +1,146 @@
+{%- comment -%}
+  Section: Standards - Lifestyle (Subtle Grid)
+  Fixes:
+  1. Reduced Grid Opacity to 0.04 (Very faint).
+{%- endcomment -%}
+
+<div class="std-life-section">
+  <!-- SUBTLE GRID PATTERN -->
+  <div class="std-grid-pattern"></div>
+
+  <div class="std-container">
+    <div class="std-grid">
+      
+      <!-- Text Side -->
+      <div class="std-content">
+        <h2 class="std-title">{{ section.settings.title }}</h2>
+        <div class="std-desc">{{ section.settings.description }}</div>
+        
+        <ul class="std-list">
+          <li class="std-item">
+            <span class="std-check">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <div class="std-item-text">
+              <strong>{{ section.settings.point_1_title }}</strong>
+              <p>{{ section.settings.point_1_text }}</p>
+            </div>
+          </li>
+          <li class="std-item">
+            <span class="std-check">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </span>
+            <div class="std-item-text">
+              <strong>{{ section.settings.point_2_title }}</strong>
+              <p>{{ section.settings.point_2_text }}</p>
+            </div>
+          </li>
+        </ul>
+        
+        <a href="{{ section.settings.link_url }}" class="std-link">{{ section.settings.link_text }} →</a>
+      </div>
+
+      <!-- Visual Side -->
+      <div class="std-visual-wrapper">
+        <div class="std-frame">
+          <div class="std-visual">
+            {%- if section.settings.feature_image != blank -%}
+              {{ section.settings.feature_image | image_url: width: 800 | image_tag: class: 'std-img', loading: 'lazy' }}
+            {%- else -%}
+              <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Chef-Plating-Action.jpg?v=1" alt="Chef Plating" class="std-img" loading="lazy">
+            {%- endif -%}
+          </div>
+          
+          <!-- Text Only Badge -->
+          <div class="std-badge-sticker">
+            <div class="std-badge-inner">
+              <span class="std-badge-lg">USDA</span>
+              <span class="std-badge-sm">INSPECTED</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+/* Background Change: White with Subtler Grid */
+.std-life-section { 
+  padding: 100px 0 !important; 
+  background: #FFFFFF !important; 
+  width: 100% !important; 
+  overflow: hidden !important; 
+  position: relative !important;
+}
+
+/* 
+   GRID PATTERN: Reduced visibility 
+   Changed from 0.08 to 0.04
+*/
+.std-grid-pattern {
+  position: absolute !important; inset: 0 !important; 
+  opacity: 1 !important; pointer-events: none !important;
+  background-size: 50px 50px !important;
+  background-image: linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+                    linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px) !important;
+}
+
+.std-container { width: 100% !important; max-width: 1600px !important; margin: 0 auto !important; padding: 0 40px !important; position: relative !important; z-index: 2 !important; box-sizing: border-box !important; }
+.std-grid { display: grid !important; grid-template-columns: 0.9fr 1fr !important; gap: 80px !important; align-items: center !important; }
+
+.std-title { font-family: 'Inter', sans-serif !important; font-size: 3.5rem !important; line-height: 1 !important; margin: 0 0 25px 0 !important; color: #1A1A1A !important; font-weight: 800 !important; letter-spacing: -0.02em !important; text-transform: uppercase !important; }
+.std-desc { font-family: 'Inter', sans-serif !important; font-size: 1.15rem !important; color: #555 !important; margin-bottom: 40px !important; line-height: 1.6 !important; max-width: 90% !important; }
+.std-desc p { margin: 0 !important; }
+
+.std-list { list-style: none !important; padding: 0 !important; margin: 0 0 40px 0 !important; }
+.std-item { display: flex !important; gap: 20px !important; margin-bottom: 25px !important; align-items: flex-start !important; }
+.std-check { color: #D11F1F !important; width: 24px !important; height: 24px !important; flex-shrink: 0 !important; margin-top: 2px !important; }
+.std-item-text strong { display: block !important; font-size: 1.1rem !important; margin-bottom: 5px !important; color: #111 !important; font-family: 'Inter', sans-serif !important; }
+.std-item-text p { margin: 0 !important; font-size: 1rem !important; color: #666 !important; line-height: 1.5 !important; font-family: 'Inter', sans-serif !important; }
+
+.std-link { color: #D11F1F !important; font-weight: 800 !important; text-decoration: none !important; text-transform: uppercase !important; letter-spacing: 1px !important; border-bottom: 2px solid #D11F1F !important; padding-bottom: 2px !important; font-size: 0.9rem !important; font-family: 'Inter', sans-serif !important; }
+
+.std-visual-wrapper { position: relative !important; display: flex !important; justify-content: flex-end !important; }
+.std-frame { position: relative !important; display: inline-block !important; max-width: 600px !important; width: 100% !important; }
+.std-visual { position: relative !important; border-radius: 20px !important; overflow: hidden !important; box-shadow: 0 20px 50px rgba(0,0,0,0.1) !important; transform: rotate(2deg) !important; transition: transform 0.5s ease !important; background: #fff !important; }
+.std-visual:hover { transform: rotate(0deg) !important; }
+.std-img { width: 100% !important; height: auto !important; display: block !important; }
+
+.std-badge-sticker { position: absolute !important; bottom: -20px !important; left: -20px !important; width: 120px !important; height: 120px !important; background: #D11F1F !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; color: white !important; box-shadow: 0 10px 30px rgba(209, 31, 31, 0.4) !important; z-index: 10 !important; border: 4px solid #fff !important; transform: rotate(-10deg) !important; }
+.std-badge-inner { text-align: center !important; line-height: 1 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; }
+.std-badge-lg { display: block !important; font-family: 'Inter', sans-serif !important; font-size: 2.1rem !important; font-weight: 900 !important; letter-spacing: -1px !important; line-height: 0.8 !important; }
+.std-badge-sm { display: block !important; font-size: 0.65rem !important; font-weight: 700 !important; letter-spacing: 1.5px !important; margin-top: 4px !important; font-family: 'Inter', sans-serif !important; }
+
+@media (max-width: 1024px) {
+  .std-container { padding: 0 24px !important; }
+  .std-grid { grid-template-columns: 1fr !important; gap: 60px !important; }
+  .std-visual-wrapper { justify-content: center !important; }
+  .std-visual { transform: rotate(0deg) !important; width: 100% !important; }
+  .std-badge-sticker { left: -10px !important; bottom: -15px !important; width: 100px !important; height: 100px !important; }
+  .std-badge-lg { font-size: 1.7rem !important; }
+  .std-badge-sm { font-size: 0.5rem !important; }
+  .std-title { font-size: 2.8rem !important; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Standards - Premium",
+  "settings": [
+    { "type": "image_picker", "id": "feature_image", "label": "Feature Image (Chef Plating)" },
+    { "type": "text", "id": "title", "label": "Headline", "default": "THE ICON STANDARD" },
+    { "type": "richtext", "id": "description", "label": "Description", "default": "<p>We don't outsource. We own the kitchen. Every meal is cooked, weighed, and sealed in our USDA-inspected facility in Dallas, TX.</p>" },
+    { "type": "header", "content": "Bullet Point 1" },
+    { "type": "text", "id": "point_1_title", "label": "Title", "default": "Macro-Perfect Accuracy" },
+    { "type": "textarea", "id": "point_1_text", "label": "Text", "default": "We weigh proteins to the gram. What's on the label is in the box." },
+    { "type": "header", "content": "Bullet Point 2" },
+    { "type": "text", "id": "point_2_title", "label": "Title", "default": "Vacuum-Sealed Freshness" },
+    { "type": "textarea", "id": "point_2_text", "label": "Text", "default": "Locked in flavor without artificial preservatives. Stays fresh for 14 days." },
+    { "type": "header", "content": "Link" },
+    { "type": "text", "id": "link_text", "label": "Link Text", "default": "Explore Our Kitchen" },
+    { "type": "url", "id": "link_url", "label": "Link URL" }
+  ],
+  "presets": [{ "name": "Standards - Premium" }]
+}
+{% endschema %}
