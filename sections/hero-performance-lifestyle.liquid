@@ -1,9 +1,8 @@
 {%- comment -%}
-  Section: Hero - Lifestyle Final (World Class Polish)
-  Updates:
-  1. BADGE VISUALS: Replaced standard border with "Layered Shadow Ring" system for premium depth.
-  2. TYPOGRAPHY: Tightened "55g" and spaced "PROTEIN" for professional hierarchy.
-  3. INTERACTION: Smooth "View Menu" reveal on hover with Red-Ring activation.
+Section: Hero - Lifestyle Final (Solid Color + Arrow Fix)
+Changes:
+1. SOLID PASTEL RED: Changed stroke to #FAE8E8 (Solid) to mimic 12% opacity while hiding the dots underneath.
+2. ARROWHEAD: Added a triangular pointer at the 3 o'clock position to indicate movement (clockwise).
 {%- endcomment -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -11,26 +10,13 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <div class="life-hero-wrapper">
-  
-  <!-- BACKGROUND: The Organic Mist -->
-  <div class="life-bg-layer">
-    <svg class="life-organic-wave" viewBox="0 0 1440 900" preserveAspectRatio="none">
-      <defs>
-        <linearGradient id="softWaveGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" style="stop-color:#FFFFFF; stop-opacity:1" />
-          <stop offset="30%" style="stop-color:#FFFFFF; stop-opacity:1" />
-          <stop offset="100%" style="stop-color:#F5F4F0; stop-opacity:1" />
-        </linearGradient>
-      </defs>
-      <path fill="url(#softWaveGrad)" d="M0,900 L0,550 C 250,650 500,700 800,400 C 1100,100 1440,0 1440,0 L1440,900 Z"></path>
-    </svg>
-    <div class="life-accent-blob"></div>
-  </div>
+
+  <div class="life-bg-pattern"></div>
+  <div class="life-bg-overlay"></div>
 
   <div class="life-hero-main">
     <div class="life-container">
-      
-      <!-- Content -->
+
       <div class="life-hero-content">
         <div class="life-tagline">
           <span class="life-fresh-dot"></span> {{ section.settings.tagline }}
@@ -67,85 +53,83 @@
         </div>
       </div>
 
-      <!-- Visual -->
       <div class="life-hero-visual">
         <div class="life-plate-wrapper">
+          
+          <div class="life-ring-system">
+            <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="life-ring-svg">
+              <circle cx="400" cy="400" r="380" stroke="#E5E5E5" stroke-width="1.5" />
+              
+              <circle cx="400" cy="400" r="340" stroke="#C0C0C0" stroke-width="1.5" stroke-dasharray="4 8" opacity="0.6" />
+              
+              <path d="M 400 60 A 340 340 0 0 1 740 400" stroke="#FAE8E8" stroke-opacity="1" stroke-width="6" stroke-linecap="round" class="life-ring-arc" />
+              
+              <circle cx="740" cy="400" r="7" fill="#FAE8E8" />
+              
+              <circle cx="400" cy="400" r="290" stroke="#F0F0F0" stroke-width="1" />
+            </svg>
+          </div>
+
           {%- if section.settings.hero_image != blank -%}
             {{ section.settings.hero_image | image_url: width: 1000 | image_tag: class: 'life-plate-img', loading: 'eager' }}
           {%- else -%}
             <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Steak-Rice-GB_v1.webp?v=1765725763" class="life-plate-img" alt="Steak and Rice">
           {%- endif -%}
           
-          <!-- MACRO BADGE (Refined "World Class" Style) -->
           <a href="{{ section.settings.badge_link | default: '/collections/signature-meals' }}" class="life-macro-badge">
-            
-            <!-- State 1: Default (Protein) -->
             <div class="life-badge-state life-badge-default">
               <span class="life-macro-number">{{ section.settings.badge_protein }}</span>
               <span class="life-macro-unit">PROTEIN</span>
               <div class="life-check-circle">✓</div>
             </div>
-            
-            <!-- State 2: Hover (View Menu) -->
             <div class="life-badge-state life-badge-hover">
               <span class="life-view-text">VIEW<br>MENU</span>
               <svg class="life-view-arrow" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
             </div>
           </a>
-          
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Dock -->
   <div class="life-dock-wrapper">
     <div class="life-container">
       <div class="life-dock-card">
-        
-        <!-- Header Bar -->
         <div class="life-dock-header">
           <div class="life-dock-label">How do you want to eat?</div>
         </div>
-        
-        <!-- Content Area -->
         <div class="life-dock-inner">
           <div class="life-dock-grid">
-            <!-- Card 1 -->
             <a href="{{ section.settings.nav_1_link }}" class="life-dock-item">
               <div class="life-dock-icon">
                 <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp?v=1768410637" alt="Signature Meals" class="life-dock-img">
               </div>
               <div class="life-dock-text">
-                <h3>I WANT READY-MADE</h3>
+                <h3>I Want Ready-Made</h3>
                 <span class="life-dock-cat">Signature Menu</span>
               </div>
               <div class="life-dock-arrow">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </div>
             </a>
-            
-            <!-- Card 2 -->
             <a href="{{ section.settings.nav_2_link }}" class="life-dock-item">
               <div class="life-dock-icon">
                 <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_UI-Icon_v2.webp?v=1768410637" alt="Custom Meals" class="life-dock-img">
               </div>
               <div class="life-dock-text">
-                <h3>I WANT FULL CONTROL</h3>
+                <h3>I Want Full Control</h3>
                 <span class="life-dock-cat">Custom Meals</span>
               </div>
               <div class="life-dock-arrow">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
               </div>
             </a>
-            
-            <!-- Card 3 -->
             <a href="{{ section.settings.nav_3_link }}" class="life-dock-item">
               <div class="life-dock-icon">
                 <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Items_UI-Icon_v2.webp?v=1768410637" alt="Bulk Market" class="life-dock-img">
               </div>
               <div class="life-dock-text">
-                <h3>I WANT TO STOCK UP</h3>
+                <h3>I Want To Stock Up</h3>
                 <span class="life-dock-cat">Bulk Market</span>
               </div>
               <div class="life-dock-arrow">
@@ -166,31 +150,47 @@
   --l-red: #D11F1F; 
   --l-green: #3A7D44; 
   --l-charcoal: #222222;
+  --l-black: #000000;
   --l-gray-soft: #F9F8F6;
   --l-gray-header: #F5F4F0; 
   --l-border: #E6E6E6;
   --l-font: 'Inter', sans-serif; 
 }
 
-/* CSS RESET */
-.life-hero-wrapper a:not(.life-btn-primary) {
-  text-decoration: none !important;
-  color: inherit !important;
-  opacity: 1 !important;
-  transition: all 0.3s ease !important;
-}
-.life-hero-wrapper a:not(.life-btn-primary):hover {
-  text-decoration: none !important;
-  opacity: 1 !important;
-  color: inherit !important;
-}
-
+/* RESET */
+.life-hero-wrapper a:not(.life-btn-primary) { text-decoration: none !important; color: inherit !important; opacity: 1 !important; transition: all 0.3s ease !important; }
+.life-hero-wrapper a:not(.life-btn-primary):hover { text-decoration: none !important; opacity: 1 !important; color: inherit !important; }
 .life-hero-wrapper { background-color: var(--l-bg-white) !important; width: 100% !important; position: relative !important; overflow-x: hidden !important; padding-bottom: 0 !important; }
 
-/* --- 2. BACKGROUND --- */
-.life-bg-layer { position: absolute !important; inset: 0 !important; overflow: hidden !important; pointer-events: none !important; z-index: 0 !important; }
-.life-organic-wave { position: absolute !important; bottom: 0 !important; left: 0 !important; width: 100% !important; height: 100% !important; z-index: 1 !important; opacity: 1 !important; }
-.life-accent-blob { position: absolute !important; top: -20% !important; left: -10% !important; width: 50vw !important; height: 50vw !important; background: radial-gradient(circle, rgba(245, 244, 240, 0.4) 0%, rgba(255,255,255,0) 70%) !important; border-radius: 50% !important; z-index: 0 !important; }
+/* --- 2. THE ATMOSPHERE (Background Layers) --- */
+.life-bg-pattern {
+  position: absolute !important;
+  inset: 0 !important;
+  z-index: 0 !important;
+  pointer-events: none !important;
+
+  background-image: 
+    /* Layer 1: The "Ghost Ring" (Top Left) */
+    url("data:image/svg+xml,%3Csvg width='800' height='800' viewBox='0 0 800 800' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='0' cy='0' r='350' stroke='%23E5E5E5' stroke-width='2' fill='none'/%3E%3Ccircle cx='0' cy='0' r='300' stroke='%23E5E5E5' stroke-width='2' fill='none' stroke-dasharray='10 10'/%3E%3C/svg%3E"),
+    
+    /* Layer 2: The "Ghost Ring" (Bottom Right/Center) */
+    url("data:image/svg+xml,%3Csvg width='600' height='600' viewBox='0 0 600 600' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='600' cy='600' r='250' stroke='%23E5E5E5' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"),
+
+    /* Layer 3: Kinetic Chevrons */
+    url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 50 100 L 60 110 L 50 120' opacity='0.4'/%3E%3Cpath d='M 65 100 L 75 110 L 65 120' opacity='0.4'/%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.4'/%3E%3Cpath d='M 415 350 L 425 360 L 415 370' opacity='0.4'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.3'/%3E%3C/g%3E%3C/svg%3E") !important;
+
+  background-repeat: no-repeat, no-repeat, repeat !important;
+  background-position: top left, bottom right, 0 0 !important;
+  background-size: auto, auto, 500px 500px !important;
+}
+
+/* Gradient Overlay */
+.life-bg-overlay {
+  position: absolute !important; inset: 0 !important;
+  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 50%, rgba(255,255,255,0.5) 100%) !important;
+  z-index: 1 !important;
+  pointer-events: none !important;
+}
 
 /* --- 3. LAYOUT --- */
 .life-hero-main { position: relative !important; z-index: 5 !important; padding: 60px 0 90px 0 !important; }
@@ -198,7 +198,63 @@
 .life-hero-main .life-container { display: grid !important; grid-template-columns: 1fr 1.1fr !important; align-items: center !important; gap: 40px !important; }
 .life-hero-content { position: relative !important; z-index: 10 !important; text-align: left !important; }
 
-/* --- 4. TYPOGRAPHY --- */
+/* --- 4. RING SYSTEM & PLATE (Visual Column) --- */
+.life-hero-visual { position: relative !important; display: flex !important; justify-content: center !important; align-items: center !important; z-index: 10 !important; height: 100% !important; }
+
+.life-plate-wrapper { 
+  position: relative !important; 
+  width: 100% !important; 
+  display: flex !important; 
+  justify-content: center !important; 
+  align-items: center !important;
+}
+
+/* The New Ring System - Anchored Absolute Center */
+.life-ring-system {
+  position: absolute !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 140% !important; 
+  max-width: 900px !important;
+  aspect-ratio: 1/1 !important;
+  z-index: 0 !important; 
+  pointer-events: none !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+.life-ring-svg {
+  width: 100% !important;
+  height: 100% !important;
+  animation: spin-slow 180s linear infinite !important; 
+}
+
+/* Updated: Removed drop-shadow filter for crisp, sharp edges */
+.life-ring-arc {
+  filter: none !important; 
+}
+
+@keyframes spin-slow {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* The Plate Image */
+.life-plate-img { 
+  position: relative !important;
+  z-index: 5 !important;
+  width: 100% !important; 
+  max-width: 800px !important; 
+  height: auto !important; 
+  transform: rotate(-3deg) !important; 
+  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) !important; 
+  transition: transform 0.5s ease !important; 
+}
+.life-plate-img:hover { transform: rotate(0deg) scale(1.02) !important; }
+
+/* --- 5. TYPOGRAPHY --- */
 .life-tagline { font-family: var(--l-font) !important; font-weight: 700 !important; color: var(--l-green) !important; text-transform: uppercase !important; letter-spacing: 2px !important; font-size: 0.75rem !important; margin-bottom: 1.2rem !important; display: flex !important; gap: 10px !important; align-items: center !important; }
 .life-fresh-dot { width: 6px !important; height: 6px !important; background-color: var(--l-green) !important; border-radius: 50% !important; display: block !important; }
 .life-headline { font-family: var(--l-font) !important; font-size: clamp(2.8rem, 6vw, 4.8rem) !important; line-height: 1.05 !important; color: var(--l-charcoal) !important; margin: 0 0 1.5rem 0 !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: -0.02em !important; }
@@ -206,11 +262,10 @@
 .life-subhead-wrap { margin-bottom: 2.5rem !important; max-width: 550px !important; }
 .life-subhead { font-family: var(--l-font) !important; color: #555 !important; font-size: 1.2rem !important; line-height: 1.6 !important; margin: 0 !important; font-weight: 400 !important; letter-spacing: -0.01em !important; }
 
-/* --- 5. BUTTONS --- */
+/* --- 6. BUTTONS --- */
 .life-cta-group { display: flex !important; gap: 1.2rem !important; margin-bottom: 3.5rem !important; align-items: center !important; flex-wrap: wrap !important; }
 .life-btn { height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-family: var(--l-font) !important; font-weight: 700 !important; text-decoration: none !important; font-size: 1rem !important; transition: all 0.3s ease !important; white-space: nowrap !important; letter-spacing: -0.01em !important; }
 
-/* Primary Button Fix */
 .life-btn-primary { 
   background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important; 
   color: #FFFFFF !important; 
@@ -224,138 +279,56 @@
 .life-btn-secondary { background: transparent !important; color: var(--l-charcoal) !important; padding: 0 1rem !important; border-bottom: 2px solid #E5E5E5 !important; height: auto !important; padding-bottom: 4px !important; border-radius: 0 !important; }
 .life-btn-secondary:hover { border-color: var(--l-red) !important; color: var(--l-red) !important; }
 
-/* --- 6. TRUST & VISUALS --- */
+/* --- 7. TRUST & VISUALS --- */
 .life-trust-stack { display: flex !important; align-items: center !important; gap: 18px !important; font-family: var(--l-font) !important; font-size: 0.9rem !important; color: #666 !important; font-weight: 500 !important; flex-wrap: wrap !important; }
 .life-stars { color: #FFB400 !important; margin-right: 5px !important; }
 .life-divider { width: 1px !important; height: 16px !important; background: #ddd !important; }
 .life-trust-item { display: flex !important; align-items: center !important; gap: 8px !important; }
 .life-trust-icon { font-size: 1.2rem !important; font-weight: bold !important; color: var(--l-black) !important; }
 
-.life-hero-visual { position: relative !important; display: flex !important; justify-content: center !important; align-items: center !important; z-index: 10 !important; height: 100% !important; }
-.life-plate-wrapper { position: relative !important; width: 100% !important; display: flex !important; justify-content: center !important; }
-.life-plate-img { width: 100% !important; max-width: 850px !important; height: auto !important; transform: rotate(-3deg) !important; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.12)) !important; transition: transform 0.5s ease !important; }
-.life-plate-img:hover { transform: rotate(0deg) scale(1.02) !important; }
-
-
-/* --- 7. WORLD CLASS MACRO BADGE --- */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
+/* --- 8. MACRO BADGE --- */
+@keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 
 .life-macro-badge { 
-  position: absolute !important; top: 5% !important; right: 8% !important; 
-  /* Size */
-  width: 135px !important; 
-  height: 135px !important; 
-  
-  /* Shape & Base */
-  border-radius: 50% !important; 
+  position: absolute !important; top: 0% !important; right: 8% !important; 
+  width: 135px !important; height: 135px !important; border-radius: 50% !important; 
   background: white !important; 
-  
-  /* 
-     THE WOW FACTOR: Layered Shadows 
-     1. Thick White Ring (6px) - separates from food
-     2. Thin Grey Ring (7px) - defines edge
-     3. Drop Shadow - adds depth
-  */
-  box-shadow: 
-    0 0 0 6px #FFFFFF,
-    0 0 0 7px #E5E5E5,
-    0 20px 40px rgba(0,0,0,0.12) !important;
-  
-  z-index: 20 !important; 
-  animation: float 5s ease-in-out infinite !important; 
-  text-decoration: none !important; 
-  overflow: hidden !important; 
-  display: flex !important; 
-  align-items: center !important; 
-  justify-content: center !important;
+  box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #E5E5E5, 0 20px 40px rgba(0,0,0,0.12) !important;
+  z-index: 20 !important; animation: float 5s ease-in-out infinite !important; 
+  text-decoration: none !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important;
   transition: box-shadow 0.3s ease, transform 0.3s ease !important;
 }
 
-/* Hover State */
 .life-macro-badge:hover {
-  /* Pause Float to focus */
   animation-play-state: paused !important;
-  /* Slight Scale Up */
   transform: translateY(-5px) scale(1.03) !important;
-  /* Red Ring Glow Activation */
-  box-shadow: 
-    0 0 0 6px #FFFFFF,
-    0 0 0 7px #D11F1F,
-    0 25px 50px rgba(209, 31, 31, 0.2) !important;
+  box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #D11F1F, 0 25px 50px rgba(209, 31, 31, 0.2) !important;
 }
 
-/* Badge Content States */
 .life-badge-state {
-  position: absolute !important;
-  inset: 0 !important;
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important; /* Smooth apple-like ease */
-  width: 100% !important;
-  height: 100% !important;
+  position: absolute !important; inset: 0 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important;
+  transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important; width: 100% !important; height: 100% !important;
 }
 
 .life-badge-default { opacity: 1 !important; transform: translateY(0) !important; }
 .life-badge-hover { opacity: 0 !important; transform: translateY(100%) !important; background: white !important; }
 
-/* Trigger Switch on Hover */
 .life-macro-badge:hover .life-badge-default { opacity: 0 !important; transform: translateY(-100%) !important; }
 .life-macro-badge:hover .life-badge-hover { opacity: 1 !important; transform: translateY(0) !important; }
 
-/* Badge Typography - Refined */
-.life-macro-number { 
-  font-family: var(--l-font) !important; 
-  font-weight: 800 !important; 
-  font-size: 2.7rem !important; 
-  line-height: 1 !important; 
-  color: #1A1A1A !important; 
-  letter-spacing: -2px !important; /* Tighter for punch */
-  margin-bottom: 2px !important;
-}
-.life-macro-unit { 
-  font-size: 0.65rem !important; 
-  font-weight: 700 !important; 
-  color: #9CA3AF !important; 
-  letter-spacing: 2px !important; /* Wider for elegance */
-  margin-top: 0 !important; 
-}
-.life-check-circle { 
-  width: 22px !important; 
-  height: 22px !important; 
-  background: var(--l-green) !important; 
-  color: white !important; 
-  border-radius: 50% !important; 
-  display: flex !important; 
-  align-items: center !important; 
-  justify-content: center !important; 
-  font-size: 12px !important; 
-  margin-top: 6px !important;
-  box-shadow: 0 4px 10px rgba(58, 125, 68, 0.2) !important;
-}
-
-/* View Menu Content */
+.life-macro-number { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 2.7rem !important; line-height: 1 !important; color: #1A1A1A !important; letter-spacing: -2px !important; margin-bottom: 2px !important; }
+.life-macro-unit { font-size: 0.65rem !important; font-weight: 700 !important; color: #9CA3AF !important; letter-spacing: 2px !important; margin-top: 0 !important; }
+.life-check-circle { width: 22px !important; height: 22px !important; background: var(--l-green) !important; color: white !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; margin-top: 6px !important; box-shadow: 0 4px 10px rgba(58, 125, 68, 0.2) !important; }
 .life-view-text { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 1rem !important; line-height: 1.1 !important; color: var(--l-red) !important; text-align: center !important; text-transform: uppercase !important; margin-bottom: 4px !important; }
 .life-view-arrow { color: var(--l-red) !important; }
 
 
-/* --- 8. DOCK STYLES (ACTION CARDS) --- */
+/* --- 9. DOCK STYLES --- */
 .life-dock-wrapper { position: relative !important; z-index: 30 !important; margin-top: -60px !important; padding-bottom: 60px !important; }
 
 .life-dock-card { 
-  background: white !important; 
-  border-radius: 20px !important; 
-  box-shadow: 0 25px 80px rgba(0,0,0,0.06) !important; 
-  border: 1px solid rgba(0,0,0,0.03) !important; 
-  padding: 0 !important; 
-  overflow: hidden !important; 
-  display: flex !important;
-  flex-direction: column !important;
+  background: white !important; border-radius: 20px !important; box-shadow: 0 25px 80px rgba(0,0,0,0.06) !important; border: 1px solid rgba(0,0,0,0.03) !important; 
+  padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important;
 }
 
 .life-dock-header { width: 100% !important; background: var(--l-gray-header) !important; border-bottom: 1px solid var(--l-border) !important; padding: 18px 0 !important; text-align: center !important; }
@@ -375,7 +348,10 @@
 .life-dock-icon { width: 80px !important; height: 64px !important; background: #F8F7F5 !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03) !important; }
 .life-dock-img { width: 85% !important; height: auto !important; display: block !important; object-fit: contain !important; }
 
-.life-dock-text h3 { margin: 0 0 4px 0 !important; font-family: var(--l-font) !important; font-size: 1.05rem !important; color: var(--l-charcoal) !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: -0.02em !important; transition: color 0.2s ease !important; }
+.life-dock-text h3 { 
+  margin: 0 0 2px 0 !important; font-family: var(--l-font) !important; font-size: 0.95rem !important; color: var(--l-charcoal) !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: -0.01em !important; transition: color 0.2s ease !important; 
+}
+
 .life-dock-cat { display: block !important; font-size: 0.7rem !important; color: #888 !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 1px !important; }
 
 .life-dock-arrow { margin-left: auto !important; color: #CCCCCC !important; display: flex !important; align-items: center !important; transition: color 0.3s ease !important; }
@@ -397,26 +373,30 @@
   .life-dock-inner { padding: 25px 20px !important; }
   .life-dock-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
   .life-dock-item { padding: 15px !important; }
+  
+  /* On Mobile: Keep background, adjust ring size */
+  .life-bg-pattern { background-size: auto, auto, 300px 300px !important; }
+  .life-ring-system { width: 130% !important; max-width: 500px !important; }
 }
 </style>
 
 {% schema %}
 {
-  "name": "Hero - Lifestyle Final",
-  "settings": [
-    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Meal prep, solved." },
-    { "type": "text", "id": "subhead", "label": "Subhead", "default": "High-protein, chef-prepared meals delivered fresh. No subscriptions. No prep." },
-    { "type": "text", "id": "cta_primary_text", "label": "Primary Button", "default": "Shop Meals" },
-    { "type": "url", "id": "cta_primary_link", "label": "Primary Link" },
-    { "type": "text", "id": "cta_secondary_text", "label": "Secondary Button", "default": "Build Custom Meals" },
-    { "type": "url", "id": "cta_secondary_link", "label": "Secondary Link" },
-    { "type": "image_picker", "id": "hero_image", "label": "Hero Image" },
-    { "type": "url", "id": "badge_link", "label": "Badge Link" },
-    { "type": "text", "id": "badge_protein", "label": "Badge Protein", "default": "55g" },
-    { "type": "url", "id": "nav_1_link", "label": "Nav 1 Link" },
-    { "type": "url", "id": "nav_2_link", "label": "Nav 2 Link" },
-    { "type": "url", "id": "nav_3_link", "label": "Nav 3 Link" }
-  ],
-  "presets": [{ "name": "Hero - Lifestyle Final" }]
+"name": "Hero - Lifestyle Final",
+"settings": [
+{ "type": "text", "id": "tagline", "label": "Tagline", "default": "Meal prep, solved." },
+{ "type": "text", "id": "subhead", "label": "Subhead", "default": "High-protein, chef-prepared meals delivered fresh. No subscriptions. No prep." },
+{ "type": "text", "id": "cta_primary_text", "label": "Primary Button", "default": "Shop Meals" },
+{ "type": "url", "id": "cta_primary_link", "label": "Primary Link" },
+{ "type": "text", "id": "cta_secondary_text", "label": "Secondary Button", "default": "Build Custom Meals" },
+{ "type": "url", "id": "cta_secondary_link", "label": "Secondary Link" },
+{ "type": "image_picker", "id": "hero_image", "label": "Hero Image" },
+{ "type": "url", "id": "badge_link", "label": "Badge Link" },
+{ "type": "text", "id": "badge_protein", "label": "Badge Protein", "default": "55g" },
+{ "type": "url", "id": "nav_1_link", "label": "Nav 1 Link" },
+{ "type": "url", "id": "nav_2_link", "label": "Nav 2 Link" },
+{ "type": "url", "id": "nav_3_link", "label": "Nav 3 Link" }
+],
+"presets": [{ "name": "Hero - Lifestyle Final" }]
 }
 {% endschema %}
