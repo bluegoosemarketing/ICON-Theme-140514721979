@@ -1,9 +1,9 @@
 {%- comment -%}
-Section: Hero - Lifestyle Final (10/10 Mobile Polish)
+Section: Hero - Lifestyle Final (Mobile Perfection Fixes)
 Changes:
-1. SECONDARY BUTTON: Changed from "Text Link" to "Outline Pill" style on mobile. This fixes the weird "full width underline" look and matches the primary button shape.
-2. COMPACT VERTICAL RHYTHM: Drastically tightened margins on mobile to pull the plate "Above the Fold".
-3. PLATE POSITION: Removed top margins on the visual container to lock the food to the content.
+1. Z-INDEX FIX: Set .life-hero-content to z-index: 25 and .life-hero-visual to z-index: 10. This forces the text to sit ON TOP of the rings.
+2. BODY TEXT FIX: Removed max-width constraint on mobile subhead so it aligns naturally with the headline, removing the awkward left gap.
+3. TRUST STACK CENTER: Enforced margin: 0 auto and display: flex to perfectly center the reviews/subscription block.
 {%- endcomment -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,8 +17,6 @@ Changes:
   <div class="life-bg-overlay"></div>
 
   <!-- FLOATING BRAND ASSETS -->
-  
-  <!-- 1. Top Left: Subtle Target Ring (Moves to top right on mobile to balance) -->
   <div class="life-floater life-floater-top">
     <svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="125" cy="125" r="120" stroke="#E0E0E0" stroke-width="1.5" opacity="0.4" />
@@ -26,7 +24,6 @@ Changes:
     </svg>
   </div>
 
-  <!-- 2. Bottom Left: Motion Chevrons -->
   <div class="life-floater life-floater-bottom">
     <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
        <path d="M 40 70 L 60 50 L 40 30" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" />
@@ -40,8 +37,10 @@ Changes:
 
       <!-- CONTENT COLUMN -->
       <div class="life-hero-content">
-        <div class="life-tagline">
-          <span class="life-fresh-dot"></span> {{ section.settings.tagline }}
+        <!-- Capsule Tagline -->
+        <div class="life-tagline-capsule">
+          <div class="life-fresh-dot"></div> 
+          <span class="life-tagline-text">{{ section.settings.tagline }}</span>
         </div>
         
         <h1 class="life-headline">
@@ -63,13 +62,18 @@ Changes:
         </div>
         
         <div class="life-trust-stack">
-          <div class="life-trust-item">
+          <div class="life-trust-row">
             <span class="life-stars">★★★★★</span> 
             <span><strong>4.9/5</strong> (7.5k+ reviews)</span>
           </div>
           <div class="life-divider"></div>
-          <div class="life-trust-item">
-             <span class="life-trust-icon">↻</span>
+          <div class="life-trust-row">
+             <svg class="life-trust-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+               <path d="M21 2v6h-6"></path>
+               <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
+               <path d="M3 22v-6h6"></path>
+               <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
+             </svg>
              <span>No Subscription Required</span>
           </div>
         </div>
@@ -78,8 +82,6 @@ Changes:
       <!-- VISUAL COLUMN -->
       <div class="life-hero-visual">
         <div class="life-plate-wrapper">
-          
-          <!-- MAIN BRAND ASSET: Ring System -->
           <div class="life-ring-system">
             <svg viewBox="0 0 800 800" fill="none" xmlns="http://www.w3.org/2000/svg" class="life-ring-svg">
               <circle cx="400" cy="400" r="390" stroke="#F5F5F5" stroke-width="1" />
@@ -92,14 +94,12 @@ Changes:
             </svg>
           </div>
 
-          <!-- Hero Image -->
           {%- if section.settings.hero_image != blank -%}
             {{ section.settings.hero_image | image_url: width: 1000 | image_tag: class: 'life-plate-img', loading: 'eager' }}
           {%- else -%}
             <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Steak-Rice-GB_v1.webp?v=1765725763" class="life-plate-img" alt="Steak and Rice">
           {%- endif -%}
           
-          <!-- Floating Badge -->
           <a href="{{ section.settings.badge_link | default: '/collections/signature-meals' }}" class="life-macro-badge">
             <div class="life-badge-state life-badge-default">
               <span class="life-macro-number">{{ section.settings.badge_protein }}</span>
@@ -183,49 +183,18 @@ Changes:
 }
 .life-hero-wrapper a:not(.life-btn-primary) { text-decoration: none !important; color: inherit !important; opacity: 1 !important; transition: all 0.3s ease !important; }
 .life-hero-wrapper a:not(.life-btn-primary):hover { text-decoration: none !important; opacity: 1 !important; color: inherit !important; }
+.life-hero-wrapper { background-color: var(--l-bg-white) !important; width: 100% !important; position: relative !important; overflow-x: hidden !important; padding-bottom: 0 !important; }
 
-/* LAYOUT BASE */
-.life-hero-wrapper { 
-  background-color: var(--l-bg-white) !important; 
-  width: 100% !important; 
-  position: relative !important; 
-  overflow-x: hidden !important; 
-  padding-bottom: 0 !important; 
-}
-
-/* --- 2. FLOATING ASSETS --- */
-.life-floater {
-  position: absolute !important;
-  z-index: 1 !important; 
-  pointer-events: none !important;
-}
-
-/* Desktop Positioning */
-.life-floater-top {
-  top: 5% !important; left: 50% !important; 
-  transform: translateX(-650px) !important; 
-  opacity: 0.8 !important;
-}
-.life-floater-bottom {
-  bottom: 25% !important; left: 50% !important;
-  transform: translateX(-150px) !important;
-  opacity: 1 !important;
-}
+/* --- 2. FLOATERS --- */
+.life-floater { position: absolute !important; z-index: 1 !important; pointer-events: none !important; }
+.life-floater-top { top: 5% !important; left: 50% !important; transform: translateX(-650px) !important; opacity: 0.8 !important; }
+.life-floater-bottom { bottom: 25% !important; left: 50% !important; transform: translateX(-150px) !important; opacity: 1 !important; }
 
 /* --- 3. BACKGROUND --- */
-.life-bg-pattern {
-  position: absolute !important; inset: 0 !important; z-index: 0 !important; pointer-events: none !important;
-  background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.2'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E") !important;
-  background-repeat: repeat !important;
-  background-size: 500px 500px !important;
-}
-.life-bg-overlay {
-  position: absolute !important; inset: 0 !important;
-  background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.6) 100%) !important;
-  z-index: 1 !important; pointer-events: none !important;
-}
+.life-bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.2'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E") !important; background-repeat: repeat !important; background-size: 500px 500px !important; position: absolute !important; inset: 0 !important; z-index: 0 !important; pointer-events: none !important; }
+.life-bg-overlay { background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.6) 100%) !important; position: absolute !important; inset: 0 !important; z-index: 1 !important; pointer-events: none !important; }
 
-/* --- 4. MAIN LAYOUT --- */
+/* --- 4. GRID --- */
 .life-hero-main { position: relative !important; z-index: 5 !important; padding: 60px 0 90px 0 !important; }
 .life-container { width: 100% !important; max-width: 1600px !important; margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; }
 .life-hero-main .life-container { display: grid !important; grid-template-columns: 1fr 1.1fr !important; align-items: center !important; gap: 40px !important; }
@@ -233,78 +202,39 @@ Changes:
 
 /* --- 5. VISUAL COLUMN --- */
 .life-hero-visual { position: relative !important; display: flex !important; justify-content: center !important; align-items: center !important; z-index: 10 !important; width: 100% !important; }
-
-.life-plate-wrapper { 
-  position: relative !important; 
-  width: 100% !important; 
-  display: flex !important; 
-  justify-content: center !important; 
-  align-items: center !important;
-}
-
-/* Main Ring System */
-.life-ring-system {
-  position: absolute !important;
-  top: 50% !important; left: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 135% !important; 
-  max-width: 850px !important;
-  aspect-ratio: 1/1 !important;
-  z-index: 0 !important; 
-  pointer-events: none !important;
-}
+.life-plate-wrapper { position: relative !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important; }
+.life-ring-system { position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: 135% !important; max-width: 850px !important; aspect-ratio: 1/1 !important; z-index: 0 !important; pointer-events: none !important; }
 .life-ring-svg { width: 100% !important; height: 100% !important; }
-
-/* Plate Image */
-.life-plate-img { 
-  position: relative !important; z-index: 5 !important;
-  width: 100% !important; max-width: 800px !important; height: auto !important; 
-  transform: rotate(-3deg) !important; 
-  filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) !important; 
-  transition: transform 0.5s ease !important; 
-}
+.life-plate-img { position: relative !important; z-index: 5 !important; width: 100% !important; max-width: 800px !important; height: auto !important; transform: rotate(-3deg) !important; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) !important; transition: transform 0.5s ease !important; }
 .life-plate-img:hover { transform: rotate(0deg) scale(1.02) !important; }
 
-/* --- 6. TYPOGRAPHY & BUTTONS --- */
-.life-tagline { font-family: var(--l-font) !important; font-weight: 700 !important; color: var(--l-green) !important; text-transform: uppercase !important; letter-spacing: 2px !important; font-size: 0.75rem !important; margin-bottom: 1.2rem !important; display: flex !important; gap: 10px !important; align-items: center !important; }
+/* --- 6. TYPOGRAPHY & CAPSULE --- */
+.life-tagline-capsule { display: inline-flex !important; align-items: center !important; gap: 8px !important; padding: 6px 14px !important; background: rgba(58, 125, 68, 0.08) !important; border-radius: 20px !important; margin-bottom: 1.2rem !important; }
 .life-fresh-dot { width: 6px !important; height: 6px !important; background-color: var(--l-green) !important; border-radius: 50% !important; display: block !important; }
+.life-tagline-text { font-family: var(--l-font) !important; font-weight: 700 !important; color: var(--l-green) !important; text-transform: uppercase !important; letter-spacing: 1.5px !important; font-size: 0.7rem !important; }
 .life-headline { font-family: var(--l-font) !important; font-size: clamp(2.8rem, 6vw, 4.8rem) !important; line-height: 1.05 !important; color: var(--l-charcoal) !important; margin: 0 0 1.5rem 0 !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: -0.02em !important; }
 .life-text-highlight { color: var(--l-red) !important; }
 .life-subhead-wrap { margin-bottom: 2.5rem !important; max-width: 550px !important; }
 .life-subhead { font-family: var(--l-font) !important; color: #555 !important; font-size: 1.2rem !important; line-height: 1.6 !important; margin: 0 !important; font-weight: 400 !important; letter-spacing: -0.01em !important; }
 
+/* --- 7. BUTTONS --- */
 .life-cta-group { display: flex !important; gap: 1.2rem !important; margin-bottom: 3.5rem !important; align-items: center !important; flex-wrap: wrap !important; }
 .life-btn { height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-family: var(--l-font) !important; font-weight: 700 !important; text-decoration: none !important; font-size: 1rem !important; transition: all 0.3s ease !important; white-space: nowrap !important; letter-spacing: -0.01em !important; }
-
-/* Primary Button */
-.life-btn-primary { 
-  background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important; 
-  color: #FFFFFF !important; border: none !important; padding: 0 2.8rem !important; border-radius: 50px !important; 
-  box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important; 
-}
+.life-btn-primary { background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important; color: #FFFFFF !important; border: none !important; padding: 0 2.8rem !important; border-radius: 50px !important; box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important; }
 .life-btn-primary:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4) !important; color: #FFFFFF !important; }
-
-/* Secondary Button (Desktop Default) */
 .life-btn-secondary { background: transparent !important; color: var(--l-charcoal) !important; padding: 0 1rem !important; border-bottom: 2px solid #E5E5E5 !important; height: auto !important; padding-bottom: 4px !important; border-radius: 0 !important; }
 .life-btn-secondary:hover { border-color: var(--l-red) !important; color: var(--l-red) !important; }
 
-/* --- 7. TRUST & BADGE --- */
+/* --- 8. TRUST STACK --- */
 .life-trust-stack { display: flex !important; align-items: center !important; gap: 18px !important; font-family: var(--l-font) !important; font-size: 0.9rem !important; color: #666 !important; font-weight: 500 !important; flex-wrap: wrap !important; }
+.life-trust-row { display: flex !important; align-items: center !important; gap: 8px !important; }
 .life-stars { color: #FFB400 !important; margin-right: 5px !important; }
 .life-divider { width: 1px !important; height: 16px !important; background: #ddd !important; }
-.life-trust-item { display: flex !important; align-items: center !important; gap: 8px !important; }
-.life-trust-icon { font-size: 1.2rem !important; font-weight: bold !important; color: var(--l-black) !important; }
+.life-trust-icon-svg { width: 16px !important; height: 16px !important; color: var(--l-black) !important; }
 
+/* --- 9. BADGE --- */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-.life-macro-badge { 
-  position: absolute !important; top: 0% !important; right: 8% !important; 
-  width: 135px !important; height: 135px !important; border-radius: 50% !important; 
-  background: white !important; 
-  box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #E5E5E5, 0 20px 40px rgba(0,0,0,0.12) !important;
-  z-index: 20 !important; animation: float 5s ease-in-out infinite !important; 
-  text-decoration: none !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important;
-  transition: box-shadow 0.3s ease, transform 0.3s ease !important;
-}
+.life-macro-badge { position: absolute !important; top: 0% !important; right: 8% !important; width: 135px !important; height: 135px !important; border-radius: 50% !important; background: white !important; box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #E5E5E5, 0 20px 40px rgba(0,0,0,0.12) !important; z-index: 20 !important; animation: float 5s ease-in-out infinite !important; text-decoration: none !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: box-shadow 0.3s ease, transform 0.3s ease !important; }
 .life-macro-badge:hover { animation-play-state: paused !important; transform: translateY(-5px) scale(1.03) !important; box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #D11F1F, 0 25px 50px rgba(209, 31, 31, 0.2) !important; }
 .life-badge-state { position: absolute !important; inset: 0 !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1) !important; width: 100% !important; height: 100% !important; }
 .life-badge-default { opacity: 1 !important; transform: translateY(0) !important; }
@@ -317,7 +247,7 @@ Changes:
 .life-view-text { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 1rem !important; line-height: 1.1 !important; color: var(--l-red) !important; text-align: center !important; text-transform: uppercase !important; margin-bottom: 4px !important; }
 .life-view-arrow { color: var(--l-red) !important; }
 
-/* --- 8. DOCK --- */
+/* --- 10. DOCK --- */
 .life-dock-wrapper { position: relative !important; z-index: 30 !important; margin-top: -60px !important; padding-bottom: 60px !important; }
 .life-dock-card { background: white !important; border-radius: 20px !important; box-shadow: 0 25px 80px rgba(0,0,0,0.06) !important; border: 1px solid rgba(0,0,0,0.03) !important; padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; }
 .life-dock-header { width: 100% !important; background: var(--l-gray-header) !important; border-bottom: 1px solid var(--l-border) !important; padding: 18px 0 !important; text-align: center !important; }
@@ -335,68 +265,61 @@ Changes:
 .life-dock-arrow { margin-left: auto !important; color: #CCCCCC !important; display: flex !important; align-items: center !important; transition: color 0.3s ease !important; }
 .life-dock-item:hover .life-dock-arrow { color: var(--l-red) !important; }
 
-/* --- 9. MOBILE POLISH (10/10) --- */
+/* --- 11. MOBILE POLISH (10/10) --- */
 @media (max-width: 1024px) {
-  /* TIGHTER PADDING: Bring content up */
-  .life-hero-main { padding: 25px 0 50px 0 !important; }
-  
-  .life-hero-main .life-container { grid-template-columns: 1fr !important; text-align: center !important; gap: 25px !important; }
+  .life-hero-main { padding: 30px 0 50px 0 !important; }
+  .life-hero-main .life-container { grid-template-columns: 1fr !important; text-align: center !important; gap: 20px !important; }
   .life-container { padding: 0 24px !important; }
-  
-  /* TYPOGRAPHY: Tighter margins for "Above the Fold" */
-  .life-tagline { justify-content: center !important; margin-bottom: 8px !important; }
+
+  /* Z-INDEX FIX: Content above Visual */
+  .life-hero-content { z-index: 25 !important; }
+  .life-hero-visual { z-index: 10 !important; margin-top: 0 !important; width: 100% !important; }
+
+  /* Typography */
+  .life-tagline-capsule { margin: 0 auto 12px auto !important; }
   .life-headline { font-size: 2.4rem !important; margin-bottom: 12px !important; line-height: 1.1 !important; }
-  .life-subhead-wrap { margin: 0 auto 20px !important; max-width: 95% !important; }
-  .life-subhead { font-size: 1.05rem !important; line-height: 1.5 !important; }
-
-  /* BUTTONS: Fixed the "Line" issue. Now Outline Pills. */
-  .life-cta-group { justify-content: center !important; gap: 12px !important; width: 100% !important; flex-direction: column !important; margin-bottom: 2rem !important; }
-  .life-btn { width: 100% !important; max-width: 380px !important; }
   
-  /* The "Fix": Transforming the secondary text link into a premium Outline Button */
-  .life-btn-secondary { 
-    background: white !important;
-    border: 2px solid #E5E5E5 !important;
-    border-radius: 50px !important;
-    height: 58px !important;
-    color: var(--l-charcoal) !important;
-    padding-bottom: 0 !important; /* Reset desktop padding */
-  }
+  /* FIXED: Removed max-width constraint on subhead to fix left spacing */
+  .life-subhead-wrap { margin: 0 auto 20px !important; max-width: 100% !important; }
+  
+  /* Buttons */
+  .life-cta-group { justify-content: center !important; gap: 12px !important; width: 100% !important; flex-direction: column !important; margin-bottom: 1.5rem !important; }
+  .life-btn { width: 100% !important; max-width: 380px !important; }
+  .life-btn-secondary { background: white !important; border: 2px solid #E5E5E5 !important; border-radius: 50px !important; height: 58px !important; color: var(--l-charcoal) !important; padding-bottom: 0 !important; }
 
-  /* TRUST: Tighter */
-  .life-trust-stack { justify-content: center !important; margin-top: 0px !important; flex-direction: column !important; gap: 6px !important; }
+  /* TRUST STACK: FIXED CENTERING */
+  .life-trust-stack { 
+    justify-content: center !important; 
+    margin-top: 0 !important; 
+    /* Enforce centering */
+    display: flex !important;
+    width: fit-content !important;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    flex-direction: column !important; 
+    gap: 8px !important; 
+    /* Glass BG */
+    position: relative !important;
+    background: rgba(255,255,255,0.7) !important;
+    backdrop-filter: blur(4px) !important;
+    padding: 8px 16px !important;
+    border-radius: 12px !important;
+  }
   .life-divider { display: none !important; }
   
-  /* VISUAL: Pull Plate Up! */
-  .life-hero-visual { margin-top: 0 !important; width: 100% !important; }
-  .life-plate-wrapper { margin-top: -10px !important; } /* Slight negative margin to tuck it in */
+  /* Visual: Push Rings Down */
+  .life-plate-wrapper { margin-top: -5px !important; }
   .life-plate-img { max-width: 90% !important; transform: rotate(0deg) !important; }
   
-  .life-ring-system { width: 110% !important; max-width: 450px !important; }
+  .life-ring-system { width: 110% !important; max-width: 450px !important; top: 60% !important; }
+  
   .life-macro-badge { width: 100px !important; height: 100px !important; top: -5px !important; right: 0 !important; transform: scale(0.9) !important; }
-
-  /* DOCK */
   .life-dock-inner { padding: 25px 20px !important; }
   .life-dock-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
   .life-dock-item { padding: 15px !important; justify-content: flex-start !important; text-align: left !important; }
-  
-  /* BG & FLOATERS */
   .life-bg-pattern { background-size: 300px 300px !important; }
-  
-  .life-floater-top { 
-    top: 2% !important; 
-    left: auto !important; right: -10% !important; 
-    transform: none !important; 
-    opacity: 0.3 !important; 
-    width: 150px !important; height: 150px !important; 
-  }
-  
-  .life-floater-bottom { 
-    bottom: auto !important; top: 45% !important;
-    left: -5% !important; 
-    transform: none !important; 
-    opacity: 0.3 !important; 
-  }
+  .life-floater-top { top: 2% !important; left: auto !important; right: -10% !important; transform: none !important; opacity: 0.3 !important; width: 150px !important; height: 150px !important; }
+  .life-floater-bottom { bottom: auto !important; top: 45% !important; left: -5% !important; transform: none !important; opacity: 0.3 !important; }
 }
 </style>
 
