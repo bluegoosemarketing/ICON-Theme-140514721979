@@ -1,74 +1,90 @@
 {%- comment -%}
-  Section: Story Process - "Momentum Timeline" (World Class V9 - Final Polish)
-  Updates:
-  1. NUMBERS: Lifted up ("breathing room") + Solid White (85% Opacity) per request.
-  2. LAYOUT: Retained the "Inset Frame" and "Scattered Momentum" background.
-  3. STRUCTURE: Structural rail connecting the steps.
+  Section: Story Process - "The Routine" (Lifestyle Polish vFinal)
+  Changes:
+  1. SPACING: Increased top padding to 80px to restore breathing room.
+  2. TYPOGRAPHY: Converted Headline to Title Case + Kale Green + Lighter Weight (700 vs 800) for a "Health/Lifestyle" vibe.
+  3. SCALING: Increased size of Badge, Headline, and Subhead to command the space better.
+  4. FOOTER: Kept the clean "De-Boxed" feature rail.
 {%- endcomment -%}
 
 <div class="story-process-section">
   
-  <!-- BACKGROUND: Organic Forward Motion -->
-  <div class="story-bg-momentum"></div>
+  <!-- Background Pattern -->
+  <div class="story-bg-pattern"></div>
 
   <div class="story-container">
     
-    <!-- Section Header -->
+    <!-- HEADER -->
     <div class="story-header">
+      <!-- Badge -->
+      <div class="story-badge">
+        <span class="story-dot"></span>
+        <span class="story-badge-text">How It Works</span>
+      </div>
+      
       {% if section.settings.heading != blank %}
         <h2 class="story-h2">{{ section.settings.heading }}</h2>
       {% endif %}
+      
       {% if section.settings.subheading != blank %}
         <p class="story-sub">{{ section.settings.subheading }}</p>
       {% endif %}
     </div>
 
-    <!-- THE TIMELINE -->
-    <div class="story-timeline-wrapper">
-      
-      <!-- The Structural Rail -->
-      <div class="story-rail-track">
-        <div class="story-rail-line"></div>
-      </div>
-
-      <div class="story-grid">
-        {%- for block in section.blocks -%}
-          <div class="story-module" {{ block.shopify_attributes }}>
-            
-            <!-- Connection Point -->
-            <div class="story-connector">
-              <div class="story-dot"></div>
-              <div class="story-vertical-link"></div>
-            </div>
-
-            <!-- Card -->
-            <div class="story-card-inner">
-              
-              <div class="story-img-wrap">
-                <!-- WATERMARK NUMBER (Lifted + White 85%) -->
-                <div class="story-watermark">0{{ forloop.index }}</div>
-
-                {%- if block.settings.image != blank -%}
-                  {{ block.settings.image | image_url: width: 600 | image_tag: class: 'story-img', loading: 'lazy', alt: block.settings.title }}
-                {%- else -%}
-                  <div class="story-placeholder">
-                    {{ 'image' | placeholder_svg_tag: 'story-placeholder-svg' }}
-                  </div>
-                {%- endif -%}
+    <!-- THE GRID -->
+    <div class="story-grid">
+      {%- for block in section.blocks -%}
+        <div class="story-card" {{ block.shopify_attributes }}>
+          
+          <div class="story-visual-wrap">
+            <div class="story-visual-inner">
+              <div class="story-step-badge">
+                <span class="story-step-num">0{{ forloop.index }}</span>
               </div>
-
-              <div class="story-content">
-                {% if block.settings.title != blank %}
-                  <h3>{{ block.settings.title }}</h3>
-                {% endif %}
-                {% if block.settings.text != blank %}
-                  <div class="story-text">{{ block.settings.text }}</div>
-                {% endif %}
-              </div>
+              {%- if block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 800 | image_tag: class: 'story-img', loading: 'lazy', alt: block.settings.title }}
+              {%- else -%}
+                <div class="story-placeholder">
+                  {{ 'image' | placeholder_svg_tag: 'story-placeholder-svg' }}
+                </div>
+              {%- endif -%}
             </div>
-            
           </div>
-        {%- endfor -%}
+
+          <div class="story-content">
+            {% if block.settings.title != blank %}
+              <h3>{{ block.settings.title }}</h3>
+            {% endif %}
+            {% if block.settings.text != blank %}
+              <div class="story-text">{{ block.settings.text }}</div>
+            {% endif %}
+          </div>
+
+          {% unless forloop.last %}
+            <div class="story-connector-arrow">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="9 18 15 12 9 6"></polyline>
+              </svg>
+            </div>
+          {% endunless %}
+
+        </div>
+      {%- endfor -%}
+    </div>
+
+    <!-- Feature Rail -->
+    <div class="story-feature-rail">
+      <div class="story-feature-item">
+        <span class="story-feature-icon">❄️</span>
+        <span class="story-feature-text">Fresh, Never Frozen</span>
+      </div>
+      <div class="story-feature-item">
+        <span class="story-feature-icon">📅</span>
+        <span class="story-feature-text">Weekly Rotating Menu</span>
+      </div>
+      <div class="story-feature-item">
+        <span class="story-feature-icon">🇺🇸</span>
+        <span class="story-feature-text">USA Raised Meat</span>
       </div>
     </div>
 
@@ -76,143 +92,214 @@
 </div>
 
 <style>
-/* --- 1. CORE LAYOUT & BACKGROUND --- */
+/* --- 1. VARIABLES --- */
+:root {
+  --s-bg-mint: #F4F7F5;
+  --s-kale: #1E3A23;
+  --s-kale-border: rgba(30, 58, 35, 0.15);
+  --s-card-bg: #FFFFFF;
+  --s-inset-bg: #F8FAF9;
+  --s-mint-badge: #F0F7F4;
+  --s-font: 'Inter', sans-serif;
+}
+
+/* --- 2. LAYOUT --- */
 .story-process-section {
-  background-color: #F5F7FA !important; 
+  background-color: var(--s-bg-mint) !important;
+  /* UPDATED: Increased top padding for breathing room */
   padding: 80px 0 100px 0 !important; 
   width: 100% !important; 
   position: relative !important;
-  z-index: 10 !important;
   overflow: hidden !important;
 }
 
-/* BACKGROUND (Momentum Arrows) */
-.story-bg-momentum {
-  position: absolute !important; inset: 0 !important;
-  background-image: url("data:image/svg+xml,%3Csvg width='800' height='600' viewBox='0 0 800 600' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke-linecap='round' stroke-linejoin='round'%3E%3C!-- Stream 1 --%3E%3Cpath d='M 50 80 L 70 100 L 50 120' stroke='%23B0B5C0' stroke-width='3' stroke-opacity='0.18'/%3E%3Cpath d='M 80 80 L 100 100 L 80 120' stroke='%23B0B5C0' stroke-width='3' stroke-opacity='0.15'/%3E%3C!-- Stream 2 (Hero) --%3E%3Cpath d='M 550 300 L 580 330 L 550 360' stroke='%23B0B5C0' stroke-width='4' stroke-opacity='0.2'/%3E%3Cpath d='M 580 300 L 610 330 L 580 360' stroke='%23D11F1F' stroke-width='4' stroke-opacity='0.1'/%3E%3C!-- Stream 3 --%3E%3Cpath d='M 120 480 L 135 495 L 120 510' stroke='%23B0B5C0' stroke-width='3' stroke-opacity='0.12'/%3E%3C!-- Stream 4 --%3E%3Cpath d='M 700 50 L 720 70 L 700 90' stroke='%23B0B5C0' stroke-width='3' stroke-opacity='0.15'/%3E%3C/g%3E%3C/svg%3E");
-  background-size: 800px 600px !important;
-  background-position: center top !important;
-  opacity: 1 !important;
-  pointer-events: none !important;
-  mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%) !important;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 85%, transparent 100%) !important;
+.story-bg-pattern {
+  position: absolute !important; inset: 0 !important; pointer-events: none !important; opacity: 0.5 !important;
+  background-image: radial-gradient(circle at 50% 0%, rgba(255,255,255,0.8) 0%, transparent 60%),
+                    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 L100 0' stroke='%231E3A23' stroke-width='0.5' stroke-opacity='0.03'/%3E%3C/svg%3E");
+  background-size: cover, 40px 40px !important;
 }
 
 .story-container { 
-  width: 100% !important; max-width: 1440px !important; margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; position: relative !important; z-index: 2 !important;
+  width: 100% !important; max-width: 1600px !important; 
+  margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; position: relative !important; z-index: 2 !important;
 }
 
-/* --- 2. HEADER --- */
+/* --- 3. HEADER (LIFESTYLE POLISH) --- */
 .story-header { 
-  text-align: center !important; margin-bottom: 50px !important; max-width: 700px !important; margin-left: auto !important; margin-right: auto !important;
-}
-.story-h2 { 
-  font-family: 'Inter', sans-serif !important; font-size: 3rem !important; margin: 0 0 12px 0 !important; color: #1A1A1A !important; line-height: 1 !important; font-weight: 900 !important; letter-spacing: -0.03em !important; text-transform: uppercase !important;
-}
-.story-sub { 
-  font-family: 'Inter', sans-serif !important; font-size: 1.1rem !important; color: #666 !important; margin: 0 !important; line-height: 1.5 !important;
+  text-align: center !important; 
+  margin-bottom: 60px !important; /* More space below header */
+  max-width: 900px !important; /* Wider width for larger text */
+  margin-left: auto !important; margin-right: auto !important;
+  display: flex !important; flex-direction: column !important; align-items: center !important;
 }
 
-/* --- 3. RAIL SYSTEM --- */
-.story-timeline-wrapper { position: relative !important; }
-
-.story-rail-track {
-  position: absolute !important; top: 9px !important; left: 0 !important; right: 0 !important; height: 2px !important; z-index: 1 !important;
+.story-badge {
+  display: inline-flex !important; align-items: center !important; gap: 10px !important; 
+  padding: 8px 18px !important; /* Larger Badge */
+  background: white !important; 
+  border: 1px solid var(--s-kale-border) !important;
+  border-radius: 30px !important; 
+  margin-bottom: 1.5rem !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.03) !important;
 }
-.story-rail-line { width: 100% !important; height: 100% !important; background: #E0E0E0 !important; }
-
-.story-grid { 
-  display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 24px !important; align-items: start !important; position: relative !important; z-index: 2 !important;
-}
-
-/* --- 4. MODULE & STYLING --- */
-.story-module { position: relative !important; display: flex !important; flex-direction: column !important; }
-
-.story-connector {
-  position: relative !important; height: 20px !important; margin-left: 24px !important; border-left: 2px solid #E0E0E0 !important; z-index: 5 !important;
-}
-.story-dot {
-  position: absolute !important; top: -6px !important; left: -8px !important; width: 14px !important; height: 14px !important; background: #D11F1F !important; border-radius: 50% !important; box-shadow: 0 0 0 4px #F5F7FA !important; 
-}
-
-/* Premium Card */
-.story-card-inner {
-  background: #FFFFFF !important; padding: 12px !important; border-radius: 12px !important; border: 1px solid rgba(0,0,0,0.08) !important; 
-  box-shadow: 0 4px 20px rgba(0,0,0,0.03), inset 0 0 0 1px rgba(255,255,255,0.5) !important;
-  transition: transform 0.3s ease, box-shadow 0.3s ease !important; position: relative !important; overflow: hidden !important;
-}
-
-.story-module:hover .story-card-inner {
-  transform: translateY(-6px) !important; box-shadow: 0 15px 40px rgba(0,0,0,0.08) !important; border-color: rgba(209, 31, 31, 0.15) !important;
-}
-
-/* Image Wrapper */
-.story-img-wrap {
-  position: relative !important; width: 100% !important; aspect-ratio: 3/4 !important; border-radius: 8px !important; overflow: hidden !important;
-  margin-bottom: 16px !important; background: #F0F0F0 !important; z-index: 1 !important;
-  box-shadow: inset 0 2px 6px rgba(0,0,0,0.06) !important;
-}
-
-.story-img {
-  width: 100% !important; height: 100% !important; object-fit: cover !important; transition: transform 0.6s ease !important; position: relative !important; z-index: 1 !important;
-}
-.story-module:hover .story-img { transform: scale(1.04) !important; }
+.story-dot { width: 8px !important; height: 8px !important; background-color: var(--s-kale) !important; border-radius: 50% !important; }
+.story-badge-text { font-family: var(--s-font) !important; font-weight: 700 !important; color: var(--s-kale) !important; text-transform: uppercase !important; letter-spacing: 1.5px !important; font-size: 0.75rem !important; }
 
 /* 
-   FIXED WATERMARK
-   - Position: Lifted up (-2px) to provide breathing room from bottom border.
-   - Style: Solid White at 85% Opacity. Clean, premium, legible.
+   THE "LIFESTYLE" HEADLINE
+   - Kale Green Color (Brand)
+   - Title Case (Premium)
+   - Weight 700 (Athletic/Light)
 */
-.story-watermark {
-  position: absolute !important;
-  top: auto !important; 
-  bottom: -2px !important; /* LIFTED UP */
-  left: 5px !important; 
-  
-  font-family: 'Inter', sans-serif !important;
-  font-weight: 900 !important;
-  font-size: 5rem !important;
-  line-height: 1 !important;
-  z-index: 5 !important;
-  pointer-events: none !important;
-
-  /* Solid Style (No Blend) */
-  color: rgba(255, 255, 255, 0.85) !important; /* 85% Opacity */
-  mix-blend-mode: normal !important;
-  text-shadow: 0 2px 10px rgba(0,0,0,0.15) !important;
+.story-h2 { 
+  font-family: var(--s-font) !important; 
+  font-size: 3.2rem !important; /* SCALED UP */
+  margin: 0 0 16px 0 !important; 
+  color: var(--s-kale) !important; /* COLORED GREEN */
+  line-height: 1.1 !important; 
+  font-weight: 700 !important; /* LIGHTER WEIGHT */
+  text-transform: capitalize !important; /* TITLE CASE */
+  letter-spacing: -0.03em !important;
 }
 
-/* --- 6. CONTENT --- */
-.story-content { position: relative !important; z-index: 1 !important; padding: 0 4px 4px 4px !important; }
-
-.story-card-inner h3 { 
-  font-family: 'Inter', sans-serif !important; font-weight: 800 !important; font-size: 1.1rem !important; margin: 0 0 4px 0 !important; color: #222 !important; letter-spacing: -0.01em !important; text-transform: uppercase !important;
+.story-sub { 
+  font-family: var(--s-font) !important; 
+  font-size: 1.25rem !important; /* SCALED UP */
+  color: #555 !important; 
+  margin: 0 !important; 
+  line-height: 1.6 !important; 
+  max-width: 600px !important;
 }
-.story-text, .story-text p { 
-  font-family: 'Inter', sans-serif !important; font-size: 0.9rem !important; color: #666 !important; line-height: 1.4 !important; margin: 0 !important; 
+
+/* --- 4. GRID --- */
+.story-grid { 
+  display: grid !important; 
+  grid-template-columns: repeat(4, 1fr) !important; 
+  gap: 30px !important; 
+  align-items: stretch !important;
+}
+
+/* --- 5. CARD --- */
+.story-card { 
+  background: var(--s-card-bg) !important; 
+  border: 1px solid var(--s-kale-border) !important; 
+  border-radius: 20px !important; 
+  padding: 12px !important; 
+  box-shadow: 0 4px 15px rgba(0,0,0,0.02) !important; 
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
+  position: relative !important;
+  display: flex !important; flex-direction: column !important;
+}
+
+.story-card:hover {
+  transform: translateY(-8px) !important;
+  box-shadow: 0 20px 40px rgba(30, 58, 35, 0.08) !important;
+  border-color: var(--s-kale) !important;
+  z-index: 10 !important;
+}
+
+.story-visual-wrap {
+  background: var(--s-inset-bg) !important;
+  border-radius: 14px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+  position: relative !important;
+  aspect-ratio: 4/5 !important; 
+}
+
+.story-visual-inner {
+  width: 100% !important; height: 100% !important; position: relative !important; border-radius: 14px !important; overflow: hidden !important;
+}
+
+.story-img { width: 100% !important; height: 100% !important; object-fit: cover !important; transition: transform 0.6s ease !important; display: block !important; }
+.story-card:hover .story-img { transform: scale(1.05) !important; }
+
+.story-step-badge {
+  position: absolute !important; top: 12px !important; left: 12px !important; 
+  background: rgba(255, 255, 255, 0.95) !important; 
+  backdrop-filter: blur(4px) !important;
+  border: 1px solid rgba(30, 58, 35, 0.1) !important;
+  padding: 8px 12px !important; 
+  border-radius: 12px !important; 
+  z-index: 10 !important; 
+  display: flex !important; align-items: center !important; justify-content: center !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.08) !important;
+  min-width: 40px !important;
+}
+
+.story-step-num {
+  font-family: var(--s-font) !important; font-size: 1rem !important; color: var(--s-kale) !important; font-weight: 800 !important; line-height: 1 !important;
+}
+
+.story-content { 
+  padding: 20px 8px 8px 8px !important; flex-grow: 1 !important; text-align: center !important; 
+}
+
+.story-content h3 { 
+  font-family: var(--s-font) !important; font-weight: 800 !important; font-size: 1.15rem !important; margin: 0 0 8px 0 !important; color: #1A1A1A !important; letter-spacing: -0.01em !important; 
+}
+
+.story-content h3::after {
+  content: "" !important; display: block !important; width: 24px !important; height: 2px !important; 
+  background: var(--s-kale) !important; opacity: 0.2 !important; margin: 12px auto 0 auto !important;
+  transition: width 0.3s ease !important;
+}
+.story-card:hover .story-content h3::after { width: 40px !important; opacity: 1 !important; }
+
+.story-text p { 
+  font-family: var(--s-font) !important; font-size: 0.95rem !important; color: #666 !important; line-height: 1.5 !important; margin: 0 !important; 
+}
+
+.story-connector-arrow {
+  position: absolute !important; top: 40% !important; right: -30px !important; width: 30px !important; height: 30px !important; z-index: 20 !important; color: var(--s-kale) !important; background: var(--s-bg-mint) !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; opacity: 0.3 !important;
+}
+
+/* --- 6. INTEGRATED FEATURE RAIL --- */
+.story-feature-rail {
+  display: flex !important; justify-content: center !important; align-items: center !important; gap: 60px !important;
+  margin-top: 60px !important; /* Increased spacing */
+  padding-top: 30px !important;
+  border-top: 1px solid rgba(30, 58, 35, 0.1) !important; 
+  width: 100% !important;
+}
+
+.story-feature-item {
+  display: flex !important; align-items: center !important; gap: 10px !important;
+}
+
+.story-feature-icon { font-size: 1.2rem !important; }
+.story-feature-text { 
+  font-family: var(--s-font) !important; font-weight: 700 !important; font-size: 0.9rem !important; 
+  color: var(--s-kale) !important; text-transform: uppercase !important; letter-spacing: 2px !important;
+  opacity: 0.8 !important;
 }
 
 /* --- 7. RESPONSIVE --- */
 @media (max-width: 1024px) {
+  .story-container { padding: 0 24px !important; }
   .story-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
-  .story-rail-track { display: none !important; } 
-  .story-connector { display: none !important; }
-  
-  /* Mobile Numbering adjustment */
-  .story-watermark { font-size: 4rem !important; bottom: -5px !important; left: 5px !important; }
+  .story-connector-arrow { display: none !important; } 
+  .story-feature-rail { flex-direction: column !important; gap: 15px !important; align-items: center !important; }
 }
+
 @media (max-width: 600px) {
-  .story-grid { grid-template-columns: 1fr !important; }
-  .story-process-section { padding: 60px 0 !important; }
-  .story-h2 { font-size: 2.2rem !important; }
+  .story-process-section { padding: 60px 0 80px 0 !important; }
+  
+  .story-header { margin-bottom: 40px !important; }
+  .story-h2 { font-size: 2.3rem !important; } /* Mobile Headline Scale */
+  .story-sub { font-size: 1.1rem !important; }
+  
+  .story-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
+  .story-visual-wrap { aspect-ratio: 3/2 !important; } 
 }
 </style>
 
 {% schema %}
 {
-  "name": "Story Process",
+  "name": "Story Process - Lifestyle",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Your new routine" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Your New Routine" },
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "From our kitchen to your table. Consistency made simple." }
   ],
   "blocks": [
@@ -221,7 +308,7 @@
       "name": "Process Step",
       "limit": 4,
       "settings": [
-        { "type": "image_picker", "id": "image", "label": "Step Image (Portrait)" },
+        { "type": "image_picker", "id": "image", "label": "Step Image" },
         { "type": "text", "id": "title", "label": "Title", "default": "Step Title" },
         { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Description here.</p>" }
       ]
@@ -229,7 +316,7 @@
   ],
   "presets": [
     {
-      "name": "Story Process",
+      "name": "Story Process - Lifestyle",
       "blocks": [
         { "type": "step", "settings": { "title": "Choose Once", "text": "<p>Pick meals that fit your goals.</p>" } },
         { "type": "step", "settings": { "title": "Stay Ready", "text": "<p>We cook & ship fresh.</p>" } },

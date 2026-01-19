@@ -1,10 +1,9 @@
 {%- comment -%}
-Section: Hero - Lifestyle Final (Pro Color Theory & Structural Polish)
+Section: Hero - Lifestyle Final (100% Polish: Depth & Affordance)
 Changes:
-1. REMOVED PILL: The "How do you want to eat" label is now clean text. No background shape.
-2. TIGHTER HEADER: Reduced top/bottom padding in the header to remove excess negative space.
-3. COLOR HARMONY: The inner buttons now use the Brand Green for their border, but at 20% opacity. This ties them to the parent frame without being overwhelming.
-4. HOVER STATE: On hover, the buttons turn to 100% Green border + a very faint green background tint for immediate interaction feedback.
+1. ARROW AFFORDANCE: Changed Dock arrows from generic grey to Kale Green (40% opacity). This improves clickability cues while matching the brand.
+2. ICON SCALING: Increased dock icon size from 85% to 92% to fill the container better and improve scannability on mobile.
+3. CARD DEPTH: Upgraded the Dock Card shadow to a "Dual Layer" drop shadow. This creates a crisp separation between the menu and the plate image underneath.
 {%- endcomment -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -176,8 +175,7 @@ Changes:
   --l-red: #D11F1F; 
   --l-green: #3A7D44; 
   --l-kale: #1E3A23; 
-  --l-kale-tint: #F4F7F5; 
-  /* Pro Color Theory: Using Alpha transparency for harmony */
+  --l-mint: #F0F7F4; 
   --l-kale-border-soft: rgba(30, 58, 35, 0.18); 
   --l-kale-border-hover: #1E3A23;
   --l-kale-bg-hover: rgba(30, 58, 35, 0.04);
@@ -255,69 +253,68 @@ Changes:
 .life-view-text { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 1rem !important; line-height: 1.1 !important; color: var(--l-red) !important; text-align: center !important; text-transform: uppercase !important; margin-bottom: 4px !important; }
 .life-view-arrow { color: var(--l-red) !important; }
 
-/* --- 10. DOCK (REFINED BORDERS & COLOR THEORY) --- */
+/* --- 10. DOCK (DEPTH + AFFORDANCE) --- */
 .life-dock-wrapper { position: relative !important; z-index: 30 !important; margin-top: -60px !important; padding-bottom: 60px !important; }
 
-/* Outer Card: 1px Solid Kale Border */
 .life-dock-card { 
   background: white !important; 
   border-radius: 20px !important; 
-  box-shadow: 0 25px 80px rgba(0,0,0,0.06) !important; 
+  /* UPGRADE: Dual Shadow for crisp depth */
+  box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05) !important; 
   border: 1px solid var(--l-kale) !important; 
   padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; 
 }
 
-/* Header: Refined Vertical Rhythm + No Pill */
 .life-dock-header { 
   width: 100% !important; 
-  background: var(--l-kale-tint) !important; 
+  background: var(--l-mint) !important; 
   border-bottom: 1px solid var(--l-kale) !important; 
-  padding: 15px 0 !important; /* Reduced from 22px to tighten spacing */
+  padding: 15px 0 !important; 
   text-align: center !important; 
 }
 
-/* Label: Clean Text, No Pill Background */
 .life-dock-label { 
-  display: inline-block !important; 
-  font-size: 0.75rem !important; 
-  font-family: var(--l-font) !important; 
-  font-weight: 800 !important; 
-  letter-spacing: 2px !important; 
-  color: var(--l-kale) !important; 
-  background: transparent !important; /* PILL REMOVED */
-  padding: 0 !important;
-  border-radius: 0 !important;
-  text-transform: uppercase !important; 
+  display: inline-block !important; font-size: 0.75rem !important; font-family: var(--l-font) !important; font-weight: 800 !important; letter-spacing: 2px !important; color: var(--l-kale) !important; background: transparent !important; padding: 0 !important; border-radius: 0 !important; text-transform: uppercase !important; 
 }
 .life-dock-label::before, .life-dock-label::after { display: none !important; }
 
 .life-dock-inner { padding: 30px 40px 35px 40px !important; }
 .life-dock-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; width: 100% !important; }
 
-/* Items: Soft Green Borders (Harmony) */
 .life-dock-item { 
   display: flex !important; align-items: center !important; gap: 18px !important; text-decoration: none !important; 
   background: #FFFFFF !important; 
-  border: 1px solid var(--l-kale-border-soft) !important; /* 20% opacity Green */
+  border: 1px solid rgba(30, 58, 35, 0.2) !important; 
   border-radius: 16px !important; 
   padding: 16px 20px !important; 
   transition: all 0.2s ease !important; 
 }
-/* Hover: Strong Green Border + Slight Tint */
-.life-dock-item:hover { 
-  transform: translateY(-2px) !important; 
-  border-color: var(--l-kale-border-hover) !important; 
-  background: var(--l-kale-bg-hover) !important;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; 
-}
-.life-dock-item:hover .life-dock-text h3 { color: var(--l-kale) !important; } /* Switch title to Kale on hover */
+.life-dock-item:hover { transform: translateY(-2px) !important; border-color: var(--l-kale) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; }
+.life-dock-item:hover .life-dock-text h3 { color: var(--l-kale) !important; }
 
-.life-dock-icon { width: 80px !important; height: 64px !important; background: #F8F7F5 !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; box-shadow: inset 0 2px 4px rgba(0,0,0,0.03) !important; }
-.life-dock-img { width: 85% !important; height: auto !important; display: block !important; object-fit: contain !important; }
+/* UPGRADE: Increased icon size for better legibility */
+.life-dock-icon { 
+  width: 80px !important; height: 64px !important; 
+  background: var(--l-mint) !important; 
+  border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; 
+  box-shadow: inset 0 2px 4px rgba(30, 58, 35, 0.05) !important; 
+}
+.life-dock-img { 
+  width: 92% !important; /* Bumped from 85% to 92% */
+  height: auto !important; display: block !important; object-fit: contain !important; 
+}
+
 .life-dock-text h3 { margin: 0 0 2px 0 !important; font-family: var(--l-font) !important; font-size: 0.95rem !important; color: var(--l-charcoal) !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: -0.01em !important; transition: color 0.2s ease !important; }
 .life-dock-cat { display: block !important; font-size: 0.7rem !important; color: #888 !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 1px !important; }
-.life-dock-arrow { margin-left: auto !important; color: #CCCCCC !important; display: flex !important; align-items: center !important; transition: color 0.3s ease !important; }
-.life-dock-item:hover .life-dock-arrow { color: var(--l-kale) !important; }
+
+/* UPGRADE: Kale Green Arrow for affordance */
+.life-dock-arrow { 
+  margin-left: auto !important; 
+  color: var(--l-kale) !important; 
+  opacity: 0.4 !important; /* Subtle but clear */
+  display: flex !important; align-items: center !important; transition: all 0.3s ease !important; 
+}
+.life-dock-item:hover .life-dock-arrow { opacity: 1 !important; transform: translateX(2px) !important; }
 
 /* --- 11. MOBILE POLISH (10/10) --- */
 @media (max-width: 1024px) {
@@ -327,7 +324,8 @@ Changes:
   .life-hero-content { z-index: 25 !important; }
   .life-hero-visual { z-index: 10 !important; margin-top: 0 !important; width: 100% !important; }
   .life-tagline-capsule { margin: 0 auto 12px auto !important; }
-  .life-headline { font-size: 2.4rem !important; margin-bottom: 12px !important; line-height: 1.1 !important; }
+  
+  .life-headline { font-size: 2.15rem !important; margin-bottom: 12px !important; line-height: 1.1 !important; text-wrap: balance !important; }
   .life-subhead-wrap { margin: 0 auto 20px !important; max-width: 100% !important; }
   .life-cta-group { justify-content: center !important; gap: 12px !important; width: 100% !important; flex-direction: column !important; margin-bottom: 1.5rem !important; }
   .life-btn { width: 100% !important; max-width: 380px !important; }
@@ -351,9 +349,20 @@ Changes:
   .life-macro-unit { font-size: 0.5rem !important; margin-top: 2px !important; margin-bottom: 3px !important; }
   .life-check-circle { width: 18px !important; height: 18px !important; font-size: 10px !important; margin-top: 0 !important; }
 
-  .life-dock-inner { padding: 25px 20px !important; }
-  .life-dock-grid { grid-template-columns: 1fr !important; gap: 15px !important; }
-  .life-dock-item { padding: 15px !important; justify-content: flex-start !important; text-align: left !important; }
+  .life-dock-inner { padding: 25px 15px !important; }
+  .life-dock-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+  
+  .life-dock-item { padding: 12px 16px !important; justify-content: flex-start !important; text-align: left !important; gap: 12px !important; }
+  
+  .life-dock-icon { width: 65px !important; height: 52px !important; }
+  
+  .life-dock-text h3 { 
+    font-size: 0.85rem !important; 
+    white-space: nowrap !important;
+    margin-bottom: 0 !important;
+  }
+  .life-dock-cat { font-size: 0.65rem !important; }
+
   .life-bg-pattern { background-size: 300px 300px !important; }
   .life-floater-top { top: 2% !important; left: auto !important; right: -10% !important; transform: none !important; opacity: 0.3 !important; width: 150px !important; height: 150px !important; }
   .life-floater-bottom { bottom: auto !important; top: 45% !important; left: -5% !important; transform: none !important; opacity: 0.3 !important; }
