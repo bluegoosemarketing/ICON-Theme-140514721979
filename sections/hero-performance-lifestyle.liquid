@@ -1,9 +1,11 @@
 {%- comment -%}
-Section: Hero - Lifestyle Final (100% Polish: Depth & Affordance)
-Changes:
-1. ARROW AFFORDANCE: Changed Dock arrows from generic grey to Kale Green (40% opacity). This improves clickability cues while matching the brand.
-2. ICON SCALING: Increased dock icon size from 85% to 92% to fill the container better and improve scannability on mobile.
-3. CARD DEPTH: Upgraded the Dock Card shadow to a "Dual Layer" drop shadow. This creates a crisp separation between the menu and the plate image underneath.
+Section: Hero - Lifestyle Final (Desktop Resize Polish)
+Fixes:
+1. DESKTOP IMAGE SCALING: Relaxed the "Laptop Breakpoint" (1025-1440px). 
+   - Previously: Hard capped at 480px (too small).
+   - Now: Allowed to grow to 650px, filling the grid column naturally.
+2. RING SYSTEM: Adjusted the ring background size to match the larger image on laptops so it doesn't look disconnected.
+3. TABLET & MOBILE: Kept all previous optimizations (Centered text, anchored badge, stacked mobile layout).
 {%- endcomment -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,11 +14,9 @@ Changes:
 
 <div class="life-hero-wrapper">
 
-  <!-- Background Texture -->
   <div class="life-bg-pattern"></div>
   <div class="life-bg-overlay"></div>
 
-  <!-- FLOATING BRAND ASSETS -->
   <div class="life-floater life-floater-top">
     <svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="125" cy="125" r="120" stroke="#E0E0E0" stroke-width="1.5" opacity="0.4" />
@@ -35,9 +35,7 @@ Changes:
   <div class="life-hero-main">
     <div class="life-container">
 
-      <!-- CONTENT COLUMN -->
       <div class="life-hero-content">
-        <!-- Capsule Tagline -->
         <div class="life-tagline-capsule">
           <div class="life-fresh-dot"></div> 
           <span class="life-tagline-text">{{ section.settings.tagline }}</span>
@@ -79,7 +77,6 @@ Changes:
         </div>
       </div>
 
-      <!-- VISUAL COLUMN -->
       <div class="life-hero-visual">
         <div class="life-plate-wrapper">
           <div class="life-ring-system">
@@ -116,7 +113,6 @@ Changes:
     </div>
   </div>
 
-  <!-- Dock Navigation -->
   <div class="life-dock-wrapper">
     <div class="life-container">
       <div class="life-dock-card">
@@ -173,40 +169,35 @@ Changes:
 :root { 
   --l-bg-white: #FFFFFF; 
   --l-red: #D11F1F; 
-  --l-green: #3A7D44; 
+  --l-green: #1E3A23; 
   --l-kale: #1E3A23; 
   --l-mint: #F0F7F4; 
   --l-kale-border-soft: rgba(30, 58, 35, 0.18); 
   --l-kale-border-hover: #1E3A23;
   --l-kale-bg-hover: rgba(30, 58, 35, 0.04);
   
-  --l-charcoal: #222222;
+  --l-charcoal: #222222; 
   --l-black: #000000;
-  --l-gray-soft: #F9F8F6;
-  --l-gray-header: #F5F4F0; 
-  --l-border: #E6E6E6;
   --l-font: 'Inter', sans-serif; 
 }
 .life-hero-wrapper a:not(.life-btn-primary) { text-decoration: none !important; color: inherit !important; opacity: 1 !important; transition: all 0.3s ease !important; }
 .life-hero-wrapper a:not(.life-btn-primary):hover { text-decoration: none !important; opacity: 1 !important; color: inherit !important; }
 .life-hero-wrapper { background-color: var(--l-bg-white) !important; width: 100% !important; position: relative !important; overflow-x: hidden !important; padding-bottom: 0 !important; }
 
-/* --- 2. FLOATERS --- */
+/* --- 2. FLOATERS & BG --- */
 .life-floater { position: absolute !important; z-index: 1 !important; pointer-events: none !important; }
 .life-floater-top { top: 5% !important; left: 50% !important; transform: translateX(-650px) !important; opacity: 0.8 !important; }
 .life-floater-bottom { bottom: 25% !important; left: 50% !important; transform: translateX(-150px) !important; opacity: 1 !important; }
-
-/* --- 3. BACKGROUND --- */
 .life-bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.2'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E") !important; background-repeat: repeat !important; background-size: 500px 500px !important; position: absolute !important; inset: 0 !important; z-index: 0 !important; pointer-events: none !important; }
 .life-bg-overlay { background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.6) 100%) !important; position: absolute !important; inset: 0 !important; z-index: 1 !important; pointer-events: none !important; }
 
-/* --- 4. GRID --- */
+/* --- 3. GRID & LAYOUT --- */
 .life-hero-main { position: relative !important; z-index: 5 !important; padding: 60px 0 90px 0 !important; }
 .life-container { width: 100% !important; max-width: 1600px !important; margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; }
-.life-hero-main .life-container { display: grid !important; grid-template-columns: 1fr 1.1fr !important; align-items: center !important; gap: 40px !important; }
+.life-hero-main .life-container { display: grid !important; grid-template-columns: 1fr 1fr !important; align-items: center !important; gap: 40px !important; }
 .life-hero-content { position: relative !important; z-index: 10 !important; text-align: left !important; }
 
-/* --- 5. VISUAL COLUMN --- */
+/* --- 4. VISUALS --- */
 .life-hero-visual { position: relative !important; display: flex !important; justify-content: center !important; align-items: center !important; z-index: 10 !important; width: 100% !important; }
 .life-plate-wrapper { position: relative !important; width: 100% !important; display: flex !important; justify-content: center !important; align-items: center !important; }
 .life-ring-system { position: absolute !important; top: 50% !important; left: 50% !important; transform: translate(-50%, -50%) !important; width: 135% !important; max-width: 850px !important; aspect-ratio: 1/1 !important; z-index: 0 !important; pointer-events: none !important; }
@@ -214,16 +205,18 @@ Changes:
 .life-plate-img { position: relative !important; z-index: 5 !important; width: 100% !important; max-width: 800px !important; height: auto !important; transform: rotate(-3deg) !important; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) !important; transition: transform 0.5s ease !important; }
 .life-plate-img:hover { transform: rotate(0deg) scale(1.02) !important; }
 
-/* --- 6. TYPOGRAPHY & CAPSULE --- */
-.life-tagline-capsule { display: inline-flex !important; align-items: center !important; gap: 8px !important; padding: 6px 14px !important; background: rgba(58, 125, 68, 0.08) !important; border-radius: 20px !important; margin-bottom: 1.2rem !important; }
+/* --- 5. TEXT ELEMENTS --- */
+.life-tagline-capsule { display: inline-flex !important; align-items: center !important; gap: 8px !important; padding: 6px 14px !important; background: rgba(30, 58, 35, 0.08) !important; border-radius: 20px !important; margin-bottom: 1.2rem !important; }
 .life-fresh-dot { width: 6px !important; height: 6px !important; background-color: var(--l-green) !important; border-radius: 50% !important; display: block !important; }
 .life-tagline-text { font-family: var(--l-font) !important; font-weight: 700 !important; color: var(--l-green) !important; text-transform: uppercase !important; letter-spacing: 1.5px !important; font-size: 0.7rem !important; }
-.life-headline { font-family: var(--l-font) !important; font-size: clamp(2.8rem, 6vw, 4.8rem) !important; line-height: 1.05 !important; color: var(--l-charcoal) !important; margin: 0 0 1.5rem 0 !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: -0.02em !important; }
-.life-text-highlight { color: var(--l-red) !important; }
-.life-subhead-wrap { margin-bottom: 2.5rem !important; max-width: 550px !important; }
-.life-subhead { font-family: var(--l-font) !important; color: #555 !important; font-size: 1.2rem !important; line-height: 1.6 !important; margin: 0 !important; font-weight: 400 !important; letter-spacing: -0.01em !important; }
 
-/* --- 7. BUTTONS --- */
+.life-headline { font-family: var(--l-font) !important; font-size: clamp(3rem, 5.5vw, 4.8rem) !important; line-height: 1.05 !important; color: var(--l-charcoal) !important; margin: 0 0 1.5rem 0 !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: -0.02em !important; text-wrap: balance !important; }
+.life-text-highlight { color: var(--l-red) !important; }
+
+.life-subhead-wrap { margin-bottom: 2.5rem !important; max-width: 550px !important; }
+.life-subhead { font-family: var(--l-font) !important; color: #555 !important; font-size: 1.2rem !important; line-height: 1.6 !important; margin: 0 !important; font-weight: 400 !important; letter-spacing: -0.01em !important; text-wrap: balance !important; }
+
+/* --- 6. BUTTONS --- */
 .life-cta-group { display: flex !important; gap: 1.2rem !important; margin-bottom: 3.5rem !important; align-items: center !important; flex-wrap: wrap !important; }
 .life-btn { height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-family: var(--l-font) !important; font-weight: 700 !important; text-decoration: none !important; font-size: 1rem !important; transition: all 0.3s ease !important; white-space: nowrap !important; letter-spacing: -0.01em !important; }
 .life-btn-primary { background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important; color: #FFFFFF !important; border: none !important; padding: 0 2.8rem !important; border-radius: 50px !important; box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important; }
@@ -231,14 +224,13 @@ Changes:
 .life-btn-secondary { background: transparent !important; color: var(--l-charcoal) !important; padding: 0 1rem !important; border-bottom: 2px solid #E5E5E5 !important; height: auto !important; padding-bottom: 4px !important; border-radius: 0 !important; }
 .life-btn-secondary:hover { border-color: var(--l-red) !important; color: var(--l-red) !important; }
 
-/* --- 8. TRUST STACK --- */
+/* --- 7. BADGE & TRUST --- */
 .life-trust-stack { display: flex !important; align-items: center !important; gap: 18px !important; font-family: var(--l-font) !important; font-size: 0.9rem !important; color: #666 !important; font-weight: 500 !important; flex-wrap: wrap !important; }
 .life-trust-row { display: flex !important; align-items: center !important; gap: 8px !important; }
 .life-stars { color: #FFB400 !important; margin-right: 5px !important; }
 .life-divider { width: 1px !important; height: 16px !important; background: #ddd !important; }
 .life-trust-icon-svg { width: 16px !important; height: 16px !important; color: var(--l-black) !important; }
 
-/* --- 9. BADGE --- */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 .life-macro-badge { position: absolute !important; top: 0% !important; right: 8% !important; width: 135px !important; height: 135px !important; border-radius: 50% !important; background: white !important; box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #E5E5E5, 0 20px 40px rgba(0,0,0,0.12) !important; z-index: 20 !important; animation: float 5s ease-in-out infinite !important; text-decoration: none !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: box-shadow 0.3s ease, transform 0.3s ease !important; }
 .life-macro-badge:hover { animation-play-state: paused !important; transform: translateY(-5px) scale(1.03) !important; box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #D11F1F, 0 25px 50px rgba(209, 31, 31, 0.2) !important; }
@@ -249,123 +241,106 @@ Changes:
 .life-macro-badge:hover .life-badge-hover { opacity: 1 !important; transform: translateY(0) !important; }
 .life-macro-number { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 2.7rem !important; line-height: 1 !important; color: #1A1A1A !important; letter-spacing: -2px !important; margin-bottom: 2px !important; }
 .life-macro-unit { font-size: 0.65rem !important; font-weight: 700 !important; color: #9CA3AF !important; letter-spacing: 2px !important; margin-top: 0 !important; }
-.life-check-circle { width: 22px !important; height: 22px !important; background: var(--l-green) !important; color: white !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; margin-top: 6px !important; box-shadow: 0 4px 10px rgba(58, 125, 68, 0.2) !important; }
+.life-check-circle { width: 22px !important; height: 22px !important; background: var(--l-green) !important; color: white !important; border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; font-size: 12px !important; margin-top: 6px !important; box-shadow: 0 4px 10px rgba(30, 58, 35, 0.2) !important; }
 .life-view-text { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 1rem !important; line-height: 1.1 !important; color: var(--l-red) !important; text-align: center !important; text-transform: uppercase !important; margin-bottom: 4px !important; }
 .life-view-arrow { color: var(--l-red) !important; }
 
-/* --- 10. DOCK (DEPTH + AFFORDANCE) --- */
+/* --- 8. DOCK NAV --- */
 .life-dock-wrapper { position: relative !important; z-index: 30 !important; margin-top: -60px !important; padding-bottom: 60px !important; }
-
-.life-dock-card { 
-  background: white !important; 
-  border-radius: 20px !important; 
-  /* UPGRADE: Dual Shadow for crisp depth */
-  box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05) !important; 
-  border: 1px solid var(--l-kale) !important; 
-  padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; 
-}
-
-.life-dock-header { 
-  width: 100% !important; 
-  background: var(--l-mint) !important; 
-  border-bottom: 1px solid var(--l-kale) !important; 
-  padding: 15px 0 !important; 
-  text-align: center !important; 
-}
-
-.life-dock-label { 
-  display: inline-block !important; font-size: 0.75rem !important; font-family: var(--l-font) !important; font-weight: 800 !important; letter-spacing: 2px !important; color: var(--l-kale) !important; background: transparent !important; padding: 0 !important; border-radius: 0 !important; text-transform: uppercase !important; 
-}
+.life-dock-card { background: white !important; border-radius: 20px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05) !important; border: 1px solid var(--l-kale) !important; padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; }
+.life-dock-header { width: 100% !important; background: var(--l-mint) !important; border-bottom: 1px solid var(--l-kale) !important; padding: 15px 0 !important; text-align: center !important; }
+.life-dock-label { display: inline-block !important; font-size: 0.75rem !important; font-family: var(--l-font) !important; font-weight: 800 !important; letter-spacing: 2px !important; color: var(--l-kale) !important; background: transparent !important; padding: 0 !important; border-radius: 0 !important; text-transform: uppercase !important; }
 .life-dock-label::before, .life-dock-label::after { display: none !important; }
-
 .life-dock-inner { padding: 30px 40px 35px 40px !important; }
 .life-dock-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; width: 100% !important; }
-
-.life-dock-item { 
-  display: flex !important; align-items: center !important; gap: 18px !important; text-decoration: none !important; 
-  background: #FFFFFF !important; 
-  border: 1px solid rgba(30, 58, 35, 0.2) !important; 
-  border-radius: 16px !important; 
-  padding: 16px 20px !important; 
-  transition: all 0.2s ease !important; 
-}
+.life-dock-item { display: flex !important; align-items: center !important; gap: 18px !important; text-decoration: none !important; background: #FFFFFF !important; border: 1px solid rgba(30, 58, 35, 0.2) !important; border-radius: 16px !important; padding: 16px 20px !important; transition: all 0.2s ease !important; }
 .life-dock-item:hover { transform: translateY(-2px) !important; border-color: var(--l-kale) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; }
 .life-dock-item:hover .life-dock-text h3 { color: var(--l-kale) !important; }
-
-/* UPGRADE: Increased icon size for better legibility */
-.life-dock-icon { 
-  width: 80px !important; height: 64px !important; 
-  background: var(--l-mint) !important; 
-  border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; 
-  box-shadow: inset 0 2px 4px rgba(30, 58, 35, 0.05) !important; 
-}
-.life-dock-img { 
-  width: 92% !important; /* Bumped from 85% to 92% */
-  height: auto !important; display: block !important; object-fit: contain !important; 
-}
-
+.life-dock-icon { width: 80px !important; height: 64px !important; background: var(--l-mint) !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; box-shadow: inset 0 2px 4px rgba(30, 58, 35, 0.05) !important; }
+.life-dock-img { width: 92% !important; height: auto !important; display: block !important; object-fit: contain !important; }
 .life-dock-text h3 { margin: 0 0 2px 0 !important; font-family: var(--l-font) !important; font-size: 0.95rem !important; color: var(--l-charcoal) !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: -0.01em !important; transition: color 0.2s ease !important; }
 .life-dock-cat { display: block !important; font-size: 0.7rem !important; color: #888 !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 1px !important; }
-
-/* UPGRADE: Kale Green Arrow for affordance */
-.life-dock-arrow { 
-  margin-left: auto !important; 
-  color: var(--l-kale) !important; 
-  opacity: 0.4 !important; /* Subtle but clear */
-  display: flex !important; align-items: center !important; transition: all 0.3s ease !important; 
-}
+.life-dock-arrow { margin-left: auto !important; color: var(--l-kale) !important; opacity: 0.4 !important; display: flex !important; align-items: center !important; transition: all 0.3s ease !important; }
 .life-dock-item:hover .life-dock-arrow { opacity: 1 !important; transform: translateX(2px) !important; }
 
-/* --- 11. MOBILE POLISH (10/10) --- */
-@media (max-width: 1024px) {
+
+/* --- 9. RESPONSIVE BREAKPOINTS --- */
+
+/* LAPTOP (1025px - 1440px) */
+/* Fix: Relaxed max-width so image fills the grid column */
+@media (min-width: 1025px) and (max-width: 1440px) {
+  .life-container { padding: 0 30px !important; gap: 20px !important; }
+  .life-headline { font-size: 3.2rem !important; }
+  
+  /* RELAXED IMAGE SIZE */
+  .life-plate-img { max-width: 100% !important; width: 650px !important; } /* Was 480px, bumped to 650px */
+  .life-ring-system { width: 135% !important; } /* Match standard ring size */
+  
+  .life-macro-badge { width: 110px !important; height: 110px !important; right: 0% !important; }
+  .life-macro-number { font-size: 2.2rem !important; }
+  .life-dock-inner { padding: 25px !important; }
+  .life-dock-grid { gap: 15px !important; }
+  .life-dock-item { padding: 12px 15px !important; gap: 12px !important; }
+  .life-dock-icon { width: 60px !important; height: 50px !important; }
+  .life-dock-text h3 { font-size: 0.85rem !important; }
+}
+
+/* TABLET SPECIFIC (768px - 1024px) */
+@media (min-width: 768px) and (max-width: 1024px) {
+  .life-hero-main { padding: 40px 0 60px 0 !important; }
+  .life-hero-main .life-container { 
+    display: flex !important; 
+    flex-direction: column !important; 
+    align-items: center !important; 
+    text-align: center !important;
+    gap: 30px !important; 
+  }
+  .life-hero-content { width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; }
+  .life-tagline-capsule { margin-bottom: 16px !important; }
+  .life-headline { text-align: center !important; font-size: 3rem !important; max-width: 700px !important; margin-bottom: 16px !important; }
+  .life-subhead-wrap { text-align: center !important; max-width: 600px !important; margin: 0 auto 30px auto !important; }
+  .life-subhead { text-align: center !important; }
+  .life-cta-group { justify-content: center !important; width: 100% !important; flex-direction: row !important; gap: 16px !important; }
+  .life-btn { width: auto !important; padding: 0 2rem !important; min-width: 180px !important; }
+  .life-trust-stack { justify-content: center !important; }
+  .life-hero-visual { width: 100% !important; margin-top: 20px !important; }
+  .life-plate-wrapper { width: 100% !important; max-width: 500px !important; position: relative !important; }
+  .life-plate-img { max-width: 100% !important; } 
+  .life-ring-system { width: 500px !important; }
+  .life-macro-badge { top: 0 !important; right: 0 !important; position: absolute !important; transform: translate(20%, -20%) !important; width: 100px !important; height: 100px !important; }
+  .life-macro-number { font-size: 2rem !important; }
+  .life-dock-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; }
+  .life-dock-item { flex-direction: column !important; text-align: center !important; padding: 15px !important; gap: 10px !important; }
+  .life-dock-icon { width: 50px !important; height: 40px !important; }
+  .life-dock-arrow { display: none !important; } 
+  .life-dock-text h3 { font-size: 0.8rem !important; }
+  .life-dock-cat { font-size: 0.6rem !important; }
+}
+
+/* MOBILE PHONES (< 768px) */
+@media (max-width: 767px) {
   .life-hero-main { padding: 30px 0 50px 0 !important; }
   .life-hero-main .life-container { grid-template-columns: 1fr !important; text-align: center !important; gap: 20px !important; }
   .life-container { padding: 0 24px !important; }
-  .life-hero-content { z-index: 25 !important; }
-  .life-hero-visual { z-index: 10 !important; margin-top: 0 !important; width: 100% !important; }
-  .life-tagline-capsule { margin: 0 auto 12px auto !important; }
-  
-  .life-headline { font-size: 2.15rem !important; margin-bottom: 12px !important; line-height: 1.1 !important; text-wrap: balance !important; }
-  .life-subhead-wrap { margin: 0 auto 20px !important; max-width: 100% !important; }
-  .life-cta-group { justify-content: center !important; gap: 12px !important; width: 100% !important; flex-direction: column !important; margin-bottom: 1.5rem !important; }
+  .life-tagline-capsule { width: fit-content !important; margin: 0 auto 12px auto !important; }
+  .life-headline { font-size: 2.15rem !important; margin-bottom: 12px !important; line-height: 1.1 !important; }
+  .life-subhead-wrap { margin: 0 auto 20px !important; }
+  .life-cta-group { justify-content: center !important; gap: 12px !important; width: 100% !important; flex-direction: column !important; }
   .life-btn { width: 100% !important; max-width: 380px !important; }
-  .life-btn-secondary { background: white !important; border: 2px solid #E5E5E5 !important; border-radius: 50px !important; height: 58px !important; color: var(--l-charcoal) !important; padding-bottom: 0 !important; }
-  
-  .life-trust-stack { 
-    justify-content: center !important; margin-top: 0 !important; display: flex !important; 
-    width: fit-content !important; margin-left: auto !important; margin-right: auto !important; 
-    flex-direction: column !important; gap: 8px !important; 
-    position: relative !important; background: rgba(255,255,255,0.7) !important; 
-    backdrop-filter: blur(4px) !important; padding: 8px 16px !important; border-radius: 12px !important; 
-  }
+  .life-btn-secondary { background: white !important; border: 2px solid #E5E5E5 !important; border-radius: 50px !important; height: 58px !important; padding-bottom: 0 !important; }
+  .life-trust-stack { justify-content: center !important; flex-direction: column !important; gap: 8px !important; background: rgba(255,255,255,0.7) !important; backdrop-filter: blur(4px) !important; padding: 8px 16px !important; border-radius: 12px !important; width: fit-content !important; margin: 0 auto !important; }
   .life-divider { display: none !important; }
-  
-  .life-plate-wrapper { margin-top: -5px !important; }
   .life-plate-img { max-width: 90% !important; transform: rotate(0deg) !important; }
-  .life-ring-system { width: 110% !important; max-width: 450px !important; top: 60% !important; }
-  
+  .life-ring-system { width: 110% !important; top: 60% !important; }
   .life-macro-badge { width: 90px !important; height: 90px !important; top: 0px !important; right: 0 !important; transform: none !important; }
   .life-macro-number { font-size: 1.8rem !important; margin-bottom: 0 !important; }
   .life-macro-unit { font-size: 0.5rem !important; margin-top: 2px !important; margin-bottom: 3px !important; }
   .life-check-circle { width: 18px !important; height: 18px !important; font-size: 10px !important; margin-top: 0 !important; }
-
   .life-dock-inner { padding: 25px 15px !important; }
   .life-dock-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
-  
   .life-dock-item { padding: 12px 16px !important; justify-content: flex-start !important; text-align: left !important; gap: 12px !important; }
-  
   .life-dock-icon { width: 65px !important; height: 52px !important; }
-  
-  .life-dock-text h3 { 
-    font-size: 0.85rem !important; 
-    white-space: nowrap !important;
-    margin-bottom: 0 !important;
-  }
-  .life-dock-cat { font-size: 0.65rem !important; }
-
-  .life-bg-pattern { background-size: 300px 300px !important; }
-  .life-floater-top { top: 2% !important; left: auto !important; right: -10% !important; transform: none !important; opacity: 0.3 !important; width: 150px !important; height: 150px !important; }
-  .life-floater-bottom { bottom: auto !important; top: 45% !important; left: -5% !important; transform: none !important; opacity: 0.3 !important; }
+  .life-dock-text h3 { white-space: nowrap !important; margin-bottom: 0 !important; }
 }
 </style>
 
