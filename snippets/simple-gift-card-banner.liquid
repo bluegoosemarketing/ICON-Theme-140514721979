@@ -1,9 +1,9 @@
 {%- comment -%}
   ==============================================================================
-  GIFT CARD STATION: GLOVES OFF / EXECUTION MODE (V10) 🥊
+  GIFT CARD STATION: GLOVES OFF / EXECUTION MODE (V10 - FIXED) 🥊
   - Theme: "It's Go Time" (Action oriented, not waiting).
-  - Mobile: Full-bleed "Header" style (squared edges, negative margins).
-  - Feature: "Day Counter" replaces Countdown Timer.
+  - Feature: Dynamic Day Counter (Fixed).
+  - Logic: Mapped liquid IDs to JS hooks.
   ==============================================================================
 {%- endcomment -%}
 
@@ -182,6 +182,13 @@
     transform: translateY(-1px);
   }
 
+  /* New State: Selected */
+  .option-card.is-selected {
+    border-color: #0856c4;
+    background-color: #f0f7ff; /* Very light blue tint */
+    box-shadow: 0 0 0 1px #0856c4;
+  }
+
   .option-icon {
     font-size: 28px;
     margin-right: 20px;
@@ -229,8 +236,13 @@
     letter-spacing: 0.5px;
   }
   
-  .cta-button:hover {
+  .cta-button:hover:not(:disabled) {
     background-color: #666;
+  }
+
+  .cta-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
   }
 
 </style>
@@ -255,7 +267,7 @@
     <div class="stats-grid">
       <div class="stat-box">
         <span class="stat-label">Current Progress</span>
-        <span class="stat-value">Day 1 of 365</span>
+        <span class="stat-value" id="js-day-counter">Day 1 of 365</span>
       </div>
       <div class="stat-box">
         <span class="stat-label">Objective</span>
@@ -266,7 +278,7 @@
 
   <div class="options-container">
     
-    <div class="option-card">
+    <div class="option-card js-gc-option" data-variant-id="{{ id_opt_1 }}">
       <div class="option-icon">⚡️</div>
       <div class="option-details">
         <span class="option-price">$100 GIFT CARD</span>
@@ -274,7 +286,7 @@
       </div>
     </div>
 
-    <div class="option-card">
+    <div class="option-card js-gc-option" data-variant-id="{{ id_opt_2 }}">
       <div class="option-icon">🔥</div>
       <div class="option-details">
         <span class="option-price">$250 GIFT CARD</span>
@@ -282,7 +294,7 @@
       </div>
     </div>
 
-    <div class="option-card">
+    <div class="option-card js-gc-option" data-variant-id="{{ id_opt_3 }}">
       <div class="option-icon">🚀</div>
       <div class="option-details">
         <span class="option-price">$500 GIFT CARD</span>
@@ -290,8 +302,8 @@
       </div>
     </div>
 
-    <button class="cta-button">
-      ADD GIFT CARD TO CART
+    <button class="cta-button js-gc-main-btn" disabled>
+      SELECT AN AMOUNT
     </button>
 
   </div>
@@ -300,9 +312,11 @@
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // --- 1. DAY COUNTER LOGIC (Day X of 365) ---
+    // This logic relies on ID 'js-day-counter' existing in HTML
     const counterEl = document.getElementById('js-day-counter');
     if(counterEl) {
       const now = new Date();
+      // Month is 0-indexed (0 = Jan). Date(Year, 0, 0) gives Dec 31st of previous year.
       const start = new Date(now.getFullYear(), 0, 0);
       const diff = now - start;
       const oneDay = 1000 * 60 * 60 * 24;
@@ -317,11 +331,18 @@
 
     options.forEach(opt => {
       opt.addEventListener('click', () => {
+        // Visual Selection
         options.forEach(o => o.classList.remove('is-selected'));
         opt.classList.add('is-selected');
+        
+        // Data logic
         selectedVariantId = opt.getAttribute('data-variant-id');
-        mainBtn.disabled = false;
-        mainBtn.innerText = "SEND THE FUEL"; // Reset text
+        
+        // Button State
+        if (mainBtn) {
+            mainBtn.disabled = false;
+            mainBtn.innerText = "SEND THE FUEL"; 
+        }
       });
     });
 
@@ -350,6 +371,7 @@
             mainBtn.style.boxShadow = "0 6px 0 #1B5E20";
             mainBtn.innerText = "ADDED! 🥊";
             
+            // Shopify Events (for drawer carts, etc)
             document.dispatchEvent(new CustomEvent('cart:updated', { detail: { cart } }));
             document.dispatchEvent(new CustomEvent('ajaxCart.itemAdded', { detail: { cart } }));
             
