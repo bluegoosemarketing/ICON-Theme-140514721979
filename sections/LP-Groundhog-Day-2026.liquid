@@ -86,7 +86,20 @@
   background: var(--l-charcoal); color: #fff; border: none; padding: 20px; border-radius: 14px;
   font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 20px; transition: 0.3s; opacity: 0.4; pointer-events: none;
 }
-.gh-atc-v16.active { opacity: 1; pointer-events: auto; background: var(--l-red); }
+  .gh-atc-v16.active { opacity: 1; pointer-events: auto; background: var(--l-red); }
+  .gh-atc-v16.loading { cursor: wait; }
+  .gh-card-error {
+    margin-top: 12px;
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: #fff5f5;
+    border: 1px solid #f2b8b8;
+    color: #8b1c1c;
+    font-weight: 600;
+    font-size: 0.85rem;
+    display: none;
+  }
+  .gh-card-error.is-visible { display: block; }
 
 @media (max-width: 900px) {
   .gh-hero-grid-v16, .gh-loop-grid, .gh-hub-inner-v16 { grid-template-columns: 1fr; }
@@ -197,6 +210,7 @@
                 <span style="font-size: 1.5rem; font-weight: 900;">${{ totals[forloop.index0] }}</span>
               </div>
               <button class="gh-atc-v16" onclick="addBundleGroup(this)">Add To System</button>
+              <div class="gh-card-error" role="alert" aria-live="polite"></div>
             </div>
           </div>
         {% endfor %}
@@ -208,9 +222,17 @@
 <script>
 function addBundleGroup(btn) {
     const card = btn.closest('.gh-card-v16');
+    const tier = parseInt(card.getAttribute('data-tier'));
     const selected = card.querySelectorAll('.gh-flavor-row-v16.selected');
-    const bundleId = "BNDL-" + Date.now();
+    const errorBox = card.querySelector('.gh-card-error');
+    const bundleId = "BNDL-" + Date.now() + "-" + Math.random().toString(36).slice(2, 8);
     const tierName = card.getAttribute('data-tier') + " Bag Bundle";
+
+    if (selected.length !== tier) {
+        errorBox.textContent = "Please select exactly " + tier + " flavors to continue.";
+        errorBox.classList.add('is-visible');
+        return;
+    }
 
     let items = [];
     selected.forEach(row => {
@@ -219,12 +241,15 @@ function addBundleGroup(btn) {
             quantity: 1,
             properties: {
                 "_bundle_group": bundleId,
-                "Bundle Tier": tierName
+                "Bundle Tier": tierName,
+                "Bundle Type": "Protein Popcorn"
             }
         });
     });
 
-    btn.innerText = "UPDATING CART...";
+    errorBox.classList.remove('is-visible');
+    btn.innerText = "ADDING TO CART...";
+    btn.classList.add('loading');
     btn.disabled = true;
 
     fetch('/cart/add.js', {
@@ -232,13 +257,25 @@ function addBundleGroup(btn) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ items: items })
     })
-    .then(res => res.json())
+    .then(res => {
+        if (!res.ok) {
+            return res.json().then(err => Promise.reject(err));
+        }
+        return res.json();
+    })
     .then(data => {
         window.location.href = '/cart';
     })
     .catch(err => {
         console.error(err);
-        btn.innerText = "ERROR - TRY AGAIN";
+        let message = "Sorry, some flavors are unavailable. Please adjust your selection and try again.";
+        if (err && err.description) {
+            message = err.description;
+        }
+        errorBox.textContent = message;
+        errorBox.classList.add('is-visible');
+        btn.innerText = "TRY AGAIN";
+        btn.classList.remove('loading');
         btn.disabled = false;
     });
 }
@@ -248,6 +285,7 @@ document.addEventListener('DOMContentLoaded', function() {
         const tier = parseInt(card.getAttribute('data-tier'));
         const atc = card.querySelector('.gh-atc-v16');
         const currentLabel = card.querySelector('.current-count');
+        const errorBox = card.querySelector('.gh-card-error');
         let count = 0;
 
         card.querySelectorAll('.gh-flavor-row-v16').forEach(row => {
@@ -262,8 +300,12 @@ document.addEventListener('DOMContentLoaded', function() {
                     }
                 }
                 currentLabel.innerText = count;
-                if(count === tier) atc.classList.add('active');
-                else atc.classList.remove('active');
+                if(count === tier) {
+                    atc.classList.add('active');
+                } else {
+                    atc.classList.remove('active');
+                }
+                errorBox.classList.remove('is-visible');
             });
         });
     });
@@ -275,7 +317,7 @@ document.addEventListener('DOMContentLoaded', function() {
   "name": "Groundhog Master v16",
   "settings": [
     { "type": "text", "id": "promo_code", "label": "Promo Code", "default": "SHADOW31" },
-    { "type": "product_list", "id": "popcorn_list", "label": "Popcorn Flavors", "limit": 6 },
+    { "type": "product_list", "id": "popcorn_list", "label": "Popcorn Flavors", "limit": 16 },
     { "type": "text", "id": "tier_prices", "label": "Per Bag Prices (3,5,10)", "default": "10.00,7.50,7.00" },
     { "type": "text", "id": "tier_totals", "label": "Total Prices (3,5,10)", "default": "30.00,37.50,70.00" },
     { "type": "url", "id": "nav_1_link", "label": "Nav 1 Link" },
