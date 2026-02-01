@@ -21,22 +21,10 @@
     assign class_prefix = 'cart-drawer'
   endif
   assign rc_processed_bundles = '|'  
-  assign has_popcorn_bundle = false
-  for item in cart.items
-    if item.properties._bundle_group != blank and item.properties['Bundle Type'] == 'Protein Popcorn'
-      assign has_popcorn_bundle = true
-      break
-    endif
-  endfor
 -%}
 
 <div class="{{ class_prefix }}__content">
   {% if cart.item_count > 0 %}
-    {%- if has_popcorn_bundle -%}
-      <div class="{{ class_prefix }}__bundle-note" role="note">
-        Bundle pricing requires exactly 3, 5, or 10 popcorn bags. Removing items may remove bundle pricing.
-      </div>
-    {%- endif -%}
     <ul class="{{ class_prefix }}__items cart-items" aria-label="Cart items">
 
       {% for item in cart.items %}
@@ -261,11 +249,6 @@
             assign is_custom_meal = true
           endif
 
-          assign is_popcorn_bundle = false
-          if item.properties._bundle_group != blank and item.properties['Bundle Type'] == 'Protein Popcorn'
-            assign is_popcorn_bundle = true
-          endif
-
           assign product_type_lower = item.product.type | downcase
           assign is_meal_plan = false
           if product_type_lower contains 'meal plan' or item.product.handle contains 'meal-plan'
@@ -338,13 +321,13 @@
             <div class="{{ class_prefix }}__item-meta">
               <div class="{{ class_prefix }}__item-top-row">
                 <div class="{{ class_prefix }}__item-actions">
-                  <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift or is_popcorn_bundle %} {{ class_prefix }}__quantity-selector--static{% endif %}">
+                  <div class="{{ class_prefix }}__quantity-selector{% if is_bogo_gift %} {{ class_prefix }}__quantity-selector--static{% endif %}">
                     <button
                       type="button"
                       class="{{ class_prefix }}__quantity-btn"
                       data-action="minus"
                       aria-label="Decrease quantity"
-                      {% if is_bogo_gift or is_popcorn_bundle %}disabled aria-disabled="true"{% endif %}
+                      {% if is_bogo_gift %}disabled aria-disabled="true"{% endif %}
                     >－</button>
                     <input
                       type="number"
@@ -353,14 +336,14 @@
                       min="0"
                       inputmode="numeric"
                       aria-label="Quantity"
-                      {% if is_bogo_gift or is_popcorn_bundle %}readonly disabled{% endif %}
+                      {% if is_bogo_gift %}readonly disabled{% endif %}
                     >
                     <button
                       type="button"
                       class="{{ class_prefix }}__quantity-btn"
                       data-action="plus"
                       aria-label="Increase quantity"
-                      {% if is_bogo_gift or is_popcorn_bundle %}disabled aria-disabled="true"{% endif %}
+                      {% if is_bogo_gift %}disabled aria-disabled="true"{% endif %}
                     >＋</button>
                   </div>
                 </div>
