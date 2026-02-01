@@ -1,0 +1,39 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--page",
+      "disabled": true,
+      "settings": {}
+    },
+    "lp_groundhog_day_2026_4BzbX3": {
+      "type": "LP-Groundhog-Day-2026",
+      "name": "Groundhog Day Sale",
+      "settings": {
+        "promo_code": "SHADOW31",
+        "end_date_v3": "Feb 3, 2026 03:00:00",
+        "popcorn_list": [
+          "blueberry-cheesecake-protein-popcorn",
+          "peanut-butter-vanilla-protein-popcorn",
+          "freedom-protein-popcorn",
+          "cookies-n-cream-protein-popcorn",
+          "dark-chocolate-sea-salt-protein-popcorn"
+        ],
+        "tier_prices": "10.00,7.50,7.00",
+        "tier_totals": "30.00,37.50,70.00"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "lp_groundhog_day_2026_4BzbX3"
+  ]
+}

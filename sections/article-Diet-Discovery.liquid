@@ -1,0 +1,816 @@
+{%- comment -%}
+  Section: ICON Blog - Diet Discovery (Final Master)
+  Status: 100% Complete
+  Updates: 
+    - Header: Title Case, Tightened Subtitle Spacing.
+    - Copy: "Find Your Menu" update.
+    - Mobile: Perfected finger animation and dropdown UI.
+  ID: #icon-diet-discovery
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign menu_link = "https://iconmeals.com/collections/signature-menu"
+  
+  # Deep Links
+  assign link_keto = "https://iconmeals.com/collections/signature-menu/Diet_Keto"
+  assign link_gf = "https://iconmeals.com/collections/signature-menu/Diet_Gluten-Free"
+  assign link_hp = "https://iconmeals.com/collections/signature-menu?filter.p.m.diet.high_protein=1"
+  
+  assign plan_keto = "https://iconmeals.com/products/keto-meal-plan"
+  assign plan_protein = "https://iconmeals.com/products/extreme-protein-meal-plan"
+  
+  assign q_text = s.quote_text | default: "I used to spend 20 minutes looking for Keto options. Now I just click one button."
+  assign q_auth = s.quote_author | default: "Sarah J., Busy Professional"
+-%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Permanent+Marker&display=swap" rel="stylesheet">
+
+<div id="icon-diet-discovery">
+  
+  <!-- HEADER -->
+  <header class="ib-header">
+    <div class="ib-bg-pattern"></div>
+    <div class="ib-bg-overlay"></div>
+    
+    <div class="ib-container">
+      <div class="ib-grid-header">
+        <div class="ib-header-text">
+          <div class="ib-editorial-brow">
+              <div class="ib-brow-dot"></div>
+              <span class="ib-brow-text">Lifestyle & Nutrition</span>
+          </div>
+          <!-- TITLE CASE UPDATED -->
+          <h1 class="ib-title"><span style="color: var(--l-charcoal);">Yes, We Have a</span> <span class="ib-red">Keto Menu.</span> <br><span class="ib-sub-title">(And Dairy-Free. And Gluten-Free.)</span></h1>
+          <div class="ib-hero-content-wrapper">
+            <p class="ib-lead">You don't need another generic meal plan. You need food that fits your specific goals without the guesswork. Here is how to unlock the specialized options hidden inside our <strong>Signature Menu</strong>.</p>
+            <a href="#how-to-filter" class="ib-btn-pill">Show Me How</a>
+          </div>
+        </div>
+        <div class="ib-header-img-wrapper">
+          <div class="ib-img-card-effect">
+              {% if s.hero_image %}
+              {{ s.hero_image | image_url: width: 1000 | image_tag: class: 'ib-hero-img', loading: 'eager' }}
+              {% else %}
+              <div class="ib-hero-placeholder">
+                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/menu-lifestyle_1024x1024.jpg" class="ib-hero-img" alt="Icon Meals Lifestyle">
+              </div>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- TUTORIAL STACK -->
+  <section id="how-to-filter" class="ib-section ib-bg-mint">
+    <div class="ib-container">
+      
+      <div class="ib-section-head-wrapper">
+          <div class="ib-section-head">
+            <h2>Your Personal Menu, Instantly.</h2>
+            <p>Our Signature Menu is designed to be flexible. Use the <strong>Smart Filters</strong> to hide everything you don't need and focus 100% on the meals that match your lifestyle.</p>
+          </div>
+      </div>
+
+      <div class="ib-process-stack">
+
+        <!-- STEP 1 -->
+        <div class="ib-step-block">
+            <div class="ib-step-info">
+                <div class="ib-step-number">01</div>
+                <h3>Go to the Menu</h3>
+                <p>Start at our <a href="{{ menu_link }}" class="ib-text-link"><strong>Signature Menu</strong></a>. This is where you'll find our complete rotation of fresh, chef-prepared meals.</p>
+            </div>
+            <div class="ib-step-visual">
+                <div class="ib-mini-browser">
+                    <div class="ib-browser-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <div class="ib-browser-bar">iconmeals.com/collections/signature-menu</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ib-step-connector"></div>
+
+        <!-- STEP 2 (DUAL VISUALS: DESKTOP vs MOBILE) -->
+        <div class="ib-step-block">
+            <div class="ib-step-info">
+                <div class="ib-step-number">02</div>
+                <h3>Click "Filters"</h3>
+                <div class="ib-step-desc-wrapper">
+                  <div class="ib-desktop-msg">Locate the <strong>Filters</strong> button in the top right corner of the menu.</div>
+                  <div class="ib-mobile-msg" style="display:none;">Tap the <strong>Menu icon (⋮)</strong> in the top right corner to reveal the <strong>Filters</strong> option.</div>
+                  <p style="margin-top: 15px; color: #555;">This tool is your key to unlocking the diet-specific views.</p>
+                </div>
+            </div>
+            
+            <div class="ib-step-visual">
+                
+                <!-- DESKTOP SIMULATION -->
+                <div class="ib-nav-simulation ib-view-desktop">
+                    <div class="ib-nav-left">
+                        <span class="ib-nav-title">SIGNATURE MENU</span>
+                        <span class="ib-nav-chevron">⌄</span>
+                    </div>
+                    <div class="ib-nav-right">
+                        <div class="ib-fake-filter-btn">
+                             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                             Filters
+                        </div>
+                    </div>
+                    <div class="ib-click-indicator">
+                        <span class="ib-click-text">Click Here</span>
+                        <svg class="ib-click-arrow" viewBox="0 0 54 59" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M48.5 6.5L6.5 48.5M6.5 48.5L25 51M6.5 48.5L3.5 29" stroke="#D11F1F" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- MOBILE SIMULATION (3-Dots + Dropdown) -->
+                <div class="ib-mobile-simulation ib-view-mobile">
+                    <div class="ib-mob-header">
+                        <div class="ib-mob-title">SIGNATURE MENU ⌄</div>
+                        <div class="ib-mob-dots">⋮</div>
+                    </div>
+                    <div class="ib-mob-grid-bg">
+                        <div class="ib-mob-item"></div>
+                        <div class="ib-mob-item"></div>
+                    </div>
+                    
+                    <!-- Simulated Dropdown -->
+                    <div class="ib-mob-dropdown">
+                        <div class="ib-mob-dd-row">Search</div>
+                        <div class="ib-mob-dd-row ib-dd-highlight">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="21" x2="4" y2="14"></line><line x1="4" y1="10" x2="4" y2="3"></line><line x1="12" y1="21" x2="12" y2="12"></line><line x1="12" y1="8" x2="12" y2="3"></line><line x1="20" y1="21" x2="20" y2="16"></line><line x1="20" y1="12" x2="20" y2="3"></line><line x1="1" y1="14" x2="7" y2="14"></line><line x1="9" y1="8" x2="15" y2="8"></line><line x1="17" y1="16" x2="23" y2="16"></line></svg>
+                            Filters
+                        </div>
+                        <div class="ib-mob-dd-row">View</div>
+                    </div>
+
+                    <!-- Tap Indicator -->
+                    <div class="ib-mob-tap-top">
+                        <span class="ib-tap-text-top">Tap Here</span>
+                        <div class="ib-tap-finger-top">👆</div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="ib-step-connector"></div>
+
+        <!-- STEP 3 -->
+        <div class="ib-step-block">
+            <div class="ib-step-info">
+                <div class="ib-step-number">03</div>
+                <h3>Select & Apply</h3>
+                <p>Toggle your preferences—whether that's <strong>Keto</strong>, <strong>High Protein</strong>, or <strong>Gluten-Free</strong>. Hit Apply, and the menu instantly adapts to show only what you want to eat.</p>
+            </div>
+            <div class="ib-step-visual">
+                <div class="ib-wireframe-modal">
+                    <div class="ib-wireframe-header">
+                        <span>Filter By Diet</span>
+                        <div class="ib-wireframe-close">×</div>
+                    </div>
+                    
+                    <div class="ib-wireframe-body">
+                        <div class="ib-wireframe-col">
+                            <div class="ib-wf-title">DIET TYPE</div>
+                            <div class="ib-wf-check ib-wf-active">
+                                <div class="ib-box ib-checked">✓</div> <span>Keto</span>
+                            </div>
+                            <div class="ib-wf-check">
+                                <div class="ib-box"></div> <span>Dairy-free</span>
+                            </div>
+                            <div class="ib-wf-check">
+                                <div class="ib-box"></div> <span>Vegetarian</span>
+                            </div>
+                        </div>
+
+                        <div class="ib-wireframe-col">
+                            <div class="ib-wf-title">ALLERGENS</div>
+                            <div class="ib-wf-check">
+                                <div class="ib-box"></div> <span>Dairy-Free</span>
+                            </div>
+                            <div class="ib-wf-check">
+                                <div class="ib-box"></div> <span>Gluten-Free</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="ib-wireframe-footer">
+                        <div class="ib-wf-results">Showing <strong>12 Keto Meals</strong></div>
+                        <div class="ib-wf-btn">Apply Filters</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PROCESS CTA -->
+        <div class="ib-stack-cta">
+             <a href="{{ menu_link }}" class="ib-btn-pill">View Signature Menu</a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- DIET CARDS -->
+  <section class="ib-section ib-bg-white">
+    <div class="ib-container">
+        <div class="ib-center-text">
+            <h2>Find Your Menu</h2>
+            <p style="max-width: 600px; margin: 0 auto; color: #666;">
+                Don't want to filter manually? Click below to jump straight to your menu.
+            </p>
+        </div>
+
+        <div class="ib-card-row">
+            
+            <a href="{{ link_keto }}" class="ib-diet-card">
+                <div class="ib-card-icon">🥑</div>
+                <h3>The Keto Menu</h3>
+                <p>High fat, moderate protein, low carb. Replaces rice and potatoes with nutrient-dense veggies.</p>
+                
+                <div class="ib-meal-preview">
+                    <span>On the menu now:</span>
+                    <ul>
+                        <li>Cheeseburger Mix-Up</li>
+                        <li>Chopped Beef Brisket</li>
+                        <li>Ranchero Cheesy Chicken</li>
+                    </ul>
+                </div>
+                
+                <div class="ib-tag">View Keto Meals &rarr;</div>
+            </a>
+
+            <a href="{{ link_gf }}" class="ib-diet-card">
+                <div class="ib-card-icon">🌾</div>
+                <h3>The Gluten-Free Menu</h3>
+                <p>Whether you have Celiac or just feel better avoiding gluten, see only the meals that are safe for you.</p>
+                
+                <div class="ib-meal-preview">
+                    <span>On the menu now:</span>
+                    <ul>
+                        <li>Beef Medallions & Rice</li>
+                        <li>Beefy Chili Mac</li>
+                        <li>Cajun Jambalaya</li>
+                    </ul>
+                </div>
+
+                <div class="ib-tag">View GF Meals &rarr;</div>
+            </a>
+
+            <a href="{{ link_hp }}" class="ib-diet-card">
+                <div class="ib-card-icon">💪</div>
+                <h3>The High-Protein Menu</h3>
+                <p>For athletes and professionals who need fuel. Filter specifically for meals that pack a punch.</p>
+                
+                <div class="ib-meal-preview">
+                    <span>On the menu now:</span>
+                    <ul>
+                        <li>Double Protein Saffron Rice (91g)</li>
+                        <li>Mega Creamy Pesto Chicken (63g)</li>
+                        <li>Titan Breakfast Burrito (54g)</li>
+                    </ul>
+                </div>
+
+                <div class="ib-tag">View High Protein &rarr;</div>
+            </a>
+
+        </div>
+
+    </div>
+  </section>
+
+  <!-- MEAL PLAN BOXES -->
+  <section class="ib-section ib-bg-mint" style="border-top: 1px solid rgba(30, 58, 35, 0.1);">
+    <div class="ib-container">
+        <div class="ib-center-text">
+            <h2>Prefer to put your nutrition on Autopilot?</h2>
+            <p style="max-width: 650px; margin: 0 auto; color: #666;">
+                Skip the selection process entirely. We have curated our highest-rated meals into grab-and-go boxes designed for your goals.
+            </p>
+        </div>
+
+        <div class="ib-plan-grid">
+            <!-- KETO BOX -->
+            <a href="{{ plan_keto }}" class="ib-plan-card">
+                <div class="ib-plan-image">
+                    {% if s.keto_box_image %}
+                        {{ s.keto_box_image | image_url: width: 800 | image_tag: class: 'ib-plan-img', loading: 'lazy' }}
+                    {% else %}
+                        <div class="ib-plan-placeholder" style="background: #e6f7e8;">KETO PLAN</div>
+                    {% endif %}
+                    <div class="ib-plan-badge">Popular</div>
+                </div>
+                <div class="ib-plan-content">
+                    <h3>The Keto Meal Box</h3>
+                    <p>We select the top 12 or 24 low-carb meals for you. No thinking required. Just heat, eat, and stay in ketosis.</p>
+                    <span class="ib-plan-btn">Shop Keto Plan &rarr;</span>
+                </div>
+            </a>
+
+            <!-- PROTEIN BOX -->
+            <a href="{{ plan_protein }}" class="ib-plan-card">
+                <div class="ib-plan-image">
+                    {% if s.protein_box_image %}
+                        {{ s.protein_box_image | image_url: width: 800 | image_tag: class: 'ib-plan-img', loading: 'lazy' }}
+                    {% else %}
+                        <div class="ib-plan-placeholder" style="background: #f7e6e6;">EXTREME PROTEIN</div>
+                    {% endif %}
+                    <div class="ib-plan-badge">50g+ Protein</div>
+                </div>
+                <div class="ib-plan-content">
+                    <h3>The Extreme Protein Box</h3>
+                    <p>Massive portions for massive goals. Every single meal in this plan contains over 50g of protein for maximum recovery.</p>
+                    <span class="ib-plan-btn">Shop Protein Plan &rarr;</span>
+                </div>
+            </a>
+        </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <section class="ib-section ib-bg-white">
+    <div class="ib-container ib-grid-split">
+      <div class="ib-text-col">
+        <h2 class="ib-dark-text">We make the food.<br>You make the choices.</h2>
+        <p>You shouldn't have to study nutrition labels like a textbook just to eat lunch. We believe your meal prep service should adapt to <em>your</em> life, not the other way around.</p>
+        <p>Head over to the Signature Menu, click the <strong>"Filters"</strong> button in the top right, and let us do the heavy lifting.</p>
+        <a href="{{ menu_link }}" class="ib-link-simple">Go to Signature Menu &rarr;</a>
+      </div>
+      
+      <div class="ib-img-col">
+         <div class="ib-plate-wrapper">
+            {% if s.product_image %}
+              {{ s.product_image | image_url: width: 1000 | image_tag: class: 'ib-prod-img', loading: 'lazy' }}
+            {% else %}
+               <div class="ib-upsell-card">
+                    <div class="ib-quote">"{{ q_text }}"</div>
+                    <div class="ib-quote-author">— {{ q_auth }}</div>
+                    <a href="{{ menu_link }}" class="ib-btn-pill" style="margin-top:25px;">Start Filtering</a>
+               </div>
+            {% endif %}
+         </div>
+      </div>
+
+    </div>
+  </section>
+
+</div>
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   ICON BLUEPRINT STYLES - Diet Discovery Edition (2026 BRAND)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --l-red: #D11F1F;
+  --l-red-dark: #BA1414;
+  --l-charcoal: #222222;
+  --l-kale: #1E3A23;       
+  --l-mint: #F0F7F4;       
+  --l-font: 'Inter', sans-serif;
+}
+
+#icon-diet-discovery {
+  font-family: var(--l-font);
+  color: var(--l-charcoal);
+  line-height: 1.6;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+  scroll-behavior: smooth;
+  letter-spacing: -0.01em; 
+}
+
+/* TYPOGRAPHY */
+#icon-diet-discovery h1 {
+  font-family: var(--l-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.05;
+  color: var(--l-kale);
+  text-transform: none; 
+  text-wrap: balance; 
+  font-size: clamp(2.6rem, 6vw, 5.5rem);
+}
+
+#icon-diet-discovery h2 {
+  font-family: var(--l-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.1;
+  color: var(--l-kale);
+  text-transform: none;
+  font-size: clamp(2.5rem, 4vw, 3.2rem);
+}
+
+#icon-diet-discovery h3 {
+  font-family: var(--l-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.1;
+  color: var(--l-kale);
+  text-transform: none;
+  font-size: 2.2rem;
+}
+
+#icon-diet-discovery a { text-decoration: none; transition: 0.3s ease; color: inherit; }
+
+/* UTILITIES */
+.ib-container { max-width: 1400px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 10; box-sizing: border-box; }
+.ib-section { padding: 80px 0; }
+.ib-bg-mint { background: var(--l-mint); }
+.ib-bg-white { background: #fff; }
+.ib-red { color: var(--l-red); }
+
+/* TIGHTER SUBTITLE SPACING */
+.ib-sub-title { font-weight: 400; color: #666; font-size: 0.65em; display: block; margin-top: 5px; letter-spacing: -0.01em; line-height: 1.4; }
+
+.ib-center-text { text-align: center; margin-bottom: 50px; }
+.ib-text-link { color: var(--l-red) !important; text-decoration: underline !important; font-weight: 700; }
+
+/* ─────────────────────────────────────────────────────────────
+   HEADER
+   ───────────────────────────────────────────────────────────── */
+.ib-header { padding: 60px 0 100px 0; background: #fff; position: relative; }
+.ib-bg-pattern { background-image: radial-gradient(#ccc 1px, transparent 1px); background-size: 20px 20px; opacity: 0.2; position: absolute; inset: 0; pointer-events: none; }
+.ib-bg-overlay { background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 100%); position: absolute; bottom: 0; left: 0; right: 0; height: 150px; pointer-events: none; }
+
+.ib-grid-header { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; }
+
+.ib-editorial-brow { 
+    display: inline-flex; 
+    align-items: center; 
+    gap: 10px; 
+    margin-bottom: 24px; 
+    background: rgba(30, 58, 35, 0.08); 
+    padding: 8px 16px;
+    border-radius: 20px;
+    width: fit-content;
+}
+.ib-brow-dot { width: 6px; height: 6px; background-color: var(--l-kale); border-radius: 50%; display: block; }
+.ib-brow-text { 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    text-transform: uppercase; 
+    letter-spacing: 1.5px; 
+    color: var(--l-kale); 
+}
+
+/* WIDER TEXT, MORE SPACE BELOW */
+.ib-lead { font-size: 1.25rem; color: #555; margin-bottom: 45px; max-width: 100%; letter-spacing: -0.01em; font-weight: 400; line-height: 1.6; }
+
+.ib-img-card-effect { transform: rotate(2deg); transition: transform 0.5s ease; border-radius: 20px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.15); }
+.ib-img-card-effect:hover { transform: rotate(0deg); }
+.ib-hero-img { width: 100%; height: auto; display: block; }
+.ib-hero-placeholder { background: #eee; width: 100%; aspect-ratio: 4/3; display: flex; align-items: center; justify-content: center; }
+
+.ib-btn-pill { 
+    background: var(--l-red); 
+    color: #fff !important; 
+    padding: 18px 45px; 
+    font-size: 1.1rem;
+    font-weight: 700; 
+    border-radius: 50px; 
+    display: inline-block; 
+    box-shadow: 0 10px 20px rgba(209, 31, 31, 0.2); 
+    text-transform: none; 
+    letter-spacing: -0.01em;
+}
+.ib-btn-pill:hover { background: var(--l-red-dark); transform: translateY(-2px); }
+.ib-link-simple { color: var(--l-red); font-weight: 700; border-bottom: 2px solid rgba(209,31,31,0.2); padding-bottom: 2px; }
+
+/* ─────────────────────────────────────────────────────────────
+   STEP-BY-STEP STACK
+   ───────────────────────────────────────────────────────────── */
+.ib-section-head-wrapper { text-align: center; margin-bottom: 60px; }
+.ib-section-head { max-width: 800px; margin: 0 auto; }
+.ib-process-stack { max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 0; }
+.ib-stack-cta { text-align: center; margin-top: 60px; }
+
+.ib-step-block { 
+    display: grid; 
+    grid-template-columns: 1fr 1.2fr; 
+    gap: 70px; 
+    align-items: center; 
+    padding: 30px 0;
+}
+
+.ib-step-visual, .ib-step-info { min-width: 0; }
+.ib-step-block:nth-child(5) .ib-step-info { order: 2; }
+.ib-step-block:nth-child(5) .ib-step-visual { order: 1; }
+.ib-step-info { text-align: left; }
+.ib-step-number { font-size: 5rem; font-weight: 900; color: var(--l-kale); opacity: 0.1; line-height: 1; margin-bottom: 10px; }
+.ib-step-info h3 { margin-bottom: 15px; }
+.ib-step-info p { color: #555; font-size: 1.1rem; }
+.ib-step-connector { height: 60px; width: 2px; background: rgba(30, 58, 35, 0.1); margin: 0 auto; position: relative; }
+
+/* VISUAL: Step 1 (Browser) */
+.ib-mini-browser { 
+    background: #fff; 
+    border: 1px solid rgba(30, 58, 35, 0.15); 
+    border-radius: 12px; 
+    padding: 15px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    width: 100%; box-sizing: border-box; overflow: hidden;
+}
+.ib-browser-dots { display: flex; gap: 6px; margin-bottom: 10px; }
+.ib-browser-dots span { width: 10px; height: 10px; border-radius: 50%; background: #eee; }
+.ib-browser-dots span:nth-child(1) { background: #FF5F56; }
+.ib-browser-dots span:nth-child(2) { background: #FFBD2E; }
+.ib-browser-dots span:nth-child(3) { background: #27C93F; }
+.ib-browser-bar { background: #f0f0f0; border-radius: 4px; padding: 8px 15px; color: #888; font-size: 0.8rem; font-family: monospace; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; display: block; }
+
+/* VISUAL: Step 2 (Desktop & Mobile Variants) */
+.ib-nav-simulation {
+    background: #fff;
+    border: 1px solid rgba(30, 58, 35, 0.15); 
+    border-radius: 12px; 
+    padding: 20px 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    max-width: 100%; box-sizing: border-box;
+}
+.ib-nav-left { display: flex; align-items: center; gap: 8px; }
+.ib-nav-title { font-weight: 800; font-size: 0.8rem; letter-spacing: 1px; color: #222; }
+.ib-nav-chevron { color: #222; font-weight: 800; }
+.ib-nav-right { display: flex; align-items: center; }
+.ib-fake-filter-btn {
+    border: 1px solid #ddd; border-radius: 4px; padding: 8px 16px;
+    font-size: 0.85rem; font-weight: 600; color: #444; 
+    display: flex; align-items: center; gap: 8px; background: #fff;
+}
+
+/* DESKTOP CLICK INDICATOR */
+.ib-click-indicator {
+    position: absolute; right: 40px; top: 55px; z-index: 20; pointer-events: none;
+    animation: ib-bob 2s ease-in-out infinite;
+}
+.ib-click-arrow { width: 40px; height: 40px; transform: rotate(180deg); display: block; filter: drop-shadow(0 2px 4px rgba(255,255,255,1)); }
+.ib-click-text { 
+    position: absolute; bottom: -20px; right: -20px; 
+    font-family: 'Permanent Marker', cursive, sans-serif; 
+    font-weight: 800; color: var(--l-red); white-space: nowrap; font-size: 1rem;
+    transform: rotate(-10deg);
+}
+
+/* MOBILE SIMULATION (Floating Pill) */
+.ib-mobile-simulation {
+    background: #FAFAFA; /* Light Grey BG */
+    border: 1px solid rgba(0,0,0,0.1); 
+    border-radius: 16px;
+    overflow: hidden;
+    position: relative;
+    height: 180px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+}
+.ib-mob-header { 
+    background: #fff; padding: 12px 15px; border-bottom: 1px solid #eee; 
+    display: flex; justify-content: space-between; align-items: center; 
+}
+.ib-mob-title { font-size: 0.7rem; font-weight: 800; letter-spacing: 1px; color: #222; }
+.ib-mob-dots { font-weight: 800; font-size: 1.2rem; line-height: 0.5; color: #222; cursor: pointer; }
+.ib-mob-grid-bg { display: flex; padding: 10px; gap: 10px; opacity: 0.5; }
+.ib-mob-item { flex: 1; height: 100px; background: #eee; border-radius: 4px; }
+
+/* The Floating Pill (Shopify Mobile Style) */
+.ib-mob-pill {
+    position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+    background: #fff; border-radius: 8px;
+    display: flex; align-items: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border: 1px solid #eee;
+    padding: 2px;
+}
+.ib-mob-pill-opt { 
+    padding: 8px 16px; font-size: 0.75rem; font-weight: 700; color: #333; 
+    display: flex; align-items: center; gap: 6px; 
+}
+.ib-mob-divider { width: 1px; height: 20px; background: #eee; }
+
+/* Mobile Simulation: Top Right Interaction (Dropdown) */
+.ib-mob-dropdown {
+    position: absolute;
+    top: 45px;
+    right: 10px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+    border: 1px solid #eee;
+    width: 120px;
+    z-index: 5;
+    animation: ib-fade-in 0.5s ease-out forwards;
+}
+.ib-mob-dd-row {
+    padding: 10px 15px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: #555;
+    border-bottom: 1px solid #f5f5f5;
+    display: flex; align-items: center; gap: 8px;
+}
+.ib-mob-dd-row:last-child { border-bottom: none; }
+.ib-dd-highlight { color: var(--l-red); background: #fff5f5; font-weight: 700; }
+
+.ib-mob-tap-top {
+    position: absolute;
+    top: 28px;   /* Moves finger BELOW the dots */
+    right: -8px;  /* Aligns finger with the dots */
+    z-index: 10;
+    animation: ib-mob-tap 2s infinite;
+    pointer-events: none;
+}
+.ib-tap-finger-top { 
+    font-size: 2rem; 
+    transform: rotate(-15deg); /* Points UP towards the dots */
+    filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2)); 
+}
+.ib-tap-text-top {
+    font-family: 'Permanent Marker', cursive, sans-serif;
+    font-weight: 800; color: var(--l-red); font-size: 0.9rem;
+    position: absolute; top: -20px; right: 35px; /* Text to left of finger */
+    white-space: nowrap; transform: rotate(-5deg);
+}
+
+@keyframes ib-bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes ib-mob-tap { 0%, 100% { transform: scale(1); } 50% { transform: scale(0.9); } }
+@keyframes ib-fade-in { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
+
+/* VISUAL: Step 3 (Modal) */
+.ib-wireframe-modal {
+    background: #fff;
+    border: 1px solid rgba(30, 58, 35, 0.15); border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.12); overflow: hidden;
+    font-family: var(--l-font); max-width: 100%; box-sizing: border-box;
+}
+.ib-wireframe-header { padding: 15px 25px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; background: #fafafa; }
+.ib-wireframe-header span { font-weight: 700; font-size: 1rem; color: #222; }
+.ib-wireframe-body { display: flex; padding: 25px; gap: 20px; }
+.ib-wireframe-col { flex: 1; }
+.ib-wf-title { font-size: 0.65rem; font-weight: 800; letter-spacing: 1px; margin-bottom: 15px; color: #333; }
+.ib-wf-check { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; color: #666; font-size: 0.85rem; }
+.ib-box { width: 18px; height: 18px; border: 2px solid #ddd; border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 12px; color: white; }
+.ib-wf-active { color: var(--l-charcoal); font-weight: 700; }
+.ib-wf-active .ib-box { border-color: var(--l-red); background: var(--l-red); }
+.ib-wireframe-footer { border-top: 1px solid #eee; padding: 15px 25px; display: flex; justify-content: space-between; align-items: center; background: #fcfcfc; }
+.ib-wf-results { font-size: 0.8rem; color: #555; }
+.ib-wf-btn { background: #222; color: #fff; padding: 8px 20px; border-radius: 6px; font-size: 0.8rem; font-weight: 600; }
+
+/* ─────────────────────────────────────────────────────────────
+   DIET CARDS & PLANS
+   ───────────────────────────────────────────────────────────── */
+.ib-card-row { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; margin-top: 40px; margin-bottom: 40px; }
+.ib-diet-card { 
+    background: #fff; padding: 40px 30px; border-radius: 20px; border: 1px solid #eee; 
+    transition: 0.3s; position: relative; overflow: hidden; display: flex; flex-direction: column; 
+    cursor: pointer; box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+}
+.ib-diet-card:hover { transform: translateY(-5px); background: #fff; box-shadow: 0 15px 40px rgba(0,0,0,0.08); border-color: var(--l-kale); opacity: 1 !important; }
+.ib-card-icon { font-size: 3rem; margin-bottom: 20px; }
+.ib-diet-card h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--l-charcoal); transition: color 0.3s; }
+.ib-diet-card:hover h3 { color: var(--l-kale); }
+.ib-diet-card p { font-size: 1rem; color: #666; margin: 0 0 20px 0; }
+.ib-tag { 
+    display: inline-block; background: #fff; padding: 8px 16px; border-radius: 20px; 
+    font-size: 0.8rem; font-weight: 700; color: var(--l-red); border: 1px solid rgba(209,31,31,0.2); 
+    width: max-content; transition: 0.3s; margin-top: auto;
+}
+.ib-diet-card:hover .ib-tag { background: var(--l-red); color: #fff; border-color: var(--l-red); }
+
+/* MEAL LIST STYLES */
+.ib-meal-preview { margin-bottom: 25px; font-size: 0.9rem; background: rgba(0,0,0,0.03); padding: 20px; border-radius: 10px; border: 1px solid rgba(0,0,0,0.05); width: 100%; box-sizing: border-box; }
+.ib-meal-preview span { font-weight: 700; display: block; margin-bottom: 10px; color: #444; text-transform: uppercase; font-size: 0.7em; letter-spacing: 1px; }
+.ib-meal-preview ul { margin: 0; padding: 0; list-style: none; }
+.ib-meal-preview li { margin-bottom: 6px; color: #666; position: relative; padding-left: 15px; line-height: 1.4; }
+.ib-meal-preview li::before { content: "•"; color: var(--l-red); position: absolute; left: 0; font-weight: bold; }
+
+.ib-plan-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; max-width: 1000px; margin-left: auto; margin-right: auto; }
+.ib-plan-card { 
+    display: block; background: #fff; border-radius: 20px; overflow: hidden; 
+    box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05); 
+    transition: 0.3s; text-decoration: none !important; color: inherit; 
+    border: 1px solid var(--l-kale);
+}
+.ib-plan-card:hover { transform: translateY(-5px); border-color: var(--l-kale); box-shadow: 0 20px 50px rgba(0,0,0,0.12); opacity: 1 !important; }
+.ib-plan-image { position: relative; width: 100%; aspect-ratio: 16/9; overflow: hidden; background: #eee; border-bottom: 1px solid rgba(30, 58, 35, 0.1); }
+.ib-plan-img { width: 100%; height: 100%; object-fit: cover; transition: 0.5s; }
+.ib-plan-card:hover .ib-plan-img { transform: scale(1.05); }
+.ib-plan-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-weight: 800; color: var(--l-kale); letter-spacing: 2px; }
+.ib-plan-badge { position: absolute; top: 15px; left: 15px; background: #fff; color: var(--l-red); padding: 6px 14px; border-radius: 4px; font-weight: 800; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+.ib-plan-content { padding: 35px; text-align: left; background: #fff; }
+.ib-plan-content h3 { font-size: 1.8rem; margin-bottom: 10px; color: var(--l-charcoal); transition: 0.3s; }
+.ib-plan-card:hover h3 { color: var(--l-kale); }
+.ib-plan-content p { font-size: 1.1rem; color: #666; margin-bottom: 25px; }
+.ib-plan-btn { font-weight: 700; color: var(--l-red); border-bottom: 2px solid rgba(209, 31, 31, 0.2); transition: 0.3s; }
+.ib-plan-card:hover .ib-plan-btn { border-color: var(--l-red); }
+
+/* FOOTER */
+.ib-grid-split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+.ib-text-col h2 { font-size: 3rem; margin-bottom: 20px; color: var(--l-kale); }
+.ib-text-col p { font-size: 1.2rem; color: #555; margin-bottom: 24px; }
+.ib-plate-wrapper { position: relative; }
+.ib-prod-img { width: 100%; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+.ib-upsell-card { background: #fff; padding: 50px; border-radius: 24px; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.08); border: 1px solid #f0f0f0; }
+.ib-quote { font-size: 1.5rem; font-weight: 600; font-style: italic; color: var(--l-charcoal); margin-bottom: 20px; line-height: 1.4; }
+.ib-quote-author { color: #888; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+/* ─────────────────────────────────────────────────────────────
+   RESPONSIVE LOGIC (The Magic Switch)
+   ───────────────────────────────────────────────────────────── */
+.ib-view-mobile, .ib-mobile-msg { display: none; }
+.ib-view-desktop { display: flex; }
+.ib-desktop-msg { display: block; }
+
+@media (max-width: 1024px) {
+  .ib-container { padding: 0 25px; }
+  .ib-grid-header, .ib-card-row, .ib-grid-split { grid-template-columns: 1fr; gap: 40px; }
+  .ib-plan-grid { grid-template-columns: 1fr; gap: 30px; margin-top: 30px; }
+  .ib-header { padding-bottom: 60px; }
+  .ib-header-img-wrapper { order: -1; } #icon-diet-discovery h1 { line-height: 1.15; }
+  
+  /* Stack the steps on mobile & Fix Order */
+  .ib-step-block { grid-template-columns: minmax(0, 1fr); gap: 20px; text-align: center; }
+  
+  /* REORDER LOGIC FIX: Always text first */
+  .ib-step-block:nth-child(5) .ib-step-info { order: 1; }
+  .ib-step-block:nth-child(5) .ib-step-visual { order: 2; }
+  
+  .ib-step-info { text-align: center; }
+  .ib-step-number { font-size: 4rem; margin-bottom: 5px; }
+  
+  .ib-step-connector { display: none; }
+  .ib-wireframe-body { flex-direction: column; gap: 20px; }
+  
+  /* MOBILE UI SWITCH */
+  .ib-view-desktop, .ib-desktop-msg { display: none !important; }
+  .ib-view-mobile { display: block; }
+  .ib-mobile-msg { display: inline; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Blog: Diet Discovery",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image (Lifestyle/Person)"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image (Plated Meal)"
+    },
+    {
+      "type": "header",
+      "content": "Meal Plans"
+    },
+    {
+      "type": "image_picker",
+      "id": "keto_box_image",
+      "label": "Keto Box Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "protein_box_image",
+      "label": "Protein Box Image"
+    },
+    {
+      "type": "header",
+      "content": "Quote Section"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text",
+      "default": "I used to spend 20 minutes looking for Keto options. Now I just click one button."
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author",
+      "default": "Sarah J., Busy Professional"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog: Diet Discovery"
+    }
+  ]
+}
+{% endschema %}

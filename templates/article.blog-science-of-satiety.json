@@ -1,0 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--article",
+      "disabled": true,
+      "settings": {
+        "show_author_name": false,
+        "show_dates": true,
+        "social_sharing_facebook": true,
+        "social_sharing_twitter": true,
+        "social_sharing_pinterest": true
+      }
+    },
+    "article_science_of_satiety_x9mCRA": {
+      "type": "article-science-of-satiety",
+      "name": "Blog: Science of Satiety",
+      "settings": {
+        "hero_image": "shopify://shop_images/Diva-Meta-Image_v1.webp",
+        "quote_text": "If your gut doesn't sense the nutrients it needs, it tells your brain to keep seeking food.",
+        "quote_author": "Andrew Huberman, Ph.D."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "article_science_of_satiety_x9mCRA"
+  ]
+}

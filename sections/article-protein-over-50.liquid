@@ -1,0 +1,340 @@
+{% schema %}
+{
+  "name": "Protein at Age 50",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Background Color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "accent_color",
+      "label": "Accent Color (Red)",
+      "default": "#d12030"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text Color",
+      "default": "#111111"
+    },
+    {
+      "type": "header",
+      "content": "Hero Section"
+    },
+    {
+      "type": "text",
+      "id": "hero_subtitle",
+      "label": "Hero Subtitle",
+      "default": "The Longevity Strategy"
+    },
+    {
+      "type": "textarea",
+      "id": "hero_title",
+      "label": "Hero Title",
+      "default": "Nutrition After 50:<br>Overcoming the \"Resistance\""
+    },
+    {
+      "type": "header",
+      "content": "Intro Content"
+    },
+    {
+      "type": "richtext",
+      "id": "intro_text",
+      "label": "Intro Paragraphs",
+      "default": "<p>There is a reason the diet that worked in your 30s stops working in your 50s. It’s not your willpower. It’s your biology.</p><p>As busy professionals and parents, we often blame our schedule for our energy levels. But the real culprit is a phenomenon known as <strong>Anabolic Resistance</strong>. Simply put: as you age, your muscles stop listening to the \"grow and repair\" signals from food—unless that signal is loud enough.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Chart Section"
+    },
+    {
+      "type": "text",
+      "id": "chart_heading",
+      "label": "Chart Heading",
+      "default": "The Anabolic Threshold"
+    },
+    {
+      "type": "text",
+      "id": "chart_subheading",
+      "label": "Chart Subheading",
+      "default": "Protein required per meal to trigger muscle repair"
+    },
+    {
+      "type": "text",
+      "id": "chart_col1_label",
+      "label": "Column 1 Label",
+      "default": "Age 25"
+    },
+    {
+      "type": "text",
+      "id": "chart_col1_val",
+      "label": "Column 1 Value",
+      "default": "20g"
+    },
+    {
+      "type": "text",
+      "id": "chart_col2_label",
+      "label": "Column 2 Label",
+      "default": "Age 50+"
+    },
+    {
+      "type": "text",
+      "id": "chart_col2_val",
+      "label": "Column 2 Value",
+      "default": "40g+"
+    },
+    {
+      "type": "header",
+      "content": "Core Content"
+    },
+    {
+      "type": "text",
+      "id": "core_heading",
+      "label": "Core Heading",
+      "default": "Why \"Healthy\" Snacking Fails You"
+    },
+    {
+      "type": "richtext",
+      "id": "core_text",
+      "label": "Core Body Text",
+      "default": "<p>This is where the typical modern diet fails the aging body. A yogurt here, a salad with light chicken there—these meals often cap out at 15-20g of protein.</p><p>For someone in their 20s, that's fine. <strong>For someone over 50, that signal is too weak.</strong> Your body ignores it, and instead of repairing muscle, it breaks it down.</p>"
+    },
+    {
+      "type": "header",
+      "content": "Comparison Cards"
+    },
+    {
+      "type": "text",
+      "id": "card1_title",
+      "label": "Left Card Title",
+      "default": "Typical \"Light\" Lunch"
+    },
+    {
+      "type": "text",
+      "id": "card1_desc",
+      "label": "Left Card Desc",
+      "default": "Salad + Small Chicken Portion"
+    },
+    {
+      "type": "text",
+      "id": "card1_val",
+      "label": "Left Card Value",
+      "default": "18g"
+    },
+    {
+      "type": "text",
+      "id": "card2_title",
+      "label": "Right Card Title",
+      "default": "ICON Steak"
+    },
+    {
+      "type": "text",
+      "id": "card2_desc",
+      "label": "Right Card Desc",
+      "default": "Complete Macro Profile"
+    },
+    {
+      "type": "text",
+      "id": "card2_val",
+      "label": "Right Card Value",
+      "default": "42g+"
+    },
+    {
+      "type": "header",
+      "content": "Solution & CTA"
+    },
+    {
+      "type": "text",
+      "id": "solution_heading",
+      "label": "Solution Heading",
+      "default": "The Convenience Advantage"
+    },
+    {
+      "type": "richtext",
+      "id": "solution_text",
+      "label": "Solution Text",
+      "default": "<p>The barrier to consistency isn't knowledge—it's logistics. You know you need protein, but you don't always have 90 minutes to prep Steak or Chicken on a Tuesday night.</p>"
+    },
+    {
+      "type": "text",
+      "id": "cta_heading",
+      "label": "CTA Box Heading",
+      "default": "Protect Your Health"
+    },
+    {
+      "type": "textarea",
+      "id": "cta_subtext",
+      "label": "CTA Box Text",
+      "default": "Don't let a busy schedule compromise your metabolic health. Get threshold-hitting meals delivered to your door."
+    },
+    {
+      "type": "text",
+      "id": "cta_btn_text",
+      "label": "Button Label",
+      "default": "Shop High-Protein"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Button Link"
+    },
+    {
+      "type": "text",
+      "id": "cta_footer",
+      "label": "Small Footer Text",
+      "default": "Start with a one-time order. No subscription required."
+    }
+  ],
+  "presets": [
+    {
+      "name": "ICON Blog Post"
+    }
+  ]
+}
+{% endschema %}
+
+<div class="icon-blog-section" style="background-color: {{ section.settings.bg_color }};">
+  <div class="icon-blog-container" style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: {{ section.settings.text_color }}; max-width: 800px; margin: 0 auto;">
+
+    <!-- HERO SECTION -->
+    <div style="background-color: #000; padding: 60px 20px; text-align: center; margin-bottom: 50px;">
+      <p style="color: {{ section.settings.accent_color }}; font-weight: 800; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; margin: 0 0 15px 0;">
+        {{ section.settings.hero_subtitle }}
+      </p>
+      <h1 style="color: #fff; font-size: 42px; font-weight: 900; line-height: 1.1; margin: 0; letter-spacing: -0.5px;">
+        {{ section.settings.hero_title | newline_to_br }}
+      </h1>
+    </div>
+
+    <!-- INTRO COPY -->
+    <div class="rte-content" style="padding: 0 20px; max-width: 700px; margin: 0 auto; font-size: 18px; color: #555;">
+      {{ section.settings.intro_text }}
+    </div>
+
+    <!-- VISUAL 1: THE THRESHOLD CHART -->
+    <div style="background-color: #f8f8f8; padding: 50px 20px; margin: 50px 0; border-top: 4px solid {{ section.settings.accent_color }}; border-bottom: 4px solid {{ section.settings.accent_color }};">
+      <h3 style="text-align: center; font-weight: 900; font-size: 24px; margin-bottom: 10px; text-transform: uppercase; color: #111;">
+        {{ section.settings.chart_heading }}
+      </h3>
+      <p style="text-align: center; margin-bottom: 40px; color: #666; font-size: 14px;">
+        {{ section.settings.chart_subheading }}
+      </p>
+      
+      <div style="display: flex; justify-content: center; align-items: flex-end; height: 250px; gap: 40px; max-width: 600px; margin: 0 auto;">
+        
+        <!-- Bar 1 -->
+        <div style="flex: 1; text-align: center; max-width: 150px;">
+          <div style="font-weight: bold; margin-bottom: 10px; color: #888;">{{ section.settings.chart_col1_label }}</div>
+          <div style="height: 100px; background-color: #ccc; width: 100%; border-radius: 4px 4px 0 0; position: relative;">
+            <span style="position: absolute; bottom: 10px; left: 0; right: 0; color: #fff; font-weight: bold;">{{ section.settings.chart_col1_val }}</span>
+          </div>
+          <div style="border-top: 1px solid #ccc; margin-top: 10px; padding-top: 5px; font-size: 12px; color: #666;">Standard Trigger</div>
+        </div>
+
+        <!-- Bar 2 -->
+        <div style="flex: 1; text-align: center; max-width: 150px;">
+          <div style="font-weight: bold; margin-bottom: 10px; color: {{ section.settings.accent_color }};">{{ section.settings.chart_col2_label }}</div>
+          <!-- Gradient logic uses hex opacity for fallback or pure accent color -->
+          <div style="height: 200px; background: linear-gradient(180deg, {{ section.settings.accent_color }} 0%, #000 150%); width: 100%; border-radius: 4px 4px 0 0; position: relative; box-shadow: 0 10px 20px rgba(0,0,0, 0.25);">
+            <span style="position: absolute; top: 20px; left: 0; right: 0; color: #fff; font-weight: bold; font-size: 24px;">{{ section.settings.chart_col2_val }}</span>
+            <div style="position: absolute; top: 50%; left: 0; right: 0; border-top: 2px dashed rgba(255,255,255,0.5);"></div>
+            <span style="position: absolute; top: 52%; left: 0; right: 0; color: rgba(255,255,255,0.8); font-size: 10px;">Old Threshold</span>
+          </div>
+          <div style="border-top: 1px solid {{ section.settings.accent_color }}; margin-top: 10px; padding-top: 5px; font-size: 12px; color: {{ section.settings.accent_color }}; font-weight: bold;">Required Trigger</div>
+        </div>
+        
+      </div>
+    </div>
+
+    <!-- CORE CONTENT -->
+    <div style="padding: 0 20px; max-width: 700px; margin: 0 auto;">
+      <h3 style="font-size: 26px; font-weight: 800; margin-bottom: 20px; color: {{ section.settings.text_color }};">{{ section.settings.core_heading }}</h3>
+      <div class="rte-content" style="font-size: 18px; color: {{ section.settings.text_color }}; margin-bottom: 40px;">
+        {{ section.settings.core_text }}
+      </div>
+    </div>
+
+    <!-- VISUAL 2: SIGNAL STRENGTH COMPARISON -->
+    <div style="margin: 50px 0; padding: 0 20px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
+        
+        <!-- Card 1 -->
+        <div style="flex: 1; min-width: 300px; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+          <div style="background-color: #f4f4f4; padding: 20px; text-align: center;">
+            <h4 style="margin: 0; color: #666;">{{ section.settings.card1_title }}</h4>
+            <p style="margin: 5px 0 0 0; font-size: 14px; color: #888;">{{ section.settings.card1_desc }}</p>
+          </div>
+          <div style="padding: 30px 20px; text-align: center;">
+            <div style="font-size: 42px; font-weight: 900; color: #ccc; line-height: 1;">{{ section.settings.card1_val }}</div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #999; margin-top: 5px;">Protein</div>
+            
+            <div style="margin-top: 25px; padding: 10px; background-color: #fff0f0; border: 1px solid #ffcccc; color: #d12030; font-size: 13px; font-weight: bold; border-radius: 4px;">
+              ⚠️ SIGNAL FAILED
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div style="flex: 1; min-width: 300px; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.08);">
+          <div style="background-color: #111; padding: 20px; text-align: center;">
+            <h4 style="margin: 0; color: #fff;">{{ section.settings.card2_title }}</h4>
+            <p style="margin: 5px 0 0 0; font-size: 14px; color: #888;">{{ section.settings.card2_desc }}</p>
+          </div>
+          <div style="padding: 30px 20px; text-align: center;">
+            <div style="font-size: 42px; font-weight: 900; color: {{ section.settings.text_color }}; line-height: 1;">{{ section.settings.card2_val }}</div>
+            <div style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: {{ section.settings.text_color }}; margin-top: 5px;">Protein</div>
+            
+            <div style="margin-top: 25px; padding: 10px; background-color: #e6ffe6; border: 1px solid #b3ffb3; color: #008000; font-size: 13px; font-weight: bold; border-radius: 4px;">
+              ✅ REPAIR ACTIVATED
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SOLUTION SECTION -->
+    <div style="padding: 0 20px; max-width: 700px; margin: 0 auto; margin-bottom: 60px;">
+      <h3 style="font-size: 26px; font-weight: 800; margin-bottom: 20px; color: {{ section.settings.text_color }};">{{ section.settings.solution_heading }}</h3>
+      <div class="rte-content" style="font-size: 18px;">
+        {{ section.settings.solution_text }}
+      </div>
+    </div>
+
+    <!-- FOOTER CTA -->
+    <div style="background: linear-gradient(135deg, #111 0%, #222 100%); color: #fff; padding: 60px 20px; text-align: center; border-radius: 8px; margin: 20px;">
+      <h2 style="font-size: 32px; font-weight: 900; text-transform: uppercase; margin: 0 0 15px 0;">{{ section.settings.cta_heading }}</h2>
+      <p style="color: #bbb; font-size: 18px; margin-bottom: 35px; max-width: 500px; margin-left: auto; margin-right: auto;">
+        {{ section.settings.cta_subtext | newline_to_br }}
+      </p>
+      
+      <a href="{{ section.settings.cta_link | default: '/collections/all-meals' }}" style="background-color: {{ section.settings.accent_color }}; color: #ffffff; padding: 20px 45px; text-decoration: none; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; font-size: 16px; border-radius: 4px; display: inline-block; transition: background 0.3s ease;">
+        {{ section.settings.cta_btn_text }}
+      </a>
+      
+      <p style="margin-top: 25px; font-size: 13px; color: #666;">
+        {{ section.settings.cta_footer }}
+      </p>
+    </div>
+
+  </div>
+</div>
+
+<style>
+  /* Basic resets for the Rich Text Editor content to match the design */
+  .icon-blog-container .rte-content p {
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+  .icon-blog-container .rte-content strong {
+    font-weight: 700;
+    color: #111;
+  }
+</style>

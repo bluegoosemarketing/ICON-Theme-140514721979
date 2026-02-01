@@ -1,0 +1,451 @@
+{%- comment -%}
+  Section: ICON Blog Special - The $10 Challenge v2 (REVISED)
+  Design: High-Contrast / Data-Dossier Style
+  Changes: Simpler language, added images, fixed table footer layout.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign chili_mac_url = "https://iconmeals.com/collections/signature-menu/products/beefy-chili-mac"
+  assign bison_url = "https://iconmeals.com/collections/signature-menu/products/ground-bison-cheesy-ravioli"
+  
+  # Default images if none selected in customizer
+  assign default_lifestyle = 'https://cdn.shopify.com/s/files/1/0653/5698/0411/files/icon-lifestyle-cooking.jpg?v=1705420000'
+  assign default_meal = 'https://cdn.shopify.com/s/files/1/0653/5698/0411/products/Beefy-Chili-Mac_OH.jpg?v=1700000000'
+-%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Teko:wght@400;500;600;700&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<div id="icon-investigative-report">
+  
+  <header class="ir-header">
+    <div class="ir-container">
+      <div class="ir-eyebrow">THE REAL FOOD REPORT</div>
+      <h1 class="ir-headline">
+        THE <span class="ir-red">$10</span> CHALLENGE
+      </h1>
+      <h2 class="ir-subhead">Can you really cook high-protein meals cheaper than buying them? We did the math to find out.</h2>
+    </div>
+  </header>
+
+  <section class="ir-section ir-white-bg">
+    <div class="ir-container ir-grid-50-50-img-left">
+      
+      <div class="ir-img-col">
+        {% if s.lifestyle_image %}
+          {{ s.lifestyle_image | image_url: width: 800 | image_tag: class: 'ir-saturate', loading: 'lazy' }}
+        {% else %}
+          <img src="{{ default_lifestyle }}" class="ir-saturate" alt="Cooking at home">
+        {% endif %}
+      </div>
+
+      <div class="ir-content-col">
+        <h3>THE GROCERY STORE MYTH</h3>
+        <p>Everyone assumes cooking at home saves money. It sounds right. But regular "Grocery Store Math" leaves out big things like your time and food waste.</p>
+        <p>There is a hidden cost called the <strong>"Minimum Purchase Requirement."</strong> You can't just buy 4oz of beef or one spoonful of a special spice. You have to buy the whole package. That makes the real cost of cooking a single meal much higher than you think.</p>
+
+        <div class="ir-data-card">
+          <div class="ir-card-header">THE REAL COST BREAKDOWN</div>
+          <div class="ir-comparison-row ir-row-labels">
+            <div></div>
+            <div class="ir-col-header">DIY COOKING</div>
+            <div class="ir-col-header">ICON MEALS</div>
+          </div>
+          <div class="ir-comparison-row">
+            <div class="ir-comp-label">CASH UP FRONT</div>
+            <div class="ir-comp-val ir-bad">HIGH (Buy Bulk)</div>
+            <div class="ir-comp-val ir-good">$10 - $14 (Fixed)</div>
+          </div>
+          <div class="ir-comparison-row">
+            <div class="ir-comp-label">TOTAL TIME</div>
+            <div class="ir-comp-val ir-bad">75+ MIN</div>
+            <div class="ir-comp-val ir-good">2 MIN</div>
+          </div>
+          <div class="ir-comparison-row">
+            <div class="ir-comp-label">MACROS</div>
+            <div class="ir-comp-val ir-neutral">A GUESS</div>
+            <div class="ir-comp-val ir-good">LAB-TESTED</div>
+          </div>
+          <div class="ir-comparison-row">
+            <div class="ir-comp-label">WASTED FOOD</div>
+            <div class="ir-comp-val ir-bad">HIGH RISK</div>
+            <div class="ir-comp-val ir-good">ZERO</div>
+          </div>
+        </div>
+         
+      </div>
+    </div>
+  </section>
+
+  <section class="ir-section ir-dark-bg">
+    <div class="ir-container">
+      <div class="ir-center-text">
+        <h3 class="ir-light-text">CASE STUDY: THE RECEIPT REALITY</h3>
+        <p class="ir-light-text ir-max-600">We tried to make our **Beefy Chili Mac** at home. It has 59g of protein. We went to a normal grocery store in Dallas to buy the exact same ingredients. Here is what happened.</p>
+      </div>
+
+      <div class="ir-receipt-wrapper">
+        
+        <div class="ir-meal-col">
+            <div class="ir-meal-card">
+                {% if s.meal_image %}
+                  {{ s.meal_image | image_url: width: 800 | image_tag: class: 'ir-meal-img', loading: 'lazy' }}
+                {% else %}
+                  <img src="{{ default_meal }}" class="ir-meal-img" alt="ICON Beefy Chili Mac">
+                {% endif %}
+                <div class="ir-meal-meta">
+                    <span>THE GOAL: BEEFY CHILI MAC</span>
+                    <span class="ir-red">59G PROTEIN</span>
+                </div>
+            </div>
+             <div class="ir-receipt-commentary desktop-only">
+                <h4>THE VERDICT</h4>
+                <p>To eat this specific meal <em>tonight</em> by cooking it yourself, you have to spend nearly <strong>$29.00</strong> at the store.</p>
+                <p>Sure, you have "leftovers." But now you are stuck eating the same thing. You have to eat Chili Mac for three days straight just to use up ingredients before they go bad.</p>
+                <p>With ICON, you pay one low price for one meal. You get variety. You can have Chili Mac today and <a href="{{ bison_url }}" class="ir-link">Bison Ravioli</a> tomorrow without wasting money.</p>
+                
+                <a href="{{ chili_mac_url }}" class="ir-btn">
+                  GET THE $12 SOLUTION <span class="arrow">→</span>
+                </a>
+              </div>
+        </div>
+
+        <div class="ir-receipt-col">
+            <div class="ir-receipt">
+            <div class="ir-receipt-header">
+                <img src="{{ 'icon-logo-black.png' | asset_url }}" alt="STORE RECEIPT" onerror="this.style.display='none'">
+                <div>OFFICIAL RECEIPT</div>
+                <div>DALLAS, TX • 09:42 AM</div>
+                <div>--------------------------------</div>
+            </div>
+            
+            <div class="ir-receipt-body">
+                <div class="ir-item">
+                <div class="ir-item-name">93/7 LEAN GROUND BEEF (1LB)</div>
+                <div class="ir-item-price">$8.98</div>
+                <div class="ir-item-waste">⚠️ WASTED COST: $4.49 (Leftover Meat)</div>
+                </div>
+                <div class="ir-item">
+                <div class="ir-item-name">CHICKPEA ROTINI PASTA (BOX)</div>
+                <div class="ir-item-price">$4.48</div>
+                <div class="ir-item-waste">⚠️ WASTED COST: $2.24 (Pantry Clutter)</div>
+                </div>
+                <div class="ir-item">
+                <div class="ir-item-name">SHARP CHEDDAR BLOCK (8OZ)</div>
+                <div class="ir-item-price">$4.22</div>
+                <div class="ir-item-waste">⚠️ WASTED COST: $3.69 (Mold Risk)</div>
+                </div>
+                <div class="ir-item">
+                <div class="ir-item-name">ANCHO CHILI POWDER (JAR)</div>
+                <div class="ir-item-price">$5.98</div>
+                <div class="ir-item-waste">⚠️ WASTED COST: $5.90 (Dust Collector)</div>
+                </div>
+                <div class="ir-item">
+                <div class="ir-item-name">ROASTED GARLIC PASTE</div>
+                <div class="ir-item-price">$3.48</div>
+                <div class="ir-item-waste">⚠️ WASTED COST: $2.98 (Expires)</div>
+                </div>
+            </div>
+
+            <div class="ir-receipt-footer">
+                <div>--------------------------------</div>
+                <div class="ir-total-row">
+                <span>TOTAL AT REGISTER:</span>
+                <span>$28.82</span>
+                </div>
+                <div class="ir-waste-row">
+                <span>MONEY TIED UP / WASTED:</span>
+                <span>~$20.00</span>
+                </div>
+                <div>--------------------------------</div>
+                <div class="ir-barcode">||| || ||||| || |||| |||</div>
+            </div>
+            </div>
+
+             <div class="ir-receipt-commentary mobile-only">
+                <h4>THE VERDICT</h4>
+                <p>To eat this specific meal <em>tonight</em> by cooking it yourself, you have to spend nearly <strong>$29.00</strong> at the store.</p>
+                <p>Sure, you have "leftovers." But now you are stuck eating the same thing. You have to eat Chili Mac for three days straight just to use up ingredients before they go bad.</p>
+                <p>With ICON, you pay one low price for one meal. You get variety. You can have Chili Mac today and <a href="{{ bison_url }}" class="ir-link">Bison Ravioli</a> tomorrow without wasting money.</p>
+                
+                <a href="{{ chili_mac_url }}" class="ir-btn">
+                  GET THE $12 SOLUTION <span class="arrow">→</span>
+                </a>
+              </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ir-section ir-white-bg">
+    <div class="ir-container ir-grid-50-50">
+      <div class="ir-content-col">
+        <h3>GUESSING VS. KNOWING</h3>
+        <p>Trying to hit exact macros at home is hard. "Eyeballing" olive oil or cheese can add 200 calories to your meal without you noticing.</p>
+        <p>Getting 59g of protein exactly right requires a food scale and math every single time you cook. We do the math for you in a lab. You just eat.</p>
+        <p>Your most valuable asset is time. Stop trading your time for groceries.</p>
+      </div>
+      <div class="ir-visual-col ir-flex-center">
+         <div class="ir-quote-box">
+            "The 'savings' of grocery shopping are an illusion when you calculate what your hourly time is actually worth."
+         </div>
+         <a href="/collections/signature-menu" class="ir-btn ir-btn-outline">
+            VIEW THE MENU
+         </a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   ICON INVESTIGATIVE REPORT v2 (SCOPED STYLES)
+   ───────────────────────────────────────────────────────────── */
+
+/* 1. RESET & VARIABLES */
+#icon-investigative-report {
+  --ir-bg: #f4f4f4;
+  --ir-dark: #111111;
+  --ir-red: #D11F1F;
+  --ir-text: #222222;
+  --ir-font-head: 'Teko', sans-serif;
+  --ir-font-body: 'Inter', sans-serif;
+  --ir-font-mono: 'Roboto Mono', monospace;
+  
+  font-family: var(--ir-font-body) !important;
+  color: var(--ir-text) !important;
+  line-height: 1.5 !important;
+  background-color: var(--ir-bg);
+  width: 100%;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#icon-investigative-report * {
+  box-sizing: border-box;
+}
+
+#icon-investigative-report a { text-decoration: none; color: inherit; transition: 0.2s; }
+#icon-investigative-report strong { font-weight: 800; }
+
+/* 2. LAYOUT UTILITIES */
+.ir-container {
+  max-width: 1200px; margin: 0 auto; padding: 0 20px;
+}
+.ir-section {
+  padding: 80px 0;
+}
+.ir-white-bg { background: #ffffff; }
+.ir-dark-bg { background: var(--ir-dark); color: #ffffff; }
+.ir-grid-50-50 {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center;
+}
+.ir-grid-50-50-img-left {
+    display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 60px; align-items: center;
+}
+.ir-center-text { text-align: center; margin-bottom: 50px; }
+.ir-max-600 { max-width: 600px; margin: 0 auto; }
+.ir-light-text { color: #eeeeee !important; }
+
+/* Responsiveness Utilities */
+.mobile-only { display: none; }
+.desktop-only { display: block; }
+
+
+/* 3. TYPOGRAPHY */
+.ir-eyebrow {
+  font-family: var(--ir-font-mono); font-size: 0.9rem; letter-spacing: 1px;
+  color: var(--ir-red); text-transform: uppercase; margin-bottom: 10px; font-weight: 700;
+}
+.ir-headline {
+  font-family: var(--ir-font-head); font-size: clamp(4rem, 8vw, 7rem);
+  line-height: 0.85; text-transform: uppercase; margin: 0 0 15px 0;
+  color: var(--ir-dark); font-weight: 700;
+}
+.ir-red { color: var(--ir-red); }
+.ir-subhead {
+  font-size: 1.3rem; max-width: 700px; color: #555; font-weight: 500; margin: 0; line-height: 1.3;
+}
+
+.ir-header { padding: 80px 0 60px; border-bottom: 1px solid #ddd; }
+
+#icon-investigative-report h3 {
+  font-family: var(--ir-font-head); font-size: 3rem; line-height: 1;
+  text-transform: uppercase; margin: 0 0 20px 0; color: inherit;
+}
+#icon-investigative-report p {
+  font-size: 1.1rem; line-height: 1.6; margin-bottom: 20px; color: inherit; font-weight: 400;
+}
+
+/* IMAGES */
+.ir-saturate {
+    width: 100%; height: auto; border-radius: 12px;
+    filter: saturate(1.1) contrast(1.1);
+    box-shadow: 10px 10px 0px rgba(0,0,0,0.1);
+}
+.ir-meal-img {
+    width: 100%; height: auto; border-radius: 12px 12px 0 0; display: block;
+}
+
+/* 4. DATA CARD (TABLE REPLACEMENT - FIXED FOOTER) */
+.ir-data-card {
+  border: 2px solid #000; background: #fff; padding: 0;
+  box-shadow: 10px 10px 0px rgba(0,0,0,0.1); margin-top: 30px;
+}
+.ir-card-header {
+  background: #000; color: #fff; padding: 15px 20px;
+  font-family: var(--ir-font-head); font-weight: 600; text-transform: uppercase;
+  font-size: 1.4rem; letter-spacing: 1px;
+}
+.ir-comparison-row {
+  display: grid; grid-template-columns: 1.2fr 1fr 1fr;
+  border-bottom: 1px solid #eee; font-family: var(--ir-font-head); font-size: 1.3rem;
+}
+.ir-row-labels {
+    background: #f0f0f0; font-size: 1rem; color: #666;
+}
+.ir-col-header {
+    padding: 10px; text-align: center; font-weight: 700; color: #000;
+}
+.ir-comparison-row:last-of-type { border-bottom: none; }
+.ir-comp-label {
+  padding: 15px 20px; font-weight: 600; color: #333; background: #fafafa;
+  border-right: 1px solid #eee; display: flex; align-items: center; font-family: var(--ir-font-body); font-size: 0.9rem; text-transform: uppercase;
+}
+.ir-comp-val {
+  padding: 15px 10px; text-align: center; display: flex; align-items: center; justify-content: center;
+}
+.ir-bad { color: #999; text-decoration: line-through; }
+.ir-good { color: var(--ir-red); font-weight: 700; }
+.ir-neutral { color: #555; }
+
+
+/* 5. THE RECEIPT & MEAL SECTION */
+.ir-receipt-wrapper {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start;
+}
+
+/* Meal Card */
+.ir-meal-card {
+    border: 2px solid #333; border-radius: 14px; background: #000;
+    margin-bottom: 30px;
+}
+.ir-meal-meta {
+    padding: 15px 20px; color: #fff; font-family: var(--ir-font-head);
+    font-size: 1.4rem; display: flex; justify-content: space-between;
+}
+
+/* Receipt */
+.ir-receipt {
+  background: #fff; color: #000; padding: 40px;
+  font-family: var(--ir-font-mono); font-size: 0.9rem;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+  transform: rotate(-2deg); position: relative;
+}
+.ir-receipt::after {
+  content: ''; position: absolute; bottom: -10px; left: 0; width: 100%; height: 20px;
+  background: radial-gradient(circle, transparent 50%, #fff 50%) 0 0/20px 20px repeat-x;
+  transform: rotate(180deg);
+}
+.ir-receipt-header { text-align: center; margin-bottom: 20px; font-weight: 700; color: #333; }
+.ir-receipt-body { margin-bottom: 20px; }
+.ir-item { margin-bottom: 12px; border-bottom: 1px dashed #ddd; padding-bottom: 8px; }
+.ir-item-name { font-weight: 700; text-transform: uppercase; }
+.ir-item-price { float: right; font-weight: 700; }
+.ir-item-waste { 
+  display: block; color: var(--ir-red); font-size: 0.8rem; margin-top: 4px; font-weight: 700; 
+}
+.ir-total-row {
+  display: flex; justify-content: space-between; font-size: 1.4rem; font-weight: 700; margin: 10px 0; border-top: 2px solid #000; padding-top: 10px;
+}
+.ir-waste-row {
+  display: flex; justify-content: space-between; color: var(--ir-red); font-weight: 700; margin-bottom: 10px;
+}
+.ir-barcode {
+  font-family: 'Libre Barcode 39', cursive; /* Fallback if not loaded */
+  text-align: center; font-size: 2rem; letter-spacing: -2px; margin-top: 20px; opacity: 0.5;
+}
+
+.ir-receipt-commentary { margin-top: 30px; }
+.ir-receipt-commentary h4 {
+  font-family: var(--ir-font-head); color: #fff; font-size: 2.5rem; margin: 0 0 15px 0;
+}
+.ir-receipt-commentary p { color: #ccc; }
+.ir-link { color: var(--ir-red) !important; text-decoration: underline !important; }
+
+/* 6. BUTTONS & QUOTES */
+.ir-btn {
+  display: inline-block; background: var(--ir-red); color: #fff !important;
+  font-family: var(--ir-font-head); font-size: 1.5rem; padding: 15px 30px;
+  text-transform: uppercase; font-weight: 700; margin-top: 20px;
+  clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+}
+.ir-btn:hover { background: #fff; color: var(--ir-red) !important; }
+.ir-btn-outline { background: transparent; border: 2px solid var(--ir-dark); color: var(--ir-dark) !important; }
+.ir-btn-outline:hover { background: var(--ir-dark); color: #fff !important; }
+
+.ir-quote-box {
+  border-left: 5px solid var(--ir-red); padding-left: 30px;
+  font-size: 1.5rem; font-style: italic; color: #333; font-weight: 600;
+  margin-bottom: 30px;
+}
+
+/* 7. MOBILE RESPONSIVENESS */
+@media (max-width: 900px) {
+  .ir-headline { font-size: 4rem; }
+  .ir-container { padding: 0 15px; }
+  
+  .ir-grid-50-50, 
+  .ir-grid-50-50-img-left,
+  .ir-receipt-wrapper { 
+      grid-template-columns: 1fr; gap: 40px; 
+  }
+
+  /* Swap image order on mobile */
+  .ir-grid-50-50-img-left .ir-img-col { order: -1; }
+
+  /* Table adjustments */
+  .ir-comparison-row { font-size: 1.1rem; }
+  .ir-comp-label { padding: 10px; font-size: 0.8rem; }
+  .ir-col-header { font-size: 0.8rem; }
+
+  /* Receipt adjustments */
+  .ir-receipt { transform: rotate(0deg); width: 100%; }
+  .ir-center-text { text-align: left; }
+
+  /* Show/Hide commentary based on placement */
+  .desktop-only { display: none; }
+  .mobile-only { display: block; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Blog: $10 Challenge",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Images"
+    },
+    {
+      "type": "image_picker",
+      "id": "lifestyle_image",
+      "label": "Intro Lifestyle Image (e.g., Cooking at home)"
+    },
+    {
+      "type": "image_picker",
+      "id": "meal_image",
+      "label": "Specific Meal Image (e.g., Chili Mac)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog: $10 Challenge"
+    }
+  ]
+}
+{% endschema %}

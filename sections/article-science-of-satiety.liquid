@@ -1,0 +1,373 @@
+{%- comment -%}
+  Section: ICON Blog - Science of Satiety (Headline Color Fix)
+  Updates: 
+    - UI: Changed main H1 "Why Your Brain Won't" to Charcoal/Black.
+    - UI: Maintained Red accent for "Stop Cravings".
+    - Layout: Kept the Z-index and pointer-events fixes for button functionality.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  assign menu_link = "https://iconmeals.com/collections/signature-menu"
+  
+  assign q_text = s.quote_text | default: "If your gut doesn't sense the nutrients it needs, it tells your brain to keep seeking food."
+  assign q_auth = s.quote_author | default: "Andrew Huberman, Ph.D."
+-%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<div id="icon-satiety-master">
+  
+  <header class="ib-header">
+    <div class="ib-bg-pattern"></div>
+    <div class="ib-bg-overlay"></div>
+    
+    <div class="ib-container">
+      <div class="ib-grid-header">
+        <div class="ib-header-text">
+          <div class="ib-editorial-brow">
+              <div class="ib-brow-dot"></div>
+              <span class="ib-brow-text">Biology of Hunger</span>
+          </div>
+          <h1 class="ib-title">Why Your Brain Won't <span class="ib-red">Stop Cravings</span></h1>
+          <div class="ib-hero-content-wrapper">
+            <p class="ib-lead">Cravings aren't a lack of willpower. They are a biological signal that your gut hasn't "seen" enough nutrients. Here is how to use real food to shut off hunger for good.</p>
+            <a href="#action-plan" class="ib-btn-pill">Build Your Satiety Plan</a>
+          </div>
+        </div>
+        <div class="ib-header-img-wrapper">
+          <div class="ib-img-card-effect">
+              {% if s.hero_image %}
+              {{ s.hero_image | image_url: width: 1000 | image_tag: class: 'ib-hero-img', loading: 'eager' }}
+              {% else %}
+              <div class="ib-hero-placeholder">
+                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/lifestyle-eating_1024x1024.jpg" class="ib-hero-img" alt="Icon Meals Satiety">
+              </div>
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section id="the-science" class="ib-section ib-bg-mint">
+    <div class="ib-container">
+      
+      <div class="ib-center-text">
+          <h2 class="ib-title-large">Your Gut Has "Eyes"</h2>
+          <p class="ib-section-sub">Most people try to fight cravings with discipline, but your biology is stronger than your discipline. If your gut and brain aren't on the same page, you will always feel hungry.</p>
+      </div>
+
+      <div class="ib-gut-visual-grid">
+        <div class="ib-gut-info">
+            <div class="ib-info-card">
+                <h3 class="ib-accent-title">The Mouth vs. The Gut</h3>
+                <p>Your mouth notices flavor, salt, and texture. But your gut contains specialized <strong>neuropod cells</strong>. These act like a second set of eyes that look specifically for nutrients like amino acids from protein.</p>
+            </div>
+            
+            <div class="ib-info-card">
+                <h3 class="ib-accent-title">The "Blind" Signal</h3>
+                <p>When you eat, these cells send an instant "Fullness" message to your brain via the vagus nerve. If you eat highly processed food or liquid meals, they move too fast for your gut to react. Your mouth is happy, but your gut stays blind and tells your brain to keep seeking food.</p>
+            </div>
+        </div>
+
+        <div class="ib-gut-sidebar">
+            <div class="ib-quote-box">
+                <div class="ib-quote-marks">“</div>
+                <p class="ib-quote-text">{{ q_text }}</p>
+                <span class="ib-quote-author">— {{ q_auth }}</span>
+            </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="ib-section ib-bg-white">
+    <div class="ib-container">
+      <div class="ib-center-text">
+        <h2 class="ib-title-large">Flipping the "Off Switch"</h2>
+        <p class="ib-section-sub">To kill a craving, you need to trigger the <strong>Ileal Brake</strong>. This is your body's natural way of telling your brain to stop looking for food.</p>
+      </div>
+
+      <div class="ib-comp-flex">
+        
+        <div class="ib-comp-box">
+            <div class="ib-box-label ib-label-black">PROCESSED SNACKS / SHAKES</div>
+            <h3 class="ib-card-headline">Incomplete Signaling</h3>
+            <div class="ib-box-rows">
+                <div class="ib-row-item">
+                    <span class="ib-icon-x">✕</span>
+                    <div class="ib-row-text"><strong>Rapid Transit:</strong> Food zips through the "sensing zone" too fast for your gut to react.</div>
+                </div>
+                <div class="ib-row-item">
+                    <span class="ib-icon-x">✕</span>
+                    <div class="ib-row-text"><strong>Blind Gut:</strong> Neuropod cells never detect enough actual nutrient density.</div>
+                </div>
+                <div class="ib-row-item">
+                    <span class="ib-icon-x">✕</span>
+                    <div class="ib-row-text"><strong>Phantom Hunger:</strong> Your brain triggers cravings just 45 minutes after eating.</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="ib-comp-box ib-box-featured">
+            <div class="ib-box-label ib-label-red">ICON WHOLE FOOD MEALS</div>
+            <h3 class="ib-card-headline">Total Satiety</h3>
+            <div class="ib-box-rows">
+                <div class="ib-row-item">
+                    <span class="ib-icon-check">✓</span>
+                    <div class="ib-row-text"><strong>The "Brake" Effect:</strong> Solid protein slows digestion, keeping you full for 4-6 hours.</div>
+                </div>
+                <div class="ib-row-item">
+                    <span class="ib-icon-check">✓</span>
+                    <div class="ib-row-text"><strong>Gut-Brain Sync:</strong> Instant biological signals tell the brain "We are finally full."</div>
+                </div>
+                <div class="ib-row-item">
+                    <span class="ib-icon-check">✓</span>
+                    <div class="ib-row-text"><strong>Willpower Optional:</strong> Cravings are shut off at the actual biological source.</div>
+                </div>
+            </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section id="action-plan" class="ib-section ib-bg-mint">
+    <div class="ib-container">
+        <div class="ib-center-text">
+            <h2 class="ib-title-large">The Satiety Action Plan</h2>
+            <p class="ib-section-sub">Don't just eat; eat with a plan to shut off your hunger. Follow these three rules to stay full all day.</p>
+        </div>
+
+        <div class="ib-action-grid">
+            <div class="ib-action-card">
+                <div class="ib-action-num">01</div>
+                <h3>The 30g Threshold</h3>
+                <p>Aim for at least 30g of whole-food protein per meal. This is the magic number required to fully stimulate the gut sensors that tell your brain you've eaten enough.</p>
+            </div>
+            <div class="ib-action-card">
+                <div class="ib-action-num">02</div>
+                <h3>Slow the Transit</h3>
+                <p>Fiber and healthy fats act as the anchor for your protein. Pairing a lean steak with fibrous greens keeps food in your sensing zone even longer.</p>
+            </div>
+            <div class="ib-action-card">
+                <div class="ib-action-num">03</div>
+                <h3>Prioritize Texture</h3>
+                <p>Chewing is the very first signal to your brain. Solid proteins require more mastication, giving your system more time to realize that a real meal is being processed.</p>
+            </div>
+        </div>
+    </div>
+  </section>
+
+  <section class="ib-section ib-bg-white">
+    <div class="ib-container ib-grid-split">
+      <div class="ib-text-col">
+        <h2 class="ib-dark-text">Stop Fighting Your Biology</h2>
+        <p>You don't need more willpower. You need food that actually communicates with your brain. By prioritizing solid, whole-food proteins, you let your biology do the hard work for you.</p>
+        <p>Our meals are designed to trigger maximum satiety so you can stay focused on your goals, not your next snack.</p>
+        <a href="{{ menu_link }}" class="ib-btn-pill">Shop Protein-Packed Meals</a>
+      </div>
+      
+      <div class="ib-img-col">
+         <div class="ib-plate-wrapper">
+            {% if s.product_image %}
+              {{ s.product_image | image_url: width: 1000 | image_tag: class: 'ib-prod-img', loading: 'lazy' }}
+            {% else %}
+               <div class="ib-upsell-card">
+                    <div class="ib-card-icon">⚡️</div>
+                    <h3 style="margin-bottom:10px;">High Protein. Zero Guesswork.</h3>
+                    <p>Clean ingredients, chef-prepared, and delivered to your door.</p>
+                    <a href="{{ menu_link }}" class="ib-link-simple" style="display:block; margin-top:15px;">Shop Signature Menu →</a>
+               </div>
+            {% endif %}
+         </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+:root {
+  --l-red: #D11F1F;
+  --l-red-dark: #BA1414;
+  --l-charcoal: #222222;
+  --l-kale: #1E3A23;       
+  --l-mint: #F0F7F4;       
+  --l-font: 'Inter', sans-serif;
+}
+
+#icon-satiety-master {
+  font-family: var(--l-font);
+  color: var(--l-charcoal);
+  line-height: 1.6;
+  width: 100%;
+  overflow: hidden;
+  letter-spacing: -0.01em; 
+  scroll-behavior: smooth;
+}
+
+#icon-satiety-master a { text-decoration: none !important; transition: 0.3s ease; }
+
+#icon-satiety-master h1, 
+#icon-satiety-master h2, 
+#icon-satiety-master h3, 
+#icon-satiety-master h4 { 
+  font-family: var(--l-font);
+  text-transform: none !important; 
+  letter-spacing: -0.02em;
+}
+
+/* Hero H1 set to Charcoal/Black */
+#icon-satiety-master h1 { font-weight: 800; margin-bottom: 0.8rem; line-height: 1.05; color: var(--l-charcoal); font-size: clamp(2.6rem, 6vw, 5rem); }
+
+/* Subheaders stay Kale Green */
+#icon-satiety-master h2 { font-weight: 800; margin-bottom: 1.5rem; line-height: 1.1; color: var(--l-kale); font-size: clamp(2.2rem, 4vw, 3.2rem); }
+#icon-satiety-master h3 { font-weight: 800; margin-bottom: 0.8rem; color: var(--l-kale); font-size: 1.5rem; }
+#icon-satiety-master h4 { font-weight: 800; margin-bottom: 0.5rem; color: var(--l-kale); font-size: 1.3rem; }
+#icon-satiety-master p { margin-bottom: 1.2rem; font-size: 1.1rem; color: #444; line-height: 1.5; }
+
+.ib-container { max-width: 1400px; margin: 0 auto; padding: 0 40px; box-sizing: border-box; }
+.ib-section { padding: 80px 0; }
+.ib-bg-mint { background: var(--l-mint); }
+.ib-bg-white { background: #fff; }
+.ib-red { color: var(--l-red); }
+.ib-center-text { text-align: center; margin-bottom: 50px; }
+.ib-section-sub { max-width: 750px; margin: 0 auto; font-size: 1.25rem; }
+
+/* HEADER & CLICKABILITY */
+.ib-header { padding: 60px 0 100px 0; background: #fff; position: relative; z-index: 1; }
+.ib-bg-pattern { 
+  background-image: radial-gradient(#ccc 1px, transparent 1px); 
+  background-size: 25px 25px; 
+  opacity: 0.2; 
+  position: absolute; 
+  inset: 0; 
+  pointer-events: none; 
+  z-index: 0;
+}
+.ib-bg-overlay { 
+  background: linear-gradient(180deg, rgba(255,255,255,0) 0%, #fff 100%); 
+  position: absolute; 
+  bottom: 0; 
+  left: 0; 
+  right: 0; 
+  height: 150px; 
+  pointer-events: none; 
+  z-index: 1;
+}
+
+.ib-header-text { position: relative; z-index: 10; }
+.ib-grid-header { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 60px; align-items: center; position: relative; z-index: 5; }
+
+.ib-editorial-brow { display: inline-flex; align-items: center; gap: 10px; margin-bottom: 24px; background: rgba(34, 34, 34, 0.05); padding: 8px 16px; border-radius: 20px; }
+.ib-brow-dot { width: 6px; height: 6px; background-color: var(--l-charcoal); border-radius: 50%; }
+.ib-brow-text { font-size: 0.8rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1.5px; color: var(--l-charcoal); }
+.ib-lead { font-size: 1.25rem !important; margin-bottom: 35px; color: #555; max-width: 600px; }
+
+.ib-img-card-effect { transform: rotate(1.5deg); border-radius: 24px; overflow: hidden; box-shadow: 0 25px 50px rgba(0,0,0,0.12); width: 100%; position: relative; z-index: 5; }
+.ib-hero-img { width: 100%; height: auto; display: block; object-fit: contain; }
+
+.ib-btn-pill { 
+  background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%); 
+  color: #FFFFFF !important; 
+  padding: 18px 45px; 
+  font-weight: 700; 
+  border-radius: 50px; 
+  display: inline-block; 
+  border: none; 
+  cursor: pointer; 
+  box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15); 
+  text-decoration: none !important;
+  position: relative; 
+  z-index: 20;
+}
+.ib-btn-pill:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4); }
+
+/* GUT VISUAL */
+.ib-gut-visual-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: stretch; }
+.ib-gut-info { display: grid; grid-template-columns: 1fr; gap: 30px; }
+.ib-info-card { background: #fff; padding: 40px; border-radius: 24px; border: 1px solid rgba(0,0,0,0.05); box-shadow: 0 10px 30px rgba(0,0,0,0.02); }
+.ib-accent-title { color: var(--l-red) !important; font-size: 0.8rem !important; font-weight: 800 !important; text-transform: uppercase !important; letter-spacing: 1.5px; margin-bottom: 15px !important; border-bottom: 1px solid #eee; padding-bottom: 10px; }
+
+.ib-quote-box { background: #fff; padding: 50px 40px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.08); border-top: 6px solid var(--l-charcoal); position: relative; }
+.ib-quote-marks { font-size: 6rem; font-weight: 900; color: var(--l-red); opacity: 0.1; position: absolute; top: 10px; left: 20px; line-height: 1; }
+.ib-quote-text { font-style: italic; font-weight: 600; font-size: 1.3rem; color: var(--l-charcoal); position: relative; z-index: 2; margin-bottom: 20px !important; line-height: 1.4; }
+.ib-quote-author { font-weight: 800; font-size: 0.85rem; text-transform: uppercase; color: #999; letter-spacing: 1.5px; display: block; }
+
+/* COMP BOXES */
+.ib-comp-flex { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 1200px; margin: 0 auto; }
+.ib-comp-box { background: #FAFAFA; border: 1px solid #eee; border-radius: 24px; padding: 45px; }
+.ib-box-featured { background: #fff; border: 2px solid var(--l-charcoal); box-shadow: 0 25px 60px rgba(0,0,0,0.1); transform: scale(1.02); }
+.ib-box-label { display: inline-block; padding: 6px 14px; border-radius: 4px; font-weight: 900; font-size: 0.75rem; text-transform: uppercase; margin-bottom: 25px; letter-spacing: 1.5px; }
+.ib-label-black { background: #000; color: #fff; }
+.ib-label-red { background: var(--l-red); color: #fff; }
+
+.ib-box-rows { display: flex; flex-direction: column; gap: 20px; }
+.ib-row-item { display: grid; grid-template-columns: 30px 1fr; gap: 10px; align-items: flex-start; }
+.ib-icon-x { color: #999; font-weight: 900; font-size: 1.1rem; }
+.ib-icon-check { color: var(--l-red); font-weight: 900; font-size: 1.1rem; }
+
+/* ACTION GRID */
+.ib-action-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 30px; }
+.ib-action-card { background: #fff; padding: 45px; border-radius: 24px; box-shadow: 0 15px 40px rgba(0,0,0,0.04); border: 1px solid rgba(0,0,0,0.05); }
+.ib-action-num { font-weight: 900; font-size: 3.5rem; color: var(--l-charcoal); opacity: 0.05; line-height: 1; margin-bottom: -15px; }
+
+/* FOOTER */
+.ib-grid-split { display: grid; grid-template-columns: 1.2fr 1fr; gap: 80px; align-items: center; }
+.ib-upsell-card { background: #fff; padding: 45px; border-radius: 24px; text-align: center; border: 1px solid #eee; box-shadow: 0 20px 60px rgba(0,0,0,0.05); }
+.ib-card-icon { font-size: 3rem; margin-bottom: 20px; }
+.ib-link-simple { color: var(--l-red); font-weight: 800; border-bottom: 2px solid rgba(209, 31, 31, 0.2); padding-bottom: 2px; }
+
+/* MOBILE REFINEMENTS */
+@media (max-width: 1024px) {
+  .ib-container { padding: 0 20px; }
+  .ib-section { padding: 50px 0; }
+  .ib-grid-header, .ib-gut-visual-grid, .ib-comp-flex, .ib-action-grid, .ib-grid-split { 
+    grid-template-columns: 1fr; 
+    gap: 30px;
+  }
+  .ib-header-img-wrapper { order: -1; margin-bottom: 10px; }
+  .ib-img-card-effect { transform: none; }
+  .ib-box-featured { transform: none; }
+  .ib-title { font-size: 2.6rem !important; }
+  .ib-btn-pill { width: 100%; text-align: center; box-sizing: border-box; }
+  .ib-section-sub { font-size: 1.1rem; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Blog: Satiety Master",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image"
+    },
+    {
+      "type": "textarea",
+      "id": "quote_text",
+      "label": "Quote Text"
+    },
+    {
+      "type": "text",
+      "id": "quote_author",
+      "label": "Quote Author"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog: Satiety Master"
+    }
+  ]
+}
+{% endschema %}

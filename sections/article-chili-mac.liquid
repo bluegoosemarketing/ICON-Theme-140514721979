@@ -1,0 +1,500 @@
+{%- comment -%}
+  Section: ICON Blog - The Efficiency Hack (Beefy Chili Mac)
+  Updates: 
+  - SEO: Added internal link to "Eat Pasta Stay Lean".
+  - AUTHORITY: Added outbound .gov link to NIH study on Protein/Satiety.
+  - TONE: Kept simple, punchy, and relatable.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  
+  # Product Connection
+  assign product_ref = all_products[s.linked_product]
+  
+  # Fallback URLs for Upsells
+  assign titan_url = "https://iconmeals.com/collections/signature-menu/products/the-titan-breakfast-burrito"
+  assign double_rice_url = "https://iconmeals.com/collections/signature-menu/products/double-protein-saffron-rice"
+  
+  # Default images (Placeholders)
+  assign default_hero = 'https://cdn.shopify.com/s/files/1/0653/5698/0411/files/icon-lifestyle-eating.jpg?v=1705420000'
+  assign default_product = 'https://cdn.shopify.com/s/files/1/0653/5698/0411/products/Beefy-Chili-Mac_OH.jpg'
+-%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<div id="icon-efficiency-hack">
+  
+  <header class="ib-header">
+    <div class="ib-bg-pattern"></div>
+    <div class="ib-bg-overlay"></div>
+
+    <div class="ib-floater ib-floater-rings">
+      <svg width="400" height="400" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="125" cy="125" r="120" stroke="#E0E0E0" stroke-width="1.5" opacity="0.6" />
+        <circle cx="125" cy="125" r="90" stroke="#CCCCCC" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.4" />
+      </svg>
+    </div>
+
+    <div class="ib-floater ib-floater-arrows">
+      <svg width="240" height="240" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <path d="M 40 70 L 60 50 L 40 30" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" />
+         <path d="M 60 70 L 80 50 L 60 30" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" />
+         <path d="M 80 70 L 100 50 L 80 30" stroke="#D11F1F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.1" />
+      </svg>
+    </div>
+
+    <div class="ib-container">
+      <div class="ib-grid-header">
+        <div class="ib-header-text">
+          <div class="ib-editorial-brow">
+              <span class="ib-brow-text">Sustainable Compliance</span>
+              <div class="ib-brow-line"></div>
+          </div>
+          <h1 class="ib-title">How to cheat on your diet.<br><span class="ib-red">(Without actually cheating).</span></h1>
+          <div class="ib-hero-content-wrapper">
+            <p class="ib-lead">The reason you quit diets isn't because you lack discipline. It’s because you get bored. <strong>The Beefy Chili Mac</strong> fixes that. It gives you the comfort food taste you want, with the <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC7539343/" target="_blank" rel="noopener" style="color: inherit; text-decoration: underline; text-decoration-color: var(--l-red); text-underline-offset: 3px;">clean nutrition</a> you actually need.</p>
+            
+            {% if product_ref != blank %}
+              <a href="{{ product_ref.url }}" class="ib-btn-pill">Shop Beefy Chili Mac</a>
+            {% else %}
+              <a href="{{ s.manual_url | default: '#' }}" class="ib-btn-pill">Shop Beefy Chili Mac</a>
+            {% endif %}
+            
+          </div>
+        </div>
+        <div class="ib-header-img-wrapper">
+          <div class="ib-img-card-effect">
+              {% if s.hero_image %}
+              {{ s.hero_image | image_url: width: 1000 | image_tag: class: 'ib-hero-img', loading: 'eager' }}
+              {% else %}
+              <img src="{{ default_hero }}" class="ib-hero-img" alt="Professional Meal Prep">
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="ib-section ib-bg-soft">
+    <div class="ib-container">
+      
+      <div class="ib-section-head-wrapper">
+          <div class="ib-section-head">
+            <h2>The Efficiency Paradox</h2>
+            <p>You want <a href="https://iconmeals.com/blogs/news/eat-pasta-stay-lean" style="color: inherit; text-decoration: underline; text-decoration-color: var(--l-red); text-underline-offset: 3px; font-weight: 600;">pasta</a> and cheese, but you think they will ruin your progress. So you starve yourself, get frustrated, and eventually quit. Let's fix that.</p>
+          </div>
+      </div>
+
+      <div class="ib-comparison-wrapper">
+        
+        <div class="ib-widget ib-widget-old">
+          <div class="ib-widget-header">
+            <div class="ib-status-dot ib-status-red"></div>
+            <div class="ib-header-titles">
+                <h3>Typical Comfort Food</h3>
+                <span>HOMEMADE / TAKEOUT</span>
+            </div>
+          </div>
+          <div class="ib-widget-body">
+            <div class="ib-macro-hero">
+              <span class="ib-label">CALORIES</span>
+              <span class="ib-val ib-bad">1,100+</span>
+            </div>
+            
+            <div class="ib-bar-group">
+              <div class="ib-bar-meta">
+                  <span class="ib-bar-label">Carbs</span>
+                  <span class="ib-bar-context ib-bad-text">Energy Crash</span>
+              </div>
+              <div class="ib-bar-track"><div class="ib-bar-fill ib-bad-bg" style="width: 95%;"></div></div>
+            </div>
+
+            <div class="ib-bar-group">
+              <div class="ib-bar-meta">
+                  <span class="ib-bar-label">Fat</span>
+                  <span class="ib-bar-context ib-bad-text">Slows You Down</span>
+              </div>
+              <div class="ib-bar-track"><div class="ib-bar-fill ib-bad-bg" style="width: 85%;"></div></div>
+            </div>
+
+            <div class="ib-bar-group">
+              <div class="ib-bar-meta">
+                  <span class="ib-bar-label">Protein</span>
+                  <span class="ib-bar-context">Not Enough</span>
+              </div>
+              <div class="ib-bar-track"><div class="ib-bar-fill ib-neutral-bg" style="width: 30%;"></div></div>
+            </div>
+            
+            <div class="ib-widget-footer ib-footer-bad">
+                <span class="ib-footer-label">THE RESULT:</span>
+                <span class="ib-footer-val">Brain Fog ☁️</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ib-vs-absolute">
+            <div class="ib-vs-badge">VS</div>
+        </div>
+
+        <div class="ib-widget ib-widget-icon">
+          <div class="ib-widget-header">
+            <div class="ib-status-dot ib-status-green"></div>
+            <div class="ib-header-titles">
+                <h3>The ICON Method</h3>
+                <span>BEEFY CHILI MAC</span>
+            </div>
+          </div>
+          <div class="ib-widget-body">
+            <div class="ib-macro-hero">
+              <span class="ib-label">CALORIES</span>
+              <span class="ib-val ib-good">660</span>
+            </div>
+            
+            <div class="ib-bar-group">
+              <div class="ib-bar-meta">
+                  <span class="ib-bar-label">Carbs</span>
+                  <span class="ib-bar-context ib-good-text">Good Energy</span>
+              </div>
+              <div class="ib-bar-track"><div class="ib-bar-fill ib-good-bg" style="width: 50%;"></div></div>
+            </div>
+
+            <div class="ib-bar-group">
+              <div class="ib-bar-meta">
+                  <span class="ib-bar-label">Fat</span>
+                  <span class="ib-bar-context ib-good-text">Keeps You Full</span>
+              </div>
+              <div class="ib-bar-track"><div class="ib-bar-fill ib-good-bg" style="width: 25%;"></div></div>
+            </div>
+
+            <div class="ib-bar-group">
+              <div class="ib-bar-meta">
+                  <span class="ib-bar-label">Protein</span>
+                  <span class="ib-bar-context ib-good-text">Builds Muscle</span>
+              </div>
+              <div class="ib-bar-track"><div class="ib-bar-fill ib-good-bg" style="width: 95%;"></div></div>
+            </div>
+
+            <div class="ib-widget-footer ib-footer-good">
+                <span class="ib-footer-label">THE RESULT:</span>
+                <span class="ib-footer-val">Diet Success 🎯</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="ib-section ib-bg-white">
+    <div class="ib-container ib-grid-split">
+      <div class="ib-img-col">
+         <div class="ib-plate-wrapper">
+            {% if s.product_image %}
+              {{ s.product_image | image_url: width: 1000 | image_tag: class: 'ib-prod-img', loading: 'lazy' }}
+            {% else %}
+              <img src="{{ default_product }}" class="ib-prod-img" alt="ICON Beefy Chili Mac">
+            {% endif %}
+            <div class="ib-float-badge">
+                <span class="ib-badge-lg">59g</span>
+                <span class="ib-badge-sm">PROTEIN</span>
+            </div>
+         </div>
+      </div>
+      <div class="ib-text-col">
+        <h2 class="ib-dark-text">The Easiest 59g of Protein You Will Ever Eat.</h2>
+        <p>If you're a busy professional, you know the math is the hardest part. Trying to hit your protein goals usually means spending hours prepping food, or eating meals that taste like cardboard.</p>
+        <p>We use real <strong>Lean Ground Beef</strong>, macaroni, and cheddar cheese. It feels like a cheat meal, but works like a health food. You get the taste you want without the guilt you expect.</p>
+        
+        <div class="ib-nutrition-clean">
+            <div class="ib-nutri-header">The Numbers</div>
+            <div class="ib-nutri-item"><span>Calories</span><strong>660</strong></div>
+            <div class="ib-nutri-item"><span>Total Fat</span><strong>22g</strong></div>
+            <div class="ib-nutri-item"><span>Total Carbs</span><strong>57g</strong></div>
+            <div class="ib-nutri-item ib-highlight-text"><span>Protein</span><strong>59g</strong></div>
+        </div>
+
+        {% if product_ref != blank %}
+          <a href="{{ product_ref.url }}" class="ib-btn-pill ib-btn-secondary">Shop Chili Mac - ${{ product_ref.price | money_without_currency }}</a>
+        {% else %}
+           <a href="{{ s.manual_url | default: '#' }}" class="ib-btn-pill ib-btn-secondary">Shop Beefy Chili Mac</a>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+
+  <section class="ib-section ib-bg-soft">
+    <div class="ib-container">
+        <div class="ib-center-text">
+            <h2>Automate Your Nutrition</h2>
+            <p style="max-width: 700px; margin: 0 auto; color: #666;">
+                The best diet is the one you can stick to. Fill your fridge with these easy wins for your busiest days.
+            </p>
+        </div>
+        <div class="ib-grid-upsell">
+            <div class="ib-upsell-card">
+                <h3>Titan Breakfast Burrito</h3>
+                <div class="ib-upsell-stat">54g PROTEIN</div>
+                <p>Start your morning with a win. Zero prep required.</p>
+                <a href="{{ titan_url }}" class="ib-link">Shop Titan Burrito</a>
+            </div>
+            <div class="ib-upsell-card">
+                <h3>Double Protein Saffron Rice</h3>
+                <div class="ib-upsell-stat">91g PROTEIN</div>
+                <p>The most efficient way to hit your daily goals.</p>
+                <a href="{{ double_rice_url }}" class="ib-link">Shop Double Protein</a>
+            </div>
+        </div>
+    </div>
+  </section>
+  
+  <section class="ib-footer-note">
+    <div class="ib-container">
+        <div class="ib-source-box">
+            <span class="ib-source-label">DATA COMPARISON:</span>
+            <span>
+                The "Typical Comfort Food" numbers are based on a normal serving of homemade chili mac using regular ground beef and cheese, which is usually over 1,000 calories. ICON Meals uses lean beef and smart portions to give you high protein without the extra grease.
+            </span>
+        </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   ICON BLUEPRINT STYLES v21 (SEO + Links Added)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --l-red: #D11F1F;
+  --l-red-dark: #BA1414;
+  --l-green: #3A7D44;
+  --l-charcoal: #222222;
+  --l-gray-soft: #F9F8F6;
+  --l-border: #E6E6E6;
+  --l-font: 'Inter', sans-serif;
+}
+
+#icon-efficiency-hack {
+  font-family: var(--l-font);
+  color: var(--l-charcoal);
+  line-height: 1.6;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+#icon-efficiency-hack h1, 
+#icon-efficiency-hack h2, 
+#icon-efficiency-hack h3 {
+  font-family: var(--l-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+#icon-efficiency-hack strong { font-weight: 700; }
+#icon-efficiency-hack a { text-decoration: none; transition: 0.3s ease; }
+
+/* UTILITIES */
+.ib-container { max-width: 1600px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 10; box-sizing: border-box; }
+.ib-section { padding: 80px 0; }
+.ib-bg-soft { background: var(--l-gray-soft); }
+.ib-bg-white { background: #fff; }
+.ib-red { color: var(--l-red); }
+.ib-highlight-text { color: var(--l-red); font-weight: 700; }
+.ib-center-text { text-align: center; margin-bottom: 50px; }
+
+/* ─────────────────────────────────────────────────────────────
+   HERO SECTION
+   ───────────────────────────────────────────────────────────── */
+.ib-header { padding: 50px 0 120px 0; background: #fff; position: relative; overflow: hidden; }
+.ib-bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.2'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat; background-size: 500px 500px; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.ib-bg-overlay { background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.5) 100%); position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.ib-floater { position: absolute; z-index: 2; pointer-events: none; }
+.ib-floater-rings { top: 10%; right: 5%; opacity: 1; transform: scale(1.2); }
+.ib-floater-arrows { bottom: 10%; left: -2%; opacity: 1; transform: scale(1.5) rotate(-5deg); }
+
+.ib-grid-header { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; position: relative; z-index: 10; max-width: 1250px; margin: 0 auto; }
+.ib-editorial-brow { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+.ib-brow-text { font-size: 0.9rem; font-weight: 800; color: #222; text-transform: uppercase; letter-spacing: 2px; }
+.ib-brow-line { height: 2px; width: 40px; background: var(--l-red); }
+.ib-title { font-size: clamp(3.5rem, 6vw, 5.5rem); color: var(--l-charcoal); margin-bottom: 24px; line-height: 1.05; }
+.ib-hero-content-wrapper { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; max-width: 650px; }
+.ib-lead { font-size: 1.25rem; color: #555; margin: 0; font-weight: 400; max-width: 90%; }
+.ib-img-card-effect { position: relative; z-index: 5; transform: rotate(2deg); transition: transform 0.5s ease; width: 100%; max-width: 700px; margin: 0 auto; }
+.ib-img-card-effect:hover { transform: rotate(0deg) scale(1.01); }
+.ib-hero-img { width: 100%; height: auto; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+
+/* Buttons */
+.ib-btn-pill { background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%); color: #FFFFFF !important; font-family: var(--l-font); font-size: 1.1rem; padding: 18px 45px; font-weight: 700; text-transform: none; border-radius: 50px; display: inline-block; box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15); border: none; cursor: pointer; }
+.ib-btn-pill:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4); }
+.ib-btn-secondary { background: white; color: var(--l-charcoal) !important; border: 2px solid #eee; box-shadow: none; }
+.ib-btn-secondary:hover { border-color: var(--l-red); color: var(--l-red) !important; }
+
+/* ─────────────────────────────────────────────────────────────
+   WIDGETS (Section 2)
+   ───────────────────────────────────────────────────────────── */
+.ib-section-head-wrapper { margin-bottom: 60px; text-align: center; } 
+.ib-section-head { max-width: 700px; margin: 0 auto; }
+.ib-section-head h2 { font-size: 3rem; margin-bottom: 15px; }
+
+/* NEW WRAPPER */
+.ib-comparison-wrapper { 
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; 
+  align-items: center; max-width: 1100px; margin: 0 auto; position: relative; 
+}
+
+/* WIDGET BASE */
+.ib-widget { border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease; width: 100%; }
+.ib-widget-header { padding: 25px 30px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+/* TITLES TIGHTENING */
+.ib-header-titles { display: flex; flex-direction: column; justify-content: center; }
+.ib-widget-header h3 { font-size: 1.4rem; margin: 0 !important; line-height: 1; }
+.ib-widget-header span { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: #999; margin-top: 1px !important; }
+
+.ib-widget-body { padding: 35px 40px; flex-grow: 1; display: flex; flex-direction: column; }
+
+/* Status Dot */
+.ib-status-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.ib-status-red { background: #FF5E5E; box-shadow: 0 0 0 4px rgba(255, 94, 94, 0.2); }
+.ib-status-green { background: #3A7D44; box-shadow: 0 0 0 4px rgba(58, 125, 68, 0.2); }
+
+/* WIDGET: OLD WAY (Softened) */
+.ib-widget-old { background: #F9F9FB; border: 1px solid #EAEAEA; color: #555; transform: scale(0.98); }
+.ib-widget-old .ib-widget-header { background: #F0F0F4; }
+
+/* WIDGET: ICON WAY */
+.ib-widget-icon { background: #FFFFFF; border: 1px solid rgba(209, 31, 31, 0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.12); transform: scale(1.05); z-index: 2; position: relative; }
+
+/* VS BADGE (Absolute Centered) */
+.ib-vs-absolute { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+.ib-vs-badge { 
+    display: flex; align-items: center; justify-content: center;
+    background: #fff; color: var(--l-red); font-family: var(--l-font);
+    font-size: 1.4rem; font-weight: 900; border-radius: 50%; width: 70px; height: 70px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 4px solid #F5F5F7;
+}
+
+/* Macros */
+.ib-macro-hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 20px; }
+.ib-label { font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; opacity: 0.6; }
+.ib-val { font-weight: 900; font-size: 2.8rem; line-height: 1; }
+.ib-bad { color: #888; }
+.ib-good { color: var(--l-red); }
+
+/* Bars + Context */
+.ib-bar-group { margin-bottom: 20px; }
+.ib-bar-meta { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; }
+.ib-bar-context { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; opacity: 0.8; }
+.ib-bad-text { color: #888; }
+.ib-good-text { color: var(--l-green); }
+
+.ib-bar-track { width: 100%; background: rgba(0,0,0,0.05); height: 10px; border-radius: 5px; overflow: hidden; }
+.ib-bar-fill { height: 100%; border-radius: 5px; }
+.ib-bad-bg { background: #ccc; }
+.ib-neutral-bg { background: #ddd; }
+.ib-good-bg { background: var(--l-green); }
+
+/* Footer Summary */
+.ib-widget-footer { margin-top: 25px; padding-top: 20px; border-top: 1px dashed rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+.ib-footer-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; }
+.ib-footer-val { font-weight: 800; font-size: 1rem; }
+.ib-footer-bad .ib-footer-val { color: #666; }
+.ib-footer-good .ib-footer-val { color: var(--l-charcoal); }
+
+/* ─────────────────────────────────────────────────────────────
+   REST OF SECTIONS
+   ───────────────────────────────────────────────────────────── */
+.ib-grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+.ib-plate-wrapper { position: relative; }
+.ib-prod-img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+.ib-float-badge { position: absolute; bottom: 30px; right: -30px; background: white; padding: 20px 30px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; display: flex; flex-direction: column; }
+.ib-badge-lg { font-size: 2rem; font-weight: 800; color: var(--l-red); line-height: 1; }
+.ib-badge-sm { font-size: 0.7rem; font-weight: 700; color: #999; letter-spacing: 1px; }
+
+.ib-text-col h2 { font-size: 2.8rem; margin-bottom: 20px; }
+.ib-text-col p { font-size: 1.15rem; color: #555; margin-bottom: 24px; }
+.ib-nutrition-clean { border: 1px solid #eee; border-radius: 20px; padding: 30px; margin: 30px 0; max-width: 450px; background: #fff; }
+.ib-nutri-header { font-weight: 800; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+.ib-nutri-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #eee; font-size: 1.05rem; }
+.ib-nutri-item:last-child { border-bottom: none; }
+
+.ib-grid-upsell { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+.ib-upsell-card { background: white; border-radius: 24px; padding: 45px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; transition: 0.3s; }
+.ib-upsell-card:hover { transform: translateY(-5px); border-color: var(--l-red); }
+.ib-upsell-stat { color: var(--l-red); font-weight: 800; font-size: 2.2rem; margin: 15px 0; }
+.ib-link { color: var(--l-charcoal); text-decoration: underline; font-weight: 600; margin-top: 15px; display: inline-block; }
+.ib-link:hover { color: var(--l-red); }
+
+.ib-footer-note { background: #F5F4F0; padding: 40px 0; border-top: 1px solid #eee; }
+.ib-source-box { font-size: 0.9rem; color: #666; text-align: center; max-width: 900px; margin: 0 auto; line-height: 1.5; }
+.ib-source-label { font-weight: 700; color: #222; margin-right: 5px; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  /* Fix container padding */
+  .ib-container { padding: 0 20px; }
+  
+  .ib-grid-header, .ib-grid-split, .ib-grid-upsell { grid-template-columns: 1fr; gap: 50px; }
+  .ib-grid-header .ib-header-img-wrapper { order: -1; }
+  .ib-title { font-size: 3.5rem; }
+  .ib-floater-rings { top: 2%; right: -10%; transform: scale(0.8); }
+  .ib-floater-arrows { bottom: auto; top: 40%; left: -5%; }
+  
+  /* Mobile Stack for Widgets - FULL WIDTH FIX */
+  .ib-comparison-wrapper { grid-template-columns: 1fr; gap: 40px; width: 100%; }
+  .ib-vs-absolute { position: static; transform: none; margin: -20px auto; z-index: 20; }
+  
+  /* Reset Card Scaling on Mobile */
+  .ib-widget-icon { transform: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+  .ib-widget-old { transform: none; }
+  
+  .ib-float-badge { right: 0; bottom: -10px; padding: 15px 25px; }
+  
+  /* Adjust Button Size mobile */
+  .ib-btn-pill { width: 100%; text-align: center; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Blog: Chili Mac Pro",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image (Lifestyle)"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image (Chili Mac)"
+    },
+    {
+      "type": "product",
+      "id": "linked_product",
+      "label": "Product to Link",
+      "info": "Select Beefy Chili Mac here."
+    },
+    {
+      "type": "url",
+      "id": "manual_url",
+      "label": "Fallback URL (Optional)",
+      "info": "If no product is selected, buttons will go here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog: Chili Mac Pro"
+    }
+  ]
+}
+{% endschema %}

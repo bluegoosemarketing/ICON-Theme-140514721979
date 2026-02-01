@@ -1,0 +1,500 @@
+{%- comment -%}
+  Section: ICON Blog - Comfort Food Blueprint (v16 - Link Fix)
+  Updates: 
+  - NAVIGATION: Buttons now link directly to Product Page (PDP) instead of adding to cart.
+  - MOBILE: Fixed width constraints on comparison cards so they fit perfectly.
+  - SCHEMA: Connected to Shopify product data for dynamic URLs and Pricing.
+{%- endcomment -%}
+
+{%- liquid
+  assign s = section.settings
+  
+  # Product Connection
+  assign product_ref = all_products[s.linked_product]
+  
+  # Fallback URLs if needed
+  assign ziti_url = "https://iconmeals.com/collections/signature-menu/products/chicken-ziti"
+  assign chili_mac_url = "https://iconmeals.com/collections/signature-menu/products/beefy-chili-mac"
+  
+  # Default images
+  assign default_hero = 'https://cdn.shopify.com/s/files/1/0653/5698/0411/files/icon-lifestyle-cooking.jpg?v=1705420000'
+  assign default_product = 'https://cdn.shopify.com/s/files/1/0653/5698/0411/products/Betty-Spaghetti_OH.jpg'
+-%}
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+<div id="icon-comfort-blueprint">
+  
+  <header class="cm-header">
+    <div class="cm-bg-pattern"></div>
+    <div class="cm-bg-overlay"></div>
+
+    <div class="cm-floater cm-floater-rings">
+      <svg width="400" height="400" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="125" cy="125" r="120" stroke="#E0E0E0" stroke-width="1.5" opacity="0.6" />
+        <circle cx="125" cy="125" r="90" stroke="#CCCCCC" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.4" />
+      </svg>
+    </div>
+
+    <div class="cm-floater cm-floater-arrows">
+      <svg width="240" height="240" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+         <path d="M 40 70 L 60 50 L 40 30" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.6" />
+         <path d="M 60 70 L 80 50 L 60 30" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.4" />
+         <path d="M 80 70 L 100 50 L 80 30" stroke="#D11F1F" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.1" />
+      </svg>
+    </div>
+
+    <div class="cm-container">
+      <div class="cm-grid-header">
+        <div class="cm-header-text">
+          <div class="cm-editorial-brow">
+              <span class="cm-brow-text">MACRO COMPARISON</span>
+              <div class="cm-brow-line"></div>
+          </div>
+          <h1 class="cm-title">Eat Pasta.<br><span class="cm-red">Stay Lean.</span></h1>
+          <div class="cm-hero-content-wrapper">
+            <p class="cm-lead">Stop cutting pasta out of your diet. You just need the right kind. <strong>Betty Spaghetti</strong> delivers the comfort you crave for 60% less calories than a restaurant.</p>
+            
+            {% if product_ref != blank %}
+              <a href="{{ product_ref.url }}" class="cm-btn-pill">Shop Betty Spaghetti</a>
+            {% else %}
+              <a href="{{ s.manual_url | default: '#' }}" class="cm-btn-pill">Shop Betty Spaghetti</a>
+            {% endif %}
+            
+          </div>
+        </div>
+        <div class="cm-header-img-wrapper">
+          <div class="cm-img-card-effect">
+              {% if s.hero_image %}
+              {{ s.hero_image | image_url: width: 1000 | image_tag: class: 'cm-hero-img', loading: 'eager' }}
+              {% else %}
+              <img src="{{ default_hero }}" class="cm-hero-img" alt="Healthy Pasta Meal Prep">
+              {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="cm-section cm-bg-soft">
+    <div class="cm-container">
+      
+      <div class="cm-section-head-wrapper">
+          <div class="cm-section-head">
+            <h2>Compare The Facts</h2>
+            <p>Why do you feel terrible after eating restaurant pasta? It's the math. Look at the difference in a single bowl.</p>
+          </div>
+      </div>
+
+      <div class="cm-comparison-wrapper">
+        
+        <div class="cm-widget cm-widget-old">
+          <div class="cm-widget-header">
+            <div class="cm-status-dot cm-status-red"></div>
+            <div class="cm-header-titles">
+                <h3>The Old Way</h3>
+                <span>RESTAURANT CHAINS</span>
+            </div>
+          </div>
+          <div class="cm-widget-body">
+            <div class="cm-macro-hero">
+              <span class="cm-label">CALORIES</span>
+              <span class="cm-val cm-bad">850+</span>
+            </div>
+            
+            <div class="cm-bar-group">
+              <div class="cm-bar-meta">
+                  <span class="cm-bar-label">Carbs</span>
+                  <span class="cm-bar-context cm-bad-text">Sugar Spike</span>
+              </div>
+              <div class="cm-bar-track"><div class="cm-bar-fill cm-bad-bg" style="width: 90%;"></div></div>
+            </div>
+
+            <div class="cm-bar-group">
+              <div class="cm-bar-meta">
+                  <span class="cm-bar-label">Fat</span>
+                  <span class="cm-bar-context cm-bad-text">Excess Oil</span>
+              </div>
+              <div class="cm-bar-track"><div class="cm-bar-fill cm-bad-bg" style="width: 80%;"></div></div>
+            </div>
+
+            <div class="cm-bar-group">
+              <div class="cm-bar-meta">
+                  <span class="cm-bar-label">Protein</span>
+                  <span class="cm-bar-context">Low Quality</span>
+              </div>
+              <div class="cm-bar-track"><div class="cm-bar-fill cm-neutral-bg" style="width: 25%;"></div></div>
+            </div>
+            
+            <div class="cm-widget-footer cm-footer-bad">
+                <span class="cm-footer-label">THE AFTERMATH:</span>
+                <span class="cm-footer-val">The 2PM Crash 😴</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cm-vs-absolute">
+            <div class="cm-vs-badge">VS</div>
+        </div>
+
+        <div class="cm-widget cm-widget-icon">
+          <div class="cm-widget-header">
+            <div class="cm-status-dot cm-status-green"></div>
+            <div class="cm-header-titles">
+                <h3>The ICON Way</h3>
+                <span>ICON MEALS</span>
+            </div>
+          </div>
+          <div class="cm-widget-body">
+            <div class="cm-macro-hero">
+              <span class="cm-label">CALORIES</span>
+              <span class="cm-val cm-good">350</span>
+            </div>
+            
+            <div class="cm-bar-group">
+              <div class="cm-bar-meta">
+                  <span class="cm-bar-label">Carbs</span>
+                  <span class="cm-bar-context cm-good-text">Sustained Energy</span>
+              </div>
+              <div class="cm-bar-track"><div class="cm-bar-fill cm-good-bg" style="width: 35%;"></div></div>
+            </div>
+
+            <div class="cm-bar-group">
+              <div class="cm-bar-meta">
+                  <span class="cm-bar-label">Fat</span>
+                  <span class="cm-bar-context cm-good-text">Lean & Clean</span>
+              </div>
+              <div class="cm-bar-track"><div class="cm-bar-fill cm-good-bg" style="width: 15%;"></div></div>
+            </div>
+
+            <div class="cm-bar-group">
+              <div class="cm-bar-meta">
+                  <span class="cm-bar-label">Protein</span>
+                  <span class="cm-bar-context cm-good-text">Premium Beef</span>
+              </div>
+              <div class="cm-bar-track"><div class="cm-bar-fill cm-good-bg" style="width: 65%;"></div></div>
+            </div>
+
+            <div class="cm-widget-footer cm-footer-good">
+                <span class="cm-footer-label">THE AFTERMATH:</span>
+                <span class="cm-footer-val">All-Day Focus ⚡</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cm-section cm-bg-white">
+    <div class="cm-container cm-grid-split">
+      <div class="cm-img-col">
+         <div class="cm-plate-wrapper">
+            {% if s.product_image %}
+              {{ s.product_image | image_url: width: 1000 | image_tag: class: 'cm-prod-img', loading: 'lazy' }}
+            {% else %}
+              <img src="{{ default_product }}" class="cm-prod-img" alt="ICON Betty Spaghetti Meal">
+            {% endif %}
+            <div class="cm-float-badge">
+                <span class="cm-badge-lg">25g</span>
+                <span class="cm-badge-sm">PROTEIN</span>
+            </div>
+         </div>
+      </div>
+      <div class="cm-text-col">
+        <h2 class="cm-dark-text">Real Food. No Fillers.</h2>
+        <p>You don't need fake noodles to lose weight. You just need better portions and cleaner ingredients.</p>
+        <p>We use <strong>93/7 Lean Ground Beef</strong> and a savory herb tomato sauce. It tastes like the comfort food you grew up with, but it fits your macros.</p>
+        
+        <div class="cm-nutrition-clean">
+            <div class="cm-nutri-header">Nutrition Facts</div>
+            <div class="cm-nutri-item"><span>Calories</span><strong>350</strong></div>
+            <div class="cm-nutri-item"><span>Total Fat</span><strong>10g</strong></div>
+            <div class="cm-nutri-item"><span>Total Carbs</span><strong>40g</strong></div>
+            <div class="cm-nutri-item cm-highlight-text"><span>Protein</span><strong>25g</strong></div>
+        </div>
+
+        {% if product_ref != blank %}
+          <a href="{{ product_ref.url }}" class="cm-btn-pill cm-btn-secondary">Shop Betty Spaghetti - ${{ product_ref.price | money_without_currency }}</a>
+        {% else %}
+           <a href="{{ s.manual_url | default: '#' }}" class="cm-btn-pill cm-btn-secondary">Shop Betty Spaghetti</a>
+        {% endif %}
+
+      </div>
+    </div>
+  </section>
+
+  <section class="cm-section cm-bg-soft">
+    <div class="cm-container">
+        <div class="cm-center-text">
+            <h2>Need More Protein?</h2>
+            <p style="max-width: 700px; margin: 0 auto; color: #666;">
+                Betty is a lighter meal. If you need a bigger meal for post-workout recovery, try these heavy hitters.
+            </p>
+        </div>
+        <div class="cm-grid-upsell">
+            <div class="cm-upsell-card">
+                <h3>Baked Ziti w/ Chicken</h3>
+                <div class="cm-upsell-stat">39g PROTEIN</div>
+                <p>Pasta, chicken, and cheese. 510 Calories.</p>
+                <a href="{{ ziti_url }}" class="cm-link">Shop Baked Ziti</a>
+            </div>
+            <div class="cm-upsell-card">
+                <h3>Beefy Chili Mac</h3>
+                <div class="cm-upsell-stat">59g PROTEIN</div>
+                <p>Our highest protein pasta dish. 660 Calories.</p>
+                <a href="{{ chili_mac_url }}" class="cm-link">Shop Chili Mac</a>
+            </div>
+        </div>
+    </div>
+  </section>
+  
+  <section class="cm-footer-note">
+    <div class="cm-container">
+        <div class="cm-source-box">
+            <span class="cm-source-label">DATA CHECK:</span>
+            <span>
+                The 60% claim compares ICON Betty Spaghetti (350 cals) against the average dinner portion of "Spaghetti with Meat Sauce" from major US chains (Olive Garden, Maggiano's, Cheesecake Factory), which averages 900+ calories. <a href="https://www.fda.gov/food/nutrition-education-resources-materials/calories-menu" target="_blank" rel="nofollow" style="color:#666; text-decoration:underline;">See FDA Menu Guidelines</a>.
+            </span>
+        </div>
+    </div>
+  </section>
+
+</div>
+
+<style>
+/* ─────────────────────────────────────────────────────────────
+   ICON BLUEPRINT STYLES v16 (Final Mobile & Links)
+   ───────────────────────────────────────────────────────────── */
+
+:root {
+  --l-red: #D11F1F;
+  --l-red-dark: #BA1414;
+  --l-green: #3A7D44;
+  --l-charcoal: #222222;
+  --l-gray-soft: #F9F8F6;
+  --l-border: #E6E6E6;
+  --l-font: 'Inter', sans-serif;
+}
+
+#icon-comfort-blueprint {
+  font-family: var(--l-font);
+  color: var(--l-charcoal);
+  line-height: 1.6;
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+#icon-comfort-blueprint h1, 
+#icon-comfort-blueprint h2, 
+#icon-comfort-blueprint h3 {
+  font-family: var(--l-font);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.8rem 0;
+  line-height: 1.1;
+  text-transform: none;
+}
+
+#icon-comfort-blueprint strong { font-weight: 700; }
+#icon-comfort-blueprint a { text-decoration: none; transition: 0.3s ease; }
+
+/* UTILITIES */
+.cm-container { max-width: 1600px; margin: 0 auto; padding: 0 40px; position: relative; z-index: 10; box-sizing: border-box; }
+.cm-section { padding: 80px 0; }
+.cm-bg-soft { background: var(--l-gray-soft); }
+.cm-bg-white { background: #fff; }
+.cm-red { color: var(--l-red); }
+.cm-highlight-text { color: var(--l-red); font-weight: 700; }
+.cm-center-text { text-align: center; margin-bottom: 50px; }
+
+/* ─────────────────────────────────────────────────────────────
+   HERO SECTION
+   ───────────────────────────────────────────────────────────── */
+.cm-header { padding: 50px 0 120px 0; background: #fff; position: relative; overflow: hidden; }
+.cm-bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.2'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E"); background-repeat: repeat; background-size: 500px 500px; position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.cm-bg-overlay { background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.98) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.5) 100%); position: absolute; inset: 0; z-index: 1; pointer-events: none; }
+.cm-floater { position: absolute; z-index: 2; pointer-events: none; }
+.cm-floater-rings { top: 10%; right: 5%; opacity: 1; transform: scale(1.2); }
+.cm-floater-arrows { bottom: 10%; left: -2%; opacity: 1; transform: scale(1.5) rotate(-5deg); }
+
+.cm-grid-header { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 50px; align-items: center; position: relative; z-index: 10; max-width: 1250px; margin: 0 auto; }
+.cm-editorial-brow { display: flex; align-items: center; gap: 15px; margin-bottom: 20px; }
+.cm-brow-text { font-size: 0.9rem; font-weight: 800; color: #222; text-transform: uppercase; letter-spacing: 2px; }
+.cm-brow-line { height: 2px; width: 40px; background: var(--l-red); }
+.cm-title { font-size: clamp(4rem, 7vw, 6.5rem); color: var(--l-charcoal); margin-bottom: 24px; line-height: 1.05; }
+.cm-hero-content-wrapper { display: flex; flex-direction: column; gap: 24px; align-items: flex-start; max-width: 650px; }
+.cm-lead { font-size: 1.25rem; color: #555; margin: 0; font-weight: 400; max-width: 90%; }
+.cm-img-card-effect { position: relative; z-index: 5; transform: rotate(2deg); transition: transform 0.5s ease; width: 100%; max-width: 700px; margin: 0 auto; }
+.cm-img-card-effect:hover { transform: rotate(0deg) scale(1.01); }
+.cm-hero-img { width: 100%; height: auto; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.15); }
+
+/* Buttons */
+.cm-btn-pill { background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%); color: #FFFFFF !important; font-family: var(--l-font); font-size: 1.1rem; padding: 18px 45px; font-weight: 700; text-transform: none; border-radius: 50px; display: inline-block; box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15); border: none; cursor: pointer; }
+.cm-btn-pill:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4); }
+.cm-btn-secondary { background: white; color: var(--l-charcoal) !important; border: 2px solid #eee; box-shadow: none; }
+.cm-btn-secondary:hover { border-color: var(--l-red); color: var(--l-red) !important; }
+
+/* ─────────────────────────────────────────────────────────────
+   WIDGETS (Section 2)
+   ───────────────────────────────────────────────────────────── */
+.cm-section-head-wrapper { margin-bottom: 60px; text-align: center; } 
+.cm-section-head { max-width: 700px; margin: 0 auto; }
+.cm-section-head h2 { font-size: 3rem; margin-bottom: 15px; }
+
+/* NEW WRAPPER */
+.cm-comparison-wrapper { 
+  display: grid; grid-template-columns: 1fr 1fr; gap: 40px; 
+  align-items: center; max-width: 1100px; margin: 0 auto; position: relative; 
+}
+
+/* WIDGET BASE */
+.cm-widget { border-radius: 24px; overflow: hidden; display: flex; flex-direction: column; transition: transform 0.3s ease; width: 100%; }
+.cm-widget-header { padding: 25px 30px; display: flex; align-items: center; gap: 15px; border-bottom: 1px solid rgba(0,0,0,0.05); }
+
+/* TITLES TIGHTENING */
+.cm-header-titles { display: flex; flex-direction: column; justify-content: center; }
+.cm-widget-header h3 { font-size: 1.4rem; margin: 0 !important; line-height: 1; }
+.cm-widget-header span { font-size: 0.75rem; font-weight: 700; letter-spacing: 1px; color: #999; margin-top: 1px !important; }
+
+.cm-widget-body { padding: 35px 40px; flex-grow: 1; display: flex; flex-direction: column; }
+
+/* Status Dot */
+.cm-status-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+.cm-status-red { background: #FF5E5E; box-shadow: 0 0 0 4px rgba(255, 94, 94, 0.2); }
+.cm-status-green { background: #3A7D44; box-shadow: 0 0 0 4px rgba(58, 125, 68, 0.2); }
+
+/* WIDGET: OLD WAY (Softened) */
+.cm-widget-old { background: #F9F9FB; border: 1px solid #EAEAEA; color: #555; transform: scale(0.98); }
+.cm-widget-old .cm-widget-header { background: #F0F0F4; }
+
+/* WIDGET: ICON WAY */
+.cm-widget-icon { background: #FFFFFF; border: 1px solid rgba(209, 31, 31, 0.1); box-shadow: 0 20px 60px rgba(0,0,0,0.12); transform: scale(1.05); z-index: 2; position: relative; }
+
+/* VS BADGE (Absolute Centered) */
+.cm-vs-absolute { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 10; }
+.cm-vs-badge { 
+    display: flex; align-items: center; justify-content: center;
+    background: #fff; color: var(--l-red); font-family: var(--l-font);
+    font-size: 1.4rem; font-weight: 900; border-radius: 50%; width: 70px; height: 70px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15); border: 4px solid #F5F5F7;
+}
+
+/* Macros */
+.cm-macro-hero { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; border-bottom: 2px solid rgba(0,0,0,0.05); padding-bottom: 20px; }
+.cm-label { font-weight: 800; font-size: 0.9rem; letter-spacing: 1px; opacity: 0.6; }
+.cm-val { font-weight: 900; font-size: 2.8rem; line-height: 1; }
+.cm-bad { color: #888; }
+.cm-good { color: var(--l-red); }
+
+/* Bars + Context */
+.cm-bar-group { margin-bottom: 20px; }
+.cm-bar-meta { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 0.85rem; font-weight: 600; }
+.cm-bar-context { font-size: 0.75rem; text-transform: uppercase; font-weight: 700; letter-spacing: 0.5px; opacity: 0.8; }
+.cm-bad-text { color: #888; }
+.cm-good-text { color: var(--l-green); }
+
+.cm-bar-track { width: 100%; background: rgba(0,0,0,0.05); height: 10px; border-radius: 5px; overflow: hidden; }
+.cm-bar-fill { height: 100%; border-radius: 5px; }
+.cm-bad-bg { background: #ccc; }
+.cm-neutral-bg { background: #ddd; }
+.cm-good-bg { background: var(--l-green); }
+
+/* Footer Summary */
+.cm-widget-footer { margin-top: 25px; padding-top: 20px; border-top: 1px dashed rgba(0,0,0,0.1); display: flex; justify-content: space-between; align-items: center; }
+.cm-footer-label { font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; opacity: 0.5; }
+.cm-footer-val { font-weight: 800; font-size: 1rem; }
+.cm-footer-bad .cm-footer-val { color: #666; }
+.cm-footer-good .cm-footer-val { color: var(--l-charcoal); }
+
+/* ─────────────────────────────────────────────────────────────
+   REST OF SECTIONS
+   ───────────────────────────────────────────────────────────── */
+.cm-grid-split { display: grid; grid-template-columns: 1fr 1fr; gap: 100px; align-items: center; }
+.cm-plate-wrapper { position: relative; }
+.cm-prod-img { width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; border-radius: 24px; box-shadow: 0 20px 60px rgba(0,0,0,0.1); }
+.cm-float-badge { position: absolute; bottom: 30px; right: -30px; background: white; padding: 20px 30px; border-radius: 24px; box-shadow: 0 20px 40px rgba(0,0,0,0.1); text-align: center; display: flex; flex-direction: column; }
+.cm-badge-lg { font-size: 2rem; font-weight: 800; color: var(--l-red); line-height: 1; }
+.cm-badge-sm { font-size: 0.7rem; font-weight: 700; color: #999; letter-spacing: 1px; }
+
+.cm-text-col h2 { font-size: 2.8rem; margin-bottom: 20px; }
+.cm-text-col p { font-size: 1.15rem; color: #555; margin-bottom: 24px; }
+.cm-nutrition-clean { border: 1px solid #eee; border-radius: 20px; padding: 30px; margin: 30px 0; max-width: 450px; background: #fff; }
+.cm-nutri-header { font-weight: 800; font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid #eee; padding-bottom: 10px; }
+.cm-nutri-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px dashed #eee; font-size: 1.05rem; }
+.cm-nutri-item:last-child { border-bottom: none; }
+
+.cm-grid-upsell { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+.cm-upsell-card { background: white; border-radius: 24px; padding: 45px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.05); border: 1px solid #f0f0f0; transition: 0.3s; }
+.cm-upsell-card:hover { transform: translateY(-5px); border-color: var(--l-red); }
+.cm-upsell-stat { color: var(--l-red); font-weight: 800; font-size: 2.2rem; margin: 15px 0; }
+.cm-link { color: var(--l-charcoal); text-decoration: underline; font-weight: 600; margin-top: 15px; display: inline-block; }
+.cm-link:hover { color: var(--l-red); }
+
+.cm-footer-note { background: #F5F4F0; padding: 40px 0; border-top: 1px solid #eee; }
+.cm-source-box { font-size: 0.9rem; color: #666; text-align: center; max-width: 900px; margin: 0 auto; line-height: 1.5; }
+.cm-source-label { font-weight: 700; color: #222; margin-right: 5px; }
+
+/* RESPONSIVE */
+@media (max-width: 1024px) {
+  /* Fix container padding */
+  .cm-container { padding: 0 20px; }
+  
+  .cm-grid-header, .cm-grid-split, .cm-grid-upsell { grid-template-columns: 1fr; gap: 50px; }
+  .cm-grid-header .cm-header-img-wrapper { order: -1; }
+  .cm-title { font-size: 3.5rem; }
+  .cm-floater-rings { top: 2%; right: -10%; transform: scale(0.8); }
+  .cm-floater-arrows { bottom: auto; top: 40%; left: -5%; }
+  
+  /* Mobile Stack for Widgets - FULL WIDTH FIX */
+  .cm-comparison-wrapper { grid-template-columns: 1fr; gap: 40px; width: 100%; }
+  .cm-vs-absolute { position: static; transform: none; margin: -20px auto; z-index: 20; }
+  
+  /* Reset Card Scaling on Mobile */
+  .cm-widget-icon { transform: none; box-shadow: 0 10px 40px rgba(0,0,0,0.1); }
+  .cm-widget-old { transform: none; }
+  
+  .cm-float-badge { right: 0; bottom: -10px; padding: 15px 25px; }
+  
+  /* Adjust Button Size mobile */
+  .cm-btn-pill { width: 100%; text-align: center; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Blog: Comfort Blueprint",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "hero_image",
+      "label": "Hero Image (Lifestyle)"
+    },
+    {
+      "type": "image_picker",
+      "id": "product_image",
+      "label": "Product Image (Betty)"
+    },
+    {
+      "type": "product",
+      "id": "linked_product",
+      "label": "Product to Link",
+      "info": "Select Betty Spaghetti here for buttons to link correctly."
+    },
+    {
+      "type": "url",
+      "id": "manual_url",
+      "label": "Fallback URL (Optional)",
+      "info": "If no product is selected, buttons will go here."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Blog: Comfort Blueprint"
+    }
+  ]
+}
+{% endschema %}

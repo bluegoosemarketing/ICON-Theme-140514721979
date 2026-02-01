@@ -1,0 +1,61 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "template--article",
+      "disabled": true,
+      "settings": {
+        "show_author_name": false,
+        "show_dates": true,
+        "social_sharing_facebook": true,
+        "social_sharing_twitter": true,
+        "social_sharing_pinterest": true
+      }
+    },
+    "article_protein_over_50_fyfmCE": {
+      "type": "article-protein-over-50",
+      "name": "ICON Blog Post",
+      "settings": {
+        "bg_color": "#ffffff",
+        "accent_color": "#d12030",
+        "text_color": "#111111",
+        "hero_subtitle": "The Longevity Strategy",
+        "hero_title": "Nutrition After 50:<br>Overcoming the \"Resistance\"",
+        "intro_text": "<p>There is a reason the diet that worked in your 30s stops working in your 50s. It’s not your willpower. It’s your biology.</p><p>As busy professionals and parents, we often blame our schedule for our energy levels. But the real culprit is a phenomenon known as <strong>Anabolic Resistance</strong>. Simply put: as you age, your muscles stop listening to the \"grow and repair\" signals from food—unless that signal is loud enough.</p>",
+        "chart_heading": "The Anabolic Threshold",
+        "chart_subheading": "Protein required per meal to trigger muscle repair",
+        "chart_col1_label": "Age 25",
+        "chart_col1_val": "20g",
+        "chart_col2_label": "Age 50+",
+        "chart_col2_val": "40g+",
+        "core_heading": "Why \"Healthy\" Snacking Fails You",
+        "core_text": "<p>This is where the typical modern diet fails the aging body. A yogurt here, a salad with light chicken there—these meals often cap out at 15-20g of protein.</p><p>For someone in their 20s, that's fine. <strong>For someone over 50, that signal is too weak.</strong> Your body ignores it, and instead of repairing muscle, it breaks it down.</p>",
+        "card1_title": "Typical \"Light\" Lunch",
+        "card1_desc": "Salad + Small Chicken Portion",
+        "card1_val": "18g",
+        "card2_title": "ICON Steak",
+        "card2_desc": "Complete Macro Profile",
+        "card2_val": "42g+",
+        "solution_heading": "The Convenience Advantage",
+        "solution_text": "<p>The barrier to consistency isn't knowledge—it's logistics. You know you need protein, but you don't always have 90 minutes to prep Steak or Chicken on a Tuesday night.</p>",
+        "cta_heading": "Protect Your Health",
+        "cta_subtext": "Don't let a busy schedule compromise your metabolic health. Get threshold-hitting meals delivered to your door.",
+        "cta_btn_text": "Shop High-Protein",
+        "cta_link": "",
+        "cta_footer": "Start with a one-time order. No subscription required."
+      }
+    }
+  },
+  "order": [
+    "main",
+    "article_protein_over_50_fyfmCE"
+  ]
+}

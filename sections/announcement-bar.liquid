@@ -24,161 +24,145 @@
 
 <style>
   /* ========================================
-     THEME: CEO MESSAGE
-     Aesthetic: High Contrast, Editorial
+     THEME: DIET DISCOVERY (ULTRA-SLIM MOBILE)
      ========================================
   */
 
   :root {
-    --im-bar-bg: #0a0a0a;       /* Deep Black */
-    --im-bar-text: #ffffff;     /* Pure White */
-    --im-highlight: #D11F1F;    /* Icon Red */
+    --im-ann-bg: #000000;       
+    --im-ann-text: #ffffff;
+    --im-ann-accent: #D11F1F;
+    --im-ann-muted: #999999;
   }
 
-  /* 1. CONTAINER & RESET */
   a.im-ann-bar-root {
-    position: relative !important;
-    width: 100% !important;
-    min-height: 42px !important;
     display: flex !important;
+    width: 100% !important;
+    min-height: 40px !important;
     justify-content: center !important;
     align-items: center !important;
     text-decoration: none !important;
     z-index: 50 !important;
     cursor: pointer !important;
-    overflow: hidden !important;
-    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
-    background-color: var(--im-bar-bg) !important;
-    color: var(--im-bar-text) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
-    transition: background-color 0.2s ease;
-  }
-  
-  a.im-ann-bar-root:hover {
-    background-color: #111111 !important;
+    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
+    background-color: var(--im-ann-bg) !important;
+    color: var(--im-ann-text) !important;
+    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
+    padding: 0 15px; 
   }
 
-  /* 2. LAYOUT CONTENT */
   .im-ann-content {
-    position: relative !important;
-    z-index: 5 !important;
-    display: flex !important;
-    align-items: center !important;
-    gap: 12px !important;
-    padding: 0 15px !important;
-    width: 100%;
-    justify-content: center;
-    font-size: 13px !important;
-    letter-spacing: 0.5px !important;
-  }
-
-  /* 3. ELEMENTS */
-  .im-badge-video {
-    background-color: var(--im-highlight) !important;
-    color: #fff !important;
-    font-weight: 800 !important;
-    font-size: 10px !important;
-    padding: 3px 8px !important;
-    border-radius: 3px !important;
-    text-transform: uppercase !important;
-    letter-spacing: 0.5px !important;
-    line-height: 1;
-    display: flex; 
+    display: flex;
     align-items: center;
-    gap: 4px;
-    flex-shrink: 0;
-  }
-  
-  .im-badge-icon {
-    width: 8px; height: 8px; fill: white;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    width: 100%;
+    max-width: 1400px;
   }
 
-  .im-text-main {
-    font-weight: 500 !important;
-    color: #e0e0e0 !important;
+  /* TEXT STYLING */
+  .im-diet-highlight {
+    color: #ffffff;
+    font-weight: 800;
+  }
+
+  .im-diet-muted {
+    color: var(--im-ann-muted);
+    font-weight: 500;
+    margin-left: 4px;
+  }
+
+  /* DESKTOP PILL */
+  .im-cta-pill {
+    background: var(--im-ann-accent);
+    color: #ffffff;
+    padding: 5px 12px;
+    border-radius: 50px;
+    font-size: 10px;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 15px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-  
-  .im-text-bold {
-    font-weight: 700 !important;
-    color: #ffffff !important;
-    text-decoration: underline;
-    text-decoration-color: rgba(255,255,255,0.3);
-    text-underline-offset: 3px;
   }
 
-  .im-arrow-icon {
-    width: 14px !important;
-    height: 14px !important;
-    margin-left: 2px !important;
-    transition: transform 0.2s ease;
-    color: var(--im-highlight);
-    flex-shrink: 0;
+  /* MOBILE INLINE ARROW (Hidden on Desktop) */
+  .im-mobile-arrow {
+    display: none;
+    color: var(--im-ann-accent);
+    margin-left: 8px;
+    font-size: 14px;
+    font-weight: 800;
   }
 
-  a.im-ann-bar-root:hover .im-arrow-icon {
-    transform: translateX(3px);
+  .im-arrow-svg {
+    width: 11px; height: 11px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3;
   }
-
-  /* --- RESPONSIVE TEXT SWITCHING --- */
-  .im-mobile-text { display: none; }
-  .im-desktop-text { display: inline; }
 
   /* ========================================
-     4. MOBILE OPTIMIZATION
+     MOBILE OPTIMIZATION: SINGLE ROW
      ========================================
   */
   @media (max-width: 767px) {
     a.im-ann-bar-root {
-      min-height: 44px !important; 
+      min-height: 38px !important;
+      padding: 0 10px;
     }
 
     .im-ann-content {
-      gap: 10px !important;
-    }
-    
-    .im-badge-video {
-      font-size: 9px !important;
-      padding: 3px 6px !important;
-    }
-    
-    .im-text-main {
-      font-size: 12px !important;
+      font-size: 10px;
+      flex-direction: row; /* Force single row */
+      flex-wrap: nowrap;
     }
 
-    /* Shorten text on mobile so it doesn't wrap awkwardly */
-    .im-desktop-text { display: none !important; }
-    .im-mobile-text { display: inline !important; }
+    .im-cta-pill {
+      display: none; /* Remove big button on mobile */
+    }
+
+    .im-mobile-arrow {
+      display: flex; /* Show small red arrow instead */
+      align-items: center;
+    }
+
+    .im-diet-muted {
+      font-size: 9px;
+      /* Optional: Hide the parenthesis text on very small screens if it still wraps */
+      /* display: none; */ 
+    }
+  }
+
+  /* Extra small screens fix */
+  @media (max-width: 360px) {
+    .im-diet-muted { display: none; } /* Show only "YES, WE HAVE KETO" + arrow */
   }
 </style>
 
-<a href="/pages/new-year-prep?video=true" class="im-ann-bar-root">
-  
+<a href="/blogs/news/how-to-shop-by-diet" class="im-ann-bar-root">
   <div class="im-ann-content">
     
-    <div class="im-badge-video">
-      <svg class="im-badge-icon" viewBox="0 0 10 10"><path d="M2 2L8 5L2 8V2Z"/></svg>
-      WATCH
+    <div class="im-group-text">
+      <span class="im-diet-highlight">Yes, We Have Keto.</span>
+      <span class="im-diet-muted">(And Dairy-Free. And Gluten-Free.)</span>
     </div>
-    
-    <span class="im-text-main">
-      <span class="im-desktop-text">Why Willpower Fails. <span class="im-text-bold">A message from CEO Todd Abrams.</span></span>
-      <span class="im-mobile-text">Why Willpower Fails. <span class="im-text-bold">Message from CEO.</span></span>
-    </span>
-    
-    <svg class="im-arrow-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7" />
-    </svg>
+
+    <div class="im-cta-pill">
+      <span>Learn How to Filter</span>
+      <svg class="im-arrow-svg" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+
+    <div class="im-mobile-arrow">
+      <svg class="im-arrow-svg" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
 
   </div>
-
 </a>
-
-<script>
-  console.log('IM Announcement: CEO Video Hook Loaded');
-</script>
 
 {% endif %}
 
