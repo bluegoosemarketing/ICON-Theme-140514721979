@@ -19,16 +19,12 @@
       "name": "Groundhog Day Sale",
       "settings": {
         "promo_code": "SHADOW31",
-        "end_date_v3": "Feb 3, 2026 03:00:00",
-        "popcorn_list": [
-          "blueberry-cheesecake-protein-popcorn",
-          "peanut-butter-vanilla-protein-popcorn",
-          "freedom-protein-popcorn",
-          "cookies-n-cream-protein-popcorn",
-          "dark-chocolate-sea-salt-protein-popcorn"
-        ],
-        "tier_prices": "10.00,7.50,7.00",
-        "tier_totals": "30.00,37.50,70.00"
+        "bundle_total_3": "29.99",
+        "bundle_total_5": "39.99",
+        "bundle_total_10": "69.99",
+        "nav_1_link": "shopify://collections/signatures",
+        "nav_2_link": "shopify://products/custom-meals",
+        "nav_3_link": "shopify://collections/bulk-items"
       }
     }
   },

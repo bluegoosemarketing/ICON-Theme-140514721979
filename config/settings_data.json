@@ -94,7 +94,9 @@
       "announcement-bar": {
         "type": "announcement-bar",
         "settings": {
-          "enable": true
+          "enable": false,
+          "link": "https://iconmeals.com/collections/signature-menu",
+          "text": "World Class Nutrition Delivered To Your Door"
         }
       },
       "template--blog": {

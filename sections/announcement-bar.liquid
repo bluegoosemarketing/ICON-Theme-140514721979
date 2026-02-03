@@ -1,180 +1,166 @@
-{{ 'section-announcement-bar.min.css' | asset_url | stylesheet_tag }}
-
-{% comment %}
-  ========================================
-  VISIBILITY LOGIC
-  ========================================
-{% endcomment %}
+{%- comment -%}
+  ICON Meals Premium Compact Announcement Bar v2.0
+  - Mobile: Auto-scrolling ticker (prevents wrapping/bulkiness)
+  - Desktop: Centered high-contrast layout
+{%- endcomment -%}
 
 {% assign show_announcement = false %}
-
-{% if template.name == 'index' %}
-  {% assign show_announcement = true %}
-{% elsif template.name == 'page' %}
-  {% if page.handle != 'add-ons' %}
+{% if template.name == 'index' or template.name == 'page' or template.name == 'blog' or template.name == 'article' %}
+  {% unless page.handle == 'add-ons' %}
     {% assign show_announcement = true %}
-  {% endif %}
-{% elsif template.name == 'blog' or template.name == 'article' %}
-  {% assign show_announcement = true %}
-{% elsif request.path contains '/apps/help-center' %}
-  {% assign show_announcement = true %}
+  {% endunless %}
 {% endif %}
 
 {% if section.settings.enable and show_announcement %}
-
 <style>
-  /* ========================================
-     THEME: DIET DISCOVERY (ULTRA-SLIM MOBILE)
-     ========================================
-  */
-
-  :root {
-    --im-ann-bg: #000000;       
-    --im-ann-text: #ffffff;
-    --im-ann-accent: #D11F1F;
-    --im-ann-muted: #999999;
+  #im-ann-bar-v2 {
+    --bg-color: #000000;
+    --text-color: #ffffff;
+    --accent-color: #D11F1F;
+    --bar-height: 40px;
+    
+    background: var(--bg-color);
+    min-height: var(--bar-height);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    text-decoration: none;
+    z-index: 999;
   }
 
-  a.im-ann-bar-root {
-    display: flex !important;
-    width: 100% !important;
-    min-height: 40px !important;
-    justify-content: center !important;
-    align-items: center !important;
-    text-decoration: none !important;
-    z-index: 50 !important;
-    cursor: pointer !important;
-    font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif !important;
-    background-color: var(--im-ann-bg) !important;
-    color: var(--im-ann-text) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.1) !important;
-    padding: 0 15px; 
-  }
-
-  .im-ann-content {
+  .im-ann-wrapper {
+    width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-    width: 100%;
-    max-width: 1400px;
+    padding: 0 15px;
   }
 
-  /* TEXT STYLING */
-  .im-diet-highlight {
-    color: #ffffff;
-    font-weight: 800;
-  }
-
-  .im-diet-muted {
-    color: var(--im-ann-muted);
-    font-weight: 500;
-    margin-left: 4px;
-  }
-
-  /* DESKTOP PILL */
-  .im-cta-pill {
-    background: var(--im-ann-accent);
-    color: #ffffff;
-    padding: 5px 12px;
-    border-radius: 50px;
-    font-size: 10px;
-    font-weight: 800;
+  /* DESKTOP LAYOUT */
+  .im-ann-inner {
     display: flex;
     align-items: center;
-    gap: 6px;
-    margin-left: 15px;
-    white-space: nowrap;
+    gap: 15px;
   }
 
-  /* MOBILE INLINE ARROW (Hidden on Desktop) */
-  .im-mobile-arrow {
-    display: none;
-    color: var(--im-ann-accent);
-    margin-left: 8px;
-    font-size: 14px;
-    font-weight: 800;
+  .im-ann-text {
+    color: var(--text-color);
+    font-family: "Inter", sans-serif;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    margin: 0;
   }
 
-  .im-arrow-svg {
-    width: 11px; height: 11px;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 3;
+  .im-ann-btn {
+    background: #fff;
+    color: #000;
+    padding: 4px 14px;
+    border-radius: 50px;
+    font-size: 11px;
+    font-weight: 900;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: 0.3s;
   }
 
-  /* ========================================
-     MOBILE OPTIMIZATION: SINGLE ROW
-     ========================================
-  */
-  @media (max-width: 767px) {
-    a.im-ann-bar-root {
-      min-height: 38px !important;
-      padding: 0 10px;
+  /* MOBILE FIX: THE TICKER */
+  @media (max-width: 768px) {
+    #im-ann-bar-v2 {
+      --bar-height: 36px; /* Even slimmer on mobile */
+    }
+    
+    .im-ann-wrapper {
+      padding: 0;
+      overflow: hidden;
     }
 
-    .im-ann-content {
-      font-size: 10px;
-      flex-direction: row; /* Force single row */
-      flex-wrap: nowrap;
+    /* This creates a seamless loop so text never wraps */
+    .im-ann-inner {
+      display: flex;
+      white-space: nowrap;
+      gap: 50px; /* Space between the repeating messages */
+      animation: imTicker 20s linear infinite;
+      padding-left: 100%;
     }
 
-    .im-cta-pill {
-      display: none; /* Remove big button on mobile */
-    }
-
-    .im-mobile-arrow {
-      display: flex; /* Show small red arrow instead */
+    .im-ann-text {
+      font-size: 11px;
+      display: flex;
       align-items: center;
+      gap: 10px;
     }
 
-    .im-diet-muted {
-      font-size: 9px;
-      /* Optional: Hide the parenthesis text on very small screens if it still wraps */
-      /* display: none; */ 
+    .im-ann-btn {
+      padding: 3px 10px;
+      font-size: 10px;
     }
+
+    .mobile-hide { display: none; }
   }
 
-  /* Extra small screens fix */
-  @media (max-width: 360px) {
-    .im-diet-muted { display: none; } /* Show only "YES, WE HAVE KETO" + arrow */
+  @keyframes imTicker {
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(-100%, 0, 0); }
+  }
+
+  #im-ann-bar-v2:hover .im-ann-inner {
+    animation-play-state: paused;
   }
 </style>
 
-<a href="/blogs/news/how-to-shop-by-diet" class="im-ann-bar-root">
-  <div class="im-ann-content">
-    
-    <div class="im-group-text">
-      <span class="im-diet-highlight">Yes, We Have Keto.</span>
-      <span class="im-diet-muted">(And Dairy-Free. And Gluten-Free.)</span>
-    </div>
+<a href="{{ section.settings.link | default: '/collections/signature-meals' }}" id="im-ann-bar-v2">
+  <div class="im-ann-wrapper">
+    <!-- Inner is doubled for the seamless scroll effect on mobile -->
+    <div class="im-ann-inner">
+      
+      <!-- Message Set 1 -->
+      <div class="im-ann-text">
+        {{ section.settings.text | default: "World Class Nutrition Delivered To Your Door" }}
+        <div class="im-ann-btn">SHOP NOW <span>&rarr;</span></div>
+      </div>
 
-    <div class="im-cta-pill">
-      <span>Learn How to Filter</span>
-      <svg class="im-arrow-svg" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-    </div>
+      <!-- Message Set 2 (Visible only during mobile scroll) -->
+      <div class="im-ann-text mobile-only-ticker-item" style="display: none;">
+        {{ section.settings.text | default: "World Class Nutrition Delivered To Your Door" }}
+        <div class="im-ann-btn">SHOP NOW <span>&rarr;</span></div>
+      </div>
 
-    <div class="im-mobile-arrow">
-      <svg class="im-arrow-svg" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
     </div>
-
   </div>
 </a>
 
+<script>
+  // Simple check to duplicate text for the ticker only on mobile
+  if (window.innerWidth < 769) {
+    document.querySelector('.mobile-only-ticker-item').style.display = 'flex';
+  }
+</script>
 {% endif %}
 
 {% schema %}
 {
-  "name": "Announcement bar",
+  "name": "Announcement Bar v2",
   "settings": [
     {
       "type": "checkbox",
       "id": "enable",
       "default": true,
       "label": "Show announcement"
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Link"
+    },
+    {
+      "type": "text",
+      "id": "text",
+      "label": "Message",
+      "default": "World Class Nutrition Delivered To Your Door"
     }
   ]
 }

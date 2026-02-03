@@ -1,14 +1,32 @@
 {%- comment -%}
-  Section: ICON Meals Groundhog Day Master Build v16.0
-  Technical: Grouped AJAX Add (SKU-safe)
-  Theme: The Shadow / Break the Loop
+  Section: ICON Meals Post-Groundhog Day Transition v28.0
+  Theme: Post-Sale / Signature Menu Focus
 {%- endcomment -%}
 
 {%- liquid
   assign s = section.settings
-  assign promo_code = s.promo_code | default: "SHADOW31"
-  assign end_date = s.end_date_v15 | default: "Feb 3, 2026 03:00:00"
+  
+  # --- LOGIC: DIRECT LINKS (Discount logic removed post-sale) ---
+  assign nav_1_url = s.nav_1_link | default: "/collections/signature-meals"
+  assign nav_2_url = s.nav_2_link | default: "/collections/custom-meals"
+  assign nav_3_url = s.nav_3_link | default: "/collections/bulk-items"
+
+  # Hardcoded Recharge Bundle Links
+  assign link_3bag = "/products/protein-popcorn-pantry-stock-3-bag-pack"
+  assign link_5bag = "/products/protein-popcorn-pantry-stock-5-bag-pack"
+  assign link_10bag = "/products/protein-popcorn-pantry-stock-10-pack"
+  
+  # Social Share Image Asset
+  assign og_image = "https://cdn.shopify.com/s/files/1/1957/2713/files/GHDS-ICON-Meals.png?v=1770039257"
 -%}
+
+<!-- Forced Social Meta Tags -->
+<meta property="og:image" content="{{ og_image }}">
+<meta property="og:image:secure_url" content="{{ og_image }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:image" content="{{ og_image }}">
+<meta name="twitter:card" content="summary_large_image">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,186 +34,313 @@
 
 <style>
 :root {
-  --l-red: #D11F1F;
-  --l-charcoal: #222222;
-  --l-kale: #1E3A23;       
-  --l-mint: #F0F7F4;       
-  --l-font: 'Inter', sans-serif;
-  --l-shadow: rgba(0, 0, 0, 0.15);
+  --gh-red: #D11F1F;
+  --gh-dark: #111111;
+  --gh-kale: #1E3A23;       
+  --gh-kale-light: #2a5231;
+  --gh-mint: #F2F7F4;       
+  --gh-font: 'Inter', sans-serif;
+  --gh-radius: 20px;
+  --gh-shadow: 0 20px 40px rgba(0,0,0,0.08);
 }
 
-#gh-master-v16 {
-  font-family: var(--l-font);
-  color: var(--l-charcoal);
+#gh-master-v28 {
+  font-family: var(--gh-font);
+  color: var(--gh-dark);
   background: #fff;
-  line-height: 1.6;
-  text-transform: none !important; 
+  line-height: 1.5;
+  overflow-x: hidden;
 }
 
-/* --- THEMATIC OVERRIDES --- */
-#gh-master-v16 h1, #gh-master-v16 h2, #gh-master-v16 h3 { letter-spacing: -0.04em !important; text-transform: none !important; }
-
-.gh-container-v16 { max-width: 1400px; margin: 0 auto; padding: 0 40px; position: relative; }
-
-/* --- HERO: SHADOW THEME --- */
-.gh-hero-v16 { padding: 120px 0 180px; background: #fff; position: relative; }
-.gh-hero-grid-v16 { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 60px; align-items: center; }
-.gh-h1-v16 { font-size: clamp(3rem, 7vw, 5rem); font-weight: 900; line-height: 0.95; margin-bottom: 24px; }
-.gh-h1-v16 span { color: var(--l-red); display: block; }
-
-/* --- CONTENT DEPTH: THE LOOP VS THE SYSTEM --- */
-.gh-loop-break { background: var(--l-charcoal); color: #fff; padding: 100px 0; border-radius: 40px 40px 0 0; margin-top: -60px; position: relative; z-index: 10; }
-.gh-loop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 50px; }
-.gh-loop-box { padding: 40px; border-radius: 24px; background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); }
-.gh-loop-box.highlight { border-color: var(--l-kale); background: rgba(30, 58, 35, 0.3); }
-.gh-loop-box h3 { font-size: 1.8rem; margin-bottom: 15px; }
-.gh-loop-box ul { list-style: none; padding: 0; }
-.gh-loop-box li { margin-bottom: 12px; display: flex; align-items: center; gap: 10px; font-weight: 500; }
-
-/* --- CATEGORY HUB REFINED --- */
-.gh-hub-nav { margin-top: -80px; padding-bottom: 80px; z-index: 20; position: relative; }
-.gh-hub-inner-v16 { background: #fff; border-radius: 24px; box-shadow: 0 30px 60px var(--l-shadow); display: grid; grid-template-columns: repeat(3, 1fr); overflow: hidden; border: 1px solid #eee; }
-.gh-hub-btn { padding: 40px; text-align: center; border-right: 1px solid #eee; transition: 0.3s; text-decoration: none !important; color: inherit; }
-.gh-hub-btn:last-child { border-right: none; }
-.gh-hub-btn:hover { background: var(--l-mint); }
-.gh-hub-btn img { width: 60px; height: auto; margin-bottom: 15px; }
-
-/* --- POPCORN LADDER --- */
-.gh-ladder-v16 { padding: 100px 0; background: var(--l-mint); }
-.gh-card-v16 { 
-    background: #fff; border-radius: 32px; padding: 40px; border: 1px solid #e0e0e0; 
-    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s;
-    position: relative;
-    display: flex; flex-direction: column;
+/* --- UTILITIES --- */
+#gh-master-v28 h1, #gh-master-v28 h2, #gh-master-v28 h3 { 
+  letter-spacing: -0.03em !important; text-transform: none !important; margin: 0;
 }
-.gh-card-v16:hover { transform: translateY(-10px); box-shadow: 0 40px 80px rgba(0,0,0,0.1); }
-.gh-best-value { position: absolute; top: -20px; left: 50%; transform: translateX(-50%); background: var(--l-red); color: #fff; padding: 8px 20px; border-radius: 50px; font-weight: 900; font-size: 0.8rem; z-index: 5; }
+#gh-master-v28 a { text-decoration: none !important; }
+.gh-container { max-width: 1280px; margin: 0 auto; padding: 0 30px; position: relative; }
 
-.gh-tier-link-v16 {
-  background: var(--l-charcoal); color: #fff; border: none; padding: 20px; border-radius: 14px;
-  font-weight: 800; font-size: 1rem; cursor: pointer; margin-top: 20px; transition: 0.3s;
-  text-decoration: none; text-align: center; display: inline-block; width: 100%;
+/* --- HERO SECTION --- */
+.gh-hero { padding: 60px 0 120px; background: linear-gradient(180deg, #fff 0%, #f9f9f9 100%); }
+
+.gh-hero-grid { 
+  display: grid; 
+  grid-template-columns: 1fr 0.85fr; 
+  grid-template-rows: auto auto; 
+  gap: 20px 70px; 
+  align-items: center; 
 }
-.gh-tier-link-v16:hover { background: var(--l-red); }
+
+.gh-hero-text-block { grid-column: 1; grid-row: 1; }
+
+.gh-offers-col { 
+  grid-column: 2; 
+  grid-row: 1 / span 2; 
+  display: flex; flex-direction: column; gap: 24px; 
+}
+
+.gh-badges-row { 
+  grid-column: 1; 
+  grid-row: 2; 
+  display: flex; gap: 20px; flex-wrap: wrap; 
+  margin-top: 10px;
+}
+
+.gh-headline { 
+  font-size: clamp(3rem, 5vw, 4.2rem); 
+  font-weight: 900; 
+  line-height: 1.0; 
+  margin-bottom: 24px; 
+  color: var(--gh-dark); 
+}
+.gh-headline span { color: var(--gh-red); display: block; } 
+.gh-subhead { font-size: 1.25rem; color: #555; max-width: 550px; margin-bottom: 0; font-weight: 500; line-height: 1.6; }
+
+/* Badges Styling */
+.gh-trust-badge {
+  display: flex; align-items: center; gap: 12px;
+  background: #fff; padding: 12px 20px; border-radius: 50px;
+  border: 1px solid #eee; box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+  font-weight: 800; font-size: 0.9rem; color: var(--gh-kale);
+}
+.gh-badge-icon { 
+  display: flex; align-items: center; justify-content: center;
+  width: 28px; height: 28px; background: var(--gh-mint); color: var(--gh-kale); 
+  border-radius: 50%; font-size: 14px; flex-shrink: 0;
+}
+
+/* Post-Sale Content Card */
+.gh-offer-card { 
+  background: #fff; border-radius: var(--gh-radius); padding: 35px; 
+  box-shadow: var(--gh-shadow); position: relative; overflow: hidden; border: 1px solid #f0f0f0;
+}
+.gh-offer-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 6px; background: var(--gh-red);
+}
+.gh-tag { 
+  background: #f5f5f5; color: #666; display: inline-block; 
+  padding: 6px 14px; border-radius: 6px; font-weight: 800; font-size: 0.75rem; letter-spacing: 1px; margin-bottom: 10px;
+}
+.gh-offer-h { font-size: 2.2rem; font-weight: 900; line-height: 1.1; margin-bottom: 15px; }
+
+.gh-sitewide-btn {
+  display: inline-block; margin-top: 10px;
+  background: var(--gh-red); color: #fff !important; 
+  padding: 18px 24px; border-radius: 50px; font-weight: 800; font-size: 1.1rem;
+  transition: 0.3s; width: 100%; text-align: center;
+  box-shadow: 0 10px 20px rgba(209, 31, 31, 0.2);
+}
+.gh-sitewide-btn:hover { background: #b01515; transform: translateY(-2px); }
+
+/* Popcorn Hook */
+.gh-popcorn-hook {
+  background: var(--gh-kale); color: #fff; border-radius: var(--gh-radius); padding: 35px;
+  background-image: linear-gradient(135deg, var(--gh-kale) 0%, #152919 100%);
+  display: flex; justify-content: space-between; align-items: center; gap: 20px;
+  box-shadow: 0 20px 40px rgba(30, 58, 35, 0.2);
+}
+.gh-hook-content h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 5px; color: #fff; }
+.gh-hook-content p { font-size: 0.95rem; opacity: 0.8; margin: 0; }
+.gh-hook-btn {
+  background: #fff; color: var(--gh-kale); padding: 14px 24px; border-radius: 12px;
+  font-weight: 800; font-size: 0.95rem; transition: 0.3s;
+}
+
+/* Dark Section */
+.gh-dark-sec { 
+  background: var(--gh-dark); color: #fff; padding: 100px 0 160px; 
+  margin-top: -40px; border-radius: 40px 40px 0 0; position: relative; z-index: 5; 
+}
+.gh-contrast-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; margin-top: 60px; }
+.gh-c-box { padding: 40px; border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); }
+.gh-c-box.new { border-color: var(--gh-kale-light); background: rgba(30, 58, 35, 0.4); }
+
+/* Hub Nav */
+.gh-hub-bridge { margin-top: -80px; position: relative; z-index: 10; padding-bottom: 60px; }
+.gh-hub-grid { 
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; 
+  background: #fff; padding: 20px; border-radius: 30px; box-shadow: var(--gh-shadow);
+}
+.gh-hub-btn-item { 
+  display: flex; flex-direction: column; align-items: center; 
+  padding: 30px 20px; border-radius: 20px; transition: 0.3s; 
+  color: var(--gh-dark); background: #f9f9f9; text-align: center;
+}
+.gh-hub-btn-item:hover { background: #fff; box-shadow: 0 10px 20px rgba(0,0,0,0.05); transform: translateY(-3px); }
+.gh-hub-btn-item img { width: 45px; margin-bottom: 12px; }
+.gh-hub-label { font-weight: 800; font-size: 1rem; }
+
+/* Popcorn Section */
+.gh-popcorn-sec { padding: 100px 0 120px; background: var(--gh-mint); margin-top: -40px; }
+.gh-popcorn-header { text-align: center; margin-bottom: 60px; }
+.gh-popcorn-header h2 { font-size: 3.5rem; font-weight: 900; margin-bottom: 10px; }
+.gh-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+.gh-card {
+  background: #fff; border-radius: 24px; padding: 40px 30px; text-align: center;
+  border: 1px solid #eee; transition: 0.3s; position: relative;
+}
+.gh-save-pill {
+  position: absolute; top: 20px; right: 20px; background: var(--gh-red); color: #fff;
+  font-weight: 800; font-size: 0.75rem; padding: 6px 12px; border-radius: 8px;
+}
+.gh-card-title { font-size: 3rem; font-weight: 900; line-height: 1; margin-bottom: 25px; display: block; }
+.gh-price-main { font-size: 2.2rem; font-weight: 900; color: var(--gh-dark); }
+.gh-buy-btn {
+  background: var(--gh-dark); color: #fff !important; width: 100%; display: block;
+  padding: 20px; border-radius: 14px; font-weight: 800; margin-top: 20px;
+}
+.gh-buy-btn:hover { background: var(--gh-red); }
 
 @media (max-width: 900px) {
-  .gh-hero-grid-v16, .gh-loop-grid, .gh-hub-inner-v16 { grid-template-columns: 1fr; }
-  .gh-hub-btn { border-right: none; border-bottom: 1px solid #eee; }
+  .gh-hero-grid { display: flex; flex-direction: column; text-align: center; }
+  .gh-headline { font-size: 2.8rem; }
+  .gh-hub-grid { grid-template-columns: 1fr; }
+  .gh-badges-row { justify-content: center; }
 }
 </style>
 
-<div id="gh-master-v16">
-  <section class="gh-hero-v16">
-    <div class="gh-container-v16">
-      <div class="gh-hero-grid-v16">
-        <div>
-          <h1 class="gh-h1-v16">Stop Chasing<span>Your Shadow.</span></h1>
-          <p style="font-size: 1.3rem; color: #666; max-width: 600px;">If you do what you've always done, you'll get what you've always got. Break the loop with the ICON System.</p>
+<div id="gh-master-v28">
+  
+  <!-- HERO SECTION -->
+  <section class="gh-hero">
+    <div class="gh-container">
+      <div class="gh-hero-grid">
+        
+        <!-- 1. Text Block -->
+        <div class="gh-hero-text-block">
+          <h1 class="gh-headline">The Sale Ended. <span>Your Progress Shouldn't.</span></h1>
+          <p class="gh-subhead">Groundhog Day is over, but the loop of meal prep stress doesn't have to return. Stay consistent with the ICON System.</p>
         </div>
-        <div class="gh-offer-card" style="background: var(--l-kale); color: #fff; padding: 50px; border-radius: 30px; text-align: center;">
-          <span style="text-transform: uppercase; font-weight: 800; letter-spacing: 2px; font-size: 0.8rem; opacity: 0.8;">The Groundhog Sitewide Sale</span>
-          <div style="font-size: 5rem; font-weight: 900; line-height: 1;">31% OFF</div>
-          <div style="margin: 20px 0; border: 1px dashed rgba(255,255,255,0.4); padding: 15px; border-radius: 10px; font-weight: 700; font-size: 1.2rem;">CODE: {{ promo_code }}</div>
-          <p style="font-size: 0.9rem; opacity: 0.7;">Excludes Popcorn Bundles (Already Discounted + Free Shipping)</p>
-        </div>
-      </div>
-    </div>
-  </section>
 
-  <section class="gh-loop-break">
-    <div class="gh-container-v16">
-      <h2 style="text-align: center; font-size: 3rem;">Routine vs. System</h2>
-      <div class="gh-loop-grid">
-        <div class="gh-loop-box">
-          <h3 style="color: #888;">The Old Routine</h3>
-          <ul>
-            <li>✕ Inconsistent macros & energy levels</li>
-            <li>✕ High retail prices per item</li>
-            <li>✕ Paying for shipping every time</li>
-          </ul>
-        </div>
-        <div class="gh-loop-box highlight">
-          <h3>The ICON System</h3>
-          <ul>
-            <li>✓ Batch-prepped performance meals</li>
-            <li>✓ Tiered wholesale pricing built-in</li>
-            <li>✓ Free shipping on every system</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <nav class="gh-hub-nav">
-    <div class="gh-container-v16">
-      <div class="gh-hub-inner-v16">
-        <a href="{{ s.nav_1_link }}" class="gh-hub-btn">
-          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp?v=1768410637">
-          <div style="font-weight: 800;">Signature Menu</div>
-        </a>
-        <a href="{{ s.nav_2_link }}" class="gh-hub-btn">
-          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_UI-Icon_v2.webp?v=1768410637">
-          <div style="font-weight: 800;">Custom Meals</div>
-        </a>
-        <a href="{{ s.nav_3_link }}" class="gh-hub-btn">
-          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Items_UI-Icon_v2.webp?v=1768410637">
-          <div style="font-weight: 800;">Bulk Market</div>
-        </a>
-      </div>
-    </div>
-  </nav>
-
-  <section class="gh-ladder-v16">
-    <div class="gh-container-v16">
-      <div style="text-align: center; margin-bottom: 60px;">
-        <h2 style="font-size: 3.5rem;">Stock The System</h2>
-        <p>Select your tier to unlock bulk pricing and automatic free shipping.</p>
-      </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 30px;">
-        {% assign counts = "3,5,10" | split: "," %}
-        {% assign totals = s.bundle_total_3 | append: ',' | append: s.bundle_total_5 | append: ',' | append: s.bundle_total_10 | split: ',' %}
-        {% assign bundle_links = s.bundle_3_link | append: ',' | append: s.bundle_5_link | append: ',' | append: s.bundle_10_link | split: ',' %}
-        {% assign bundle_labels = "Shop 3 Bag Pack,Shop 5 Bag Pack,Shop 10 Pack" | split: "," %}
-        {% for count in counts %}
-          <div class="gh-card-v16" data-tier="{{ count }}">
-            {% if count == "10" %}<div class="gh-best-value">MOST POPULAR</div>{% endif %}
-            <div style="margin-bottom: 25px;">
-              <span style="font-size: 2.5rem; font-weight: 900; display: block;">{{ count }} Bags</span>
-              <div style="margin-top: 15px; background: var(--l-mint); padding: 10px; border-radius: 8px; font-weight: 700; color: var(--l-kale); font-size: 0.85rem; display: inline-block;">
-                ✓ Free Shipping Included
-              </div>
-            </div>
-
-            <div style="margin-top: auto; border-top: 1px solid #eee; padding-top: 20px;">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                <span style="font-weight: 700; color: #888;">Bundle Total:</span>
-                <span style="font-size: 1.5rem; font-weight: 900;">${{ totals[forloop.index0] }}</span>
-              </div>
-              <a class="gh-tier-link-v16" href="{{ bundle_links[forloop.index0] }}">{{ bundle_labels[forloop.index0] }}</a>
-            </div>
+        <!-- 2. Offers Stack -->
+        <div class="gh-offers-col">
+          <div class="gh-offer-card">
+            <span class="gh-tag">SIGNATURE MENU</span>
+            <div class="gh-offer-h">Fresh Meals. <br>Zero Prep.</div>
+            <p style="margin-bottom: 20px; color: #666;">Our chef-prepared meals are designed for high performance and maximum convenience.</p>
+            <a href="{{ nav_1_url }}" class="gh-sitewide-btn">Shop Signature Menu →</a>
           </div>
-        {% endfor %}
+
+          <div class="gh-popcorn-hook">
+            <div class="gh-hook-content">
+              <h3>Bundle & Save</h3>
+              <p>Protein Popcorn Bulk Pricing.</p>
+            </div>
+            <a href="#popcorn-target" class="gh-hook-btn">View Bundles ↓</a>
+          </div>
+        </div>
+
+        <!-- 3. Trust Badges -->
+        <div class="gh-badges-row">
+          <div class="gh-trust-badge">
+            <span class="gh-badge-icon">🏆</span>
+            <span>World Class Nutrition</span>
+          </div>
+          <div class="gh-trust-badge">
+            <span class="gh-badge-icon">⏱️</span>
+            <span>Ready in 3 Minutes</span>
+          </div>
+        </div>
+
       </div>
     </div>
   </section>
+
+  <!-- LIFESTYLE FOCUS -->
+  <section class="gh-dark-sec">
+    <div class="gh-container">
+      <h2 style="text-align: center; font-size: clamp(2.5rem, 4vw, 3rem); font-weight: 800;">Automate Your Excellence</h2>
+      <div class="gh-contrast-grid">
+        <div class="gh-c-box">
+          <h3 style="color: #bbb; margin-bottom: 20px;">The Old Routine</h3>
+          <ul style="list-style: none; padding: 0; color: #999;">
+            <li style="margin-bottom: 15px;">✕ Hours spent grocery shopping</li>
+            <li style="margin-bottom: 15px;">✕ Guessing your macros</li>
+            <li>✕ Mid-week burnout & takeout</li>
+          </ul>
+        </div>
+        <div class="gh-c-box new">
+          <h3 style="color: #fff; margin-bottom: 20px;">The ICON System</h3>
+          <ul style="list-style: none; padding: 0; font-weight: 600;">
+            <li style="margin-bottom: 15px;">✓ Heat & eat in minutes</li>
+            <li style="margin-bottom: 15px;">✓ Precision nutrition</li>
+            <li>✓ Consistent results on autopilot</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HUB NAVIGATION -->
+  <div class="gh-hub-bridge">
+    <div class="gh-container">
+      <div class="gh-hub-grid">
+        <a href="{{ nav_1_url }}" class="gh-hub-btn-item">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp?v=1768410637" alt="Signature Menu">
+          <span class="gh-hub-label">Signature Menu →</span>
+        </a>
+        <a href="{{ nav_2_url }}" class="gh-hub-btn-item">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_UI-Icon_v2.webp?v=1768410637" alt="Custom Meals">
+          <span class="gh-hub-label">Custom Meals →</span>
+        </a>
+        <a href="{{ nav_3_url }}" class="gh-hub-btn-item">
+          <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Items_UI-Icon_v2.webp?v=1768410637" alt="Bulk Market">
+          <span class="gh-hub-label">Bulk (By the lb) →</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROTEIN POPCORN SECTION -->
+  <section id="popcorn-target" class="gh-popcorn-sec">
+    <div class="gh-container">
+      <div class="gh-popcorn-header">
+        <h2>Protein <span style="color:var(--gh-red)">Popcorn</span></h2>
+        <p style="font-size: 1.2rem; color: #666;">High Protein. Low Calorie. Incredible Taste.</p>
+      </div>
+
+      <div class="gh-grid">
+        <div class="gh-card">
+          <span class="gh-card-title">3 Bags</span>
+          <div class="gh-price-row">
+            <span class="gh-price-main">${{ s.bundle_total_3 }}</span>
+          </div>
+          <a href="{{ link_3bag }}" class="gh-buy-btn">Shop 3 Bag Pack</a>
+        </div>
+
+        <div class="gh-card">
+          <div class="gh-save-pill">BEST VALUE</div>
+          <span class="gh-card-title">5 Bags</span>
+          <div class="gh-price-row">
+            <span class="gh-price-main">${{ s.bundle_total_5 }}</span>
+          </div>
+          <a href="{{ link_5bag }}" class="gh-buy-btn">Shop 5 Bag Pack</a>
+        </div>
+
+        <div class="gh-card" style="border-color: var(--gh-kale);">
+          <div class="gh-save-pill" style="background: var(--gh-kale);">ULTIMATE SAVINGS</div>
+          <span class="gh-card-title">10 Bags</span>
+          <div class="gh-price-row">
+            <span class="gh-price-main">${{ s.bundle_total_10 }}</span>
+          </div>
+          <a href="{{ link_10bag }}" class="gh-buy-btn" style="background: var(--gh-kale);">Shop 10 Bag Pack</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
 </div>
 
 {% schema %}
 {
-  "name": "Groundhog Master v16",
+  "name": "Groundhog P-Sale v28",
   "settings": [
-    { "type": "text", "id": "promo_code", "label": "Promo Code", "default": "SHADOW31" },
-    { "type": "text", "id": "bundle_total_3", "label": "Bundle Total (3 Bag)", "default": "29.99" },
-    { "type": "text", "id": "bundle_total_5", "label": "Bundle Total (5 Bag)", "default": "39.99" },
-    { "type": "text", "id": "bundle_total_10", "label": "Bundle Total (10 Bag)", "default": "69.99" },
-    { "type": "url", "id": "bundle_3_link", "label": "3 Bag Bundle Link" },
-    { "type": "url", "id": "bundle_5_link", "label": "5 Bag Bundle Link" },
-    { "type": "url", "id": "bundle_10_link", "label": "10 Bag Bundle Link" },
-    { "type": "url", "id": "nav_1_link", "label": "Nav 1 Link" },
-    { "type": "url", "id": "nav_2_link", "label": "Nav 2 Link" },
-    { "type": "url", "id": "nav_3_link", "label": "Nav 3 Link" }
+    { "type": "text", "id": "bundle_total_3", "label": "Price (3 Bag)", "default": "29.99" },
+    { "type": "text", "id": "bundle_total_5", "label": "Price (5 Bag)", "default": "39.99" },
+    { "type": "text", "id": "bundle_total_10", "label": "Price (10 Bag)", "default": "69.99" },
+    { "type": "url", "id": "nav_1_link", "label": "Signature Menu Link" },
+    { "type": "url", "id": "nav_2_link", "label": "Custom Meals Link" },
+    { "type": "url", "id": "nav_3_link", "label": "Bulk Market Link" }
   ],
-  "presets": [{ "name": "Groundhog Master v16" }]
+  "presets": [{ "name": "Groundhog P-Sale v28" }]
 }
 {% endschema %}
