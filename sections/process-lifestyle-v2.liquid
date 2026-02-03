@@ -1,84 +1,92 @@
 {%- comment -%}
-  Section: Story Process - "The Routine" (Tonal Lifestyle Polish)
-  Changes:
-  1. COLOR PALETTE: Switched from High-Contrast White to Soft Mint (#F0F7F4) for a premium tonal look.
-  2. BACKGROUND: Added "Macro Cycle" SVG—a large dashed arc that implies consistency/routine without copying the Hero exactly.
-  3. TYPOGRAPHY: Softened subheads and footer text to blend with the dark green.
+  Section: Process - "Lifestyle Aligned"
+  REVISION: 
+  - Relocated "No Subscription" badge to bottom-center of the last image.
+  - Refined Glassmorphism for better legibility against light backgrounds.
 {%- endcomment -%}
 
-<div class="story-process-section">
+<div class="proc-section">
   
-  <div class="story-bg-cycle"></div>
+  <div class="proc-anchor-bar">
+    <div class="proc-anchor-inner">
+      <div class="proc-trust-item">
+        <span class="proc-trust-icon">❄️</span>
+        <span class="proc-trust-text">Cooked, Portioned & Shipped</span>
+      </div>
+      <div class="proc-trust-divider"></div>
+      <div class="proc-trust-item">
+        <span class="proc-trust-icon">📅</span>
+        <span class="proc-trust-text">Rotating Signature Menu</span>
+      </div>
+      <div class="proc-trust-divider"></div>
+      <div class="proc-trust-item">
+        <span class="proc-trust-icon">🇺🇸</span>
+        <span class="proc-trust-text">USDA Inspected Kitchen</span>
+      </div>
+    </div>
+  </div>
 
-  <div class="story-container">
+  <div class="proc-container">
     
-    <div class="story-header">
-      <div class="story-badge">
-        <span class="story-dot"></span>
-        <span class="story-badge-text">How It Works</span>
-      </div>
-      
-      {% if section.settings.heading != blank %}
-        <h2 class="story-h2">{{ section.settings.heading }}</h2>
-      {% endif %}
-      
-      {% if section.settings.subheading != blank %}
-        <p class="story-sub">{{ section.settings.subheading }}</p>
-      {% endif %}
-    </div>
+    <div class="proc-header">
+      {%- assign title_words = section.settings.heading | split: ' ' -%}
+      {%- assign last_word = title_words.last -%}
+      {%- assign first_part_size = title_words.size | minus: 1 -%}
+      {%- assign first_part = title_words | slice: 0, first_part_size | join: ' ' -%}
 
-    <div class="story-grid">
-      {%- for block in section.blocks -%}
-        <div class="story-card" {{ block.shopify_attributes }}>
+      <h2 class="proc-headline">
+        <span class="proc-rotate-group">
+          {{ first_part }}<span class="proc-highlight">{{ last_word }}</span>
           
-          <div class="story-visual-wrap">
-            <div class="story-visual-inner">
-              <div class="story-step-badge">
-                <span class="story-step-num">0{{ forloop.index }}</span>
-              </div>
-              {%- if block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 800 | image_tag: class: 'story-img', loading: 'lazy', alt: block.settings.title }}
-              {%- else -%}
-                <div class="story-placeholder">
-                  {{ 'image' | placeholder_svg_tag: 'story-placeholder-svg' }}
-                </div>
-              {%- endif -%}
-            </div>
-          </div>
-
-          <div class="story-content">
-            {% if block.settings.title != blank %}
-              <h3>{{ block.settings.title }}</h3>
-            {% endif %}
-            {% if block.settings.text != blank %}
-              <div class="story-text">{{ block.settings.text }}</div>
-            {% endif %}
-          </div>
-
-          {% unless forloop.last %}
-            <div class="story-connector-arrow">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="9 18 15 12 9 6"></polyline>
-              </svg>
-            </div>
-          {% endunless %}
-
-        </div>
-      {%- endfor -%}
+          <svg class="proc-doodle-arrow" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M 10 5 C 35 5, 45 20, 35 50" stroke="#222222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M 25 38 L 35 50 L 48 35" stroke="#222222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </h2>
+      
+      <div class="proc-subhead-wrap">
+        <p class="proc-subhead">{{ section.settings.subheading }}</p>
+      </div>
     </div>
 
-    <div class="story-feature-rail">
-      <div class="story-feature-item">
-        <span class="story-feature-icon">❄️</span>
-        <span class="story-feature-text">Cooked & Shipped to Your Door</span>
-      </div>
-      <div class="story-feature-item">
-        <span class="story-feature-icon">📅</span>
-        <span class="story-feature-text">Rotating Menu</span>
-      </div>
-      <div class="story-feature-item">
-        <span class="story-feature-icon">🇺🇸</span>
-        <span class="story-feature-text">USDA Inspected Kitchen</span>
+    <div class="proc-grid-wrapper">
+      <div class="proc-connector-line"></div>
+
+      <div class="proc-grid">
+        {%- for block in section.blocks -%}
+          <div class="proc-item" {{ block.shopify_attributes }}>
+            
+            <div class="proc-visual-group">
+              <div class="proc-image-frame">
+                {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 1000 | image_tag: class: 'proc-img', loading: 'lazy', alt: block.settings.title }}
+                {%- else -%}
+                  <div class="proc-placeholder">
+                    {{ 'image' | placeholder_svg_tag: 'proc-placeholder-svg' }}
+                  </div>
+                {%- endif -%}
+
+                {%- if forloop.last -%}
+                  <div class="proc-no-sub-badge-centered">
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    <span>NO SUBSCRIPTION REQUIRED</span>
+                  </div>
+                {%- endif -%}
+              </div>
+              
+              <div class="proc-step-badge">
+                <span class="proc-step-num">{{ forloop.index }}</span>
+              </div>
+            </div>
+
+            <div class="proc-content">
+              <h3 class="proc-title">{{ block.settings.title }}</h3>
+              <div class="proc-text">{{ block.settings.text }}</div>
+            </div>
+
+          </div>
+        {%- endfor -%}
       </div>
     </div>
 
@@ -88,218 +96,282 @@
 <style>
 /* --- 1. VARIABLES --- */
 :root {
-  --s-bg-dark: #1E3A23;   /* Dark Kale */
-  --s-text-mint: #F0F7F4; /* The "Tonal" Mint Text */
-  --s-kale: #1E3A23;      /* For text inside white cards */
-  --s-kale-border: rgba(30, 58, 35, 0.15);
-  --s-card-bg: #FFFFFF;
-  --s-inset-bg: #F8FAF9;
-  --s-font: 'Inter', sans-serif;
+  --p-bg-mint: #F0F7F4;    
+  --p-kale: #1E3A23;       
+  --p-black: #000000;      
+  --p-white: #FFFFFF;
+  --p-charcoal: #222222;
+  --p-grey: #555555;
+  --p-red: #D11F1F;
+  --p-font: 'Inter', sans-serif;
 }
 
-/* --- 2. LAYOUT & BACKGROUND --- */
-.story-process-section {
-  background-color: var(--s-bg-dark) !important;
-  padding: 100px 0 120px 0 !important; /* Generous padding for luxury feel */
-  width: 100% !important; 
+/* --- 2. LAYOUT --- */
+.proc-section {
+  background-color: var(--p-bg-mint) !important;
+  width: 100% !important;
   position: relative !important;
+  padding: 0 0 100px 0 !important;
   overflow: hidden !important;
+  display: flex !important;
+  flex-direction: column !important;
 }
 
-/* THE MACRO CYCLE 
-   A large, subtle dashed arc that mimics the hero rings but implies 
-   a longer timeline (Routine) rather than immediate action.
-*/
-.story-bg-cycle {
-  position: absolute !important; inset: 0 !important; pointer-events: none !important;
-  background-image: url("data:image/svg+xml,%3Csvg width='1400' height='1400' viewBox='0 0 1400 1400' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='700' cy='700' r='600' stroke='%23F0F7F4' stroke-width='2' stroke-dasharray='12 12' opacity='0.08'/%3E%3Ccircle cx='700' cy='700' r='450' stroke='%23F0F7F4' stroke-width='1' opacity='0.05'/%3E%3C/svg%3E") !important;
-  background-repeat: no-repeat !important;
-  background-position: center top -400px !important; /* Positioned to arc behind the cards */
-  background-size: 1400px 1400px !important;
-  opacity: 1 !important;
-}
-
-.story-container { 
-  width: 100% !important; max-width: 1600px !important; 
-  margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; position: relative !important; z-index: 2 !important;
-}
-
-/* --- 3. HEADER (TONAL MINT) --- */
-.story-header { 
-  text-align: center !important; 
-  margin-bottom: 70px !important; 
-  max-width: 900px !important; 
-  margin-left: auto !important; margin-right: auto !important;
-  display: flex !important; flex-direction: column !important; align-items: center !important;
-}
-
-.story-badge {
-  display: inline-flex !important; align-items: center !important; gap: 10px !important; 
-  padding: 8px 20px !important; 
-  background: rgba(240, 247, 244, 0.1) !important; /* Glassy Mint */
-  border: 1px solid rgba(240, 247, 244, 0.2) !important;
-  backdrop-filter: blur(4px) !important;
-  border-radius: 30px !important; 
-  margin-bottom: 1.5rem !important;
-}
-.story-dot { width: 8px !important; height: 8px !important; background-color: var(--s-text-mint) !important; border-radius: 50% !important; }
-.story-badge-text { font-family: var(--s-font) !important; font-weight: 700 !important; color: var(--s-text-mint) !important; text-transform: uppercase !important; letter-spacing: 1.5px !important; font-size: 0.75rem !important; }
-
-/* TONAL HEADLINE */
-.story-h2 { 
-  font-family: var(--s-font) !important; 
-  font-size: 3.5rem !important; 
-  margin: 0 0 16px 0 !important; 
-  color: var(--s-text-mint) !important; /* MINT */
-  line-height: 1.1 !important; 
-  font-weight: 700 !important; 
-  text-transform: capitalize !important; 
-  letter-spacing: -0.02em !important;
-}
-
-/* TONAL SUBHEAD */
-.story-sub { 
-  font-family: var(--s-font) !important; 
-  font-size: 1.25rem !important; 
-  color: var(--s-text-mint) !important; 
-  opacity: 0.7 !important; /* Softened Mint */
-  margin: 0 !important; 
-  line-height: 1.6 !important; 
-  max-width: 600px !important;
-}
-
-/* --- 4. GRID --- */
-.story-grid { 
-  display: grid !important; 
-  grid-template-columns: repeat(4, 1fr) !important; 
-  gap: 30px !important; 
-  align-items: stretch !important;
-}
-
-/* --- 5. CARD (WHITE POP) --- */
-.story-card { 
-  background: var(--s-card-bg) !important; 
-  border: 1px solid rgba(0,0,0,0.05) !important; 
-  border-radius: 24px !important; /* Softer Corners */
-  padding: 12px !important; 
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2) !important; 
-  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1) !important; 
-  position: relative !important;
-  display: flex !important; flex-direction: column !important;
-}
-
-.story-card:hover {
-  transform: translateY(-8px) !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4) !important;
-  z-index: 10 !important;
-}
-
-.story-visual-wrap {
-  background: var(--s-inset-bg) !important;
-  border-radius: 16px !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-  position: relative !important;
-  aspect-ratio: 4/5 !important; 
-}
-
-.story-visual-inner {
-  width: 100% !important; height: 100% !important; position: relative !important; border-radius: 16px !important; overflow: hidden !important;
-}
-
-.story-img { width: 100% !important; height: 100% !important; object-fit: cover !important; transition: transform 0.6s ease !important; display: block !important; }
-.story-card:hover .story-img { transform: scale(1.05) !important; }
-
-/* Step Badge now ties back to Kale Green */
-.story-step-badge {
-  position: absolute !important; top: 12px !important; left: 12px !important; 
-  background: rgba(255, 255, 255, 0.95) !important; 
-  backdrop-filter: blur(4px) !important;
-  padding: 8px 14px !important; 
-  border-radius: 12px !important; 
-  z-index: 10 !important; 
-  display: flex !important; align-items: center !important; justify-content: center !important;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1) !important;
-}
-
-.story-step-num {
-  font-family: var(--s-font) !important; font-size: 1.1rem !important; 
-  color: var(--s-kale) !important; /* DARK GREEN NUMBER */
-  font-weight: 800 !important; line-height: 1 !important;
-}
-
-.story-content { 
-  padding: 24px 12px 12px 12px !important; flex-grow: 1 !important; text-align: center !important; 
-}
-
-.story-content h3 { 
-  font-family: var(--s-font) !important; font-weight: 800 !important; font-size: 1.25rem !important; margin: 0 0 8px 0 !important; color: #1A1A1A !important; letter-spacing: -0.01em !important; 
-}
-
-.story-content h3::after {
-  content: "" !important; display: block !important; width: 24px !important; height: 3px !important; 
-  background: var(--s-kale) !important; opacity: 0.15 !important; margin: 12px auto 0 auto !important;
-  transition: width 0.3s ease !important;
-}
-.story-card:hover .story-content h3::after { width: 50px !important; opacity: 1 !important; }
-
-.story-text p { 
-  font-family: var(--s-font) !important; font-size: 0.95rem !important; color: #666 !important; line-height: 1.5 !important; margin: 0 !important; 
-}
-
-/* TONAL ARROWS */
-.story-connector-arrow {
-  position: absolute !important; top: 40% !important; right: -30px !important; width: 30px !important; height: 30px !important; z-index: 20 !important; 
-  color: var(--s-text-mint) !important; 
-  background: rgba(240, 247, 244, 0.1) !important; 
-  border-radius: 50% !important; display: flex !important; align-items: center !important; justify-content: center !important; opacity: 0.8 !important;
-}
-
-/* --- 6. FEATURE RAIL (TONAL) --- */
-.story-feature-rail {
-  display: flex !important; justify-content: center !important; align-items: center !important; gap: 60px !important;
-  margin-top: 70px !important; 
-  padding-top: 30px !important;
-  border-top: 1px solid rgba(240, 247, 244, 0.15) !important; 
+.proc-container {
+  max-width: 1600px !important;
+  margin: 0 auto !important;
+  padding: 70px 40px 0 40px !important;
+  box-sizing: border-box !important;
   width: 100% !important;
 }
 
-.story-feature-item {
-  display: flex !important; align-items: center !important; gap: 12px !important;
+/* --- 3. THE KALE ANCHOR BAR --- */
+.proc-anchor-bar {
+  background-color: var(--p-kale) !important;
+  width: 100% !important;
+  padding: 22px 0 !important;
+  position: relative !important;
+  z-index: 5 !important;
 }
 
-.story-feature-icon { font-size: 1.3rem !important; }
-.story-feature-text { 
-  font-family: var(--s-font) !important; font-weight: 700 !important; font-size: 0.85rem !important; 
-  color: var(--s-text-mint) !important; /* MINT TEXT */
-  text-transform: uppercase !important; letter-spacing: 2px !important;
-  opacity: 0.8 !important;
+.proc-anchor-inner {
+  max-width: 1600px !important;
+  margin: 0 auto !important;
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 50px !important;
+  padding: 0 40px !important;
 }
 
-/* --- 7. RESPONSIVE --- */
-@media (max-width: 1024px) {
-  .story-container { padding: 0 24px !important; }
-  .story-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 20px !important; }
-  .story-connector-arrow { display: none !important; } 
-  .story-feature-rail { flex-direction: column !important; gap: 20px !important; align-items: center !important; }
-  .story-bg-cycle { background-size: 1000px 1000px !important; background-position: center top -200px !important; }
+.proc-trust-item {
+  display: flex !important;
+  align-items: center !important;
+  gap: 12px !important;
+  white-space: nowrap !important;
 }
 
-@media (max-width: 600px) {
-  .story-process-section { padding: 60px 0 80px 0 !important; }
+.proc-trust-text {
+  font-family: var(--p-font) !important;
+  font-weight: 700 !important;
+  color: var(--p-white) !important;
+  font-size: 0.85rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1.8px !important;
+}
+
+.proc-trust-divider {
+  width: 1px !important;
+  height: 18px !important;
+  background: rgba(255,255,255,0.2) !important;
+}
+
+/* --- 4. HEADER --- */
+.proc-header {
+  text-align: center !important;
+  max-width: 800px !important;
+  margin: 0 auto 75px auto !important;
+  position: relative !important; 
+}
+
+.proc-headline {
+  font-family: var(--p-font) !important;
+  font-weight: 800 !important; 
+  color: var(--p-black) !important; 
+  font-size: 2.75rem !important;
+  line-height: 1.1 !important;
+  margin: 0 0 12px 0 !important;
+  letter-spacing: -0.03em !important;
+  text-transform: none !important; 
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.proc-rotate-group {
+  display: inline-block !important;
+  transform: rotate(-1deg) !important;
+  position: relative !important;
+}
+
+.proc-highlight {
+  display: inline-block !important;
+  background-color: var(--p-kale) !important; 
+  color: var(--p-white) !important;
+  padding: 2px 12px 4px 12px !important; 
+  border-radius: 6px !important;
+  margin-left: 6px !important; 
+}
+
+.proc-doodle-arrow {
+  position: absolute !important;
+  top: 50% !important;
+  right: -55px !important;
+  width: 50px !important;
+  height: 50px !important;
+  transform: translateY(-20%) rotate(0deg) !important; 
+}
+
+.proc-subhead {
+  font-family: var(--p-font) !important;
+  font-size: 1.2rem !important;
+  color: var(--p-grey) !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  font-weight: 400 !important;
+}
+
+/* --- 5. GRID & CARDS --- */
+.proc-grid-wrapper {
+  position: relative !important;
+}
+
+.proc-connector-line {
+  position: absolute !important;
+  top: 190px !important; 
+  left: 5% !important;
+  right: 5% !important;
+  height: 2px !important;
+  background-image: linear-gradient(to right, #C0C8C4 50%, rgba(255,255,255,0) 0%) !important;
+  background-size: 20px 2px !important;
+  background-repeat: repeat-x !important;
+  opacity: 0.5 !important;
+}
+
+.proc-grid {
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr) !important;
+  gap: 30px !important;
+  position: relative !important;
+  z-index: 2 !important;
+  width: 100% !important;
+}
+
+.proc-item {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  width: 100% !important;
+}
+
+.proc-visual-group {
+  position: relative !important;
+  width: 100% !important;
+  margin: 0 auto 30px auto !important;
+  aspect-ratio: 1 / 1 !important;
+}
+
+.proc-image-frame {
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: 36px !important;
+  overflow: hidden !important;
+  background: white !important;
+  border: 4px solid white !important;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.06) !important;
+}
+
+.proc-img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  display: block !important;
+}
+
+/* --- BOTTOM-CENTERED PREMIUM BADGE --- */
+.proc-no-sub-badge-centered {
+  position: absolute !important;
+  bottom: 40px !important; /* Positioned above the step number */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
   
-  .story-header { margin-bottom: 40px !important; }
-  .story-h2 { font-size: 2.3rem !important; } 
-  .story-sub { font-size: 1.1rem !important; }
+  /* Modern Styling */
+  background: rgba(209, 31, 31, 0.9) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border-radius: 100px !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
   
-  .story-grid { grid-template-columns: 1fr !important; gap: 30px !important; }
-  .story-visual-wrap { aspect-ratio: 3/2 !important; } 
+  /* Typography */
+  font-family: var(--p-font) !important;
+  font-weight: 700 !important;
+  font-size: 0.65rem !important;
+  letter-spacing: 1px !important;
+  
+  /* Layout */
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  box-shadow: 0 12px 24px rgba(0,0,0,0.2) !important;
+  z-index: 5 !important;
+  white-space: nowrap !important;
+}
+
+.proc-step-badge {
+  position: absolute !important;
+  bottom: -22px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  width: 52px !important;
+  height: 52px !important;
+  background: var(--p-kale) !important;
+  color: white !important;
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  border: 5px solid var(--p-bg-mint) !important;
+  z-index: 10 !important;
+  box-shadow: 0 5px 15px rgba(30, 58, 35, 0.2) !important;
+}
+
+.proc-step-num {
+  font-family: var(--p-font) !important;
+  font-weight: 700 !important;
+  font-size: 1.25rem !important;
+}
+
+.proc-title {
+  font-family: var(--p-font) !important;
+  font-weight: 800 !important;
+  font-size: 1.35rem !important;
+  color: var(--p-charcoal) !important;
+  margin: 30px 0 10px 0 !important;
+  letter-spacing: -0.01em !important;
+  text-transform: uppercase !important;
+}
+
+.proc-text p {
+  font-family: var(--p-font) !important;
+  font-size: 1.1rem !important;
+  color: #666 !important;
+  line-height: 1.5 !important;
+  max-width: 300px !important;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 768px) {
+  .proc-container { padding: 50px 24px 0 24px !important; }
+  .proc-headline { font-size: 2.2rem !important; }
+  .proc-grid { grid-template-columns: 1fr !important; gap: 45px !important; }
+  .proc-no-sub-badge-centered {
+    bottom: 30px !important;
+    padding: 6px 12px !important;
+    font-size: 0.6rem !important;
+  }
+  .proc-doodle-arrow, .proc-connector-line { display: none !important; }
 }
 </style>
 
 {% schema %}
 {
-  "name": "Story Process - Lifestyle",
+  "name": "Process - Lifestyle",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "Your New Routine" },
     { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "From our kitchen to your table. Consistency made simple." }
@@ -307,23 +379,23 @@
   "blocks": [
     {
       "type": "step",
-      "name": "Process Step",
+      "name": "Step",
       "limit": 4,
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Step Image" },
         { "type": "text", "id": "title", "label": "Title", "default": "Step Title" },
-        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Description here.</p>" }
+        { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Step description.</p>" }
       ]
     }
   ],
   "presets": [
     {
-      "name": "Story Process - Lifestyle",
+      "name": "Process - Lifestyle",
       "blocks": [
-        { "type": "step", "settings": { "title": "Choose Once", "text": "<p>Pick meals that fit your goals.</p>" } },
-        { "type": "step", "settings": { "title": "Stay Ready", "text": "<p>We cook & ship fresh.</p>" } },
-        { "type": "step", "settings": { "title": "Eat Consistently", "text": "<p>No prep. No thinking.</p>" } },
-        { "type": "step", "settings": { "title": "Repeat", "text": "<p>Skip when you don't.</p>" } }
+        { "type": "step", "settings": { "title": "CHOOSE ONCE", "text": "<p>Pick meals that fit your goals.</p>" } },
+        { "type": "step", "settings": { "title": "STAY READY", "text": "<p>We cook & ship fresh.</p>" } },
+        { "type": "step", "settings": { "title": "EAT CONSISTENTLY", "text": "<p>No prep. No thinking.</p>" } },
+        { "type": "step", "settings": { "title": "REPEAT", "text": "<p>Skip when you don't.</p>" } }
       ]
     }
   ]

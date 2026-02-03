@@ -1,0 +1,353 @@
+{%- comment -%}
+  Section: Product Authority - "The ICON Standard"
+  KERNING & CASE REVISION: 
+  - Applied -0.02em letter-spacing to tighten up headline kerning.
+  - Hard-coded Title Case into the HTML to ensure consistency.
+  - Maintained 1200px inset for balanced desktop viewing.
+  - CTA synced with Hero Primary gradient and shadow.
+{%- endcomment -%}
+
+<div class="auth-section">
+  <div class="auth-container">
+    
+    <div class="auth-header">
+      <h2 class="auth-headline">
+        Eat Like a Pro, 
+        <span class="auth-underline-wrap">
+          Without the Extra Work.
+          <svg class="auth-underline-svg" width="400" height="20" viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M5 12C100 4 300 4 395 12" stroke="#1E3A23" stroke-width="4" stroke-linecap="round"/>
+          </svg>
+        </span>
+      </h2>
+      <p class="auth-sub-intro">We handle the shopping, chopping, and cooking so you can focus on your day.</p>
+    </div>
+
+    <div class="auth-inset-wrapper">
+      <div class="auth-layout">
+        
+        <div class="auth-main-feature">
+          <div class="auth-main-card">
+            <div class="auth-img-frame">
+              {%- if section.settings.main_image != blank -%}
+                {{ section.settings.main_image | image_url: width: 800 | image_tag: class: 'auth-img-obj', loading: 'lazy' }}
+              {%- else -%}
+                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/USDA-Kitchen-Clean.jpg" class="auth-img-obj" alt="Our Kitchen">
+              {%- endif -%}
+            </div>
+            <div class="auth-main-body">
+              <div class="auth-badge-row">
+                <span class="auth-pill">Real Food</span>
+                <span class="auth-pill">Real Chefs</span>
+              </div>
+              <h3 class="auth-card-title">We cook, you make progress.</h3>
+              <p class="auth-card-p">Everything is made by our team in our own kitchen. If we wouldn't serve it to our families, we don't ship it to yours.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="auth-side-stack">
+          
+          <div class="auth-info-card">
+            <div class="auth-info-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path></svg>
+            </div>
+            <div class="auth-info-content">
+              <h4>Vacuum Sealed Freshness</h4>
+              <p>Our "Fresh-Lock" seal keeps your food tasting like it just came off the grill for up to 10 days in the fridge.</p>
+            </div>
+          </div>
+
+          <div class="auth-info-card">
+            <div class="auth-info-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+            </div>
+            <div class="auth-info-content">
+              <h4>Macros on Every Label</h4>
+              <p>We print the protein, carbs, and fats on every meal. We did the math so you don't have to.</p>
+            </div>
+          </div>
+
+          <div class="auth-info-card">
+            <div class="auth-info-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <div class="auth-info-content">
+              <h4>Rotating Signature Menu</h4>
+              <p>Enjoy a huge variety of recipes that change regularly. You'll never get bored with your routine.</p>
+            </div>
+          </div>
+
+          <div class="auth-info-card auth-highlight-card">
+            <div class="auth-info-icon auth-icon-green">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+            </div>
+            <div class="auth-info-content">
+              <h4 style="color: var(--a-kale)">No Subscription Required</h4>
+              <p>Order what you want, when you want it. No forced commitments, just real food.</p>
+            </div>
+          </div>
+
+          <div class="auth-cta-container">
+             <a href="/collections/signature-menu" class="auth-hero-btn-sync">
+               Shop Signature Menu
+             </a>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<style>
+:root {
+  --a-kale: #1E3A23;
+  --a-mint: #F0F7F4;
+  --a-red: #D11F1F;
+  --a-charcoal: #222222;
+  --a-font: 'Inter', sans-serif;
+}
+
+.auth-section {
+  background-color: #FFFFFF !important;
+  padding: 100px 0 !important;
+  width: 100% !important;
+}
+
+.auth-container {
+  max-width: 1600px !important;
+  margin: 0 auto !important;
+  padding: 0 40px !important;
+}
+
+/* --- HEADER --- */
+.auth-header {
+  text-align: center !important;
+  margin-bottom: 60px !important;
+}
+
+.auth-headline {
+  font-family: var(--a-font) !important;
+  font-weight: 800 !important;
+  font-size: clamp(2rem, 3.5vw, 3rem) !important;
+  line-height: 1.1 !important;
+  color: #000 !important;
+  text-transform: none !important;
+  letter-spacing: -0.02em !important; /* TIGHTENED KERNING FOR PREMIUM LOOK */
+  margin: 0 !important;
+}
+
+.auth-underline-wrap {
+  position: relative !important;
+  display: inline-block !important;
+  color: var(--a-kale) !important;
+}
+
+.auth-underline-svg {
+  position: absolute !important;
+  bottom: -6px !important;
+  left: 0 !important;
+  width: 100% !important;
+}
+
+.auth-sub-intro {
+  font-family: var(--a-font) !important;
+  font-size: 1.15rem !important;
+  color: #666 !important;
+  margin: 15px auto 0 auto !important;
+  max-width: 1000px !important; 
+  line-height: 1.5 !important;
+  letter-spacing: normal !important;
+}
+
+/* --- THE BALANCED INSET (45/55 Split) --- */
+.auth-inset-wrapper {
+  max-width: 1200px !important;
+  margin: 0 auto !important;
+}
+
+.auth-layout {
+  display: grid !important;
+  grid-template-columns: 0.82fr 1fr !important;
+  gap: 30px !important;
+  align-items: stretch !important;
+}
+
+/* LEFT SIDE */
+.auth-main-card {
+  background: var(--a-mint) !important;
+  border-radius: 40px !important;
+  overflow: hidden !important;
+  height: 100% !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.auth-img-frame {
+  width: 100% !important;
+  height: 340px !important;
+  overflow: hidden !important;
+}
+
+.auth-img-obj {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+}
+
+.auth-main-body {
+  padding: 35px !important;
+}
+
+.auth-badge-row {
+  display: flex !important;
+  gap: 10px !important;
+  margin-bottom: 12px !important;
+}
+
+.auth-pill {
+  font-size: 0.7rem !important;
+  font-weight: 800 !important;
+  color: var(--a-kale) !important;
+  background: rgba(30, 58, 35, 0.08) !important;
+  padding: 6px 14px !important;
+  border-radius: 8px !important;
+  text-transform: uppercase !important;
+  letter-spacing: normal !important;
+}
+
+.auth-card-title {
+  font-family: var(--a-font) !important;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  margin: 0 0 10px 0 !important;
+  text-transform: none !important;
+  letter-spacing: -0.01em !important;
+  color: var(--a-charcoal) !important;
+}
+
+.auth-card-p {
+  font-size: 1rem !important;
+  letter-spacing: normal !important;
+  line-height: 1.5 !important;
+  margin: 0 !important;
+  color: #555 !important;
+}
+
+/* RIGHT SIDE STACK */
+.auth-side-stack {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+}
+
+.auth-info-card {
+  display: flex !important;
+  gap: 20px !important;
+  padding: 22px 28px !important;
+  background: #f9f9f9 !important;
+  border: 1px solid #eee !important;
+  border-radius: 26px !important;
+  align-items: center !important;
+}
+
+.auth-highlight-card {
+  background: var(--a-mint) !important;
+  border: 1px dashed var(--a-kale) !important;
+}
+
+.auth-info-icon {
+  width: 44px !important;
+  height: 44px !important;
+  background: #fff !important;
+  border-radius: 12px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: var(--a-red) !important;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.03) !important;
+  flex-shrink: 0 !important;
+}
+
+.auth-icon-green {
+  color: var(--a-kale) !important;
+}
+
+.auth-info-content h4 {
+  font-family: var(--a-font) !important;
+  font-size: 1.15rem !important;
+  font-weight: 800 !important;
+  margin: 0 0 3px 0 !important;
+  text-transform: none !important;
+  letter-spacing: -0.01em !important;
+  color: var(--a-charcoal) !important;
+}
+
+.auth-info-content p {
+  font-size: 0.95rem !important;
+  color: #666 !important;
+  line-height: 1.4 !important;
+  margin: 0 !important;
+  letter-spacing: normal !important;
+}
+
+/* --- HERO SYNCED CTA --- */
+.auth-cta-container {
+  margin-top: 8px !important;
+  position: relative !important;
+  z-index: 10 !important;
+}
+
+.auth-hero-btn-sync {
+  height: 58px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: var(--a-font) !important;
+  font-weight: 700 !important;
+  font-size: 1rem !important;
+  letter-spacing: normal !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important;
+  color: #FFFFFF !important;
+  border: none !important;
+  border-radius: 50px !important;
+  box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  transition: all 0.3s ease !important;
+}
+
+.auth-hero-btn-sync:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4) !important;
+  color: #FFFFFF !important;
+}
+
+/* --- MOBILE --- */
+@media (max-width: 1024px) {
+  .auth-layout { grid-template-columns: 1fr !important; }
+}
+
+@media (max-width: 767px) {
+  .auth-info-card { flex-direction: column !important; text-align: center !important; }
+  .auth-main-body { padding: 30px !important; }
+}
+</style>
+
+{% schema %}
+{
+  "name": "Product Authority",
+  "settings": [
+    { "type": "image_picker", "id": "main_image", "label": "Kitchen Image" }
+  ],
+  "presets": [
+    { "name": "Product Authority" }
+  ]
+}
+{% endschema %}
