@@ -1,8 +1,9 @@
 {%- comment -%}
-  Section: Process - "Lifestyle Aligned"
-  REVISION: 
-  - Relocated "No Subscription" badge to bottom-center of the last image.
-  - Refined Glassmorphism for better legibility against light backgrounds.
+  Section: Process - Lifestyle
+  UPDATES:
+  - Logic added for "Trending" strip (activates if you add 'meal' blocks).
+  - Forces new Headline copy defaults.
+  - Trust bar defaults to Emojis.
 {%- endcomment -%}
 
 <div class="proc-section">
@@ -10,18 +11,18 @@
   <div class="proc-anchor-bar">
     <div class="proc-anchor-inner">
       <div class="proc-trust-item">
-        <span class="proc-trust-icon">❄️</span>
-        <span class="proc-trust-text">Cooked, Portioned & Shipped</span>
+        <span class="proc-trust-icon">{% if section.settings.use_emojis %}❄️{% else %}✓{% endif %}</span>
+        <span class="proc-trust-text">{{ section.settings.trust_1 }}</span>
       </div>
       <div class="proc-trust-divider"></div>
       <div class="proc-trust-item">
-        <span class="proc-trust-icon">📅</span>
-        <span class="proc-trust-text">Rotating Signature Menu</span>
+        <span class="proc-trust-icon">{% if section.settings.use_emojis %}📅{% else %}✓{% endif %}</span>
+        <span class="proc-trust-text">{{ section.settings.trust_2 }}</span>
       </div>
       <div class="proc-trust-divider"></div>
       <div class="proc-trust-item">
-        <span class="proc-trust-icon">🇺🇸</span>
-        <span class="proc-trust-text">USDA Inspected Kitchen</span>
+        <span class="proc-trust-icon">{% if section.settings.use_emojis %}🇺🇸{% else %}✓{% endif %}</span>
+        <span class="proc-trust-text">{{ section.settings.trust_3 }}</span>
       </div>
     </div>
   </div>
@@ -29,14 +30,10 @@
   <div class="proc-container">
     
     <div class="proc-header">
-      {%- assign title_words = section.settings.heading | split: ' ' -%}
-      {%- assign last_word = title_words.last -%}
-      {%- assign first_part_size = title_words.size | minus: 1 -%}
-      {%- assign first_part = title_words | slice: 0, first_part_size | join: ' ' -%}
-
       <h2 class="proc-headline">
-        <span class="proc-rotate-group">
-          {{ first_part }}<span class="proc-highlight">{{ last_word }}</span>
+        <span class="proc-headline-tilt-wrap">
+          <span class="proc-headline-text">{{ section.settings.heading_start_new }}</span> 
+          <span class="proc-highlight">{{ section.settings.heading_highlight_new }}</span>
           
           <svg class="proc-doodle-arrow" width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M 10 5 C 35 5, 45 20, 35 50" stroke="#222222" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -46,15 +43,39 @@
       </h2>
       
       <div class="proc-subhead-wrap">
-        <p class="proc-subhead">{{ section.settings.subheading }}</p>
+        <p class="proc-subhead">{{ section.settings.subheading_new }}</p>
       </div>
     </div>
 
-    <div class="proc-grid-wrapper">
-      <div class="proc-connector-line"></div>
+    {%- comment -%} TRENDING STRIP LOGIC {%- endcomment -%}
+    {%- assign meal_blocks = section.blocks | where: "type", "meal" -%}
+    {%- if meal_blocks.size > 0 -%}
+      <div class="proc-bestsellers-wrapper">
+        <p class="proc-strip-label">TRENDING THIS WEEK</p>
+        <div class="proc-bestsellers-scroll">
+          {%- for block in meal_blocks -%}
+            <a href="{{ block.settings.link }}" class="proc-meal-card" {{ block.shopify_attributes }}>
+              <div class="proc-meal-img-wrap">
+                 {%- if block.settings.image != blank -%}
+                  {{ block.settings.image | image_url: width: 300 | image_tag: class: 'proc-meal-img', loading: 'lazy' }}
+                {%- else -%}
+                  {{ 'image' | placeholder_svg_tag: 'proc-placeholder-svg' }}
+                {%- endif -%}
+              </div>
+              <div class="proc-meal-info">
+                {% if block.settings.tag != blank %}<span class="proc-meal-tag">{{ block.settings.tag }}</span>{% endif %}
+                <span class="proc-meal-title">{{ block.settings.title }}</span>
+              </div>
+            </a>
+          {%- endfor -%}
+        </div>
+      </div>
+    {%- endif -%}
 
+    <div class="proc-grid-wrapper">
       <div class="proc-grid">
-        {%- for block in section.blocks -%}
+        {%- assign step_blocks = section.blocks | where: "type", "step" -%}
+        {%- for block in step_blocks -%}
           <div class="proc-item" {{ block.shopify_attributes }}>
             
             <div class="proc-visual-group">
@@ -102,36 +123,29 @@
   --p-white: #FFFFFF;
   --p-charcoal: #222222;
   --p-grey: #555555;
-  --p-red: #D11F1F;
   --p-font: 'Inter', sans-serif;
+  --p-radius: 16px; 
 }
 
 /* --- 2. LAYOUT --- */
 .proc-section {
   background-color: var(--p-bg-mint) !important;
   width: 100% !important;
-  position: relative !important;
   padding: 0 0 100px 0 !important;
   overflow: hidden !important;
-  display: flex !important;
-  flex-direction: column !important;
 }
 
 .proc-container {
   max-width: 1600px !important;
   margin: 0 auto !important;
-  padding: 70px 40px 0 40px !important;
+  padding: 80px 40px 0 40px !important;
   box-sizing: border-box !important;
-  width: 100% !important;
 }
 
-/* --- 3. THE KALE ANCHOR BAR --- */
+/* --- 3. ANCHOR BAR --- */
 .proc-anchor-bar {
   background-color: var(--p-kale) !important;
-  width: 100% !important;
   padding: 22px 0 !important;
-  position: relative !important;
-  z-index: 5 !important;
 }
 
 .proc-anchor-inner {
@@ -140,24 +154,23 @@
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  gap: 50px !important;
-  padding: 0 40px !important;
+  gap: 40px !important;
 }
 
 .proc-trust-item {
   display: flex !important;
   align-items: center !important;
-  gap: 12px !important;
-  white-space: nowrap !important;
+  gap: 10px !important;
 }
 
 .proc-trust-text {
   font-family: var(--p-font) !important;
   font-weight: 700 !important;
   color: var(--p-white) !important;
-  font-size: 0.85rem !important;
+  font-size: 0.8rem !important;
   text-transform: uppercase !important;
-  letter-spacing: 1.8px !important;
+  letter-spacing: 1.5px !important;
+  white-space: nowrap !important;
 }
 
 .proc-trust-divider {
@@ -169,203 +182,245 @@
 /* --- 4. HEADER --- */
 .proc-header {
   text-align: center !important;
-  max-width: 800px !important;
-  margin: 0 auto 75px auto !important;
-  position: relative !important; 
+  margin: 0 auto 50px auto !important;
 }
 
 .proc-headline {
   font-family: var(--p-font) !important;
   font-weight: 800 !important; 
   color: var(--p-black) !important; 
-  font-size: 2.75rem !important;
-  line-height: 1.1 !important;
-  margin: 0 0 12px 0 !important;
+  font-size: 3.5rem !important;
+  line-height: 1.2 !important;
   letter-spacing: -0.03em !important;
-  text-transform: none !important; 
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
+  text-transform: none !important;
+  display: block !important;
+  margin: 0 !important;
 }
 
-.proc-rotate-group {
-  display: inline-block !important;
-  transform: rotate(-1deg) !important;
+.proc-headline-tilt-wrap {
+  display: inline-flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  gap: 15px !important;
+  transform: rotate(-1.5deg) !important;
   position: relative !important;
 }
 
 .proc-highlight {
-  display: inline-block !important;
   background-color: var(--p-kale) !important; 
   color: var(--p-white) !important;
-  padding: 2px 12px 4px 12px !important; 
-  border-radius: 6px !important;
-  margin-left: 6px !important; 
+  padding: 4px 18px 6px 18px !important; 
+  border-radius: 8px !important;
+  display: inline-block !important;
 }
 
 .proc-doodle-arrow {
   position: absolute !important;
-  top: 50% !important;
-  right: -55px !important;
-  width: 50px !important;
-  height: 50px !important;
-  transform: translateY(-20%) rotate(0deg) !important; 
+  top: 40% !important;
+  right: -75px !important;
+  width: 55px !important;
+  height: 55px !important;
+  transform: translateY(-20%) rotate(5deg) !important;
 }
 
 .proc-subhead {
   font-family: var(--p-font) !important;
-  font-size: 1.2rem !important;
+  font-size: 1.25rem !important;
   color: var(--p-grey) !important;
+  margin-top: 12px !important;
+  max-width: 650px !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
   line-height: 1.5 !important;
-  margin: 0 !important;
-  font-weight: 400 !important;
 }
+
+/* --- 4b. BEST SELLERS STRIP --- */
+.proc-bestsellers-wrapper {
+  margin-bottom: 50px !important;
+  text-align: center !important;
+}
+.proc-strip-label {
+  font-family: var(--p-font) !important;
+  font-size: 0.75rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 2px !important;
+  color: var(--p-kale) !important;
+  text-transform: uppercase !important;
+  margin-bottom: 20px !important;
+  opacity: 0.8 !important;
+}
+.proc-bestsellers-scroll {
+  display: flex !important;
+  justify-content: center !important;
+  gap: 20px !important;
+  overflow-x: auto !important;
+  padding-bottom: 20px !important;
+  scrollbar-width: none !important; 
+}
+.proc-bestsellers-scroll::-webkit-scrollbar { display: none !important; }
+
+.proc-meal-card {
+  flex: 0 0 160px !important;
+  text-decoration: none !important;
+  background: #fff !important;
+  border-radius: 12px !important;
+  padding: 10px !important;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05) !important;
+  transition: transform 0.2s ease !important;
+  text-align: left !important;
+}
+.proc-meal-card:hover { transform: translateY(-4px) !important; }
+.proc-meal-img-wrap {
+  width: 100% !important;
+  aspect-ratio: 1/1 !important;
+  border-radius: 8px !important;
+  overflow: hidden !important;
+  margin-bottom: 8px !important;
+  background: #eee !important;
+}
+.proc-meal-img { width: 100% !important; height: 100% !important; object-fit: cover !important; }
+.proc-meal-info { display: flex !important; flex-direction: column !important; gap: 4px !important; }
+.proc-meal-tag { font-size: 0.6rem !important; font-weight: 700 !important; color: #D11F1F !important; text-transform: uppercase !important; }
+.proc-meal-title { font-size: 0.85rem !important; font-weight: 600 !important; color: #222 !important; line-height: 1.2 !important; }
+
 
 /* --- 5. GRID & CARDS --- */
-.proc-grid-wrapper {
-  position: relative !important;
-}
-
-.proc-connector-line {
-  position: absolute !important;
-  top: 190px !important; 
-  left: 5% !important;
-  right: 5% !important;
-  height: 2px !important;
-  background-image: linear-gradient(to right, #C0C8C4 50%, rgba(255,255,255,0) 0%) !important;
-  background-size: 20px 2px !important;
-  background-repeat: repeat-x !important;
-  opacity: 0.5 !important;
-}
-
 .proc-grid {
   display: grid !important;
   grid-template-columns: repeat(4, 1fr) !important;
-  gap: 30px !important;
-  position: relative !important;
-  z-index: 2 !important;
-  width: 100% !important;
-}
-
-.proc-item {
-  display: flex !important;
-  flex-direction: column !important;
-  align-items: center !important;
-  text-align: center !important;
-  width: 100% !important;
+  gap: 35px !important;
 }
 
 .proc-visual-group {
   position: relative !important;
-  width: 100% !important;
-  margin: 0 auto 30px auto !important;
   aspect-ratio: 1 / 1 !important;
+  margin-bottom: 16px !important;
 }
 
 .proc-image-frame {
-  position: absolute !important;
-  top: 0 !important;
-  left: 0 !important;
   width: 100% !important;
   height: 100% !important;
-  border-radius: 36px !important;
+  border-radius: var(--p-radius) !important;
   overflow: hidden !important;
-  background: white !important;
-  border: 4px solid white !important;
-  box-shadow: 0 20px 50px rgba(0,0,0,0.06) !important;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08) !important;
 }
 
 .proc-img {
   width: 100% !important;
   height: 100% !important;
   object-fit: cover !important;
-  display: block !important;
 }
 
-/* --- BOTTOM-CENTERED PREMIUM BADGE --- */
-.proc-no-sub-badge-centered {
-  position: absolute !important;
-  bottom: 40px !important; /* Positioned above the step number */
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  
-  /* Modern Styling */
-  background: rgba(209, 31, 31, 0.9) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  color: white !important;
-  padding: 8px 16px !important;
-  border-radius: 100px !important;
-  border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  
-  /* Typography */
-  font-family: var(--p-font) !important;
-  font-weight: 700 !important;
-  font-size: 0.65rem !important;
-  letter-spacing: 1px !important;
-  
-  /* Layout */
-  display: flex !important;
-  align-items: center !important;
-  gap: 8px !important;
-  box-shadow: 0 12px 24px rgba(0,0,0,0.2) !important;
-  z-index: 5 !important;
-  white-space: nowrap !important;
-}
-
+/* STEP BADGE */
 .proc-step-badge {
   position: absolute !important;
-  bottom: -22px !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  width: 52px !important;
-  height: 52px !important;
+  top: -10px !important;
+  left: -10px !important;
+  width: 42px !important;
+  height: 42px !important;
   background: var(--p-kale) !important;
   color: white !important;
-  border-radius: 50% !important;
+  border-radius: 10px !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
-  border: 5px solid var(--p-bg-mint) !important;
   z-index: 10 !important;
-  box-shadow: 0 5px 15px rgba(30, 58, 35, 0.2) !important;
+  box-shadow: 0 8px 16px rgba(30, 58, 35, 0.25) !important;
 }
 
 .proc-step-num {
   font-family: var(--p-font) !important;
-  font-weight: 700 !important;
-  font-size: 1.25rem !important;
+  font-weight: 800 !important;
+  font-size: 1.2rem !important;
+  line-height: 1 !important;
+}
+
+.proc-content {
+  padding: 0 4px !important;
 }
 
 .proc-title {
   font-family: var(--p-font) !important;
   font-weight: 800 !important;
-  font-size: 1.35rem !important;
-  color: var(--p-charcoal) !important;
-  margin: 30px 0 10px 0 !important;
-  letter-spacing: -0.01em !important;
+  font-size: 1.15rem !important;
   text-transform: uppercase !important;
+  letter-spacing: -0.01em !important;
+  color: var(--p-charcoal) !important;
+  margin: 0 0 6px 0 !important;
 }
 
-.proc-text p {
+.proc-text, .proc-text p {
   font-family: var(--p-font) !important;
-  font-size: 1.1rem !important;
+  font-size: 0.95rem !important;
   color: #666 !important;
-  line-height: 1.5 !important;
-  max-width: 300px !important;
+  margin: 0 !important;
+  line-height: 1.45 !important;
 }
 
-/* --- MOBILE --- */
+.proc-no-sub-badge-centered {
+  position: absolute !important;
+  bottom: 20px !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  background: rgba(209, 31, 31, 0.95) !important;
+  backdrop-filter: blur(8px) !important;
+  color: white !important;
+  padding: 8px 16px !important;
+  border-radius: 50px !important;
+  font-weight: 700 !important;
+  font-size: 0.65rem !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  white-space: nowrap !important;
+}
+
+/* --- MOBILE REFINEMENTS --- */
 @media (max-width: 768px) {
-  .proc-container { padding: 50px 24px 0 24px !important; }
-  .proc-headline { font-size: 2.2rem !important; }
-  .proc-grid { grid-template-columns: 1fr !important; gap: 45px !important; }
-  .proc-no-sub-badge-centered {
-    bottom: 30px !important;
-    padding: 6px 12px !important;
-    font-size: 0.6rem !important;
+  
+  /* Trust Bar: Fix Edge-to-Edge Pill Issue */
+  .proc-anchor-inner { 
+    flex-direction: column !important; 
+    gap: 12px !important; 
+    align-items: center !important; 
+    padding: 0 24px !important; 
   }
-  .proc-doodle-arrow, .proc-connector-line { display: none !important; }
+  
+  .proc-trust-item {
+    background: rgba(255,255,255,0.08) !important;
+    padding: 12px 20px !important;
+    border-radius: 100px !important;
+    justify-content: center !important;
+    width: 100% !important;
+    max-width: 340px !important; 
+  }
+  
+  .proc-trust-divider { display: none !important; }
+
+  /* Spacing & Title Optimization */
+  .proc-container { padding: 40px 20px 0 20px !important; } 
+  
+  .proc-headline-tilt-wrap {
+    flex-direction: column !important;
+    gap: 8px !important;
+  }
+  
+  .proc-headline { 
+    font-size: 2.5rem !important; 
+    line-height: 1.1 !important;
+  }
+  
+  .proc-doodle-arrow { display: none !important; }
+  
+  /* Best Sellers Mobile */
+  .proc-bestsellers-scroll {
+    justify-content: flex-start !important;
+    padding: 0 5px 20px 5px !important;
+  }
+  
+  /* Grid & Step Alignment */
+  .proc-grid { grid-template-columns: 1fr !important; gap: 50px !important; }
+  .proc-step-badge { left: -8px !important; top: -8px !important; }
 }
 </style>
 
@@ -373,18 +428,34 @@
 {
   "name": "Process - Lifestyle",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Your New Routine" },
-    { "type": "textarea", "id": "subheading", "label": "Subheading", "default": "From our kitchen to your table. Consistency made simple." }
+    { "type": "text", "id": "heading_start_new", "label": "Heading Start", "default": "Your New" },
+    { "type": "text", "id": "heading_highlight_new", "label": "Heading Highlight", "default": "Routine" },
+    { "type": "textarea", "id": "subheading_new", "label": "Subheading", "default": "From our kitchen to your table. Consistency made simple." },
+    { "type": "checkbox", "id": "use_emojis", "label": "Use Emojis in Trust Bar", "default": true },
+    { "type": "text", "id": "trust_1", "label": "Trust Text 1", "default": "Cooked & Shipped Fresh" },
+    { "type": "text", "id": "trust_2", "label": "Trust Text 2", "default": "Rotating Menu" },
+    { "type": "text", "id": "trust_3", "label": "Trust Text 3", "default": "USDA Inspected" }
   ],
   "blocks": [
     {
       "type": "step",
-      "name": "Step",
+      "name": "Process Step",
       "limit": 4,
       "settings": [
         { "type": "image_picker", "id": "image", "label": "Step Image" },
         { "type": "text", "id": "title", "label": "Title", "default": "Step Title" },
         { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Step description.</p>" }
+      ]
+    },
+    {
+      "type": "meal",
+      "name": "Trending Meal",
+      "limit": 6,
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Meal Image" },
+        { "type": "text", "id": "title", "label": "Meal Name" },
+        { "type": "text", "id": "tag", "label": "Tag", "default": "Best Seller" },
+        { "type": "url", "id": "link", "label": "Link" }
       ]
     }
   ],
@@ -392,10 +463,10 @@
     {
       "name": "Process - Lifestyle",
       "blocks": [
-        { "type": "step", "settings": { "title": "CHOOSE ONCE", "text": "<p>Pick meals that fit your goals.</p>" } },
-        { "type": "step", "settings": { "title": "STAY READY", "text": "<p>We cook & ship fresh.</p>" } },
-        { "type": "step", "settings": { "title": "EAT CONSISTENTLY", "text": "<p>No prep. No thinking.</p>" } },
-        { "type": "step", "settings": { "title": "REPEAT", "text": "<p>Skip when you don't.</p>" } }
+        { "type": "step", "settings": { "title": "SELECT YOUR FAVORITES", "text": "<p>Choose from our rotating menu of high-protein meals.</p>" } },
+        { "type": "step", "settings": { "title": "WE COOK & SHIP", "text": "<p>Our chefs prepare everything fresh, then we seal and ship.</p>" } },
+        { "type": "step", "settings": { "title": "READY IN 3 MINUTES", "text": "<p>No prep, no cleanup. Just heat and eat.</p>" } },
+        { "type": "step", "settings": { "title": "REPEAT ON YOUR TERMS", "text": "<p>Set a weekly order or grab meals whenever you need them.</p>" } }
       ]
     }
   ]

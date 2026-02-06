@@ -1,10 +1,9 @@
 {%- comment -%}
   Section: Product Authority - "The ICON Standard"
-  KERNING & CASE REVISION: 
-  - Applied -0.02em letter-spacing to tighten up headline kerning.
-  - Hard-coded Title Case into the HTML to ensure consistency.
-  - Maintained 1200px inset for balanced desktop viewing.
-  - CTA synced with Hero Primary gradient and shadow.
+  UPDATES:
+  - Added Standards List & FAQ logic.
+  - Renamed text settings to new IDs to force new default content.
+  - Kept image/link settings to preserve assets.
 {%- endcomment -%}
 
 <div class="auth-section">
@@ -12,15 +11,15 @@
     
     <div class="auth-header">
       <h2 class="auth-headline">
-        Eat Like a Pro, 
+        Real Food. 
         <span class="auth-underline-wrap">
-          Without the Extra Work.
+          Real Life.
           <svg class="auth-underline-svg" width="400" height="20" viewBox="0 0 400 20" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M5 12C100 4 300 4 395 12" stroke="#1E3A23" stroke-width="4" stroke-linecap="round"/>
           </svg>
         </span>
       </h2>
-      <p class="auth-sub-intro">We handle the shopping, chopping, and cooking so you can focus on your day.</p>
+      <p class="auth-sub-intro">{{ section.settings.subheading_new }}</p>
     </div>
 
     <div class="auth-inset-wrapper">
@@ -40,8 +39,17 @@
                 <span class="auth-pill">Real Food</span>
                 <span class="auth-pill">Real Chefs</span>
               </div>
-              <h3 class="auth-card-title">We cook, you make progress.</h3>
-              <p class="auth-card-p">Everything is made by our team in our own kitchen. If we wouldn't serve it to our families, we don't ship it to yours.</p>
+              <h3 class="auth-card-title">{{ section.settings.main_card_title_new }}</h3>
+              <p class="auth-card-p">{{ section.settings.main_card_text_new }}</p>
+              
+              {%- if section.settings.standards_list != blank -%}
+              <div class="auth-standards-box">
+                <span class="auth-standards-label">THE ICON STANDARD:</span>
+                <div class="auth-standards-list">
+                  {{ section.settings.standards_list }}
+                </div>
+              </div>
+              {%- endif -%}
             </div>
           </div>
         </div>
@@ -68,16 +76,6 @@
             </div>
           </div>
 
-          <div class="auth-info-card">
-            <div class="auth-info-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
-            </div>
-            <div class="auth-info-content">
-              <h4>Rotating Signature Menu</h4>
-              <p>Enjoy a huge variety of recipes that change regularly. You'll never get bored with your routine.</p>
-            </div>
-          </div>
-
           <div class="auth-info-card auth-highlight-card">
             <div class="auth-info-icon auth-icon-green">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
@@ -88,10 +86,32 @@
             </div>
           </div>
 
+          {%- if section.settings.show_faq -%}
+          <div class="auth-faq-wrapper">
+             <details class="auth-faq-item">
+               <summary>{{ section.settings.faq_1_q }}</summary>
+               <div class="auth-faq-ans">{{ section.settings.faq_1_a }}</div>
+             </details>
+             <details class="auth-faq-item">
+               <summary>{{ section.settings.faq_2_q }}</summary>
+               <div class="auth-faq-ans">{{ section.settings.faq_2_a }}</div>
+             </details>
+             <details class="auth-faq-item">
+               <summary>{{ section.settings.faq_3_q }}</summary>
+               <div class="auth-faq-ans">{{ section.settings.faq_3_a }}</div>
+             </details>
+          </div>
+          {%- endif -%}
+
           <div class="auth-cta-container">
-             <a href="/collections/signature-menu" class="auth-hero-btn-sync">
-               Shop Signature Menu
+             <a href="{{ section.settings.cta_link }}" class="auth-hero-btn-sync">
+               {{ section.settings.cta_text_new }}
              </a>
+             {%- if section.settings.cta_sub_link_text != blank -%}
+             <a href="{{ section.settings.cta_sub_link_url }}" class="auth-sub-link">
+               {{ section.settings.cta_sub_link_text }}
+             </a>
+             {%- endif -%}
           </div>
 
         </div>
@@ -103,10 +123,12 @@
 </div>
 
 <style>
+/* --- 1. VARIABLES --- */
 :root {
   --a-kale: #1E3A23;
   --a-mint: #F0F7F4;
   --a-red: #D11F1F;
+  --a-red-dark: #BA1414;
   --a-charcoal: #222222;
   --a-font: 'Inter', sans-serif;
 }
@@ -123,7 +145,7 @@
   padding: 0 40px !important;
 }
 
-/* --- HEADER --- */
+/* --- 2. HEADLINE --- */
 .auth-header {
   text-align: center !important;
   margin-bottom: 60px !important;
@@ -136,7 +158,7 @@
   line-height: 1.1 !important;
   color: #000 !important;
   text-transform: none !important;
-  letter-spacing: -0.02em !important; /* TIGHTENED KERNING FOR PREMIUM LOOK */
+  letter-spacing: -0.02em !important;
   margin: 0 !important;
 }
 
@@ -158,12 +180,12 @@
   font-size: 1.15rem !important;
   color: #666 !important;
   margin: 15px auto 0 auto !important;
-  max-width: 1000px !important; 
+  max-width: 950px !important; 
   line-height: 1.5 !important;
   letter-spacing: normal !important;
 }
 
-/* --- THE BALANCED INSET (45/55 Split) --- */
+/* --- 3. LAYOUT --- */
 .auth-inset-wrapper {
   max-width: 1200px !important;
   margin: 0 auto !important;
@@ -176,7 +198,6 @@
   align-items: stretch !important;
 }
 
-/* LEFT SIDE */
 .auth-main-card {
   background: var(--a-mint) !important;
   border-radius: 40px !important;
@@ -225,7 +246,7 @@
   font-weight: 800 !important;
   margin: 0 0 10px 0 !important;
   text-transform: none !important;
-  letter-spacing: -0.01em !important;
+  letter-spacing: normal !important;
   color: var(--a-charcoal) !important;
 }
 
@@ -233,11 +254,30 @@
   font-size: 1rem !important;
   letter-spacing: normal !important;
   line-height: 1.5 !important;
-  margin: 0 !important;
+  margin: 0 0 20px 0 !important;
   color: #555 !important;
 }
 
-/* RIGHT SIDE STACK */
+.auth-standards-box {
+  margin-top: 10px !important;
+  border-top: 1px solid rgba(0,0,0,0.08) !important;
+  padding-top: 15px !important;
+}
+.auth-standards-label {
+  display: block !important;
+  font-size: 0.65rem !important;
+  font-weight: 800 !important;
+  letter-spacing: 1px !important;
+  color: var(--a-kale) !important;
+  margin-bottom: 8px !important;
+}
+.auth-standards-list {
+  font-size: 0.85rem !important;
+  color: #555 !important;
+  line-height: 1.5 !important;
+}
+
+/* SIDE STACK */
 .auth-side-stack {
   display: flex !important;
   flex-direction: column !important;
@@ -282,7 +322,7 @@
   font-weight: 800 !important;
   margin: 0 0 3px 0 !important;
   text-transform: none !important;
-  letter-spacing: -0.01em !important;
+  letter-spacing: normal !important;
   color: var(--a-charcoal) !important;
 }
 
@@ -294,11 +334,43 @@
   letter-spacing: normal !important;
 }
 
-/* --- HERO SYNCED CTA --- */
+/* FAQ */
+.auth-faq-wrapper {
+  margin-top: 10px !important;
+  border: 1px solid #eee !important;
+  border-radius: 20px !important;
+  padding: 0 20px !important;
+}
+.auth-faq-item {
+  border-bottom: 1px solid #eee !important;
+  padding: 12px 0 !important;
+}
+.auth-faq-item:last-child { border-bottom: none !important; }
+.auth-faq-item summary {
+  font-weight: 600 !important;
+  font-size: 0.9rem !important;
+  cursor: pointer !important;
+  color: var(--a-charcoal) !important;
+  list-style: none !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+}
+.auth-faq-item summary::-webkit-details-marker { display: none !important; }
+.auth-faq-item summary::after { content: "+" !important; font-weight: 400 !important; font-size: 1.2rem !important; }
+.auth-faq-item[open] summary::after { content: "-" !important; }
+.auth-faq-ans {
+  font-size: 0.85rem !important;
+  color: #666 !important;
+  padding-top: 8px !important;
+  line-height: 1.4 !important;
+}
+
+
+/* CTA */
 .auth-cta-container {
-  margin-top: 8px !important;
-  position: relative !important;
-  z-index: 10 !important;
+  margin-top: 12px !important;
+  text-align: center !important;
 }
 
 .auth-hero-btn-sync {
@@ -312,14 +384,11 @@
   letter-spacing: normal !important;
   text-transform: none !important;
   text-decoration: none !important;
-  background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important;
+  background: linear-gradient(180deg, var(--a-red) 0%, var(--a-red-dark) 100%) !important;
   color: #FFFFFF !important;
   border: none !important;
   border-radius: 50px !important;
   box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  width: 100% !important;
   transition: all 0.3s ease !important;
 }
 
@@ -328,15 +397,70 @@
   box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4) !important;
   color: #FFFFFF !important;
 }
+.auth-sub-link {
+  display: inline-block !important;
+  margin-top: 12px !important;
+  font-size: 0.9rem !important;
+  color: #666 !important;
+  text-decoration: underline !important;
+  font-weight: 500 !important;
+}
 
-/* --- MOBILE --- */
+/* --- MOBILE OPTIMIZATION --- */
 @media (max-width: 1024px) {
   .auth-layout { grid-template-columns: 1fr !important; }
 }
 
 @media (max-width: 767px) {
-  .auth-info-card { flex-direction: column !important; text-align: center !important; }
-  .auth-main-body { padding: 30px !important; }
+  /* Fix Width Issue: 24px padding */
+  .auth-section { padding: 50px 0 !important; }
+  .auth-container { padding: 0 24px !important; }
+
+  /* Title Typography */
+  .auth-header { margin-bottom: 35px !important; text-align: left !important; }
+  .auth-headline { 
+    font-size: 2.6rem !important; 
+    line-height: 1.05 !important; 
+    text-wrap: pretty !important; 
+    letter-spacing: -0.03em !important;
+  }
+  .auth-sub-intro { font-size: 1.05rem !important; margin-top: 15px !important; text-align: left !important; max-width: 100% !important; }
+  
+  .auth-underline-svg { width: 65% !important; left: 0 !important; }
+  
+  /* Main Card */
+  .auth-main-card { border-radius: 24px !important; margin-bottom: 20px !important; }
+  .auth-img-frame { height: 240px !important; } 
+  .auth-main-body { padding: 24px !important; }
+  .auth-card-title { font-size: 1.35rem !important; }
+
+  /* Feature Cards: Horizontal Layout (Icon Left) */
+  .auth-side-stack { gap: 15px !important; }
+  
+  .auth-info-card { 
+    flex-direction: row !important; 
+    text-align: left !important; 
+    align-items: flex-start !important; 
+    padding: 20px !important; 
+    gap: 16px !important;
+  }
+
+  .auth-info-icon {
+    width: 38px !important;
+    height: 38px !important;
+  }
+
+  .auth-info-icon svg {
+    width: 20px !important;
+    height: 20px !important;
+  }
+  
+  .auth-info-content h4 { font-size: 1.05rem !important; }
+  .auth-info-content p { font-size: 0.9rem !important; }
+
+  /* CTA Button */
+  .auth-cta-container { margin-top: 10px !important; }
+  .auth-hero-btn-sync { width: 100% !important; }
 }
 </style>
 
@@ -344,7 +468,24 @@
 {
   "name": "Product Authority",
   "settings": [
-    { "type": "image_picker", "id": "main_image", "label": "Kitchen Image" }
+    { "type": "text", "id": "subheading_new", "label": "Subheading", "default": "We handle the shopping, chopping, and cooking so you can focus on your day." },
+    { "type": "image_picker", "id": "main_image", "label": "Kitchen Image" },
+    { "type": "text", "id": "main_card_title_new", "label": "Main Card Title", "default": "We cook, you make progress." },
+    { "type": "textarea", "id": "main_card_text_new", "label": "Main Card Text", "default": "Everything is made by our team in our own kitchen. If we wouldn't serve it to our families, we don't ship it to yours." },
+    { "type": "richtext", "id": "standards_list", "label": "Standards List", "default": "<p>• No artificial preservatives<br>• High-protein portions<br>• Fresh ingredients</p>" },
+    { "type": "header", "content": "FAQ" },
+    { "type": "checkbox", "id": "show_faq", "label": "Show FAQ", "default": true },
+    { "type": "text", "id": "faq_1_q", "label": "Question 1", "default": "Is there a subscription commitment?" },
+    { "type": "text", "id": "faq_1_a", "label": "Answer 1", "default": "No. You can order one time, or set up a recurring order to save money. You can pause or cancel anytime." },
+    { "type": "text", "id": "faq_2_q", "label": "Question 2", "default": "How long do meals stay fresh?" },
+    { "type": "text", "id": "faq_2_a", "label": "Answer 2", "default": "Thanks to our vacuum seal technology, meals stay fresh in the fridge for 10-14 days. You can also freeze them." },
+    { "type": "text", "id": "faq_3_q", "label": "Question 3", "default": "Where do you ship?" },
+    { "type": "text", "id": "faq_3_a", "label": "Answer 3", "default": "We ship via FedEx to all 48 continental states." },
+    { "type": "header", "content": "CTA" },
+    { "type": "text", "id": "cta_text_new", "label": "CTA Text", "default": "Shop Signature Menu" },
+    { "type": "url", "id": "cta_link", "label": "CTA Link" },
+    { "type": "text", "id": "cta_sub_link_text", "label": "Sub CTA Text", "default": "See how it works" },
+    { "type": "url", "id": "cta_sub_link_url", "label": "Sub CTA URL" }
   ],
   "presets": [
     { "name": "Product Authority" }

@@ -1,29 +1,27 @@
 {%- comment -%}
-Section: Hero - Lifestyle Final (Desktop Resize Polish)
-Fixes:
-1. DESKTOP IMAGE SCALING: Relaxed the "Laptop Breakpoint" (1025-1440px). 
-   - Previously: Hard capped at 480px (too small).
-   - Now: Allowed to grow to 650px, filling the grid column naturally.
-2. RING SYSTEM: Adjusted the ring background size to match the larger image on laptops so it doesn't look disconnected.
-3. TABLET & MOBILE: Kept all previous optimizations (Centered text, anchored badge, stacked mobile layout).
+  Section: Hero - Lifestyle Final (Quiz v3)
+  - Personalized Step 2 (differs for Plans vs Signature).
+  - Premium Result Layout (Visual Left / Content Right).
+  - Smart Routing (Plan -> Swap -> Signature).
+  - Scoped JS & 4-card Fallback.
 {%- endcomment -%}
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-<div class="life-hero-wrapper">
+<div class="life-hero-wrapper" id="hero-root-{{ section.id }}" data-section-id="{{ section.id }}">
 
   <div class="life-bg-pattern"></div>
   <div class="life-bg-overlay"></div>
 
+  {%- comment -%} Background Floaters {%- endcomment -%}
   <div class="life-floater life-floater-top">
     <svg width="250" height="250" viewBox="0 0 250 250" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="125" cy="125" r="120" stroke="#E0E0E0" stroke-width="1.5" opacity="0.4" />
       <circle cx="125" cy="125" r="90" stroke="#CCCCCC" stroke-width="1.5" stroke-dasharray="8 8" opacity="0.3" />
     </svg>
   </div>
-
   <div class="life-floater life-floater-bottom">
     <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
        <path d="M 40 70 L 60 50 L 40 30" stroke="#E0E0E0" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" opacity="0.8" />
@@ -38,42 +36,35 @@ Fixes:
       <div class="life-hero-content">
         <div class="life-tagline-capsule">
           <div class="life-fresh-dot"></div> 
-          <span class="life-tagline-text">{{ section.settings.tagline }}</span>
+          <span class="life-tagline-text">{{ section.settings.tagline_new }}</span>
         </div>
         
         <h1 class="life-headline">
-          Meals that work<br>
-          <span class="life-text-highlight">as hard as you do.</span>
+          {{ section.settings.headline_start }}<br>
+          <span class="life-text-highlight">{{ section.settings.headline_highlight }}</span>
         </h1>
         
         <div class="life-subhead-wrap">
-          <p class="life-subhead">High-protein, chef-prepared meals delivered fresh. No subscriptions. No prep. Just real food when you need it.</p>
+          <p class="life-subhead">{{ section.settings.subhead_new }}</p>
         </div>
         
-        <div class="life-cta-group">
-          <a href="{{ section.settings.cta_primary_link }}" class="life-btn life-btn-primary">
-            {{ section.settings.cta_primary_text }}
-          </a>
-          <a href="{{ section.settings.cta_secondary_link }}" class="life-btn life-btn-secondary">
-            {{ section.settings.cta_secondary_text }}
-          </a>
-        </div>
-        
-        <div class="life-trust-stack">
-          <div class="life-trust-row">
-            <span class="life-stars">★★★★★</span> 
-            <span><strong>4.9/5</strong> (7.5k+ reviews)</span>
+        <div class="life-cta-container-vertical">
+          <div class="life-cta-group">
+            {%- comment -%} Primary CTA triggers Quiz Scroll (JS handled) {%- endcomment -%}
+            <button type="button" class="life-btn life-btn-primary js-quiz-trigger">
+              {{ section.settings.cta_primary_text_new }}
+            </button>
+            <a href="{{ section.settings.cta_secondary_link }}" class="life-btn life-btn-secondary">
+              {{ section.settings.cta_secondary_text_new }}
+            </a>
           </div>
-          <div class="life-divider"></div>
-          <div class="life-trust-row">
-             <svg class="life-trust-icon-svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-               <path d="M21 2v6h-6"></path>
-               <path d="M3 12a9 9 0 0 1 15-6.7L21 8"></path>
-               <path d="M3 22v-6h6"></path>
-               <path d="M21 12a9 9 0 0 1-15 6.7L3 16"></path>
-             </svg>
-             <span>No Subscription Required</span>
+
+          {%- if section.settings.show_mini_review -%}
+          <div class="life-mini-review">
+            <div class="life-mini-stars">★★★★★</div>
+            <p class="life-mini-quote">"{{ section.settings.mini_review_text }}" <span class="life-mini-author">— {{ section.settings.mini_review_author }}</span></p>
           </div>
+          {%- endif -%}
         </div>
       </div>
 
@@ -113,56 +104,355 @@ Fixes:
     </div>
   </div>
 
-  <div class="life-dock-wrapper">
+  <div class="life-dock-wrapper" id="life-dock-anchor-{{ section.id }}">
     <div class="life-container">
       <div class="life-dock-card">
-        <div class="life-dock-header">
-          <div class="life-dock-label">How do you want to eat?</div>
-        </div>
-        <div class="life-dock-inner">
-          <div class="life-dock-grid">
-            <a href="{{ section.settings.nav_1_link }}" class="life-dock-item">
-              <div class="life-dock-icon">
-                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp?v=1768410637" alt="Signature Meals" class="life-dock-img">
+        
+        {%- comment -%} JS GUIDED QUIZ CONTAINER {%- endcomment -%}
+        <div id="life-quiz-container-{{ section.id }}" class="life-quiz-wrapper" style="display:none;" aria-live="polite">
+          <div class="life-dock-header">
+            <div class="life-dock-label">{{ section.settings.quiz_heading_v3 }}</div>
+          </div>
+          
+          <div class="life-quiz-body">
+            
+            <!-- STEP 1: Main Fork -->
+            <div class="quiz-step active" data-step="1">
+              <h3 class="quiz-question">{{ section.settings.quiz_step1_label_v3 }}</h3>
+              <div class="quiz-options-grid">
+                <button type="button" class="quiz-option-btn" data-value="signature">
+                  <span class="quiz-btn-title">Pick my meals</span>
+                  <span class="quiz-btn-sub">I want full control</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="plan">
+                  <span class="quiz-btn-title">Let you build it</span>
+                  <span class="quiz-btn-sub">I want it done for me</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="custom">
+                  <span class="quiz-btn-title">Custom Macros</span>
+                  <span class="quiz-btn-sub">Strict ingredients</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="bulk">
+                  <span class="quiz-btn-title">Bulk Market</span>
+                  <span class="quiz-btn-sub">Proteins & Sides</span>
+                </button>
               </div>
-              <div class="life-dock-text">
-                <h3>I Want Ready-Made</h3>
-                <span class="life-dock-cat">Signature Menu</span>
+            </div>
+
+            <!-- STEP 2A: If Signature (Pick my meals) -->
+            <div class="quiz-step" data-step="2-signature">
+              <h3 class="quiz-question">{{ section.settings.quiz_s2_sig_label }}</h3>
+              <div class="quiz-options-grid quiz-options-3-col">
+                <button type="button" class="quiz-option-btn" data-value="browse">
+                  <span class="quiz-btn-title">Browse full menu</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="goal">
+                  <span class="quiz-btn-title">Start from a goal</span>
+                  <span class="quiz-btn-sub">(High protein, low carb)</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="bestsellers">
+                  <span class="quiz-btn-title">Just show best sellers</span>
+                </button>
               </div>
-              <div class="life-dock-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+              <button type="button" class="quiz-back-btn">← Back</button>
+            </div>
+
+            <!-- STEP 2B: If Plans (Let you build it) -->
+            <div class="quiz-step" data-step="2-plan">
+              <h3 class="quiz-question">{{ section.settings.quiz_s2_plan_label }}</h3>
+              <div class="quiz-options-grid quiz-options-3-col">
+                <button type="button" class="quiz-option-btn" data-value="prebuilt">
+                  <span class="quiz-btn-title">Fastest checkout</span>
+                  <span class="quiz-btn-sub">Pre-built bundles</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="balanced">
+                  <span class="quiz-btn-title">Balanced routine</span>
+                  <span class="quiz-btn-sub">Chef's weekly picks</span>
+                </button>
+                <button type="button" class="quiz-option-btn" data-value="swap">
+                  <span class="quiz-btn-title">I still want to swap meals</span>
+                  <span class="quiz-btn-sub">Need some control</span>
+                </button>
               </div>
-            </a>
-            <a href="{{ section.settings.nav_2_link }}" class="life-dock-item">
-              <div class="life-dock-icon">
-                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_UI-Icon_v2.webp?v=1768410637" alt="Custom Meals" class="life-dock-img">
+              <button type="button" class="quiz-back-btn">← Back</button>
+            </div>
+
+            <!-- RESULT STATE (New Premium Layout) -->
+            <div class="quiz-step" data-step="result">
+              <div class="quiz-result-layout">
+                <div class="quiz-result-visual-col">
+                   <div class="quiz-result-visual-frame">
+                     <img src="" alt="Recommended" class="quiz-result-img">
+                   </div>
+                </div>
+                <div class="quiz-result-content-col">
+                  <div class="quiz-badge-pill">Best fit for you</div>
+                  <h3 class="quiz-result-title">Title</h3>
+                  <p class="quiz-result-reason">Reason text goes here.</p>
+                  
+                  <div class="quiz-actions">
+                    <a href="#" class="life-btn life-btn-primary quiz-final-btn">Shop Now</a>
+                    <a href="#" class="quiz-secondary-link">Alternative Link</a>
+                  </div>
+                  
+                  <button type="button" class="quiz-restart-link">Start Over</button>
+                </div>
               </div>
-              <div class="life-dock-text">
-                <h3>I Want Full Control</h3>
-                <span class="life-dock-cat">Custom Meals</span>
-              </div>
-              <div class="life-dock-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-              </div>
-            </a>
-            <a href="{{ section.settings.nav_3_link }}" class="life-dock-item">
-              <div class="life-dock-icon">
-                <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Items_UI-Icon_v2.webp?v=1768410637" alt="Bulk Market" class="life-dock-img">
-              </div>
-              <div class="life-dock-text">
-                <h3>I Want To Stock Up</h3>
-                <span class="life-dock-cat">Bulk Market</span>
-              </div>
-              <div class="life-dock-arrow">
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-              </div>
-            </a>
+            </div>
+
           </div>
         </div>
+
+        {%- comment -%} STATIC FALLBACK GRID (NO JS) - 4 CARDS {%- endcomment -%}
+        <div id="life-static-dock-{{ section.id }}" class="life-static-dock">
+          <div class="life-dock-header">
+            <div class="life-dock-label">{{ section.settings.dock_heading }}</div>
+          </div>
+          <div class="life-dock-inner">
+            <div class="life-dock-grid life-grid-4">
+              <!-- NAV PLAN -->
+              <a href="{{ section.settings.nav_plan_link }}" class="life-dock-item">
+                <div class="life-dock-icon">
+                  {%- if section.settings.nav_plan_icon != blank -%}
+                    {{ section.settings.nav_plan_icon | image_url: width: 100 | image_tag: class: 'life-dock-img' }}
+                  {%- else -%}
+                    <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp" alt="Plans" class="life-dock-img" style="filter: hue-rotate(180deg);">
+                  {%- endif -%}
+                </div>
+                <div class="life-dock-text">
+                  <h3>{{ section.settings.nav_plan_text_v3 }}</h3>
+                  <span class="life-dock-cat">Meal Plans</span>
+                </div>
+              </a>
+              <!-- NAV 1: SIGNATURE -->
+              <a href="{{ section.settings.nav_1_link }}" class="life-dock-item">
+                <div class="life-dock-icon">
+                  <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp?v=1768410637" alt="Signature" class="life-dock-img">
+                </div>
+                <div class="life-dock-text">
+                  <h3>{{ section.settings.nav_1_text_v3 }}</h3>
+                  <span class="life-dock-cat">Signature Menu</span>
+                </div>
+              </a>
+              <!-- NAV 2: CUSTOM -->
+              <a href="{{ section.settings.nav_2_link }}" class="life-dock-item">
+                <div class="life-dock-icon">
+                  <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_UI-Icon_v2.webp?v=1768410637" alt="Custom" class="life-dock-img">
+                </div>
+                <div class="life-dock-text">
+                  <h3>{{ section.settings.nav_2_text_v3 }}</h3>
+                  <span class="life-dock-cat">Custom Meals</span>
+                </div>
+              </a>
+              <!-- NAV 3: BULK -->
+              <a href="{{ section.settings.nav_3_link }}" class="life-dock-item">
+                <div class="life-dock-icon">
+                  <img src="https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Items_UI-Icon_v2.webp?v=1768410637" alt="Bulk" class="life-dock-img">
+                </div>
+                <div class="life-dock-text">
+                  <h3>{{ section.settings.nav_3_text_v3 }}</h3>
+                  <span class="life-dock-cat">Bulk Market</span>
+                </div>
+              </a>
+            </div>
+            
+            <div class="life-skip-wrapper">
+               <a href="{{ section.settings.cta_secondary_link }}" class="life-skip-link">{{ section.settings.quiz_skip_link_text_new }}</a>
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
 </div>
+
+{%- comment -%} 
+  SCOPED JS LOGIC 
+  Handles personalized steps and smart routing (Plan -> Swap -> Signature).
+{%- endcomment -%}
+<script>
+  (function() {
+    var sectionId = "{{ section.id }}";
+    var root = document.getElementById('hero-root-' + sectionId);
+    if (!root) return;
+
+    // Data Object
+    var quizData = {
+      paths: {
+        plan: {
+          title: "{{ section.settings.meal_plans_result_title_new }}",
+          url: "{{ section.settings.nav_plan_link }}",
+          img: "{% if section.settings.nav_plan_icon != blank %}{{ section.settings.nav_plan_icon | image_url: width: 300 }}{% else %}https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp{% endif %}",
+          reasons: {
+            default: "The easiest way to stay consistent — pre-built for your routine.",
+            prebuilt: "One-click ordering. Choose your size (12 or 24) and you're done.",
+            balanced: "Let our chefs handle the variety. You just heat and eat."
+          }
+        },
+        signature: {
+          title: "Signature Menu (A la Carte)",
+          url: "{{ section.settings.nav_1_link }}",
+          img: "https://cdn.shopify.com/s/files/1/1957/2713/files/Signature-Meals_UI-Icon_v2.webp?v=1768410637",
+          reasons: {
+            default: "Pick exactly what you crave from our rotating menu.",
+            browse: "Full control. Mix and match 40+ fresh meals every week.",
+            goal: "Filter by High Protein, Low Carb, or Clean to hit your targets.",
+            bestsellers: "Start with the crowd favorites like Steak & Rice and Buffalo Chicken.",
+            swap: "Since you want full control to swap meals, the Signature Menu is your best fit." // Special case
+          }
+        },
+        custom: {
+          title: "Custom Meals",
+          url: "{{ section.settings.nav_2_link }}",
+          img: "https://cdn.shopify.com/s/files/1/1957/2713/files/Custom-Meals_UI-Icon_v2.webp?v=1768410637",
+          reasons: { default: "Strict macros? Build your own meals by the gram." }
+        },
+        bulk: {
+          title: "Bulk Market",
+          url: "{{ section.settings.nav_3_link }}",
+          img: "https://cdn.shopify.com/s/files/1/1957/2713/files/Bulk-Items_UI-Icon_v2.webp?v=1768410637",
+          reasons: { default: "Stock up on proteins and sides by the pound." }
+        }
+      }
+    };
+
+    // State
+    var state = { step: 1, path: null, refinement: null };
+
+    // Elements
+    var staticDock = root.querySelector('#life-static-dock-' + sectionId);
+    var quizContainer = root.querySelector('#life-quiz-container-' + sectionId);
+    var triggerBtn = root.querySelector('.js-quiz-trigger');
+    var quizAnchor = root.querySelector('#life-dock-anchor-' + sectionId);
+
+    // Initialize
+    if(staticDock && quizContainer) {
+      staticDock.style.display = 'none';
+      quizContainer.style.display = 'block';
+    }
+
+    // Scroll Trigger
+    if(triggerBtn) {
+      triggerBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if(quizAnchor) {
+          quizAnchor.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          setTimeout(function(){
+            var firstBtn = quizContainer.querySelector('[data-step="1"] button');
+            if(firstBtn) firstBtn.focus();
+          }, 500);
+        }
+      });
+    }
+
+    // Step 1 Click
+    var step1Btns = quizContainer.querySelectorAll('[data-step="1"] .quiz-option-btn');
+    step1Btns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        var value = this.getAttribute('data-value');
+        state.path = value;
+
+        if (value === 'custom' || value === 'bulk') {
+          showResult(value, 'default');
+        } else if (value === 'plan') {
+          goToStep('2-plan');
+        } else if (value === 'signature') {
+          goToStep('2-signature');
+        }
+      });
+    });
+
+    // Step 2 Logic (Delegated)
+    quizContainer.addEventListener('click', function(e) {
+      var btn = e.target.closest('.quiz-option-btn');
+      if (!btn) return;
+      
+      var parentStep = btn.closest('.quiz-step');
+      if (!parentStep) return;
+      
+      var stepName = parentStep.getAttribute('data-step');
+      if (stepName !== '2-plan' && stepName !== '2-signature') return;
+
+      var value = btn.getAttribute('data-value');
+      
+      // Smart Routing
+      if (stepName === '2-plan') {
+         if (value === 'swap') {
+            // User wanted Plan but wants to swap -> Send to Signature with specific reason
+            showResult('signature', 'swap');
+         } else {
+            showResult('plan', value);
+         }
+      } else if (stepName === '2-signature') {
+         showResult('signature', value);
+      }
+    });
+
+    // Back Buttons
+    var backBtns = quizContainer.querySelectorAll('.quiz-back-btn');
+    backBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        goToStep(1);
+      });
+    });
+
+    // Restart Buttons
+    var restartBtns = quizContainer.querySelectorAll('.quiz-restart-link');
+    restartBtns.forEach(function(btn) {
+      btn.addEventListener('click', function() {
+        goToStep(1);
+      });
+    });
+
+    // Helpers
+    function goToStep(stepName) {
+      var steps = quizContainer.querySelectorAll('.quiz-step');
+      steps.forEach(function(el){ el.classList.remove('active'); });
+      
+      var target = quizContainer.querySelector('[data-step="' + stepName + '"]');
+      if(target) target.classList.add('active');
+    }
+
+    function showResult(pathKey, reasonKey) {
+      var data = quizData.paths[pathKey];
+      var reasonText = data.reasons[reasonKey] || data.reasons['default'];
+      var secondaryLink = "#";
+      var secondaryText = "";
+
+      // Determine Secondary
+      if (pathKey === 'plan') {
+         secondaryLink = quizData.paths.signature.url;
+         secondaryText = "Prefer to choose meals? Browse menu →";
+      } else if (pathKey === 'signature') {
+         secondaryLink = quizData.paths.plan.url;
+         secondaryText = "Want fastest checkout? Try meal plans →";
+      } else if (pathKey === 'custom') {
+         secondaryLink = quizData.paths.signature.url;
+         secondaryText = "See ready-made menu →";
+      } else {
+         secondaryLink = quizData.paths.signature.url;
+         secondaryText = "See prepared meals →";
+      }
+
+      // Populate Result
+      var resultStep = quizContainer.querySelector('[data-step="result"]');
+      resultStep.querySelector('.quiz-result-title').textContent = data.title;
+      resultStep.querySelector('.quiz-result-img').src = data.img;
+      resultStep.querySelector('.quiz-result-reason').textContent = reasonText;
+      
+      var mainBtn = resultStep.querySelector('.quiz-final-btn');
+      mainBtn.href = data.url;
+      
+      var secLinkEl = resultStep.querySelector('.quiz-secondary-link');
+      secLinkEl.href = secondaryLink;
+      secLinkEl.textContent = secondaryText;
+
+      goToStep('result');
+    }
+
+  })();
+</script>
 
 <style>
 /* --- 1. CORE VARIABLES --- */
@@ -172,16 +462,11 @@ Fixes:
   --l-green: #1E3A23; 
   --l-kale: #1E3A23; 
   --l-mint: #F0F7F4; 
-  --l-kale-border-soft: rgba(30, 58, 35, 0.18); 
-  --l-kale-border-hover: #1E3A23;
-  --l-kale-bg-hover: rgba(30, 58, 35, 0.04);
-  
   --l-charcoal: #222222; 
   --l-black: #000000;
   --l-font: 'Inter', sans-serif; 
 }
-.life-hero-wrapper a:not(.life-btn-primary) { text-decoration: none !important; color: inherit !important; opacity: 1 !important; transition: all 0.3s ease !important; }
-.life-hero-wrapper a:not(.life-btn-primary):hover { text-decoration: none !important; opacity: 1 !important; color: inherit !important; }
+.life-hero-wrapper a:not(.life-btn-primary):not(.life-btn-secondary):not(.quiz-final-btn) { text-decoration: none !important; color: inherit !important; transition: all 0.3s ease !important; }
 .life-hero-wrapper { background-color: var(--l-bg-white) !important; width: 100% !important; position: relative !important; overflow-x: hidden !important; padding-bottom: 0 !important; }
 
 /* --- 2. FLOATERS & BG --- */
@@ -191,7 +476,7 @@ Fixes:
 .life-bg-pattern { background-image: url("data:image/svg+xml,%3Csvg width='500' height='500' viewBox='0 0 500 500' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' stroke='%23CCCCCC' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M 400 350 L 410 360 L 400 370' opacity='0.2'/%3E%3Cpath d='M 100 400 h 30' stroke-dasharray='4 4' opacity='0.2'/%3E%3C/g%3E%3C/svg%3E") !important; background-repeat: repeat !important; background-size: 500px 500px !important; position: absolute !important; inset: 0 !important; z-index: 0 !important; pointer-events: none !important; }
 .life-bg-overlay { background: radial-gradient(circle at 30% 50%, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.85) 60%, rgba(255,255,255,0.6) 100%) !important; position: absolute !important; inset: 0 !important; z-index: 1 !important; pointer-events: none !important; }
 
-/* --- 3. GRID & LAYOUT --- */
+/* --- 3. LAYOUT --- */
 .life-hero-main { position: relative !important; z-index: 5 !important; padding: 60px 0 90px 0 !important; }
 .life-container { width: 100% !important; max-width: 1600px !important; margin: 0 auto !important; padding: 0 40px !important; box-sizing: border-box !important; }
 .life-hero-main .life-container { display: grid !important; grid-template-columns: 1fr 1fr !important; align-items: center !important; gap: 40px !important; }
@@ -205,32 +490,29 @@ Fixes:
 .life-plate-img { position: relative !important; z-index: 5 !important; width: 100% !important; max-width: 800px !important; height: auto !important; transform: rotate(-3deg) !important; filter: drop-shadow(0 30px 60px rgba(0,0,0,0.15)) !important; transition: transform 0.5s ease !important; }
 .life-plate-img:hover { transform: rotate(0deg) scale(1.02) !important; }
 
-/* --- 5. TEXT ELEMENTS --- */
+/* --- 5. TEXT --- */
 .life-tagline-capsule { display: inline-flex !important; align-items: center !important; gap: 8px !important; padding: 6px 14px !important; background: rgba(30, 58, 35, 0.08) !important; border-radius: 20px !important; margin-bottom: 1.2rem !important; }
 .life-fresh-dot { width: 6px !important; height: 6px !important; background-color: var(--l-green) !important; border-radius: 50% !important; display: block !important; }
 .life-tagline-text { font-family: var(--l-font) !important; font-weight: 700 !important; color: var(--l-green) !important; text-transform: uppercase !important; letter-spacing: 1.5px !important; font-size: 0.7rem !important; }
-
 .life-headline { font-family: var(--l-font) !important; font-size: clamp(3rem, 5.5vw, 4.8rem) !important; line-height: 1.05 !important; color: var(--l-charcoal) !important; margin: 0 0 1.5rem 0 !important; font-weight: 800 !important; text-transform: none !important; letter-spacing: -0.02em !important; text-wrap: balance !important; }
 .life-text-highlight { color: var(--l-red) !important; }
-
 .life-subhead-wrap { margin-bottom: 2.5rem !important; max-width: 550px !important; }
 .life-subhead { font-family: var(--l-font) !important; color: #555 !important; font-size: 1.2rem !important; line-height: 1.6 !important; margin: 0 !important; font-weight: 400 !important; letter-spacing: -0.01em !important; text-wrap: balance !important; }
 
-/* --- 6. BUTTONS --- */
-.life-cta-group { display: flex !important; gap: 1.2rem !important; margin-bottom: 3.5rem !important; align-items: center !important; flex-wrap: wrap !important; }
-.life-btn { height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-family: var(--l-font) !important; font-weight: 700 !important; text-decoration: none !important; font-size: 1rem !important; transition: all 0.3s ease !important; white-space: nowrap !important; letter-spacing: -0.01em !important; }
+/* --- 6. BUTTONS & SOCIAL --- */
+.life-cta-container-vertical { margin-bottom: 2rem !important; display: flex !important; flex-direction: column !important; gap: 1rem !important; }
+.life-cta-group { display: flex !important; gap: 1.2rem !important; align-items: center !important; flex-wrap: wrap !important; }
+.life-btn { height: 58px !important; display: inline-flex !important; align-items: center !important; justify-content: center !important; font-family: var(--l-font) !important; font-weight: 700 !important; text-decoration: none !important; font-size: 1rem !important; transition: all 0.3s ease !important; white-space: nowrap !important; letter-spacing: -0.01em !important; cursor: pointer !important; }
 .life-btn-primary { background: linear-gradient(180deg, #D11F1F 0%, #BA1414 100%) !important; color: #FFFFFF !important; border: none !important; padding: 0 2.8rem !important; border-radius: 50px !important; box-shadow: 0 4px 15px rgba(209, 31, 31, 0.3), inset 0 1px 0 rgba(255,255,255,0.15) !important; }
 .life-btn-primary:hover { transform: translateY(-2px) !important; box-shadow: 0 8px 25px rgba(180, 20, 20, 0.4) !important; color: #FFFFFF !important; }
 .life-btn-secondary { background: transparent !important; color: var(--l-charcoal) !important; padding: 0 1rem !important; border-bottom: 2px solid #E5E5E5 !important; height: auto !important; padding-bottom: 4px !important; border-radius: 0 !important; }
 .life-btn-secondary:hover { border-color: var(--l-red) !important; color: var(--l-red) !important; }
+.life-mini-review { display: flex !important; align-items: center !important; gap: 8px !important; font-size: 0.85rem !important; color: #666 !important; margin-top: 5px !important; }
+.life-mini-stars { color: #FFB400 !important; letter-spacing: -1px !important; font-size: 0.9rem !important; }
+.life-mini-quote { margin: 0 !important; font-style: italic !important; }
+.life-mini-author { font-style: normal !important; font-weight: 600 !important; color: var(--l-charcoal) !important; margin-left: 4px !important; }
 
-/* --- 7. BADGE & TRUST --- */
-.life-trust-stack { display: flex !important; align-items: center !important; gap: 18px !important; font-family: var(--l-font) !important; font-size: 0.9rem !important; color: #666 !important; font-weight: 500 !important; flex-wrap: wrap !important; }
-.life-trust-row { display: flex !important; align-items: center !important; gap: 8px !important; }
-.life-stars { color: #FFB400 !important; margin-right: 5px !important; }
-.life-divider { width: 1px !important; height: 16px !important; background: #ddd !important; }
-.life-trust-icon-svg { width: 16px !important; height: 16px !important; color: var(--l-black) !important; }
-
+/* --- 7. BADGE --- */
 @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
 .life-macro-badge { position: absolute !important; top: 0% !important; right: 8% !important; width: 135px !important; height: 135px !important; border-radius: 50% !important; background: white !important; box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #E5E5E5, 0 20px 40px rgba(0,0,0,0.12) !important; z-index: 20 !important; animation: float 5s ease-in-out infinite !important; text-decoration: none !important; overflow: hidden !important; display: flex !important; align-items: center !important; justify-content: center !important; transition: box-shadow 0.3s ease, transform 0.3s ease !important; }
 .life-macro-badge:hover { animation-play-state: paused !important; transform: translateY(-5px) scale(1.03) !important; box-shadow: 0 0 0 6px #FFFFFF, 0 0 0 7px #D11F1F, 0 25px 50px rgba(209, 31, 31, 0.2) !important; }
@@ -245,102 +527,117 @@ Fixes:
 .life-view-text { font-family: var(--l-font) !important; font-weight: 800 !important; font-size: 1rem !important; line-height: 1.1 !important; color: var(--l-red) !important; text-align: center !important; text-transform: uppercase !important; margin-bottom: 4px !important; }
 .life-view-arrow { color: var(--l-red) !important; }
 
-/* --- 8. DOCK NAV --- */
+/* --- 8. DOCK NAV (SHARED & STATIC) --- */
 .life-dock-wrapper { position: relative !important; z-index: 30 !important; margin-top: -60px !important; padding-bottom: 60px !important; }
-.life-dock-card { background: white !important; border-radius: 20px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05) !important; border: 1px solid var(--l-kale) !important; padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; }
-.life-dock-header { width: 100% !important; background: var(--l-mint) !important; border-bottom: 1px solid var(--l-kale) !important; padding: 15px 0 !important; text-align: center !important; }
-.life-dock-label { display: inline-block !important; font-size: 0.75rem !important; font-family: var(--l-font) !important; font-weight: 800 !important; letter-spacing: 2px !important; color: var(--l-kale) !important; background: transparent !important; padding: 0 !important; border-radius: 0 !important; text-transform: uppercase !important; }
-.life-dock-label::before, .life-dock-label::after { display: none !important; }
+.life-dock-card { background: white !important; border-radius: 20px !important; box-shadow: 0 10px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05) !important; border: 1px solid var(--l-kale) !important; padding: 0 !important; overflow: hidden !important; display: flex !important; flex-direction: column !important; min-height: 250px !important; }
+.life-dock-header { width: 100% !important; background: var(--l-mint) !important; border-bottom: 1px solid var(--l-kale-border-soft) !important; padding: 15px 0 !important; text-align: center !important; }
+.life-dock-label { display: inline-block !important; font-size: 0.75rem !important; font-family: var(--l-font) !important; font-weight: 800 !important; letter-spacing: 2px !important; color: var(--l-kale) !important; background: transparent !important; text-transform: uppercase !important; }
 .life-dock-inner { padding: 30px 40px 35px 40px !important; }
-.life-dock-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 24px !important; width: 100% !important; }
-.life-dock-item { display: flex !important; align-items: center !important; gap: 18px !important; text-decoration: none !important; background: #FFFFFF !important; border: 1px solid rgba(30, 58, 35, 0.2) !important; border-radius: 16px !important; padding: 16px 20px !important; transition: all 0.2s ease !important; }
+
+/* Grid 4-col for fallback */
+.life-grid-4 { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 20px !important; width: 100% !important; }
+
+.life-dock-item { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 12px !important; text-decoration: none !important; background: #FFFFFF !important; border: 1px solid rgba(30, 58, 35, 0.2) !important; border-radius: 16px !important; padding: 16px !important; transition: all 0.2s ease !important; cursor: pointer !important; height: 100% !important; justify-content: flex-start !important; }
 .life-dock-item:hover { transform: translateY(-2px) !important; border-color: var(--l-kale) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.05) !important; }
-.life-dock-item:hover .life-dock-text h3 { color: var(--l-kale) !important; }
-.life-dock-icon { width: 80px !important; height: 64px !important; background: var(--l-mint) !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; box-shadow: inset 0 2px 4px rgba(30, 58, 35, 0.05) !important; }
-.life-dock-img { width: 92% !important; height: auto !important; display: block !important; object-fit: contain !important; }
-.life-dock-text h3 { margin: 0 0 2px 0 !important; font-family: var(--l-font) !important; font-size: 0.95rem !important; color: var(--l-charcoal) !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: -0.01em !important; transition: color 0.2s ease !important; }
+.life-dock-icon { width: 60px !important; height: 50px !important; background: var(--l-mint) !important; border-radius: 10px !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 0 !important; box-sizing: border-box !important; flex-shrink: 0 !important; overflow: hidden !important; box-shadow: inset 0 2px 4px rgba(30, 58, 35, 0.05) !important; }
+.life-dock-img { width: 90% !important; height: auto !important; display: block !important; object-fit: contain !important; }
+.life-dock-text h3 { margin: 0 0 4px 0 !important; font-family: var(--l-font) !important; font-size: 0.9rem !important; color: var(--l-charcoal) !important; font-weight: 700 !important; text-transform: none !important; letter-spacing: -0.01em !important; line-height: 1.2 !important; }
 .life-dock-cat { display: block !important; font-size: 0.7rem !important; color: #888 !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 1px !important; }
-.life-dock-arrow { margin-left: auto !important; color: var(--l-kale) !important; opacity: 0.4 !important; display: flex !important; align-items: center !important; transition: all 0.3s ease !important; }
-.life-dock-item:hover .life-dock-arrow { opacity: 1 !important; transform: translateX(2px) !important; }
+.life-skip-wrapper { text-align: center !important; margin-top: 15px !important; display: block !important; width: 100% !important; }
+.life-skip-link { font-size: 0.8rem !important; color: #888 !important; text-decoration: underline !important; font-family: var(--l-font) !important; }
 
+/* --- 9. QUIZ STYLES --- */
+.life-quiz-wrapper { width: 100% !important; height: 100% !important; display: flex !important; flex-direction: column !important; }
+.life-quiz-body { flex: 1 !important; display: flex !important; align-items: center !important; justify-content: center !important; padding: 30px 40px !important; text-align: center !important; min-height: 200px !important; }
+.quiz-step { display: none !important; width: 100% !important; animation: fadeIn 0.4s ease forwards !important; }
+.quiz-step.active { display: block !important; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
 
-/* --- 9. RESPONSIVE BREAKPOINTS --- */
+.quiz-question { font-family: var(--l-font) !important; font-size: 1.6rem !important; font-weight: 800 !important; color: var(--l-charcoal) !important; margin: 0 0 30px 0 !important; }
+.quiz-options-grid { display: grid !important; grid-template-columns: repeat(4, 1fr) !important; gap: 15px !important; width: 100% !important; }
+.quiz-options-3-col { grid-template-columns: repeat(3, 1fr) !important; }
 
-/* LAPTOP (1025px - 1440px) */
-/* Fix: Relaxed max-width so image fills the grid column */
-@media (min-width: 1025px) and (max-width: 1440px) {
-  .life-container { padding: 0 30px !important; gap: 20px !important; }
-  .life-headline { font-size: 3.2rem !important; }
-  
-  /* RELAXED IMAGE SIZE */
-  .life-plate-img { max-width: 100% !important; width: 650px !important; } /* Was 480px, bumped to 650px */
-  .life-ring-system { width: 135% !important; } /* Match standard ring size */
-  
-  .life-macro-badge { width: 110px !important; height: 110px !important; right: 0% !important; }
-  .life-macro-number { font-size: 2.2rem !important; }
-  .life-dock-inner { padding: 25px !important; }
-  .life-dock-grid { gap: 15px !important; }
-  .life-dock-item { padding: 12px 15px !important; gap: 12px !important; }
-  .life-dock-icon { width: 60px !important; height: 50px !important; }
-  .life-dock-text h3 { font-size: 0.85rem !important; }
-}
+.quiz-option-btn { background: white !important; border: 2px solid #E5E5E5 !important; border-radius: 12px !important; padding: 20px 15px !important; display: flex !important; flex-direction: column !important; align-items: center !important; justify-content: center !important; gap: 8px !important; cursor: pointer !important; transition: all 0.2s ease !important; height: 100% !important; width: 100% !important; }
+.quiz-option-btn:hover { border-color: var(--l-kale) !important; background: var(--l-mint) !important; transform: translateY(-3px) !important; box-shadow: 0 8px 20px rgba(0,0,0,0.05) !important; }
+.quiz-btn-title { font-family: var(--l-font) !important; font-size: 1rem !important; font-weight: 700 !important; color: var(--l-charcoal) !important; line-height: 1.3 !important; }
+.quiz-btn-sub { font-size: 0.75rem !important; color: #888 !important; font-weight: 500 !important; }
 
-/* TABLET SPECIFIC (768px - 1024px) */
+.quiz-back-btn { background: none !important; border: none !important; color: #999 !important; font-size: 0.85rem !important; font-weight: 600 !important; margin-top: 25px !important; cursor: pointer !important; text-decoration: underline !important; }
+
+/* Premium Result Layout */
+.quiz-result-layout { display: flex !important; width: 100% !important; gap: 40px !important; align-items: center !important; justify-content: center !important; text-align: left !important; max-width: 900px !important; margin: 0 auto !important; }
+.quiz-result-visual-col { flex: 0 0 280px !important; display: flex !important; justify-content: center !important; }
+.quiz-result-visual-frame { width: 100% !important; aspect-ratio: 1/1 !important; background: var(--l-mint) !important; border-radius: 20px !important; overflow: hidden !important; padding: 20px !important; border: 1px solid var(--l-kale-border-soft) !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+.quiz-result-img { width: 100% !important; height: auto !important; object-fit: contain !important; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.08)) !important; }
+
+.quiz-result-content-col { flex: 1 !important; display: flex !important; flex-direction: column !important; justify-content: center !important; }
+.quiz-badge-pill { display: inline-block !important; font-size: 0.7rem !important; text-transform: uppercase !important; letter-spacing: 1px !important; color: var(--l-white) !important; background: var(--l-kale) !important; font-weight: 700 !important; margin-bottom: 12px !important; padding: 5px 12px !important; border-radius: 100px !important; width: fit-content !important; }
+.quiz-result-title { font-family: var(--l-font) !important; font-size: 2.2rem !important; font-weight: 900 !important; margin: 0 0 10px 0 !important; color: var(--l-charcoal) !important; line-height: 1.1 !important; letter-spacing: -0.02em !important; }
+.quiz-result-reason { font-size: 1.1rem !important; color: #555 !important; line-height: 1.5 !important; margin: 0 0 25px 0 !important; max-width: 480px !important; }
+
+.quiz-actions { display: flex !important; flex-direction: column !important; gap: 10px !important; align-items: flex-start !important; width: 100% !important; }
+.quiz-final-btn { padding: 0 3rem !important; height: 56px !important; width: fit-content !important; font-size: 1.05rem !important; }
+.quiz-secondary-link { font-size: 0.9rem !important; color: #666 !important; text-decoration: none !important; font-weight: 500 !important; border-bottom: 1px solid #ddd !important; transition: all 0.2s ease !important; margin-top: 5px !important; }
+.quiz-secondary-link:hover { color: var(--l-red) !important; border-color: var(--l-red) !important; }
+
+.quiz-restart-link { background: none !important; border: none !important; text-decoration: none !important; color: #aaa !important; cursor: pointer !important; font-size: 0.75rem !important; margin-top: 20px !important; text-transform: uppercase !important; letter-spacing: 1px !important; font-weight: 600 !important; }
+.quiz-restart-link:hover { color: var(--l-charcoal) !important; }
+
+/* --- 10. RESPONSIVE --- */
+
+/* TABLET (768px - 1024px) */
 @media (min-width: 768px) and (max-width: 1024px) {
-  .life-hero-main { padding: 40px 0 60px 0 !important; }
-  .life-hero-main .life-container { 
-    display: flex !important; 
-    flex-direction: column !important; 
-    align-items: center !important; 
-    text-align: center !important;
-    gap: 30px !important; 
-  }
-  .life-hero-content { width: 100% !important; display: flex !important; flex-direction: column !important; align-items: center !important; }
-  .life-tagline-capsule { margin-bottom: 16px !important; }
-  .life-headline { text-align: center !important; font-size: 3rem !important; max-width: 700px !important; margin-bottom: 16px !important; }
-  .life-subhead-wrap { text-align: center !important; max-width: 600px !important; margin: 0 auto 30px auto !important; }
-  .life-subhead { text-align: center !important; }
-  .life-cta-group { justify-content: center !important; width: 100% !important; flex-direction: row !important; gap: 16px !important; }
-  .life-btn { width: auto !important; padding: 0 2rem !important; min-width: 180px !important; }
-  .life-trust-stack { justify-content: center !important; }
-  .life-hero-visual { width: 100% !important; margin-top: 20px !important; }
-  .life-plate-wrapper { width: 100% !important; max-width: 500px !important; position: relative !important; }
-  .life-plate-img { max-width: 100% !important; } 
+  .life-hero-main .life-container { display: flex !important; flex-direction: column !important; align-items: center !important; text-align: center !important; gap: 30px !important; }
+  .life-hero-content { width: 100% !important; align-items: center !important; }
+  .life-headline { font-size: 3rem !important; }
+  .life-cta-group { justify-content: center !important; }
+  .life-plate-wrapper { max-width: 500px !important; }
   .life-ring-system { width: 500px !important; }
-  .life-macro-badge { top: 0 !important; right: 0 !important; position: absolute !important; transform: translate(20%, -20%) !important; width: 100px !important; height: 100px !important; }
-  .life-macro-number { font-size: 2rem !important; }
-  .life-dock-grid { grid-template-columns: repeat(3, 1fr) !important; gap: 15px !important; }
-  .life-dock-item { flex-direction: column !important; text-align: center !important; padding: 15px !important; gap: 10px !important; }
-  .life-dock-icon { width: 50px !important; height: 40px !important; }
-  .life-dock-arrow { display: none !important; } 
-  .life-dock-text h3 { font-size: 0.8rem !important; }
-  .life-dock-cat { font-size: 0.6rem !important; }
+  .life-macro-badge { top: 0 !important; right: 0 !important; transform: translate(20%, -20%) !important; width: 100px !important; height: 100px !important; }
+  /* Fallback 2x2 */
+  .life-grid-4 { grid-template-columns: repeat(2, 1fr) !important; }
+  /* Quiz Tablet */
+  .quiz-options-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .quiz-result-layout { flex-direction: column !important; text-align: center !important; gap: 25px !important; }
+  .quiz-result-content-col { align-items: center !important; }
+  .quiz-actions { align-items: center !important; }
 }
 
-/* MOBILE PHONES (< 768px) */
+/* MOBILE (< 768px) */
 @media (max-width: 767px) {
   .life-hero-main { padding: 30px 0 50px 0 !important; }
   .life-hero-main .life-container { grid-template-columns: 1fr !important; text-align: center !important; gap: 20px !important; }
   .life-container { padding: 0 24px !important; }
-  .life-tagline-capsule { width: fit-content !important; margin: 0 auto 12px auto !important; }
   .life-headline { font-size: 2.15rem !important; margin-bottom: 12px !important; line-height: 1.1 !important; }
-  .life-subhead-wrap { margin: 0 auto 20px !important; }
-  .life-cta-group { justify-content: center !important; gap: 12px !important; width: 100% !important; flex-direction: column !important; }
+  .life-cta-group { flex-direction: column !important; width: 100% !important; }
   .life-btn { width: 100% !important; max-width: 380px !important; }
-  .life-btn-secondary { background: white !important; border: 2px solid #E5E5E5 !important; border-radius: 50px !important; height: 58px !important; padding-bottom: 0 !important; }
-  .life-trust-stack { justify-content: center !important; flex-direction: column !important; gap: 8px !important; background: rgba(255,255,255,0.7) !important; backdrop-filter: blur(4px) !important; padding: 8px 16px !important; border-radius: 12px !important; width: fit-content !important; margin: 0 auto !important; }
-  .life-divider { display: none !important; }
+  .life-mini-review { justify-content: center !important; text-align: center !important; flex-direction: column !important; margin-top: 10px !important; }
   .life-plate-img { max-width: 90% !important; transform: rotate(0deg) !important; }
   .life-ring-system { width: 110% !important; top: 60% !important; }
   .life-macro-badge { width: 90px !important; height: 90px !important; top: 0px !important; right: 0 !important; transform: none !important; }
-  .life-macro-number { font-size: 1.8rem !important; margin-bottom: 0 !important; }
-  .life-macro-unit { font-size: 0.5rem !important; margin-top: 2px !important; margin-bottom: 3px !important; }
-  .life-check-circle { width: 18px !important; height: 18px !important; font-size: 10px !important; margin-top: 0 !important; }
-  .life-dock-inner { padding: 25px 15px !important; }
-  .life-dock-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
-  .life-dock-item { padding: 12px 16px !important; justify-content: flex-start !important; text-align: left !important; gap: 12px !important; }
-  .life-dock-icon { width: 65px !important; height: 52px !important; }
-  .life-dock-text h3 { white-space: nowrap !important; margin-bottom: 0 !important; }
+  
+  /* Quiz Mobile */
+  .life-dock-inner { padding: 20px !important; }
+  .life-quiz-body { padding: 10px !important; }
+  .quiz-question { font-size: 1.3rem !important; margin-bottom: 20px !important; line-height: 1.2 !important; }
+  .quiz-options-grid { grid-template-columns: 1fr !important; gap: 10px !important; }
+  .quiz-option-btn { padding: 16px !important; flex-direction: row !important; text-align: left !important; justify-content: flex-start !important; gap: 12px !important; }
+  .quiz-btn-sub { margin-left: auto !important; font-size: 0.7rem !important; }
+  
+  /* Result Mobile */
+  .quiz-result-layout { flex-direction: column !important; text-align: center !important; gap: 20px !important; }
+  .quiz-result-visual-col { flex: auto !important; width: 100% !important; }
+  .quiz-result-visual-frame { width: 120px !important; margin: 0 auto !important; padding: 10px !important; }
+  .quiz-result-content-col { align-items: center !important; }
+  .quiz-result-title { font-size: 1.8rem !important; }
+  .quiz-actions { align-items: center !important; gap: 15px !important; }
+  .quiz-final-btn { width: 100% !important; }
+  
+  /* Fallback Static Mobile */
+  .life-grid-4 { grid-template-columns: 1fr !important; gap: 12px !important; }
+  .life-dock-item { flex-direction: row !important; align-items: center !important; text-align: left !important; padding: 12px 16px !important; gap: 15px !important; }
+  .life-dock-icon { width: 50px !important; height: 40px !important; }
+  .life-dock-text h3 { margin-bottom: 0 !important; font-size: 0.9rem !important; }
 }
 </style>
 
@@ -348,17 +645,40 @@ Fixes:
 {
 "name": "Hero - Lifestyle Final",
 "settings": [
-{ "type": "text", "id": "tagline", "label": "Tagline", "default": "Meal prep, solved." },
-{ "type": "text", "id": "subhead", "label": "Subhead", "default": "High-protein, chef-prepared meals delivered fresh. No subscriptions. No prep." },
-{ "type": "text", "id": "cta_primary_text", "label": "Primary Button", "default": "Shop Meals" },
+{ "type": "text", "id": "tagline_new", "label": "Tagline", "default": "Meal prep, solved." },
+{ "type": "text", "id": "headline_start", "label": "Headline Start", "default": "Meals that work" },
+{ "type": "text", "id": "headline_highlight", "label": "Headline Highlight", "default": "as hard as you do." },
+{ "type": "text", "id": "subhead_new", "label": "Subhead", "default": "High-protein, chef-prepared meals delivered fresh. Eat clean, save time, and feel your best." },
+{ "type": "text", "id": "cta_primary_text_new", "label": "Primary Button (Guided)", "default": "Find My Meals" },
 { "type": "url", "id": "cta_primary_link", "label": "Primary Link" },
-{ "type": "text", "id": "cta_secondary_text", "label": "Secondary Button", "default": "Build Custom Meals" },
+{ "type": "text", "id": "cta_secondary_text_new", "label": "Secondary Button", "default": "Shop Full Menu" },
 { "type": "url", "id": "cta_secondary_link", "label": "Secondary Link" },
+{ "type": "checkbox", "id": "show_mini_review", "label": "Show Mini Review", "default": true },
+{ "type": "text", "id": "mini_review_text", "label": "Review Snippet", "default": "The food is incredible. Saved me 5 hours a week." },
+{ "type": "text", "id": "mini_review_author", "label": "Review Author", "default": "Sarah M." },
 { "type": "image_picker", "id": "hero_image", "label": "Hero Image" },
 { "type": "url", "id": "badge_link", "label": "Badge Link" },
 { "type": "text", "id": "badge_protein", "label": "Badge Protein", "default": "55g" },
+{ "type": "header", "content": "Quiz / Dock Settings" },
+{ "type": "text", "id": "dock_heading", "label": "Dock Heading (Fallback)", "default": "How do you want to eat?" },
+{ "type": "text", "id": "quiz_heading_v3", "label": "Quiz Heading", "default": "Find your perfect fit" },
+{ "type": "text", "id": "quiz_step1_label_v3", "label": "Quiz Step 1 Label", "default": "How do you want to build your box?" },
+{ "type": "text", "id": "quiz_s2_sig_label", "label": "Step 2 Label (Signature)", "default": "How do you want to choose?" },
+{ "type": "text", "id": "quiz_s2_plan_label", "label": "Step 2 Label (Plan)", "default": "How guided do you want it?" },
+{ "type": "text", "id": "quiz_skip_link_text_new", "label": "Skip Quiz Link Text", "default": "Skip to full menu" },
+{ "type": "header", "content": "Meal Plans (Nav 4)" },
+{ "type": "text", "id": "nav_plan_text_v3", "label": "Nav Plan Text", "default": "Meal Plans" },
+{ "type": "url", "id": "nav_plan_link", "label": "Nav Plan Link" },
+{ "type": "image_picker", "id": "nav_plan_icon", "label": "Nav Plan Icon" },
+{ "type": "text", "id": "meal_plans_result_title_new", "label": "Result Title: Plans", "default": "Meal Plans (12 or 24)" },
+{ "type": "header", "content": "Signature (Nav 1)" },
+{ "type": "text", "id": "nav_1_text_v3", "label": "Nav 1 Text", "default": "Signature Menu" },
 { "type": "url", "id": "nav_1_link", "label": "Nav 1 Link" },
+{ "type": "header", "content": "Custom (Nav 2)" },
+{ "type": "text", "id": "nav_2_text_v3", "label": "Nav 2 Text", "default": "Custom Meals" },
 { "type": "url", "id": "nav_2_link", "label": "Nav 2 Link" },
+{ "type": "header", "content": "Bulk (Nav 3)" },
+{ "type": "text", "id": "nav_3_text_v3", "label": "Nav 3 Text", "default": "Bulk Market" },
 { "type": "url", "id": "nav_3_link", "label": "Nav 3 Link" }
 ],
 "presets": [{ "name": "Hero - Lifestyle Final" }]

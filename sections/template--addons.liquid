@@ -1,8 +1,8 @@
 {%- comment -%}
   ==============================================================================
-  DYNAMIC ADD-ONS SECTION V11 - HIGH TICKET ANCHORING
-  - Gift Card Options: $100, $250, $500
-  - Goal: Increase AOV by anchoring with higher values.
+  DYNAMIC ADD-ONS SECTION V13 - OPTIMIZED ALIGNMENT
+  - Banner: 100% width, optimized for desktop alignment.
+  - Logic: Banner links to bundle; Grid items use AJAX.
   ==============================================================================
 {%- endcomment -%}
 
@@ -16,11 +16,8 @@
   assign slot2_block = slot2_blocks | sample
   assign slot3_block = slot3_blocks | sample
 
-  # --- GIFT CARD DATA ---
-  assign gift_product = all_products[section.settings.gift_card_product]
-  assign id_opt_1 = section.settings.variant_id_opt_1
-  assign id_opt_2 = section.settings.variant_id_opt_2
-  assign id_opt_3 = section.settings.variant_id_opt_3
+  # --- PROMO PRODUCT DATA ---
+  assign promo_product = all_products[section.settings.promo_product]
 
   # --- FALLBACK PRODUCT DEFINITIONS ---
   assign fallback_product_1 = all_products['cinnabun-krunch-protein-popcorn']
@@ -33,15 +30,10 @@
   <div class="container">
     
     {%- comment -%} 
-      RENDER THE NEW "CONVENIENCE" GIFT CARD STATION
+      RENDER THE NEW POPCORN SALE BANNER (LINKS TO PRODUCT)
     {%- endcomment -%}
-    {% if gift_product != empty and id_opt_1 != blank %}
-      {% render 'simple-gift-card-banner', 
-         product_obj: gift_product,
-         id_option_1: id_opt_1,
-         id_option_2: id_opt_2,
-         id_option_3: id_opt_3
-      %}
+    {% if promo_product != empty %}
+      {% render 'popcorn-sale-banner', product_obj: promo_product %}
     {% endif %}
 
     {%- comment -%} FREE DELIVERY PROMO {%- endcomment -%}
@@ -162,7 +154,7 @@
       });
     }
 
-    // --- 3. Add to Cart AJAX Logic ---
+    // --- 3. Add to Cart AJAX Logic (Grid Items Only) ---
     const addonForms = document.querySelectorAll('.js-addons-form');
     window.dataLayer = window.dataLayer || [];
 
@@ -363,31 +355,13 @@
   "settings": [
     {
       "type": "header",
-      "content": "Gift Card Station"
+      "content": "Top Promotion (Banner)"
     },
     {
       "type": "product",
-      "id": "gift_card_product",
-      "label": "Select Gift Card Product",
-      "info": "Select the main Gift Card product."
-    },
-    {
-      "type": "text",
-      "id": "variant_id_opt_1",
-      "label": "Option 1 ID ($100)",
-      "default": "42900474888379"
-    },
-    {
-      "type": "text",
-      "id": "variant_id_opt_2",
-      "label": "Option 2 ID ($250)",
-      "default": "42900474986683"
-    },
-    {
-      "type": "text",
-      "id": "variant_id_opt_3",
-      "label": "Option 3 ID ($500)",
-      "default": "42900475052219"
+      "id": "promo_product",
+      "label": "Featured Promo Product",
+      "info": "Select the Protein Popcorn 6-Pack"
     },
     {
       "type": "header",
